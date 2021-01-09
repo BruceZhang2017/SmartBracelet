@@ -1,0 +1,87 @@
+//
+//  WUDateExt.swift
+//  Coredy
+//
+//  Created by WuJunjie on 2017/11/27.
+//  Copyright © 2017年 WuJunjie. All rights reserved.
+//
+
+import Foundation
+
+extension Date {
+    func stringFromYmdHmsSSS() -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss SSS"
+        return dateFormatter.string(from: self)
+    }
+    
+    func stringFromYmdHms() -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        
+        return dateFormatter.string(from: self)
+    }
+    
+    func stringFromYmdHm() -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm"
+        
+        return dateFormatter.string(from: self)
+    }
+    
+    func stringFromYmd() -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        
+        return dateFormatter.string(from: self)
+    }
+    
+    func stringFromYm() -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM"
+        
+        return dateFormatter.string(from: self)
+    }
+    
+    func stringFromMd() -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MM-dd"
+        
+        return dateFormatter.string(from: self)
+    }
+    
+    func stringFromHms() -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "HH:mm:ss"
+        
+        return dateFormatter.string(from: self)
+    }
+    
+    func stringFromHm() -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "HH:mm"
+        
+        return dateFormatter.string(from: self)
+    }
+    
+    func zeroTimeStamp() -> TimeInterval {
+        let calendar = Calendar.current
+        let components = calendar.dateComponents([.year, .month, .day], from: self)
+        let zeroDate = calendar.date(from: components)
+        return zeroDate?.timeIntervalSince1970 ?? 0
+    }
+    
+    func daysBetweenDate(toDate: Date) -> Int {
+        let components = Calendar.current.dateComponents([.day], from: self, to: toDate)
+        return components.day ?? 0
+    }
+}
+
+class DateHelper: NSObject {
+    func ymdToDate(y: Int, m: Int, d: Int) -> Date {
+        let str = "\(y)-\(String(format: "%02d", m))-\(String(format: "%02d", d)) 00:00:00"
+        let format = DateFormatter()
+        format.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        return format.date(from: str)!
+    }
+}

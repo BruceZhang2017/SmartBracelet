@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16097.2"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="CommonCalendarView" customModule="FitDAY" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="554"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PsM-dZ-jGj">
+                    <rect key="frame" x="0.0" y="0.0" width="414" height="50"/>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="50" id="Upq-vq-AsG"/>
+                    </constraints>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CWX-9R-rpl" customClass="CVCalendarMenuView" customModule="FitDAY" customModuleProvider="target">
+                    <rect key="frame" x="0.0" y="50" width="414" height="50"/>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="50" id="mET-M2-XRw"/>
+                    </constraints>
+                    <connections>
+                        <outlet property="menuViewDelegate" destination="iN0-l3-epB" id="jhq-Cd-hSO"/>
+                    </connections>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GnV-UX-Mbt" customClass="CVCalendarView" customModule="FitDAY" customModuleProvider="target">
+                    <rect key="frame" x="0.0" y="100" width="414" height="250"/>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="250" id="gfc-fI-Qne"/>
+                    </constraints>
+                    <connections>
+                        <outlet property="animatorDelegate" destination="iN0-l3-epB" id="K3m-aT-Ftt"/>
+                        <outlet property="calendarAppearanceDelegate" destination="iN0-l3-epB" id="V9D-mT-8gB"/>
+                        <outlet property="calendarDelegate" destination="iN0-l3-epB" id="qHA-sV-5h6"/>
+                    </connections>
+                </view>
+            </subviews>
+            <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.20235475352112675" colorSpace="calibratedRGB"/>
+            <constraints>
+                <constraint firstItem="GnV-UX-Mbt" firstAttribute="top" secondItem="CWX-9R-rpl" secondAttribute="bottom" id="CD3-EZ-c4N"/>
+                <constraint firstItem="PsM-dZ-jGj" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="L2w-CS-FFj"/>
+                <constraint firstItem="GnV-UX-Mbt" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="ThU-Co-lUl"/>
+                <constraint firstItem="PsM-dZ-jGj" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="bC0-D5-kKd"/>
+                <constraint firstItem="CWX-9R-rpl" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="bi9-ou-nWB"/>
+                <constraint firstItem="CWX-9R-rpl" firstAttribute="top" secondItem="PsM-dZ-jGj" secondAttribute="bottom" id="ggs-bI-ITk"/>
+                <constraint firstAttribute="trailing" secondItem="GnV-UX-Mbt" secondAttribute="trailing" id="ml7-kK-wvj"/>
+                <constraint firstAttribute="trailing" secondItem="CWX-9R-rpl" secondAttribute="trailing" id="rbq-gB-XgP"/>
+                <constraint firstAttribute="trailing" secondItem="PsM-dZ-jGj" secondAttribute="trailing" id="s73-je-eHh"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="calendarView" destination="GnV-UX-Mbt" id="TCY-Q5-MWP"/>
+                <outlet property="menuView" destination="CWX-9R-rpl" id="Xql-3z-45h"/>
+                <outlet property="topView" destination="PsM-dZ-jGj" id="ZGL-7u-Kp7"/>
+            </connections>
+            <point key="canvasLocation" x="137.68115942028987" y="18.080357142857142"/>
+        </view>
+    </objects>
+</document>
