@@ -2,7 +2,7 @@ platform:ios,'10.0'
 
 use_frameworks!
 
-target 'TJDWristbandSDKDemo' do
+target 'SmartBracelet' do
 source 'https://github.com/CocoaPods/Specs.git'
 pod 'AMap3DMap'
 pod 'AMapSearch'
@@ -19,5 +19,6 @@ pod 'AliyunOSSiOS'
 pod 'Alamofire', '~> 5.2'
 pod 'Kingfisher'
 pod 'XCGLogger'
+pod 'BluetoothKit'
 
 end
