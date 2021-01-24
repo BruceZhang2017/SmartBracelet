@@ -17,19 +17,138 @@ class DeviceListViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        addFootView()
+        registerNotification()
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tableView.reloadData()
+    }
+    
+    deinit {
+        unregisterNotification()
+    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destination.
         // Pass the selected object to the new view controller.
     }
-    */
 
+    private func addFootView() {
+        let footView = UIView(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: 80))
+        let button = UIButton(type: .custom).then {
+            $0.setTitle("添加新设备", for: .normal)
+            $0.setTitleColor(UIColor.color(hex: "14C8C6"), for: .normal)
+            $0.setImage(UIImage(named: "content_icon_add"), for: .normal)
+            $0.titleLabel?.font = UIFont.systemFont(ofSize: 18)
+            $0.addTarget(self, action: #selector(pushToSearchDevice(_:)), for: .touchUpInside)
+            $0.titleEdgeInsets = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: -5)
+        }
+        footView.addSubview(button)
+        button.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+        tableView.tableFooterView = footView
+    }
+    
+    @objc private func pushToSearchDevice(_ sender: Any) {
+        let storyboard = UIStoryboard(name: "Device", bundle: nil)
+        let vc = storyboard.instantiateViewController(withIdentifier: "DeviceSearchViewController")
+        vc.title = "添加设备"
+        vc.hidesBottomBarWhenPushed = true
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    private func registerNotification() {
+        NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: Notification.Name("DeviceList"), object: nil)
+    }
+    
+    private func unregisterNotification() {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    @objc private func handleNotification(_ notification: Notification) {
+        tableView.reloadData()
+    }
+}
+
+extension DeviceListViewController: UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        let count = DeviceManager.shared.devices.count + (bleSelf.bleModel.mac.count > 0 ? 1 : 0)
+        return count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: .kCellIdentifier, for: indexPath) as! DeviceTableViewCell
+        if indexPath.row < DeviceManager.shared.devices.count {
+            let model = DeviceManager.shared.devices[indexPath.row]
+            cell.deviceNameLabel.text = model.name + ""
+            cell.deviceImageView.image = UIImage(named: "produce_image_no.1")
+            if model.mac == lastestDeviceMac {
+                cell.selectImageView.isHidden = false
+                cell.bgView.layer.borderWidth = 1
+                cell.bgView.layer.borderColor = UIColor.color(hex: "14C8C6").cgColor
+                cell.bleConnectButton.setImage(UIImage(named: "content_blueteeth_link"), for: .normal)
+                cell.bleConnectButton.setTitle("蓝牙已连接", for: .normal)
+            } else {
+                cell.selectImageView.isHidden = true
+                cell.bgView.layer.borderWidth = 0
+                cell.bgView.layer.borderColor = UIColor.clear.cgColor
+                cell.bleConnectButton.setImage(UIImage(named: "content_blueteeth_unlink"), for: .normal)
+                cell.bleConnectButton.setTitle("请连接蓝牙", for: .normal)
+            }
+            let deviceInfo = DeviceManager.shared.deviceInfo[model.uuidString]
+            if deviceInfo != nil {
+                if deviceInfo?.battery ?? 0 < 5 {
+                    cell.batteryButton.setImage(UIImage(named: "conten_battery_runout"), for: .normal)
+                    cell.batteryButton.setTitle("剩余电量不足5%，请及时充电", for: .normal)
+                } else {
+                    cell.batteryButton.setImage(UIImage(named: "conten_battery_full"), for: .normal)
+                    cell.batteryButton.setTitle("剩余电量\(deviceInfo?.battery ?? 0)%", for: .normal)
+                }
+            } else {
+                cell.batteryButton.setImage(UIImage(named: "conten_battery_null"), for: .normal)
+                cell.batteryButton.setTitle("剩余电量未知", for: .normal)
+            }
+        } else {
+            cell.deviceNameLabel.text = bleSelf.bleModel.name
+            cell.deviceImageView.image = UIImage(named: "produce_image_no.2")
+            if bleSelf.bleModel.mac == lastestDeviceMac {
+                cell.selectImageView.isHidden = false
+                cell.bgView.layer.borderWidth = 1
+                cell.bgView.layer.borderColor = UIColor.color(hex: "14C8C6").cgColor
+            } else {
+                cell.selectImageView.isHidden = true
+                cell.bgView.layer.borderWidth = 0
+                cell.bgView.layer.borderColor = UIColor.clear.cgColor
+            }
+        }
+        
+        return cell
+    }
+}
+
+extension DeviceListViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        if indexPath.row < DeviceManager.shared.devices.count {
+            let model = DeviceManager.shared.devices[indexPath.row]
+            if model.mac == lastestDeviceMac {
+                return
+            }
+            BLECurrentManager.sharedInstall.disconnectAllDeivce()
+            bleSelf.disconnectBleDevice()
+            BLECurrentManager.sharedInstall.connectDevice(model: model)
+        } else {
+            if bleSelf.bleModel.mac == lastestDeviceMac {
+                return
+            }
+            BLECurrentManager.sharedInstall.disconnectAllDeivce()
+            bleSelf.disconnectBleDevice()
+            bleSelf.connectBleDevice(model: bleSelf.bleModel)
+        }
+        navigationController?.popViewController(animated: true)
+    }
 }

@@ -24,7 +24,7 @@ class LoginViewController: BaseViewController {
     @IBOutlet weak var countryButton: UIButton!
     @IBOutlet weak var phoneTextField: UITextField!
     @IBOutlet weak var pwdTextField: UITextField!
-    @IBOutlet weak var showButton: UIButton!
+    @IBOutlet weak var showButton: UIButton! // 显示密码修改为获取短信验证码 20200110
     @IBOutlet weak var loginButton: UIButton!
     var countryPickerView: CountryPickerView!
     
@@ -54,8 +54,9 @@ class LoginViewController: BaseViewController {
     
     /// 密码是否显示
     @IBAction func showOrHidePwd(_ sender: Any) {
-        showButton.isSelected = !showButton.isSelected
-        pwdTextField.isSecureTextEntry = !showButton.isSelected
+        //showButton.isSelected = !showButton.isSelected
+        //pwdTextField.isSecureTextEntry = !showButton.isSelected
+        Toast(text: "验证码已通过短信/邮件的方式发送，请注意查收").show()
     }
     
     /// 用户登录操作
@@ -64,42 +65,45 @@ class LoginViewController: BaseViewController {
         pwdTextField.resignFirstResponder()
         let phone = phoneTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? "" // 2.验证输入内容
         if phone.count == 0 {
-            Toast(text: "请输入用户名/手机号/邮箱").show()
+            Toast(text: "请输入手机号/邮箱").show()
             return
         }
         let pwd = pwdTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
         if pwd.count == 0 {
-            Toast(text: "请输入密码").show()
+            Toast(text: "请输入验证码").show()
             return
         }
-        if pwd.count < 8 {
-            Toast(text: "请输入至少8位数，包含数字、大小字母的密码").show()
-            return
-        }
-        ProgressHUD.show()
-        let parameters = ["username": phone, "password": pwd, "country": "CN"]
-        AF.request("\(UrlPrefix)api/User/login.php", method: .get, parameters: parameters).response { (response) in
-            debugPrint("Response: \(response.debugDescription)")
-            ProgressHUD.dismiss()
-            guard let data = response.value as? Data else {
-                return
-            }
-            let model = try? JSONDecoder().decode(LoginResponse.self, from: data)
-            if model == nil {
-                Toast(text: model?.message ?? "登录失败").show()
-                return
-            }
-            if model?.err_code ?? 0 == 0 {
-                Toast(text: model?.message ?? "登录成功").show()
-                UserManager.sharedInstall.user = model?.data
-                UserManager.sharedInstall.saveUser()
-                let delegate = UIApplication.shared.delegate as! AppDelegate
-                delegate.pushToTab()
-            } else {
-                Toast(text: model?.message ?? "登录失败").show()
-            }
-            
-        }
+        let model = UserModel()
+        model.mobile = phone
+        UserManager.sharedInstall.user = model
+        UserManager.sharedInstall.saveUser()
+        let delegate = UIApplication.shared.delegate as! AppDelegate
+        delegate.pushToTab()
+        
+//        ProgressHUD.show()
+//        let parameters = ["username": phone, "password": pwd, "country": "CN"]
+//        AF.request("\(UrlPrefix)api/User/login.php", method: .get, parameters: parameters).response { (response) in
+//            debugPrint("Response: \(response.debugDescription)")
+//            ProgressHUD.dismiss()
+//            guard let data = response.value as? Data else {
+//                return
+//            }
+//            let model = try? JSONDecoder().decode(LoginResponse.self, from: data)
+//            if model == nil {
+//                Toast(text: model?.message ?? "登录失败").show()
+//                return
+//            }
+//            if model?.err_code ?? 0 == 0 {
+//                Toast(text: model?.message ?? "登录成功").show()
+//                UserManager.sharedInstall.user = model?.data
+//                UserManager.sharedInstall.saveUser()
+//                let delegate = UIApplication.shared.delegate as! AppDelegate
+//                delegate.pushToTab()
+//            } else {
+//                Toast(text: model?.message ?? "登录失败").show()
+//            }
+//
+//        }
      }
     
     
@@ -107,9 +111,6 @@ class LoginViewController: BaseViewController {
     @IBAction func register(_ sender: Any) {
         let vc = storyboard?.instantiateViewController(withIdentifier: "RegisterViewController") as? RegisterViewController
         navigationController?.pushViewController(vc!, animated: true)
-    }
-    
-    @IBAction func forgetPwd(_ sender: Any) {
     }
 }
 

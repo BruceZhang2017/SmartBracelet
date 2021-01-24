@@ -253,9 +253,19 @@ class HealthViewController: BaseViewController {
     
     
     @IBAction func addDevice(_ sender: Any) {
+        let count = DeviceManager.shared.devices.count + (bleSelf.bleModel.mac.count > 0 ? 1 : 0)
         let storyboard = UIStoryboard(name: "Device", bundle: nil)
-        let vc = storyboard.instantiateViewController(withIdentifier: "DeviceSearchViewController")
-        navigationController?.pushViewController(vc, animated: true)
+        if count == 0 {
+            let vc = storyboard.instantiateViewController(withIdentifier: "DeviceSearchViewController")
+            vc.title = "添加设备"
+            vc.hidesBottomBarWhenPushed = true
+            navigationController?.pushViewController(vc, animated: true)
+        } else {
+            let vc = storyboard.instantiateViewController(withIdentifier: "DeviceListViewController")
+            vc.title = "设备切换"
+            vc.hidesBottomBarWhenPushed = true
+            navigationController?.pushViewController(vc, animated: true)
+        }
     }
     
     @IBAction func handleHealth(_ sender: Any) {

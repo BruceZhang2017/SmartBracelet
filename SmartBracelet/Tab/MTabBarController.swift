@@ -11,13 +11,21 @@
 	
 
 import UIKit
+import TJDWristbandSDK
+
+var lastestDeviceMac: String = ""
 
 class MTabBarController: UITabBarController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
         BLEManager.shared.regNotification()
-        perform(#selector(checkIfNeedScanDevice), with: nil, afterDelay: 0.5)
+        let _ = BLECurrentManager.sharedInstall
+        lastestDeviceMac = UserDefaults.standard.string(forKey: "LastestDeviceMac") ?? ""
+        if lastestDeviceMac.count > 0 {
+            perform(#selector(checkIfNeedScanDevice), with: nil, afterDelay: 0.5)
+        }
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -40,6 +48,21 @@ class MTabBarController: UITabBarController {
     
     /// 延迟300ms，执行判断是否需要搜索设备
     @objc private func checkIfNeedScanDevice() {
-        BLEManager.shared.startScanAndConnect()
+        let devices = DeviceManager.shared.devices
+        if devices.count > 0 {
+            for item in devices {
+                if item.mac == lastestDeviceMac {
+                    BLECurrentManager.sharedInstall.connectDevice(model: item)
+                    return
+                }
+            }
+        }
+        
+        if let model = WUBleModel.getModel() as? TJDWristbandSDK.WUBleModel {
+            if model.mac == lastestDeviceMac {
+                BLEManager.shared.startScanAndConnect()
+                return
+            }
+        }
     }
 }

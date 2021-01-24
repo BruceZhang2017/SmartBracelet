@@ -40,7 +40,7 @@ class SportViewController: BaseViewController {
             $0.edges.equalTo(mapView)
         }
     
-        mapView.showsUserLocation = true
+        mapView.isShowsUserLocation = true
         mapView.userTrackingMode = .follow
         
         let run = SegmentioItem(title: "跑步", image: nil)
@@ -134,14 +134,18 @@ class SportViewController: BaseViewController {
     }
     
     @IBAction func setRun(_ sender: Any) {
+        let bgView = UIView(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: ScreenHeight))
+        tabBarController?.view.addSubview(bgView)
+        tabBarController?.view.isUserInteractionEnabled = false
         let label = HHCountdowLabel(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: ScreenHeight))
         label?.textAlignment = .center
-        label?.textColor = .black
+        label?.textColor = .white
         label?.font = UIFont.boldSystemFont(ofSize: 200)
-        tabBarController?.view.addSubview(label!)
-        tabBarController?.view.isUserInteractionEnabled = false
+        bgView.addSubview(label!)
+        bgView.addVGradientLayer(at: CGRect(x: 0, y: 0, width: ScreenWidth, height: ScreenHeight), colors: [UIColor.k64F2B4, UIColor.k08CCCC])
         label?.startCount({
             [weak self] in
+            bgView.removeFromSuperview()
             self?.tabBarController?.view.isUserInteractionEnabled = true
             self?.pushToRunning()
         })

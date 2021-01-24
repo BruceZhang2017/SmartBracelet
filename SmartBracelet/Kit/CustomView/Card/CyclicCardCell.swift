@@ -16,6 +16,7 @@ class CyclicCardCell: UICollectionViewCell {
     let cardNameLabel = UILabel()
     let btButton = UIButton(type: .custom)
     let batteryButton = UIButton(type: .custom)
+    let addLabel = UILabel()
     
     override  init(frame: CGRect) {
         super.init(frame: frame)
@@ -53,6 +54,14 @@ class CyclicCardCell: UICollectionViewCell {
         batteryButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: 3, bottom: 0, right: -3)
         batteryButton.frame = CGRect(x: 76, y: 80, width: itemW - 80, height: 16)
         
+        addSubview(addLabel)
+        addLabel.text = "请添加设备"
+        addLabel.textColor = .k333333
+        addLabel.isHidden = true 
+        addLabel.font = UIFont.systemFont(ofSize: 16)
+        addLabel.snp.makeConstraints {
+            $0.center.equalToSuperview()
+        }
     }
     
     required init?(coder aDecoder: NSCoder) {

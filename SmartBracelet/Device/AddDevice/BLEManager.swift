@@ -98,7 +98,7 @@ class BLEManager: NSObject {
         
         if notify.name == WUBleManagerNotifyKeys.scan {
             // 如果搜索到设备后，刷新列表
-            NotificationCenter.default.post(name: Notification.Name("DeviceSearchViewController"), object: "scan") // 搜索页面
+            NotificationCenter.default.post(name: Notification.Name.SearchDevice, object: "scan") // 搜索页面
         }
         
         if notify.name == WUBleManagerNotifyKeys.connected {
@@ -107,13 +107,17 @@ class BLEManager: NSObject {
             endTimer()
             bleSelf.bleModel.isBond = true
             WUBleModel.setModel(bleSelf.bleModel)
-            NotificationCenter.default.post(name: Notification.Name("DeviceSearchViewController"), object: "connected") // 通知搜索页面
+            NotificationCenter.default.post(name: Notification.Name.SearchDevice, object: "connected") // 通知搜索页面
             NotificationCenter.default.post(name: Notification.Name("MTabBarController"), object: nil) // 通知主控页面
+            lastestDeviceMac = bleSelf.bleModel.mac
+            UserDefaults.standard.setValue(lastestDeviceMac, forKey: "LastestDeviceMac")
+            UserDefaults.standard.synchronize()
         }
         
         if notify.name == WUBleManagerNotifyKeys.disconnected {
             print("蓝牙断开连接")
-    
+            lastestDeviceMac = ""
+            UserDefaults.standard.removeObject(forKey: "LastestDeviceMac")
         }
         
         if notify.name == WUBleManagerNotifyKeys.stateChanged {

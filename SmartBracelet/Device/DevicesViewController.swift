@@ -19,7 +19,7 @@ class DevicesViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        deviceView = DevicesView(frame: CGRect(x: 0, y: 5, width: ScreenWidth, height: 110))
+        deviceView = DevicesView(frame: CGRect(x: 0, y: 5, width: ScreenWidth, height: 200))
         deviceView.delegate = self
         contentView.addSubview(deviceView)
     }
@@ -50,6 +50,22 @@ class DevicesViewController: BaseViewController {
         　　  充电&耳机接口：连接充电器或连接USB耳机
         　　  右下键：长按3秒后开始拨打设定的亲友号码。
         """
+    }
+    
+    @IBAction func addDevice(_ sender: Any) {
+        let count = DeviceManager.shared.devices.count + (bleSelf.bleModel.mac.count > 0 ? 1 : 0)
+        let storyboard = UIStoryboard(name: "Device", bundle: nil)
+        if count == 0 {
+            let vc = storyboard.instantiateViewController(withIdentifier: "DeviceSearchViewController")
+            vc.title = "添加设备"
+            vc.hidesBottomBarWhenPushed = true
+            navigationController?.pushViewController(vc, animated: true)
+        } else {
+            let vc = storyboard.instantiateViewController(withIdentifier: "DeviceListViewController")
+            vc.title = "设备切换"
+            vc.hidesBottomBarWhenPushed = true
+            navigationController?.pushViewController(vc, animated: true)
+        }
     }
 }
 
@@ -91,6 +107,15 @@ extension DevicesViewController: UICollectionViewDelegateFlowLayout {
 
 extension DevicesViewController: DevicesViewDelegate {
     func callbackTap(index: Int) {
+        let count = DeviceManager.shared.devices.count + (bleSelf.bleModel.mac.count > 0 ? 1 : 0)
+        if count == 0 {
+            let storyboard = UIStoryboard(name: "Device", bundle: nil)
+            let vc = storyboard.instantiateViewController(withIdentifier: "DeviceSearchViewController")
+            vc.title = "添加设备"
+            vc.hidesBottomBarWhenPushed = true
+            navigationController?.pushViewController(vc, animated: true)
+            return
+        }
         let storyboard = UIStoryboard(name: "Device", bundle: nil)
         let vc = storyboard.instantiateViewController(withIdentifier: "DeviceSettingsViewController") as! DeviceSettingsViewController
         navigationController?.pushViewController(vc, animated: true)

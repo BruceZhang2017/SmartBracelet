@@ -50,6 +50,18 @@
 		9A350BEB24EA7A83004CEE6A /* UserInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A350BEA24EA7A82004CEE6A /* UserInfoTableViewCell.swift */; };
 		9A350BED24EA8068004CEE6A /* BindPhoneNumViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A350BEC24EA8068004CEE6A /* BindPhoneNumViewController.swift */; };
 		9A350BEF24EB5DE0004CEE6A /* DataRecordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A350BEE24EB5DE0004CEE6A /* DataRecordViewController.swift */; };
+		9A367B5325BD081D00BFB4C3 /* DeviceTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A367B5225BD081D00BFB4C3 /* DeviceTableViewCell.swift */; };
+		9A367B7625BD208100BFB4C3 /* Save.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A367B6D25BD208000BFB4C3 /* Save.swift */; };
+		9A367B7725BD208100BFB4C3 /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A367B6E25BD208000BFB4C3 /* Error.swift */; };
+		9A367B7825BD208100BFB4C3 /* Query.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A367B6F25BD208000BFB4C3 /* Query.swift */; };
+		9A367B7925BD208100BFB4C3 /* EasyRealm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A367B7025BD208000BFB4C3 /* EasyRealm.swift */; };
+		9A367B7A25BD208100BFB4C3 /* Edit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A367B7125BD208000BFB4C3 /* Edit.swift */; };
+		9A367B7B25BD208100BFB4C3 /* Variable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A367B7225BD208000BFB4C3 /* Variable.swift */; };
+		9A367B7C25BD208100BFB4C3 /* Delete.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A367B7325BD208100BFB4C3 /* Delete.swift */; };
+		9A367B7D25BD208100BFB4C3 /* EasyRealmQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A367B7425BD208100BFB4C3 /* EasyRealmQueue.swift */; };
+		9A367B7E25BD208100BFB4C3 /* EasyRealmList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A367B7525BD208100BFB4C3 /* EasyRealmList.swift */; };
+		9A367B9525BD235A00BFB4C3 /* RealmManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A367B9425BD235A00BFB4C3 /* RealmManager.swift */; };
+		9A367B9925BD425300BFB4C3 /* DeviceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A367B9825BD425300BFB4C3 /* DeviceManager.swift */; };
 		9A4E624424F7E94E00A0E878 /* Device.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9A4E624324F7E94E00A0E878 /* Device.storyboard */; };
 		9A4E624624F8926300A0E878 /* DevicesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A4E624524F8926300A0E878 /* DevicesViewController.swift */; };
 		9A4E624824F8DF3800A0E878 /* DevicesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A4E624724F8DF3800A0E878 /* DevicesView.swift */; };
@@ -308,6 +320,18 @@
 		9AB910272501322C006E0FC4 /* EMAlertTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB910232501322B006E0FC4 /* EMAlertTextField.swift */; };
 		9AB910282501322C006E0FC4 /* EMAlertAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB910242501322B006E0FC4 /* EMAlertAction.swift */; };
 		9AB910292501322C006E0FC4 /* EMAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB910252501322B006E0FC4 /* EMAlertController.swift */; };
+		9AEC22CD25B707C000DE899A /* BLEModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AEC22CC25B707C000DE899A /* BLEModel.swift */; };
+		9AEC230025B7114500DE899A /* Data+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AEC22FF25B7114500DE899A /* Data+Extension.swift */; };
+		9AEFEFFA25B7FD4200C0D84F /* BabyToy.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AEFEFEA25B7FD4200C0D84F /* BabyToy.m */; };
+		9AEFEFFB25B7FD4200C0D84F /* BabyOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AEFEFEF25B7FD4200C0D84F /* BabyOptions.m */; };
+		9AEFEFFC25B7FD4200C0D84F /* BabyCallback.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AEFEFF025B7FD4200C0D84F /* BabyCallback.m */; };
+		9AEFEFFD25B7FD4200C0D84F /* BabyPeripheralManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AEFEFF125B7FD4200C0D84F /* BabyPeripheralManager.m */; };
+		9AEFEFFE25B7FD4200C0D84F /* BabyCentralManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AEFEFF225B7FD4200C0D84F /* BabyCentralManager.m */; };
+		9AEFEFFF25B7FD4200C0D84F /* BabySpeaker.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AEFEFF325B7FD4200C0D84F /* BabySpeaker.m */; };
+		9AEFF00025B7FD4200C0D84F /* BabyRhythm.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AEFEFF525B7FD4200C0D84F /* BabyRhythm.m */; };
+		9AEFF00125B7FD4200C0D84F /* BabyBluetooth.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AEFEFF725B7FD4200C0D84F /* BabyBluetooth.m */; };
+		9AEFF00225B7FD4200C0D84F /* BabyDefine.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AEFEFF825B7FD4200C0D84F /* BabyDefine.m */; };
+		9AF0AA2025AAF1CE000BDAED /* CMDData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF0AA1F25AAF1CE000BDAED /* CMDData.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -372,6 +396,18 @@
 		9A350BEA24EA7A82004CEE6A /* UserInfoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoTableViewCell.swift; sourceTree = "<group>"; };
 		9A350BEC24EA8068004CEE6A /* BindPhoneNumViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BindPhoneNumViewController.swift; sourceTree = "<group>"; };
 		9A350BEE24EB5DE0004CEE6A /* DataRecordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataRecordViewController.swift; sourceTree = "<group>"; };
+		9A367B5225BD081D00BFB4C3 /* DeviceTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceTableViewCell.swift; sourceTree = "<group>"; };
+		9A367B6D25BD208000BFB4C3 /* Save.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Save.swift; sourceTree = "<group>"; };
+		9A367B6E25BD208000BFB4C3 /* Error.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
+		9A367B6F25BD208000BFB4C3 /* Query.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Query.swift; sourceTree = "<group>"; };
+		9A367B7025BD208000BFB4C3 /* EasyRealm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EasyRealm.swift; sourceTree = "<group>"; };
+		9A367B7125BD208000BFB4C3 /* Edit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Edit.swift; sourceTree = "<group>"; };
+		9A367B7225BD208000BFB4C3 /* Variable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Variable.swift; sourceTree = "<group>"; };
+		9A367B7325BD208100BFB4C3 /* Delete.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Delete.swift; sourceTree = "<group>"; };
+		9A367B7425BD208100BFB4C3 /* EasyRealmQueue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EasyRealmQueue.swift; sourceTree = "<group>"; };
+		9A367B7525BD208100BFB4C3 /* EasyRealmList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EasyRealmList.swift; sourceTree = "<group>"; };
+		9A367B9425BD235A00BFB4C3 /* RealmManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmManager.swift; sourceTree = "<group>"; };
+		9A367B9825BD425300BFB4C3 /* DeviceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceManager.swift; sourceTree = "<group>"; };
 		9A4E624324F7E94E00A0E878 /* Device.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Device.storyboard; sourceTree = "<group>"; };
 		9A4E624524F8926300A0E878 /* DevicesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DevicesViewController.swift; sourceTree = "<group>"; };
 		9A4E624724F8DF3800A0E878 /* DevicesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DevicesView.swift; sourceTree = "<group>"; };
@@ -640,6 +676,27 @@
 		9AB910242501322B006E0FC4 /* EMAlertAction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EMAlertAction.swift; sourceTree = "<group>"; };
 		9AB910252501322B006E0FC4 /* EMAlertController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EMAlertController.swift; sourceTree = "<group>"; };
 		9AB9102A25013281006E0FC4 /* AlertController.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = AlertController.md; sourceTree = "<group>"; };
+		9AEC22CC25B707C000DE899A /* BLEModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BLEModel.swift; sourceTree = "<group>"; };
+		9AEC22FF25B7114500DE899A /* Data+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+Extension.swift"; sourceTree = "<group>"; };
+		9AEFEFE825B7FD4200C0D84F /* BabyRhythm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BabyRhythm.h; sourceTree = "<group>"; };
+		9AEFEFE925B7FD4200C0D84F /* BabySpeaker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BabySpeaker.h; sourceTree = "<group>"; };
+		9AEFEFEA25B7FD4200C0D84F /* BabyToy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BabyToy.m; sourceTree = "<group>"; };
+		9AEFEFEB25B7FD4200C0D84F /* BabyCentralManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BabyCentralManager.h; sourceTree = "<group>"; };
+		9AEFEFEC25B7FD4200C0D84F /* BabyPeripheralManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BabyPeripheralManager.h; sourceTree = "<group>"; };
+		9AEFEFED25B7FD4200C0D84F /* BabyDefine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BabyDefine.h; sourceTree = "<group>"; };
+		9AEFEFEE25B7FD4200C0D84F /* BabyBluetooth.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BabyBluetooth.h; sourceTree = "<group>"; };
+		9AEFEFEF25B7FD4200C0D84F /* BabyOptions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BabyOptions.m; sourceTree = "<group>"; };
+		9AEFEFF025B7FD4200C0D84F /* BabyCallback.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BabyCallback.m; sourceTree = "<group>"; };
+		9AEFEFF125B7FD4200C0D84F /* BabyPeripheralManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BabyPeripheralManager.m; sourceTree = "<group>"; };
+		9AEFEFF225B7FD4200C0D84F /* BabyCentralManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BabyCentralManager.m; sourceTree = "<group>"; };
+		9AEFEFF325B7FD4200C0D84F /* BabySpeaker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BabySpeaker.m; sourceTree = "<group>"; };
+		9AEFEFF425B7FD4200C0D84F /* BabyToy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BabyToy.h; sourceTree = "<group>"; };
+		9AEFEFF525B7FD4200C0D84F /* BabyRhythm.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BabyRhythm.m; sourceTree = "<group>"; };
+		9AEFEFF625B7FD4200C0D84F /* BabyOptions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BabyOptions.h; sourceTree = "<group>"; };
+		9AEFEFF725B7FD4200C0D84F /* BabyBluetooth.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BabyBluetooth.m; sourceTree = "<group>"; };
+		9AEFEFF825B7FD4200C0D84F /* BabyDefine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BabyDefine.m; sourceTree = "<group>"; };
+		9AEFEFF925B7FD4200C0D84F /* BabyCallback.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BabyCallback.h; sourceTree = "<group>"; };
+		9AF0AA1F25AAF1CE000BDAED /* CMDData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CMDData.swift; sourceTree = "<group>"; };
 		B1F15B2E89955DD6187F274A /* Pods_SmartBracelet.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SmartBracelet.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0967DDE3410784139DF5B20 /* Pods-TJDWristbandSDKDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TJDWristbandSDKDemo.release.xcconfig"; path = "Target Support Files/Pods-TJDWristbandSDKDemo/Pods-TJDWristbandSDKDemo.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -803,6 +860,22 @@
 				9A60DED1252EBDC700E0D849 /* InputHeightViewController.swift */,
 			);
 			path = Mine;
+			sourceTree = "<group>";
+		};
+		9A367B6C25BD207000BFB4C3 /* EasyRealm */ = {
+			isa = PBXGroup;
+			children = (
+				9A367B7325BD208100BFB4C3 /* Delete.swift */,
+				9A367B7025BD208000BFB4C3 /* EasyRealm.swift */,
+				9A367B7525BD208100BFB4C3 /* EasyRealmList.swift */,
+				9A367B7425BD208100BFB4C3 /* EasyRealmQueue.swift */,
+				9A367B7125BD208000BFB4C3 /* Edit.swift */,
+				9A367B6E25BD208000BFB4C3 /* Error.swift */,
+				9A367B6F25BD208000BFB4C3 /* Query.swift */,
+				9A367B6D25BD208000BFB4C3 /* Save.swift */,
+				9A367B7225BD208000BFB4C3 /* Variable.swift */,
+			);
+			path = EasyRealm;
 			sourceTree = "<group>";
 		};
 		9A4E624224F7E91F00A0E878 /* Device */ = {
@@ -1130,8 +1203,13 @@
 				9A5E933225164B410060AB13 /* DeviceSearchViewController.swift */,
 				9A60DEFC25301FEE00E0D849 /* DeviceSearchTableViewCell.swift */,
 				9A28DA77251CC6E800F7B260 /* DeviceListViewController.swift */,
+				9A367B5225BD081D00BFB4C3 /* DeviceTableViewCell.swift */,
 				9A32B06A2543C5C7008F0E26 /* BLEManager.swift */,
 				9A6C8578254EC3B000A87751 /* BLECurrentManager.swift */,
+				9AEC22CC25B707C000DE899A /* BLEModel.swift */,
+				9A367B9825BD425300BFB4C3 /* DeviceManager.swift */,
+				9AF0AA1F25AAF1CE000BDAED /* CMDData.swift */,
+				9A367B9425BD235A00BFB4C3 /* RealmManager.swift */,
 			);
 			path = AddDevice;
 			sourceTree = "<group>";
@@ -1192,6 +1270,8 @@
 		9A820B6F24CE5A1A00A62C6F /* Kit */ = {
 			isa = PBXGroup;
 			children = (
+				9A367B6C25BD207000BFB4C3 /* EasyRealm */,
+				9AEFEFE725B7FD4200C0D84F /* BabyBluetooth */,
 				9A839C512560F3EB00714CBE /* Map */,
 				9A2184C7255ADDB8000330E5 /* RequestAndResponse */,
 				9A21843B255A3A13000330E5 /* ObjC */,
@@ -1218,6 +1298,7 @@
 				9A820B7F24CEDCDA00A62C6F /* UIColor+Extension.swift */,
 				9A820B8624D061E000A62C6F /* UIDevice+Extension.swift */,
 				9A820B8E24D1B15B00A62C6F /* UIButton+Extension.swift */,
+				9AEC22FF25B7114500DE899A /* Data+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -1330,6 +1411,31 @@
 				9AB9102A25013281006E0FC4 /* AlertController.md */,
 			);
 			path = AlertController;
+			sourceTree = "<group>";
+		};
+		9AEFEFE725B7FD4200C0D84F /* BabyBluetooth */ = {
+			isa = PBXGroup;
+			children = (
+				9AEFEFEE25B7FD4200C0D84F /* BabyBluetooth.h */,
+				9AEFEFF725B7FD4200C0D84F /* BabyBluetooth.m */,
+				9AEFEFF925B7FD4200C0D84F /* BabyCallback.h */,
+				9AEFEFF025B7FD4200C0D84F /* BabyCallback.m */,
+				9AEFEFEB25B7FD4200C0D84F /* BabyCentralManager.h */,
+				9AEFEFF225B7FD4200C0D84F /* BabyCentralManager.m */,
+				9AEFEFED25B7FD4200C0D84F /* BabyDefine.h */,
+				9AEFEFF825B7FD4200C0D84F /* BabyDefine.m */,
+				9AEFEFF625B7FD4200C0D84F /* BabyOptions.h */,
+				9AEFEFEF25B7FD4200C0D84F /* BabyOptions.m */,
+				9AEFEFEC25B7FD4200C0D84F /* BabyPeripheralManager.h */,
+				9AEFEFF125B7FD4200C0D84F /* BabyPeripheralManager.m */,
+				9AEFEFE825B7FD4200C0D84F /* BabyRhythm.h */,
+				9AEFEFF525B7FD4200C0D84F /* BabyRhythm.m */,
+				9AEFEFE925B7FD4200C0D84F /* BabySpeaker.h */,
+				9AEFEFF325B7FD4200C0D84F /* BabySpeaker.m */,
+				9AEFEFF425B7FD4200C0D84F /* BabyToy.h */,
+				9AEFEFEA25B7FD4200C0D84F /* BabyToy.m */,
+			);
+			path = BabyBluetooth;
 			sourceTree = "<group>";
 		};
 		CBE553D5D0280A8FD8CC0627 /* Pods */ = {
@@ -1496,6 +1602,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9A56D26525216FC60082CC08 /* BarLineChartViewBase.swift in Sources */,
+				9A367B7B25BD208100BFB4C3 /* Variable.swift in Sources */,
 				9A8CA51225272C5200EC01A7 /* CVCalendarViewDelegate.swift in Sources */,
 				9A60DED2252EBDC700E0D849 /* InputHeightViewController.swift in Sources */,
 				9A6D092C2501D99400B4972F /* ClockManageViewController.swift in Sources */,
@@ -1524,6 +1631,7 @@
 				9A52106D2503A5D400F64A7A /* MyClockViewController.swift in Sources */,
 				9A56D27325216FC60082CC08 /* DefaultValueFormatter.swift in Sources */,
 				9A56D25825216FC60082CC08 /* LineScatterCandleRadarRenderer.swift in Sources */,
+				9A367B7C25BD208100BFB4C3 /* Delete.swift in Sources */,
 				9A60DEC8252D8E8300E0D849 /* ModifyPWDViewController.swift in Sources */,
 				9A56D25425216FC60082CC08 /* XAxisRendererRadarChart.swift in Sources */,
 				9A56D29325216FC70082CC08 /* AnimatedViewPortJob.swift in Sources */,
@@ -1548,6 +1656,7 @@
 				9A8CA51625272C5200EC01A7 /* CVAuxiliaryView.swift in Sources */,
 				9A56D27825216FC60082CC08 /* Fill.swift in Sources */,
 				9A56D23B25216FC60082CC08 /* RadarChartRenderer.swift in Sources */,
+				9A367B7D25BD208100BFB4C3 /* EasyRealmQueue.swift in Sources */,
 				18385F102451819E00EA380A /* Async.swift in Sources */,
 				9A56D25725216FC60082CC08 /* Renderer.swift in Sources */,
 				9A820B8B24D1066300A62C6F /* SetTargetCollectionViewCell.swift in Sources */,
@@ -1571,6 +1680,7 @@
 				9A56D26C25216FC60082CC08 /* BarChartView.swift in Sources */,
 				9A52106F2503A62F00F64A7A /* MarketClockViewController.swift in Sources */,
 				9A8CA51B25272C5200EC01A7 /* CVCalendarMonthContentViewController.swift in Sources */,
+				9AEC22CD25B707C000DE899A /* BLEModel.swift in Sources */,
 				9A8CA50925272C5200EC01A7 /* CVRange.swift in Sources */,
 				9A28DA5E2518D4EA00F7B260 /* UIColor+hex.swift in Sources */,
 				9A60DEF3252F418900E0D849 /* AlarmHeaderView.swift in Sources */,
@@ -1597,9 +1707,12 @@
 				9A28DA78251CC6E800F7B260 /* DeviceListViewController.swift in Sources */,
 				9A839C652560F40300714CBE /* SGSportingViewController.m in Sources */,
 				9A8CA51F25272C5200EC01A7 /* CVCalendarViewAnimator.swift in Sources */,
+				9A367B5325BD081D00BFB4C3 /* DeviceTableViewCell.swift in Sources */,
 				9A56D24425216FC60082CC08 /* CombinedChartRenderer.swift in Sources */,
 				9A56D24525216FC60082CC08 /* CandleStickChartRenderer.swift in Sources */,
 				9A56D29A25216FC70082CC08 /* PieChartDataEntry.swift in Sources */,
+				9AEFF00025B7FD4200C0D84F /* BabyRhythm.m in Sources */,
+				9A367B7725BD208100BFB4C3 /* Error.swift in Sources */,
 				9A60DECC252E0D9600E0D849 /* ModifyHeadViewController.swift in Sources */,
 				9A56D23A25216FC60082CC08 /* DataApproximator+N.swift in Sources */,
 				9A56D25E25216FC60082CC08 /* PieRadarHighlighter.swift in Sources */,
@@ -1610,9 +1723,11 @@
 				9A60DEDA252F002400E0D849 /* RecentCitiesableViewCell.swift in Sources */,
 				9A60DEF1252F416E00E0D849 /* AlarmTableViewCell.swift in Sources */,
 				9A56D2BB25216FC70082CC08 /* IBubbleChartDataSet.swift in Sources */,
+				9A367B9925BD425300BFB4C3 /* DeviceManager.swift in Sources */,
 				9AA0BC94250F63B3003B9F64 /* LoginViewController.swift in Sources */,
 				9A839C5A2560F3FA00714CBE /* SGSportTrackingLine.m in Sources */,
 				9A52106B2503349A00F64A7A /* ClockBCollectionViewCell.swift in Sources */,
+				9AEFF00125B7FD4200C0D84F /* BabyBluetooth.m in Sources */,
 				9A350BED24EA8068004CEE6A /* BindPhoneNumViewController.swift in Sources */,
 				9A4E624D24F8DF6B00A0E878 /* CyclicCardCell.swift in Sources */,
 				9A8CA51D25272C5200EC01A7 /* CVCalendarWeekView.swift in Sources */,
@@ -1627,10 +1742,12 @@
 				9A56D26025216FC60082CC08 /* ChartHighlighter.swift in Sources */,
 				9A56D28F25216FC70082CC08 /* AnimatedZoomViewJob.swift in Sources */,
 				9A56D27425216FC60082CC08 /* DefaultAxisValueFormatter.swift in Sources */,
+				9AEC230025B7114500DE899A /* Data+Extension.swift in Sources */,
 				9A60DEC4252D5D5E00E0D849 /* AccountSafeTableViewCell.swift in Sources */,
 				9A56D29B25216FC70082CC08 /* CandleChartDataEntry.swift in Sources */,
 				9A60DEEB252F34B700E0D849 /* DeviceInfoTableViewCell.swift in Sources */,
 				9A2185C7255BE42D000330E5 /* GuideCollectionViewCell.swift in Sources */,
+				9A367B7E25BD208100BFB4C3 /* EasyRealmList.swift in Sources */,
 				9A56D24825216FC60082CC08 /* LineRadarRenderer.swift in Sources */,
 				9A350BEF24EB5DE0004CEE6A /* DataRecordViewController.swift in Sources */,
 				9A8CA52325272C5200EC01A7 /* CVShape.swift in Sources */,
@@ -1650,19 +1767,24 @@
 				9A8CA52B252CB6E000EC01A7 /* HelpCenterViewController.swift in Sources */,
 				9A8D431D250F411800E8D6F7 /* RegisterViewController.swift in Sources */,
 				9A60DECA252DEA2B00E0D849 /* BindThreeViewController.swift in Sources */,
+				9AEFEFFF25B7FD4200C0D84F /* BabySpeaker.m in Sources */,
 				9A8CA51725272C5200EC01A7 /* CVCalendarMenuView.swift in Sources */,
+				9AEFF00225B7FD4200C0D84F /* BabyDefine.m in Sources */,
 				9A56D27725216FC60082CC08 /* IValueFormatter.swift in Sources */,
 				9AB910272501322C006E0FC4 /* EMAlertTextField.swift in Sources */,
 				9A56D2BA25216FC70082CC08 /* ILineScatterCandleRadarChartDataSet.swift in Sources */,
 				9A839C0325602BB700714CBE /* BaseResponse.swift in Sources */,
 				9A56D2B225216FC70082CC08 /* IPieChartDataSet.swift in Sources */,
+				9AEFEFFD25B7FD4200C0D84F /* BabyPeripheralManager.m in Sources */,
 				9A56D26225216FC60082CC08 /* CombinedHighlighter.swift in Sources */,
 				9A56D2AC25216FC70082CC08 /* LineChartDataSet.swift in Sources */,
+				9A367B7625BD208100BFB4C3 /* Save.swift in Sources */,
 				9A839C6D25611FA900714CBE /* HHCountdowLabel.m in Sources */,
 				9A60DEFB252F5B8200E0D849 /* AlarmModel.swift in Sources */,
 				9A60DED5252F001300E0D849 /* CitySelectorViewController.swift in Sources */,
 				9A820B7E24CED47700A62C6F /* UIView+Extension.swift in Sources */,
 				9A2185B6255BD153000330E5 /* CacheHelper.swift in Sources */,
+				9AEFEFFB25B7FD4200C0D84F /* BabyOptions.m in Sources */,
 				9A8CA50F25272C5200EC01A7 /* CVCalendarContentViewController.swift in Sources */,
 				9A8CA51325272C5200EC01A7 /* CVCalendarWeekContentViewController.swift in Sources */,
 				9AB910262501322C006E0FC4 /* UIColor+EMAlertController.swift in Sources */,
@@ -1674,6 +1796,7 @@
 				9A8CA52125272C5200EC01A7 /* CVCalendarWeekday.swift in Sources */,
 				1898B72C2451969B00B9E5A5 /* Date+String.swift in Sources */,
 				9A4E624824F8DF3800A0E878 /* DevicesView.swift in Sources */,
+				9AEFEFFE25B7FD4200C0D84F /* BabyCentralManager.m in Sources */,
 				9A60DEE7252F175600E0D849 /* APNSViewController.swift in Sources */,
 				9A5E93302515CC700060AB13 /* MTabBarController.swift in Sources */,
 				9A56D28E25216FC60082CC08 /* ComponentBase.swift in Sources */,
@@ -1685,12 +1808,14 @@
 				9A28DA5D2518D4EA00F7B260 /* DotView.swift in Sources */,
 				9A56D27B25216FC60082CC08 /* ViewPortHandler.swift in Sources */,
 				9A56D2C325216FC70082CC08 /* ScatterChartDataProvider.swift in Sources */,
+				9AF0AA2025AAF1CE000BDAED /* CMDData.swift in Sources */,
 				9A56D2A825216FC70082CC08 /* ScatterChartDataSet.swift in Sources */,
 				9A60DEEF252F401100E0D849 /* AlarmViewController.swift in Sources */,
 				9A56D2BF25216FC70082CC08 /* CandleChartDataProvider.swift in Sources */,
 				9A56D2A925216FC70082CC08 /* ScatterChartData.swift in Sources */,
 				9A820B7424CEA1CC00A62C6F /* BaseViewController.swift in Sources */,
 				9A56D28425216FC60082CC08 /* Description.swift in Sources */,
+				9A367B7925BD208100BFB4C3 /* EasyRealm.swift in Sources */,
 				9A8CA527252CA05E00EC01A7 /* DataRecordReuseSectionHeadView.swift in Sources */,
 				9A8CA50D25272C5200EC01A7 /* CVCalendarViewAppearanceDelegate.swift in Sources */,
 				9A839C6925610AB000714CBE /*  TargetModel.swift in Sources */,
@@ -1733,6 +1858,7 @@
 				9A5613F525248BFC00C43C6A /* AudioButtonView.swift in Sources */,
 				9A8CA51425272C5200EC01A7 /* CVSelectionType.swift in Sources */,
 				9A56D2A425216FC70082CC08 /* ChartDataEntry.swift in Sources */,
+				9AEFEFFA25B7FD4200C0D84F /* BabyToy.m in Sources */,
 				9A56D2BE25216FC70082CC08 /* ChartDataProvider.swift in Sources */,
 				9A56D28325216FC60082CC08 /* ChartUtils.swift in Sources */,
 				9A56D26F25216FC60082CC08 /* ChartAnimationEasing.swift in Sources */,
@@ -1741,6 +1867,7 @@
 				9A60DEC6252D896400E0D849 /* BindEmailViewController.swift in Sources */,
 				9A56D28225216FC60082CC08 /* Platform+Color.swift in Sources */,
 				9A350BE724EA66BA004CEE6A /* AboutUSViewController.swift in Sources */,
+				9A367B9525BD235A00BFB4C3 /* RealmManager.swift in Sources */,
 				9A56D2B625216FC70082CC08 /* IBarChartDataSet.swift in Sources */,
 				9A56D2A125216FC70082CC08 /* BarLineScatterCandleBubbleChartData.swift in Sources */,
 				9A56D25C25216FC60082CC08 /* PieHighlighter.swift in Sources */,
@@ -1749,12 +1876,15 @@
 				9A56D2AF25216FC70082CC08 /* BarChartData.swift in Sources */,
 				9A7D5E4225490EA20016E4BC /* MRGCDTimer.swift in Sources */,
 				9A56D2C025216FC70082CC08 /* CombinedChartDataProvider.swift in Sources */,
+				9A367B7A25BD208100BFB4C3 /* Edit.swift in Sources */,
 				9A820B8724D061E000A62C6F /* UIDevice+Extension.swift in Sources */,
 				9A8CA51925272C5200EC01A7 /* CVScrollDirection.swift in Sources */,
 				9A60DEDE252F002D00E0D849 /* UIColor+Hex.swift in Sources */,
 				9A56D2C425216FC70082CC08 /* BubbleChartDataProvider.swift in Sources */,
 				9A56D28125216FC60082CC08 /* TransformerHorizontalBarChart.swift in Sources */,
 				9A8CA51A25272C5200EC01A7 /* CVCalendarTouchController.swift in Sources */,
+				9A367B7825BD208100BFB4C3 /* Query.swift in Sources */,
+				9AEFEFFC25B7FD4200C0D84F /* BabyCallback.m in Sources */,
 				9A56D29625216FC70082CC08 /* BarChartDataEntry.swift in Sources */,
 				9A56D2BD25216FC70082CC08 /* BarChartDataProvider.swift in Sources */,
 				9A56D26E25216FC60082CC08 /* PieChartView.swift in Sources */,

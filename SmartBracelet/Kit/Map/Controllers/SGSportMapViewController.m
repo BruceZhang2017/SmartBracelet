@@ -38,7 +38,6 @@
     ///把地图添加至view
     [self.view addSubview:mapView];
     mapView.showsScale = NO;
-    mapView.rotateCameraEnabled = NO;
     mapView.showsUserLocation = YES;
     mapView.userTrackingMode = MAUserTrackingModeFollow;
     mapView.allowsBackgroundLocationUpdates = YES;

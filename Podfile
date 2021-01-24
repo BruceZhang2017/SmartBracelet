@@ -4,8 +4,7 @@ use_frameworks!
 
 target 'SmartBracelet' do
 source 'https://github.com/CocoaPods/Specs.git'
-pod 'AMap3DMap'
-pod 'AMapSearch'
+pod 'AMap2DMap'
 pod 'AMapLocation'
 pod 'SnapKit'
 pod 'Segmentio'
@@ -19,6 +18,7 @@ pod 'AliyunOSSiOS'
 pod 'Alamofire', '~> 5.2'
 pod 'Kingfisher'
 pod 'XCGLogger'
-pod 'BluetoothKit'
+pod 'RealmSwift'
+pod 'Realm'
 
 end

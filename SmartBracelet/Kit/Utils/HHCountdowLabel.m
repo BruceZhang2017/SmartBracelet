@@ -18,7 +18,7 @@
 
 - (instancetype)initWithFrame:(CGRect)frame{
     if (self = [super initWithFrame:frame]){
-        self.font = [UIFont systemFontOfSize: 40];
+        self.font = [UIFont systemFontOfSize: 60];
         self.textColor = [UIColor whiteColor];
         self.textAlignment = NSTextAlignmentCenter;
     }

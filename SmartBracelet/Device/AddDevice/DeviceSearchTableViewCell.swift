@@ -13,7 +13,6 @@
 import UIKit
 
 class DeviceSearchTableViewCell: UITableViewCell {
-    @IBOutlet weak var deviceImageView: UIImageView!
     @IBOutlet weak var deviceNameLabel: UILabel!
     @IBOutlet weak var deviceMacLabel: UILabel!
     @IBOutlet weak var bindLabel: UILabel!

@@ -10,7 +10,7 @@ import UIKit
 
 public class DotsLoadingView: UIView {
     private let delay = 0.25
-    private let length = 10
+    private let length = 6
     
     public let loadingViewBackgroundColor = UIColor.white
     
