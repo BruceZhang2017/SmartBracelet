@@ -15,6 +15,12 @@
 		18385F13245181D900EA380A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 18385F12245181D900EA380A /* Main.storyboard */; };
 		1898B72C2451969B00B9E5A5 /* Date+String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1898B72B2451969B00B9E5A5 /* Date+String.swift */; };
 		6358A1BC7537C0FAECF400E2 /* Pods_SmartBracelet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B1F15B2E89955DD6187F274A /* Pods_SmartBracelet.framework */; };
+		9A037E4225BDACFE0006FB94 /* 8267_module_tOTA.bin in Resources */ = {isa = PBXBuildFile; fileRef = 9A037E4125BDACFE0006FB94 /* 8267_module_tOTA.bin */; };
+		9A037E4525BDB1CD0006FB94 /* OTACMD.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A037E4425BDB1CD0006FB94 /* OTACMD.m */; };
+		9A037E4825BDB1EC0006FB94 /* OTA.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A037E4725BDB1EC0006FB94 /* OTA.m */; };
+		9A037E4A25BDB9E00006FB94 /* OTAViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A037E4925BDB9E00006FB94 /* OTAViewController.swift */; };
+		9A037E4C25BDBA5A0006FB94 /* SGCirleProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A037E4B25BDBA5A0006FB94 /* SGCirleProgress.swift */; };
+		9A037E4E25BDBC180006FB94 /* SGCirle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A037E4D25BDBC170006FB94 /* SGCirle.swift */; };
 		9A2181652557EDBE000330E5 /* apple.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 9A2181622557EDBE000330E5 /* apple.jpeg */; };
 		9A2181662557EDBE000330E5 /* walk.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 9A2181632557EDBE000330E5 /* walk.jpeg */; };
 		9A2181672557EDBE000330E5 /* water.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9A2181642557EDBE000330E5 /* water.jpg */; };
@@ -362,6 +368,14 @@
 		6D913391FB0E57C59E39E74B /* Pods-SmartBracelet.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SmartBracelet.debug.xcconfig"; path = "Target Support Files/Pods-SmartBracelet/Pods-SmartBracelet.debug.xcconfig"; sourceTree = "<group>"; };
 		7908B378C1A13473537586D0 /* Pods-SmartBracelet.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SmartBracelet.release.xcconfig"; path = "Target Support Files/Pods-SmartBracelet/Pods-SmartBracelet.release.xcconfig"; sourceTree = "<group>"; };
 		7A71386927639819C83B8B2B /* Pods-TJDWristbandSDKDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TJDWristbandSDKDemo.debug.xcconfig"; path = "Target Support Files/Pods-TJDWristbandSDKDemo/Pods-TJDWristbandSDKDemo.debug.xcconfig"; sourceTree = "<group>"; };
+		9A037E4125BDACFE0006FB94 /* 8267_module_tOTA.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = 8267_module_tOTA.bin; sourceTree = "<group>"; };
+		9A037E4325BDB1CD0006FB94 /* OTACMD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTACMD.h; sourceTree = "<group>"; };
+		9A037E4425BDB1CD0006FB94 /* OTACMD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTACMD.m; sourceTree = "<group>"; };
+		9A037E4625BDB1EC0006FB94 /* OTA.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTA.h; sourceTree = "<group>"; };
+		9A037E4725BDB1EC0006FB94 /* OTA.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTA.m; sourceTree = "<group>"; };
+		9A037E4925BDB9E00006FB94 /* OTAViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OTAViewController.swift; sourceTree = "<group>"; };
+		9A037E4B25BDBA5A0006FB94 /* SGCirleProgress.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SGCirleProgress.swift; sourceTree = "<group>"; };
+		9A037E4D25BDBC170006FB94 /* SGCirle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SGCirle.swift; sourceTree = "<group>"; };
 		9A2181622557EDBE000330E5 /* apple.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = apple.jpeg; sourceTree = "<group>"; };
 		9A2181632557EDBE000330E5 /* walk.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = walk.jpeg; sourceTree = "<group>"; };
 		9A2181642557EDBE000330E5 /* water.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = water.jpg; sourceTree = "<group>"; };
@@ -744,6 +758,7 @@
 				9A820B8324D05B1F00A62C6F /* Sport */,
 				9A820B6C24CD066E00A62C6F /* Health */,
 				9A820B6F24CE5A1A00A62C6F /* Kit */,
+				9A037E4025BDACDB0006FB94 /* Resource */,
 				18385E9D24517F1600EA380A /* AppDelegate.swift */,
 				18385F092451819E00EA380A /* Async.swift */,
 				18385F042451819E00EA380A /* DetailViewController.swift */,
@@ -771,6 +786,14 @@
 				B1F15B2E89955DD6187F274A /* Pods_SmartBracelet.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		9A037E4025BDACDB0006FB94 /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				9A037E4125BDACFE0006FB94 /* 8267_module_tOTA.bin */,
+			);
+			path = Resource;
 			sourceTree = "<group>";
 		};
 		9A2181612557ED9B000330E5 /* Resource */ = {
@@ -802,6 +825,10 @@
 			isa = PBXGroup;
 			children = (
 				9A21843C255A3A52000330E5 /* SmartBracelet-Bridging-Header.h */,
+				9A037E4325BDB1CD0006FB94 /* OTACMD.h */,
+				9A037E4425BDB1CD0006FB94 /* OTACMD.m */,
+				9A037E4625BDB1EC0006FB94 /* OTA.h */,
+				9A037E4725BDB1EC0006FB94 /* OTA.m */,
 			);
 			path = ObjC;
 			sourceTree = "<group>";
@@ -888,6 +915,9 @@
 				9A4E624724F8DF3800A0E878 /* DevicesView.swift */,
 				9A5210722504937500F64A7A /* DeviceSettingsViewController.swift */,
 				9A52107425049FD900F64A7A /* DeviceSettingsTableViewCell.swift */,
+				9A037E4925BDB9E00006FB94 /* OTAViewController.swift */,
+				9A037E4B25BDBA5A0006FB94 /* SGCirleProgress.swift */,
+				9A037E4D25BDBC170006FB94 /* SGCirle.swift */,
 				9A60DEE6252F175600E0D849 /* APNSViewController.swift */,
 				9A60DEE8252F1E8200E0D849 /* DeviceInfoViewController.swift */,
 				9A60DEEA252F34B700E0D849 /* DeviceInfoTableViewCell.swift */,
@@ -1532,6 +1562,7 @@
 				9A820B7824CEA2C600A62C6F /* Health.storyboard in Resources */,
 				18385EA724517F1A00EA380A /* Assets.xcassets in Resources */,
 				9A21859E255BBDD9000330E5 /* root.jpg in Resources */,
+				9A037E4225BDACFE0006FB94 /* 8267_module_tOTA.bin in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1641,6 +1672,7 @@
 				9A56D26B25216FC60082CC08 /* PieRadarChartViewBase.swift in Sources */,
 				9A56D23C25216FC60082CC08 /* LegendRenderer.swift in Sources */,
 				9A60DEF9252F5B7100E0D849 /* DeviceModel.swift in Sources */,
+				9A037E4525BDB1CD0006FB94 /* OTACMD.m in Sources */,
 				9A839BEF255FE5A300714CBE /* HImagePickerUtils.swift in Sources */,
 				9A56D2B825216FC70082CC08 /* IChartDataSet.swift in Sources */,
 				9A8CA50825272C5200EC01A7 /* CVWeekdaySymbolType.swift in Sources */,
@@ -1723,6 +1755,7 @@
 				9A60DEDA252F002400E0D849 /* RecentCitiesableViewCell.swift in Sources */,
 				9A60DEF1252F416E00E0D849 /* AlarmTableViewCell.swift in Sources */,
 				9A56D2BB25216FC70082CC08 /* IBubbleChartDataSet.swift in Sources */,
+				9A037E4A25BDB9E00006FB94 /* OTAViewController.swift in Sources */,
 				9A367B9925BD425300BFB4C3 /* DeviceManager.swift in Sources */,
 				9AA0BC94250F63B3003B9F64 /* LoginViewController.swift in Sources */,
 				9A839C5A2560F3FA00714CBE /* SGSportTrackingLine.m in Sources */,
@@ -1793,6 +1826,7 @@
 				9A56D28C25216FC60082CC08 /* ChartLimitLine.swift in Sources */,
 				9A56D2AD25216FC70082CC08 /* BubbleChartDataSet.swift in Sources */,
 				9A56D28D25216FC60082CC08 /* MarkerView.swift in Sources */,
+				9A037E4825BDB1EC0006FB94 /* OTA.m in Sources */,
 				9A8CA52125272C5200EC01A7 /* CVCalendarWeekday.swift in Sources */,
 				1898B72C2451969B00B9E5A5 /* Date+String.swift in Sources */,
 				9A4E624824F8DF3800A0E878 /* DevicesView.swift in Sources */,
@@ -1823,6 +1857,7 @@
 				9A60DEDF252F002D00E0D849 /* String+SoolyCitySelector.swift in Sources */,
 				9A60DEC2252D5BF600E0D849 /* AccountSafeViewController.swift in Sources */,
 				9A5613F12524875400C43C6A /* CommonCalendarView.swift in Sources */,
+				9A037E4E25BDBC180006FB94 /* SGCirle.swift in Sources */,
 				9AB910282501322C006E0FC4 /* EMAlertAction.swift in Sources */,
 				9A56D2C125216FC70082CC08 /* LineChartDataProvider.swift in Sources */,
 				9A820B8D24D11E3000A62C6F /* SetTargetBViewController.swift in Sources */,
@@ -1832,6 +1867,7 @@
 				9A521069250322E500F64A7A /* ClockCollectionViewCell.swift in Sources */,
 				9A5210712503DB2E00F64A7A /* ClockCCollectionViewCell.swift in Sources */,
 				9A56D25025216FC60082CC08 /* TriangleShapeRenderer.swift in Sources */,
+				9A037E4C25BDBA5A0006FB94 /* SGCirleProgress.swift in Sources */,
 				9A56D2AE25216FC70082CC08 /* RadarChartDataSet.swift in Sources */,
 				9A8CA51E25272C5200EC01A7 /* CVCalendarViewAnimatorDelegate.swift in Sources */,
 				9A8CA50725272C5200EC01A7 /* CVCalendarDayView.swift in Sources */,

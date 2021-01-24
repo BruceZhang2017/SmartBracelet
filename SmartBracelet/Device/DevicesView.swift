@@ -42,7 +42,32 @@ class DevicesView: UIView {
         collectionView.dataSource = self
         collectionView.register(CyclicCardCell.self, forCellWithReuseIdentifier: NSStringFromClass(CyclicCardCell.self))
         addSubview(self.collectionView)
-        collectionView.scrollToItem(at: IndexPath(item: 1, section: 0), at: UICollectionView.ScrollPosition.centeredHorizontally, animated: false)
+        let count = DeviceManager.shared.devices.count + (bleSelf.bleModel.mac.count > 0 ? 1 : 0)
+        if count <= 1 {
+            collectionView.scrollToItem(at: IndexPath(item: 1, section: 0), at: UICollectionView.ScrollPosition.centeredHorizontally, animated: false)
+        } else {
+            let deviceCount = DeviceManager.shared.devices.count
+            var tem = false
+            if deviceCount > 0 {
+                for (index, item) in DeviceManager.shared.devices.enumerated() {
+                    if item.mac == lastestDeviceMac {
+                        collectionView.scrollToItem(at: IndexPath(item: 1 + index, section: 0), at: UICollectionView.ScrollPosition.centeredHorizontally, animated: false)
+                        tem = true
+                        break
+                    }
+                }
+            }
+            if !tem {
+                if bleSelf.bleModel.mac == lastestDeviceMac {
+                    let total = max(3, count + 2)
+                    collectionView.scrollToItem(at: IndexPath(item: total - 2, section: 0), at: UICollectionView.ScrollPosition.centeredHorizontally, animated: false)
+                    tem = true
+                }
+            }
+            if !tem {
+                collectionView.scrollToItem(at: IndexPath(item: 1, section: 0), at: UICollectionView.ScrollPosition.centeredHorizontally, animated: false)
+            }
+        }
     }
 
 }

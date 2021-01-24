@@ -18,6 +18,7 @@ let MPU_BATTERY_INFO_UUID = "CC03"
 let MPU_REALTIME_DATA_UUID = "CC04"
 let MPU_SYNC_UUID = "CC05"
 let MPU_CONTROL_UUID = "CC06"
+let MPU_OTA_UUID = "00010203-0405-0607-0809-0a0b0c0d2b12".uppercased()
 
 enum Command: UInt8 {
     case setting = 0xF1

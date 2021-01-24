@@ -60,10 +60,13 @@ class BLECurrentManager: NSObject {
             switch state {
             case .poweredOn:
                 print("蓝牙已经打开")
+                NotificationCenter.default.post(name: Notification.Name("HealthVCLoading"), object: 0)
             case .poweredOff:
                 print("蓝牙已经关闭")
+                NotificationCenter.default.post(name: Notification.Name("HealthVCLoading"), object: 1)
             case .unauthorized:
                 print("蓝牙未授权")
+                NotificationCenter.default.post(name: Notification.Name("HealthVCLoading"), object: 1)
             default:
                 print("蓝牙状态未知")
             }
@@ -142,6 +145,7 @@ class BLECurrentManager: NSObject {
             }
             NotificationCenter.default.post(name: Notification.Name("DeviceList"), object: nil)
             self?.currentPer = per
+            NotificationCenter.default.post(name: Notification.Name("HealthVCLoading"), object: 2)
         }
         
         baby.setBlockOnDisconnect {[weak self] (manager, per, error) in
@@ -204,11 +208,11 @@ class BLECurrentManager: NSObject {
                 self?.chars[characteristic.uuid.uuidString] = characteristic
             }
             if service?.uuid.uuidString == MPU_MS1001_SERVICE_UUID {
-                self?.startSyncInfo() // 第一步同步时间
+                
             }
         }
         
-        baby.setBlockOnReadValueForCharacteristic { (per, char, error) in
+        baby.setBlockOnReadValueForCharacteristic { [weak self] (per, char, error) in
             let name = per?.name ?? ""
             if name == "Lefun" {
                 return
@@ -231,6 +235,10 @@ class BLECurrentManager: NSObject {
                 } else if char?.uuid.uuidString ?? "" == MPU_DEVICE_INFO_UUID { // 版本号
                     let cmdData = CMDData()
                     cmdData.handleDeviceNameNotify(data: data)
+                } else if char?.uuid.uuidString ?? "" == MPU_CONTROL_UUID {
+                    self?.startSyncInfo() // 第一步同步时间
+                } else if char?.uuid.uuidString == MPU_OTA_UUID {
+                    OTA.share()?.handle()
                 }
             }
         }
@@ -244,6 +252,9 @@ class BLECurrentManager: NSObject {
         baby.setBlockOnDidUpdateNotificationStateForCharacteristic { (char, err) in
             if let data = char?.value, data.count > 0 {
                 print("返回的内容为：\(data.hexEncodedStringBlank())")
+            }
+            if char?.uuid.uuidString == MPU_OTA_UUID {
+                OTA.share()?.handle()
             }
         }
         
@@ -270,6 +281,25 @@ extension BLECurrentManager {
         }
         currentPer?.writeValue(data, for: char, type: type)
         print("同步时间: \(data.hexEncodedStringBlank())")
+        NotificationCenter.default.post(name: Notification.Name("HealthVCLoading"), object: 3)
+    }
+    
+    public func readOTAChar() {
+        guard let char = chars[MPU_OTA_UUID] else {
+            return
+        }
+        currentPer?.readValue(for: char)
+    }
+    
+    public func writeOTAChar(data: Data) {
+        guard let char = chars[MPU_OTA_UUID] else {
+            return
+        }
+        var type: CBCharacteristicWriteType = .withResponse
+        if ((char.properties.rawValue & CBCharacteristicProperties.writeWithoutResponse.rawValue) != 0 ) {
+            type = .withoutResponse
+        }
+        currentPer?.writeValue(data, for: char, type: type)
     }
     
 }

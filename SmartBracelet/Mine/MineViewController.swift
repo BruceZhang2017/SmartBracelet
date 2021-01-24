@@ -69,7 +69,7 @@ class MineViewController: BaseViewController {
             let vc = storyboard.instantiateViewController(withIdentifier: "HelpCenterViewController")
             navigationController?.pushViewController(vc, animated: true)
         } else if tag == 8 { // 软件升级
-            Toast(text: "已经是最新软件").show()
+            startOTA()
         } else if tag == 9 { // 关于
             let storyboard = UIStoryboard(name: .kMine, bundle: nil)
             let vc = storyboard.instantiateViewController(withIdentifier: "AboutUSViewController")
@@ -109,6 +109,44 @@ class MineViewController: BaseViewController {
         present(alert, animated: true) {
             
         }
+    }
+    
+    private func startOTA() {
+        if lastestDeviceMac.count == 0 {
+            Toast(text: "设备未连接，请先连接设备。").show()
+            return
+        }
+        let count = DeviceManager.shared.devices.count
+        if count > 0 {
+            for item in DeviceManager.shared.devices {
+                if item.mac == lastestDeviceMac {
+                    showOTAView()
+                    break
+                }
+            }
+        } else {
+            if bleSelf.bleModel.mac == lastestDeviceMac {
+                Toast(text: "本地没有Lefun的OTA文件，需要找供应商提供。").show()
+            }
+        }
+        
+    }
+    
+    private func showOTAView() {
+        let alert = UIAlertController(title: "OTA", message: "使用本地OTA文件：8267_module_tOTA.bin", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "取消", style: .cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: "确认", style: .default, handler: { [weak self] (action) in
+            self?.pushToOTA()
+        }))
+        present(alert, animated: true) {
+            
+        }
+    }
+    
+    private func pushToOTA() {
+        let otaVC = OTAViewController()
+        otaVC.hidesBottomBarWhenPushed = true
+        navigationController?.pushViewController(otaVC, animated: true)
     }
 }
 
