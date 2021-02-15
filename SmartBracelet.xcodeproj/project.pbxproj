@@ -68,6 +68,7 @@
 		9A367B7E25BD208100BFB4C3 /* EasyRealmList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A367B7525BD208100BFB4C3 /* EasyRealmList.swift */; };
 		9A367B9525BD235A00BFB4C3 /* RealmManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A367B9425BD235A00BFB4C3 /* RealmManager.swift */; };
 		9A367B9925BD425300BFB4C3 /* DeviceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A367B9825BD425300BFB4C3 /* DeviceManager.swift */; };
+		9A40E02C25D37477001879B3 /* DStepModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A40E02B25D37477001879B3 /* DStepModel.swift */; };
 		9A4E624424F7E94E00A0E878 /* Device.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9A4E624324F7E94E00A0E878 /* Device.storyboard */; };
 		9A4E624624F8926300A0E878 /* DevicesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A4E624524F8926300A0E878 /* DevicesViewController.swift */; };
 		9A4E624824F8DF3800A0E878 /* DevicesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A4E624724F8DF3800A0E878 /* DevicesView.swift */; };
@@ -322,6 +323,8 @@
 		9A8CA52B252CB6E000EC01A7 /* HelpCenterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8CA52A252CB6E000EC01A7 /* HelpCenterViewController.swift */; };
 		9A8D431D250F411800E8D6F7 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8D431C250F411800E8D6F7 /* RegisterViewController.swift */; };
 		9AA0BC94250F63B3003B9F64 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA0BC93250F63B3003B9F64 /* LoginViewController.swift */; };
+		9AAF85CC25C6D42000960BDD /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AAF85CB25C6D42000960BDD /* MapKit.framework */; };
+		9AAF861C25C83E5000960BDD /* IdleResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 9AAF861B25C83E5000960BDD /* IdleResources.bundle */; };
 		9AB910262501322C006E0FC4 /* UIColor+EMAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB910222501322B006E0FC4 /* UIColor+EMAlertController.swift */; };
 		9AB910272501322C006E0FC4 /* EMAlertTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB910232501322B006E0FC4 /* EMAlertTextField.swift */; };
 		9AB910282501322C006E0FC4 /* EMAlertAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB910242501322B006E0FC4 /* EMAlertAction.swift */; };
@@ -422,6 +425,7 @@
 		9A367B7525BD208100BFB4C3 /* EasyRealmList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EasyRealmList.swift; sourceTree = "<group>"; };
 		9A367B9425BD235A00BFB4C3 /* RealmManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmManager.swift; sourceTree = "<group>"; };
 		9A367B9825BD425300BFB4C3 /* DeviceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceManager.swift; sourceTree = "<group>"; };
+		9A40E02B25D37477001879B3 /* DStepModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DStepModel.swift; sourceTree = "<group>"; };
 		9A4E624324F7E94E00A0E878 /* Device.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Device.storyboard; sourceTree = "<group>"; };
 		9A4E624524F8926300A0E878 /* DevicesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DevicesViewController.swift; sourceTree = "<group>"; };
 		9A4E624724F8DF3800A0E878 /* DevicesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DevicesView.swift; sourceTree = "<group>"; };
@@ -685,6 +689,8 @@
 		9A8CA52A252CB6E000EC01A7 /* HelpCenterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpCenterViewController.swift; sourceTree = "<group>"; };
 		9A8D431C250F411800E8D6F7 /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 		9AA0BC93250F63B3003B9F64 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		9AAF85CB25C6D42000960BDD /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		9AAF861B25C83E5000960BDD /* IdleResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = IdleResources.bundle; sourceTree = "<group>"; };
 		9AB910222501322B006E0FC4 /* UIColor+EMAlertController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+EMAlertController.swift"; sourceTree = "<group>"; };
 		9AB910232501322B006E0FC4 /* EMAlertTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EMAlertTextField.swift; sourceTree = "<group>"; };
 		9AB910242501322B006E0FC4 /* EMAlertAction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EMAlertAction.swift; sourceTree = "<group>"; };
@@ -724,6 +730,7 @@
 				9A218425255A335F000330E5 /* SystemConfiguration.framework in Frameworks */,
 				9A33011F24BBDAE900F4D9F0 /* TJDWristbandSDK.framework in Frameworks */,
 				9A218421255A3347000330E5 /* libresolv.tbd in Frameworks */,
+				9AAF85CC25C6D42000960BDD /* MapKit.framework in Frameworks */,
 				6358A1BC7537C0FAECF400E2 /* Pods_SmartBracelet.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -779,6 +786,7 @@
 		18385EB124517F7700EA380A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				9AAF85CB25C6D42000960BDD /* MapKit.framework */,
 				9A218424255A335F000330E5 /* SystemConfiguration.framework */,
 				9A218422255A3351000330E5 /* CoreTelephony.framework */,
 				9A218420255A3335000330E5 /* libresolv.tbd */,
@@ -791,7 +799,9 @@
 		9A037E4025BDACDB0006FB94 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				9AAF861A25C83CBE00960BDD /* WatchFace */,
 				9A037E4125BDACFE0006FB94 /* 8267_module_tOTA.bin */,
+				9AAF861B25C83E5000960BDD /* IdleResources.bundle */,
 			);
 			path = Resource;
 			sourceTree = "<group>";
@@ -1237,6 +1247,7 @@
 				9A32B06A2543C5C7008F0E26 /* BLEManager.swift */,
 				9A6C8578254EC3B000A87751 /* BLECurrentManager.swift */,
 				9AEC22CC25B707C000DE899A /* BLEModel.swift */,
+				9A40E02B25D37477001879B3 /* DStepModel.swift */,
 				9A367B9825BD425300BFB4C3 /* DeviceManager.swift */,
 				9AF0AA1F25AAF1CE000BDAED /* CMDData.swift */,
 				9A367B9425BD235A00BFB4C3 /* RealmManager.swift */,
@@ -1431,6 +1442,13 @@
 			path = Login;
 			sourceTree = "<group>";
 		};
+		9AAF861A25C83CBE00960BDD /* WatchFace */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = WatchFace;
+			sourceTree = "<group>";
+		};
 		9AB9102125013210006E0FC4 /* AlertController */ = {
 			isa = PBXGroup;
 			children = (
@@ -1551,6 +1569,7 @@
 				9A60DEE3252F003800E0D849 /* hotCities.plist in Resources */,
 				9A2185B0255BC6AA000330E5 /* new5.jpg in Resources */,
 				9A4E624424F7E94E00A0E878 /* Device.storyboard in Resources */,
+				9AAF861C25C83E5000960BDD /* IdleResources.bundle in Resources */,
 				18385EAA24517F1A00EA380A /* LaunchScreen.storyboard in Resources */,
 				9A350BE524EA6476004CEE6A /* Mine.storyboard in Resources */,
 				9A839C672560F68B00714CBE /* SGSportingView.storyboard in Resources */,
@@ -1754,6 +1773,7 @@
 				9A56D2C225216FC70082CC08 /* BarLineScatterCandleBubbleChartDataProvider.swift in Sources */,
 				9A60DEDA252F002400E0D849 /* RecentCitiesableViewCell.swift in Sources */,
 				9A60DEF1252F416E00E0D849 /* AlarmTableViewCell.swift in Sources */,
+				9A40E02C25D37477001879B3 /* DStepModel.swift in Sources */,
 				9A56D2BB25216FC70082CC08 /* IBubbleChartDataSet.swift in Sources */,
 				9A037E4A25BDB9E00006FB94 /* OTAViewController.swift in Sources */,
 				9A367B9925BD425300BFB4C3 /* DeviceManager.swift in Sources */,
@@ -2076,6 +2096,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "";
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_ASSET_PATHS = TJDWristbandSDK.framework;
 				DEVELOPMENT_TEAM = B6AVW3KJ25;
 				ENABLE_BITCODE = NO;
@@ -2110,6 +2131,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "";
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_ASSET_PATHS = TJDWristbandSDK.framework;
 				DEVELOPMENT_TEAM = B6AVW3KJ25;
 				ENABLE_BITCODE = NO;

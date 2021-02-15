@@ -1023,6 +1023,9 @@
                                         <constraints>
                                             <constraint firstAttribute="height" constant="350" id="Zl4-sC-m7s"/>
                                         </constraints>
+                                        <connections>
+                                            <action selector="timeValueChanged:" destination="7f6-5h-ays" eventType="valueChanged" id="FWn-eZ-LDb"/>
+                                        </connections>
                                     </datePicker>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zYO-HA-v5I">
                                         <rect key="frame" x="0.0" y="350" width="414" height="50"/>
@@ -1094,15 +1097,31 @@
                                             <constraint firstAttribute="height" constant="0.5" id="Poe-8x-Nef"/>
                                         </constraints>
                                     </imageView>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hs7-9S-7wO">
+                                        <rect key="frame" x="0.0" y="48" width="414" height="48"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="48" id="r5U-UW-eho"/>
+                                        </constraints>
+                                        <state key="normal" title="取消">
+                                            <color key="titleColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="cancel:" destination="7f6-5h-ays" eventType="touchUpInside" id="HxH-bI-L07"/>
+                                            <action selector="deleteAlarm:" destination="7f6-5h-ays" eventType="touchUpInside" id="8qE-Bg-JGH"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
                                     <constraint firstItem="TSn-GY-M4i" firstAttribute="top" secondItem="Tk2-xY-odX" secondAttribute="top" id="8S5-53-KOB"/>
                                     <constraint firstAttribute="trailing" secondItem="e9Z-ib-cyZ" secondAttribute="trailing" id="ATA-X4-XhE"/>
+                                    <constraint firstItem="hs7-9S-7wO" firstAttribute="top" secondItem="TSn-GY-M4i" secondAttribute="bottom" id="IMJ-QB-HjM"/>
+                                    <constraint firstAttribute="trailing" secondItem="hs7-9S-7wO" secondAttribute="trailing" id="RQa-rD-SfT"/>
                                     <constraint firstItem="e9Z-ib-cyZ" firstAttribute="leading" secondItem="Tk2-xY-odX" secondAttribute="leading" id="U6D-gC-PiO"/>
                                     <constraint firstItem="e9Z-ib-cyZ" firstAttribute="top" secondItem="TSn-GY-M4i" secondAttribute="bottom" id="XNa-tj-bDI"/>
                                     <constraint firstAttribute="trailing" secondItem="TSn-GY-M4i" secondAttribute="trailing" id="kX2-Fc-QLz"/>
                                     <constraint firstItem="TSn-GY-M4i" firstAttribute="leading" secondItem="Tk2-xY-odX" secondAttribute="leading" id="mhK-8R-OVb"/>
+                                    <constraint firstItem="hs7-9S-7wO" firstAttribute="leading" secondItem="Tk2-xY-odX" secondAttribute="leading" id="vPM-Q7-FvX"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -1120,6 +1139,7 @@
                     </view>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <connections>
+                        <outlet property="cancelButton" destination="hs7-9S-7wO" id="TIG-6a-VHI"/>
                         <outlet property="datePicker" destination="4nG-mx-Xq1" id="2y4-0k-V3G"/>
                         <outlet property="deleteButton" destination="TSn-GY-M4i" id="TkT-fa-a41"/>
                         <outlet property="repeatLabel" destination="Vcr-DN-MNX" id="EV6-DB-Co8"/>

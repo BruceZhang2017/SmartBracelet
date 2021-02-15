@@ -97,7 +97,7 @@
                                     <constraint firstAttribute="width" constant="133" id="fF0-js-ayK"/>
                                     <constraint firstAttribute="height" constant="133" id="ykR-TW-k4C"/>
                                 </constraints>
-                                <state key="normal" backgroundImage="buttle_run"/>
+                                <state key="normal" backgroundImage="start_stop_bg"/>
                                 <connections>
                                     <action selector="setRun:" destination="arG-Is-V7Y" eventType="touchUpInside" id="6S2-yd-bYJ"/>
                                 </connections>
@@ -123,7 +123,11 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="55y-jt-2K2">
-                        <barButtonItem key="leftBarButtonItem" title="Item" image="nav_icon_add_normal" id="C54-MV-Kio"/>
+                        <barButtonItem key="leftBarButtonItem" title="Item" image="nav_icon_add_normal" id="C54-MV-Kio">
+                            <connections>
+                                <action selector="addDevice:" destination="arG-Is-V7Y" id="olJ-pd-O6a"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="运动" id="hEw-Fd-1FG">
                             <color key="tintColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                         </barButtonItem>
@@ -132,6 +136,7 @@
                         <outlet property="mapSuperView" destination="iPx-za-K5G" id="Fkt-uE-GDx"/>
                         <outlet property="segmentioView" destination="WxR-6R-MIc" id="lgt-lh-xeX"/>
                         <outlet property="setTargetButton" destination="6CK-Lu-uLT" id="lNQ-la-k0F"/>
+                        <outlet property="startButton" destination="7Cj-EY-DzC" id="Eo6-0w-NBI"/>
                         <outlet property="totalValueLabel" destination="Ezg-wZ-m5J" id="sbb-lR-Cyi"/>
                     </connections>
                 </viewController>
@@ -221,7 +226,7 @@
                                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="目标 ｜ 0卡牛" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g50-yn-8lf">
+                                                    <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="目标 ｜ 0卡牛" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g50-yn-8lf">
                                                         <rect key="frame" x="35.5" y="175" width="113" height="18"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -1352,7 +1357,11 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="Ryf-Bb-4j9">
-                        <barButtonItem key="leftBarButtonItem" title="Item" image="nav_icon_add_normal" id="ZqO-6a-csb"/>
+                        <barButtonItem key="leftBarButtonItem" title="Item" image="nav_icon_add_normal" id="ZqO-6a-csb">
+                            <connections>
+                                <action selector="pushToAddDevice:" destination="PcB-RQ-9BB" id="Tci-aC-P05"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="我的" id="TFW-mp-Bx8">
                             <color key="tintColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                         </barButtonItem>
@@ -1584,7 +1593,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="buttle_run" width="133" height="133"/>
         <image name="calorie_image_bg" width="180" height="235"/>
         <image name="conten_battery_full" width="16" height="9"/>
         <image name="content_banner_illustration" width="345" height="66"/>
@@ -1611,6 +1619,7 @@
         <image name="images_heartbeat" width="242" height="50"/>
         <image name="nav_icon_add_normal" width="24" height="24"/>
         <image name="produce_image_no.2" width="45" height="45"/>
+        <image name="start_stop_bg" width="211" height="211"/>
         <image name="steps_image_bg" width="180" height="232.5"/>
         <image name="tab_icon_equipment_default" width="14" height="26"/>
         <image name="tab_icon_equipment_highlight" width="27" height="27"/>

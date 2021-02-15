@@ -16,6 +16,7 @@ class BLECurrentManager: NSObject {
     static let sharedInstall = BLECurrentManager() // 单例
     var baby: BabyBluetooth!
     public var models: [BLEModel] = [] // 搜索到的设备
+    public var deviceType = 0 // 1.非Lefun、2.Lefun
     private var perpheals: [String: CBPeripheral] = [:]
     private var currentPer: CBPeripheral!
     private var chars: [String: CBCharacteristic] = [:]
@@ -50,8 +51,25 @@ class BLECurrentManager: NSObject {
         }
     }
     
+    /// 断开所有设备
     public func disconnectAllDeivce() {
         baby.cancelAllPeripheralsConnection()
+    }
+    
+    public func getCurrentDevice() -> BLEModel? {
+        if currentPer == nil {
+            return nil
+        }
+        let uuid = currentPer.identifier.uuidString
+        guard let array = try? BLEModel.er.all() else {
+            return nil
+        }
+        for item in array {
+            if item.uuidString == uuid { // 如果找到唯一标识符
+                return item
+            }
+        }
+        return nil
     }
     
     private func babyDelegate() {
@@ -128,10 +146,13 @@ class BLECurrentManager: NSObject {
         
         baby.setBlockOnConnected {[weak self] (manager, per) in // 连接成功
             print("连接成功的设备: \(per?.name ?? "no name")")
+            self?.currentPer = per
             let name = per?.name ?? ""
             if name == "Lefun" {
+                self?.deviceType = 2 // Lefun
                 return
             }
+            self?.deviceType = 1 // 非Lefun
             NotificationCenter.default.post(name: Notification.Name.SearchDevice, object: "connected")
             guard let uuid = per?.identifier.uuidString else { return }
             for item in DeviceManager.shared.devices {
@@ -144,7 +165,6 @@ class BLECurrentManager: NSObject {
                 }
             }
             NotificationCenter.default.post(name: Notification.Name("DeviceList"), object: nil)
-            self?.currentPer = per
             NotificationCenter.default.post(name: Notification.Name("HealthVCLoading"), object: 2)
         }
         
@@ -237,8 +257,24 @@ class BLECurrentManager: NSObject {
                     cmdData.handleDeviceNameNotify(data: data)
                 } else if char?.uuid.uuidString ?? "" == MPU_CONTROL_UUID {
                     self?.startSyncInfo() // 第一步同步时间
+                    self?.startSyncForStepSleepmeter()  // 第二步同步步数
                 } else if char?.uuid.uuidString == MPU_OTA_UUID {
                     OTA.share()?.handle()
+                } else if char?.uuid.uuidString == MPU_REALTIME_DATA_UUID {
+                    if data.count != 20 {
+                        return
+                    }
+                    if data[0] == 0xF4 { // Sync notification
+                        let cmdData = CMDData()
+                        cmdData.handleNotify(data: data)
+                        if data[1] == 0x01 { // Record base time
+                            self?.confirmationReceivingBaseTime()
+                        } else if data[1] == 0x02 {
+                            self?.confirmationReceivingRecords(seq: Int(data[2]))
+                        } else if data[1] == 0x03 {
+                            self?.confirmationReceivingCurrentState()
+                        }
+                    }
                 }
             }
         }
@@ -249,12 +285,29 @@ class BLECurrentManager: NSObject {
             }
         }
         
-        baby.setBlockOnDidUpdateNotificationStateForCharacteristic { (char, err) in
-            if let data = char?.value, data.count > 0 {
-                print("返回的内容为：\(data.hexEncodedStringBlank())")
+        baby.setBlockOnDidUpdateNotificationStateForCharacteristic { [weak self] (char, err) in
+            guard let data = char?.value, data.count > 0 else {
+                return
             }
+            print("返回\(char?.uuid.uuidString ?? "")的内容为：\(data.hexEncodedStringBlank())")
             if char?.uuid.uuidString == MPU_OTA_UUID {
                 OTA.share()?.handle()
+            }
+            if char?.uuid.uuidString == MPU_REALTIME_DATA_UUID {
+                if data.count != 20 {
+                    return
+                }
+                if data[0] == 0xF4 { // Sync notification
+                    let cmdData = CMDData()
+                    cmdData.handleNotify(data: data)
+                    if data[1] == 0x01 { // Record base time
+                        self?.confirmationReceivingBaseTime()
+                    } else if data[1] == 0x02 {
+                        self?.confirmationReceivingRecords(seq: Int(data[2]))
+                    } else if data[1] == 0x03 {
+                        self?.confirmationReceivingCurrentState()
+                    }
+                }
             }
         }
         
@@ -280,7 +333,67 @@ extension BLECurrentManager {
             type = .withoutResponse
         }
         currentPer?.writeValue(data, for: char, type: type)
-        print("同步时间: \(data.hexEncodedStringBlank())")
+        print("同步时间\(char.uuid.uuidString): \(data.hexEncodedStringBlank())")
+    }
+    
+    /// 1.请求步数、睡眠数据
+    public func startSyncForStepSleepmeter() {
+        let cmdData = CMDData()
+        let data = cmdData.startSync()
+        guard let char = chars[MPU_CONTROL_UUID] else {
+            return
+        }
+        var type: CBCharacteristicWriteType = .withResponse
+        if ((char.properties.rawValue & CBCharacteristicProperties.writeWithoutResponse.rawValue) != 0 ) {
+            type = .withoutResponse
+        }
+        currentPer?.writeValue(data, for: char, type: type)
+        print("同步开始\(char.uuid.uuidString): \(data.hexEncodedStringBlank())")
+    }
+    
+    /// 2.回复接受到Base Time
+    public func confirmationReceivingBaseTime() {
+        let cmdData = CMDData()
+        let data = cmdData.confirmationOfReceivingBaseTime()
+        guard let char = chars[MPU_CONTROL_UUID] else {
+            return
+        }
+        var type: CBCharacteristicWriteType = .withResponse
+        if ((char.properties.rawValue & CBCharacteristicProperties.writeWithoutResponse.rawValue) != 0 ) {
+            type = .withoutResponse
+        }
+        currentPer?.writeValue(data, for: char, type: type)
+        print("同步开始\(char.uuid.uuidString): \(data.hexEncodedStringBlank())")
+    }
+    
+    /// 3.回复接受到receiving records
+    public func confirmationReceivingRecords(seq: Int) {
+        let cmdData = CMDData()
+        let data = cmdData.confirmationOfReceivingRecords(seq: seq)
+        guard let char = chars[MPU_CONTROL_UUID] else {
+            return
+        }
+        var type: CBCharacteristicWriteType = .withResponse
+        if ((char.properties.rawValue & CBCharacteristicProperties.writeWithoutResponse.rawValue) != 0 ) {
+            type = .withoutResponse
+        }
+        currentPer?.writeValue(data, for: char, type: type)
+        print("同步开始\(char.uuid.uuidString): \(data.hexEncodedStringBlank())")
+    }
+    
+    /// 4.同步接收到的当前状态
+    public func confirmationReceivingCurrentState() {
+        let cmdData = CMDData()
+        let data = cmdData.confirmationOfReceivingCurrentState()
+        guard let char = chars[MPU_CONTROL_UUID] else {
+            return
+        }
+        var type: CBCharacteristicWriteType = .withResponse
+        if ((char.properties.rawValue & CBCharacteristicProperties.writeWithoutResponse.rawValue) != 0 ) {
+            type = .withoutResponse
+        }
+        currentPer?.writeValue(data, for: char, type: type)
+        print("同步开始\(char.uuid.uuidString): \(data.hexEncodedStringBlank())")
         NotificationCenter.default.post(name: Notification.Name("HealthVCLoading"), object: 3)
     }
     

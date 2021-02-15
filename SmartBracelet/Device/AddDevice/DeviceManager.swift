@@ -16,11 +16,43 @@ class DeviceManager: NSObject {
     static let shared = DeviceManager()
     public var devices: [BLEModel] = []
     public var deviceInfo: [String: DeviceModel] = [:]
+    public var steps: [DStepModel] = []
     
     override init() {
         super.init()
+        initializeDevices()
+    }
+    
+    public func initializeDevices() {
+        devices.removeAll()
         if let models = try? BLEModel.er.all(), models.count > 0 {
             devices.append(contentsOf: models)
+            print("数据库中的数据数量为: \(models.count)")
+            return
         }
+        print("数据库中的数据数量为: 0")
+    }
+    
+    public func refreshSteps() {
+        steps.removeAll()
+        if let array = try? DStepModel.er.all() {
+            steps.append(contentsOf: array)
+            steps.sort(by: {$0.timeStamp < $1.timeStamp})
+            print("查询到的步数：\(array.count)")
+            return
+        }
+        print("查询到的步数为空")
+    }
+    
+    public func getTotalSteps() -> Int {
+        return steps.last?.step ?? 0
+    }
+    
+    public func getTotalDistance() -> Int {
+        return steps.last?.distance ?? 0
+    }
+    
+    public func getTotalCal() -> Int {
+        return steps.last?.cal ?? 0
     }
 }

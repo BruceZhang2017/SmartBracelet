@@ -74,22 +74,25 @@ class HealthViewController: BaseViewController {
     @objc private func handleNotification(_ notification: Notification) {
         let objc = notification.object as! String
         if objc == "step" {
-            DispatchQueue.main.sync {
+            DispatchQueue.main.async {
                 [weak self] in
                 let foot = NSMutableAttributedString()
-                foot.append(NSAttributedString(string: "\(bleSelf.step)", attributes: [.font: UIFont.systemFont(ofSize: 36)]))
+                let step = BLECurrentManager.sharedInstall.deviceType == 2 ? bleSelf.step : DeviceManager.shared.getTotalSteps()
+                foot.append(NSAttributedString(string: "\(step)", attributes: [.font: UIFont.systemFont(ofSize: 36)]))
                 foot.append(NSAttributedString(string: "步", attributes: [.font: UIFont.systemFont(ofSize: 12)]))
                 self?.footValueLabel.attributedText = foot
-                let unit = Float(bleSelf.distance) / 1000
+                let distance = BLECurrentManager.sharedInstall.deviceType == 2 ? bleSelf.distance : DeviceManager.shared.getTotalDistance()
+                let unit = Float(distance) / 1000
                 self?.footUnitLabel.text = "\(String(format: "%.2f", unit))公里"
                 let value = NSMutableAttributedString()
-                let v = Float(bleSelf.cal) / 1000
+                let cal = BLECurrentManager.sharedInstall.deviceType == 2 ? bleSelf.cal : DeviceManager.shared.getTotalCal()
+                let v = Float(cal) / 1000
                 value.append(NSAttributedString(string: "\(String(format: "%.2f", v))", attributes: [.font: UIFont.systemFont(ofSize: 36)]))
                 value.append(NSAttributedString(string: "千卡", attributes: [.font: UIFont.systemFont(ofSize: 12)]))
                 self?.heatValueLabel.attributedText = value
             }
         } else if objc == "sleep" {
-            DispatchQueue.main.sync {
+            DispatchQueue.main.async {
                 [weak self] in
                 let array = BLEManager.shared.sleepArray[0]
                 if array.count > 0 {
@@ -113,7 +116,7 @@ class HealthViewController: BaseViewController {
                 }
             }
         } else if objc == "heart" {
-            DispatchQueue.main.sync {
+            DispatchQueue.main.async {
                 [weak self] in
                 var heart = 0
                 if BLEManager.shared.heartArray.count == 0 {
@@ -127,7 +130,7 @@ class HealthViewController: BaseViewController {
                 self?.heartValueLabel.attributedText = v
             }
         } else if objc == "blood" {
-            DispatchQueue.main.sync {
+            DispatchQueue.main.async {
                 [weak self] in
                 var min = 0
                 var max = 0

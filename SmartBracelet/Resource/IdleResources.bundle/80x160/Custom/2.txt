@@ -1,0 +1,112 @@
+[
+  {
+    "path": "Background/2.png",
+    "pos": "0, 0",
+    "pictype": "背景图片",
+    "itemtype": 254,
+    "color": "Black",
+    "show_num": 1,
+    "para": 0,
+    "w": 80,
+    "h": 160
+  },
+  {
+    "path": "Resource2/Bluetooth",
+    "pos": "2, 2",
+    "pictype": "蓝牙",
+    "itemtype": 8,
+    "color": "White",
+    "show_num": 1,
+    "para": 15,
+    "w": 8,
+    "h": 10
+  },
+  {
+    "path": "Resource2/Battery",
+    "pos": "64, 3",
+    "pictype": "电池",
+    "itemtype": 11,
+    "color": "White",
+    "show_num": 1,
+    "para": 13,
+    "w": 13,
+    "h": 8
+  },
+  {
+    "path": "Resource2/Time",
+    "pos": "3, 20",
+    "pictype": "小时十位",
+    "itemtype": 14,
+    "color": "White",
+    "show_num": 1,
+    "para": 8,
+    "w": 16,
+    "h": 25
+  },
+  {
+    "path": "Resource2/Time",
+    "pos": "20, 20",
+    "pictype": "小时个位",
+    "itemtype": 15,
+    "color": "White",
+    "show_num": 1,
+    "para": 8,
+    "w": 16,
+    "h": 25
+  },
+  {
+    "path": "Resource2/Time",
+    "pos": "44, 20",
+    "pictype": "分钟十位",
+    "itemtype": 16,
+    "color": "White",
+    "show_num": 1,
+    "para": 3,
+    "w": 16,
+    "h": 25
+  },
+  {
+    "path": "Resource2/Time",
+    "pos": "61, 20",
+    "pictype": "分钟个位",
+    "itemtype": 17,
+    "color": "White",
+    "show_num": 1,
+    "para": 1,
+    "w": 16,
+    "h": 25
+  },
+  {
+    "path": "Resource2/Date",
+    "pos": "17, 2",
+    "pictype": "日期",
+    "itemtype": 18,
+    "color": "White",
+    "show_num": 5,
+    "para": 6,
+    "w": 40,
+    "h": 10
+  },
+  {
+    "path": "Resource2/Animation",
+    "pos": "37, 20",
+    "pictype": "动画",
+    "itemtype": 10,
+    "color": "White",
+    "show_num": 1,
+    "para": 0,
+    "w": 4,
+    "h": 25
+  },
+  {
+    "path": "Resource2/AMPM",
+    "pos": "61, 48",
+    "pictype": "AMPM",
+    "itemtype": 19,
+    "color": "255, 255, 255",
+    "show_num": 1,
+    "para": 0,
+    "w": 13,
+    "h": 7
+  }
+]

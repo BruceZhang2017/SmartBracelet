@@ -18,8 +18,6 @@
 
 - (instancetype)initWithFrame:(CGRect)frame{
     if (self = [super initWithFrame:frame]){
-        self.font = [UIFont systemFontOfSize: 60];
-        self.textColor = [UIColor whiteColor];
         self.textAlignment = NSTextAlignmentCenter;
     }
     return self;
@@ -41,15 +39,25 @@
 - (void)countDown{
     if (_count > 0){
         self.text = [NSString stringWithFormat:@"%d",_count];
-        CAKeyframeAnimation *anima2 = [CAKeyframeAnimation animationWithKeyPath:@"transform.scale"];
-        //字体变化大小
-        NSValue *value1 = [NSNumber numberWithFloat:3.0f];
-        NSValue *value2 = [NSNumber numberWithFloat:2.0f];
-        NSValue *value3 = [NSNumber numberWithFloat:0.7f];
-        NSValue *value4 = [NSNumber numberWithFloat:1.0f];
-        anima2.values = @[value1,value2,value3,value4];
-        anima2.duration = 0.4;
-        [self.layer addAnimation:anima2 forKey:@"scalsTime"];
+        CABasicAnimation *opacityAnimation = [CABasicAnimation animationWithKeyPath:@"opacity"];
+        opacityAnimation.fromValue = [NSNumber numberWithFloat:1.0];
+        opacityAnimation.toValue = [NSNumber numberWithFloat:0.2];
+        
+        CABasicAnimation *scaleAnimation = [CABasicAnimation animationWithKeyPath:@"transform.scale"];
+        scaleAnimation.fromValue = [NSNumber numberWithFloat:1.0];
+        scaleAnimation.toValue = [NSNumber numberWithFloat:3.0];
+        scaleAnimation.duration = 1.0f;
+        scaleAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut];
+
+        CAAnimationGroup *animationGroup = [CAAnimationGroup animation];
+        animationGroup.duration = 1.0f;
+        animationGroup.autoreverses = YES;   //是否重播，原动画的倒播
+        animationGroup.repeatCount = NSNotFound;//HUGE_VALF;     //HUGE_VALF,源自math.h
+        animationGroup.removedOnCompletion = YES;
+        [animationGroup setAnimations:[NSArray arrayWithObjects:opacityAnimation, scaleAnimation, nil]];
+        
+        [self.layer addAnimation:animationGroup forKey:@"animationGroup"];
+        
         _count -= 1;
     }else {
         [_timer invalidate];

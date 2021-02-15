@@ -1,0 +1,134 @@
+[
+  {
+    "path": "\\背景图片\\表盘1.bmp",
+    "pos": "0, 0",
+    "pictype": "背景图片",
+    "itemtype": 254,
+    "color": "Black",
+    "show_num": 1,
+    "para": 0,
+    "w": 80,
+    "h": 160
+  },
+  {
+    "path": "\\图片数组\\蓝牙",
+    "pos": "4, 5",
+    "pictype": "蓝牙",
+    "itemtype": 8,
+    "color": "White",
+    "show_num": 1,
+    "para": 8,
+    "w": 9,
+    "h": 11
+  },
+  {
+    "path": "\\图片数组\\日期",
+    "pos": "20, 6",
+    "pictype": "日期",
+    "itemtype": 18,
+    "color": "White",
+    "show_num": 5,
+    "para": 4,
+    "w": 40,
+    "h": 10
+  },
+  {
+    "path": "\\图片数组\\电池",
+    "pos": "63, 7",
+    "pictype": "电池",
+    "itemtype": 11,
+    "color": "White",
+    "show_num": 1,
+    "para": 7,
+    "w": 13,
+    "h": 8
+  },
+  {
+    "path": "\\图片数组\\时十",
+    "pos": "2, 21",
+    "pictype": "小时十位",
+    "itemtype": 14,
+    "color": "White",
+    "show_num": 1,
+    "para": 6,
+    "w": 18,
+    "h": 26
+  },
+  {
+    "path": "\\图片数组\\时个",
+    "pos": "19, 21",
+    "pictype": "小时个位",
+    "itemtype": 15,
+    "color": "White",
+    "show_num": 1,
+    "para": 5,
+    "w": 18,
+    "h": 26
+  },
+  {
+    "path": "\\图片数组\\冒号动画",
+    "pos": "37, 21",
+    "pictype": "动画",
+    "itemtype": 10,
+    "color": "White",
+    "show_num": 1,
+    "para": 1,
+    "w": 6,
+    "h": 26
+  },
+  {
+    "path": "\\图片数组\\分时",
+    "pos": "43, 21",
+    "pictype": "分钟十位",
+    "itemtype": 16,
+    "color": "White",
+    "show_num": 1,
+    "para": 3,
+    "w": 18,
+    "h": 26
+  },
+  {
+    "path": "\\图片数组\\分个",
+    "pos": "60, 21",
+    "pictype": "分钟个位",
+    "itemtype": 17,
+    "color": "White",
+    "show_num": 1,
+    "para": 2,
+    "w": 18,
+    "h": 26
+  },
+  {
+    "path": "\\图片数组\\AMPM",
+    "pos": "62, 49",
+    "pictype": "AMPM",
+    "itemtype": 19,
+    "color": "255, 255, 255",
+    "show_num": 1,
+    "para": 0,
+    "w": 19,
+    "h": 9
+  },
+  {
+    "path": "\\图片\\计步.png",
+    "pos": "59, 125",
+    "pictype": "图片",
+    "itemtype": 253,
+    "color": "255, 255, 255",
+    "show_num": 1,
+    "para": 0,
+    "w": 14,
+    "h": 15
+  },
+  {
+    "path": "\\图片数组\\计步",
+    "pos": "34, 143",
+    "pictype": "计步",
+    "itemtype": 6,
+    "color": "255, 255, 255",
+    "show_num": 5,
+    "para": 9,
+    "w": 40,
+    "h": 12
+  }
+]

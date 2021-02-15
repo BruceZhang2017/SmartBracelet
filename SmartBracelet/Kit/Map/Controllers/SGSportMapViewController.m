@@ -43,8 +43,8 @@
     mapView.allowsBackgroundLocationUpdates = YES;
     mapView.pausesLocationUpdatesAutomatically = NO;
     mapView.delegate = self;
-    mapView.zoomLevel = 18;
-    mapView.maxZoomLevel = 19;
+    mapView.zoomLevel = 15;
+    mapView.maxZoomLevel = 18;
 }
 
 #pragma mark - MAMapView代理方法

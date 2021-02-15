@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 #import "SGSportTracking.h"
 @interface SGSportingViewController : UIViewController
+@property (weak, nonatomic) IBOutlet UILabel *sportTypeLabel;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *bottomHeightLConstraint;
 
 @property (weak, nonatomic) IBOutlet UILabel *distanceLabel;
 @property (weak, nonatomic) IBOutlet UILabel *timeLabel;

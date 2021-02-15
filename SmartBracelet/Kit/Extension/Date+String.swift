@@ -64,11 +64,20 @@ extension Date {
         return dateFormatter.string(from: self)
     }
     
+    /// 一天的最初时刻
     func zeroTimeStamp() -> TimeInterval {
         let calendar = Calendar.current
         let components = calendar.dateComponents([.year, .month, .day], from: self)
         let zeroDate = calendar.date(from: components)
         return zeroDate?.timeIntervalSince1970 ?? 0
+    }
+    
+    /// 一天的最后时刻
+    func lastTimeStamp() -> TimeInterval {
+        let calendar = Calendar.current
+        let components = calendar.dateComponents([.year, .month, .day], from: self)
+        let zeroDate = calendar.date(from: components)
+        return (zeroDate?.timeIntervalSince1970 ?? 0 + 24 * 60 * 60 - 1)
     }
     
     func daysBetweenDate(toDate: Date) -> Int {
@@ -83,5 +92,13 @@ class DateHelper: NSObject {
         let format = DateFormatter()
         format.dateFormat = "yyyy-MM-dd HH:mm:ss"
         return format.date(from: str)!
+    }
+    
+    func ymdHmsToDate(y: Int, m: Int, d: Int, h: Int, m2: Int, s: Int) -> Int {
+        let str = "\(y)-\(String(format: "%02d", m))-\(String(format: "%02d", d)) \(String(format: "%02d", h)):\(String(format: "%02d", m2)):\(String(format: "%02d", s))"
+        let format = DateFormatter()
+        format.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        let data = format.date(from: str)!
+        return Int(data.timeIntervalSince1970)
     }
 }

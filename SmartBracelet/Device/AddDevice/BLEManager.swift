@@ -22,6 +22,7 @@ class BLEManager: NSObject {
     var stepArray: [[StepModel]] = Array(repeating: [], count: 7)
     var heartArray: [HeartModel] = []
     var bloodArray: [BloodModel] = []
+    var alarmArray: [WUAlarmClock] = [] // 闹钟
     var measureAsync: Async?
     
     override init() {
@@ -195,6 +196,7 @@ class BLEManager: NSObject {
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotify(_:)), name: WristbandNotifyKeys.setOrRead_Switch, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotify(_:)), name: WristbandNotifyKeys.setOrRead_SitParam, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotify(_:)), name: WristbandNotifyKeys.syncEle, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleNotify(_:)), name: WristbandNotifyKeys.setOrRead_Alarm, object: nil) // 闹钟读取和设置
         #if WeiZhongYun
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotify(_:)), name: WristbandNotifyKeys.powerSwitch, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotify(_:)), name: WristbandNotifyKeys.telephoneSMS, object: nil)
@@ -384,6 +386,18 @@ class BLEManager: NSObject {
             dump(bleSelf.userInfo)
         }
         #endif
+        if notify.name == WristbandNotifyKeys.setOrRead_Alarm { // 闹钟读取、设置
+            let model = notify.object as! WUAlarmClock
+            if model.weekday > 0 {
+                alarmArray.append(model)
+            }
+            if model.clockId == 4 {
+                DispatchQueue.main.async { // 返回主线程刷新
+                    NotificationCenter.default.post(name: Notification.Name.Alarm, object: nil)
+                }
+            }
+            dump(model)
+        }
     }
 }
 

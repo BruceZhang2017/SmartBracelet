@@ -31,6 +31,8 @@ enum DeivceNotify: UInt8 {
     case sync = 0xF4
 }
 
+var baseTime = 0
+
 class CMDData: NSObject {
     
     public func setProfile() -> Data {
@@ -182,12 +184,12 @@ class CMDData: NSObject {
         return data
     }
     
-    public func confirmationOfReceivingRecords() -> Data {
+    public func confirmationOfReceivingRecords(seq: Int) -> Data {
         var data = Data(repeating: 0x00, count: 20)
         data[0] = Command.sync.rawValue
         data[1] = 0x02 // Confirmation of receiving records
-        data[2] = 0x01 // Records package sequence number, 0x01, 0x02, means No. 513.
-        data[3] = 0x02
+        data[2] = UInt8(seq & 0xFF) // Records package sequence number, 0x01, 0x02, means No. 513.
+        data[3] = UInt8((seq >> 8) & 0xFF)
         return data
     }
     
@@ -246,15 +248,15 @@ class CMDData: NSObject {
         } else if data[0] == DeivceNotify.sync.rawValue { //  Sync Notify
             if data[1] == 0x01 { // Record base time
                 recordBaseTimeNotify(data: data)
-            } else if data[2] == 0x02 { // Records
+            } else if data[1] == 0x02 { // Records
                 recordsNotify(data: data)
-            } else if data[2] == 0x03 { // Current state
+            } else if data[1] == 0x03 { // Current state
                 currentStateNotify(data: data)
-            } else if data[2] == 0x05 { // Record base time
+            } else if data[1] == 0x05 { // Record base time
                 recordBaseTimeForHRBPNotify(data: data)
-            } else if data[2] == 0x06 { // Records for hr/bp
+            } else if data[1] == 0x06 { // Records for hr/bp
                 recordsForHRBPNotify(data: data)
-            } else if data[2] == 0x07 { // End sync
+            } else if data[1] == 0x07 { // End sync
                 endSyncForHRBPNotify(data: data)
             }
         }
@@ -287,6 +289,7 @@ class CMDData: NSObject {
         let hour = Int(data[5])
         let minute = Int(data[6])
         let second = Int(data[7])
+        baseTime = DateHelper().ymdHmsToDate(y: 2000 + year, m: month, d: day, h: hour, m2: minute, s: second)
         print("手环返回的时间：\(2000 + year)-\(month)-\(day) \(hour):\(minute):\(second)")
     }
     
@@ -297,27 +300,70 @@ class CMDData: NSObject {
         print("How much records in this Seq, range \(num)")
         if num >= 1 {
             let record1 = Int(data[5]) // State: occupying 1 byte 0: Stationary 1: Walking 2: Running 3: Sleep 4: Awake 5: Restless 6~: Others, depends on Algo
-            let record1Minutes = Int(data[7]) * 60 + Int(data[6])
+            let record1Minutes = Int(data[7]) * 255 + Int(data[6])
             let record1Step = Int(data[9]) * 255 + Int(data[8])
             print("record1: \(record1) record1Minutes: \(record1Minutes) record1Step: \(record1Step)")
+            if let model = BLECurrentManager.sharedInstall.getCurrentDevice(), record1Step > 0 {
+                let stepModel = DStepModel()
+                stepModel.mac = model.mac
+                stepModel.uuidString = model.uuidString
+                stepModel.timeStamp = baseTime + record1Minutes * 60
+                stepModel.step = record1Step
+                stepModel.state = record1
+                do {
+                    try stepModel.er.save(update: true)
+                    print("保存成功")
+                } catch {
+                    print("保存失败：\(error.localizedDescription)")
+                }
+                
+            }
         }
         if num >= 2 {
             let record2 = Int(data[10])
-            let record2Minutes = Int(data[12]) * 60 + Int(data[11])
+            let record2Minutes = Int(data[12]) * 255 + Int(data[11])
             let record2Step = Int(data[14]) * 255 + Int(data[13])
             print("record2: \(record2) record2Minutes: \(record2Minutes) record2Step: \(record2Step)")
+            if let model = BLECurrentManager.sharedInstall.getCurrentDevice(), record2Step > 0  {
+                let stepModel = DStepModel()
+                stepModel.mac = model.mac
+                stepModel.uuidString = model.uuidString
+                stepModel.timeStamp = baseTime + record2Minutes * 60
+                stepModel.step = record2Step
+                stepModel.state = record2
+                do {
+                    try stepModel.er.save(update: true)
+                    print("保存成功")
+                } catch {
+                    print("保存失败：\(error.localizedDescription)")
+                }
+            }
         }
         if num > 2 {
             let record3 = Int(data[15])
-            let record3Minutes = Int(data[17]) * 60 + Int(data[16])
+            let record3Minutes = Int(data[17]) * 255 + Int(data[16])
             let record3Step = Int(data[19]) * 255 + Int(data[18])
             print("record3: \(record3) record3Minutes: \(record3Minutes) record3Step: \(record3Step)")
+            if let model = BLECurrentManager.sharedInstall.getCurrentDevice(), record3Step > 0  {
+                let stepModel = DStepModel()
+                stepModel.mac = model.mac
+                stepModel.uuidString = model.uuidString
+                stepModel.timeStamp = baseTime + record3Minutes * 60
+                stepModel.step = record3Step
+                stepModel.state = record3
+                do {
+                    try stepModel.er.save(update: true)
+                    print("保存成功")
+                } catch {
+                    print("保存失败：\(error.localizedDescription)")
+                }
+            }
         }
     }
     
     private func currentStateNotify(data: Data) {
         let record1 = Int(data[2])
-        let record1Minutes = Int(data[4]) * 60 + Int(data[3])
+        let record1Minutes = Int(data[4]) * 255 + Int(data[3])
         let record1Step = Int(data[6]) * 255 + Int(data[5])
         print("record1: \(record1) record1Minutes: \(record1Minutes) record1Step: \(record1Step)")
         let year = Int(data[7])
@@ -327,6 +373,8 @@ class CMDData: NSObject {
         let minute = Int(data[11])
         let second = Int(data[12])
         print("手环返回的currnet state时间：\(2000 + year)-\(month)-\(day) \(hour):\(minute):\(second)")
+        DeviceManager.shared.refreshSteps()
+        NotificationCenter.default.post(name: Notification.Name("HealthViewController"), object: "step")
     }
     
     private func recordBaseTimeForHRBPNotify(data: Data) {

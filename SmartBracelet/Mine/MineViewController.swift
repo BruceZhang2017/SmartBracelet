@@ -52,6 +52,56 @@ class MineViewController: BaseViewController {
         userNameLabel.text = UserManager.sharedInstall.user?.username ?? "未设置名称"
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        let deviceCount = DeviceManager.shared.devices.count
+        var tem = false
+        if deviceCount > 0 {
+            for item in DeviceManager.shared.devices {
+                if item.mac == lastestDeviceMac {
+                    tem = true
+                    deviceButton.setTitle(item.name, for: .normal)
+                    btButton.setImage(UIImage(named: "content_blueteeth_link"), for: .normal)
+                    btButton.setTitle("蓝牙已连接", for: .normal)
+                    let deviceInfo = DeviceManager.shared.deviceInfo[item.uuidString]
+                    if deviceInfo != nil {
+                        if deviceInfo?.battery ?? 0 < 5 {
+                            batteryButton.setImage(UIImage(named: "conten_battery_runout"), for: .normal)
+                            batteryButton.setTitle("剩余电量不足5%，请及时充电", for: .normal)
+                        } else {
+                            batteryButton.setImage(UIImage(named: "conten_battery_full"), for: .normal)
+                            batteryButton.setTitle("剩余电量\(deviceInfo?.battery ?? 0)%", for: .normal)
+                        }
+                    } else {
+                        batteryButton.setImage(UIImage(named: "conten_battery_null"), for: .normal)
+                        batteryButton.setTitle("剩余电量未知", for: .normal)
+                    }
+                    break
+                }
+            }
+        }
+        if !tem {
+            if bleSelf.bleModel.mac == lastestDeviceMac {
+                deviceButton.setTitle(bleSelf.bleModel.name, for: .normal)
+                btButton.setImage(UIImage(named: "content_blueteeth_link"), for: .normal)
+                btButton.setTitle("蓝牙已连接", for: .normal)
+                if bleSelf.batteryLevel > 0 {
+                    if bleSelf.batteryLevel < 5 {
+                        batteryButton.setImage(UIImage(named: "conten_battery_runout"), for: .normal)
+                        batteryButton.setTitle("剩余电量不足5%，请及时充电", for: .normal)
+                    } else {
+                        batteryButton.setImage(UIImage(named: "conten_battery_full"), for: .normal)
+                        batteryButton.setTitle("剩余电量\(bleSelf.batteryLevel ?? 0)%", for: .normal)
+                    }
+                } else {
+                    batteryButton.setImage(UIImage(named: "conten_battery_null"), for: .normal)
+                    batteryButton.setTitle("剩余电量未知", for: .normal)
+                }
+                tem = true
+            }
+        }
+    }
+    
     @IBAction func handleEvent(_ sender: Any) {
         guard let recognizer = sender as? UITapGestureRecognizer else {
             return
@@ -148,6 +198,23 @@ class MineViewController: BaseViewController {
         otaVC.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(otaVC, animated: true)
     }
+    
+    @IBAction func pushToAddDevice(_ sender: Any) {
+        let count = DeviceManager.shared.devices.count + (bleSelf.bleModel.mac.count > 0 ? 1 : 0)
+        let storyboard = UIStoryboard(name: "Device", bundle: nil)
+        if count == 0 {
+            let vc = storyboard.instantiateViewController(withIdentifier: "DeviceSearchViewController")
+            vc.title = "添加设备"
+            vc.hidesBottomBarWhenPushed = true
+            navigationController?.pushViewController(vc, animated: true)
+        } else {
+            let vc = storyboard.instantiateViewController(withIdentifier: "DeviceListViewController")
+            vc.title = "设备切换"
+            vc.hidesBottomBarWhenPushed = true
+            navigationController?.pushViewController(vc, animated: true)
+        }
+    }
+    
 }
 
 extension String {

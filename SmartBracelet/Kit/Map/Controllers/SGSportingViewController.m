@@ -25,20 +25,21 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
+    self.title = @"运动";
     [self setupMapView];
+    if ([[UIScreen mainScreen] bounds].size.height > 667) {
+        self.bottomHeightLConstraint.constant = 250;
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [self.navigationController.navigationBar setHidden:true];
     mTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(handleTimer:) userInfo:nil repeats:true];
     [[NSRunLoop currentRunLoop] addTimer:mTimer forMode:NSRunLoopCommonModes];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    [self.navigationController.navigationBar setHidden:false];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [mTimer invalidate];
     mTimer = nil;
@@ -67,12 +68,12 @@
         case 1:
             if (_mapViewController.sportTracking.sportState == SGSportStatePause) {
                 _mapViewController.sportTracking.sportState = SGSportStateContinue;
-                [self.stopButton setImage:[UIImage imageNamed:@"pause"] forState:UIControlStateNormal];
+                [self.stopButton setImage:[UIImage imageNamed:@"icon_pause"] forState:UIControlStateNormal];
                 self.stopLabel.text = @"暂停";
                 [mTimer setFireDate:[NSDate date]];
             } else {
                 _mapViewController.sportTracking.sportState = SGSportStatePause;
-                [self.stopButton setImage:[UIImage imageNamed:@"start"] forState:UIControlStateNormal];
+                [self.stopButton setImage:[UIImage imageNamed:@"icon_start"] forState:UIControlStateNormal];
                 self.stopLabel.text = @"继续";
                 [mTimer setFireDate:[NSDate distantFuture]];
             }
@@ -100,6 +101,14 @@
     
     // 2. 设置运动轨迹模型
     _mapViewController.sportTracking = [[SGSportTracking alloc] initWithType:_sportType state:SGSportStateContinue];
+    
+    if (_sportType == SGSportTypeRun) {
+        self.sportTypeLabel.text = @"跑步";
+    } else if (_sportType == SGSportTypeBike) {
+        self.sportTypeLabel.text = @"骑行";
+    } else {
+        self.sportTypeLabel.text = @"步行";
+    }
 }
 
 @end

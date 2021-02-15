@@ -55,6 +55,7 @@ class DeviceSearchViewController: BaseViewController {
                 } else {
                     print("将设备添加到数据库里面")
                     try? currentModel?.er.save(update: true)
+                    DeviceManager.shared.initializeDevices() // 重新刷新绑定的设备
                 }
             }
             ProgressHUD.dismiss()

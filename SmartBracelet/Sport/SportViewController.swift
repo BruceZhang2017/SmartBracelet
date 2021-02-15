@@ -15,6 +15,7 @@ import SnapKit
 import Segmentio
 
 class SportViewController: BaseViewController {
+    @IBOutlet weak var startButton: UIButton!
     @IBOutlet weak var totalValueLabel: UILabel!
     @IBOutlet weak var mapSuperView: UIView!
     @IBOutlet weak var segmentioView: Segmentio!
@@ -27,7 +28,7 @@ class SportViewController: BaseViewController {
         AMapServices.shared().enableHTTPS = true
         mapView = MAMapView(frame: .zero)
         mapSuperView.addSubview(mapView)
-        mapView.zoomLevel = 16
+        mapView.zoomLevel = 14
         mapView.maxZoomLevel = 18
         mapView.snp.makeConstraints {
             $0.edges.equalTo(mapSuperView)
@@ -39,14 +40,13 @@ class SportViewController: BaseViewController {
         maskView.snp.makeConstraints {
             $0.edges.equalTo(mapView)
         }
-    
+         
         mapView.isShowsUserLocation = true
         mapView.userTrackingMode = .follow
         
         let run = SegmentioItem(title: "跑步", image: nil)
         let bike = SegmentioItem(title: "骑行", image: nil)
-        let climb = SegmentioItem(title: "登山", image: nil)
-        let foot = SegmentioItem(title: "徒步", image: nil)
+        let foot = SegmentioItem(title: "步行", image: nil)
         let state = SegmentioStates(
                     defaultState: SegmentioState(
                         backgroundColor: .white,
@@ -77,19 +77,26 @@ class SportViewController: BaseViewController {
         )
         
         segmentioView.setup(
-            content: [run, bike, climb, foot],
+            content: [run, bike, foot],
             style: .onlyLabel,
             options: options
         )
         segmentioView.selectedSegmentioIndex = 0
         segmentioView.valueDidChange = {
-            segmentio, segmentIndex in
-            
+            [weak self] segmentio, segmentIndex in
+            if segmentIndex == 0 {
+                self?.startButton.setImage(UIImage(named: "run"), for: .normal)
+            } else if segmentIndex == 1 {
+                self?.startButton.setImage(UIImage(named: "bike"), for: .normal)
+            } else {
+                self?.startButton.setImage(UIImage(named: "walk"), for: .normal)
+            }
         }
         
         setTargetButton.setImagePosition(at: .right, space: 3)
         
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: Notification.Name("SportViewController"), object: nil)
+        startButton.setImage(UIImage(named: "run"), for: .normal)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -105,10 +112,17 @@ class SportViewController: BaseViewController {
             UserDefaults.standard.setValue(0, forKey: "distance")
             UserDefaults.standard.synchronize()
         }
+        mapView.delegate = self
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        mapView.setZoomLevel(14, animated: true)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        mapView.delegate = nil 
     }
     
     deinit {
@@ -140,7 +154,7 @@ class SportViewController: BaseViewController {
         let label = HHCountdowLabel(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: ScreenHeight))
         label?.textAlignment = .center
         label?.textColor = .white
-        label?.font = UIFont.boldSystemFont(ofSize: 200)
+        label?.font = UIFont.init(name: "Helvetica-BoldOblique", size: 200)
         bgView.addSubview(label!)
         bgView.addVGradientLayer(at: CGRect(x: 0, y: 0, width: ScreenWidth, height: ScreenHeight), colors: [UIColor.k64F2B4, UIColor.k08CCCC])
         label?.startCount({
@@ -166,6 +180,23 @@ class SportViewController: BaseViewController {
         vc.hidesBottomBarWhenPushed = true 
         navigationController?.pushViewController(vc, animated: true)
     }
+    
+    @IBAction func addDevice(_ sender: Any) {
+        let count = DeviceManager.shared.devices.count + (bleSelf.bleModel.mac.count > 0 ? 1 : 0)
+        let storyboard = UIStoryboard(name: "Device", bundle: nil)
+        if count == 0 {
+            let vc = storyboard.instantiateViewController(withIdentifier: "DeviceSearchViewController")
+            vc.title = "添加设备"
+            vc.hidesBottomBarWhenPushed = true
+            navigationController?.pushViewController(vc, animated: true)
+        } else {
+            let vc = storyboard.instantiateViewController(withIdentifier: "DeviceListViewController")
+            vc.title = "设备切换"
+            vc.hidesBottomBarWhenPushed = true
+            navigationController?.pushViewController(vc, animated: true)
+        }
+    }
+    
 }
 
 extension SportViewController: MAMapViewDelegate {

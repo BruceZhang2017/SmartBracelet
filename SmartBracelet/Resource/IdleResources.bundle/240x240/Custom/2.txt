@@ -1,0 +1,101 @@
+[
+  {
+    "path": "/Resource2/background/0.png",
+    "pos": "0, 0",
+    "pictype": "背景图片",
+    "itemtype": 254,
+    "color": "Black",
+    "show_num": 1,
+    "para": 0,
+    "w": 240,
+    "h": 240
+  },
+ {
+     "path": "/Resource2/time/hour1",
+     "pos": "22, 53",
+     "pictype": "时十",
+     "itemtype": 14,
+     "color": "White",
+     "show_num": 1,
+     "para": 0,
+     "w": 96,
+     "h": 57
+   },
+   {
+       "path": "/Resource2/time/hour2",
+       "pos": "70, 53",
+       "pictype": "时个",
+       "itemtype": 15,
+       "color": "White",
+       "show_num": 1,
+       "para": 0,
+       "w": 96,
+       "h": 57
+     },
+   {
+     "path": "/Resource2/time/minute1",
+     "pos": "133, 53",
+     "pictype": "分十",
+     "itemtype": 16,
+     "color": "White",
+     "show_num": 1,
+     "para": 0,
+     "w": 96,
+     "h": 57
+   },
+    {
+       "path": "/Resource2/time/minute2",
+       "pos": "181, 53",
+       "pictype": "分个",
+       "itemtype": 17,
+       "color": "White",
+       "show_num": 1,
+       "para": 0,
+       "w": 96,
+       "h": 57
+     },
+  {
+    "path": "/Resource2/shoes/0.png",
+    "pos": "169, 157",
+    "pictype": "图片",
+    "itemtype": 253,
+    "color": "White",
+    "show_num": 1,
+    "para": 1,
+    "w": 0,
+    "h": 0
+  },
+  {
+    "path": "/Resource2/number",
+    "pos": "147, 192",
+    "pictype": "计步",
+    "itemtype": 6,
+    "color": "White",
+    "show_num": 5,
+    "para": 5,
+    "w": 70,
+    "h": 19
+  },
+  {
+    "path": "/Resource2/bluetooth",
+    "pos": "4, 6",
+    "pictype": "蓝牙",
+    "itemtype": 8,
+    "color": "White",
+    "show_num": 1,
+    "para": 3,
+    "w": 30,
+    "h": 22
+  },
+  {
+    "path": "/Resource2/battery",
+    "pos": "190, 6",
+    "pictype": "电池",
+    "itemtype": 11,
+    "color": "White",
+    "show_num": 1,
+    "para": 3,
+    "w": 41,
+    "h": 18
+  }
+]
