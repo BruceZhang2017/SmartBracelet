@@ -20,5 +20,6 @@ pod 'Kingfisher'
 pod 'XCGLogger'
 pod 'RealmSwift'
 pod 'Realm'
+pod 'Toast'
 
 end

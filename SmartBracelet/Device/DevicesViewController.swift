@@ -28,6 +28,7 @@ class DevicesViewController: BaseViewController {
         super.viewDidAppear(animated)
     }
 
+    /// 表盘管理
     @IBAction func pushToClockManage(_ sender: Any) {
         let storyboard = UIStoryboard(name: "Device", bundle: nil)
         let vc = storyboard.instantiateViewController(withIdentifier: "ClockManageViewController")
@@ -76,7 +77,9 @@ extension DevicesViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: .kCellIdentifier, for: indexPath) as! ClockBCollectionViewCell
-        
+        let bundle = Bundle(path: Bundle.main.path(forResource: "IdleResources", ofType: "bundle")!)
+        cell.clockImageView.image = UIImage(contentsOfFile: bundle!.path(forResource: "Static", ofType: nil, inDirectory: "80x160")! + "/\(indexPath.row + 1).png")
+        cell.clockNameLabel.text = "PFm5-\(indexPath.row + 1)"
         return cell
     }
     
@@ -85,7 +88,7 @@ extension DevicesViewController: UICollectionViewDataSource {
 
 extension DevicesViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
+        collectionView.deselectItem(at: indexPath, animated: true)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

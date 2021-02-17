@@ -54,6 +54,14 @@ class MineViewController: BaseViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        if BLECurrentManager.sharedInstall.isHavenConnectedDevice() == false && bleSelf.isConnected == false {
+            deviceButton.setTitle("未连接设备", for: .normal)
+            btButton.setImage(UIImage(named: "content_blueteeth_unlink"), for: .normal)
+            btButton.setTitle("蓝牙未连接", for: .normal)
+            batteryButton.setImage(UIImage(named: "conten_battery_null"), for: .normal)
+            batteryButton.setTitle("剩余电量未知", for: .normal)
+            return
+        }
         let deviceCount = DeviceManager.shared.devices.count
         var tem = false
         if deviceCount > 0 {
@@ -215,6 +223,12 @@ class MineViewController: BaseViewController {
         }
     }
     
+    @IBAction func pushToGrade(_ sender: Any) {
+        let sb = UIStoryboard(name: "Sport", bundle: nil)
+        let vc = sb.instantiateViewController(withIdentifier: "GradeViewController")
+        vc.hidesBottomBarWhenPushed = true
+        navigationController?.pushViewController(vc, animated: true)
+    }
 }
 
 extension String {

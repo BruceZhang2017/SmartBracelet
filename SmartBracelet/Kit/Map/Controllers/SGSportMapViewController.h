@@ -11,6 +11,8 @@
 @interface SGSportMapViewController : UIViewController
 
 //运动轨迹追踪模型
-@property(nonatomic,strong) SGSportTracking *sportTracking;
+@property(nonatomic, strong) SGSportTracking *sportTracking;
+
+- (void)saveLocalMapView: (NSString *)name;
 
 @end

@@ -56,6 +56,10 @@ class BLECurrentManager: NSObject {
         baby.cancelAllPeripheralsConnection()
     }
     
+    public func isHavenConnectedDevice() -> Bool {
+        return currentPer != nil 
+    }
+    
     public func getCurrentDevice() -> BLEModel? {
         if currentPer == nil {
             return nil

@@ -22,6 +22,7 @@ class SportViewController: BaseViewController {
     @IBOutlet weak var setTargetButton: UIButton!
     var target: TargetModel = TargetModel() // 目标设置内容
     var mapView: MAMapView!
+    var sportDataModel: SportDataModel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -96,6 +97,7 @@ class SportViewController: BaseViewController {
         setTargetButton.setImagePosition(at: .right, space: 3)
         
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: Notification.Name("SportViewController"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleNotificationForSportData(_:)), name: Notification.Name("SportData"), object: nil)
         startButton.setImage(UIImage(named: "run"), for: .normal)
     }
     
@@ -136,6 +138,25 @@ class SportViewController: BaseViewController {
         self.target = target
     }
     
+    @objc private func handleNotificationForSportData(_ notification: Notification) {
+        let obj = notification.object as? String ?? ""
+        if obj == "finished" {
+            try? sportDataModel?.er.save(update: true)
+        } else {
+            if obj.contains("&") {
+                let array = obj.split(separator: "&")
+                if array.count == 4 {
+                    sportDataModel?.avgSpeed = Float(Double(String(array[0])) ?? 0)
+                    sportDataModel?.maxSpeed = Float(Double(String(array[1])) ?? 0)
+                    sportDataModel?.duration = Float(Double(String(array[2])) ?? 0)
+                    sportDataModel?.distance = Float(Double(String(array[3])) ?? 0)
+                }
+            } else {
+                sportDataModel?.locations += obj
+            }
+        }
+    }
+    
     @IBAction func setTarget(_ sender: Any) {
         let storyboard = UIStoryboard(name: .kSport, bundle: nil)
         let vc = storyboard.instantiateViewController(withIdentifier: .kSetTargetBViewController) as! SetTargetBViewController
@@ -151,7 +172,7 @@ class SportViewController: BaseViewController {
         let bgView = UIView(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: ScreenHeight))
         tabBarController?.view.addSubview(bgView)
         tabBarController?.view.isUserInteractionEnabled = false
-        let label = HHCountdowLabel(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: ScreenHeight))
+        let label = HHCountdowLabel(frame: CGRect(x: 0, y: 0, width: ScreenWidth - 20, height: ScreenHeight))
         label?.textAlignment = .center
         label?.textColor = .white
         label?.font = UIFont.init(name: "Helvetica-BoldOblique", size: 200)
@@ -176,9 +197,12 @@ class SportViewController: BaseViewController {
         } else {
             vc.sportType = SGSportType(1)
         }
-        
-        vc.hidesBottomBarWhenPushed = true 
+        let timeStamp = Int(Date().timeIntervalSince1970)
+        vc.hidesBottomBarWhenPushed = true
+        vc.timeStamp = Int32(timeStamp)
         navigationController?.pushViewController(vc, animated: true)
+        sportDataModel = SportDataModel()
+        sportDataModel?.timeStamp = timeStamp
     }
     
     @IBAction func addDevice(_ sender: Any) {
@@ -197,6 +221,12 @@ class SportViewController: BaseViewController {
         }
     }
     
+    @IBAction func pushToSportRecord(_ sender: Any) {
+        let sb = UIStoryboard(name: "Sport", bundle: nil)
+        let vc = sb.instantiateViewController(withIdentifier: "SportRecordViewController") as! SportRecordViewController
+        vc.hidesBottomBarWhenPushed = true 
+        navigationController?.pushViewController(vc, animated: true)
+    }
 }
 
 extension SportViewController: MAMapViewDelegate {

@@ -5,12 +5,11 @@
       "scale" : "1x"
     },
     {
-      "filename" : "map_annotation_bike@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "map_annotation_bike@3x.png",
+      "filename" : "map_annotation_end@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

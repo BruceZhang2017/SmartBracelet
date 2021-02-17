@@ -8,10 +8,15 @@
 
 #import "SGSportingViewController.h"
 #import "SGSportMapViewController.h"
+#import "CircleProgressView.h"
+#import <Toast/Toast.h>
+#import "HBLockSliderView.h"
 
-@interface SGSportingViewController () {
+@interface SGSportingViewController ()<HBLockSliderDelegate> {
     NSTimer * mTimer;
     int count;
+    CircleProgressView* progressView;
+    HBLockSliderView * sliderView;
 }
 /**
  运动地图控制器
@@ -24,12 +29,17 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
     self.title = @"运动";
     [self setupMapView];
     if ([[UIScreen mainScreen] bounds].size.height > 667) {
         self.bottomHeightLConstraint.constant = 250;
     }
+    
+    UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc]
+                                               initWithTarget:self action:@selector(handleLongPress:)];
+    [self.longEndButton addGestureRecognizer:longPress];
+    
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@""] style:UIBarButtonItemStylePlain target:nil action:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -45,10 +55,39 @@
     mTimer = nil;
 }
 
+- (void)handleBack {
+    
+}
+
+-  (void)handleLongPress:(UILongPressGestureRecognizer* )sender {
+    if (sender.state == UIGestureRecognizerStateEnded) {
+        [self removeProgressView];
+        [self finishedSport];
+    } else if (sender.state == UIGestureRecognizerStateBegan){
+        [self addProgressView];
+    } else if (sender.state == UIGestureRecognizerStateCancelled) {
+        [self removeProgressView];
+    }
+}
+
+- (void) addProgressView {
+    progressView = [[CircleProgressView alloc] initWithFrame:CGRectMake(0, 0, 66, 66)];
+    [self.longEndButton addSubview:progressView];
+}
+
+- (void) removeProgressView {
+    if (progressView == nil) {
+        return;
+    }
+    [progressView removeFromSuperview];
+    progressView = nil;
+}
+
 - (void)handleTimer: (NSTimer *)timer {
     count += 1;
     double distance = _mapViewController.sportTracking.totalDistance;
     self.distanceLabel.text = [NSString stringWithFormat:@"%.2f", distance];
+    self.calLabel.text = [NSString stringWithFormat:@"%.2f", distance * 60 * 1.036];
     double speed = (1 / _mapViewController.sportTracking.avgSpeed) * 60 * 60;
     int total = (int)speed;
     int chi = total / 60;
@@ -62,13 +101,11 @@
 }
 
 - (IBAction)chengeSportState:(UIButton *)sender {
-    // 修改地图控制器的运动状态
-    _mapViewController.sportTracking.sportState = sender.tag;
     switch (sender.tag) {
         case 1:
             if (_mapViewController.sportTracking.sportState == SGSportStatePause) {
                 _mapViewController.sportTracking.sportState = SGSportStateContinue;
-                [self.stopButton setImage:[UIImage imageNamed:@"icon_pause"] forState:UIControlStateNormal];
+                [self.stopButton setImage:[UIImage imageNamed:@"pause"] forState:UIControlStateNormal];
                 self.stopLabel.text = @"暂停";
                 [mTimer setFireDate:[NSDate date]];
             } else {
@@ -79,14 +116,48 @@
             }
             break;
         default:
-            _mapViewController.sportTracking.sportState = SGSportStateFinish;
-            double distance = _mapViewController.sportTracking.totalDistance;
-            [[NSUserDefaults standardUserDefaults] setDouble:distance forKey:@"distance"];
-            [[NSUserDefaults standardUserDefaults] synchronize];
-            [self.navigationController popViewControllerAnimated:true];
+            [self addLockView];
             break;
     }
-    
+}
+
+- (void)addLockView {
+    sliderView = [[HBLockSliderView alloc] initWithFrame:CGRectMake(20, 25, [[UIScreen mainScreen] bounds].size.width - 20 * 2, 50)];
+    [sliderView setThumbBeginImage:[UIImage imageNamed:@"lock"] finishImage:[UIImage imageNamed:@"unlock"]];
+    [self.bottomView addSubview:sliderView];
+    sliderView.delegate = self;
+    [self.lockButton setHidden:YES];
+    [self.lockLabel setHidden: YES];
+    [self.stopButton setHidden:YES];
+    [self.stopLabel setHidden:YES];
+    [self.longEndButton setHidden:YES];
+    [self.longEndLabel setHidden: YES];
+}
+
+- (void)removeLockView {
+    [sliderView removeFromSuperview];
+    sliderView.delegate = nil;
+    sliderView = nil;
+    [self.lockButton setHidden:NO];
+    [self.lockLabel setHidden: NO];
+    [self.stopButton setHidden:NO];
+    [self.stopLabel setHidden:NO];
+    [self.longEndButton setHidden:NO];
+    [self.longEndLabel setHidden: NO];
+}
+
+- (void)finishedSport {
+    _mapViewController.sportTracking.sportState = SGSportStateFinish;
+    double distance = _mapViewController.sportTracking.totalDistance;
+    if (distance < 100) {
+        [self.view.window makeToast:@"运动距离过短，本次运动产生的数据将不保存"];
+    } else {
+        [[NSUserDefaults standardUserDefaults] setDouble:distance forKey:@"distance"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"SportData" object:@"finished"];
+        [_mapViewController saveLocalMapView: [NSString stringWithFormat:@"%d.png", self.timeStamp]];
+    }
+    [self.navigationController popViewControllerAnimated:true];
 }
 
 - (void)setupMapView {
@@ -109,6 +180,16 @@
     } else {
         self.sportTypeLabel.text = @"步行";
     }
+}
+
+- (void)sliderEndValueChanged:(HBLockSliderView *)slider {
+    if (slider.value == 1) {
+        [self removeLockView];
+    }
+}
+
+- (void)sliderValueChanging:(HBLockSliderView *)slider {
+    
 }
 
 @end

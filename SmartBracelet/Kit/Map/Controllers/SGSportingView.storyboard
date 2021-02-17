@@ -173,16 +173,15 @@
                                         <color key="textColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="o7u-kg-aau">
+                                    <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="o7u-kg-aau">
                                         <rect key="frame" x="309.5" y="19.5" width="66" height="66"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="66" id="0XI-4i-JCA"/>
                                             <constraint firstAttribute="width" constant="66" id="1pe-eJ-qv8"/>
                                         </constraints>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="10"/>
                                         <state key="normal" image="icon_end" backgroundImage="long_end"/>
-                                        <connections>
-                                            <action selector="chengeSportState:" destination="E1N-sh-0bB" eventType="touchUpInside" id="90Z-rG-cuD"/>
-                                        </connections>
+                                        <state key="highlighted" backgroundImage="long_end"/>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="长按结束" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="D1j-3B-VAZ">
                                         <rect key="frame" x="322" y="63" width="41" height="12"/>
@@ -253,9 +252,13 @@
                     </view>
                     <connections>
                         <outlet property="bottomHeightLConstraint" destination="vMq-fz-DhW" id="etx-pp-YdG"/>
+                        <outlet property="bottomView" destination="bhj-Pk-Jyi" id="Rzy-qF-MqL"/>
                         <outlet property="calLabel" destination="y5W-DN-vYa" id="x4I-Wc-Nfs"/>
                         <outlet property="distanceLabel" destination="57V-Bs-IV8" id="qXw-O7-N52"/>
-                        <outlet property="lockButton" destination="o7u-kg-aau" id="zww-nI-led"/>
+                        <outlet property="lockButton" destination="R7P-jR-54R" id="6ND-xR-AeW"/>
+                        <outlet property="lockLabel" destination="wUk-Bu-JTF" id="NYy-CT-5Bn"/>
+                        <outlet property="longEndButton" destination="o7u-kg-aau" id="QPZ-kx-zt4"/>
+                        <outlet property="longEndLabel" destination="D1j-3B-VAZ" id="N42-0P-Cw6"/>
                         <outlet property="speedLabel" destination="8ap-me-ufG" id="1bi-i7-zbj"/>
                         <outlet property="sportTypeLabel" destination="Iql-Ur-HMW" id="bbl-W2-MZc"/>
                         <outlet property="stopButton" destination="YwE-23-D2e" id="4iy-e2-bem"/>

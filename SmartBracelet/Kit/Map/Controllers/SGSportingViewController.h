@@ -20,5 +20,10 @@
 @property (weak, nonatomic) IBOutlet UIButton *stopButton;
 @property (weak, nonatomic) IBOutlet UILabel *stopLabel;
 @property (weak, nonatomic) IBOutlet UIButton *lockButton;
+@property (weak, nonatomic) IBOutlet UILabel *lockLabel;
+@property (weak, nonatomic) IBOutlet UIButton *longEndButton;
+@property (weak, nonatomic) IBOutlet UILabel *longEndLabel;
+@property (weak, nonatomic) IBOutlet UIView *bottomView;
+@property (assign, nonatomic) int timeStamp;
 
 @end

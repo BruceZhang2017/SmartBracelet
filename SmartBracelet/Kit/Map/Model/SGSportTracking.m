@@ -42,13 +42,13 @@ NSMutableArray <SGSportTrackingLine *>*_trackingLines;
     UIImage *image;
     switch (_sportType) {
         case SGSportTypeRun:
-            image = [UIImage imageNamed:@"map_annotation_run"];
+            image = [UIImage imageNamed:@"map_annotation_start"];
             break;
         case SGSportTypeWalk:
-            image = [UIImage imageNamed:@"map_annotation_walk"];
+            image = [UIImage imageNamed:@"map_annotation_start"];
             break;
         case SGSportTypeBike:
-            image = [UIImage imageNamed:@"map_annotation_bike"];
+            image = [UIImage imageNamed:@"map_annotation_start"];
             break;
     }
     
@@ -84,8 +84,8 @@ NSMutableArray <SGSportTrackingLine *>*_trackingLines;
     
     // 测试`总`时长 - `KVC` - sum 能够计算数组中的汇总数据，返回类型是 NSNumber
     //NSLog(@"%@ %@", [_trackingLines valueForKeyPath:@"@sum.time"], [[_trackingLines valueForKeyPath:@"@sum.time"] class]);
-    NSLog(@"%f - %f - %f - %f", self.avgSpeed, self.maxSpeed, self.totalTime, self.totalDistance);
-    
+    NSLog(@"数据为：%f - %f - %f - %f", self.avgSpeed, self.maxSpeed, self.totalTime, self.totalDistance);
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"SportData" object:[NSString stringWithFormat:@"%f&%f&%f&%f", self.avgSpeed, self.maxSpeed, self.totalTime, self.totalDistance]];
     // 3. 将当前位置设置成下一次的起始点
     _startLocation = location;
     

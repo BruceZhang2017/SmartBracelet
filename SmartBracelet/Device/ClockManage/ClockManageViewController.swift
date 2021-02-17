@@ -20,7 +20,6 @@ class ClockManageViewController: BaseViewController {
     @IBOutlet weak var contentView: UIView!
     @IBOutlet weak var contentViewWidthConstraint: NSLayoutConstraint!
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "表盘管理"
@@ -65,11 +64,21 @@ class ClockManageViewController: BaseViewController {
             [weak self] segmentio, segmentIndex in
             self?.scrollView.contentOffset = CGPoint(x: Int(ScreenWidth) * segmentIndex, y: 0)
         }
+        automaticallyAdjustsScrollViewInsets = false
+        if #available(iOS 11.0, *) {
+            scrollView.contentInsetAdjustmentBehavior = .never
+        } else {
+            // Fallback on earlier versions
+        }
+        scrollView.bounces = false
         
         setupUI()
     }
     
     private func setupUI() {
+        if contentView.subviews.count >= 2 {
+            return
+        }
         let storyboard = UIStoryboard(name: "Device", bundle: nil)
         let myClockVC = storyboard.instantiateViewController(withIdentifier: "MyClockViewController") as! MyClockViewController
         contentView.addSubview(myClockVC.view)
@@ -88,7 +97,6 @@ class ClockManageViewController: BaseViewController {
             $0.left.equalTo(myClockVC.view.snp.right)
             $0.width.equalTo(ScreenWidth)
             $0.top.bottom.equalToSuperview()
-            $0.right.equalToSuperview()
         }
         contentViewWidthConstraint.constant = ScreenWidth * 2
     }

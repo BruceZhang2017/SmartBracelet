@@ -9,6 +9,7 @@
 import UIKit
 import IQKeyboardManagerSwift
 import XCGLogger
+import RealmSwift
 
 let log = XCGLogger()
 
@@ -17,6 +18,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        configRealm()
         AMapServices.shared().apiKey = "0ed08fc41dc5bd1adc43b9189af816f7"
         window?.backgroundColor = UIColor.white
         IQKeyboardManager.shared.enable = true
@@ -43,9 +45,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     private func setupConfig() {
         UINavigationBar.appearance().shadowImage = UIImage()
+        UINavigationBar.appearance().setBackgroundImage(UIImage(), for: .default)
         UINavigationBar.appearance().tintColor = UIColor.colorWithRGB(rgbValue: 0x898989)
         UITabBarItem.appearance().setTitleTextAttributes([.foregroundColor: UIColor.colorWithRGB(rgbValue: 0x0FC08D)], for: .selected)
         UITabBarItem.appearance().setTitleTextAttributes([.foregroundColor: UIColor.colorWithRGB(rgbValue: 0x818181)], for: .normal)
+    }
+    
+    /// 配置数据库
+    private func configRealm() {
+        /// 如果要存储的数据模型属性发生变化,需要配置当前版本号比之前大
+        let dbVersion : UInt64 = 2
+        let docPath = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.documentDirectory, FileManager.SearchPathDomainMask.userDomainMask, true)[0] as String
+        let dbPath = docPath.appending("/bracelet.realm")
+        let config = Realm.Configuration(fileURL: URL.init(string: dbPath), inMemoryIdentifier: nil, syncConfiguration: nil, encryptionKey: nil, readOnly: false, schemaVersion: dbVersion, migrationBlock: { (migration, oldSchemaVersion) in
+            
+        }, deleteRealmIfMigrationNeeded: false, shouldCompactOnLaunch: nil, objectTypes: nil)
+        Realm.Configuration.defaultConfiguration = config
     }
 }
 

@@ -17,6 +17,7 @@
 @implementation SGSportMapViewController{
     /// 起始位置
     CLLocation *_startLocation;
+    MAMapView *mapView;
 }
 
 
@@ -34,7 +35,7 @@
 
 ///添加地图视图
 - (void)setupMapView {
-    MAMapView *mapView = [[MAMapView alloc] initWithFrame:self.view.bounds];
+    mapView = [[MAMapView alloc] initWithFrame:self.view.bounds];
     ///把地图添加至view
     [self.view addSubview:mapView];
     mapView.showsScale = NO;
@@ -43,8 +44,22 @@
     mapView.allowsBackgroundLocationUpdates = YES;
     mapView.pausesLocationUpdatesAutomatically = NO;
     mapView.delegate = self;
-    mapView.zoomLevel = 15;
+    mapView.zoomLevel = 17;
     mapView.maxZoomLevel = 18;
+}
+
+- (void)saveLocalMapView: (NSString *)name {
+    CGFloat width = [[UIScreen mainScreen] bounds].size.width;
+    UIImage *image = [mapView takeSnapshotInRect:CGRectMake(0, (self.view.bounds.size.height - width) / 2, width, width)];
+    // 本地沙盒目录
+    NSString *path = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
+    // 得到本地沙盒中名为"MyImage"的路径，"MyImage"是保存的图片名
+    NSString *imageFilePath = [path stringByAppendingPathComponent: name];
+    // 将取得的图片写入本地的沙盒中，其中0.5表示压缩比例，1表示不压缩，数值越小压缩比例越大
+    BOOL success = [UIImageJPEGRepresentation(image, 0.5) writeToFile:imageFilePath  atomically:YES];
+    if (success){
+        NSLog(@"写入本地成功");
+    }
 }
 
 #pragma mark - MAMapView代理方法
@@ -81,7 +96,7 @@
         // 3. 添加到地图视图
         [mapView addAnnotation:annotaion];
     }
-    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"SportData" object:[NSString stringWithFormat:@"%lf-%lf,", userLocation.location.coordinate.latitude, userLocation.location.coordinate.longitude]];
     // 绘制轨迹模型
     [mapView addOverlay:[_sportTracking appendLocation:userLocation.location]];
 }

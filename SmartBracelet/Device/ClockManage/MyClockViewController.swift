@@ -29,28 +29,22 @@ class MyClockViewController: UIViewController {
             }
             navigationItem.rightBarButtonItem = UIBarButtonItem(customView: rightButton)
         }
+        collctionView.bounces = false 
     }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }
 
 extension MyClockViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 2
+        return 10
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: .kCellIdentifier, for: indexPath) as! ClockCollectionViewCell
-        
+        let bundle = Bundle(path: Bundle.main.path(forResource: "IdleResources", ofType: "bundle")!)
+        cell.dialImageView.image = UIImage(contentsOfFile: bundle!.path(forResource: "Static", ofType: nil, inDirectory: "80x160")! + "/\(indexPath.row + 1).png")
+        cell.opaqueView.isHidden = true
+        cell.optionImageView.isHidden = true 
         return cell
     }
     
@@ -59,20 +53,18 @@ extension MyClockViewController: UICollectionViewDataSource {
 
 extension MyClockViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if bShowDetail {
-            bShowDetail = false
-            let storyboard = UIStoryboard(name: "Device", bundle: nil)
-            let myClockVC = storyboard.instantiateViewController(withIdentifier: "MyClockViewController") as! MyClockViewController
-            parent?.navigationController?.pushViewController(myClockVC, animated: true)
-        }
+        collectionView.deselectItem(at: indexPath, animated: true)
+        let vc = storyboard?.instantiateViewController(withIdentifier: "ClockUseViewController") as? ClockUseViewController
+        vc?.index = indexPath.row + 1
+        parent?.navigationController?.pushViewController(vc!, animated: true)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: (ScreenWidth - 16) / 2, height: (ScreenWidth - 16) / 2)
+        return CGSize(width: (ScreenWidth - 40) / 2, height: (ScreenWidth - 40) / 2)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
+        return UIEdgeInsets(top: 8, left: 20, bottom: 8, right: 20)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {

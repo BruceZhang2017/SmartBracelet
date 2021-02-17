@@ -28,6 +28,16 @@ class MarketClockViewController: UIViewController {
             }
             navigationItem.rightBarButtonItem = UIBarButtonItem(customView: rightButton)
         }
+        collectionView.bounces = false
+        let nullLabel = UILabel().then {
+            $0.textColor = UIColor.black
+            $0.font = UIFont.systemFont(ofSize: 20)
+            $0.text = "敬请期待..."
+        }
+        view.addSubview(nullLabel)
+        nullLabel.snp.makeConstraints {
+            $0.center.equalToSuperview()
+        }
     }
     
 
@@ -45,7 +55,7 @@ class MarketClockViewController: UIViewController {
 
 extension MarketClockViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 4
+        return 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {

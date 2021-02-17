@@ -130,6 +130,9 @@
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="运动" id="hEw-Fd-1FG">
                             <color key="tintColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                            <connections>
+                                <action selector="pushToSportRecord:" destination="arG-Is-V7Y" id="28E-rK-voh"/>
+                            </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
@@ -880,6 +883,29 @@
                                             <constraint firstAttribute="height" constant="15" id="LXk-Tz-HSw"/>
                                         </constraints>
                                     </imageView>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bM7-kV-BIw">
+                                        <rect key="frame" x="145.5" y="22" width="100" height="16"/>
+                                        <subviews>
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="madel_bg_head" translatesAutoresizingMaskIntoConstraints="NO" id="63M-Pw-xSb">
+                                                <rect key="frame" x="0.0" y="0.0" width="22" height="16"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="16" id="CBB-o8-VA7"/>
+                                                    <constraint firstAttribute="width" constant="22" id="hag-by-FEa"/>
+                                                </constraints>
+                                            </imageView>
+                                        </subviews>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                        <gestureRecognizers/>
+                                        <constraints>
+                                            <constraint firstItem="63M-Pw-xSb" firstAttribute="centerY" secondItem="bM7-kV-BIw" secondAttribute="centerY" id="6wQ-FK-fLs"/>
+                                            <constraint firstItem="63M-Pw-xSb" firstAttribute="leading" secondItem="bM7-kV-BIw" secondAttribute="leading" id="DBe-Fu-XqC"/>
+                                            <constraint firstAttribute="height" constant="16" id="RtI-cJ-g65"/>
+                                            <constraint firstAttribute="width" constant="100" id="ULP-hX-s2p"/>
+                                        </constraints>
+                                        <connections>
+                                            <outletCollection property="gestureRecognizers" destination="M2o-Hl-ZO0" appends="YES" id="WbB-Jj-ukN"/>
+                                        </connections>
+                                    </view>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
@@ -892,8 +918,10 @@
                                     <constraint firstItem="S78-IH-etG" firstAttribute="leading" secondItem="o0a-ff-Riz" secondAttribute="trailing" id="Njy-hm-JZS"/>
                                     <constraint firstItem="VKN-Gk-5yr" firstAttribute="top" secondItem="aSq-aq-Mmr" secondAttribute="bottom" constant="5" id="Nm3-pf-HSD"/>
                                     <constraint firstItem="LXV-1w-rDV" firstAttribute="leading" secondItem="hzs-qD-AS5" secondAttribute="leading" constant="15" id="Qo3-S6-iuo"/>
+                                    <constraint firstItem="bM7-kV-BIw" firstAttribute="centerY" secondItem="aSq-aq-Mmr" secondAttribute="centerY" id="QzB-Fk-4JX"/>
                                     <constraint firstItem="S78-IH-etG" firstAttribute="width" secondItem="o0a-ff-Riz" secondAttribute="width" id="RV1-TY-KKQ"/>
                                     <constraint firstItem="JIR-ez-fXM" firstAttribute="centerY" secondItem="S78-IH-etG" secondAttribute="centerY" id="Xcg-9W-3RU"/>
+                                    <constraint firstItem="bM7-kV-BIw" firstAttribute="leading" secondItem="aSq-aq-Mmr" secondAttribute="trailing" constant="8" id="b9a-d5-RrC"/>
                                     <constraint firstItem="bXc-Us-qAm" firstAttribute="leading" secondItem="hzs-qD-AS5" secondAttribute="leading" constant="20" id="bcK-UZ-Y2L"/>
                                     <constraint firstItem="o0a-ff-Riz" firstAttribute="top" secondItem="LXV-1w-rDV" secondAttribute="bottom" id="do8-kL-FDR"/>
                                     <constraint firstAttribute="trailing" secondItem="jPA-TM-KT5" secondAttribute="trailing" constant="40" id="g3c-cB-yIa"/>
@@ -1421,6 +1449,11 @@
                         <action selector="handleEvent:" destination="PcB-RQ-9BB" id="u9D-Ex-wPr"/>
                     </connections>
                 </tapGestureRecognizer>
+                <tapGestureRecognizer id="M2o-Hl-ZO0">
+                    <connections>
+                        <action selector="pushToGrade:" destination="PcB-RQ-9BB" id="7uk-Zv-j9P"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="-2230.434782608696" y="450.66964285714283"/>
         </scene>
@@ -1617,6 +1650,7 @@
         <image name="image_sleeping" width="244.5" height="50"/>
         <image name="image_watchbg" width="140" height="140"/>
         <image name="images_heartbeat" width="242" height="50"/>
+        <image name="madel_bg_head" width="22" height="16"/>
         <image name="nav_icon_add_normal" width="24" height="24"/>
         <image name="produce_image_no.2" width="45" height="45"/>
         <image name="start_stop_bg" width="211" height="211"/>

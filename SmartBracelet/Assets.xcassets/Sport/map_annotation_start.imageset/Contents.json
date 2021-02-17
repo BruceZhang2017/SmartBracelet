@@ -5,12 +5,11 @@
       "scale" : "1x"
     },
     {
-      "filename" : "map_annotation_walk@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "map_annotation_walk@3x.png",
+      "filename" : "map_annotation_start@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
