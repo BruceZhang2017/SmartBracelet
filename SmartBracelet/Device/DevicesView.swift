@@ -32,7 +32,7 @@ class DevicesView: UIView {
         layout.minimumLineSpacing = padding
         layout.minimumInteritemSpacing = padding
         layout.sectionInset = UIEdgeInsets(top: padding, left: 0, bottom: padding, right: 0)
-        let itemW = (ScreenWidth - padding * 2) / 2
+        let itemW = (ScreenWidth - padding * 2) / 1.5
         layout.itemSize = CGSize(width: itemW, height: 110)
         collectionView = UICollectionView(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: 200), collectionViewLayout: layout)
         collectionView.backgroundColor = UIColor.clear
@@ -198,7 +198,7 @@ extension DevicesView: UICollectionViewDataSource, UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let cell = collectionView.cellForItem(at: indexPath) as! CyclicCardCell
-        print("点击第\(cell.index + 1)张图片")
+        print("点击第\(cell.index)张图片")
         delegate?.callbackTap(index: indexPath.row)
     }
     

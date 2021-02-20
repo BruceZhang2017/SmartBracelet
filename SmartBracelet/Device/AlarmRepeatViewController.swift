@@ -15,6 +15,7 @@ import UIKit
 class AlarmRepeatViewController: BaseViewController {
     @IBOutlet weak var tableView: UITableView!
     var days: Int = 0
+    var bLefun = false
     var callbackBlock: ((Int) -> ())?
     
     override func viewDidLoad() {
@@ -42,53 +43,105 @@ extension AlarmRepeatViewController: UITableViewDataSource {
         cell.textLabel?.textColor = UIColor.k343434
         cell.textLabel?.font = UIFont.systemFont(ofSize: 15)
         cell.textLabel?.text = titles[indexPath.row]
-        if indexPath.row == 0 {
-            if days > 10000 {
-                cell.accessoryView = UIImageView(image: UIImage(named: "content_icon_selecte"))
+        if bLefun {
+            if indexPath.row == 0 {
+                if days > 10000 {
+                    cell.accessoryView = UIImageView(image: UIImage(named: "content_icon_selecte"))
+                } else {
+                    cell.accessoryView = nil
+                }
+            } else if indexPath.row == 1 {
+                if (days % 10000) % 64 % 32 % 16 % 8 % 4 % 2 > 0 {
+                    cell.accessoryView = UIImageView(image: UIImage(named: "content_icon_selecte"))
+                } else {
+                    cell.accessoryView = nil
+                }
+            } else if indexPath.row == 2 {
+                if (days % 10000) % 64 % 32 % 16 % 8 % 4 >= 2 {
+                    cell.accessoryView = UIImageView(image: UIImage(named: "content_icon_selecte"))
+                } else {
+                    cell.accessoryView = nil
+                }
+            } else if indexPath.row == 3 {
+                if (days % 10000) % 64 % 32 % 16 % 8 >= 4 {
+                    cell.accessoryView = UIImageView(image: UIImage(named: "content_icon_selecte"))
+                } else {
+                    cell.accessoryView = nil
+                }
+            } else if indexPath.row == 4 {
+                if (days % 10000) % 64 % 32 % 16 >= 8 {
+                    cell.accessoryView = UIImageView(image: UIImage(named: "content_icon_selecte"))
+                } else {
+                    cell.accessoryView = nil
+                }
+            } else if indexPath.row == 5 {
+                if (days % 10000) % 64 % 32 >= 16 {
+                    cell.accessoryView = UIImageView(image: UIImage(named: "content_icon_selecte"))
+                } else {
+                    cell.accessoryView = nil
+                }
+            } else if indexPath.row == 6 {
+                if (days % 10000) % 64 >= 32 {
+                    cell.accessoryView = UIImageView(image: UIImage(named: "content_icon_selecte"))
+                } else {
+                    cell.accessoryView = nil
+                }
             } else {
-                cell.accessoryView = nil
-            }
-        } else if indexPath.row == 1 {
-            if (days % 10000) % 64 % 32 % 16 % 8 % 4 % 2 > 0 {
-                cell.accessoryView = UIImageView(image: UIImage(named: "content_icon_selecte"))
-            } else {
-                cell.accessoryView = nil
-            }
-        } else if indexPath.row == 2 {
-            if (days % 10000) % 64 % 32 % 16 % 8 % 4 >= 2 {
-                cell.accessoryView = UIImageView(image: UIImage(named: "content_icon_selecte"))
-            } else {
-                cell.accessoryView = nil
-            }
-        } else if indexPath.row == 3 {
-            if (days % 10000) % 64 % 32 % 16 % 8 >= 4 {
-                cell.accessoryView = UIImageView(image: UIImage(named: "content_icon_selecte"))
-            } else {
-                cell.accessoryView = nil
-            }
-        } else if indexPath.row == 4 {
-            if (days % 10000) % 64 % 32 % 16 >= 8 {
-                cell.accessoryView = UIImageView(image: UIImage(named: "content_icon_selecte"))
-            } else {
-                cell.accessoryView = nil
-            }
-        } else if indexPath.row == 5 {
-            if (days % 10000) % 64 % 32 >= 16 {
-                cell.accessoryView = UIImageView(image: UIImage(named: "content_icon_selecte"))
-            } else {
-                cell.accessoryView = nil
-            }
-        } else if indexPath.row == 6 {
-            if (days % 10000) % 64 >= 32 {
-                cell.accessoryView = UIImageView(image: UIImage(named: "content_icon_selecte"))
-            } else {
-                cell.accessoryView = nil
+                if (days % 10000) >= 64 {
+                    cell.accessoryView = UIImageView(image: UIImage(named: "content_icon_selecte"))
+                } else {
+                    cell.accessoryView = nil
+                }
             }
         } else {
-            if (days % 10000) >= 64 {
-                cell.accessoryView = UIImageView(image: UIImage(named: "content_icon_selecte"))
+            if indexPath.row == 0 {
+                if days & 0b10000000 > 0 {
+                    cell.accessoryView = UIImageView(image: UIImage(named: "content_icon_selecte"))
+                } else {
+                    cell.accessoryView = nil
+                }
+            } else if indexPath.row == 1 {
+                if days & 0b00000010 > 0 {
+                    cell.accessoryView = UIImageView(image: UIImage(named: "content_icon_selecte"))
+                } else {
+                    cell.accessoryView = nil
+                }
+            } else if indexPath.row == 2 {
+                if days & 0b00000100 > 0 {
+                    cell.accessoryView = UIImageView(image: UIImage(named: "content_icon_selecte"))
+                } else {
+                    cell.accessoryView = nil
+                }
+            } else if indexPath.row == 3 {
+                if days & 0b00001000 > 0 {
+                    cell.accessoryView = UIImageView(image: UIImage(named: "content_icon_selecte"))
+                } else {
+                    cell.accessoryView = nil
+                }
+            } else if indexPath.row == 4 {
+                if days & 0b00010000 > 0 {
+                    cell.accessoryView = UIImageView(image: UIImage(named: "content_icon_selecte"))
+                } else {
+                    cell.accessoryView = nil
+                }
+            } else if indexPath.row == 5 {
+                if days & 0b00100000 > 0 {
+                    cell.accessoryView = UIImageView(image: UIImage(named: "content_icon_selecte"))
+                } else {
+                    cell.accessoryView = nil
+                }
+            } else if indexPath.row == 6 {
+                if days & 0b01000000 > 0 {
+                    cell.accessoryView = UIImageView(image: UIImage(named: "content_icon_selecte"))
+                } else {
+                    cell.accessoryView = nil
+                }
             } else {
-                cell.accessoryView = nil
+                if days & 0b00010001 > 0 {
+                    cell.accessoryView = UIImageView(image: UIImage(named: "content_icon_selecte"))
+                } else {
+                    cell.accessoryView = nil
+                }
             }
         }
         
@@ -99,53 +152,105 @@ extension AlarmRepeatViewController: UITableViewDataSource {
 extension AlarmRepeatViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        if indexPath.row == 0 {
-            if days > 10000 {
-                days = days - 10000
+        if bLefun {
+            if indexPath.row == 0 {
+                if days > 10000 {
+                    days = days - 10000
+                } else {
+                    days = days + 10000
+                }
+            } else if indexPath.row == 1 {
+                if (days % 10000) % 64 % 32 % 16 % 8 % 4 % 2 > 0 {
+                    days = days - 1
+                } else {
+                    days = days + 1
+                }
+            } else if indexPath.row == 2 {
+                if (days % 10000) % 64 % 32 % 16 % 8 % 4 >= 2 {
+                    days = days - 2
+                } else {
+                    days = days + 2
+                }
+            } else if indexPath.row == 3 {
+                if (days % 10000) % 64 % 32 % 16 % 8 >= 4 {
+                    days = days - 4
+                } else {
+                    days = days + 4
+                }
+            } else if indexPath.row == 4 {
+                if (days % 10000) % 64 % 32 % 16 >= 8 {
+                    days = days - 8
+                } else {
+                    days = days + 8
+                }
+            } else if indexPath.row == 5 {
+                if (days % 10000) % 64 % 32 >= 16 {
+                    days = days - 16
+                } else {
+                    days = days + 16
+                }
+            } else if indexPath.row == 6 {
+                if (days % 10000) % 64 >= 32 {
+                    days = days - 32
+                } else {
+                    days = days + 32
+                }
             } else {
-                days = days + 10000
-            }
-        } else if indexPath.row == 1 {
-            if (days % 10000) % 64 % 32 % 16 % 8 % 4 % 2 > 0 {
-                days = days - 1
-            } else {
-                days = days + 1
-            }
-        } else if indexPath.row == 2 {
-            if (days % 10000) % 64 % 32 % 16 % 8 % 4 >= 2 {
-                days = days - 2
-            } else {
-                days = days + 2
-            }
-        } else if indexPath.row == 3 {
-            if (days % 10000) % 64 % 32 % 16 % 8 >= 4 {
-                days = days - 4
-            } else {
-                days = days + 4
-            }
-        } else if indexPath.row == 4 {
-            if (days % 10000) % 64 % 32 % 16 >= 8 {
-                days = days - 8
-            } else {
-                days = days + 8
-            }
-        } else if indexPath.row == 5 {
-            if (days % 10000) % 64 % 32 >= 16 {
-                days = days - 16
-            } else {
-                days = days + 16
-            }
-        } else if indexPath.row == 6 {
-            if (days % 10000) % 64 >= 32 {
-                days = days - 32
-            } else {
-                days = days + 32
+                if (days % 10000) >= 64 {
+                    days = days - 64
+                } else {
+                    days = days + 64
+                }
             }
         } else {
-            if (days % 10000) >= 64 {
-                days = days - 64
+            if indexPath.row == 0 {
+                if days & 0b10000000 > 0 {
+                    days = days - 0b10000000
+                } else {
+                    days = days + 0b10000000
+                }
+            } else if indexPath.row == 1 {
+                if days & 0b00000010 > 0 {
+                    days = days - 0b00000010
+                } else {
+                    days = days + 0b00000010
+                }
+            } else if indexPath.row == 2 {
+                if days & 0b00000100 > 0 {
+                    days = days - 0b00000100
+                } else {
+                    days = days + 0b00000100
+                }
+            } else if indexPath.row == 3 {
+                if days & 0b00001000 > 0 {
+                    days = days - 0b00001000
+                } else {
+                    days = days + 0b00001000
+                }
+            } else if indexPath.row == 4 {
+                if days & 0b00010000 > 0 {
+                    days = days - 0b00010000
+                } else {
+                    days = days + 0b00010000
+                }
+            } else if indexPath.row == 5 {
+                if days & 0b00100000 > 0 {
+                    days = days - 0b00100000
+                } else {
+                    days = days + 0b00100000
+                }
+            } else if indexPath.row == 6 {
+                if days & 0b01000000 > 0 {
+                    days = days - 0b01000000
+                } else {
+                    days = days + 0b01000000
+                }
             } else {
-                days = days + 64
+                if days & 0b00000001 > 0 {
+                    days = days - 0b00000001
+                } else {
+                    days = days + 0b00000001
+                }
             }
         }
         tableView.reloadData()

@@ -19,6 +19,8 @@ class AlarmViewController: BaseViewController {
     var maximumAlarmLabel: UILabel!
     var addButton: UIButton!
     var alarms: [[WUAlarmClock]] = [] // 闹钟数量
+    var alarmBs: [[DAlarmModel]] = []
+    var bLefun = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,7 +29,44 @@ class AlarmViewController: BaseViewController {
         tableView.register(AlarmHeaderView.self, forHeaderFooterViewReuseIdentifier: "Header")
         tableView.tableFooterView = UIView()
         registerNotification()
-        bleSelf.getAlarmForWristband() // 获取闹钟信息
+        if bLefun {
+            bleSelf.getAlarmForWristband() // 获取闹钟信息
+        }
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if !bLefun {
+            DeviceManager.shared.initializeAlarms()
+            let array = DeviceManager.shared.alarms
+            let section1 = array.filter({$0.hour < 12})
+            if section1.count > 0 {
+                alarmBs.append(section1)
+            }
+            let section2 = array.filter({$0.hour >= 12})
+            if section2.count > 0 {
+                alarmBs.append(section2)
+            }
+            tableView.reloadData()
+            if array.count >= 3 {
+                hideAddAlarmButton()
+            } else {
+                showAddAlarmButton()
+            }
+            if array.count == 0 {
+                navigationItem.rightBarButtonItem = UIBarButtonItem(
+                    image: UIImage(named: "nav_icon_alarm_add"),
+                    style: .plain,
+                    target: self,
+                    action: #selector(addOrManageAlarm(_:))
+                )
+                hideAddAlarmButton()
+            }
+            if array.count > 0 {
+                navigationItem.rightBarButtonItem = nil 
+                BLECurrentManager.sharedInstall.setSmartAlarm() // 同步闹钟给设备
+            }
+        }
     }
     
     deinit {
@@ -46,7 +85,7 @@ class AlarmViewController: BaseViewController {
                 $0.textColor = UIColor.k333333
                 $0.font = UIFont.systemFont(ofSize: 16)
                 $0.textAlignment = .center
-                $0.text = "添加闹钟\n你最多可以添加五组闹钟"
+                $0.text = "添加闹钟\n你最多可以添加\(bLefun ? "五" : "三")组闹钟"
                 $0.numberOfLines = 0
             }
             view.addSubview(maximumAlarmLabel)
@@ -80,6 +119,7 @@ class AlarmViewController: BaseViewController {
     @objc private func handleAddAlarm(_ sender: Any) {
         let vc = storyboard?.instantiateViewController(withIdentifier: "AlarmAddViewController") as! AlarmAddViewController
         vc.bEdit = false
+        vc.bLefun = bLefun
         navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -129,18 +169,32 @@ class AlarmViewController: BaseViewController {
 
 extension AlarmViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        return alarms.count
+        if bLefun {
+            return alarms.count
+        } else {
+            return alarmBs.count
+        }
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return alarms[section].count
+        if bLefun {
+            return alarms[section].count
+        } else {
+            return alarmBs[section].count
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: .kCellIdentifier, for: indexPath) as! AlarmTableViewCell
-        let model = alarms[indexPath.section][indexPath.row]
-        cell.titleLabel.text = "\(model.hour):\(model.minute)"
-        cell.mSwitch.isOn = model.isOn
+        if bLefun {
+            let model = alarms[indexPath.section][indexPath.row]
+            cell.titleLabel.text = "\(model.hour):\(model.minute)"
+            cell.mSwitch.isOn = model.isOn
+        } else {
+            let model = alarmBs[indexPath.section][indexPath.row]
+            cell.titleLabel.text = "\(model.hour):\(model.minute)"
+            cell.mSwitch.isOn = model.isOn
+        }
         cell.mSwitch.isHidden = tableView.isEditing
         cell.arrorImageView.isHidden = !tableView.isEditing
         return cell
@@ -148,17 +202,33 @@ extension AlarmViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let view = tableView.dequeueReusableHeaderFooterView(withIdentifier: "Header") as! AlarmHeaderView
-        if alarms.count == 2 {
-            if section == 0 {
-                view.titleLabel.text = "AM"
-            } else {
-                view.titleLabel.text = "PM"
+        if bLefun {
+            if alarms.count == 2 {
+                if section == 0 {
+                    view.titleLabel.text = "AM"
+                } else {
+                    view.titleLabel.text = "PM"
+                }
+            } else if alarms.count == 1 {
+                if alarms.first?.first?.hour ?? 0 >= 12 {
+                    view.titleLabel.text = "PM"
+                } else {
+                    view.titleLabel.text = "AM"
+                }
             }
-        } else if alarms.count == 1 {
-            if alarms.first?.first?.hour ?? 0 >= 12 {
-                view.titleLabel.text = "PM"
-            } else {
-                view.titleLabel.text = "AM"
+        } else {
+            if alarmBs.count == 2 {
+                if section == 0 {
+                    view.titleLabel.text = "AM"
+                } else {
+                    view.titleLabel.text = "PM"
+                }
+            } else if alarmBs.count == 1 {
+                if alarmBs.first?.first?.hour ?? 0 >= 12 {
+                    view.titleLabel.text = "PM"
+                } else {
+                    view.titleLabel.text = "AM"
+                }
             }
         }
         view.deleteButton.isHidden = tableView.isEditing ? false : true
@@ -182,6 +252,7 @@ extension AlarmViewController: UITableViewDelegate {
         if tableView.isEditing {
             let vc = storyboard?.instantiateViewController(withIdentifier: "AlarmAddViewController") as! AlarmAddViewController
             vc.bEdit = true
+            vc.bLefun = bLefun
             navigationController?.pushViewController(vc, animated: true)
         }
     }

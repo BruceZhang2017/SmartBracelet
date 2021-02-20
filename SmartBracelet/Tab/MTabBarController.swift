@@ -22,6 +22,7 @@ class MTabBarController: UITabBarController {
         BLEManager.shared.regNotification()
         let _ = BLECurrentManager.sharedInstall
         lastestDeviceMac = UserDefaults.standard.string(forKey: "LastestDeviceMac") ?? ""
+        print("最后连接的设备MAC地址为：\(lastestDeviceMac)")
         if lastestDeviceMac.count > 0 {
             perform(#selector(checkIfNeedScanDevice), with: nil, afterDelay: 0.5)
         }

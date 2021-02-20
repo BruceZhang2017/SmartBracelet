@@ -267,6 +267,9 @@
 		9A64F07E25DCBF9D0073E679 /* SportRecordHeadTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A64F07D25DCBF9D0073E679 /* SportRecordHeadTableViewCell.swift */; };
 		9A64F08025DCDEB00073E679 /* SportRecordMonthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A64F07F25DCDEB00073E679 /* SportRecordMonthView.swift */; };
 		9A64F08225DD50D70073E679 /* ClockUseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A64F08125DD50D70073E679 /* ClockUseViewController.swift */; };
+		9A64F0B825DE18CD0073E679 /* DBloodModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A64F0B725DE18CD0073E679 /* DBloodModel.swift */; };
+		9A64F0BA25DE19B30073E679 /* DHeartRateModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A64F0B925DE19B30073E679 /* DHeartRateModel.swift */; };
+		9A64F0BC25DF50C30073E679 /* DAlarmModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A64F0BB25DF50C30073E679 /* DAlarmModel.swift */; };
 		9A6C8579254EC3B000A87751 /* BLECurrentManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A6C8578254EC3B000A87751 /* BLECurrentManager.swift */; };
 		9A6D092C2501D99400B4972F /* ClockManageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A6D092B2501D99400B4972F /* ClockManageViewController.swift */; };
 		9A7D5E4225490EA20016E4BC /* MRGCDTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7D5E4125490EA20016E4BC /* MRGCDTimer.swift */; };
@@ -637,6 +640,9 @@
 		9A64F07D25DCBF9D0073E679 /* SportRecordHeadTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SportRecordHeadTableViewCell.swift; sourceTree = "<group>"; };
 		9A64F07F25DCDEB00073E679 /* SportRecordMonthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SportRecordMonthView.swift; sourceTree = "<group>"; };
 		9A64F08125DD50D70073E679 /* ClockUseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClockUseViewController.swift; sourceTree = "<group>"; };
+		9A64F0B725DE18CD0073E679 /* DBloodModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBloodModel.swift; sourceTree = "<group>"; };
+		9A64F0B925DE19B30073E679 /* DHeartRateModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DHeartRateModel.swift; sourceTree = "<group>"; };
+		9A64F0BB25DF50C30073E679 /* DAlarmModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DAlarmModel.swift; sourceTree = "<group>"; };
 		9A6C8578254EC3B000A87751 /* BLECurrentManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BLECurrentManager.swift; sourceTree = "<group>"; };
 		9A6D092B2501D99400B4972F /* ClockManageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClockManageViewController.swift; sourceTree = "<group>"; };
 		9A6D092D2501E3EC00B4972F /* Device.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Device.md; sourceTree = "<group>"; };
@@ -959,6 +965,7 @@
 				9A60DEF2252F418900E0D849 /* AlarmHeaderView.swift */,
 				9A60DEF4252F49A200E0D849 /* AlarmAddViewController.swift */,
 				9A60DEF6252F50FF00E0D849 /* AlarmRepeatViewController.swift */,
+				9A64F0BB25DF50C30073E679 /* DAlarmModel.swift */,
 			);
 			path = Device;
 			sourceTree = "<group>";
@@ -1271,6 +1278,8 @@
 				9A6C8578254EC3B000A87751 /* BLECurrentManager.swift */,
 				9AEC22CC25B707C000DE899A /* BLEModel.swift */,
 				9A40E02B25D37477001879B3 /* DStepModel.swift */,
+				9A64F0B725DE18CD0073E679 /* DBloodModel.swift */,
+				9A64F0B925DE19B30073E679 /* DHeartRateModel.swift */,
 				9A367B9825BD425300BFB4C3 /* DeviceManager.swift */,
 				9AF0AA1F25AAF1CE000BDAED /* CMDData.swift */,
 				9A367B9425BD235A00BFB4C3 /* RealmManager.swift */,
@@ -1718,6 +1727,7 @@
 				9A61685825DAAA6600918EFC /* GradeViewController.swift in Sources */,
 				9A350BEB24EA7A83004CEE6A /* UserInfoTableViewCell.swift in Sources */,
 				9A56D25125216FC60082CC08 /* ChevronUpShapeRenderer.swift in Sources */,
+				9A64F0B825DE18CD0073E679 /* DBloodModel.swift in Sources */,
 				9A56D27E25216FC60082CC08 /* Platform+Accessibility.swift in Sources */,
 				9A60DEED252F381100E0D849 /* DeviceFoundViewController.swift in Sources */,
 				9A56D29125216FC70082CC08 /* MoveViewJob.swift in Sources */,
@@ -1844,6 +1854,7 @@
 				9A56D27425216FC60082CC08 /* DefaultAxisValueFormatter.swift in Sources */,
 				9AEC230025B7114500DE899A /* Data+Extension.swift in Sources */,
 				9A60DEC4252D5D5E00E0D849 /* AccountSafeTableViewCell.swift in Sources */,
+				9A64F0BC25DF50C30073E679 /* DAlarmModel.swift in Sources */,
 				9A56D29B25216FC70082CC08 /* CandleChartDataEntry.swift in Sources */,
 				9A64F07C25DCBF900073E679 /* SportRecordContentTableViewCell.swift in Sources */,
 				9A60DEEB252F34B700E0D849 /* DeviceInfoTableViewCell.swift in Sources */,
@@ -1977,6 +1988,7 @@
 				9A367B9525BD235A00BFB4C3 /* RealmManager.swift in Sources */,
 				9A56D2B625216FC70082CC08 /* IBarChartDataSet.swift in Sources */,
 				9A56D2A125216FC70082CC08 /* BarLineScatterCandleBubbleChartData.swift in Sources */,
+				9A64F0BA25DE19B30073E679 /* DHeartRateModel.swift in Sources */,
 				9A56D25C25216FC60082CC08 /* PieHighlighter.swift in Sources */,
 				9A56D2B125216FC70082CC08 /* ChartBaseDataSet.swift in Sources */,
 				18385F0B2451819E00EA380A /* DetailViewController.swift in Sources */,

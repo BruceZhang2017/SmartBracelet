@@ -15,12 +15,15 @@ import Foundation
 class DeviceManager: NSObject {
     static let shared = DeviceManager()
     public var devices: [BLEModel] = []
+    public var currentDevice: BLEModel?
     public var deviceInfo: [String: DeviceModel] = [:]
     public var steps: [DStepModel] = []
+    public var alarms: [DAlarmModel] = [] // 闹钟
     
     override init() {
         super.init()
         initializeDevices()
+        initializeAlarms()
     }
     
     public func initializeDevices() {
@@ -31,6 +34,14 @@ class DeviceManager: NSObject {
             return
         }
         print("数据库中的数据数量为: 0")
+    }
+    
+    public func initializeAlarms() {
+        alarms.removeAll()
+        if let array = try? DAlarmModel.er.all(), array.count > 0 {
+            alarms.append(contentsOf: array)
+        }
+        print("闹钟数量为：\(alarms.count)")
     }
     
     public func refreshSteps() {
@@ -54,5 +65,23 @@ class DeviceManager: NSObject {
     
     public func getTotalCal() -> Int {
         return steps.last?.cal ?? 0
+    }
+    
+    public func getHeartRate() -> Int {
+        if DeviceManager.shared.currentDevice == nil {
+            return 0
+        }
+        let rate = try? DHeartRateModel.er.last("mac='\(DeviceManager.shared.currentDevice?.mac ?? "")'")?.heartRate
+        return rate ?? 0
+    }
+    
+    public func getBlood() -> (Int, Int) {
+        if DeviceManager.shared.currentDevice == nil {
+            return (0, 0)
+        }
+        let blood = try? DBloodModel.er.last("mac='\(DeviceManager.shared.currentDevice?.mac ?? "")'")
+        let max = blood?.max ?? 0
+        let min = blood?.min ?? 0
+        return (max, min)
     }
 }

@@ -214,12 +214,12 @@ class CMDData: NSObject {
         return data
     }
     
-    public func confirmationOfReceivingRecords2() -> Data {
+    public func confirmationOfReceivingRecords2(seq: Int) -> Data {
         var data = Data(repeating: 0x00, count: 20)
         data[0] = Command.sync.rawValue
         data[1] = 0x06
-        data[2] = 0x01
-        data[3] = 0x02
+        data[2] = UInt8(seq & 0xFF) // Records package sequence number, 0x01, 0x02, means No. 513.
+        data[3] = UInt8((seq >> 8) & 0xFF)
         return data
     }
     
@@ -294,14 +294,14 @@ class CMDData: NSObject {
     }
     
     private func recordsNotify(data: Data) {
-        let seq = data[2] + data[3] * 255
+        let seq = Int(data[2]) + Int(data[3]) * Int(256)
         print("当前包序号：\(seq)")
         let num = Int(data[4])
         print("How much records in this Seq, range \(num)")
         if num >= 1 {
             let record1 = Int(data[5]) // State: occupying 1 byte 0: Stationary 1: Walking 2: Running 3: Sleep 4: Awake 5: Restless 6~: Others, depends on Algo
-            let record1Minutes = Int(data[7]) * 255 + Int(data[6])
-            let record1Step = Int(data[9]) * 255 + Int(data[8])
+            let record1Minutes = Int(data[7]) * 256 + Int(data[6])
+            let record1Step = Int(data[9]) * 256 + Int(data[8])
             print("record1: \(record1) record1Minutes: \(record1Minutes) record1Step: \(record1Step)")
             if let model = BLECurrentManager.sharedInstall.getCurrentDevice(), record1Step > 0 {
                 let stepModel = DStepModel()
@@ -321,8 +321,8 @@ class CMDData: NSObject {
         }
         if num >= 2 {
             let record2 = Int(data[10])
-            let record2Minutes = Int(data[12]) * 255 + Int(data[11])
-            let record2Step = Int(data[14]) * 255 + Int(data[13])
+            let record2Minutes = Int(data[12]) * 256 + Int(data[11])
+            let record2Step = Int(data[14]) * 256 + Int(data[13])
             print("record2: \(record2) record2Minutes: \(record2Minutes) record2Step: \(record2Step)")
             if let model = BLECurrentManager.sharedInstall.getCurrentDevice(), record2Step > 0  {
                 let stepModel = DStepModel()
@@ -341,8 +341,8 @@ class CMDData: NSObject {
         }
         if num > 2 {
             let record3 = Int(data[15])
-            let record3Minutes = Int(data[17]) * 255 + Int(data[16])
-            let record3Step = Int(data[19]) * 255 + Int(data[18])
+            let record3Minutes = Int(data[17]) * 256 + Int(data[16])
+            let record3Step = Int(data[19]) * 256 + Int(data[18])
             print("record3: \(record3) record3Minutes: \(record3Minutes) record3Step: \(record3Step)")
             if let model = BLECurrentManager.sharedInstall.getCurrentDevice(), record3Step > 0  {
                 let stepModel = DStepModel()
@@ -363,9 +363,9 @@ class CMDData: NSObject {
     
     private func currentStateNotify(data: Data) {
         let record1 = Int(data[2])
-        let record1Minutes = Int(data[4]) * 255 + Int(data[3])
-        let record1Step = Int(data[6]) * 255 + Int(data[5])
-        print("record1: \(record1) record1Minutes: \(record1Minutes) record1Step: \(record1Step)")
+        let record1Minutes = Int(data[4]) * 256 + Int(data[3])
+        let record1Step = Int(data[6]) * 256 + Int(data[5])
+        print("record: \(record1) recordMinutes: \(record1Minutes) recordStep: \(record1Step)")
         let year = Int(data[7])
         let month = Int(data[8])
         let day = Int(data[9])
@@ -388,18 +388,18 @@ class CMDData: NSObject {
     }
     
     private func recordsForHRBPNotify(data: Data) {
-        let seq = data[2] + data[3] * 255
+        let seq = Int(data[2]) + Int(data[3]) * Int(256)
         print("当前包序号：\(seq)")
         let num = Int(data[4])
         print("How much records in this Seq, range \(num)")
         if num >= 1 {
-            let seconds1 = Int(data[5]) + Int(data[6]) * 255 + Int(data[7]) * 255 * 255 + Int(data[8]) * 255 * 255 * 255
-            let value1 = Int(data[10]) * 255 + Int(data[9])
+            let seconds1 = Int(data[5]) + Int(data[6]) * 256 + Int(data[7]) * 256 * 256 + Int(data[8]) * 256 * 256 * 256
+            let value1 = Int(data[10]) * 256 + Int(data[9])
             print("seconds1: \(seconds1) value1: \(value1)")
         }
         if num >= 2 {
-            let seconds2 = Int(data[10]) + Int(data[11]) * 255 + Int(data[12]) * 255 * 255 + Int(data[13]) * 255 * 255 * 255
-            let value2 = Int(data[15]) * 255 + Int(data[14])
+            let seconds2 = Int(data[10]) + Int(data[11]) * 256 + Int(data[12]) * 256 * 256 + Int(data[13]) * 256 * 256 * 256
+            let value2 = Int(data[15]) * 256 + Int(data[14])
             print("seconds2: \(seconds2) value2: \(value2)")
         }
     }
@@ -448,7 +448,7 @@ class CMDData: NSObject {
         if data.count != 20 {
             return
         }
-        let flag = Int(data[0]) + Int(data[1]) * 255
+        let flag = Int(data[0]) + Int(data[1]) * 256
         print("flag: \(flag)")
         if flag < 0x0020 {
             flagLess20Notify(flag: flag, data: data)
@@ -466,7 +466,7 @@ class CMDData: NSObject {
     private func flagLess20Notify(flag: Int, data: Data) {
         let state = Int(data[2])
         print("state: \(state)")
-        let stepCount = Int(data[3]) + Int(data[4]) * 255 + Int(data[5]) * 255 * 255
+        let stepCount = Int(data[3]) + Int(data[4]) * 256 + Int(data[5]) * 256 * 256
         print("stepCount: \(stepCount)")
         let longsit = Int(data[7])
         print("longsit: \(longsit)")
@@ -495,20 +495,20 @@ class CMDData: NSObject {
     }
     
     private func flagLess40Notify(data: Data) { // Step raw data
-        let count = Int(data[3]) + Int(data[2]) * 255
-        let stepCount = Int(data[16]) + Int(data[17]) * 255 + Int(data[18]) * 255 * 255 + Int(data[19]) * 255 * 255 * 255
+        let count = Int(data[3]) + Int(data[2]) * 256
+        let stepCount = Int(data[16]) + Int(data[17]) * 256 + Int(data[18]) * 256 * 256 + Int(data[19]) * 256 * 256 * 256
         print("count: \(count) stepCount: \(stepCount)")
     }
     
     private func flagLess200Notify(data: Data) {
-        let count = Int(data[3]) + Int(data[2]) * 255
-        let stepCount = Int(data[16]) + Int(data[17]) * 255 + Int(data[18]) * 255 * 255 + Int(data[19]) * 255 * 255 * 255
+        let count = Int(data[3]) + Int(data[2]) * 256
+        let stepCount = Int(data[16]) + Int(data[17]) * 256 + Int(data[18]) * 256 * 256 + Int(data[19]) * 256 * 256 * 256
         print("count: \(count) stepCount: \(stepCount)")
     }
     
     private func flagLess80Notify(data: Data) { // Sleep raw data 1
-        let count = Int(data[3]) + Int(data[2]) * 255
-        let stepCount = Int(data[16]) + Int(data[17]) * 255 + Int(data[18]) * 255 * 255 + Int(data[19]) * 255 * 255 * 255
+        let count = Int(data[3]) + Int(data[2]) * 256
+        let stepCount = Int(data[16]) + Int(data[17]) * 256 + Int(data[18]) * 256 * 256 + Int(data[19]) * 256 * 256 * 256
         print("count: \(count) stepCount: \(stepCount)")
     }
     
@@ -540,21 +540,21 @@ class CMDData: NSObject {
     
     private func syncRecordNotify(data: Data) {
         let state = Int(data[2]) // 0: Idle, 1: Walking, 2: Running, 3: Sleep, 4: Awake 5: Restless, 6~255: Unknown.
-        let stepCount = Int(data[3]) + Int(data[4]) * 255 + Int(data[5]) * 255 * 255 + Int(data[6]) * 255 * 255 * 255
-        let minutes = Int(data[7]) + Int(data[8]) * 255
+        let stepCount = Int(data[3]) + Int(data[4]) * 256 + Int(data[5]) * 256 * 256 + Int(data[6]) * 256 * 256 * 256
+        let minutes = Int(data[7]) + Int(data[8]) * 256
         print("state: \(state) stepCount: \(stepCount) minutes: \(minutes)")
     }
     
     private func syncCurrentStateNotify(data: Data) {
         let state = Int(data[2]) // 0: Idle, 1: Walking, 2: Running, 3: Sleep, 4: Awake 5: Restless, 6~255: Unknown.
-        let stepCount = Int(data[3]) + Int(data[4]) * 255 + Int(data[5]) * 255 * 255 + Int(data[6]) * 255 * 255 * 255
+        let stepCount = Int(data[3]) + Int(data[4]) * 256 + Int(data[5]) * 256 * 256 + Int(data[6]) * 256 * 256 * 256
         let year = Int(data[7])
         let month = Int(data[8])
         let day = Int(data[9])
         let hour = Int(data[10])
         let minute = Int(data[11])
         let second = Int(data[12])
-        let minutes = Int(data[13]) + Int(data[14]) * 255
+        let minutes = Int(data[13]) + Int(data[14]) * 256
         print("state: \(state) stepCount: \(stepCount) minutes: \(minutes)")
         print("current state：\(2000 + year)-\(month)-\(day) \(hour):\(minute):\(second)")
     }
@@ -742,20 +742,20 @@ class CMDData: NSObject {
         var data = Data(repeating: 0x00, count: 20)
         data[0] = 0x07
         data[1] = value ? 0x01 : 0x00
-        data[2] = UInt8(minutes % 255)
-        data[3] = UInt8(minutes / 255)
+        data[2] = UInt8(minutes % 256)
+        data[3] = UInt8(minutes / 256)
         return data
     }
     
-    public func writeControlSmartAlarm(values: [Bool], hours: [Int], minutes: [Int], repeats: [Int]) -> Data {
+    public func writeControlSmartAlarm(values: [DAlarmModel]) -> Data {
         var data = Data(repeating: 0x00, count: 20)
         data[0] = 0x0c
         data[1] = 0x01
         for i in 0..<values.count {
-            data[4 * i + 2] = values[i] ? 0x01 : 0x00
-            data[4 * i + 3] = UInt8(hours[i])
-            data[4 * i + 4] = UInt8(minutes[i])
-            data[4 * i + 5] = UInt8(repeats[i])
+            data[4 * i + 2] = values[i].isOn ? 0x01 : 0x00
+            data[4 * i + 3] = UInt8(values[i].hour)
+            data[4 * i + 4] = UInt8(values[i].minute)
+            data[4 * i + 5] = UInt8(values[i].weekday)
         }
         return data
     }

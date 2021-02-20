@@ -112,13 +112,13 @@ class BLEManager: NSObject {
             NotificationCenter.default.post(name: Notification.Name("MTabBarController"), object: nil) // 通知主控页面
             lastestDeviceMac = bleSelf.bleModel.mac
             UserDefaults.standard.setValue(lastestDeviceMac, forKey: "LastestDeviceMac")
+            UserDefaults.standard.setValue(true, forKey: "IsLefun")
             UserDefaults.standard.synchronize()
         }
         
         if notify.name == WUBleManagerNotifyKeys.disconnected {
             print("蓝牙断开连接")
             lastestDeviceMac = ""
-            UserDefaults.standard.removeObject(forKey: "LastestDeviceMac")
         }
         
         if notify.name == WUBleManagerNotifyKeys.stateChanged {

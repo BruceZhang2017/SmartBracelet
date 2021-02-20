@@ -28,4 +28,9 @@ public extension EasyRealmStatic where T:Object {
         let realm = try Realm()
         return realm.objects(self.baseType).filter(pre)
     }
+    
+    func last(_ pre: String) throws -> T? {
+        let realm = try Realm()
+        return realm.objects(self.baseType).filter(pre).sorted(byKeyPath: "timeStamp", ascending: true).last
+    }
 }

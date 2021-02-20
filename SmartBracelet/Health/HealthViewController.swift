@@ -36,9 +36,10 @@ class HealthViewController: BaseViewController {
     @IBOutlet weak var bleedView: UIView!
     @IBOutlet weak var bleedTipLabel: UILabel!
     @IBOutlet weak var bleedValueLabel: UILabel!
-    var flag = 0
+    var flag = 0 // 属性的作用
     var popup: PopupBViewController?
     var activityIndicator: NVActivityIndicatorView?
+    private var loadingViewCheckTimer: Timer?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -120,7 +121,7 @@ class HealthViewController: BaseViewController {
                 [weak self] in
                 var heart = 0
                 if BLEManager.shared.heartArray.count == 0 {
-                    heart = 0
+                    heart = DeviceManager.shared.getHeartRate()
                 } else {
                     heart = BLEManager.shared.heartArray[0].heart
                 }
@@ -137,6 +138,8 @@ class HealthViewController: BaseViewController {
                 if BLEManager.shared.bloodArray.count != 0 {
                     min = BLEManager.shared.bloodArray[0].min
                     max = BLEManager.shared.bloodArray[0].max
+                } else {
+                    (max, min) = DeviceManager.shared.getBlood()
                 }
                 let v = NSMutableAttributedString()
                 v.append(NSAttributedString(string: "\(max)/\(min)", attributes: [.font: UIFont.systemFont(ofSize: 36), .foregroundColor: UIColor.k666666]))
@@ -184,10 +187,12 @@ class HealthViewController: BaseViewController {
             activityIndicator?.center = CGPoint(x: view.center.x, y: view.center.y - 100)
             view.addSubview(activityIndicator!)
             activityIndicator?.startAnimating()
+            startLoadingViewCheckTimer()
             return
         }
         if obj == 3 {
             print("隐藏loading图片")
+            endLoadingViewCheckTimer()
             DispatchQueue.main.async {
                 [weak self] in
                 if self?.activityIndicator != nil && (self?.activityIndicator?.isAnimating ?? false) {
@@ -197,6 +202,18 @@ class HealthViewController: BaseViewController {
                 }
             }
         }
+    }
+    
+    private func startLoadingViewCheckTimer() {
+        endLoadingViewCheckTimer()
+        loadingViewCheckTimer = Timer.scheduledTimer(withTimeInterval: 25, repeats: false, block: { (timer) in
+            NotificationCenter.default.post(name: Notification.Name("HealthVCLoading"), object: 3)
+        })
+    }
+    
+    private func endLoadingViewCheckTimer() {
+        loadingViewCheckTimer?.invalidate()
+        loadingViewCheckTimer = nil
     }
     
     // MARK: - Navigation

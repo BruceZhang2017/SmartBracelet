@@ -20,6 +20,7 @@ class AlarmAddViewController: BaseViewController {
     @IBOutlet weak var cancelButton: UIButton!
     var bEdit = false
     var weekday = 0
+    var bLefun = false 
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,6 +40,8 @@ class AlarmAddViewController: BaseViewController {
 
     @IBAction func repeatDate(_ sender: Any) {
         let vc = storyboard?.instantiateViewController(withIdentifier: "AlarmRepeatViewController") as? AlarmRepeatViewController
+        vc?.bLefun = bLefun
+        vc?.days = weekday
         navigationController?.pushViewController(vc!, animated: true)
         vc?.callbackBlock = {
             [weak self] (value) in
@@ -53,18 +56,37 @@ class AlarmAddViewController: BaseViewController {
             let formatter = DateFormatter()
             formatter.dateFormat = "HH:mm"
             let value = formatter.string(from: datePicker.date)
-            let model = WUAlarmClock()
-            model.clockId = 0
             let array = value.split(separator: ":")
-            if array.count == 2 {
-                model.hour = Int(array[0]) ?? 0
-                model.minute = Int(array[1]) ?? 0
+            if bLefun {
+                let model = WUAlarmClock()
+                model.clockId = 0
+                if array.count == 2 {
+                    model.hour = Int(array[0]) ?? 0
+                    model.minute = Int(array[1]) ?? 0
+                }
+                model.isOn = true
+                model.weekday = weekday % 10000
+                model.repeatCount = weekday > 10000 ? 1 : 3
+                model.repeatInterval = 5
+                bleSelf.setAlarmForWristband(model)
+            } else {
+                let model = DAlarmModel()
+                model.clockId = 0
+                
+                if array.count == 2 {
+                    model.hour = Int(array[0]) ?? 0
+                    model.minute = Int(array[1]) ?? 0
+                }
+                model.isOn = true
+                model.weekday = weekday % 10000
+                do {
+                    try model.er.save(update: true)
+                } catch {
+                    print("闹钟添加有问题：\(error.localizedDescription)")
+                }
+                
+                
             }
-            model.isOn = true
-            model.weekday = weekday % 10000
-            model.repeatCount = weekday > 10000 ? 1 : 3
-            model.repeatInterval = 5
-            bleSelf.setAlarmForWristband(model)
             navigationController?.popViewController(animated: true)
         }
     }
