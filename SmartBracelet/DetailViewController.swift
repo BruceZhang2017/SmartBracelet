@@ -11,7 +11,7 @@ import TJDWristbandSDK
 
 class DetailViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     var table = UITableView()
-    var sleepArray = [SleepModel]()
+    var sleepArray = [TJDSleepModel]()
     var textView = UITextView()
     
     var measureAsync: Async?
@@ -143,7 +143,7 @@ class DetailViewController: UIViewController, UITableViewDelegate, UITableViewDa
         if indexPath.section == 0 {
             if indexPath.row == 0 {
                 for i in 0..<7 {
-                    bleSelf.getStep(with: i)
+                    bleSelf.aloneGetStep(with: i)
                 }
             }
             

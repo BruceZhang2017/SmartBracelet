@@ -1,4 +1,19 @@
 PODS:
+  - AFNetworking (4.0.1):
+    - AFNetworking/NSURLSession (= 4.0.1)
+    - AFNetworking/Reachability (= 4.0.1)
+    - AFNetworking/Security (= 4.0.1)
+    - AFNetworking/Serialization (= 4.0.1)
+    - AFNetworking/UIKit (= 4.0.1)
+  - AFNetworking/NSURLSession (4.0.1):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/Reachability (4.0.1)
+  - AFNetworking/Security (4.0.1)
+  - AFNetworking/Serialization (4.0.1)
+  - AFNetworking/UIKit (4.0.1):
+    - AFNetworking/NSURLSession
   - Alamofire (5.4.0)
   - AliyunOSSiOS (2.10.8)
   - AMap2DMap (5.6.1):
@@ -34,6 +49,7 @@ PODS:
     - ObjcExceptionBridging
 
 DEPENDENCIES:
+  - AFNetworking
   - Alamofire (~> 5.2)
   - AliyunOSSiOS
   - AMap2DMap
@@ -54,6 +70,7 @@ DEPENDENCIES:
 
 SPEC REPOS:
   https://github.com/CocoaPods/Specs.git:
+    - AFNetworking
     - Alamofire
     - AliyunOSSiOS
     - AMap2DMap
@@ -84,6 +101,7 @@ CHECKOUT OPTIONS:
     :git: https://github.com/devxoul/Toaster.git
 
 SPEC CHECKSUMS:
+  AFNetworking: 7864c38297c79aaca1500c33288e429c3451fdce
   Alamofire: 3b6a534a3df22db367e4dedeeca73d1ddfcf0e2f
   AliyunOSSiOS: 8db92936545593b9e5c66d680ef2ac0738946651
   AMap2DMap: cac76bc057de18a1641f34df6b50bf5bc6b23571
@@ -104,6 +122,6 @@ SPEC CHECKSUMS:
   Toaster: c3473963c78e8cabbf6ea6f11ad0fdaae6f54987
   XCGLogger: 1943831ef907df55108b0b18657953f868de973b
 
-PODFILE CHECKSUM: 290c816335e050c5a229ef508796c6d5226fdc19
+PODFILE CHECKSUM: 7ea88dba230b3577bf946db564ae908b6e740dcb
 
 COCOAPODS: 1.10.1

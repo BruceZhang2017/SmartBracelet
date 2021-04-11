@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="fHq-yY-mDA">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="fHq-yY-mDA">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17126"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -69,10 +69,9 @@
                                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="0 公里" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cBt-8j-0Vl">
-                                                    <rect key="frame" x="108" y="26" width="33" height="14"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0 公里" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cBt-8j-0Vl">
+                                                    <rect key="frame" x="111" y="25" width="38.5" height="16"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
@@ -84,9 +83,11 @@
                                                 <constraint firstItem="bL6-cl-ovc" firstAttribute="leading" secondItem="Gjm-1t-dCK" secondAttribute="leading" constant="25" id="CA8-wQ-hnx"/>
                                                 <constraint firstItem="bL6-cl-ovc" firstAttribute="top" secondItem="WGf-QT-Q18" secondAttribute="bottom" id="HtP-Rk-tr4"/>
                                                 <constraint firstAttribute="trailing" secondItem="M78-hO-ftw" secondAttribute="trailing" constant="25" id="WRg-wP-rxA"/>
+                                                <constraint firstItem="cBt-8j-0Vl" firstAttribute="centerY" secondItem="WGf-QT-Q18" secondAttribute="centerY" constant="8" id="b9V-SB-aIk"/>
                                                 <constraint firstItem="M78-hO-ftw" firstAttribute="leading" secondItem="Gjm-1t-dCK" secondAttribute="leading" constant="25" id="iSQ-uS-ime"/>
                                                 <constraint firstItem="WGf-QT-Q18" firstAttribute="leading" secondItem="Gjm-1t-dCK" secondAttribute="leading" constant="25" id="muZ-Mw-TVf"/>
                                                 <constraint firstItem="WGf-QT-Q18" firstAttribute="top" secondItem="Gjm-1t-dCK" secondAttribute="top" constant="10" id="ppG-Rp-k9h"/>
+                                                <constraint firstItem="cBt-8j-0Vl" firstAttribute="leading" secondItem="WGf-QT-Q18" secondAttribute="trailing" constant="70" id="rIi-zG-kmb"/>
                                             </constraints>
                                         </view>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0uX-fh-6g9">

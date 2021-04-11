@@ -177,6 +177,7 @@ class BLECurrentManager: NSObject {
         
         baby.setBlockOnDisconnect {[weak self] (manager, per, error) in
             print("断开连接的设备: \(per?.name ?? "no name")")
+            self?.deviceType = 0
             let name = per?.name ?? ""
             if name == "Lefun" || name == "ITIME" {
                 return

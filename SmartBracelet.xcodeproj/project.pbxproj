@@ -273,6 +273,7 @@
 		9A6C8579254EC3B000A87751 /* BLECurrentManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A6C8578254EC3B000A87751 /* BLECurrentManager.swift */; };
 		9A6D092C2501D99400B4972F /* ClockManageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A6D092B2501D99400B4972F /* ClockManageViewController.swift */; };
 		9A7D5E4225490EA20016E4BC /* MRGCDTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7D5E4125490EA20016E4BC /* MRGCDTimer.swift */; };
+		9A7E27E8262326E000DA658B /* HttpHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7E27E7262326E000DA658B /* HttpHelper.swift */; };
 		9A820B6E24CD06AC00A62C6F /* HealthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A820B6D24CD06AC00A62C6F /* HealthViewController.swift */; };
 		9A820B7224CE5BC700A62C6F /* UILabel+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A820B7124CE5BC700A62C6F /* UILabel+Extension.swift */; };
 		9A820B7424CEA1CC00A62C6F /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A820B7324CEA1CC00A62C6F /* BaseViewController.swift */; };
@@ -648,6 +649,7 @@
 		9A6D092D2501E3EC00B4972F /* Device.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Device.md; sourceTree = "<group>"; };
 		9A7D5E3F254907AA0016E4BC /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		9A7D5E4125490EA20016E4BC /* MRGCDTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MRGCDTimer.swift; sourceTree = "<group>"; };
+		9A7E27E7262326E000DA658B /* HttpHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HttpHelper.swift; sourceTree = "<group>"; };
 		9A820B6D24CD06AC00A62C6F /* HealthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthViewController.swift; sourceTree = "<group>"; };
 		9A820B7124CE5BC700A62C6F /* UILabel+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Extension.swift"; sourceTree = "<group>"; };
 		9A820B7324CEA1CC00A62C6F /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
@@ -874,6 +876,7 @@
 		9A2184C7255ADDB8000330E5 /* RequestAndResponse */ = {
 			isa = PBXGroup;
 			children = (
+				9A7E27E7262326E000DA658B /* HttpHelper.swift */,
 				9A2184D7255AE3D4000330E5 /* RegisterResponse.swift */,
 				9A218626255CEA1D000330E5 /* LoginResponse.swift */,
 				9A839C0225602BB700714CBE /* BaseResponse.swift */,
@@ -1711,6 +1714,7 @@
 				9A56D24225216FC60082CC08 /* YAxisRenderer.swift in Sources */,
 				9A8CA51025272C5200EC01A7 /* CVDate.swift in Sources */,
 				9A56D24725216FC60082CC08 /* XAxisRenderer.swift in Sources */,
+				9A7E27E8262326E000DA658B /* HttpHelper.swift in Sources */,
 				9A5210732504937500F64A7A /* DeviceSettingsViewController.swift in Sources */,
 				9A56D29F25216FC70082CC08 /* CandleChartDataSet.swift in Sources */,
 				9A4E624624F8926300A0E878 /* DevicesViewController.swift in Sources */,

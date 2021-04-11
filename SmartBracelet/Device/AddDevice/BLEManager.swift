@@ -18,12 +18,15 @@ let bleSelf = WUBleManager.shared
 
 class BLEManager: NSObject {
     static let shared = BLEManager()
-    var sleepArray: [[SleepModel]] = Array(repeating: [], count: 7)
+    var sleepArray: [[TJDSleepModel]] = Array(repeating: [], count: 7)
     var stepArray: [[StepModel]] = Array(repeating: [], count: 7)
     var heartArray: [HeartModel] = []
     var bloodArray: [BloodModel] = []
+    var oxygenArray: [OxygenModel] = []
     var alarmArray: [WUAlarmClock] = [] // 闹钟
     var measureAsync: Async?
+    var binData = Data()
+    var total = 0
     
     override init() {
         super.init()
@@ -104,7 +107,8 @@ class BLEManager: NSObject {
         
         if notify.name == WUBleManagerNotifyKeys.connected {
             // 将蓝牙对象设置为已绑定，保存蓝牙对象
-            print("设备连接成功")
+            print("lefun设备连接成功")
+            BLECurrentManager.sharedInstall.deviceType = 2 
             endTimer()
             bleSelf.bleModel.isBond = true
             WUBleModel.setModel(bleSelf.bleModel)
@@ -149,33 +153,12 @@ class BLEManager: NSObject {
             if isSuccess {
             }
         }
-        
-        bleSelf.didSetStartBodyTemperature = { isSuccess in
-            if isSuccess {
-            }
-        }
-        
-        bleSelf.didSetPowerSwitch = { isSuccess in
-            if isSuccess {
-            }
-        }
-        
-        bleSelf.didSetTelephoneSMS = { isSuccess in
-            if isSuccess {
-            }
-        }
-        
-        bleSelf.didSetSleepSetting = { isSuccess in
-            if isSuccess {
-            }
-        }
     }
     
     public func regNotification() {
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotify(_:)), name: WristbandNotifyKeys.readyToWrite, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotify(_:)), name: WristbandNotifyKeys.read_Sport, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotify(_:)), name: WristbandNotifyKeys.read_All_Sport, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(handleNotify(_:)), name: WristbandNotifyKeys.read_Sleep, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotify(_:)), name: WristbandNotifyKeys.read_All_Sleep, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotify(_:)), name: WristbandNotifyKeys.sysCeLiang_heart, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotify(_:)), name: WristbandNotifyKeys.sysCeLiang_blood, object: nil)
@@ -197,6 +180,14 @@ class BLEManager: NSObject {
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotify(_:)), name: WristbandNotifyKeys.setOrRead_SitParam, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotify(_:)), name: WristbandNotifyKeys.syncEle, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotify(_:)), name: WristbandNotifyKeys.setOrRead_Alarm, object: nil) // 闹钟读取和设置
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(handleNotify(_:)), name: WristbandNotifyKeys.sysCeLiang_oxygen, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleNotify(_:)), name: WristbandNotifyKeys.devSendCeLiang_oxygen, object: nil)
+        
+        //MARK: 监听表盘推送
+        NotificationCenter.default.addObserver(self, selector: #selector(handleNotify(_:)), name: WristbandNotifyKeys.startDialPush, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleNotify(_:)), name: WristbandNotifyKeys.dialPush, object: nil)
+        
         #if WeiZhongYun
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotify(_:)), name: WristbandNotifyKeys.powerSwitch, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotify(_:)), name: WristbandNotifyKeys.telephoneSMS, object: nil)
@@ -228,8 +219,14 @@ class BLEManager: NSObject {
                 
         if notify.name == WristbandNotifyKeys.readyToWrite {
             wuPrint("可以进行列表上的功能操作了！")
-            bleSelf.getDeviceInfoForWristband() // 第1步：获取设备信息
+            bleSelf.bindSetForWristband() // 第0步：先绑定设备
+            bleSelf.setTimeForWristband() // 第0步：设置时间
             NotificationCenter.default.post(name: Notification.Name("HealthVCLoading"), object: 2)
+        }
+        
+        if notify.name == WristbandNotifyKeys.bindSet {
+            wuPrint("ANCS 绑定成功")
+            bleSelf.getDeviceInfoForWristband() // 第1步：获取设备信息
         }
                 
         if notify.name == WristbandNotifyKeys.read_Sport {
@@ -246,34 +243,30 @@ class BLEManager: NSObject {
             wuPrint(model.step, dateStr)
             stepArray[model.day] += [model]
             if model.day == 6 {
-                if model.totalCount == model.index {
+                if model.totalCount == model.indexOfTotal {
                     print("detail step sync complete", model.day)
                     bleSelf.aloneGetSleep(with: 0) // 第6步：获取历史睡眠信息
                 }
             } else {
-                if model.totalCount == model.index {
+                if model.totalCount == model.indexOfTotal {
                     print("detail step sync complete", model.day)
                     bleSelf.aloneGetStep(with: model.day + 1)
                 }
             }
         }
-                
-        if notify.name == WristbandNotifyKeys.read_Sleep {
-            wuPrint("current sleep：%d", bleSelf.sleep)
-        }
         
         if notify.name == WristbandNotifyKeys.read_All_Sleep {
-            let model = notify.object as! SleepModel
-            dump(model)
+            let model = notify.object as! TJDSleepModel
+            print("sleep: \(model.day) \(model.totalCount) \(model.state)")
             sleepArray[model.day] += [model]
             if model.day == 6 {
-                if model.totalCount == model.index {
+                if model.totalCount == model.indexOfTotal {
                     print("detail sleep sync complete", model.day)
                     NotificationCenter.default.post(name: Notification.Name("HealthViewController"), object: "sleep")
                     bleSelf.aloneGetMeasure(.heart) // 第7步：获取心跳历史数据
                 }
             } else {
-                if model.totalCount == model.index {
+                if model.totalCount == model.indexOfTotal {
                     print("detail sleep sync complete", model.day)
                     bleSelf.aloneGetSleep(with: model.day + 1)
                 }
@@ -287,7 +280,7 @@ class BLEManager: NSObject {
             dump(model)
             wuPrint("收到测试心跳的结果")
             bleSelf.aloneGetMeasure(.blood) // 第8步：获取血压历史数据
-            if model.index == model.totalCount {
+            if model.indexOfTotal == model.totalCount {
                 let str1 = String.init(format: "heart history complete, total %d line", model.totalCount)
                 wuPrint(str1)
             }
@@ -298,26 +291,52 @@ class BLEManager: NSObject {
             dump(model)
             bloodArray.append(model)
             NotificationCenter.default.post(name: Notification.Name("HealthViewController"), object: "blood")
-            if model.index == model.totalCount {
+            if model.indexOfTotal == model.totalCount {
                 let str1 = String.init(format: "blood history complete, total %d line", model.totalCount)
                 wuPrint(str1)
                 NotificationCenter.default.post(name: Notification.Name("HealthVCLoading"), object: 3) // 移除Loading
             }
+            bleSelf.aloneGetMeasure(.oxygen) // 第9步：获取血氧历史数据
         }
         
         if notify.name == WristbandNotifyKeys.devSendCeLiang_heart {
             measureAsync?.cancel()
             let  model = notify.object as! HeartModel
             dump(model)
+            wuPrint("心跳结束")
         }
         if notify.name == WristbandNotifyKeys.devSendCeLiang_blood {
             measureAsync?.cancel()
             let  model = notify.object as! BloodModel
             dump(model)
+            wuPrint("血压结束")
+        }
+        
+        if notify.name == WristbandNotifyKeys.sysCeLiang_oxygen {
+            guard let  model = notify.object as? OxygenModel else {
+                return
+            }
+            let str = String.init(format: "oxygen：%d", model.oxygen)
+            wuPrint(str)
+            oxygenArray.append(model)
+            NotificationCenter.default.post(name: Notification.Name("HealthViewController"), object: "oxygen")
+            if model.indexOfTotal == model.totalCount {
+                let str1 = String.init(format: "oxygen history complete, total %d line", model.totalCount)
+                wuPrint(str1)
+            }
+        }
+        if notify.name == WristbandNotifyKeys.devSendCeLiang_oxygen {
+            measureAsync?.cancel()
+            guard let  model = notify.object as? OxygenModel else {
+                return
+            }
+            dump(model)
+            print("血氧结束")
         }
         
         if notify.name == WristbandNotifyKeys.setOrRead_Time { // 时间设置成功
-            bleSelf.getStep(with: 0) // 第4步：获取步数
+            print("时间同步成功")
+            bleSelf.getDeviceInfoForWristband() // 第1步：获取设备信息
         }
          
         if notify.name == WristbandNotifyKeys.syncEle { // 电量同步结束后
@@ -341,7 +360,7 @@ class BLEManager: NSObject {
         if notify.name == WristbandNotifyKeys.setOrRead_UserInfo {
             dump(bleSelf.userInfo)
             print("用户信息获取成功")
-            bleSelf.setTimeForWristband() // 第3步：同步时间给设备
+            bleSelf.getStep() // 第4步：获取步数
         }
                 
         if notify.name == WristbandNotifyKeys.takePhoto {
@@ -357,7 +376,39 @@ class BLEManager: NSObject {
             dump(bleSelf.functionSwitchModel)
             print("setOrRead_Switch成功")
         }
+        
+        //MARK: 表盘推送监听
+        if notify.name == WristbandNotifyKeys.startDialPush
+        {
+            let any = notify.object as! Int
+            if any == 1 {
+                print("支持表盘推送可以开始推送")
+                for i in 0..<self.total {
+                    print("循环推送数据:"+String(i))
+                    bleSelf.setDialPush(binData, dataIndex: i)
+                    usleep(20 * 1000);
+                }
+            }
+            else {
+                Async.main {
+                    wuPrint("该设备不支持表盘推送，或者电量过低")
+                }
+            }
+        }
+        
+        if notify.name == WristbandNotifyKeys.dialPush {
+            if let any = notify.object, any is [Int] {
+                let array = any as! [Int]
+                if array[1] == 0 {
+                    wuPrint("更新失败")
+                    
+                }
+            }
+        }
+        
+        
         #if WeiZhongYun
+        print("为中云2")
         if notify.name == WristbandNotifyKeys.powerSwitch {
             dump(bleSelf.userInfo)
         }
@@ -423,9 +474,25 @@ extension BLEManager {
 }
 
 extension BLEManager {
-    public func readSleepData(array: [SleepModel]) -> [Int]  {
-        let arr = SleepModel.sleepTime(array)
+    public func readSleepData(array: [TJDSleepModel]) -> [Int]  {
+        let arr = TJDSleepModel.sleepTime(array)
         let a = SleepTimeModel.detailSleep(arr)
         return a
+    }
+    
+    public func sendDial() {
+        let str = "http://app.ss-tjd.com/api/dialpush/0.1/brlt/ui/dw_dial/di201911011148330"
+        HttpHelper.shared.getWith(url: str, parameters: nil, success: { (data) in
+            let temp = data as! Data
+            self.total = Int(ceil(Double(temp.count)/16))
+            self.binData = temp
+            print("检查是否可以表盘推送")
+            bleSelf.startDialPush(temp)
+            
+        }, failure: { (_) in
+            
+        }) { (_) in
+            
+        }
     }
 }

@@ -12,3 +12,4 @@
 #import "BabyBluetooth.h"
 #import "OTA.h"
 #import "HBLockSliderView.h"
+#import"AFNetworking.h"

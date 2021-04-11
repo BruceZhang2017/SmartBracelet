@@ -21,5 +21,6 @@ pod 'XCGLogger'
 pod 'RealmSwift'
 pod 'Realm'
 pod 'Toast'
+pod 'AFNetworking'
 
 end

@@ -146,6 +146,20 @@ class HealthViewController: BaseViewController {
                 v.append(NSAttributedString(string: "MMHG", attributes: [.font: UIFont.systemFont(ofSize: 12), .foregroundColor: UIColor.k999999]))
                 self?.pressureValueLabel.attributedText = v
             }
+        } else if objc == "oxygen" {
+            DispatchQueue.main.async {
+                [weak self] in
+                var value = 0
+                if BLEManager.shared.oxygenArray.count != 0 {
+                    value = BLEManager.shared.oxygenArray[0].oxygen
+                } else {
+                    value = 0
+                }
+                let v = NSMutableAttributedString()
+                v.append(NSAttributedString(string: "\(value)", attributes: [.font: UIFont.systemFont(ofSize: 36), .foregroundColor: UIColor.k666666]))
+                v.append(NSAttributedString(string: "%  健康", attributes: [.font: UIFont.systemFont(ofSize: 12), .foregroundColor: UIColor.k999999]))
+                self?.bleedValueLabel.attributedText = v
+            }
         }
     }
     
@@ -206,7 +220,7 @@ class HealthViewController: BaseViewController {
     
     private func startLoadingViewCheckTimer() {
         endLoadingViewCheckTimer()
-        loadingViewCheckTimer = Timer.scheduledTimer(withTimeInterval: 25, repeats: false, block: { (timer) in
+        loadingViewCheckTimer = Timer.scheduledTimer(withTimeInterval: 40, repeats: false, block: { (timer) in
             NotificationCenter.default.post(name: Notification.Name("HealthVCLoading"), object: 3)
         })
     }

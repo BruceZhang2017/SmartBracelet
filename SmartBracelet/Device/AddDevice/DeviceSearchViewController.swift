@@ -96,7 +96,7 @@ extension DeviceSearchViewController: UITableViewDelegate {
             model.firmwareVersion = currentModel.firmwareVersion
             model.uuidString = currentModel.uuidString
             model.name = currentModel.name
-            model.localName = currentModel.localName
+            //model.localName = currentModel.localName
             model.rssi = currentModel.rssi
             model.mac = currentModel.mac
             model.hardwareVersion = currentModel.hardwareVersion
