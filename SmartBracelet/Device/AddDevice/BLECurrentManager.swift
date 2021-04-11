@@ -100,7 +100,7 @@ class BLECurrentManager: NSObject {
             if name == nil || name?.count == 0 {
                 return false
             }
-            if name == "PF116" || name == "PF1028" || name == "PFm5" || name == "Lefun" {
+            if name == "PF116" || name == "PF1028" || name == "PFm5" || name == "Lefun" || name == "ITIME" {
                 return true
             }
             return false
@@ -125,7 +125,7 @@ class BLECurrentManager: NSObject {
                 }
                 model.vendorNumberString = data.hexEncodedStringNoBlank()
                 if data.count >= 6 {
-                    if name == "Lefun" {
+                    if name == "Lefun" || name == "ITIME" {
                         model.mac = data[0..<6].hexEncodedString()
                     } else {
                         let start = data.count - 6
@@ -154,7 +154,7 @@ class BLECurrentManager: NSObject {
             print("连接成功的设备: \(per?.name ?? "no name")")
             self?.currentPer = per
             let name = per?.name ?? ""
-            if name == "Lefun" {
+            if name == "Lefun" || name == "ITIME" {
                 self?.deviceType = 2 // Lefun
                 return
             }
@@ -178,7 +178,7 @@ class BLECurrentManager: NSObject {
         baby.setBlockOnDisconnect {[weak self] (manager, per, error) in
             print("断开连接的设备: \(per?.name ?? "no name")")
             let name = per?.name ?? ""
-            if name == "Lefun" {
+            if name == "Lefun" || name == "ITIME" {
                 return
             }
             guard let uuid = per?.identifier.uuidString else { return }
@@ -196,7 +196,7 @@ class BLECurrentManager: NSObject {
         
         baby.setBlockOnFailToConnect { (manager, per, err) in // 连接失败
             let name = per?.name ?? ""
-            if name == "Lefun" {
+            if name == "Lefun" || name == "ITIME" {
                 return
             }
             NotificationCenter.default.post(name: Notification.Name.SearchDevice, object: "connectFail")
@@ -204,7 +204,7 @@ class BLECurrentManager: NSObject {
         
         baby.setBlockOnDiscoverServices { (per, error) in
             let name = per?.name ?? ""
-            if name == "Lefun" {
+            if name == "Lefun" || name == "ITIME" {
                 return
             }
             if let services = per?.services {
@@ -216,7 +216,7 @@ class BLECurrentManager: NSObject {
         
         baby.setBlockOnDiscoverCharacteristics { [weak self] (per, service, error) in
             let name = per?.name ?? ""
-            if name == "Lefun" {
+            if name == "Lefun" || name == "ITIME" {
                 return
             }
             if let characteristics = service?.characteristics {
@@ -240,7 +240,7 @@ class BLECurrentManager: NSObject {
         
         baby.setBlockOnReadValueForCharacteristic { [weak self] (per, char, error) in
             let name = per?.name ?? ""
-            if name == "Lefun" {
+            if name == "Lefun" || name == "ITIME" {
                 return
             }
             if let data = char?.value, data.count > 0 {

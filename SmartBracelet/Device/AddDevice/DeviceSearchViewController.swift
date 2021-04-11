@@ -49,7 +49,7 @@ class DeviceSearchViewController: BaseViewController {
             tableView.reloadData()
         }
         if objc == "connected" { // 设备连接成功
-            if currentModel != nil && currentModel.name != "Lefun" {
+            if currentModel != nil && currentModel.name != "Lefun" && currentModel.name != "ITIME" {
                 if let model = try? BLEModel.er.fromRealm(with: "\(currentModel.mac)"), model.mac.count > 0 {
                     print("数据库已经有该设备")
                 } else {
@@ -90,7 +90,7 @@ extension DeviceSearchViewController: UITableViewDelegate {
         tableView.deselectRow(at: indexPath, animated: true)
         ProgressHUD.show()
         currentModel = BLECurrentManager.sharedInstall.models[indexPath.row]
-        if currentModel.name == "Lefun" { //
+        if currentModel.name == "Lefun" || currentModel.name == "ITIME" { //
             let model = TJDWristbandSDK.WUBleModel()
             model.isBond = true
             model.firmwareVersion = currentModel.firmwareVersion
