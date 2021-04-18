@@ -277,7 +277,6 @@ class BLEManager: NSObject {
             let  model = notify.object as! HeartModel
             heartArray.append(model)
             NotificationCenter.default.post(name: Notification.Name("HealthViewController"), object: "heart")
-            dump(model)
             wuPrint("收到测试心跳的结果")
             bleSelf.aloneGetMeasure(.blood) // 第8步：获取血压历史数据
             if model.indexOfTotal == model.totalCount {
@@ -378,20 +377,20 @@ class BLEManager: NSObject {
         }
         
         //MARK: 表盘推送监听
-        if notify.name == WristbandNotifyKeys.startDialPush
-        {
+        if notify.name == WristbandNotifyKeys.startDialPush {
             let any = notify.object as! Int
             if any == 1 {
                 print("支持表盘推送可以开始推送")
+                NotificationCenter.default.post(name: Notification.Name("ClockUseViewController"), object: 1)
                 for i in 0..<self.total {
                     print("循环推送数据:"+String(i))
                     bleSelf.setDialPush(binData, dataIndex: i)
                     usleep(20 * 1000);
                 }
-            }
-            else {
+                NotificationCenter.default.post(name: Notification.Name("ClockUseViewController"), object: 2)
+            } else {
                 Async.main {
-                    wuPrint("该设备不支持表盘推送，或者电量过低")
+                    Toast(text: "该设备不支持表盘推送，或者电量过低").show()
                 }
             }
         }
@@ -401,7 +400,7 @@ class BLEManager: NSObject {
                 let array = any as! [Int]
                 if array[1] == 0 {
                     wuPrint("更新失败")
-                    
+                    NotificationCenter.default.post(name: Notification.Name("ClockUseViewController"), object: 3)
                 }
             }
         }
@@ -494,5 +493,11 @@ extension BLEManager {
         }) { (_) in
             
         }
+    }
+    
+    public func sendDialWithLocalBin(_ value: Data) {
+        total = Int(ceil(Double(value.count)/16))
+        binData = value
+        bleSelf.startDialPush(value)
     }
 }

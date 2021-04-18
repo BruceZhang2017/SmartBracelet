@@ -77,9 +77,14 @@ extension DevicesViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: .kCellIdentifier, for: indexPath) as! ClockBCollectionViewCell
-        let bundle = Bundle(path: Bundle.main.path(forResource: "IdleResources", ofType: "bundle")!)
-        cell.clockImageView.image = UIImage(contentsOfFile: bundle!.path(forResource: "Static", ofType: nil, inDirectory: "80x160")! + "/\(indexPath.row + 1).png")
-        cell.clockNameLabel.text = "PFm5-\(indexPath.row + 1)"
+        if bleSelf.isConnected {
+            cell.clockImageView.image = UIImage(named: "preview_watch\(indexPath.row + 1)")
+            cell.clockNameLabel.text = "ITIME-\(indexPath.row + 1)"
+        } else {
+            let bundle = Bundle(path: Bundle.main.path(forResource: "IdleResources", ofType: "bundle")!)
+            cell.clockImageView.image = UIImage(contentsOfFile: bundle!.path(forResource: "Static", ofType: nil, inDirectory: "80x160")! + "/\(indexPath.row + 1).png")
+            cell.clockNameLabel.text = "PFm5-\(indexPath.row + 1)"
+        }
         return cell
     }
     

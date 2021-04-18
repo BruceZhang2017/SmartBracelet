@@ -13,3 +13,4 @@
 #import "OTA.h"
 #import "HBLockSliderView.h"
 #import"AFNetworking.h"
+#import "OTASDK.h"

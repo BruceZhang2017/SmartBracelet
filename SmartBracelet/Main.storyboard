@@ -502,6 +502,7 @@
                         <outlet property="footUnitLabel" destination="6OI-e3-qbe" id="tts-gf-V4U"/>
                         <outlet property="footValueLabel" destination="jEB-b5-ECy" id="Ysy-RA-dka"/>
                         <outlet property="footView" destination="jFR-ea-yS8" id="hl8-xr-dI6"/>
+                        <outlet property="heartRateImageView" destination="raH-f2-cdU" id="cPQ-TL-wsS"/>
                         <outlet property="heartTipLabel" destination="U21-9M-dKo" id="4jA-hv-uP5"/>
                         <outlet property="heartValueLabel" destination="dR4-9t-tXz" id="9Qh-cQ-yYg"/>
                         <outlet property="heartView" destination="dzL-cw-IRf" id="5Df-cJ-3fA"/>

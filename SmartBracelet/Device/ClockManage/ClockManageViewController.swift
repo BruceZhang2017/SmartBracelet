@@ -71,7 +71,7 @@ class ClockManageViewController: BaseViewController {
             // Fallback on earlier versions
         }
         scrollView.bounces = false
-        
+        scrollView.delegate = self
         setupUI()
     }
     
@@ -101,4 +101,18 @@ class ClockManageViewController: BaseViewController {
         contentViewWidthConstraint.constant = ScreenWidth * 2
     }
 
+}
+
+extension ClockManageViewController: UIScrollViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        
+    }
+    
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        
+    }
+    
+    func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
+        
+    }
 }

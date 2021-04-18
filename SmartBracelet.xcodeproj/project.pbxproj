@@ -21,6 +21,15 @@
 		9A037E4A25BDB9E00006FB94 /* OTAViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A037E4925BDB9E00006FB94 /* OTAViewController.swift */; };
 		9A037E4C25BDBA5A0006FB94 /* SGCirleProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A037E4B25BDBA5A0006FB94 /* SGCirleProgress.swift */; };
 		9A037E4E25BDBC180006FB94 /* SGCirle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A037E4D25BDBC170006FB94 /* SGCirle.swift */; };
+		9A08C65B262C5B7800E178DA /* preview_watch1.png in Resources */ = {isa = PBXBuildFile; fileRef = 9A08C659262C5B7800E178DA /* preview_watch1.png */; };
+		9A08C65E262C5B9100E178DA /* preview_watch2.png in Resources */ = {isa = PBXBuildFile; fileRef = 9A08C65C262C5B9100E178DA /* preview_watch2.png */; };
+		9A08C662262C5BB500E178DA /* preview_watch3.png in Resources */ = {isa = PBXBuildFile; fileRef = 9A08C660262C5BB500E178DA /* preview_watch3.png */; };
+		9A08C666262C5FAA00E178DA /* preview_watch4.png in Resources */ = {isa = PBXBuildFile; fileRef = 9A08C664262C5FAA00E178DA /* preview_watch4.png */; };
+		9A08C669262C6CE300E178DA /* preview_watch3_ClkResPKG.bin in Resources */ = {isa = PBXBuildFile; fileRef = 9A08C668262C6CE300E178DA /* preview_watch3_ClkResPKG.bin */; };
+		9A08C66B262C716F00E178DA /* preview_watch1_ClkResPKG.bin in Resources */ = {isa = PBXBuildFile; fileRef = 9A08C66A262C716F00E178DA /* preview_watch1_ClkResPKG.bin */; };
+		9A08C66D262C718100E178DA /* preview_watch2_ClkResPKG.bin in Resources */ = {isa = PBXBuildFile; fileRef = 9A08C66C262C718100E178DA /* preview_watch2_ClkResPKG.bin */; };
+		9A08C66F262C71A000E178DA /* preview_watch4_ClkResPKG.bin in Resources */ = {isa = PBXBuildFile; fileRef = 9A08C66E262C71A000E178DA /* preview_watch4_ClkResPKG.bin */; };
+		9A08C671262C71DA00E178DA /* SmartBand_PHY_ota.hex in Resources */ = {isa = PBXBuildFile; fileRef = 9A08C670262C71DA00E178DA /* SmartBand_PHY_ota.hex */; };
 		9A2181652557EDBE000330E5 /* apple.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 9A2181622557EDBE000330E5 /* apple.jpeg */; };
 		9A2181662557EDBE000330E5 /* walk.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 9A2181632557EDBE000330E5 /* walk.jpeg */; };
 		9A2181672557EDBE000330E5 /* water.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9A2181642557EDBE000330E5 /* water.jpg */; };
@@ -343,6 +352,16 @@
 		9AB910272501322C006E0FC4 /* EMAlertTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB910232501322B006E0FC4 /* EMAlertTextField.swift */; };
 		9AB910282501322C006E0FC4 /* EMAlertAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB910242501322B006E0FC4 /* EMAlertAction.swift */; };
 		9AB910292501322C006E0FC4 /* EMAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB910252501322B006E0FC4 /* EMAlertController.swift */; };
+		9AE1A16B2629465F00B8B10D /* ErrorCode.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AE1A1552629465F00B8B10D /* ErrorCode.m */; };
+		9AE1A16C2629465F00B8B10D /* JCBlutoothInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AE1A1582629465F00B8B10D /* JCBlutoothInfoModel.m */; };
+		9AE1A16D2629465F00B8B10D /* OTAManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AE1A1592629465F00B8B10D /* OTAManager.m */; };
+		9AE1A16E2629465F00B8B10D /* JCBluetoothManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AE1A15A2629465F00B8B10D /* JCBluetoothManager.m */; };
+		9AE1A16F2629465F00B8B10D /* JCDataConvert.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AE1A15E2629465F00B8B10D /* JCDataConvert.m */; };
+		9AE1A1702629465F00B8B10D /* DDFileReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AE1A1622629465F00B8B10D /* DDFileReader.m */; };
+		9AE1A1712629465F00B8B10D /* Partition.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AE1A1632629465F00B8B10D /* Partition.m */; };
+		9AE1A1722629465F00B8B10D /* FileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AE1A1642629465F00B8B10D /* FileManager.m */; };
+		9AE1A181262AB9F900B8B10D /* HeartRateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE1A180262AB9F900B8B10D /* HeartRateView.swift */; };
+		9AE1A183262AF69400B8B10D /* HeartRateCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE1A182262AF69400B8B10D /* HeartRateCollectionViewCell.swift */; };
 		9AEC22CD25B707C000DE899A /* BLEModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AEC22CC25B707C000DE899A /* BLEModel.swift */; };
 		9AEC230025B7114500DE899A /* Data+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AEC22FF25B7114500DE899A /* Data+Extension.swift */; };
 		9AEFEFFA25B7FD4200C0D84F /* BabyToy.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AEFEFEA25B7FD4200C0D84F /* BabyToy.m */; };
@@ -393,6 +412,15 @@
 		9A037E4925BDB9E00006FB94 /* OTAViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OTAViewController.swift; sourceTree = "<group>"; };
 		9A037E4B25BDBA5A0006FB94 /* SGCirleProgress.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SGCirleProgress.swift; sourceTree = "<group>"; };
 		9A037E4D25BDBC170006FB94 /* SGCirle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SGCirle.swift; sourceTree = "<group>"; };
+		9A08C659262C5B7800E178DA /* preview_watch1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = preview_watch1.png; sourceTree = "<group>"; };
+		9A08C65C262C5B9100E178DA /* preview_watch2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = preview_watch2.png; sourceTree = "<group>"; };
+		9A08C660262C5BB500E178DA /* preview_watch3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = preview_watch3.png; sourceTree = "<group>"; };
+		9A08C664262C5FAA00E178DA /* preview_watch4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = preview_watch4.png; sourceTree = "<group>"; };
+		9A08C668262C6CE300E178DA /* preview_watch3_ClkResPKG.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = preview_watch3_ClkResPKG.bin; sourceTree = "<group>"; };
+		9A08C66A262C716F00E178DA /* preview_watch1_ClkResPKG.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = preview_watch1_ClkResPKG.bin; sourceTree = "<group>"; };
+		9A08C66C262C718100E178DA /* preview_watch2_ClkResPKG.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = preview_watch2_ClkResPKG.bin; sourceTree = "<group>"; };
+		9A08C66E262C71A000E178DA /* preview_watch4_ClkResPKG.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = preview_watch4_ClkResPKG.bin; sourceTree = "<group>"; };
+		9A08C670262C71DA00E178DA /* SmartBand_PHY_ota.hex */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SmartBand_PHY_ota.hex; sourceTree = "<group>"; };
 		9A2181622557EDBE000330E5 /* apple.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = apple.jpeg; sourceTree = "<group>"; };
 		9A2181632557EDBE000330E5 /* walk.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = walk.jpeg; sourceTree = "<group>"; };
 		9A2181642557EDBE000330E5 /* water.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = water.jpg; sourceTree = "<group>"; };
@@ -726,6 +754,25 @@
 		9AB910242501322B006E0FC4 /* EMAlertAction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EMAlertAction.swift; sourceTree = "<group>"; };
 		9AB910252501322B006E0FC4 /* EMAlertController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EMAlertController.swift; sourceTree = "<group>"; };
 		9AB9102A25013281006E0FC4 /* AlertController.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = AlertController.md; sourceTree = "<group>"; };
+		9AE1A1542629465F00B8B10D /* ErrorCode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ErrorCode.h; sourceTree = "<group>"; };
+		9AE1A1552629465F00B8B10D /* ErrorCode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ErrorCode.m; sourceTree = "<group>"; };
+		9AE1A1582629465F00B8B10D /* JCBlutoothInfoModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCBlutoothInfoModel.m; sourceTree = "<group>"; };
+		9AE1A1592629465F00B8B10D /* OTAManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTAManager.m; sourceTree = "<group>"; };
+		9AE1A15A2629465F00B8B10D /* JCBluetoothManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCBluetoothManager.m; sourceTree = "<group>"; };
+		9AE1A15B2629465F00B8B10D /* JCDataConvert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCDataConvert.h; sourceTree = "<group>"; };
+		9AE1A15C2629465F00B8B10D /* OTAManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTAManager.h; sourceTree = "<group>"; };
+		9AE1A15D2629465F00B8B10D /* JCBlutoothInfoModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCBlutoothInfoModel.h; sourceTree = "<group>"; };
+		9AE1A15E2629465F00B8B10D /* JCDataConvert.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCDataConvert.m; sourceTree = "<group>"; };
+		9AE1A15F2629465F00B8B10D /* JCBluetoothManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCBluetoothManager.h; sourceTree = "<group>"; };
+		9AE1A1612629465F00B8B10D /* FileManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileManager.h; sourceTree = "<group>"; };
+		9AE1A1622629465F00B8B10D /* DDFileReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDFileReader.m; sourceTree = "<group>"; };
+		9AE1A1632629465F00B8B10D /* Partition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Partition.m; sourceTree = "<group>"; };
+		9AE1A1642629465F00B8B10D /* FileManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileManager.m; sourceTree = "<group>"; };
+		9AE1A1652629465F00B8B10D /* Partition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Partition.h; sourceTree = "<group>"; };
+		9AE1A1662629465F00B8B10D /* DDFileReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDFileReader.h; sourceTree = "<group>"; };
+		9AE1A16A2629465F00B8B10D /* OTASDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTASDK.h; sourceTree = "<group>"; };
+		9AE1A180262AB9F900B8B10D /* HeartRateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartRateView.swift; sourceTree = "<group>"; };
+		9AE1A182262AF69400B8B10D /* HeartRateCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartRateCollectionViewCell.swift; sourceTree = "<group>"; };
 		9AEC22CC25B707C000DE899A /* BLEModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BLEModel.swift; sourceTree = "<group>"; };
 		9AEC22FF25B7114500DE899A /* Data+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+Extension.swift"; sourceTree = "<group>"; };
 		9AEFEFE825B7FD4200C0D84F /* BabyRhythm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BabyRhythm.h; sourceTree = "<group>"; };
@@ -829,11 +876,27 @@
 		9A037E4025BDACDB0006FB94 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
-				9AAF861A25C83CBE00960BDD /* WatchFace */,
+				9A08C653262C5A1100E178DA /* lefun */,
 				9A037E4125BDACFE0006FB94 /* 8267_module_tOTA.bin */,
+				9A08C670262C71DA00E178DA /* SmartBand_PHY_ota.hex */,
 				9AAF861B25C83E5000960BDD /* IdleResources.bundle */,
 			);
 			path = Resource;
+			sourceTree = "<group>";
+		};
+		9A08C653262C5A1100E178DA /* lefun */ = {
+			isa = PBXGroup;
+			children = (
+				9A08C659262C5B7800E178DA /* preview_watch1.png */,
+				9A08C66A262C716F00E178DA /* preview_watch1_ClkResPKG.bin */,
+				9A08C65C262C5B9100E178DA /* preview_watch2.png */,
+				9A08C66C262C718100E178DA /* preview_watch2_ClkResPKG.bin */,
+				9A08C660262C5BB500E178DA /* preview_watch3.png */,
+				9A08C668262C6CE300E178DA /* preview_watch3_ClkResPKG.bin */,
+				9A08C664262C5FAA00E178DA /* preview_watch4.png */,
+				9A08C66E262C71A000E178DA /* preview_watch4_ClkResPKG.bin */,
+			);
+			path = lefun;
 			sourceTree = "<group>";
 		};
 		9A2181612557ED9B000330E5 /* Resource */ = {
@@ -1349,6 +1412,8 @@
 				9A5613F02524875400C43C6A /* CommonCalendarView.swift */,
 				9A5613F22524879600C43C6A /* CommonCalendarView.xib */,
 				9A5613F425248BFC00C43C6A /* AudioButtonView.swift */,
+				9AE1A180262AB9F900B8B10D /* HeartRateView.swift */,
+				9AE1A182262AF69400B8B10D /* HeartRateCollectionViewCell.swift */,
 			);
 			path = Health;
 			sourceTree = "<group>";
@@ -1356,6 +1421,7 @@
 		9A820B6F24CE5A1A00A62C6F /* Kit */ = {
 			isa = PBXGroup;
 			children = (
+				9AE1A1522629465F00B8B10D /* OTASDK */,
 				9A367B6C25BD207000BFB4C3 /* EasyRealm */,
 				9AEFEFE725B7FD4200C0D84F /* BabyBluetooth */,
 				9A839C512560F3EB00714CBE /* Map */,
@@ -1496,13 +1562,6 @@
 			path = Login;
 			sourceTree = "<group>";
 		};
-		9AAF861A25C83CBE00960BDD /* WatchFace */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = WatchFace;
-			sourceTree = "<group>";
-		};
 		9AB9102125013210006E0FC4 /* AlertController */ = {
 			isa = PBXGroup;
 			children = (
@@ -1513,6 +1572,62 @@
 				9AB9102A25013281006E0FC4 /* AlertController.md */,
 			);
 			path = AlertController;
+			sourceTree = "<group>";
+		};
+		9AE1A1522629465F00B8B10D /* OTASDK */ = {
+			isa = PBXGroup;
+			children = (
+				9AE1A1532629465F00B8B10D /* ConstansDefine */,
+				9AE1A1562629465F00B8B10D /* Manager */,
+				9AE1A16A2629465F00B8B10D /* OTASDK.h */,
+			);
+			path = OTASDK;
+			sourceTree = "<group>";
+		};
+		9AE1A1532629465F00B8B10D /* ConstansDefine */ = {
+			isa = PBXGroup;
+			children = (
+				9AE1A1542629465F00B8B10D /* ErrorCode.h */,
+				9AE1A1552629465F00B8B10D /* ErrorCode.m */,
+			);
+			path = ConstansDefine;
+			sourceTree = "<group>";
+		};
+		9AE1A1562629465F00B8B10D /* Manager */ = {
+			isa = PBXGroup;
+			children = (
+				9AE1A1572629465F00B8B10D /* Bluetooth */,
+				9AE1A1602629465F00B8B10D /* FileManager */,
+			);
+			path = Manager;
+			sourceTree = "<group>";
+		};
+		9AE1A1572629465F00B8B10D /* Bluetooth */ = {
+			isa = PBXGroup;
+			children = (
+				9AE1A1582629465F00B8B10D /* JCBlutoothInfoModel.m */,
+				9AE1A1592629465F00B8B10D /* OTAManager.m */,
+				9AE1A15A2629465F00B8B10D /* JCBluetoothManager.m */,
+				9AE1A15B2629465F00B8B10D /* JCDataConvert.h */,
+				9AE1A15C2629465F00B8B10D /* OTAManager.h */,
+				9AE1A15D2629465F00B8B10D /* JCBlutoothInfoModel.h */,
+				9AE1A15E2629465F00B8B10D /* JCDataConvert.m */,
+				9AE1A15F2629465F00B8B10D /* JCBluetoothManager.h */,
+			);
+			path = Bluetooth;
+			sourceTree = "<group>";
+		};
+		9AE1A1602629465F00B8B10D /* FileManager */ = {
+			isa = PBXGroup;
+			children = (
+				9AE1A1612629465F00B8B10D /* FileManager.h */,
+				9AE1A1622629465F00B8B10D /* DDFileReader.m */,
+				9AE1A1632629465F00B8B10D /* Partition.m */,
+				9AE1A1642629465F00B8B10D /* FileManager.m */,
+				9AE1A1652629465F00B8B10D /* Partition.h */,
+				9AE1A1662629465F00B8B10D /* DDFileReader.h */,
+			);
+			path = FileManager;
 			sourceTree = "<group>";
 		};
 		9AEFEFE725B7FD4200C0D84F /* BabyBluetooth */ = {
@@ -1614,23 +1729,32 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9A08C65E262C5B9100E178DA /* preview_watch2.png in Resources */,
 				9A60DEE2252F003800E0D849 /* cities.plist in Resources */,
+				9A08C66D262C718100E178DA /* preview_watch2_ClkResPKG.bin in Resources */,
 				9A2185AC255BC6A9000330E5 /* new2.jpg in Resources */,
 				9A820B8224D0522300A62C6F /* Sport.storyboard in Resources */,
+				9A08C662262C5BB500E178DA /* preview_watch3.png in Resources */,
 				18385F13245181D900EA380A /* Main.storyboard in Resources */,
 				9A2185AD255BC6AA000330E5 /* new3.jpg in Resources */,
 				9A2181652557EDBE000330E5 /* apple.jpeg in Resources */,
+				9A08C65B262C5B7800E178DA /* preview_watch1.png in Resources */,
 				9A60DEE3252F003800E0D849 /* hotCities.plist in Resources */,
 				9A2185B0255BC6AA000330E5 /* new5.jpg in Resources */,
 				9A4E624424F7E94E00A0E878 /* Device.storyboard in Resources */,
 				9AAF861C25C83E5000960BDD /* IdleResources.bundle in Resources */,
+				9A08C66B262C716F00E178DA /* preview_watch1_ClkResPKG.bin in Resources */,
 				18385EAA24517F1A00EA380A /* LaunchScreen.storyboard in Resources */,
 				9A350BE524EA6476004CEE6A /* Mine.storyboard in Resources */,
 				9A839C672560F68B00714CBE /* SGSportingView.storyboard in Resources */,
 				9A2181662557EDBE000330E5 /* walk.jpeg in Resources */,
 				9A2185AE255BC6AA000330E5 /* new1.jpg in Resources */,
 				9A2181672557EDBE000330E5 /* water.jpg in Resources */,
+				9A08C666262C5FAA00E178DA /* preview_watch4.png in Resources */,
 				9A2185AF255BC6AA000330E5 /* new4.jpg in Resources */,
+				9A08C669262C6CE300E178DA /* preview_watch3_ClkResPKG.bin in Resources */,
+				9A08C671262C71DA00E178DA /* SmartBand_PHY_ota.hex in Resources */,
+				9A08C66F262C71A000E178DA /* preview_watch4_ClkResPKG.bin in Resources */,
 				9A5613F32524879600C43C6A /* CommonCalendarView.xib in Resources */,
 				9A820B7824CEA2C600A62C6F /* Health.storyboard in Resources */,
 				18385EA724517F1A00EA380A /* Assets.xcassets in Resources */,
@@ -1719,6 +1843,7 @@
 				9A56D29F25216FC70082CC08 /* CandleChartDataSet.swift in Sources */,
 				9A4E624624F8926300A0E878 /* DevicesViewController.swift in Sources */,
 				9A8CA51125272C5200EC01A7 /* CVCalendarView.swift in Sources */,
+				9AE1A16F2629465F00B8B10D /* JCDataConvert.m in Sources */,
 				9A8CA51C25272C5200EC01A7 /* CVCalendarViewPresentationMode.swift in Sources */,
 				9A56D27925216FC60082CC08 /* Transformer.swift in Sources */,
 				9A2181962558290B000330E5 /* SetTargetCViewController.swift in Sources */,
@@ -1777,6 +1902,7 @@
 				9A56D2A325216FC70082CC08 /* ChartDataEntryBase.swift in Sources */,
 				9A5E932A2515BB630060AB13 /* UserModel.swift in Sources */,
 				9AB910292501322C006E0FC4 /* EMAlertController.swift in Sources */,
+				9AE1A181262AB9F900B8B10D /* HeartRateView.swift in Sources */,
 				9A820B7C24CECFBC00A62C6F /* String+Extension.swift in Sources */,
 				9A8CA52225272C5200EC01A7 /* CVCalendarManager.swift in Sources */,
 				9A56D2B725216FC70082CC08 /* ILineRadarChartDataSet.swift in Sources */,
@@ -1784,6 +1910,7 @@
 				9A2184D8255AE3D4000330E5 /* RegisterResponse.swift in Sources */,
 				9A820B8F24D1B15B00A62C6F /* UIButton+Extension.swift in Sources */,
 				9A56D2AB25216FC70082CC08 /* CandleChartData.swift in Sources */,
+				9AE1A1712629465F00B8B10D /* Partition.m in Sources */,
 				9A56D29C25216FC70082CC08 /* CombinedChartData.swift in Sources */,
 				9A56D26C25216FC60082CC08 /* BarChartView.swift in Sources */,
 				9A52106F2503A62F00F64A7A /* MarketClockViewController.swift in Sources */,
@@ -1802,6 +1929,7 @@
 				9A350BE924EA765F004CEE6A /* UserInfoViewController.swift in Sources */,
 				9A56D26A25216FC60082CC08 /* BubbleChartView.swift in Sources */,
 				18385E9E24517F1600EA380A /* AppDelegate.swift in Sources */,
+				9AE1A1702629465F00B8B10D /* DDFileReader.m in Sources */,
 				9A218627255CEA1D000330E5 /* LoginResponse.swift in Sources */,
 				9A56D2B425216FC70082CC08 /* ILineChartDataSet.swift in Sources */,
 				9A56D23D25216FC60082CC08 /* YAxisRendererHorizontalBarChart.swift in Sources */,
@@ -1812,6 +1940,7 @@
 				9A8CA50A25272C5200EC01A7 /* CVCalendarMonthView.swift in Sources */,
 				9A60DEF5252F49A200E0D849 /* AlarmAddViewController.swift in Sources */,
 				9A32B06B2543C5C7008F0E26 /* BLEManager.swift in Sources */,
+				9AE1A16B2629465F00B8B10D /* ErrorCode.m in Sources */,
 				9A28DA78251CC6E800F7B260 /* DeviceListViewController.swift in Sources */,
 				9A839C652560F40300714CBE /* SGSportingViewController.m in Sources */,
 				9A8CA51F25272C5200EC01A7 /* CVCalendarViewAnimator.swift in Sources */,
@@ -1883,6 +2012,7 @@
 				9A8CA52B252CB6E000EC01A7 /* HelpCenterViewController.swift in Sources */,
 				9A8D431D250F411800E8D6F7 /* RegisterViewController.swift in Sources */,
 				9A60DECA252DEA2B00E0D849 /* BindThreeViewController.swift in Sources */,
+				9AE1A1722629465F00B8B10D /* FileManager.m in Sources */,
 				9AEFEFFF25B7FD4200C0D84F /* BabySpeaker.m in Sources */,
 				9A8CA51725272C5200EC01A7 /* CVCalendarMenuView.swift in Sources */,
 				9AEFF00225B7FD4200C0D84F /* BabyDefine.m in Sources */,
@@ -1912,6 +2042,7 @@
 				9A56D28D25216FC60082CC08 /* MarkerView.swift in Sources */,
 				9A037E4825BDB1EC0006FB94 /* OTA.m in Sources */,
 				9A8CA52125272C5200EC01A7 /* CVCalendarWeekday.swift in Sources */,
+				9AE1A16E2629465F00B8B10D /* JCBluetoothManager.m in Sources */,
 				1898B72C2451969B00B9E5A5 /* Date+String.swift in Sources */,
 				9A4E624824F8DF3800A0E878 /* DevicesView.swift in Sources */,
 				9AEFEFFE25B7FD4200C0D84F /* BabyCentralManager.m in Sources */,
@@ -1952,6 +2083,7 @@
 				9A521069250322E500F64A7A /* ClockCollectionViewCell.swift in Sources */,
 				9A5210712503DB2E00F64A7A /* ClockCCollectionViewCell.swift in Sources */,
 				9A56D25025216FC60082CC08 /* TriangleShapeRenderer.swift in Sources */,
+				9AE1A16D2629465F00B8B10D /* OTAManager.m in Sources */,
 				9A037E4C25BDBA5A0006FB94 /* SGCirleProgress.swift in Sources */,
 				9A56D2AE25216FC70082CC08 /* RadarChartDataSet.swift in Sources */,
 				9A8CA51E25272C5200EC01A7 /* CVCalendarViewAnimatorDelegate.swift in Sources */,
@@ -1972,9 +2104,11 @@
 				9A820B6E24CD06AC00A62C6F /* HealthViewController.swift in Sources */,
 				9A56D28925216FC60082CC08 /* YAxis.swift in Sources */,
 				9A60DEE9252F1E8200E0D849 /* DeviceInfoViewController.swift in Sources */,
+				9AE1A16C2629465F00B8B10D /* JCBlutoothInfoModel.m in Sources */,
 				9A56D25625216FC60082CC08 /* PieChartRenderer.swift in Sources */,
 				9A56D25F25216FC60082CC08 /* Range.swift in Sources */,
 				9A56D24625216FC60082CC08 /* BarChartRenderer.swift in Sources */,
+				9AE1A183262AF69400B8B10D /* HeartRateCollectionViewCell.swift in Sources */,
 				9A8CA51525272C5200EC01A7 /* CVSet.swift in Sources */,
 				9A5613F525248BFC00C43C6A /* AudioButtonView.swift in Sources */,
 				9A8CA51425272C5200EC01A7 /* CVSelectionType.swift in Sources */,

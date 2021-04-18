@@ -36,10 +36,12 @@ class HealthViewController: BaseViewController {
     @IBOutlet weak var bleedView: UIView!
     @IBOutlet weak var bleedTipLabel: UILabel!
     @IBOutlet weak var bleedValueLabel: UILabel!
+    @IBOutlet weak var heartRateImageView: UIImageView!
     var flag = 0 // 属性的作用
     var popup: PopupBViewController?
     var activityIndicator: NVActivityIndicatorView?
     private var loadingViewCheckTimer: Timer?
+    var heartRateView: HeartRateView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -61,6 +63,12 @@ class HealthViewController: BaseViewController {
         sleepView.addShadow(color: UIColor.k333333, offset: CGSize(width: 0, height: 1), opacity: 0.1)
         pressureView.addShadow(color: UIColor.k333333, offset: CGSize(width: 0, height: 1), opacity: 0.1)
         bleedView.addShadow(color: UIColor.k333333, offset: CGSize(width: 0, height: 1), opacity: 0.1)
+        
+        heartRateView = HeartRateView(frame: CGRect(x: 0, y: 0, width: 242, height: 50))
+        heartView.addSubview(heartRateView)
+        heartRateView.snp.makeConstraints {
+            $0.edges.equalTo(heartRateImageView)
+        }
     }
     
     private func registerNotification() {
@@ -129,6 +137,7 @@ class HealthViewController: BaseViewController {
                 v.append(NSAttributedString(string: "\(heart)", attributes: [.font: UIFont.systemFont(ofSize: 36), .foregroundColor: UIColor.k666666]))
                 v.append(NSAttributedString(string: "次/分", attributes: [.font: UIFont.systemFont(ofSize: 12), .foregroundColor: UIColor.k999999]))
                 self?.heartValueLabel.attributedText = v
+                self?.refreshLefunHeartRate()
             }
         } else if objc == "blood" {
             DispatchQueue.main.async {
@@ -228,6 +237,19 @@ class HealthViewController: BaseViewController {
     private func endLoadingViewCheckTimer() {
         loadingViewCheckTimer?.invalidate()
         loadingViewCheckTimer = nil
+    }
+    
+    private func refreshLefunHeartRate() {
+        let array = BLEManager.shared.heartArray
+        for item in array {
+            let timeStamp = item.timeStamp
+            let date = Date(timeIntervalSince1970: TimeInterval(timeStamp))
+            if date.isToday() {
+                let hour = Int(date.stringFromH()) ?? 0
+                heartRateView.heartRateArray[hour] = item.heart
+            }
+        }
+        heartRateView.collectionView.reloadData()
     }
     
     // MARK: - Navigation

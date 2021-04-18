@@ -64,6 +64,13 @@ extension Date {
         return dateFormatter.string(from: self)
     }
     
+    func stringFromH() -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "HH"
+        
+        return dateFormatter.string(from: self)
+    }
+    
     /// 一天的最初时刻
     func zeroTimeStamp() -> TimeInterval {
         let calendar = Calendar.current
@@ -83,6 +90,11 @@ extension Date {
     func daysBetweenDate(toDate: Date) -> Int {
         let components = Calendar.current.dateComponents([.day], from: self, to: toDate)
         return components.day ?? 0
+    }
+    
+    func isToday() -> Bool {
+        let calendar = Calendar.current
+        return calendar.isDateInToday(self)
     }
 }
 
