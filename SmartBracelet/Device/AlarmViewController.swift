@@ -112,8 +112,8 @@ class AlarmViewController: BaseViewController {
     }
     
     private func hideAddAlarmButton() {
-        maximumAlarmLabel.isHidden = true
-        addButton.isHidden = true
+        maximumAlarmLabel?.isHidden = true
+        addButton?.isHidden = true
     }
     
     @objc private func handleAddAlarm(_ sender: Any) {

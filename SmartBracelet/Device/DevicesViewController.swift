@@ -22,6 +22,8 @@ class DevicesViewController: BaseViewController {
         deviceView = DevicesView(frame: CGRect(x: 0, y: 5, width: ScreenWidth, height: 200))
         deviceView.delegate = self
         contentView.addSubview(deviceView)
+        bleSelf.getSwitchForWristband()
+        bleSelf.getBatteryForWristband()
     }
     
     override func viewDidAppear(_ animated: Bool) {

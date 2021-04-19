@@ -35,7 +35,15 @@ extension DeviceInfoViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: .kCellIdentifier, for: indexPath) as! DeviceInfoTableViewCell
         cell.titleLabel.text = titles[indexPath.row]
-        cell.valueLabel.text = ""
+        if indexPath.row == 0 {
+            cell.valueLabel.text = bleSelf.bleModel.name
+        } else if indexPath.row == 1 {
+            cell.valueLabel.text = bleSelf.bleModel.mac
+        } else if indexPath.row == 2 {
+            cell.valueLabel.text = bleSelf.bleModel.firmwareVersion
+        } else {
+            cell.valueLabel.text = bleSelf.bleModel.internalNumber
+        }
         return cell
     }
 }

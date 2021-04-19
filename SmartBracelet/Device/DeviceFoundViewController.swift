@@ -22,6 +22,7 @@ class DeviceFoundViewController: BaseViewController {
     }
     
     @IBAction func found(_ sender: Any) {
+        bleSelf.findDeviceForWristband()
     }
     
     @IBAction func cancel(_ sender: Any) {

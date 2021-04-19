@@ -30,6 +30,7 @@
 		9A08C66D262C718100E178DA /* preview_watch2_ClkResPKG.bin in Resources */ = {isa = PBXBuildFile; fileRef = 9A08C66C262C718100E178DA /* preview_watch2_ClkResPKG.bin */; };
 		9A08C66F262C71A000E178DA /* preview_watch4_ClkResPKG.bin in Resources */ = {isa = PBXBuildFile; fileRef = 9A08C66E262C71A000E178DA /* preview_watch4_ClkResPKG.bin */; };
 		9A08C671262C71DA00E178DA /* SmartBand_PHY_ota.hex in Resources */ = {isa = PBXBuildFile; fileRef = 9A08C670262C71DA00E178DA /* SmartBand_PHY_ota.hex */; };
+		9A08C673262C757A00E178DA /* WeatherViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A08C672262C757A00E178DA /* WeatherViewController.swift */; };
 		9A2181652557EDBE000330E5 /* apple.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 9A2181622557EDBE000330E5 /* apple.jpeg */; };
 		9A2181662557EDBE000330E5 /* walk.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 9A2181632557EDBE000330E5 /* walk.jpeg */; };
 		9A2181672557EDBE000330E5 /* water.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9A2181642557EDBE000330E5 /* water.jpg */; };
@@ -421,6 +422,7 @@
 		9A08C66C262C718100E178DA /* preview_watch2_ClkResPKG.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = preview_watch2_ClkResPKG.bin; sourceTree = "<group>"; };
 		9A08C66E262C71A000E178DA /* preview_watch4_ClkResPKG.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = preview_watch4_ClkResPKG.bin; sourceTree = "<group>"; };
 		9A08C670262C71DA00E178DA /* SmartBand_PHY_ota.hex */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SmartBand_PHY_ota.hex; sourceTree = "<group>"; };
+		9A08C672262C757A00E178DA /* WeatherViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeatherViewController.swift; sourceTree = "<group>"; };
 		9A2181622557EDBE000330E5 /* apple.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = apple.jpeg; sourceTree = "<group>"; };
 		9A2181632557EDBE000330E5 /* walk.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = walk.jpeg; sourceTree = "<group>"; };
 		9A2181642557EDBE000330E5 /* water.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = water.jpg; sourceTree = "<group>"; };
@@ -1349,6 +1351,7 @@
 				9A367B9825BD425300BFB4C3 /* DeviceManager.swift */,
 				9AF0AA1F25AAF1CE000BDAED /* CMDData.swift */,
 				9A367B9425BD235A00BFB4C3 /* RealmManager.swift */,
+				9A08C672262C757A00E178DA /* WeatherViewController.swift */,
 			);
 			path = AddDevice;
 			sourceTree = "<group>";
@@ -1605,14 +1608,14 @@
 		9AE1A1572629465F00B8B10D /* Bluetooth */ = {
 			isa = PBXGroup;
 			children = (
-				9AE1A1582629465F00B8B10D /* JCBlutoothInfoModel.m */,
-				9AE1A1592629465F00B8B10D /* OTAManager.m */,
-				9AE1A15A2629465F00B8B10D /* JCBluetoothManager.m */,
-				9AE1A15B2629465F00B8B10D /* JCDataConvert.h */,
-				9AE1A15C2629465F00B8B10D /* OTAManager.h */,
-				9AE1A15D2629465F00B8B10D /* JCBlutoothInfoModel.h */,
-				9AE1A15E2629465F00B8B10D /* JCDataConvert.m */,
 				9AE1A15F2629465F00B8B10D /* JCBluetoothManager.h */,
+				9AE1A15A2629465F00B8B10D /* JCBluetoothManager.m */,
+				9AE1A15D2629465F00B8B10D /* JCBlutoothInfoModel.h */,
+				9AE1A1582629465F00B8B10D /* JCBlutoothInfoModel.m */,
+				9AE1A15B2629465F00B8B10D /* JCDataConvert.h */,
+				9AE1A15E2629465F00B8B10D /* JCDataConvert.m */,
+				9AE1A15C2629465F00B8B10D /* OTAManager.h */,
+				9AE1A1592629465F00B8B10D /* OTAManager.m */,
 			);
 			path = Bluetooth;
 			sourceTree = "<group>";
@@ -1620,12 +1623,12 @@
 		9AE1A1602629465F00B8B10D /* FileManager */ = {
 			isa = PBXGroup;
 			children = (
-				9AE1A1612629465F00B8B10D /* FileManager.h */,
+				9AE1A1662629465F00B8B10D /* DDFileReader.h */,
 				9AE1A1622629465F00B8B10D /* DDFileReader.m */,
-				9AE1A1632629465F00B8B10D /* Partition.m */,
+				9AE1A1612629465F00B8B10D /* FileManager.h */,
 				9AE1A1642629465F00B8B10D /* FileManager.m */,
 				9AE1A1652629465F00B8B10D /* Partition.h */,
-				9AE1A1662629465F00B8B10D /* DDFileReader.h */,
+				9AE1A1632629465F00B8B10D /* Partition.m */,
 			);
 			path = FileManager;
 			sourceTree = "<group>";
@@ -2070,6 +2073,7 @@
 				9A839C6925610AB000714CBE /*  TargetModel.swift in Sources */,
 				9A218439255A38CB000330E5 /* OSSSwiftGlobalDefines.swift in Sources */,
 				9A60DEDF252F002D00E0D849 /* String+SoolyCitySelector.swift in Sources */,
+				9A08C673262C757A00E178DA /* WeatherViewController.swift in Sources */,
 				9A60DEC2252D5BF600E0D849 /* AccountSafeViewController.swift in Sources */,
 				9A5613F12524875400C43C6A /* CommonCalendarView.swift in Sources */,
 				9A037E4E25BDBC180006FB94 /* SGCirle.swift in Sources */,

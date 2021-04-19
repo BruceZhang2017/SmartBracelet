@@ -38,6 +38,10 @@ class DeviceSettingsViewController: BaseViewController {
         
         btButton.titleLabel?.setContentCompressionResistancePriority(.required, for: .horizontal)
         batteryButton.titleLabel?.setContentCompressionResistancePriority(.required, for: .horizontal)
+        
+        deviceNameLabel.text = bleSelf.bleModel.name
+        batteryButton.setTitle("剩余电量\(bleSelf.batteryLevel)", for: .normal)
+        bleSelf.getAncsSwitchForWristband() // 苹果推送消息
     }
     
 
@@ -53,6 +57,21 @@ class DeviceSettingsViewController: BaseViewController {
     
     @objc private func deleteDevice(_ sender: Any) {
         
+    }
+    
+    @objc private func valueChanged(_ sender: Any) {
+        let mSwitch = sender as? UISwitch
+        let tag = mSwitch?.tag ?? 0
+        if tag == 1002 { // 长坐提醒
+            bleSelf.functionSwitchModel.isLongSit = mSwitch?.isOn ?? false 
+            bleSelf.setSwitchForWristband(bleSelf.functionSwitchModel)
+        } else if tag == 1001 { // 抬手亮屏
+            bleSelf.functionSwitchModel.isLightScreen = mSwitch?.isOn ?? false
+            bleSelf.setSwitchForWristband(bleSelf.functionSwitchModel)
+        } else if tag == 1000 { // 来电提醒
+            bleSelf.functionSwitchModel.isCallDown = mSwitch?.isOn ?? false
+            bleSelf.setSwitchForWristband(bleSelf.functionSwitchModel)
+        }
     }
 
 }
@@ -71,7 +90,16 @@ extension DeviceSettingsViewController: UITableViewDataSource {
         cell.textLabel?.text = titles[indexPath.section][indexPath.row]
         if indexPath.section == 0 && indexPath.row >= 1 && indexPath.row <= 3 {
             let mSwitch = UISwitch()
+            mSwitch.tag = 999 + indexPath.row
+            mSwitch.addTarget(self, action: #selector(valueChanged(_:)), for: .valueChanged)
             cell.accessoryView = mSwitch
+            if indexPath.row == 3 {
+                mSwitch.isOn = bleSelf.functionSwitchModel.isLongSit
+            } else if indexPath.row == 2 {
+                mSwitch.isOn = bleSelf.functionSwitchModel.isLightScreen
+            } else if indexPath.row == 1 {
+                mSwitch.isOn = bleSelf.functionSwitchModel.isCallDown
+            }
         } else {
             let imageView = UIImageView(image: UIImage(named: "content_next"))
             cell.accessoryView = imageView
@@ -93,6 +121,9 @@ extension DeviceSettingsViewController: UITableViewDelegate {
             if indexPath.row == 0 { // 推送设置
                 let storyboard = UIStoryboard(name: .kDevice, bundle: nil)
                 let vc = storyboard.instantiateViewController(withIdentifier: "APNSViewController")
+                navigationController?.pushViewController(vc, animated: true)
+            } else if indexPath.row == 4 {
+                let vc = WeatherViewController()
                 navigationController?.pushViewController(vc, animated: true)
             }
         } else {

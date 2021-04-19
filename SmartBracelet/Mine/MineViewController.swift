@@ -99,7 +99,7 @@ class MineViewController: BaseViewController {
                         batteryButton.setTitle("剩余电量不足5%，请及时充电", for: .normal)
                     } else {
                         batteryButton.setImage(UIImage(named: "conten_battery_full"), for: .normal)
-                        batteryButton.setTitle("剩余电量\(bleSelf.batteryLevel ?? 0)%", for: .normal)
+                        batteryButton.setTitle("剩余电量\(bleSelf.batteryLevel)%", for: .normal)
                     }
                 } else {
                     batteryButton.setImage(UIImage(named: "conten_battery_null"), for: .normal)
@@ -178,31 +178,32 @@ class MineViewController: BaseViewController {
         if count > 0 {
             for item in DeviceManager.shared.devices {
                 if item.mac == lastestDeviceMac {
-                    showOTAView()
+                    showOTAView(false)
                     break
                 }
             }
         } else {
             if bleSelf.bleModel.mac == lastestDeviceMac {
-                Toast(text: "本地没有Lefun的OTA文件，需要找供应商提供。").show()
+                showOTAView(true)
             }
         }
         
     }
     
-    private func showOTAView() {
-        let alert = UIAlertController(title: "OTA", message: "使用本地OTA文件：8267_module_tOTA.bin", preferredStyle: .alert)
+    private func showOTAView(_ value: Bool) {
+        let alert = UIAlertController(title: "OTA", message: "使用本地OTA文件：\(value ? "SmartBand_PHY_ota.hex" : "8267_module_tOTA.bin")", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "取消", style: .cancel, handler: nil))
         alert.addAction(UIAlertAction(title: "确认", style: .default, handler: { [weak self] (action) in
-            self?.pushToOTA()
+            self?.pushToOTA(value)
         }))
         present(alert, animated: true) {
             
         }
     }
     
-    private func pushToOTA() {
+    private func pushToOTA(_ value: Bool) {
         let otaVC = OTAViewController()
+        otaVC.bLefun = value 
         otaVC.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(otaVC, animated: true)
     }

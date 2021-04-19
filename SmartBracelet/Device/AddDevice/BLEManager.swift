@@ -347,6 +347,7 @@ class BLEManager: NSObject {
         }
                 
         if notify.name == WristbandNotifyKeys.getDevInfo {
+            dump(bleSelf.bleModel)
             dump(bleSelf.funcListModel)
             print("设备信息获取成功")
             bleSelf.getUserinfoForWristband() // 第2步：获取用户信息

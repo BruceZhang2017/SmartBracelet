@@ -330,7 +330,7 @@
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="120"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>
-                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="maj-Ut-EGx">
+                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="produce_image_no.2" translatesAutoresizingMaskIntoConstraints="NO" id="maj-Ut-EGx">
                                             <rect key="frame" x="25" y="19" width="82" height="82"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="82" id="a61-1b-axp"/>
@@ -444,7 +444,7 @@
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="150"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>
-                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="cvg-sO-6Z6">
+                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="produce_image_no.2" translatesAutoresizingMaskIntoConstraints="NO" id="cvg-sO-6Z6">
                                             <rect key="frame" x="166" y="20" width="82" height="82"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="82" id="B94-lF-RTC"/>
@@ -462,8 +462,8 @@
                                                 </userDefinedRuntimeAttribute>
                                             </userDefinedRuntimeAttributes>
                                         </imageView>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="WATCH1.0-TB7" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pDL-6q-Dr6">
-                                            <rect key="frame" x="151.5" y="116" width="111" height="19.5"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pDL-6q-Dr6">
+                                            <rect key="frame" x="207" y="116" width="0.0" height="0.0"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                             <color key="textColor" red="0.20392156862745098" green="0.20392156862745098" blue="0.20392156862745098" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
@@ -1253,6 +1253,7 @@
         <image name="content_icon_selected" width="24" height="24"/>
         <image name="content_icon_selecteorsuceess" width="16" height="11"/>
         <image name="image_watchbg" width="140" height="140"/>
+        <image name="produce_image_no.2" width="45" height="45"/>
         <image name="scanBG" width="83" height="83"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

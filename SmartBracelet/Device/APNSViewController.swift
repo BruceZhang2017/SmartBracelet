@@ -24,6 +24,25 @@ class APNSViewController: BaseViewController {
         tableView.separatorColor = UIColor.kDEDEDE
     }
 
+    @objc private func valueChanged(_ sender: Any) {
+        let mSwitch = sender as? UISwitch
+        let tag = mSwitch?.tag ?? 0
+        if tag == 0 {
+            bleSelf.notifyModel.isWechat = mSwitch?.isOn ?? false
+        } else if tag == 1 {
+            bleSelf.notifyModel.isQQ = mSwitch?.isOn ?? false
+        } else if tag == 2 {
+            bleSelf.notifyModel.isLinkedin = mSwitch?.isOn ?? false
+        } else if tag == 3 {
+            bleSelf.notifyModel.isFacebook = mSwitch?.isOn ?? false
+        } else if tag == 4 {
+            bleSelf.notifyModel.isTwitter = mSwitch?.isOn ?? false
+        } else {
+            bleSelf.notifyModel.isWhatapp = mSwitch?.isOn ?? false
+        }
+        
+        bleSelf.setAncsSwitchForWristband(bleSelf.notifyModel)
+    }
 }
 
 extension APNSViewController: UITableViewDataSource {
@@ -46,6 +65,22 @@ extension APNSViewController: UITableViewDataSource {
             cell.accessoryView = mSwitch
         }
         mSwitch.tag = indexPath.section * 10 + indexPath.row
+        if indexPath.section == 0 {
+            if indexPath.row == 0 {
+                mSwitch.isOn = bleSelf.notifyModel.isWechat
+            } else if indexPath.row == 1 {
+                mSwitch.isOn = bleSelf.notifyModel.isQQ
+            } else if indexPath.row == 2 {
+                mSwitch.isOn = bleSelf.notifyModel.isLinkedin
+            } else if indexPath.row == 3 {
+                mSwitch.isOn = bleSelf.notifyModel.isFacebook
+            } else {
+                mSwitch.isOn = bleSelf.notifyModel.isTwitter
+            }
+        } else {
+            mSwitch.isOn = bleSelf.notifyModel.isWhatapp
+        }
+        mSwitch.addTarget(self, action: #selector(valueChanged(_:)), for: .valueChanged)
         return cell
     }
     
