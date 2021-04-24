@@ -20,10 +20,12 @@ class MineViewController: BaseViewController {
     @IBOutlet weak var deviceButton: UIButton!
     @IBOutlet weak var btButton: UIButton!
     @IBOutlet weak var batteryButton: UIButton!
+    var originalMacAddress = ""
+    var originalUUID = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: Notification.Name("BluetoothGetMacAddress"), object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -108,6 +110,13 @@ class MineViewController: BaseViewController {
                 tem = true
             }
         }
+    }
+    
+    @objc private func handleNotification(_ notificaiton: Notification) {
+        let userinfo = notificaiton.userInfo as? [String : String]
+        originalMacAddress = userinfo?["originalMacAddress"] ?? ""
+        originalUUID = userinfo?["originalUUID"] ?? ""
+        perform(#selector(startLefunOTA), with: nil, afterDelay: 3)
     }
     
     @IBAction func handleEvent(_ sender: Any) {
@@ -202,8 +211,27 @@ class MineViewController: BaseViewController {
     }
     
     private func pushToOTA(_ value: Bool) {
+        if value { // 如果是Lefun项目
+            let uuid = bleSelf.bleModel.uuidString
+            if let per = JCBluetoothManager.shareCBCentral()?.retrievePeripherals(withIdentifiers: uuid) {
+                bleSelf.disconnectBleDevice() // 断开连接
+                perform(#selector(handleOTABLEConnected(per:)), with: per, afterDelay: 3)
+            }
+            return
+        }
         let otaVC = OTAViewController()
-        otaVC.bLefun = value 
+        otaVC.hidesBottomBarWhenPushed = true
+        navigationController?.pushViewController(otaVC, animated: true)
+    }
+    
+    @objc private func handleOTABLEConnected(per: CBPeripheral) {
+        JCBluetoothManager.shareCBCentral()?.connect(to: per)
+    }
+    
+    @objc private func startLefunOTA() {
+        let otaVC = OTAUpgradeViewController()
+        otaVC.mscAddress = originalMacAddress
+        otaVC.originalUUID = originalUUID
         otaVC.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(otaVC, animated: true)
     }

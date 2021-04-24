@@ -31,6 +31,11 @@
 		9A08C66F262C71A000E178DA /* preview_watch4_ClkResPKG.bin in Resources */ = {isa = PBXBuildFile; fileRef = 9A08C66E262C71A000E178DA /* preview_watch4_ClkResPKG.bin */; };
 		9A08C671262C71DA00E178DA /* SmartBand_PHY_ota.hex in Resources */ = {isa = PBXBuildFile; fileRef = 9A08C670262C71DA00E178DA /* SmartBand_PHY_ota.hex */; };
 		9A08C673262C757A00E178DA /* WeatherViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A08C672262C757A00E178DA /* WeatherViewController.swift */; };
+		9A08C6EB262F17D500E178DA /* OTAUpgradeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A08C6EA262F17D500E178DA /* OTAUpgradeViewController.m */; };
+		9A08C6EF262F17FE00E178DA /* OTCModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A08C6ED262F17FE00E178DA /* OTCModel.m */; };
+		9A08C6FB262F182000E178DA /* OTAListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A08C6F5262F182000E178DA /* OTAListCell.m */; };
+		9A08C6FC262F182000E178DA /* ProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A08C6F8262F182000E178DA /* ProgressView.m */; };
+		9A08C701262F19EC00E178DA /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A08C6FF262F19EC00E178DA /* MBProgressHUD.m */; };
 		9A2181652557EDBE000330E5 /* apple.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 9A2181622557EDBE000330E5 /* apple.jpeg */; };
 		9A2181662557EDBE000330E5 /* walk.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 9A2181632557EDBE000330E5 /* walk.jpeg */; };
 		9A2181672557EDBE000330E5 /* water.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9A2181642557EDBE000330E5 /* water.jpg */; };
@@ -423,6 +428,17 @@
 		9A08C66E262C71A000E178DA /* preview_watch4_ClkResPKG.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = preview_watch4_ClkResPKG.bin; sourceTree = "<group>"; };
 		9A08C670262C71DA00E178DA /* SmartBand_PHY_ota.hex */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SmartBand_PHY_ota.hex; sourceTree = "<group>"; };
 		9A08C672262C757A00E178DA /* WeatherViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeatherViewController.swift; sourceTree = "<group>"; };
+		9A08C6E9262F17D500E178DA /* OTAUpgradeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTAUpgradeViewController.h; sourceTree = "<group>"; };
+		9A08C6EA262F17D500E178DA /* OTAUpgradeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTAUpgradeViewController.m; sourceTree = "<group>"; };
+		9A08C6ED262F17FE00E178DA /* OTCModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTCModel.m; sourceTree = "<group>"; };
+		9A08C6EE262F17FE00E178DA /* OTCModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTCModel.h; sourceTree = "<group>"; };
+		9A08C6F2262F182000E178DA /* OTAListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTAListCell.h; sourceTree = "<group>"; };
+		9A08C6F5262F182000E178DA /* OTAListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTAListCell.m; sourceTree = "<group>"; };
+		9A08C6F7262F182000E178DA /* ProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProgressView.h; sourceTree = "<group>"; };
+		9A08C6F8262F182000E178DA /* ProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProgressView.m; sourceTree = "<group>"; };
+		9A08C6FD262F183800E178DA /* ColorDefine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ColorDefine.h; sourceTree = "<group>"; };
+		9A08C6FF262F19EC00E178DA /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
+		9A08C700262F19EC00E178DA /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
 		9A2181622557EDBE000330E5 /* apple.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = apple.jpeg; sourceTree = "<group>"; };
 		9A2181632557EDBE000330E5 /* walk.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = walk.jpeg; sourceTree = "<group>"; };
 		9A2181642557EDBE000330E5 /* water.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = water.jpg; sourceTree = "<group>"; };
@@ -901,6 +917,48 @@
 			path = lefun;
 			sourceTree = "<group>";
 		};
+		9A08C6EC262F17EE00E178DA /* OTA */ = {
+			isa = PBXGroup;
+			children = (
+				9A08C6FE262F19EC00E178DA /* MBProgressHUD */,
+				9A08C6F0262F182000E178DA /* Cell */,
+				9A08C6F6262F182000E178DA /* progressView */,
+				9A08C6EE262F17FE00E178DA /* OTCModel.h */,
+				9A08C6ED262F17FE00E178DA /* OTCModel.m */,
+				9A08C6FD262F183800E178DA /* ColorDefine.h */,
+				9A08C6E9262F17D500E178DA /* OTAUpgradeViewController.h */,
+				9A08C6EA262F17D500E178DA /* OTAUpgradeViewController.m */,
+			);
+			path = OTA;
+			sourceTree = "<group>";
+		};
+		9A08C6F0262F182000E178DA /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				9A08C6F2262F182000E178DA /* OTAListCell.h */,
+				9A08C6F5262F182000E178DA /* OTAListCell.m */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
+		9A08C6F6262F182000E178DA /* progressView */ = {
+			isa = PBXGroup;
+			children = (
+				9A08C6F7262F182000E178DA /* ProgressView.h */,
+				9A08C6F8262F182000E178DA /* ProgressView.m */,
+			);
+			path = progressView;
+			sourceTree = "<group>";
+		};
+		9A08C6FE262F19EC00E178DA /* MBProgressHUD */ = {
+			isa = PBXGroup;
+			children = (
+				9A08C6FF262F19EC00E178DA /* MBProgressHUD.m */,
+				9A08C700262F19EC00E178DA /* MBProgressHUD.h */,
+			);
+			path = MBProgressHUD;
+			sourceTree = "<group>";
+		};
 		9A2181612557ED9B000330E5 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
@@ -929,6 +987,7 @@
 		9A21843B255A3A13000330E5 /* ObjC */ = {
 			isa = PBXGroup;
 			children = (
+				9A08C6EC262F17EE00E178DA /* OTA */,
 				9A21843C255A3A52000330E5 /* SmartBracelet-Bridging-Header.h */,
 				9A037E4325BDB1CD0006FB94 /* OTACMD.h */,
 				9A037E4425BDB1CD0006FB94 /* OTACMD.m */,
@@ -1844,6 +1903,7 @@
 				9A7E27E8262326E000DA658B /* HttpHelper.swift in Sources */,
 				9A5210732504937500F64A7A /* DeviceSettingsViewController.swift in Sources */,
 				9A56D29F25216FC70082CC08 /* CandleChartDataSet.swift in Sources */,
+				9A08C701262F19EC00E178DA /* MBProgressHUD.m in Sources */,
 				9A4E624624F8926300A0E878 /* DevicesViewController.swift in Sources */,
 				9A8CA51125272C5200EC01A7 /* CVCalendarView.swift in Sources */,
 				9AE1A16F2629465F00B8B10D /* JCDataConvert.m in Sources */,
@@ -1966,11 +2026,13 @@
 				9A60DEF1252F416E00E0D849 /* AlarmTableViewCell.swift in Sources */,
 				9A40E02C25D37477001879B3 /* DStepModel.swift in Sources */,
 				9A56D2BB25216FC70082CC08 /* IBubbleChartDataSet.swift in Sources */,
+				9A08C6EB262F17D500E178DA /* OTAUpgradeViewController.m in Sources */,
 				9A037E4A25BDB9E00006FB94 /* OTAViewController.swift in Sources */,
 				9A367B9925BD425300BFB4C3 /* DeviceManager.swift in Sources */,
 				9AA0BC94250F63B3003B9F64 /* LoginViewController.swift in Sources */,
 				9A839C5A2560F3FA00714CBE /* SGSportTrackingLine.m in Sources */,
 				9A52106B2503349A00F64A7A /* ClockBCollectionViewCell.swift in Sources */,
+				9A08C6EF262F17FE00E178DA /* OTCModel.m in Sources */,
 				9AEFF00125B7FD4200C0D84F /* BabyBluetooth.m in Sources */,
 				9A64F08025DCDEB00073E679 /* SportRecordMonthView.swift in Sources */,
 				9A64F08225DD50D70073E679 /* ClockUseViewController.swift in Sources */,
@@ -2060,6 +2122,7 @@
 				9A28DA5D2518D4EA00F7B260 /* DotView.swift in Sources */,
 				9A56D27B25216FC60082CC08 /* ViewPortHandler.swift in Sources */,
 				9A56D2C325216FC70082CC08 /* ScatterChartDataProvider.swift in Sources */,
+				9A08C6FC262F182000E178DA /* ProgressView.m in Sources */,
 				9AF0AA2025AAF1CE000BDAED /* CMDData.swift in Sources */,
 				9A56D2A825216FC70082CC08 /* ScatterChartDataSet.swift in Sources */,
 				9A60DEEF252F401100E0D849 /* AlarmViewController.swift in Sources */,
@@ -2079,6 +2142,7 @@
 				9A037E4E25BDBC180006FB94 /* SGCirle.swift in Sources */,
 				9A61685A25DAB5B200918EFC /* GradeTableViewCell.swift in Sources */,
 				9AB910282501322C006E0FC4 /* EMAlertAction.swift in Sources */,
+				9A08C6FB262F182000E178DA /* OTAListCell.m in Sources */,
 				9A56D2C125216FC70082CC08 /* LineChartDataProvider.swift in Sources */,
 				9A820B8D24D11E3000A62C6F /* SetTargetBViewController.swift in Sources */,
 				9A56D24125216FC60082CC08 /* ChartDataRendererBase.swift in Sources */,
@@ -2302,7 +2366,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_ASSET_PATHS = TJDWristbandSDK.framework;
 				DEVELOPMENT_TEAM = RPZ68269DB;
 				ENABLE_BITCODE = NO;
@@ -2337,7 +2401,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_ASSET_PATHS = TJDWristbandSDK.framework;
 				DEVELOPMENT_TEAM = RPZ68269DB;
 				ENABLE_BITCODE = NO;

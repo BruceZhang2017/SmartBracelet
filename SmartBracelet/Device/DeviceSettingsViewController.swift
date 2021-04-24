@@ -40,7 +40,7 @@ class DeviceSettingsViewController: BaseViewController {
         batteryButton.titleLabel?.setContentCompressionResistancePriority(.required, for: .horizontal)
         
         deviceNameLabel.text = bleSelf.bleModel.name
-        batteryButton.setTitle("剩余电量\(bleSelf.batteryLevel)", for: .normal)
+        batteryButton.setTitle("剩余电量\(bleSelf.batteryLevel)%", for: .normal)
         bleSelf.getAncsSwitchForWristband() // 苹果推送消息
     }
     

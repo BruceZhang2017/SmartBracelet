@@ -15,7 +15,6 @@ import Toaster
 
 class OTAViewController: BaseViewController {
     private var circle: SGCirleProgress! // 进度视图
-    var bLefun = false // 是否为Lefun
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,18 +23,12 @@ class OTAViewController: BaseViewController {
         circle = SGCirleProgress(frame: CGRect(x: 0, y: 0, width: 150, height: 150))
         view.addSubview(circle)
         circle.center = view.center
-        if bLefun {
-            let filepath = Bundle.main.path(forResource: "SmartBand_PHY_ota", ofType: "hex")!
-            OTAManager.share().filePath = filepath
-            OTAManager.share().delegate = self
-            OTAManager.share().startOTA()
-            bleSelf.disconnectBleDevice()
-        } else {
-            OTA.share()?.delegate = self
-            OTA.share()?.initialCMD()
-            OTA.share()?.otaCMD.delegate = self
-            OTA.share()?.ota()
-        }
+
+        OTA.share()?.delegate = self
+        OTA.share()?.initialCMD()
+        OTA.share()?.otaCMD.delegate = self
+        OTA.share()?.ota()
+        
         registerNotification()
     }
     
@@ -92,26 +85,4 @@ extension OTAViewController: OTACMDDelegate {
     }
     
     
-}
-
-extension OTAViewController: OTAManagerDelegate {
-    func updateOTAProgressDataback(_ manager: OTAManager?, isComplete: Bool) {
-        if isComplete {
-            Toast(text: "OTA升级成功").show()
-            navigationController?.popViewController(animated: true)
-        }
-    }
-    
-    func updateOTAErrorCallBack(_ manager: OTAManager?, errorCode: UInt) {
-        Toast(text: "OTA升级失败").show()
-        navigationController?.popViewController(animated: true)
-    }
-    
-    func updateOTAProgressDataback(_ manager: OTAManager?, feedBackInfo progressValue: Float) {
-        circle.progress = CGFloat(progressValue)
-    }
-    
-    func reBootOTASuccess(_ manager: OTAManager?, feedBackInfo result: Bool, reconnectBluetoothType OTAOrAPPType: String?) {
-        
-    }
 }

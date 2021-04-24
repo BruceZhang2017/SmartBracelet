@@ -40,7 +40,7 @@ static CBCentralManager *_myCentralManager;
         if (!_manager) {
             _manager = [[JCBluetoothManager alloc] init];
             _myCentralManager = [[CBCentralManager alloc] initWithDelegate:_manager queue:nil];//如果设置为nil，默认在主线程中跑
-            
+    
             //新增的遵循其他协议
             _manager.otaManager = [OTAManager shareOTAManager];
         }
@@ -101,8 +101,10 @@ static CBCentralManager *_myCentralManager;
     if (!peripheral) {
         return;
     }
+  
     [_myCentralManager connectPeripheral:peripheral options:nil];//连接蓝牙
     _currentPeripheral = peripheral;
+    NSLog(@"连接当前设备");
 }
 
 - (CBPeripheral *)retrievePeripheralsWithIdentifiers:(NSString *)uuidString {
@@ -132,6 +134,7 @@ static CBCentralManager *_myCentralManager;
 
 #pragma mark 连接外部蓝牙设备失败
 - (void)centralManager:(CBCentralManager *)central didFailToConnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error{
+    NSLog(@"连接失败");
     if ([self.delegate respondsToSelector:@selector(bluetoothManager:didFailConectPeripheral:)]) {
         [self.delegate bluetoothManager:self didFailConectPeripheral:peripheral];
     }
