@@ -12,3 +12,20 @@
 11. StepModel 步行
 12. 
 
+
+easyRealm使用说明：
+save: 
+let pokemon = Pokemon()
+try pokemon.er.save(update: true)
+edit:
+let pokemon = Pokemon()
+
+try pokemon.er.edit {
+  $0.level = 42
+}
+delete:
+let pokemon = Pokemon(name: "Pikachu")
+try pokemon.er.delete()
+query:
+let pokemons = try Pokemon.er.all()
+let pokemon = Pokemon.er.fromRealm(with: "Pikachu")
