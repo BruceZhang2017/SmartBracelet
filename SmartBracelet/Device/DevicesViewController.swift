@@ -128,11 +128,6 @@ extension DevicesViewController: DevicesViewDelegate {
         }
         let storyboard = UIStoryboard(name: "Device", bundle: nil)
         let vc = storyboard.instantiateViewController(withIdentifier: "DeviceSettingsViewController") as! DeviceSettingsViewController
-        if DeviceManager.shared.devices.count > 0 && index < DeviceManager.shared.devices.count {
-            vc.bLefun = false
-        } else {
-            vc.bLefun = true
-        }
         navigationController?.pushViewController(vc, animated: true)
     }
 }

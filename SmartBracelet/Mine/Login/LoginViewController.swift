@@ -69,8 +69,8 @@ class LoginViewController: BaseViewController {
             return
         }
         let pwd = pwdTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
-        if pwd.count == 0 {
-            Toast(text: "请输入验证码").show()
+        if pwd.count == 0 || pwd != "1234" {
+            Toast(text: "请输入验证码'1234'").show()
             return
         }
         let model = UserModel()

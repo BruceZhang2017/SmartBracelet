@@ -108,7 +108,6 @@ class BLEManager: NSObject {
         if notify.name == WUBleManagerNotifyKeys.connected {
             // 将蓝牙对象设置为已绑定，保存蓝牙对象
             print("lefun设备连接成功")
-            BLECurrentManager.sharedInstall.deviceType = 2 
             endTimer()
             bleSelf.bleModel.isBond = true
             WUBleModel.setModel(bleSelf.bleModel)

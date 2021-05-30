@@ -133,22 +133,11 @@ extension DeviceListViewController: UITableViewDataSource {
 extension DeviceListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        if indexPath.row < DeviceManager.shared.devices.count {
-            let model = DeviceManager.shared.devices[indexPath.row]
-            if model.mac == lastestDeviceMac {
-                return
-            }
-            BLECurrentManager.sharedInstall.disconnectAllDeivce()
-            bleSelf.disconnectBleDevice()
-            BLECurrentManager.sharedInstall.connectDevice(model: model)
-        } else {
-            if bleSelf.bleModel.mac == lastestDeviceMac {
-                return
-            }
-            BLECurrentManager.sharedInstall.disconnectAllDeivce()
-            bleSelf.disconnectBleDevice()
-            bleSelf.connectBleDevice(model: bleSelf.bleModel)
+        if bleSelf.bleModel.mac == lastestDeviceMac {
+            return
         }
+        bleSelf.disconnectBleDevice()
+        bleSelf.connectBleDevice(model: bleSelf.bleModel)
         navigationController?.popViewController(animated: true)
     }
 }

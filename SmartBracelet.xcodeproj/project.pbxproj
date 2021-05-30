@@ -285,7 +285,6 @@
 		9A64F0B825DE18CD0073E679 /* DBloodModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A64F0B725DE18CD0073E679 /* DBloodModel.swift */; };
 		9A64F0BA25DE19B30073E679 /* DHeartRateModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A64F0B925DE19B30073E679 /* DHeartRateModel.swift */; };
 		9A64F0BC25DF50C30073E679 /* DAlarmModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A64F0BB25DF50C30073E679 /* DAlarmModel.swift */; };
-		9A6C8579254EC3B000A87751 /* BLECurrentManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A6C8578254EC3B000A87751 /* BLECurrentManager.swift */; };
 		9A6D092C2501D99400B4972F /* ClockManageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A6D092B2501D99400B4972F /* ClockManageViewController.swift */; };
 		9A7D5E4225490EA20016E4BC /* MRGCDTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7D5E4125490EA20016E4BC /* MRGCDTimer.swift */; };
 		9A7E27E8262326E000DA658B /* HttpHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7E27E7262326E000DA658B /* HttpHelper.swift */; };
@@ -370,15 +369,6 @@
 		9AE1A183262AF69400B8B10D /* HeartRateCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE1A182262AF69400B8B10D /* HeartRateCollectionViewCell.swift */; };
 		9AEC22CD25B707C000DE899A /* BLEModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AEC22CC25B707C000DE899A /* BLEModel.swift */; };
 		9AEC230025B7114500DE899A /* Data+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AEC22FF25B7114500DE899A /* Data+Extension.swift */; };
-		9AEFEFFA25B7FD4200C0D84F /* BabyToy.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AEFEFEA25B7FD4200C0D84F /* BabyToy.m */; };
-		9AEFEFFB25B7FD4200C0D84F /* BabyOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AEFEFEF25B7FD4200C0D84F /* BabyOptions.m */; };
-		9AEFEFFC25B7FD4200C0D84F /* BabyCallback.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AEFEFF025B7FD4200C0D84F /* BabyCallback.m */; };
-		9AEFEFFD25B7FD4200C0D84F /* BabyPeripheralManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AEFEFF125B7FD4200C0D84F /* BabyPeripheralManager.m */; };
-		9AEFEFFE25B7FD4200C0D84F /* BabyCentralManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AEFEFF225B7FD4200C0D84F /* BabyCentralManager.m */; };
-		9AEFEFFF25B7FD4200C0D84F /* BabySpeaker.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AEFEFF325B7FD4200C0D84F /* BabySpeaker.m */; };
-		9AEFF00025B7FD4200C0D84F /* BabyRhythm.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AEFEFF525B7FD4200C0D84F /* BabyRhythm.m */; };
-		9AEFF00125B7FD4200C0D84F /* BabyBluetooth.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AEFEFF725B7FD4200C0D84F /* BabyBluetooth.m */; };
-		9AEFF00225B7FD4200C0D84F /* BabyDefine.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AEFEFF825B7FD4200C0D84F /* BabyDefine.m */; };
 		9AF0AA2025AAF1CE000BDAED /* CMDData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF0AA1F25AAF1CE000BDAED /* CMDData.swift */; };
 /* End PBXBuildFile section */
 
@@ -690,7 +680,6 @@
 		9A64F0B725DE18CD0073E679 /* DBloodModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBloodModel.swift; sourceTree = "<group>"; };
 		9A64F0B925DE19B30073E679 /* DHeartRateModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DHeartRateModel.swift; sourceTree = "<group>"; };
 		9A64F0BB25DF50C30073E679 /* DAlarmModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DAlarmModel.swift; sourceTree = "<group>"; };
-		9A6C8578254EC3B000A87751 /* BLECurrentManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BLECurrentManager.swift; sourceTree = "<group>"; };
 		9A6D092B2501D99400B4972F /* ClockManageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClockManageViewController.swift; sourceTree = "<group>"; };
 		9A6D092D2501E3EC00B4972F /* Device.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Device.md; sourceTree = "<group>"; };
 		9A7D5E3F254907AA0016E4BC /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -793,24 +782,6 @@
 		9AE1A182262AF69400B8B10D /* HeartRateCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartRateCollectionViewCell.swift; sourceTree = "<group>"; };
 		9AEC22CC25B707C000DE899A /* BLEModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BLEModel.swift; sourceTree = "<group>"; };
 		9AEC22FF25B7114500DE899A /* Data+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+Extension.swift"; sourceTree = "<group>"; };
-		9AEFEFE825B7FD4200C0D84F /* BabyRhythm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BabyRhythm.h; sourceTree = "<group>"; };
-		9AEFEFE925B7FD4200C0D84F /* BabySpeaker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BabySpeaker.h; sourceTree = "<group>"; };
-		9AEFEFEA25B7FD4200C0D84F /* BabyToy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BabyToy.m; sourceTree = "<group>"; };
-		9AEFEFEB25B7FD4200C0D84F /* BabyCentralManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BabyCentralManager.h; sourceTree = "<group>"; };
-		9AEFEFEC25B7FD4200C0D84F /* BabyPeripheralManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BabyPeripheralManager.h; sourceTree = "<group>"; };
-		9AEFEFED25B7FD4200C0D84F /* BabyDefine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BabyDefine.h; sourceTree = "<group>"; };
-		9AEFEFEE25B7FD4200C0D84F /* BabyBluetooth.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BabyBluetooth.h; sourceTree = "<group>"; };
-		9AEFEFEF25B7FD4200C0D84F /* BabyOptions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BabyOptions.m; sourceTree = "<group>"; };
-		9AEFEFF025B7FD4200C0D84F /* BabyCallback.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BabyCallback.m; sourceTree = "<group>"; };
-		9AEFEFF125B7FD4200C0D84F /* BabyPeripheralManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BabyPeripheralManager.m; sourceTree = "<group>"; };
-		9AEFEFF225B7FD4200C0D84F /* BabyCentralManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BabyCentralManager.m; sourceTree = "<group>"; };
-		9AEFEFF325B7FD4200C0D84F /* BabySpeaker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BabySpeaker.m; sourceTree = "<group>"; };
-		9AEFEFF425B7FD4200C0D84F /* BabyToy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BabyToy.h; sourceTree = "<group>"; };
-		9AEFEFF525B7FD4200C0D84F /* BabyRhythm.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BabyRhythm.m; sourceTree = "<group>"; };
-		9AEFEFF625B7FD4200C0D84F /* BabyOptions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BabyOptions.h; sourceTree = "<group>"; };
-		9AEFEFF725B7FD4200C0D84F /* BabyBluetooth.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BabyBluetooth.m; sourceTree = "<group>"; };
-		9AEFEFF825B7FD4200C0D84F /* BabyDefine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BabyDefine.m; sourceTree = "<group>"; };
-		9AEFEFF925B7FD4200C0D84F /* BabyCallback.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BabyCallback.h; sourceTree = "<group>"; };
 		9AF0AA1F25AAF1CE000BDAED /* CMDData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CMDData.swift; sourceTree = "<group>"; };
 		B1F15B2E89955DD6187F274A /* Pods_SmartBracelet.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SmartBracelet.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0967DDE3410784139DF5B20 /* Pods-TJDWristbandSDKDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TJDWristbandSDKDemo.release.xcconfig"; path = "Target Support Files/Pods-TJDWristbandSDKDemo/Pods-TJDWristbandSDKDemo.release.xcconfig"; sourceTree = "<group>"; };
@@ -1402,7 +1373,6 @@
 				9A28DA77251CC6E800F7B260 /* DeviceListViewController.swift */,
 				9A367B5225BD081D00BFB4C3 /* DeviceTableViewCell.swift */,
 				9A32B06A2543C5C7008F0E26 /* BLEManager.swift */,
-				9A6C8578254EC3B000A87751 /* BLECurrentManager.swift */,
 				9AEC22CC25B707C000DE899A /* BLEModel.swift */,
 				9A40E02B25D37477001879B3 /* DStepModel.swift */,
 				9A64F0B725DE18CD0073E679 /* DBloodModel.swift */,
@@ -1485,7 +1455,6 @@
 			children = (
 				9AE1A1522629465F00B8B10D /* OTASDK */,
 				9A367B6C25BD207000BFB4C3 /* EasyRealm */,
-				9AEFEFE725B7FD4200C0D84F /* BabyBluetooth */,
 				9A839C512560F3EB00714CBE /* Map */,
 				9A2184C7255ADDB8000330E5 /* RequestAndResponse */,
 				9A21843B255A3A13000330E5 /* ObjC */,
@@ -1690,31 +1659,6 @@
 				9AE1A1632629465F00B8B10D /* Partition.m */,
 			);
 			path = FileManager;
-			sourceTree = "<group>";
-		};
-		9AEFEFE725B7FD4200C0D84F /* BabyBluetooth */ = {
-			isa = PBXGroup;
-			children = (
-				9AEFEFEE25B7FD4200C0D84F /* BabyBluetooth.h */,
-				9AEFEFF725B7FD4200C0D84F /* BabyBluetooth.m */,
-				9AEFEFF925B7FD4200C0D84F /* BabyCallback.h */,
-				9AEFEFF025B7FD4200C0D84F /* BabyCallback.m */,
-				9AEFEFEB25B7FD4200C0D84F /* BabyCentralManager.h */,
-				9AEFEFF225B7FD4200C0D84F /* BabyCentralManager.m */,
-				9AEFEFED25B7FD4200C0D84F /* BabyDefine.h */,
-				9AEFEFF825B7FD4200C0D84F /* BabyDefine.m */,
-				9AEFEFF625B7FD4200C0D84F /* BabyOptions.h */,
-				9AEFEFEF25B7FD4200C0D84F /* BabyOptions.m */,
-				9AEFEFEC25B7FD4200C0D84F /* BabyPeripheralManager.h */,
-				9AEFEFF125B7FD4200C0D84F /* BabyPeripheralManager.m */,
-				9AEFEFE825B7FD4200C0D84F /* BabyRhythm.h */,
-				9AEFEFF525B7FD4200C0D84F /* BabyRhythm.m */,
-				9AEFEFE925B7FD4200C0D84F /* BabySpeaker.h */,
-				9AEFEFF325B7FD4200C0D84F /* BabySpeaker.m */,
-				9AEFEFF425B7FD4200C0D84F /* BabyToy.h */,
-				9AEFEFEA25B7FD4200C0D84F /* BabyToy.m */,
-			);
-			path = BabyBluetooth;
 			sourceTree = "<group>";
 		};
 		CBE553D5D0280A8FD8CC0627 /* Pods */ = {
@@ -2011,7 +1955,6 @@
 				9A56D24425216FC60082CC08 /* CombinedChartRenderer.swift in Sources */,
 				9A56D24525216FC60082CC08 /* CandleStickChartRenderer.swift in Sources */,
 				9A56D29A25216FC70082CC08 /* PieChartDataEntry.swift in Sources */,
-				9AEFF00025B7FD4200C0D84F /* BabyRhythm.m in Sources */,
 				9A367B7725BD208100BFB4C3 /* Error.swift in Sources */,
 				9A60DECC252E0D9600E0D849 /* ModifyHeadViewController.swift in Sources */,
 				9A56D23A25216FC60082CC08 /* DataApproximator+N.swift in Sources */,
@@ -2033,7 +1976,6 @@
 				9A839C5A2560F3FA00714CBE /* SGSportTrackingLine.m in Sources */,
 				9A52106B2503349A00F64A7A /* ClockBCollectionViewCell.swift in Sources */,
 				9A08C6EF262F17FE00E178DA /* OTCModel.m in Sources */,
-				9AEFF00125B7FD4200C0D84F /* BabyBluetooth.m in Sources */,
 				9A64F08025DCDEB00073E679 /* SportRecordMonthView.swift in Sources */,
 				9A64F08225DD50D70073E679 /* ClockUseViewController.swift in Sources */,
 				9A350BED24EA8068004CEE6A /* BindPhoneNumViewController.swift in Sources */,
@@ -2078,15 +2020,12 @@
 				9A8D431D250F411800E8D6F7 /* RegisterViewController.swift in Sources */,
 				9A60DECA252DEA2B00E0D849 /* BindThreeViewController.swift in Sources */,
 				9AE1A1722629465F00B8B10D /* FileManager.m in Sources */,
-				9AEFEFFF25B7FD4200C0D84F /* BabySpeaker.m in Sources */,
 				9A8CA51725272C5200EC01A7 /* CVCalendarMenuView.swift in Sources */,
-				9AEFF00225B7FD4200C0D84F /* BabyDefine.m in Sources */,
 				9A56D27725216FC60082CC08 /* IValueFormatter.swift in Sources */,
 				9AB910272501322C006E0FC4 /* EMAlertTextField.swift in Sources */,
 				9A56D2BA25216FC70082CC08 /* ILineScatterCandleRadarChartDataSet.swift in Sources */,
 				9A839C0325602BB700714CBE /* BaseResponse.swift in Sources */,
 				9A56D2B225216FC70082CC08 /* IPieChartDataSet.swift in Sources */,
-				9AEFEFFD25B7FD4200C0D84F /* BabyPeripheralManager.m in Sources */,
 				9A56D26225216FC60082CC08 /* CombinedHighlighter.swift in Sources */,
 				9A56D2AC25216FC70082CC08 /* LineChartDataSet.swift in Sources */,
 				9A367B7625BD208100BFB4C3 /* Save.swift in Sources */,
@@ -2096,7 +2035,6 @@
 				9A820B7E24CED47700A62C6F /* UIView+Extension.swift in Sources */,
 				9A61683825DA192900918EFC /* CircleProgressView.m in Sources */,
 				9A2185B6255BD153000330E5 /* CacheHelper.swift in Sources */,
-				9AEFEFFB25B7FD4200C0D84F /* BabyOptions.m in Sources */,
 				9A8CA50F25272C5200EC01A7 /* CVCalendarContentViewController.swift in Sources */,
 				9A8CA51325272C5200EC01A7 /* CVCalendarWeekContentViewController.swift in Sources */,
 				9AB910262501322C006E0FC4 /* UIColor+EMAlertController.swift in Sources */,
@@ -2110,7 +2048,6 @@
 				9AE1A16E2629465F00B8B10D /* JCBluetoothManager.m in Sources */,
 				1898B72C2451969B00B9E5A5 /* Date+String.swift in Sources */,
 				9A4E624824F8DF3800A0E878 /* DevicesView.swift in Sources */,
-				9AEFEFFE25B7FD4200C0D84F /* BabyCentralManager.m in Sources */,
 				9A60DEE7252F175600E0D849 /* APNSViewController.swift in Sources */,
 				9A5E93302515CC700060AB13 /* MTabBarController.swift in Sources */,
 				9A56D28E25216FC60082CC08 /* ComponentBase.swift in Sources */,
@@ -2168,7 +2105,6 @@
 				9A839C5B2560F3FA00714CBE /* SGPolyLine.m in Sources */,
 				9A56D29425216FC70082CC08 /* AnimatedMoveViewJob.swift in Sources */,
 				9A56D25B25216FC60082CC08 /* Highlight.swift in Sources */,
-				9A6C8579254EC3B000A87751 /* BLECurrentManager.swift in Sources */,
 				9A820B6E24CD06AC00A62C6F /* HealthViewController.swift in Sources */,
 				9A56D28925216FC60082CC08 /* YAxis.swift in Sources */,
 				9A60DEE9252F1E8200E0D849 /* DeviceInfoViewController.swift in Sources */,
@@ -2181,7 +2117,6 @@
 				9A5613F525248BFC00C43C6A /* AudioButtonView.swift in Sources */,
 				9A8CA51425272C5200EC01A7 /* CVSelectionType.swift in Sources */,
 				9A56D2A425216FC70082CC08 /* ChartDataEntry.swift in Sources */,
-				9AEFEFFA25B7FD4200C0D84F /* BabyToy.m in Sources */,
 				9A56D2BE25216FC70082CC08 /* ChartDataProvider.swift in Sources */,
 				9A56D28325216FC60082CC08 /* ChartUtils.swift in Sources */,
 				9A56D26F25216FC60082CC08 /* ChartAnimationEasing.swift in Sources */,
@@ -2210,7 +2145,6 @@
 				9A8CA51A25272C5200EC01A7 /* CVCalendarTouchController.swift in Sources */,
 				9A61685C25DBDA7800918EFC /* SportDataModel.swift in Sources */,
 				9A367B7825BD208100BFB4C3 /* Query.swift in Sources */,
-				9AEFEFFC25B7FD4200C0D84F /* BabyCallback.m in Sources */,
 				9A56D29625216FC70082CC08 /* BarChartDataEntry.swift in Sources */,
 				9A56D2BD25216FC70082CC08 /* BarChartDataProvider.swift in Sources */,
 				9A56D26E25216FC60082CC08 /* PieChartView.swift in Sources */,

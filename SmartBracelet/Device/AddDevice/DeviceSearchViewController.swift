@@ -32,24 +32,23 @@ class DeviceSearchViewController: BaseViewController {
         dotLoadingView.show()
         tableView.isHidden = true
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: Notification.Name.SearchDevice, object: nil)
-        //BLEManager.shared.startScan()
-        BLECurrentManager.sharedInstall.startScan()
+        BLEManager.shared.startScan()
     }
     
     deinit {
         dotLoadingView.stop()
-        BLECurrentManager.sharedInstall.stopScan()
+        bleSelf.stopFindBleDevices()
         NotificationCenter.default.removeObserver(self)
     }
     
     @objc private func handleNotification(_ notification: Notification) {
         let objc = notification.object as! String
         if objc == "scan" { // 搜索设备
-            tableView.isHidden = BLECurrentManager.sharedInstall.models.count == 0
+            tableView.isHidden = bleSelf.bleModels.count == 0
             tableView.reloadData()
         }
         if objc == "connected" { // 设备连接成功
-            if currentModel != nil && currentModel.name != "Lefun" && currentModel.name != "ITIME" {
+            if currentModel != nil {
                 if let model = try? BLEModel.er.fromRealm(with: "\(currentModel.mac)"), model.mac.count > 0 {
                     print("数据库已经有该设备")
                 } else {
@@ -71,13 +70,13 @@ class DeviceSearchViewController: BaseViewController {
 extension DeviceSearchViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return BLECurrentManager.sharedInstall.models.count
+        return bleSelf.bleModels.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: .kCellIdentifier, for: indexPath) as! DeviceSearchTableViewCell
-        if indexPath.row < BLECurrentManager.sharedInstall.models.count {
-            let model = BLECurrentManager.sharedInstall.models[indexPath.row]
+        if indexPath.row < bleSelf.bleModels.count {
+            let model = bleSelf.bleModels[indexPath.row]
             cell.deviceNameLabel.text = model.name + ""
             cell.deviceMacLabel.text = model.mac
         }
@@ -89,24 +88,23 @@ extension DeviceSearchViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         ProgressHUD.show()
-        currentModel = BLECurrentManager.sharedInstall.models[indexPath.row]
-        if currentModel.name == "Lefun" || currentModel.name == "ITIME" { //
-            let model = TJDWristbandSDK.WUBleModel()
-            model.isBond = true
-            model.firmwareVersion = currentModel.firmwareVersion
-            model.uuidString = currentModel.uuidString
-            model.name = currentModel.name
-            //model.localName = currentModel.localName
-            model.rssi = currentModel.rssi
-            model.mac = currentModel.mac
-            model.hardwareVersion = currentModel.hardwareVersion
-            model.vendorNumberASCII = currentModel.vendorNumberASCII
-            model.vendorNumberString = currentModel.vendorNumberString
-            model.internalNumber = currentModel.internalNumber
-            model.internalNumberString = currentModel.internalNumberString
-            bleSelf.connectBleDevice(model: model)
-        } else {
-            BLECurrentManager.sharedInstall.connectDevice(model: currentModel)
-        }
+        let model = TJDWristbandSDK.WUBleModel()
+        model.isBond = true
+        model.firmwareVersion = currentModel.firmwareVersion
+        model.uuidString = currentModel.uuidString
+        model.name = currentModel.name
+        //model.localName = currentModel.localName
+        model.rssi = currentModel.rssi
+        model.mac = currentModel.mac
+        model.hardwareVersion = currentModel.hardwareVersion
+        model.vendorNumberASCII = currentModel.vendorNumberASCII
+        model.vendorNumberString = currentModel.vendorNumberString
+        model.internalNumber = currentModel.internalNumber
+        model.internalNumberString = currentModel.internalNumberString
+        bleSelf.connectBleDevice(model: model)
     }
+}
+
+extension Notification.Name {
+    static let SearchDevice = Notification.Name("SearchDevice")
 }

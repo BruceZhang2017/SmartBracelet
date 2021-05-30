@@ -54,15 +54,13 @@ class ClockUseViewController: BaseViewController {
     }
 
     @objc private func handleOTA(_ sender: Any) {
-        if !BLECurrentManager.sharedInstall.isHavenConnectedDevice() && !bleSelf.isConnected {
+        if !bleSelf.isConnected {
             Toast(text: "未连接设备，请先连接设备").show()
             return
         }
         rightButton.isEnabled = false
-        if BLECurrentManager.sharedInstall.deviceType == 2 { // 当前为Lefun系列产品
-            if binData != nil {
-                BLEManager.shared.sendDialWithLocalBin(binData!)
-            }
+        if binData != nil {
+            BLEManager.shared.sendDialWithLocalBin(binData!)
         }
     }
     

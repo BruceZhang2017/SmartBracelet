@@ -303,10 +303,10 @@ class CMDData: NSObject {
             let record1Minutes = Int(data[7]) * 256 + Int(data[6])
             let record1Step = Int(data[9]) * 256 + Int(data[8])
             print("record1: \(record1) record1Minutes: \(record1Minutes) record1Step: \(record1Step)")
-            if let model = BLECurrentManager.sharedInstall.getCurrentDevice(), record1Step > 0 {
+            if record1Step > 0 {
                 let stepModel = DStepModel()
-                stepModel.mac = model.mac
-                stepModel.uuidString = model.uuidString
+                stepModel.mac = bleSelf.bleModel.mac
+                stepModel.uuidString = bleSelf.bleModel.uuidString
                 stepModel.timeStamp = baseTime + record1Minutes * 60
                 stepModel.step = record1Step
                 stepModel.state = record1
@@ -324,10 +324,10 @@ class CMDData: NSObject {
             let record2Minutes = Int(data[12]) * 256 + Int(data[11])
             let record2Step = Int(data[14]) * 256 + Int(data[13])
             print("record2: \(record2) record2Minutes: \(record2Minutes) record2Step: \(record2Step)")
-            if let model = BLECurrentManager.sharedInstall.getCurrentDevice(), record2Step > 0  {
+            if record2Step > 0  {
                 let stepModel = DStepModel()
-                stepModel.mac = model.mac
-                stepModel.uuidString = model.uuidString
+                stepModel.mac = bleSelf.bleModel.mac
+                stepModel.uuidString = bleSelf.bleModel.uuidString
                 stepModel.timeStamp = baseTime + record2Minutes * 60
                 stepModel.step = record2Step
                 stepModel.state = record2
@@ -344,10 +344,10 @@ class CMDData: NSObject {
             let record3Minutes = Int(data[17]) * 256 + Int(data[16])
             let record3Step = Int(data[19]) * 256 + Int(data[18])
             print("record3: \(record3) record3Minutes: \(record3Minutes) record3Step: \(record3Step)")
-            if let model = BLECurrentManager.sharedInstall.getCurrentDevice(), record3Step > 0  {
+            if record3Step > 0  {
                 let stepModel = DStepModel()
-                stepModel.mac = model.mac
-                stepModel.uuidString = model.uuidString
+                stepModel.mac = bleSelf.bleModel.mac
+                stepModel.uuidString = bleSelf.bleModel.uuidString
                 stepModel.timeStamp = baseTime + record3Minutes * 60
                 stepModel.step = record3Step
                 stepModel.state = record3

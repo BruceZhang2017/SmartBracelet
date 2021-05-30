@@ -19,7 +19,6 @@ class DeviceSettingsViewController: BaseViewController {
     @IBOutlet weak var deviceNameLabel: UILabel!
     @IBOutlet weak var btButton: UIButton!
     @IBOutlet weak var batteryButton: UIButton!
-    var bLefun = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -138,7 +137,6 @@ extension DeviceSettingsViewController: UITableViewDelegate {
             } else { // 闹钟设置
                 let storyboard = UIStoryboard(name: .kDevice, bundle: nil)
                 let vc = storyboard.instantiateViewController(withIdentifier: "AlarmViewController") as! AlarmViewController
-                vc.bLefun = bLefun
                 navigationController?.pushViewController(vc, animated: true)
             }
         }

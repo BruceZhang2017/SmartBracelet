@@ -56,7 +56,7 @@ class MineViewController: BaseViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        if BLECurrentManager.sharedInstall.isHavenConnectedDevice() == false && bleSelf.isConnected == false {
+        if bleSelf.isConnected == false {
             deviceButton.setTitle("未连接设备", for: .normal)
             btButton.setImage(UIImage(named: "content_blueteeth_unlink"), for: .normal)
             btButton.setTitle("蓝牙未连接", for: .normal)

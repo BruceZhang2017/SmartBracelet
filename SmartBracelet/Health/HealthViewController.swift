@@ -86,15 +86,15 @@ class HealthViewController: BaseViewController {
             DispatchQueue.main.async {
                 [weak self] in
                 let foot = NSMutableAttributedString()
-                let step = BLECurrentManager.sharedInstall.deviceType == 2 ? bleSelf.step : DeviceManager.shared.getTotalSteps()
+                let step = bleSelf.step
                 foot.append(NSAttributedString(string: "\(step)", attributes: [.font: UIFont.systemFont(ofSize: 36)]))
                 foot.append(NSAttributedString(string: "步", attributes: [.font: UIFont.systemFont(ofSize: 12)]))
                 self?.footValueLabel.attributedText = foot
-                let distance = BLECurrentManager.sharedInstall.deviceType == 2 ? bleSelf.distance : DeviceManager.shared.getTotalDistance()
+                let distance = bleSelf.distance
                 let unit = Float(distance) / 1000
                 self?.footUnitLabel.text = "\(String(format: "%.2f", unit))公里"
                 let value = NSMutableAttributedString()
-                let cal = BLECurrentManager.sharedInstall.deviceType == 2 ? bleSelf.cal : DeviceManager.shared.getTotalCal()
+                let cal = bleSelf.cal
                 let v = Float(cal) / 1000
                 value.append(NSAttributedString(string: "\(String(format: "%.2f", v))", attributes: [.font: UIFont.systemFont(ofSize: 36)]))
                 value.append(NSAttributedString(string: "千卡", attributes: [.font: UIFont.systemFont(ofSize: 12)]))

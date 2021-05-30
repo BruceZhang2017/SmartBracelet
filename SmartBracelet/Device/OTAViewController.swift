@@ -76,12 +76,12 @@ extension OTAViewController: OTACMDDelegate {
             return
         }
         print("[OTA] \(data.hexEncodedStringBlank())")
-        BLECurrentManager.sharedInstall.writeOTAChar(data: data)
+        //BLECurrentManager.sharedInstall.writeOTAChar(data: data)
     }
     
     func readOTA() {
         print("[OTA] 读取OTA通道")
-        BLECurrentManager.sharedInstall.readOTAChar()
+        //BLECurrentManager.sharedInstall.readOTAChar()
     }
     
     

@@ -20,7 +20,6 @@ class MTabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         BLEManager.shared.regNotification()
-        let _ = BLECurrentManager.sharedInstall
         lastestDeviceMac = UserDefaults.standard.string(forKey: "LastestDeviceMac") ?? ""
         print("最后连接的设备MAC地址为：\(lastestDeviceMac)")
         if lastestDeviceMac.count > 0 {
@@ -50,15 +49,6 @@ class MTabBarController: UITabBarController {
     /// 延迟300ms，执行判断是否需要搜索设备
     @objc private func checkIfNeedScanDevice() {
         let devices = DeviceManager.shared.devices
-        if devices.count > 0 {
-            for item in devices {
-                if item.mac == lastestDeviceMac {
-                    BLECurrentManager.sharedInstall.connectDevice(model: item)
-                    return
-                }
-            }
-        }
-        
         if let model = WUBleModel.getModel() as? TJDWristbandSDK.WUBleModel {
             if model.mac == lastestDeviceMac {
                 BLEManager.shared.startScanAndConnect()
