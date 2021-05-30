@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="iVR-zD-w8P">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="iVR-zD-w8P">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
@@ -654,6 +654,11 @@
                                                                                         <constraint firstAttribute="width" constant="74" id="Hng-6w-wqL"/>
                                                                                         <constraint firstAttribute="height" constant="74" id="TCf-Rp-A3w"/>
                                                                                     </constraints>
+                                                                                    <userDefinedRuntimeAttributes>
+                                                                                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                                                            <integer key="value" value="37"/>
+                                                                                        </userDefinedRuntimeAttribute>
+                                                                                    </userDefinedRuntimeAttributes>
                                                                                 </imageView>
                                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="表盘名称a" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8ba-qy-C0B">
                                                                                     <rect key="frame" x="17" y="95" width="56" height="14.5"/>
@@ -845,8 +850,8 @@
                                             <constraint firstAttribute="height" constant="1" id="Rvp-kL-hF5"/>
                                         </constraints>
                                     </imageView>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="o0a-ff-Riz">
-                                        <rect key="frame" x="30" y="85" width="114.5" height="48"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="o0a-ff-Riz">
+                                        <rect key="frame" x="35" y="85" width="113" height="48"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="48" id="4yp-FT-onN"/>
                                         </constraints>
@@ -856,7 +861,7 @@
                                         </state>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="S78-IH-etG">
-                                        <rect key="frame" x="144.5" y="85" width="115" height="48"/>
+                                        <rect key="frame" x="148" y="85" width="113" height="48"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="48" id="gqk-h3-jXh"/>
                                         </constraints>
@@ -867,7 +872,7 @@
                                         </state>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jPA-TM-KT5">
-                                        <rect key="frame" x="259.5" y="85" width="114.5" height="48"/>
+                                        <rect key="frame" x="261" y="85" width="113" height="48"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="48" id="bMw-gO-wis"/>
                                         </constraints>
@@ -878,7 +883,7 @@
                                         </state>
                                     </button>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_equipment" translatesAutoresizingMaskIntoConstraints="NO" id="JIR-ez-fXM">
-                                        <rect key="frame" x="23" y="101.5" width="11" height="15"/>
+                                        <rect key="frame" x="20" y="101.5" width="11" height="15"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="11" id="8E4-6n-mmN"/>
                                             <constraint firstAttribute="height" constant="15" id="LXk-Tz-HSw"/>
@@ -926,13 +931,13 @@
                                     <constraint firstItem="bXc-Us-qAm" firstAttribute="leading" secondItem="hzs-qD-AS5" secondAttribute="leading" constant="20" id="bcK-UZ-Y2L"/>
                                     <constraint firstItem="o0a-ff-Riz" firstAttribute="top" secondItem="LXV-1w-rDV" secondAttribute="bottom" id="do8-kL-FDR"/>
                                     <constraint firstAttribute="trailing" secondItem="jPA-TM-KT5" secondAttribute="trailing" constant="40" id="g3c-cB-yIa"/>
-                                    <constraint firstItem="o0a-ff-Riz" firstAttribute="leading" secondItem="hzs-qD-AS5" secondAttribute="leading" constant="30" id="iJP-fh-GjJ"/>
+                                    <constraint firstItem="o0a-ff-Riz" firstAttribute="leading" secondItem="hzs-qD-AS5" secondAttribute="leading" constant="35" id="iJP-fh-GjJ"/>
                                     <constraint firstItem="aSq-aq-Mmr" firstAttribute="top" secondItem="bXc-Us-qAm" secondAttribute="top" id="qqd-UI-Mmd"/>
                                     <constraint firstItem="jPA-TM-KT5" firstAttribute="width" secondItem="S78-IH-etG" secondAttribute="width" id="rXL-eI-yrv"/>
                                     <constraint firstItem="jPA-TM-KT5" firstAttribute="top" secondItem="S78-IH-etG" secondAttribute="top" id="sy3-rB-q0a"/>
                                     <constraint firstAttribute="height" constant="134" id="vRG-sa-awz"/>
                                     <constraint firstItem="aSq-aq-Mmr" firstAttribute="leading" secondItem="bXc-Us-qAm" secondAttribute="trailing" constant="8" id="x5M-vE-n1P"/>
-                                    <constraint firstItem="o0a-ff-Riz" firstAttribute="leading" secondItem="JIR-ez-fXM" secondAttribute="trailing" constant="-4" id="yL2-am-H08"/>
+                                    <constraint firstItem="o0a-ff-Riz" firstAttribute="leading" secondItem="JIR-ez-fXM" secondAttribute="trailing" constant="4" id="yL2-am-H08"/>
                                 </constraints>
                             </view>
                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oWn-op-4Fw" userLabel="viewL">

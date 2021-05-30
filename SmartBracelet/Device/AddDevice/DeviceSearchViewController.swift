@@ -88,19 +88,8 @@ extension DeviceSearchViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         ProgressHUD.show()
-        let model = TJDWristbandSDK.WUBleModel()
-        model.isBond = true
-        model.firmwareVersion = currentModel.firmwareVersion
-        model.uuidString = currentModel.uuidString
-        model.name = currentModel.name
-        //model.localName = currentModel.localName
-        model.rssi = currentModel.rssi
-        model.mac = currentModel.mac
-        model.hardwareVersion = currentModel.hardwareVersion
-        model.vendorNumberASCII = currentModel.vendorNumberASCII
-        model.vendorNumberString = currentModel.vendorNumberString
-        model.internalNumber = currentModel.internalNumber
-        model.internalNumberString = currentModel.internalNumberString
+        bleSelf.stopFindBleDevices()
+        let model = bleSelf.bleModels[indexPath.row]
         bleSelf.connectBleDevice(model: model)
     }
 }
