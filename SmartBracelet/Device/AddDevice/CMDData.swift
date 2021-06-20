@@ -309,12 +309,11 @@ class CMDData: NSObject {
                 stepModel.uuidString = bleSelf.bleModel.uuidString
                 stepModel.timeStamp = baseTime + record1Minutes * 60
                 stepModel.step = record1Step
-                stepModel.state = record1
                 do {
                     try stepModel.er.save(update: true)
-                    print("保存成功")
+                    print("步数保存成功")
                 } catch {
-                    print("保存失败：\(error.localizedDescription)")
+                    print("步数保存失败：\(error.localizedDescription)")
                 }
                 
             }
@@ -330,12 +329,11 @@ class CMDData: NSObject {
                 stepModel.uuidString = bleSelf.bleModel.uuidString
                 stepModel.timeStamp = baseTime + record2Minutes * 60
                 stepModel.step = record2Step
-                stepModel.state = record2
                 do {
                     try stepModel.er.save(update: true)
-                    print("保存成功")
+                    print("步数保存成功")
                 } catch {
-                    print("保存失败：\(error.localizedDescription)")
+                    print("步数保存失败：\(error.localizedDescription)")
                 }
             }
         }
@@ -350,12 +348,11 @@ class CMDData: NSObject {
                 stepModel.uuidString = bleSelf.bleModel.uuidString
                 stepModel.timeStamp = baseTime + record3Minutes * 60
                 stepModel.step = record3Step
-                stepModel.state = record3
                 do {
                     try stepModel.er.save(update: true)
-                    print("保存成功")
+                    print("步数保存成功")
                 } catch {
-                    print("保存失败：\(error.localizedDescription)")
+                    print("步数保存失败：\(error.localizedDescription)")
                 }
             }
         }
@@ -373,7 +370,7 @@ class CMDData: NSObject {
         let minute = Int(data[11])
         let second = Int(data[12])
         print("手环返回的currnet state时间：\(2000 + year)-\(month)-\(day) \(hour):\(minute):\(second)")
-        DeviceManager.shared.refreshSteps()
+        
         NotificationCenter.default.post(name: Notification.Name("HealthViewController"), object: "step")
     }
     

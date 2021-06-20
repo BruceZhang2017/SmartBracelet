@@ -76,56 +76,41 @@ class DeviceListViewController: BaseViewController {
 extension DeviceListViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let count = DeviceManager.shared.devices.count + (bleSelf.bleModel.mac.count > 0 ? 1 : 0)
+        let count = DeviceManager.shared.devices.count
         return count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: .kCellIdentifier, for: indexPath) as! DeviceTableViewCell
-        if indexPath.row < DeviceManager.shared.devices.count {
-            let model = DeviceManager.shared.devices[indexPath.row]
-            cell.deviceNameLabel.text = model.name + ""
-            cell.deviceImageView.image = UIImage(named: "produce_image_no.1")
-            if model.mac == lastestDeviceMac {
-                cell.selectImageView.isHidden = false
-                cell.bgView.layer.borderWidth = 1
-                cell.bgView.layer.borderColor = UIColor.color(hex: "14C8C6").cgColor
-                cell.bleConnectButton.setImage(UIImage(named: "content_blueteeth_link"), for: .normal)
-                cell.bleConnectButton.setTitle("蓝牙已连接", for: .normal)
+        let model = DeviceManager.shared.devices[indexPath.row]
+        cell.deviceNameLabel.text = model.name + ""
+        cell.deviceImageView.image = UIImage(named: "produce_image_no.2")
+        if model.mac == lastestDeviceMac {
+            cell.selectImageView.isHidden = false
+            cell.bgView.layer.borderWidth = 1
+            cell.bgView.layer.borderColor = UIColor.color(hex: "14C8C6").cgColor
+            cell.bleConnectButton.setImage(UIImage(named: "content_blueteeth_link"), for: .normal)
+            cell.bleConnectButton.setTitle("蓝牙已连接", for: .normal)
+        } else {
+            cell.selectImageView.isHidden = true
+            cell.bgView.layer.borderWidth = 0
+            cell.bgView.layer.borderColor = UIColor.clear.cgColor
+            cell.bleConnectButton.setImage(UIImage(named: "content_blueteeth_unlink"), for: .normal)
+            cell.bleConnectButton.setTitle("请连接蓝牙", for: .normal)
+        }
+        let deviceInfo = DeviceManager.shared.deviceInfo[model.mac]
+        if deviceInfo != nil {
+            if deviceInfo?.battery ?? 0 < 5 {
+                cell.batteryButton.setImage(UIImage(named: "conten_battery_runout"), for: .normal)
+                cell.batteryButton.setTitle("剩余电量不足5%", for: .normal)
             } else {
-                cell.selectImageView.isHidden = true
-                cell.bgView.layer.borderWidth = 0
-                cell.bgView.layer.borderColor = UIColor.clear.cgColor
-                cell.bleConnectButton.setImage(UIImage(named: "content_blueteeth_unlink"), for: .normal)
-                cell.bleConnectButton.setTitle("请连接蓝牙", for: .normal)
-            }
-            let deviceInfo = DeviceManager.shared.deviceInfo[model.uuidString]
-            if deviceInfo != nil {
-                if deviceInfo?.battery ?? 0 < 5 {
-                    cell.batteryButton.setImage(UIImage(named: "conten_battery_runout"), for: .normal)
-                    cell.batteryButton.setTitle("剩余电量不足5%，请及时充电", for: .normal)
-                } else {
-                    cell.batteryButton.setImage(UIImage(named: "conten_battery_full"), for: .normal)
-                    cell.batteryButton.setTitle("剩余电量\(deviceInfo?.battery ?? 0)%", for: .normal)
-                }
-            } else {
-                cell.batteryButton.setImage(UIImage(named: "conten_battery_null"), for: .normal)
-                cell.batteryButton.setTitle("剩余电量未知", for: .normal)
+                cell.batteryButton.setImage(UIImage(named: "conten_battery_full"), for: .normal)
+                cell.batteryButton.setTitle("剩余电量\(deviceInfo?.battery ?? 0)%", for: .normal)
             }
         } else {
-            cell.deviceNameLabel.text = bleSelf.bleModel.name
-            cell.deviceImageView.image = UIImage(named: "produce_image_no.2")
-            if bleSelf.bleModel.mac == lastestDeviceMac {
-                cell.selectImageView.isHidden = false
-                cell.bgView.layer.borderWidth = 1
-                cell.bgView.layer.borderColor = UIColor.color(hex: "14C8C6").cgColor
-            } else {
-                cell.selectImageView.isHidden = true
-                cell.bgView.layer.borderWidth = 0
-                cell.bgView.layer.borderColor = UIColor.clear.cgColor
-            }
+            cell.batteryButton.setImage(UIImage(named: "conten_battery_null"), for: .normal)
+            cell.batteryButton.setTitle("剩余电量未知", for: .normal)
         }
-        
         return cell
     }
 }

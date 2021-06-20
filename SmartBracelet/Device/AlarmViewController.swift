@@ -26,12 +26,17 @@ class AlarmViewController: BaseViewController {
         tableView.isHidden = true
         tableView.register(AlarmHeaderView.self, forHeaderFooterViewReuseIdentifier: "Header")
         tableView.tableFooterView = UIView()
+        tableView.allowsSelectionDuringEditing = true
         registerNotification()
         bleSelf.getAlarmForWristband() // 获取闹钟信息
     }
     
     deinit {
         unregisterNotification()
+    }
+    
+    @objc private func handleNotificationForAlarm(_ notification: Notification) {
+        bleSelf.getAlarmForWristband() // 获取闹钟信息
     }
 
     @objc private func addOrManageAlarm(_ sender: Any) {
@@ -65,7 +70,7 @@ class AlarmViewController: BaseViewController {
             view.addSubview(addButton)
             addButton.snp.makeConstraints {
                 $0.centerX.equalToSuperview()
-                $0.width.height.equalTo(64)
+                $0.width.height.equalTo(54)
                 $0.bottom.equalTo(maximumAlarmLabel.snp.top).offset(-10)
             }
         }
@@ -94,6 +99,7 @@ class AlarmViewController: BaseViewController {
     
     private func registerNotification() {
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: Notification.Name.Alarm, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleNotificationForAlarm(_:)), name: Notification.Name.AlarmRefresh, object: nil)
     }
     
     private func unregisterNotification() {
@@ -125,6 +131,10 @@ class AlarmViewController: BaseViewController {
         }
         tableView.reloadData()
     }
+    
+    @objc private func refreshAlarm() {
+        NotificationCenter.default.post(name: Notification.Name.AlarmRefresh, object: nil)
+    }
 }
 
 extension AlarmViewController: UITableViewDataSource {
@@ -139,7 +149,7 @@ extension AlarmViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: .kCellIdentifier, for: indexPath) as! AlarmTableViewCell
         let model = alarms[indexPath.section][indexPath.row]
-        cell.titleLabel.text = "\(model.hour):\(model.minute)"
+        cell.titleLabel.text = "\(String(format: "%02d", model.hour)):\(String(format: "%02d", model.minute))"
         cell.mSwitch.isOn = model.isOn
         cell.mSwitch.isHidden = tableView.isEditing
         cell.arrorImageView.isHidden = !tableView.isEditing
@@ -174,14 +184,33 @@ extension AlarmViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
         return UITableViewCell.EditingStyle.delete
     }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            var model = alarms[indexPath.section][indexPath.row]
+            model.hour = 0
+            model.minute = 0
+            model.isOn = false
+            model.weekday = 0
+            model.repeatCount = 1
+            model.repeatInterval = 10
+            bleSelf.setAlarmForWristband(model)
+            perform(#selector(refreshAlarm), with: nil, afterDelay: 0.2)
+        }
+    }
 }
 
 extension AlarmViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         if tableView.isEditing {
+            let model = alarms[indexPath.section][indexPath.row]
             let vc = storyboard?.instantiateViewController(withIdentifier: "AlarmAddViewController") as! AlarmAddViewController
             vc.bEdit = true
+            vc.hour = model.hour
+            vc.minute = model.minute
+            vc.clockId = model.clockId
+            vc.weekday = model.weekday
             navigationController?.pushViewController(vc, animated: true)
         }
     }
@@ -199,4 +228,5 @@ extension AlarmViewController: AlarmHeaderViewDelegate {
 
 extension Notification.Name {
     static let Alarm = Notification.Name("Alarm")
+    static let AlarmRefresh = Notification.Name("AlarmRefresh")
 }

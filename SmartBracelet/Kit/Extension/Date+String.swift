@@ -99,6 +99,13 @@ extension Date {
 }
 
 class DateHelper: NSObject {
+    func ymdToDate(value: String) -> Date {
+        let format = DateFormatter()
+        format.dateFormat = "yyyy-MM-dd"
+        return format.date(from: value)!
+    }
+    
+    
     func ymdToDate(y: Int, m: Int, d: Int) -> Date {
         let str = "\(y)-\(String(format: "%02d", m))-\(String(format: "%02d", d)) 00:00:00"
         let format = DateFormatter()

@@ -43,7 +43,7 @@ extension AlarmRepeatViewController: UITableViewDataSource {
         cell.textLabel?.font = UIFont.systemFont(ofSize: 15)
         cell.textLabel?.text = titles[indexPath.row]
         if indexPath.row == 0 {
-            if days > 10000 {
+            if days >= 10000 || days == 0 {
                 cell.accessoryView = UIImageView(image: UIImage(named: "content_icon_selecte"))
             } else {
                 cell.accessoryView = nil

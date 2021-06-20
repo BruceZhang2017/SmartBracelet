@@ -73,11 +73,11 @@ class MineViewController: BaseViewController {
                     deviceButton.setTitle(item.name, for: .normal)
                     btButton.setImage(UIImage(named: "content_blueteeth_link"), for: .normal)
                     btButton.setTitle("蓝牙已连接", for: .normal)
-                    let deviceInfo = DeviceManager.shared.deviceInfo[item.uuidString]
+                    let deviceInfo = DeviceManager.shared.deviceInfo[item.mac]
                     if deviceInfo != nil {
                         if deviceInfo?.battery ?? 0 < 5 {
                             batteryButton.setImage(UIImage(named: "conten_battery_runout"), for: .normal)
-                            batteryButton.setTitle("剩余电量不足5%，请及时充电", for: .normal)
+                            batteryButton.setTitle("剩余电量不足5%", for: .normal)
                         } else {
                             batteryButton.setImage(UIImage(named: "conten_battery_full"), for: .normal)
                             batteryButton.setTitle("剩余电量\(deviceInfo?.battery ?? 0)%", for: .normal)
@@ -88,26 +88,6 @@ class MineViewController: BaseViewController {
                     }
                     break
                 }
-            }
-        }
-        if !tem {
-            if bleSelf.bleModel.mac == lastestDeviceMac {
-                deviceButton.setTitle(bleSelf.bleModel.name, for: .normal)
-                btButton.setImage(UIImage(named: "content_blueteeth_link"), for: .normal)
-                btButton.setTitle("蓝牙已连接", for: .normal)
-                if bleSelf.batteryLevel > 0 {
-                    if bleSelf.batteryLevel < 5 {
-                        batteryButton.setImage(UIImage(named: "conten_battery_runout"), for: .normal)
-                        batteryButton.setTitle("剩余电量不足5%，请及时充电", for: .normal)
-                    } else {
-                        batteryButton.setImage(UIImage(named: "conten_battery_full"), for: .normal)
-                        batteryButton.setTitle("剩余电量\(bleSelf.batteryLevel)%", for: .normal)
-                    }
-                } else {
-                    batteryButton.setImage(UIImage(named: "conten_battery_null"), for: .normal)
-                    batteryButton.setTitle("剩余电量未知", for: .normal)
-                }
-                tem = true
             }
         }
     }

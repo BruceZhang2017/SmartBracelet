@@ -74,7 +74,7 @@ class DevicesView: UIView {
 
 extension DevicesView: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        let count = DeviceManager.shared.devices.count + (bleSelf.bleModel.mac.count > 0 ? 1 : 0)
+        let count = DeviceManager.shared.devices.count
         return max(3, count + 2)
     }
     
@@ -83,7 +83,7 @@ extension DevicesView: UICollectionViewDataSource, UICollectionViewDelegate {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NSStringFromClass(CyclicCardCell.self), for: indexPath) as! CyclicCardCell
         cell.backgroundColor = UIColor.white.withAlphaComponent(0.8)
         cell.layer.cornerRadius = 10
-        let count = DeviceManager.shared.devices.count + (bleSelf.bleModel.mac.count > 0 ? 1 : 0)
+        let count = DeviceManager.shared.devices.count
         let total = max(3, count + 2)
         if indexPath.row == 0 || indexPath.row == total - 1 {
             cell.isHidden = true
@@ -97,98 +97,29 @@ extension DevicesView: UICollectionViewDataSource, UICollectionViewDelegate {
                     cell.btButton.isHidden = true
                     cell.addLabel.isHidden = false
                 }
-            } else if count == 1 {
-                if indexPath.row == 1 {
-                    cell.isHidden = false
-                    if DeviceManager.shared.devices.count > 0 {
-                        let model = DeviceManager.shared.devices.first!
-                        cell.cardImgView.image = UIImage(named: "produce_image_no.1")
-                        cell.cardNameLabel.text = model.name
-                        if model.mac == lastestDeviceMac {
-                            cell.btButton.setImage(UIImage(named: "content_blueteeth_link"), for: .normal)
-                            cell.btButton.setTitle("蓝牙已连接", for: .normal)
-                        } else {
-                            cell.btButton.setImage(UIImage(named: "content_blueteeth_unlink"), for: .normal)
-                            cell.btButton.setTitle("请连接蓝牙", for: .normal)
-                        }
-                        let deviceInfo = DeviceManager.shared.deviceInfo[model.uuidString]
-                        if deviceInfo != nil {
-                            if deviceInfo?.battery ?? 0 < 5 {
-                                cell.batteryButton.setImage(UIImage(named: "conten_battery_runout"), for: .normal)
-                                cell.batteryButton.setTitle("剩余电量不足5%，请及时充电", for: .normal)
-                            } else {
-                                cell.batteryButton.setImage(UIImage(named: "conten_battery_full"), for: .normal)
-                                cell.batteryButton.setTitle("剩余电量\(deviceInfo?.battery ?? 0)%", for: .normal)
-                            }
-                        } else {
-                            cell.batteryButton.setImage(UIImage(named: "conten_battery_null"), for: .normal)
-                            cell.batteryButton.setTitle("剩余电量未知", for: .normal)
-                        }
-                    } else {
-                        cell.cardNameLabel.text = bleSelf.bleModel.name
-                        cell.cardImgView.image = UIImage(named: "produce_image_no.2")
-                    }
-                }
-            } else if count == 2 {
-                if indexPath.row == 1 || indexPath.row == 2 {
-                    cell.isHidden = false
-                    if  (indexPath.row - 1) < DeviceManager.shared.devices.count {
-                        let model = DeviceManager.shared.devices[indexPath.row - 1]
-                        cell.cardImgView.image = UIImage(named: "produce_image_no.1")
-                        cell.cardNameLabel.text = model.name
-                        if model.mac == lastestDeviceMac {
-                            cell.btButton.setImage(UIImage(named: "content_blueteeth_link"), for: .normal)
-                            cell.btButton.setTitle("蓝牙已连接", for: .normal)
-                        } else {
-                            cell.btButton.setImage(UIImage(named: "content_blueteeth_unlink"), for: .normal)
-                            cell.btButton.setTitle("请连接蓝牙", for: .normal)
-                        }
-                        let deviceInfo = DeviceManager.shared.deviceInfo[model.uuidString]
-                        if deviceInfo != nil {
-                            if deviceInfo?.battery ?? 0 < 5 {
-                                cell.batteryButton.setImage(UIImage(named: "conten_battery_runout"), for: .normal)
-                                cell.batteryButton.setTitle("剩余电量不足5%，请及时充电", for: .normal)
-                            } else {
-                                cell.batteryButton.setImage(UIImage(named: "conten_battery_full"), for: .normal)
-                                cell.batteryButton.setTitle("剩余电量\(deviceInfo?.battery ?? 0)%", for: .normal)
-                            }
-                        } else {
-                            cell.batteryButton.setImage(UIImage(named: "conten_battery_null"), for: .normal)
-                            cell.batteryButton.setTitle("剩余电量未知", for: .normal)
-                        }
-                    } else {
-                        cell.cardNameLabel.text = bleSelf.bleModel.name
-                        cell.cardImgView.image = UIImage(named: "produce_image_no.2")
-                    }
-                }
             } else {
-                if  (indexPath.row - 1) < DeviceManager.shared.devices.count {
-                    let model = DeviceManager.shared.devices[indexPath.row - 1]
-                    cell.cardImgView.image = UIImage(named: "produce_image_no.1")
-                    cell.cardNameLabel.text = model.name
-                    if model.mac == lastestDeviceMac {
-                        cell.btButton.setImage(UIImage(named: "content_blueteeth_link"), for: .normal)
-                        cell.btButton.setTitle("蓝牙已连接", for: .normal)
+                let model = DeviceManager.shared.devices[indexPath.row - 1]
+                cell.cardImgView.image = UIImage(named: "produce_image_no.2")
+                cell.cardNameLabel.text = model.name
+                if model.mac == lastestDeviceMac {
+                    cell.btButton.setImage(UIImage(named: "content_blueteeth_link"), for: .normal)
+                    cell.btButton.setTitle("蓝牙已连接", for: .normal)
+                } else {
+                    cell.btButton.setImage(UIImage(named: "content_blueteeth_unlink"), for: .normal)
+                    cell.btButton.setTitle("请连接蓝牙", for: .normal)
+                }
+                let deviceInfo = DeviceManager.shared.deviceInfo[model.mac]
+                if deviceInfo != nil {
+                    if deviceInfo?.battery ?? 0 < 5 {
+                        cell.batteryButton.setImage(UIImage(named: "conten_battery_runout"), for: .normal)
+                        cell.batteryButton.setTitle("剩余电量不足5%", for: .normal)
                     } else {
-                        cell.btButton.setImage(UIImage(named: "content_blueteeth_unlink"), for: .normal)
-                        cell.btButton.setTitle("请连接蓝牙", for: .normal)
-                    }
-                    let deviceInfo = DeviceManager.shared.deviceInfo[model.uuidString]
-                    if deviceInfo != nil {
-                        if deviceInfo?.battery ?? 0 < 5 {
-                            cell.batteryButton.setImage(UIImage(named: "conten_battery_runout"), for: .normal)
-                            cell.batteryButton.setTitle("剩余电量不足5%，请及时充电", for: .normal)
-                        } else {
-                            cell.batteryButton.setImage(UIImage(named: "conten_battery_full"), for: .normal)
-                            cell.batteryButton.setTitle("剩余电量\(deviceInfo?.battery ?? 0)%", for: .normal)
-                        }
-                    } else {
-                        cell.batteryButton.setImage(UIImage(named: "conten_battery_null"), for: .normal)
-                        cell.batteryButton.setTitle("剩余电量未知", for: .normal)
+                        cell.batteryButton.setImage(UIImage(named: "conten_battery_full"), for: .normal)
+                        cell.batteryButton.setTitle("剩余电量\(deviceInfo?.battery ?? 0)%", for: .normal)
                     }
                 } else {
-                    cell.cardNameLabel.text = bleSelf.bleModel.name
-                    cell.cardImgView.image = UIImage(named: "produce_image_no.2")
+                    cell.batteryButton.setImage(UIImage(named: "conten_battery_null"), for: .normal)
+                    cell.batteryButton.setTitle("剩余电量未知", for: .normal)
                 }
             }
         }

@@ -22,4 +22,8 @@ final class DHeartRateModel: Object {
     @objc dynamic var heartRate: Int = 0
     
     @objc dynamic var timeStamp: Int = 0
+    
+    override static func primaryKey() -> String? {
+      return "timeStamp"
+    }
 }

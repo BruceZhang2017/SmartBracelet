@@ -22,22 +22,16 @@ final class DStepModel : Object {
 
     /// 单位  步
     /// unit step
-    @objc dynamic var step: Int = 0 {
-        didSet {
-            distance = Int(Double(step) * 0.7)
-        }
-    }
+    @objc dynamic var step: Int = 0
 
     /// 单位 卡
     @objc dynamic var cal: Int = 0
     
     @objc dynamic var timeStamp: Int = 0
 
-    @objc dynamic var distance: Int = 0 {
-        didSet {
-            cal = Int(Double(distance * 60) * 1.036) // k=0.8214
-        }
-    }
+    @objc dynamic var distance: Int = 0
     
-    @objc dynamic var state: Int = 0 // 0: Stationary 1: Walking 2: Running 3: Sleep 4: Awake 5: Restless 6~: Others, depends on Algo
+    override static func primaryKey() -> String? {
+      return "timeStamp"
+    }
 }

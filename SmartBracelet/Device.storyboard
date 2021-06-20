@@ -485,24 +485,27 @@
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="49"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rmY-eu-U9X">
-                                                    <rect key="frame" x="40" y="15.5" width="37.5" height="18"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rmY-eu-U9X">
+                                                    <rect key="frame" x="10" y="15.5" width="90" height="18"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="90" id="b93-mg-1My"/>
+                                                    </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <color key="textColor" red="0.20392156862745098" green="0.20392156862745098" blue="0.20392156862745098" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cko-s8-j9G">
-                                                    <rect key="frame" x="105.5" y="17.5" width="31" height="14.5"/>
+                                                    <rect key="frame" x="120" y="17.5" width="31" height="14.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <color key="textColor" red="0.60392156862745094" green="0.60392156862745094" blue="0.60392156862745094" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="rmY-eu-U9X" firstAttribute="leading" secondItem="U2B-QB-I3Q" secondAttribute="leading" constant="40" id="7FO-R9-hro"/>
+                                                <constraint firstItem="rmY-eu-U9X" firstAttribute="leading" secondItem="U2B-QB-I3Q" secondAttribute="leading" constant="10" id="7FO-R9-hro"/>
                                                 <constraint firstItem="cko-s8-j9G" firstAttribute="centerY" secondItem="U2B-QB-I3Q" secondAttribute="centerY" id="h7U-jX-tsw"/>
                                                 <constraint firstItem="rmY-eu-U9X" firstAttribute="centerY" secondItem="U2B-QB-I3Q" secondAttribute="centerY" id="n6P-7f-DJO"/>
-                                                <constraint firstItem="cko-s8-j9G" firstAttribute="leading" secondItem="rmY-eu-U9X" secondAttribute="trailing" constant="28" id="wHl-I5-xJZ"/>
+                                                <constraint firstItem="cko-s8-j9G" firstAttribute="leading" secondItem="rmY-eu-U9X" secondAttribute="trailing" constant="20" id="wHl-I5-xJZ"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
@@ -1100,6 +1103,12 @@
                                                     <constraint firstAttribute="height" constant="17" id="kPg-ub-w4n"/>
                                                 </constraints>
                                             </imageView>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bub-1w-92J">
+                                                <rect key="frame" x="383" y="25" width="0.0" height="0.0"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="u1w-x7-BzG">
                                                 <rect key="frame" x="0.0" y="0.0" width="414" height="50"/>
                                                 <connections>
@@ -1117,6 +1126,8 @@
                                             <constraint firstItem="Vcr-DN-MNX" firstAttribute="leading" secondItem="zYO-HA-v5I" secondAttribute="leading" constant="16" id="XUD-QV-KSo"/>
                                             <constraint firstAttribute="trailing" secondItem="Raa-qt-8vr" secondAttribute="trailing" constant="16" id="g51-b5-XLL"/>
                                             <constraint firstAttribute="bottom" secondItem="u1w-x7-BzG" secondAttribute="bottom" id="mzN-bY-YPM"/>
+                                            <constraint firstItem="Raa-qt-8vr" firstAttribute="leading" secondItem="bub-1w-92J" secondAttribute="trailing" constant="5" id="pDj-MY-e5b"/>
+                                            <constraint firstItem="bub-1w-92J" firstAttribute="centerY" secondItem="zYO-HA-v5I" secondAttribute="centerY" id="uev-h0-6bP"/>
                                         </constraints>
                                     </view>
                                 </subviews>
@@ -1140,8 +1151,8 @@
                                         <constraints>
                                             <constraint firstAttribute="height" constant="48" id="1JU-Vp-XGU"/>
                                         </constraints>
-                                        <state key="normal" title="删除闹铃">
-                                            <color key="titleColor" red="1" green="0.20000000000000001" blue="0.46274509803921571" alpha="1" colorSpace="calibratedRGB"/>
+                                        <state key="normal" title="更新">
+                                            <color key="titleColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                         <connections>
                                             <action selector="deleteAlarm:" destination="7f6-5h-ays" eventType="touchUpInside" id="PYu-oN-BYr"/>
@@ -1200,6 +1211,7 @@
                         <outlet property="datePicker" destination="4nG-mx-Xq1" id="2y4-0k-V3G"/>
                         <outlet property="deleteButton" destination="TSn-GY-M4i" id="TkT-fa-a41"/>
                         <outlet property="repeatLabel" destination="Vcr-DN-MNX" id="EV6-DB-Co8"/>
+                        <outlet property="weekLabel" destination="bub-1w-92J" id="gsx-gf-eup"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cN9-fY-GnP" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

@@ -22,5 +22,6 @@ pod 'RealmSwift'
 pod 'Realm'
 pod 'Toast'
 pod 'AFNetworking'
+pod 'MJRefresh'
 
 end

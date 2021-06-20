@@ -367,6 +367,8 @@
 		9AE1A1722629465F00B8B10D /* FileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AE1A1642629465F00B8B10D /* FileManager.m */; };
 		9AE1A181262AB9F900B8B10D /* HeartRateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE1A180262AB9F900B8B10D /* HeartRateView.swift */; };
 		9AE1A183262AF69400B8B10D /* HeartRateCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE1A182262AF69400B8B10D /* HeartRateCollectionViewCell.swift */; };
+		9AE66874267E410200A8584A /* DSleepModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE66873267E410100A8584A /* DSleepModel.swift */; };
+		9AE66876267E491A00A8584A /* DOxygenModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE66875267E491A00A8584A /* DOxygenModel.swift */; };
 		9AEC22CD25B707C000DE899A /* BLEModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AEC22CC25B707C000DE899A /* BLEModel.swift */; };
 		9AEC230025B7114500DE899A /* Data+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AEC22FF25B7114500DE899A /* Data+Extension.swift */; };
 		9AF0AA2025AAF1CE000BDAED /* CMDData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF0AA1F25AAF1CE000BDAED /* CMDData.swift */; };
@@ -780,6 +782,8 @@
 		9AE1A16A2629465F00B8B10D /* OTASDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTASDK.h; sourceTree = "<group>"; };
 		9AE1A180262AB9F900B8B10D /* HeartRateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartRateView.swift; sourceTree = "<group>"; };
 		9AE1A182262AF69400B8B10D /* HeartRateCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartRateCollectionViewCell.swift; sourceTree = "<group>"; };
+		9AE66873267E410100A8584A /* DSleepModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DSleepModel.swift; sourceTree = "<group>"; };
+		9AE66875267E491A00A8584A /* DOxygenModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DOxygenModel.swift; sourceTree = "<group>"; };
 		9AEC22CC25B707C000DE899A /* BLEModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BLEModel.swift; sourceTree = "<group>"; };
 		9AEC22FF25B7114500DE899A /* Data+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+Extension.swift"; sourceTree = "<group>"; };
 		9AF0AA1F25AAF1CE000BDAED /* CMDData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CMDData.swift; sourceTree = "<group>"; };
@@ -1375,8 +1379,10 @@
 				9A32B06A2543C5C7008F0E26 /* BLEManager.swift */,
 				9AEC22CC25B707C000DE899A /* BLEModel.swift */,
 				9A40E02B25D37477001879B3 /* DStepModel.swift */,
+				9AE66873267E410100A8584A /* DSleepModel.swift */,
 				9A64F0B725DE18CD0073E679 /* DBloodModel.swift */,
 				9A64F0B925DE19B30073E679 /* DHeartRateModel.swift */,
+				9AE66875267E491A00A8584A /* DOxygenModel.swift */,
 				9A367B9825BD425300BFB4C3 /* DeviceManager.swift */,
 				9AF0AA1F25AAF1CE000BDAED /* CMDData.swift */,
 				9A367B9425BD235A00BFB4C3 /* RealmManager.swift */,
@@ -1944,6 +1950,7 @@
 				9A5210792504E02000F64A7A /* NickNameViewController.swift in Sources */,
 				9A820B7224CE5BC700A62C6F /* UILabel+Extension.swift in Sources */,
 				9A56D2B925216FC70082CC08 /* ICandleChartDataSet.swift in Sources */,
+				9AE66876267E491A00A8584A /* DOxygenModel.swift in Sources */,
 				9A8CA50A25272C5200EC01A7 /* CVCalendarMonthView.swift in Sources */,
 				9A60DEF5252F49A200E0D849 /* AlarmAddViewController.swift in Sources */,
 				9A32B06B2543C5C7008F0E26 /* BLEManager.swift in Sources */,
@@ -2019,6 +2026,7 @@
 				9A8CA52B252CB6E000EC01A7 /* HelpCenterViewController.swift in Sources */,
 				9A8D431D250F411800E8D6F7 /* RegisterViewController.swift in Sources */,
 				9A60DECA252DEA2B00E0D849 /* BindThreeViewController.swift in Sources */,
+				9AE66874267E410200A8584A /* DSleepModel.swift in Sources */,
 				9AE1A1722629465F00B8B10D /* FileManager.m in Sources */,
 				9A8CA51725272C5200EC01A7 /* CVCalendarMenuView.swift in Sources */,
 				9A56D27725216FC60082CC08 /* IValueFormatter.swift in Sources */,
@@ -2300,7 +2308,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_ASSET_PATHS = TJDWristbandSDK.framework;
 				DEVELOPMENT_TEAM = RPZ68269DB;
 				ENABLE_BITCODE = NO;
@@ -2335,7 +2343,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_ASSET_PATHS = TJDWristbandSDK.framework;
 				DEVELOPMENT_TEAM = RPZ68269DB;
 				ENABLE_BITCODE = NO;

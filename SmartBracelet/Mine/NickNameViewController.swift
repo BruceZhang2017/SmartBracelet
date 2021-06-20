@@ -55,6 +55,13 @@ class NickNameViewController: BaseViewController {
             Toast(text: "请输入内容").show()
             return
         }
+        if UserManager.sharedInstall.user?.token == nil {
+            bleSelf.userInfo.name = name
+            bleSelf.setUserinfoForWristband(bleSelf.userInfo)
+            NotificationCenter.default.post(name: Notification.Name("UserInfo"), object: nil)
+            navigationController?.popViewController(animated: true)
+            return
+        }
         uploadData(name: name)
         if type == 0 {
             UserManager.sharedInstall.user?.nickname = name
@@ -63,6 +70,7 @@ class NickNameViewController: BaseViewController {
             UserManager.sharedInstall.user?.username = name
             UserManager.sharedInstall.saveUser()
         }
+        NotificationCenter.default.post(name: Notification.Name("UserInfo"), object: nil)
         navigationController?.popViewController(animated: true)
     }
     

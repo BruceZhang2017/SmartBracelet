@@ -13,8 +13,10 @@
 import UIKit
 import NVActivityIndicatorView
 import Toaster
+import TJDWristbandSDK
 
 class HealthViewController: BaseViewController {
+    @IBOutlet weak var mScrollView: UIScrollView!
     @IBOutlet weak var footView: UIView!
     @IBOutlet weak var heatView: UIView!
     @IBOutlet weak var footTipLabel: UILabel!
@@ -39,14 +41,29 @@ class HealthViewController: BaseViewController {
     @IBOutlet weak var heartRateImageView: UIImageView!
     var flag = 0 // 属性的作用
     var popup: PopupBViewController?
-    var activityIndicator: NVActivityIndicatorView?
+    var activityIndicator: NVActivityIndicatorView? // loading图标
     private var loadingViewCheckTimer: Timer?
     var heartRateView: HeartRateView!
-    
+    var header: MJRefreshNormalHeader?
+     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupProperty()
         registerNotification()
+        header = MJRefreshNormalHeader {
+            [weak self] in
+            print("start")
+            if bleSelf.isConnected {
+                bleSelf.setTimeForWristband() // 第0步：设置时间
+                NotificationCenter.default.post(name: Notification.Name("HealthVCLoading"), object: 2)
+            }
+            self?.header?.endRefreshing()
+        }.autoChangeTransparency(true).link(to: mScrollView)
+        readDBStep() // 从本地数据库中读取步数数据
+        readDBHeart() // 从本地数据库中读取心跳数据
+        readDBSleep() // 从本地数据库中读取睡眠数据
+        readDBBlood() // 从本地数据库中读取血压数据
+        readDBOxygen() // 从本地数据库中读取血氧数据
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -128,11 +145,7 @@ class HealthViewController: BaseViewController {
             DispatchQueue.main.async {
                 [weak self] in
                 var heart = 0
-                if BLEManager.shared.heartArray.count == 0 {
-                    heart = DeviceManager.shared.getHeartRate()
-                } else {
-                    heart = BLEManager.shared.heartArray[0].heart
-                }
+                heart = BLEManager.shared.heartArray[0].heart
                 let v = NSMutableAttributedString()
                 v.append(NSAttributedString(string: "\(heart)", attributes: [.font: UIFont.systemFont(ofSize: 36), .foregroundColor: UIColor.k666666]))
                 v.append(NSAttributedString(string: "次/分", attributes: [.font: UIFont.systemFont(ofSize: 12), .foregroundColor: UIColor.k999999]))
@@ -144,12 +157,8 @@ class HealthViewController: BaseViewController {
                 [weak self] in
                 var min = 0
                 var max = 0
-                if BLEManager.shared.bloodArray.count != 0 {
-                    min = BLEManager.shared.bloodArray[0].min
-                    max = BLEManager.shared.bloodArray[0].max
-                } else {
-                    (max, min) = DeviceManager.shared.getBlood()
-                }
+                min = BLEManager.shared.bloodArray[0].min
+                max = BLEManager.shared.bloodArray[0].max
                 let v = NSMutableAttributedString()
                 v.append(NSAttributedString(string: "\(max)/\(min)", attributes: [.font: UIFont.systemFont(ofSize: 36), .foregroundColor: UIColor.k666666]))
                 v.append(NSAttributedString(string: "MMHG", attributes: [.font: UIFont.systemFont(ofSize: 12), .foregroundColor: UIColor.k999999]))
@@ -159,7 +168,7 @@ class HealthViewController: BaseViewController {
             DispatchQueue.main.async {
                 [weak self] in
                 var value = 0
-                if BLEManager.shared.oxygenArray.count != 0 {
+                if BLEManager.shared.oxygenArray.count > 0 {
                     value = BLEManager.shared.oxygenArray[0].oxygen
                 } else {
                     value = 0
@@ -229,7 +238,7 @@ class HealthViewController: BaseViewController {
     
     private func startLoadingViewCheckTimer() {
         endLoadingViewCheckTimer()
-        loadingViewCheckTimer = Timer.scheduledTimer(withTimeInterval: 40, repeats: false, block: { (timer) in
+        loadingViewCheckTimer = Timer.scheduledTimer(withTimeInterval: 20, repeats: false, block: { (timer) in
             NotificationCenter.default.post(name: Notification.Name("HealthVCLoading"), object: 3)
         })
     }
@@ -329,4 +338,120 @@ class HealthViewController: BaseViewController {
         navigationController?.pushViewController(detail, animated: true)
     }
     
+    
+    // 读取数据库内缓存数据
+    private func readDBStep() {
+        let time = Int(Date().zeroTimeStamp())
+        let models = try? DStepModel.er.array("timeStamp > \(time) AND mac = '\(lastestDeviceMac)'")
+        print("数据库里\(lastestDeviceMac)步数晚于\(time)的数据总条数：\(models?.count ?? 0)")
+        let foot = NSMutableAttributedString()
+        var step = 0
+        var distance = 0
+        var cal = 0
+        let count = models?.count ?? 0
+        for i in 0..<count {
+            step += models?[i].step ?? 0
+            distance += models?[i].distance ?? 0
+            cal += models?[i].cal ?? 0
+        }
+        foot.append(NSAttributedString(string: "\(step)", attributes: [.font: UIFont.systemFont(ofSize: 36)]))
+        foot.append(NSAttributedString(string: "步", attributes: [.font: UIFont.systemFont(ofSize: 12)]))
+        footValueLabel.attributedText = foot
+        let unit = Float(distance) / 1000
+        footUnitLabel.text = "\(String(format: "%.2f", unit))公里"
+        let value = NSMutableAttributedString()
+        let v = Float(cal) / 1000
+        value.append(NSAttributedString(string: "\(String(format: "%.2f", v))", attributes: [.font: UIFont.systemFont(ofSize: 36)]))
+        value.append(NSAttributedString(string: "千卡", attributes: [.font: UIFont.systemFont(ofSize: 12)]))
+        heatValueLabel.attributedText = value
+    }
+    
+    private func readDBHeart() {
+        let models = try? DHeartRateModel.er.array("timeStamp > \(Int(Date().zeroTimeStamp())) AND mac = '\(lastestDeviceMac)'")
+        print("数据库里心跳的数据总条数：\(models?.count ?? 0)")
+        var heart = 0
+        if models?.count ?? 0 > 0 {
+            heart = models?[0].heartRate ?? 0
+        }
+        let v = NSMutableAttributedString()
+        v.append(NSAttributedString(string: "\(heart)", attributes: [.font: UIFont.systemFont(ofSize: 36), .foregroundColor: UIColor.k666666]))
+        v.append(NSAttributedString(string: "次/分", attributes: [.font: UIFont.systemFont(ofSize: 12), .foregroundColor: UIColor.k999999]))
+        heartValueLabel.attributedText = v
+        if models == nil {
+            return
+        }
+        for item in models! {
+            let timeStamp = item.timeStamp
+            let date = Date(timeIntervalSince1970: TimeInterval(timeStamp))
+            if date.isToday() {
+                let hour = Int(date.stringFromH()) ?? 0
+                heartRateView.heartRateArray[hour] = item.heartRate
+            }
+        }
+        heartRateView.collectionView.reloadData()
+    }
+    
+    private func readDBSleep() {
+        let models = try? DSleepModel.er.array("timeStamp > \(Int(Date().zeroTimeStamp())) AND mac = '\(lastestDeviceMac)'")
+        print("数据库里心跳的数据总条数：\(models?.count ?? 0)")
+        if models?.count ?? 0 == 0 {
+            return
+        }
+        var array: [TJDSleepModel] = []
+        for model in models! {
+            let m = TJDSleepModel()
+            m.uuidString = model.uuidString
+            m.mac = model.mac
+            m.timeStamp = model.timeStamp
+            m.state = model.state
+            array.append(m)
+        }
+        if array.count > 0 {
+            let arr = BLEManager.shared.readSleepData(array: array) // 获得睡眠时间
+            let total = arr.reduce(0, +)
+            let h = total / 60
+            let m = total % 60
+            let arrStr = NSMutableAttributedString()
+            arrStr.append(NSAttributedString(string: "\(h)", attributes: [.font: UIFont.systemFont(ofSize: 36), .foregroundColor: UIColor.k666666]))
+            arrStr.append(NSAttributedString(string: "小时", attributes: [.font: UIFont.systemFont(ofSize: 12), .foregroundColor: UIColor.k999999]))
+            arrStr.append(NSAttributedString(string: "\(m)", attributes: [.font: UIFont.systemFont(ofSize: 36), .foregroundColor: UIColor.k666666]))
+            arrStr.append(NSAttributedString(string: "分", attributes: [.font: UIFont.systemFont(ofSize: 12), .foregroundColor: UIColor.k999999]))
+            sleepValueLabel.attributedText = arrStr
+        } else {
+            let arrStr = NSMutableAttributedString()
+            arrStr.append(NSAttributedString(string: "0", attributes: [.font: UIFont.systemFont(ofSize: 36), .foregroundColor: UIColor.k666666]))
+            arrStr.append(NSAttributedString(string: "小时", attributes: [.font: UIFont.systemFont(ofSize: 12), .foregroundColor: UIColor.k999999]))
+            arrStr.append(NSAttributedString(string: "0", attributes: [.font: UIFont.systemFont(ofSize: 36), .foregroundColor: UIColor.k666666]))
+            arrStr.append(NSAttributedString(string: "分", attributes: [.font: UIFont.systemFont(ofSize: 12), .foregroundColor: UIColor.k999999]))
+            sleepValueLabel.attributedText = arrStr
+        }
+        
+    }
+    
+    private func readDBBlood() {
+        let models = try? DBloodModel.er.array("timeStamp > \(Int(Date().zeroTimeStamp())) AND mac = '\(lastestDeviceMac)'")
+        print("数据库里心跳的数据总条数：\(models?.count ?? 0)")
+        if models?.count ?? 0 == 0 {
+            return
+        }
+        let min = models?[0].min ?? 0
+        let max = models?[0].max ?? 0
+        let v = NSMutableAttributedString()
+        v.append(NSAttributedString(string: "\(max)/\(min)", attributes: [.font: UIFont.systemFont(ofSize: 36), .foregroundColor: UIColor.k666666]))
+        v.append(NSAttributedString(string: "MMHG", attributes: [.font: UIFont.systemFont(ofSize: 12), .foregroundColor: UIColor.k999999]))
+        pressureValueLabel.attributedText = v
+    }
+    
+    private func readDBOxygen() {
+        let models = try? DOxygenModel.er.array("timeStamp > \(Int(Date().zeroTimeStamp())) AND mac = '\(lastestDeviceMac)'").sorted(byKeyPath: "timeStamp", ascending: false)
+        print("数据库里心跳的数据总条数：\(models?.count ?? 0)")
+        if models?.count ?? 0 == 0 {
+            return
+        }
+        let value = models?.first?.oxygen ?? 0
+        let v = NSMutableAttributedString()
+        v.append(NSAttributedString(string: "\(value)", attributes: [.font: UIFont.systemFont(ofSize: 36), .foregroundColor: UIColor.k666666]))
+        v.append(NSAttributedString(string: "%  健康", attributes: [.font: UIFont.systemFont(ofSize: 12), .foregroundColor: UIColor.k999999]))
+        bleedValueLabel.attributedText = v
+    }
 }

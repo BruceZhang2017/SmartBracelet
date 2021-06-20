@@ -13,6 +13,8 @@
 import UIKit
 import Kingfisher
 import Alamofire
+import TJDWristbandSDK
+import Toaster
 
 class UserInfoViewController: BaseViewController {
     @IBOutlet weak var tableView: UITableView!
@@ -20,6 +22,7 @@ class UserInfoViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "个人信息"
+        registerNotification()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -27,6 +30,21 @@ class UserInfoViewController: BaseViewController {
         tableView.reloadData()
     }
 
+    deinit {
+        unregisterNotification()
+    }
+    
+    private func registerNotification() {
+        NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: Notification.Name("UserInfo"), object: nil)
+    }
+    
+    private func unregisterNotification() {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    @objc private func handleNotification(_ notification: Notification) {
+        tableView.reloadData()
+    }
 }
 
 extension UserInfoViewController: UITableViewDataSource {
@@ -55,17 +73,44 @@ extension UserInfoViewController: UITableViewDataSource {
                 }
             }
         } else if indexPath.row == 1 {
-            cell.valueLabel.text = UserManager.sharedInstall.user?.nickname ?? "未设置"
+            if UserManager.sharedInstall.user?.token == nil {
+                cell.valueLabel.text = bleSelf.userInfo.name
+            } else {
+                cell.valueLabel.text = UserManager.sharedInstall.user?.nickname ?? "未设置"
+            }
+            
         } else if indexPath.row == 2 {
-            cell.valueLabel.text = UserManager.sharedInstall.user?.username ?? ""
+            if UserManager.sharedInstall.user?.token == nil {
+                cell.valueLabel.text = bleSelf.userInfo.name
+            } else {
+                cell.valueLabel.text = UserManager.sharedInstall.user?.username ?? ""
+            }
+            
         } else if indexPath.row == 3 {
-            cell.valueLabel.text = (UserManager.sharedInstall.user?.sex ?? 0 == 0) ? "男" : "女"
+            if UserManager.sharedInstall.user?.token == nil {
+                cell.valueLabel.text = bleSelf.userInfo.sex == 1 ? "男" : "女"
+            } else {
+                cell.valueLabel.text = (UserManager.sharedInstall.user?.sex ?? 0 == 0) ? "男" : "女"
+            }
+            
         } else if indexPath.row == 4 {
-            cell.valueLabel.text = UserManager.sharedInstall.user?.birthday ?? ""
+            if UserManager.sharedInstall.user?.token == nil {
+                cell.valueLabel.text = WUDate.dateFromTimeStamp(bleSelf.userInfo.birthday).stringFromYmd()
+            } else {
+                cell.valueLabel.text = UserManager.sharedInstall.user?.birthday ?? ""
+            }
         } else if indexPath.row == 5 {
-            cell.valueLabel.text = "\(UserManager.sharedInstall.user?.height ?? 0)CM"
+            if UserManager.sharedInstall.user?.token == nil {
+                cell.valueLabel.text = "\(bleSelf.userInfo.height)CM"
+            } else {
+                cell.valueLabel.text = "\(UserManager.sharedInstall.user?.height ?? 0)CM"
+            }
         } else if indexPath.row == 6 {
-            cell.valueLabel.text = "\(UserManager.sharedInstall.user?.weight ?? 0)KG"
+            if UserManager.sharedInstall.user?.token == nil {
+                cell.valueLabel.text = "\(bleSelf.userInfo.weight)KG"
+            } else {
+                cell.valueLabel.text = "\(UserManager.sharedInstall.user?.weight ?? 0)KG"
+            }
         } else if indexPath.row == 7 {
             cell.valueLabel.text = UserManager.sharedInstall.user?.area ?? ""
         }
@@ -81,6 +126,10 @@ extension UserInfoViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         if indexPath.row == 0 { // 头像
+            if UserManager.sharedInstall.user?.token == nil {
+                Toast(text: "服务器不可用").show()
+                return
+            }
             let storyboard = UIStoryboard(name: .kMine, bundle: nil)
             let vc = storyboard.instantiateViewController(withIdentifier: "ModifyHeadViewController")
             navigationController?.pushViewController(vc, animated: true)
@@ -168,8 +217,18 @@ extension UserInfoViewController {
         if type == 0 {
             let sex = value == "男" ? 0 : 1
             parameters["sex"] = "\(sex)"
+            if UserManager.sharedInstall.user?.token == nil {
+                bleSelf.userInfo.sex = sex == 0 ? 1 : 0
+                bleSelf.setUserinfoForWristband(bleSelf.userInfo)
+                return
+            }
         } else if type == 1 {
             parameters["birthday"] = value
+            if UserManager.sharedInstall.user?.token == nil {
+                bleSelf.userInfo.birthday = Int(DateHelper().ymdToDate(value: value).timeIntervalSince1970)
+                bleSelf.setUserinfoForWristband(bleSelf.userInfo)
+                return
+            }
         }
         AF.request("\(UrlPrefix)api/User/userinfo.php", method: .post, parameters: parameters, encoder: URLEncodedFormParameterEncoder.default).response { (response) in
             debugPrint("Response: \(response.debugDescription)")
@@ -206,8 +265,18 @@ extension UserInfoViewController {
         var parameters = ["id": "\(UserManager.sharedInstall.user?.id ?? 0)"]
         if type == 0 {
             parameters["height"] = "\(value)"
+            if UserManager.sharedInstall.user?.token == nil {
+                bleSelf.userInfo.height = Double(value)
+                bleSelf.setUserinfoForWristband(bleSelf.userInfo)
+                return
+            }
         } else if type == 1 {
             parameters["weight"] = "\(value)"
+            if UserManager.sharedInstall.user?.token == nil {
+                bleSelf.userInfo.weight = Double(value)
+                bleSelf.setUserinfoForWristband(bleSelf.userInfo)
+                return
+            }
         }
         AF.request("\(UrlPrefix)api/User/userinfo.php", method: .post, parameters: parameters, encoder: URLEncodedFormParameterEncoder.default).response { (response) in
             debugPrint("Response: \(response.debugDescription)")

@@ -48,14 +48,34 @@ class DeviceSearchViewController: BaseViewController {
             tableView.reloadData()
         }
         if objc == "connected" { // 设备连接成功
+            var bTemp = false
             if currentModel != nil {
                 if let model = try? BLEModel.er.fromRealm(with: "\(currentModel.mac)"), model.mac.count > 0 {
                     print("数据库已经有该设备")
                 } else {
-                    print("将设备添加到数据库里面")
-                    try? currentModel?.er.save(update: true)
-                    DeviceManager.shared.initializeDevices() // 重新刷新绑定的设备
+                    bTemp = true
                 }
+            } else {
+                bTemp = true
+            }
+            if bTemp {
+                print("将设备添加到数据库里面")
+                currentModel = BLEModel()
+                currentModel.isBond = bleSelf.bleModel.isBond
+                currentModel.uuidString = bleSelf.bleModel.uuidString
+                currentModel.name = bleSelf.bleModel.name
+                currentModel.localName = "ITIME"
+                currentModel.rssi = bleSelf.bleModel.rssi
+                currentModel.mac = bleSelf.bleModel.mac
+                currentModel.hardwareVersion = bleSelf.bleModel.hardwareVersion
+                currentModel.firmwareVersion = bleSelf.bleModel.firmwareVersion
+                currentModel.vendorNumberASCII = bleSelf.bleModel.vendorNumberASCII
+                currentModel.vendorNumberString = bleSelf.bleModel.vendorNumberString
+                currentModel.internalNumber = bleSelf.bleModel.internalNumber
+                currentModel.internalNumberString = bleSelf.bleModel.internalNumberString
+                currentModel.imageName = "produce_image_no.2"
+                try? currentModel?.er.save(update: true)
+                DeviceManager.shared.initializeDevices() // 重新刷新绑定的设备
             }
             ProgressHUD.dismiss()
             navigationController?.popViewController(animated: true)

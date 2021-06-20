@@ -35,7 +35,7 @@ func managed_save(update: Bool) throws -> T {
     return try rq.queue.sync {
       guard let object = rq.realm.resolve(ref) else { throw EasyRealmError.ObjectCantBeResolved }
       rq.realm.beginWrite()
-        let ret = rq.realm.create(T.self, value: object, update: .error)
+        let ret = rq.realm.create(T.self, value: object, update: update ? .all : .error)
       try rq.realm.commitWrite()
       return ret
     }
@@ -44,7 +44,7 @@ func managed_save(update: Bool) throws -> T {
 func unmanaged_save(update: Bool) throws -> T {
     let realm = try Realm()
     realm.beginWrite()
-    let ret = realm.create(T.self, value: self.base, update: .error)
+    let ret = realm.create(T.self, value: self.base, update: update ? .all : .error)
     try realm.commitWrite()
     return ret
   }

@@ -24,6 +24,7 @@ PODS:
   - CountryPickerView (3.2.0)
   - IQKeyboardManagerSwift (6.3.0)
   - Kingfisher (6.3.0)
+  - MJRefresh (3.6.1)
   - NVActivityIndicatorView (5.1.1):
     - NVActivityIndicatorView/Base (= 5.1.1)
   - NVActivityIndicatorView/Base (5.1.1)
@@ -55,6 +56,7 @@ DEPENDENCIES:
   - CountryPickerView
   - IQKeyboardManagerSwift (= 6.3.0)
   - Kingfisher
+  - MJRefresh
   - NVActivityIndicatorView
   - ProgressHUD
   - Realm
@@ -77,6 +79,7 @@ SPEC REPOS:
     - CountryPickerView
     - IQKeyboardManagerSwift
     - Kingfisher
+    - MJRefresh
     - NVActivityIndicatorView
     - ObjcExceptionBridging
     - ProgressHUD
@@ -108,6 +111,7 @@ SPEC CHECKSUMS:
   CountryPickerView: 9b093bfffb4b06a69ba6185a798cadbf863720e7
   IQKeyboardManagerSwift: a8228c257614af98743b4cd8584637025f36358f
   Kingfisher: 6c3df386db71d82c0817a429d2c9421a77396529
+  MJRefresh: d2c1970d1cf6e77fcfcdfe76c943dfab8dbfa5c1
   NVActivityIndicatorView: 1f6c5687f1171810aa27a3296814dc2d7dec3667
   ObjcExceptionBridging: c30e00eb3700467e695faeea30e26e18bd445001
   ProgressHUD: e603e8b8622c47d8818b9fb38b3cfe9d3e7ca421
@@ -120,6 +124,6 @@ SPEC CHECKSUMS:
   Toaster: c3473963c78e8cabbf6ea6f11ad0fdaae6f54987
   XCGLogger: 1943831ef907df55108b0b18657953f868de973b
 
-PODFILE CHECKSUM: 7ea88dba230b3577bf946db564ae908b6e740dcb
+PODFILE CHECKSUM: 664e1cd01acb42dfdcb359c1c05a4638a2cb0f7d
 
 COCOAPODS: 1.10.1

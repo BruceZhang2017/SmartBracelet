@@ -28,4 +28,8 @@ final class DBloodModel: Object {
     @objc dynamic var min: Int = 0
     
     @objc dynamic var timeStamp: Int = 0
+    
+    override static func primaryKey() -> String? {
+      return "timeStamp"
+    }
 }

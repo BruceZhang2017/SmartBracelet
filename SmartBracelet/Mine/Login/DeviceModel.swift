@@ -13,9 +13,6 @@
 import UIKit
 
 class DeviceModel: NSObject {
-    var userId = 0 // 用户ID
-    var id = 0 // 设备 ID
-    var alarms: [AlarmModel]?
     var type: String?
     var icon: String?
     var name: String?

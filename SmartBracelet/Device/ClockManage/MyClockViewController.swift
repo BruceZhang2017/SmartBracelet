@@ -8,7 +8,6 @@
 //  Created by ANKER on 2020/9/5.
 //  Copyright © 2020 tjd. All rights reserved.
 //
-	
 
 import UIKit
 import Then
@@ -36,22 +35,16 @@ class MyClockViewController: UIViewController {
 
 extension MyClockViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 14
+        return 4
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: .kCellIdentifier, for: indexPath) as! ClockCollectionViewCell
-        if indexPath.row < 4 {
-            cell.dialImageView.image = UIImage(named: "preview_watch\(indexPath.row + 1)")
-        } else {
-            let bundle = Bundle(path: Bundle.main.path(forResource: "IdleResources", ofType: "bundle")!)
-            cell.dialImageView.image = UIImage(contentsOfFile: bundle!.path(forResource: "Static", ofType: nil, inDirectory: "80x160")! + "/\(indexPath.row - 3).png")
-        }
+        cell.dialImageView.image = UIImage(named: "preview_watch\(indexPath.row + 1)")
         cell.opaqueView.isHidden = true
         cell.optionImageView.isHidden = true
         return cell
     }
-    
     
 }
 

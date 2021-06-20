@@ -68,11 +68,11 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iPx-za-K5G">
-                                <rect key="frame" x="0.0" y="148" width="414" height="577"/>
+                                <rect key="frame" x="0.0" y="148" width="414" height="626"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6CK-Lu-uLT">
-                                <rect key="frame" x="159" y="518" width="76" height="24"/>
+                                <rect key="frame" x="159" y="567" width="76" height="24"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="24" id="Jbb-DP-NZO"/>
@@ -92,7 +92,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7Cj-EY-DzC">
-                                <rect key="frame" x="140.5" y="552" width="133" height="133"/>
+                                <rect key="frame" x="140.5" y="601" width="133" height="133"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="133" id="fF0-js-ayK"/>
                                     <constraint firstAttribute="height" constant="133" id="ykR-TW-k4C"/>
@@ -510,6 +510,7 @@
                         <outlet property="heatTipLabel" destination="JsP-sB-Jua" id="5Gq-Ih-vBE"/>
                         <outlet property="heatValueLabel" destination="LwR-z0-pn1" id="JBm-0q-KLH"/>
                         <outlet property="heatView" destination="8Ka-ho-JLe" id="nzs-bA-v1k"/>
+                        <outlet property="mScrollView" destination="Cmm-W4-H7h" id="q2z-5o-1R0"/>
                         <outlet property="pressureTipLabel" destination="MhD-S9-Uew" id="DaE-0p-IoT"/>
                         <outlet property="pressureValueLabel" destination="e89-OO-nDG" id="jc8-AB-aix"/>
                         <outlet property="pressureView" destination="XvY-d9-AQw" id="GIh-yp-4zX"/>
@@ -1542,7 +1543,6 @@
                     </tabBar>
                     <connections>
                         <segue destination="Tul-k6-1Ss" kind="relationship" relationship="viewControllers" id="zdw-X9-N9i"/>
-                        <segue destination="uug-06-P7g" kind="relationship" relationship="viewControllers" id="kvl-dh-yVT"/>
                         <segue destination="Af0-YM-0mN" kind="relationship" relationship="viewControllers" id="kDj-J2-Ltf"/>
                         <segue destination="WGt-Jf-pbg" kind="relationship" relationship="viewControllers" id="elQ-J7-ADN"/>
                     </connections>
