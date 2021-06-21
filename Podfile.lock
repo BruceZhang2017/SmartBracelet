@@ -21,6 +21,8 @@ PODS:
   - AMapFoundation (1.6.7)
   - AMapLocation (2.6.8):
     - AMapFoundation (~> 1.6.4)
+  - AMapSearch (7.9.0):
+    - AMapFoundation (~> 1.6.6)
   - CountryPickerView (3.2.0)
   - IQKeyboardManagerSwift (6.3.0)
   - Kingfisher (6.3.0)
@@ -53,6 +55,7 @@ DEPENDENCIES:
   - AliyunOSSiOS
   - AMap2DMap
   - AMapLocation
+  - AMapSearch
   - CountryPickerView
   - IQKeyboardManagerSwift (= 6.3.0)
   - Kingfisher
@@ -76,6 +79,7 @@ SPEC REPOS:
     - AMap2DMap
     - AMapFoundation
     - AMapLocation
+    - AMapSearch
     - CountryPickerView
     - IQKeyboardManagerSwift
     - Kingfisher
@@ -108,6 +112,7 @@ SPEC CHECKSUMS:
   AMap2DMap: cac76bc057de18a1641f34df6b50bf5bc6b23571
   AMapFoundation: c7da72b42a713f1429c88af1858d623dde88934b
   AMapLocation: dad27669c4ca68e395ce7532ff614b7d4d45f7b7
+  AMapSearch: 94cff5f6ab7233c1639111e486861ac2acea6d4b
   CountryPickerView: 9b093bfffb4b06a69ba6185a798cadbf863720e7
   IQKeyboardManagerSwift: a8228c257614af98743b4cd8584637025f36358f
   Kingfisher: 6c3df386db71d82c0817a429d2c9421a77396529
@@ -124,6 +129,6 @@ SPEC CHECKSUMS:
   Toaster: c3473963c78e8cabbf6ea6f11ad0fdaae6f54987
   XCGLogger: 1943831ef907df55108b0b18657953f868de973b
 
-PODFILE CHECKSUM: 664e1cd01acb42dfdcb359c1c05a4638a2cb0f7d
+PODFILE CHECKSUM: 2537f280486c68e87a562fdea441e32265ce7fb0
 
 COCOAPODS: 1.10.1

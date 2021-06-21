@@ -15,3 +15,8 @@
 #import "OTASDK.h"
 #import "OTAUpgradeViewController.h"
 #import "MJRefresh.h"
+
+#import <AMapSearchKit/AMapSearchKit.h>
+#import "MAWeatherLiveView.h"
+#import "MAWeatherForecastView.h"
+

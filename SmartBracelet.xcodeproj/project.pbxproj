@@ -30,7 +30,7 @@
 		9A08C66D262C718100E178DA /* preview_watch2_ClkResPKG.bin in Resources */ = {isa = PBXBuildFile; fileRef = 9A08C66C262C718100E178DA /* preview_watch2_ClkResPKG.bin */; };
 		9A08C66F262C71A000E178DA /* preview_watch4_ClkResPKG.bin in Resources */ = {isa = PBXBuildFile; fileRef = 9A08C66E262C71A000E178DA /* preview_watch4_ClkResPKG.bin */; };
 		9A08C671262C71DA00E178DA /* SmartBand_PHY_ota.hex in Resources */ = {isa = PBXBuildFile; fileRef = 9A08C670262C71DA00E178DA /* SmartBand_PHY_ota.hex */; };
-		9A08C673262C757A00E178DA /* WeatherViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A08C672262C757A00E178DA /* WeatherViewController.swift */; };
+		9A08C673262C757A00E178DA /* WeatherTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A08C672262C757A00E178DA /* WeatherTestViewController.swift */; };
 		9A08C6EB262F17D500E178DA /* OTAUpgradeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A08C6EA262F17D500E178DA /* OTAUpgradeViewController.m */; };
 		9A08C6EF262F17FE00E178DA /* OTCModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A08C6ED262F17FE00E178DA /* OTCModel.m */; };
 		9A08C6FB262F182000E178DA /* OTAListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A08C6F5262F182000E178DA /* OTAListCell.m */; };
@@ -369,6 +369,13 @@
 		9AE1A183262AF69400B8B10D /* HeartRateCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE1A182262AF69400B8B10D /* HeartRateCollectionViewCell.swift */; };
 		9AE66874267E410200A8584A /* DSleepModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE66873267E410100A8584A /* DSleepModel.swift */; };
 		9AE66876267E491A00A8584A /* DOxygenModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE66875267E491A00A8584A /* DOxygenModel.swift */; };
+		9AE6687A267F88D900A8584A /* WeatherViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE66879267F88D900A8584A /* WeatherViewController.swift */; };
+		9AE6687D267F8A4F00A8584A /* MAWeatherLiveView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AE6687C267F8A4F00A8584A /* MAWeatherLiveView.m */; };
+		9AE66888267F8AD700A8584A /* NSLayoutConstraint+PureLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AE66881267F8AD700A8584A /* NSLayoutConstraint+PureLayout.m */; };
+		9AE66889267F8AD700A8584A /* ALView+PureLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AE66884267F8AD700A8584A /* ALView+PureLayout.m */; };
+		9AE6688A267F8AD700A8584A /* NSArray+PureLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AE66887267F8AD700A8584A /* NSArray+PureLayout.m */; };
+		9AE6688D267F8B2A00A8584A /* MAWeatherForecastView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AE6688B267F8B2A00A8584A /* MAWeatherForecastView.m */; };
+		9AE66890267F99F800A8584A /* SleepCurveVIew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE6688F267F99F800A8584A /* SleepCurveVIew.swift */; };
 		9AEC22CD25B707C000DE899A /* BLEModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AEC22CC25B707C000DE899A /* BLEModel.swift */; };
 		9AEC230025B7114500DE899A /* Data+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AEC22FF25B7114500DE899A /* Data+Extension.swift */; };
 		9AF0AA2025AAF1CE000BDAED /* CMDData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF0AA1F25AAF1CE000BDAED /* CMDData.swift */; };
@@ -419,7 +426,7 @@
 		9A08C66C262C718100E178DA /* preview_watch2_ClkResPKG.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = preview_watch2_ClkResPKG.bin; sourceTree = "<group>"; };
 		9A08C66E262C71A000E178DA /* preview_watch4_ClkResPKG.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = preview_watch4_ClkResPKG.bin; sourceTree = "<group>"; };
 		9A08C670262C71DA00E178DA /* SmartBand_PHY_ota.hex */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SmartBand_PHY_ota.hex; sourceTree = "<group>"; };
-		9A08C672262C757A00E178DA /* WeatherViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeatherViewController.swift; sourceTree = "<group>"; };
+		9A08C672262C757A00E178DA /* WeatherTestViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeatherTestViewController.swift; sourceTree = "<group>"; };
 		9A08C6E9262F17D500E178DA /* OTAUpgradeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTAUpgradeViewController.h; sourceTree = "<group>"; };
 		9A08C6EA262F17D500E178DA /* OTAUpgradeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTAUpgradeViewController.m; sourceTree = "<group>"; };
 		9A08C6ED262F17FE00E178DA /* OTCModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTCModel.m; sourceTree = "<group>"; };
@@ -784,6 +791,21 @@
 		9AE1A182262AF69400B8B10D /* HeartRateCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartRateCollectionViewCell.swift; sourceTree = "<group>"; };
 		9AE66873267E410100A8584A /* DSleepModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DSleepModel.swift; sourceTree = "<group>"; };
 		9AE66875267E491A00A8584A /* DOxygenModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DOxygenModel.swift; sourceTree = "<group>"; };
+		9AE66879267F88D900A8584A /* WeatherViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WeatherViewController.swift; path = "../../../../Downloads/AMap_iOS_Demo/MAMapKit_3D_Demo/MAMapKit-3D-Demo-swift/samples/misc/WeatherViewController.swift"; sourceTree = "<group>"; };
+		9AE6687B267F8A4F00A8584A /* MAWeatherLiveView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAWeatherLiveView.h; sourceTree = "<group>"; };
+		9AE6687C267F8A4F00A8584A /* MAWeatherLiveView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MAWeatherLiveView.m; sourceTree = "<group>"; };
+		9AE6687F267F8AD700A8584A /* PureLayoutDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PureLayoutDefines.h; sourceTree = "<group>"; };
+		9AE66880267F8AD700A8584A /* ALView+PureLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ALView+PureLayout.h"; sourceTree = "<group>"; };
+		9AE66881267F8AD700A8584A /* NSLayoutConstraint+PureLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSLayoutConstraint+PureLayout.m"; sourceTree = "<group>"; };
+		9AE66882267F8AD700A8584A /* NSArray+PureLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+PureLayout.h"; sourceTree = "<group>"; };
+		9AE66883267F8AD700A8584A /* NSLayoutConstraint+PureLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSLayoutConstraint+PureLayout.h"; sourceTree = "<group>"; };
+		9AE66884267F8AD700A8584A /* ALView+PureLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ALView+PureLayout.m"; sourceTree = "<group>"; };
+		9AE66885267F8AD700A8584A /* PureLayout+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PureLayout+Internal.h"; sourceTree = "<group>"; };
+		9AE66886267F8AD700A8584A /* PureLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PureLayout.h; sourceTree = "<group>"; };
+		9AE66887267F8AD700A8584A /* NSArray+PureLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+PureLayout.m"; sourceTree = "<group>"; };
+		9AE6688B267F8B2A00A8584A /* MAWeatherForecastView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MAWeatherForecastView.m; sourceTree = "<group>"; };
+		9AE6688C267F8B2A00A8584A /* MAWeatherForecastView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAWeatherForecastView.h; sourceTree = "<group>"; };
+		9AE6688F267F99F800A8584A /* SleepCurveVIew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SleepCurveVIew.swift; sourceTree = "<group>"; };
 		9AEC22CC25B707C000DE899A /* BLEModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BLEModel.swift; sourceTree = "<group>"; };
 		9AEC22FF25B7114500DE899A /* Data+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+Extension.swift"; sourceTree = "<group>"; };
 		9AF0AA1F25AAF1CE000BDAED /* CMDData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CMDData.swift; sourceTree = "<group>"; };
@@ -968,6 +990,11 @@
 				9A037E4425BDB1CD0006FB94 /* OTACMD.m */,
 				9A037E4625BDB1EC0006FB94 /* OTA.h */,
 				9A037E4725BDB1EC0006FB94 /* OTA.m */,
+				9AE6687B267F8A4F00A8584A /* MAWeatherLiveView.h */,
+				9AE6687C267F8A4F00A8584A /* MAWeatherLiveView.m */,
+				9AE6688C267F8B2A00A8584A /* MAWeatherForecastView.h */,
+				9AE6688B267F8B2A00A8584A /* MAWeatherForecastView.m */,
+				9AE6687E267F8AD700A8584A /* PureLayout */,
 			);
 			path = ObjC;
 			sourceTree = "<group>";
@@ -1386,7 +1413,8 @@
 				9A367B9825BD425300BFB4C3 /* DeviceManager.swift */,
 				9AF0AA1F25AAF1CE000BDAED /* CMDData.swift */,
 				9A367B9425BD235A00BFB4C3 /* RealmManager.swift */,
-				9A08C672262C757A00E178DA /* WeatherViewController.swift */,
+				9AE66879267F88D900A8584A /* WeatherViewController.swift */,
+				9A08C672262C757A00E178DA /* WeatherTestViewController.swift */,
 			);
 			path = AddDevice;
 			sourceTree = "<group>";
@@ -1452,6 +1480,7 @@
 				9A5613F425248BFC00C43C6A /* AudioButtonView.swift */,
 				9AE1A180262AB9F900B8B10D /* HeartRateView.swift */,
 				9AE1A182262AF69400B8B10D /* HeartRateCollectionViewCell.swift */,
+				9AE6688F267F99F800A8584A /* SleepCurveVIew.swift */,
 			);
 			path = Health;
 			sourceTree = "<group>";
@@ -1665,6 +1694,22 @@
 				9AE1A1632629465F00B8B10D /* Partition.m */,
 			);
 			path = FileManager;
+			sourceTree = "<group>";
+		};
+		9AE6687E267F8AD700A8584A /* PureLayout */ = {
+			isa = PBXGroup;
+			children = (
+				9AE6687F267F8AD700A8584A /* PureLayoutDefines.h */,
+				9AE66880267F8AD700A8584A /* ALView+PureLayout.h */,
+				9AE66881267F8AD700A8584A /* NSLayoutConstraint+PureLayout.m */,
+				9AE66882267F8AD700A8584A /* NSArray+PureLayout.h */,
+				9AE66883267F8AD700A8584A /* NSLayoutConstraint+PureLayout.h */,
+				9AE66884267F8AD700A8584A /* ALView+PureLayout.m */,
+				9AE66885267F8AD700A8584A /* PureLayout+Internal.h */,
+				9AE66886267F8AD700A8584A /* PureLayout.h */,
+				9AE66887267F8AD700A8584A /* NSArray+PureLayout.m */,
+			);
+			path = PureLayout;
 			sourceTree = "<group>";
 		};
 		CBE553D5D0280A8FD8CC0627 /* Pods */ = {
@@ -1915,6 +1960,7 @@
 				9A56D2A325216FC70082CC08 /* ChartDataEntryBase.swift in Sources */,
 				9A5E932A2515BB630060AB13 /* UserModel.swift in Sources */,
 				9AB910292501322C006E0FC4 /* EMAlertController.swift in Sources */,
+				9AE66890267F99F800A8584A /* SleepCurveVIew.swift in Sources */,
 				9AE1A181262AB9F900B8B10D /* HeartRateView.swift in Sources */,
 				9A820B7C24CECFBC00A62C6F /* String+Extension.swift in Sources */,
 				9A8CA52225272C5200EC01A7 /* CVCalendarManager.swift in Sources */,
@@ -2002,6 +2048,8 @@
 				9AEC230025B7114500DE899A /* Data+Extension.swift in Sources */,
 				9A60DEC4252D5D5E00E0D849 /* AccountSafeTableViewCell.swift in Sources */,
 				9A64F0BC25DF50C30073E679 /* DAlarmModel.swift in Sources */,
+				9AE6687D267F8A4F00A8584A /* MAWeatherLiveView.m in Sources */,
+				9AE66889267F8AD700A8584A /* ALView+PureLayout.m in Sources */,
 				9A56D29B25216FC70082CC08 /* CandleChartDataEntry.swift in Sources */,
 				9A64F07C25DCBF900073E679 /* SportRecordContentTableViewCell.swift in Sources */,
 				9A60DEEB252F34B700E0D849 /* DeviceInfoTableViewCell.swift in Sources */,
@@ -2030,6 +2078,8 @@
 				9AE1A1722629465F00B8B10D /* FileManager.m in Sources */,
 				9A8CA51725272C5200EC01A7 /* CVCalendarMenuView.swift in Sources */,
 				9A56D27725216FC60082CC08 /* IValueFormatter.swift in Sources */,
+				9AE6687A267F88D900A8584A /* WeatherViewController.swift in Sources */,
+				9AE66888267F8AD700A8584A /* NSLayoutConstraint+PureLayout.m in Sources */,
 				9AB910272501322C006E0FC4 /* EMAlertTextField.swift in Sources */,
 				9A56D2BA25216FC70082CC08 /* ILineScatterCandleRadarChartDataSet.swift in Sources */,
 				9A839C0325602BB700714CBE /* BaseResponse.swift in Sources */,
@@ -2065,6 +2115,7 @@
 				9A56D28A25216FC60082CC08 /* AxisBase.swift in Sources */,
 				9A56D26625216FC60082CC08 /* LineChartView.swift in Sources */,
 				9A28DA5D2518D4EA00F7B260 /* DotView.swift in Sources */,
+				9AE6688A267F8AD700A8584A /* NSArray+PureLayout.m in Sources */,
 				9A56D27B25216FC60082CC08 /* ViewPortHandler.swift in Sources */,
 				9A56D2C325216FC70082CC08 /* ScatterChartDataProvider.swift in Sources */,
 				9A08C6FC262F182000E178DA /* ProgressView.m in Sources */,
@@ -2081,7 +2132,7 @@
 				9A839C6925610AB000714CBE /*  TargetModel.swift in Sources */,
 				9A218439255A38CB000330E5 /* OSSSwiftGlobalDefines.swift in Sources */,
 				9A60DEDF252F002D00E0D849 /* String+SoolyCitySelector.swift in Sources */,
-				9A08C673262C757A00E178DA /* WeatherViewController.swift in Sources */,
+				9A08C673262C757A00E178DA /* WeatherTestViewController.swift in Sources */,
 				9A60DEC2252D5BF600E0D849 /* AccountSafeViewController.swift in Sources */,
 				9A5613F12524875400C43C6A /* CommonCalendarView.swift in Sources */,
 				9A037E4E25BDBC180006FB94 /* SGCirle.swift in Sources */,
@@ -2098,6 +2149,7 @@
 				9A56D25025216FC60082CC08 /* TriangleShapeRenderer.swift in Sources */,
 				9AE1A16D2629465F00B8B10D /* OTAManager.m in Sources */,
 				9A037E4C25BDBA5A0006FB94 /* SGCirleProgress.swift in Sources */,
+				9AE6688D267F8B2A00A8584A /* MAWeatherForecastView.m in Sources */,
 				9A56D2AE25216FC70082CC08 /* RadarChartDataSet.swift in Sources */,
 				9A8CA51E25272C5200EC01A7 /* CVCalendarViewAnimatorDelegate.swift in Sources */,
 				9A8CA50725272C5200EC01A7 /* CVCalendarDayView.swift in Sources */,

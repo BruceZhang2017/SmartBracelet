@@ -10,7 +10,7 @@ import UIKit
 import TJDWristbandSDK
 import Toaster
 
-class WeatherViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
+class WeatherTestViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
     var pickerView = UIPickerView()
     var titleArray = [String]()
     var stepAttributes = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 35), NSAttributedString.Key.foregroundColor: UIColor.red]

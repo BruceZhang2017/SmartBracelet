@@ -23,5 +23,6 @@ pod 'Realm'
 pod 'Toast'
 pod 'AFNetworking'
 pod 'MJRefresh'
+pod 'AMapSearch'
 
 end
