@@ -10,6 +10,7 @@ import UIKit
 import IQKeyboardManagerSwift
 import XCGLogger
 import RealmSwift
+import Bugly
 
 let log = XCGLogger()
 
@@ -18,6 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        Bugly.start(withAppId: "0c6ba8bb6a")
         configRealm()
         AMapServices.shared().apiKey = "0ed08fc41dc5bd1adc43b9189af816f7"
         window?.backgroundColor = UIColor.white
@@ -35,9 +37,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             window?.rootViewController = vc
             return
         }
-        if UserManager.sharedInstall.user == nil {
-            return
-        }
+//        if UserManager.sharedInstall.user == nil {
+//            return
+//        }
         let sb = UIStoryboard(name: "Main", bundle: nil)
         let vc = sb.instantiateViewController(withIdentifier: "MTabBarController")
         window?.rootViewController = vc

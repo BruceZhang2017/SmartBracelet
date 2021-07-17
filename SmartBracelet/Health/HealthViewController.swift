@@ -32,6 +32,7 @@ class HealthViewController: BaseViewController {
     @IBOutlet weak var sleepView: UIView!
     @IBOutlet weak var sleepTipLabel: UILabel!
     @IBOutlet weak var sleepValueLabel: UILabel!
+    @IBOutlet weak var sleepCurveImageView: UIImageView!
     @IBOutlet weak var pressureView: UIView!
     @IBOutlet weak var pressureTipLabel: UILabel!
     @IBOutlet weak var pressureValueLabel: UILabel!
@@ -44,6 +45,7 @@ class HealthViewController: BaseViewController {
     var activityIndicator: NVActivityIndicatorView? // loading图标
     private var loadingViewCheckTimer: Timer?
     var heartRateView: HeartRateView!
+    var curveView: CurveView!
     var header: MJRefreshNormalHeader?
      
     override func viewDidLoad() {
@@ -85,6 +87,12 @@ class HealthViewController: BaseViewController {
         heartView.addSubview(heartRateView)
         heartRateView.snp.makeConstraints {
             $0.edges.equalTo(heartRateImageView)
+        }
+        
+        curveView = CurveView(frame: CGRect(x: 0, y: 0, width: 242, height: 50))
+        sleepView.addSubview(curveView)
+        curveView.snp.makeConstraints {
+            $0.edges.equalTo(sleepCurveImageView)
         }
     }
     
@@ -132,6 +140,10 @@ class HealthViewController: BaseViewController {
                     arrStr.append(NSAttributedString(string: "\(m)", attributes: [.font: UIFont.systemFont(ofSize: 36), .foregroundColor: UIColor.k666666]))
                     arrStr.append(NSAttributedString(string: "分", attributes: [.font: UIFont.systemFont(ofSize: 12), .foregroundColor: UIColor.k999999]))
                     self?.sleepValueLabel.attributedText = arrStr
+                    if arr.count == 3 {
+                        let value: [CGFloat] = [CGFloat(arr[0] * 50 / (12 * 60) ), CGFloat(arr[1] * 50 / (12 * 60)), CGFloat(arr[2] * 50 / (12 * 60))]
+                        self?.curveView.refreshHeight(value)
+                    }
                 } else {
                     let arrStr = NSMutableAttributedString()
                     arrStr.append(NSAttributedString(string: "0", attributes: [.font: UIFont.systemFont(ofSize: 36), .foregroundColor: UIColor.k666666]))
@@ -318,7 +330,7 @@ class HealthViewController: BaseViewController {
     
     
     @IBAction func addDevice(_ sender: Any) {
-        let count = DeviceManager.shared.devices.count + (bleSelf.bleModel.mac.count > 0 ? 1 : 0)
+        let count = DeviceManager.shared.devices.count
         let storyboard = UIStoryboard(name: "Device", bundle: nil)
         if count == 0 {
             let vc = storyboard.instantiateViewController(withIdentifier: "DeviceSearchViewController")

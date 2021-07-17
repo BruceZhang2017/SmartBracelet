@@ -514,6 +514,7 @@
                         <outlet property="pressureTipLabel" destination="MhD-S9-Uew" id="DaE-0p-IoT"/>
                         <outlet property="pressureValueLabel" destination="e89-OO-nDG" id="jc8-AB-aix"/>
                         <outlet property="pressureView" destination="XvY-d9-AQw" id="GIh-yp-4zX"/>
+                        <outlet property="sleepCurveImageView" destination="1zF-4s-rp9" id="sI4-KA-w9v"/>
                         <outlet property="sleepTipLabel" destination="jJt-fs-7eY" id="mgj-oU-aHv"/>
                         <outlet property="sleepValueLabel" destination="Uel-tK-KI0" id="C7w-Id-BAF"/>
                         <outlet property="sleepView" destination="qb8-n1-My2" id="8sr-s6-Qud"/>

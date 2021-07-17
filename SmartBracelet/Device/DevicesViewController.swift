@@ -56,7 +56,7 @@ class DevicesViewController: BaseViewController {
     }
     
     @IBAction func addDevice(_ sender: Any) {
-        let count = DeviceManager.shared.devices.count + (bleSelf.bleModel.mac.count > 0 ? 1 : 0)
+        let count = DeviceManager.shared.devices.count
         let storyboard = UIStoryboard(name: "Device", bundle: nil)
         if count == 0 {
             let vc = storyboard.instantiateViewController(withIdentifier: "DeviceSearchViewController")

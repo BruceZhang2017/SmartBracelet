@@ -367,6 +367,7 @@
 		9AE1A1722629465F00B8B10D /* FileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AE1A1642629465F00B8B10D /* FileManager.m */; };
 		9AE1A181262AB9F900B8B10D /* HeartRateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE1A180262AB9F900B8B10D /* HeartRateView.swift */; };
 		9AE1A183262AF69400B8B10D /* HeartRateCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE1A182262AF69400B8B10D /* HeartRateCollectionViewCell.swift */; };
+		9AE436372686BF6E006A588F /* CurveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE436362686BF6E006A588F /* CurveView.swift */; };
 		9AE66874267E410200A8584A /* DSleepModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE66873267E410100A8584A /* DSleepModel.swift */; };
 		9AE66876267E491A00A8584A /* DOxygenModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE66875267E491A00A8584A /* DOxygenModel.swift */; };
 		9AE6687A267F88D900A8584A /* WeatherViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE66879267F88D900A8584A /* WeatherViewController.swift */; };
@@ -375,7 +376,6 @@
 		9AE66889267F8AD700A8584A /* ALView+PureLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AE66884267F8AD700A8584A /* ALView+PureLayout.m */; };
 		9AE6688A267F8AD700A8584A /* NSArray+PureLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AE66887267F8AD700A8584A /* NSArray+PureLayout.m */; };
 		9AE6688D267F8B2A00A8584A /* MAWeatherForecastView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AE6688B267F8B2A00A8584A /* MAWeatherForecastView.m */; };
-		9AE66890267F99F800A8584A /* SleepCurveVIew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE6688F267F99F800A8584A /* SleepCurveVIew.swift */; };
 		9AEC22CD25B707C000DE899A /* BLEModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AEC22CC25B707C000DE899A /* BLEModel.swift */; };
 		9AEC230025B7114500DE899A /* Data+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AEC22FF25B7114500DE899A /* Data+Extension.swift */; };
 		9AF0AA2025AAF1CE000BDAED /* CMDData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF0AA1F25AAF1CE000BDAED /* CMDData.swift */; };
@@ -789,6 +789,7 @@
 		9AE1A16A2629465F00B8B10D /* OTASDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTASDK.h; sourceTree = "<group>"; };
 		9AE1A180262AB9F900B8B10D /* HeartRateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartRateView.swift; sourceTree = "<group>"; };
 		9AE1A182262AF69400B8B10D /* HeartRateCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartRateCollectionViewCell.swift; sourceTree = "<group>"; };
+		9AE436362686BF6E006A588F /* CurveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurveView.swift; sourceTree = "<group>"; };
 		9AE66873267E410100A8584A /* DSleepModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DSleepModel.swift; sourceTree = "<group>"; };
 		9AE66875267E491A00A8584A /* DOxygenModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DOxygenModel.swift; sourceTree = "<group>"; };
 		9AE66879267F88D900A8584A /* WeatherViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WeatherViewController.swift; path = "../../../../Downloads/AMap_iOS_Demo/MAMapKit_3D_Demo/MAMapKit-3D-Demo-swift/samples/misc/WeatherViewController.swift"; sourceTree = "<group>"; };
@@ -805,7 +806,6 @@
 		9AE66887267F8AD700A8584A /* NSArray+PureLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+PureLayout.m"; sourceTree = "<group>"; };
 		9AE6688B267F8B2A00A8584A /* MAWeatherForecastView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MAWeatherForecastView.m; sourceTree = "<group>"; };
 		9AE6688C267F8B2A00A8584A /* MAWeatherForecastView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAWeatherForecastView.h; sourceTree = "<group>"; };
-		9AE6688F267F99F800A8584A /* SleepCurveVIew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SleepCurveVIew.swift; sourceTree = "<group>"; };
 		9AEC22CC25B707C000DE899A /* BLEModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BLEModel.swift; sourceTree = "<group>"; };
 		9AEC22FF25B7114500DE899A /* Data+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+Extension.swift"; sourceTree = "<group>"; };
 		9AF0AA1F25AAF1CE000BDAED /* CMDData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CMDData.swift; sourceTree = "<group>"; };
@@ -1105,6 +1105,7 @@
 				9A61685325DA502500918EFC /* Slider */,
 				9A28DA592518D4DC00F7B260 /* Dot */,
 				9A4E624A24F8DF5F00A0E878 /* Card */,
+				9AE436362686BF6E006A588F /* CurveView.swift */,
 			);
 			path = CustomView;
 			sourceTree = "<group>";
@@ -1480,7 +1481,6 @@
 				9A5613F425248BFC00C43C6A /* AudioButtonView.swift */,
 				9AE1A180262AB9F900B8B10D /* HeartRateView.swift */,
 				9AE1A182262AF69400B8B10D /* HeartRateCollectionViewCell.swift */,
-				9AE6688F267F99F800A8584A /* SleepCurveVIew.swift */,
 			);
 			path = Health;
 			sourceTree = "<group>";
@@ -1737,6 +1737,7 @@
 				9A33012124BBDAE900F4D9F0 /* Embed Frameworks */,
 				3C2BC16E5C3276174901A3C8 /* [CP] Copy Pods Resources */,
 				B0366B58887F6993DD4CCB8B /* [CP] Embed Pods Frameworks */,
+				9AE436382689BDAD006A588F /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -1839,6 +1840,23 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-SmartBracelet/Pods-SmartBracelet-resources.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		9AE436382689BDAD006A588F /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "#!/bin/sh\n#\n# Copyright 2016 Bugly, Tencent. All rights reserved.\n#\n# V1.4.0\n#\n# 2016.08.03\n#\n#\n#\n######################################################\n# 1. 脚本集成到Xcode工程的Target\n######################################################\n#\n# --- Copy the SCRIPT to the Run Script of Build Phases in the Xcode project ---\n#\n# #\nBUGLY_APP_ID=\"0c6ba8bb6a\"\n# #\nBUGLY_APP_KEY=\"e1bbfd26-ef91-4ea3-8a30-111ca8f18df8\"\n# #\nBUNDLE_IDENTIFIER=\"com.sinophy.smartbracelet\"\n# #\nUPLOAD_DSYM_ONLY=1\n#\n# # 脚本默认配置的版本格式为CFBundleShortVersionString(CFBundleVersion),  如果你修改默认的版本格式, 请设置此变量, 如果不想修改, 请忽略此设置\n# CUSTOMIZED_APP_VERSION=\"\"\n#\n# # Debug模式编译是否上传，1＝上传 0＝不上传，默认不上传\nUPLOAD_DEBUG_SYMBOLS=1\n#\n# # 模拟器编译是否上传，1=上传 0=不上传，默认不上传\nUPLOAD_SIMULATOR_SYMBOLS=1\n#\n# #只有Archive操作时上传, 1=支持Archive上传 0=所有Release模式编译都上传\nUPLOAD_ARCHIVE_ONLY=0\n#\n# #\n# source dSYMUpload.sh\n#\n# --- END OF SCRIPT ---\n#\n#\n#\n#\n#######################################################\n# 2. 脚本根据输入参数处理\n#######################################################\n#\n# #命令行下输入应用基本信息, .dSYM文件的父目录路径, 输出文件目录即可\n#\n# sh dSYMUpload.sh <bugly_app_id> <bugly_app_key> <app_bundle_identifier> <app_version> <dSYM_src_dir> <bSYMBOL_dest_dir>\n#\n# #\n#\n# #注意:\n# # 1. dSYMUpload.sh会调用buglySymboliOS.jar进行.dSYM解析，所以依赖Java运行时环境\n# # 2. dSYMUpload.sh和buglySymboliOS.jar的文件路径需一致\n#\n#\n\n#\n# --- CONTENT OF SCRIPT ---\n#\n\n# Bugly服务域名\nBUGLY_DSYM_UPLOAD_DOMAIN=\"api.bugly.qq.com\"\n\n# 注意jar工具的路径跟dSYMUpload.sh脚本路径一致, 请务必保证jar路径的正确性\nBUGLY_SYMBOL_JAR_PATH=\"dsymtool/buglySymboliOS.jar\"\n# 查找添加到系统目录的jar工具\nif [ ! -f \"${BUGLY_SYMBOL_JAR_PATH}\" ]; then\n    BUGLY_SYMBOL_JAR_PATH=\"$HOME/bin/buglySymboliOS.jar\"\nfi\n\n# 打印错误信息\nfunction exitWithMessage(){\n    echo \"--------------------------------\"\n    echo \"${1}\"\n    echo \"--------------------------------\"\n    exit ${2}\n}\n\n# 上传bSYMBOL文件\nfunction dSYMUpload() {\n    P_APP_ID=\"$1\"\n    P_APP_KEY=\"$2\"\n    P_APP_BUNDLE_ID=\"$3\"\n    P_APP_VERSION=\"$4\"\n    P_BSYMBOL_ZIP_FILE=\"$5\"\n\n    #\n    P_BSYMBOL_ZIP_FILE_NAME=${P_BSYMBOL_ZIP_FILE##*/}\n    P_BSYMBOL_ZIP_FILE_NAME=${P_BSYMBOL_ZIP_FILE_NAME//&/_}\n    P_BSYMBOL_ZIP_FILE_NAME=\"${P_BSYMBOL_ZIP_FILE_NAME// /_}\"\n\n    DSYM_UPLOAD_URL=\"https://${BUGLY_DSYM_UPLOAD_DOMAIN}/openapi/file/upload/symbol?app_id=${P_APP_ID}&app_key=${P_APP_KEY}\"\n    echo \"dSYM upload url: ${DSYM_UPLOAD_URL}\"\n\n    echo \"-----------------------------\"\n    STATUS=$(/usr/bin/curl -k \"${DSYM_UPLOAD_URL}\" --form \"api_version=1\" --form \"app_id=${P_APP_ID}\" --form \"app_key=${P_APP_KEY}\" --form \"symbolType=2\"  --form \"bundleId=${BUNDLE_IDENTIFIER}\" --form \"productVersion=${BUGLY_APP_VERSION}\" --form \"fileName=${P_BSYMBOL_ZIP_FILE_NAME}\" --form \"file=@${P_BSYMBOL_ZIP_FILE}\" --verbose)\n    echo \"-----------------------------\"\n\n    UPLOAD_RESULT=\"FAILTURE\"\n    echo \"Bugly server response: ${STATUS}\"\n    if [ ! \"${STATUS}\" ]; then\n        echo \"Error: Failed to upload the zip archive file.\"\n    elif [[ \"${STATUS}\" == *\"{\\\"reponseCode\\\":\\\"0\\\"}\"* ]]; then\n        echo \"Success to upload the dSYM for the app [${BUNDLE_IDENTIFIER} ${BUGLY_APP_VERSION}]\"\n        UPLOAD_RESULT=\"SUCCESS\"\n    else\n        echo \"Error: Failed to upload the zip archive file to Bugly.\"\n    fi\n\n    #Remove temp dSYM archive\n    #echo \"Remove temporary zip archive: ${DSYM_ZIP_FPATH}\"\n    #/bin/rm -f \"${DSYM_ZIP_FPATH}\"\n\n    if [ \"$?\" -ne 0 ]; then\n        exitWithMessage \"Error: Failed to remove temporary zip archive.\" 0\n    fi\n\n    echo \"--------------------------------\"\n    echo \"${UPLOAD_RESULT} - dSYM upload complete.\"\n\n    if [[ \"${UPLOAD_RESULT}\" == \"FAILTURE\" ]]; then\n        echo \"--------------------------------\"\n        echo \"Failed to upload the dSYM\"\n        echo \"Please check the script and try it again.\"\n    fi\n}\n\n# .dSYM解析为bSYMBOL文件\nfunction dSYMParse() {\n    DSYM_FILE=\"$1\"\n    DSYM_SYMBOL_FILE=\"$2\"\n\n    echo \"--------------------------------\"\n    echo \"Extract symbol info from .dSYM file. to ${DSYM_SYMBOL_FILE}\"\n    (/usr/bin/java -Xms512m -Xmx1024m -Dfile.encoding=UTF8 -jar \"${BUGLY_SYMBOL_JAR_PATH}\" -i \"${DSYM_FILE}\" -o \"${DSYM_SYMBOL_FILE}\" ) || exitWithMessage \"Error: Failed to extract symbols.\" 1\n    echo \"--------------------------------\"\n\n}\n\n# 执行\nfunction run() {\n\n    CONFIG_BUGLY_APP_ID=\"$1\"\n    CONFIG_BUGLY_APP_KEY=\"$2\"\n\n    CONFIG_BUGLY_APP_BUNDLE_IDENTIFIER=\"$3\"\n    CONFIG_BUGLY_APP_VERSION=\"$4\"\n    CONFIG_DSYM_SOURCE_DIR=\"$5\"\n    CONFIG_DSYM_DEST_DIR=\"$6\"\n    CONFIG_UPLOAD_DSYM_ONLY=\"$7\"\n\n    # 检查必须参数是否设置\n    if [ ! \"${CONFIG_BUGLY_APP_ID}\" ]; then\n        exitWithMessage \"Error: Bugly App ID not defined. Please set 'BUGLY_APP_ID' \" 0\n    fi\n\n    if [[ \"${CONFIG_BUGLY_APP_ID}\" == *\"App ID\"* ]]; then\n        exitWithMessage \"Error: Bugly App ID not defined.\" 0\n    fi\n\n    if [ ! \"${CONFIG_BUGLY_APP_KEY}\" ]; then\n        exitWithMessage \"Error: Bugly App Key not defined.\" 0\n    fi\n\n    if [ ! \"${CONFIG_BUGLY_APP_BUNDLE_IDENTIFIER}\" ]; then\n        exitWithMessage \"Error: Bundle Identifier not defined.\" 0\n    fi\n\n    if [ ! \"${CONFIG_BUGLY_APP_VERSION}\" ]; then\n        exitWithMessage \"Error: App Version not defined.\" 0\n    fi\n\n    if [ ! -e \"${CONFIG_DSYM_SOURCE_DIR}\" ]; then\n        exitWithMessage \"Error: Invalid dir ${CONFIG_DSYM_SOURCE_DIR}\" 0\n    fi\n\n    if [ ! \"${CONFIG_DSYM_DEST_DIR}\" ]; then\n        exitWithMessage \"Error: Invalid dir ${CONFIG_DSYM_DEST_DIR}\" 0\n    fi\n\n    if [ ! -e \"${CONFIG_DSYM_DEST_DIR}\" ]; then\n        mkdir ${CONFIG_DSYM_DEST_DIR}\n    fi\n\n    DSYM_FOLDER=\"${CONFIG_DSYM_SOURCE_DIR}\"\n    IFS=$'\\n'\n\n    echo \"Scaning dSYM FOLDER: ${DSYM_FOLDER} ...\"\n    RET=\"F\"\n    \n    #\n    for dsymFile in $(find \"$DSYM_FOLDER\" -name '*.dSYM'); do\n        RET=\"T\"\n        echo \"Found dSYM file: $dsymFile\"\n\n        DSYM_FILE_NAME=${dsymFile##*/}\n        DSYM_SYMBOL_ZIP_FILE_NAME=\"${DSYM_FILE_NAME}.zip\"\n        DSYM_SYMBOL_ZIP_FILE_NAME=\"${DSYM_SYMBOL_ZIP_FILE_NAME// /_}\"\n        DSYM_SYMBOL_ZIP_FILE=${CONFIG_DSYM_DEST_DIR}/${DSYM_SYMBOL_ZIP_FILE_NAME}\n\n        if [ $CONFIG_UPLOAD_DSYM_ONLY -eq 1 ]; then\n            if [ -e $DSYM_SYMBOL_ZIP_FILE ]; then\n                rm -f $DSYM_SYMBOL_ZIP_FILE\n            fi\n            sleep 6\n            # 如果只上传dSYM，直接压缩dSYM目录\n            zip -r -j $DSYM_SYMBOL_ZIP_FILE $dsymFile -x *.plist\n        else\n            # 使用符号表工具来生成Symbol文件\n            dSYMParse $dsymFile $DSYM_SYMBOL_ZIP_FILE\n        fi\n        \n        # 上传\n        dSYMUpload $CONFIG_BUGLY_APP_ID $CONFIG_BUGLY_APP_KEY $CONFIG_BUGLY_APP_BUNDLE_IDENTIFIER $CONFIG_BUGLY_APP_VERSION $DSYM_SYMBOL_ZIP_FILE\n    done\n\n    if [ $RET = \"F\" ]; then\n        exitWithMessage \"No .dSYM found in ${DSYM_FOLDER}\" 0\n    fi\n}\n\n# 在Xcode工程中执行\nfunction runInXcode(){\n    echo \"Uploading dSYM to Bugly in Xcode ...\"\n\n    echo \"Info.Plist : ${INFOPLIST_FILE}\"\n\n    BUNDLE_VERSION=$(/usr/libexec/PlistBuddy -c 'Print CFBundleVersion' \"${INFOPLIST_FILE}\")\n    BUNDLE_SHORT_VERSION=$(/usr/libexec/PlistBuddy -c 'Print CFBundleShortVersionString' \"${INFOPLIST_FILE}\")\n\n    # 组装Bugly默认识别的版本信息(格式为CFBundleShortVersionString(CFBundleVersion), 例如: 1.0(1))\n    if [ ! \"${CUSTOMIZED_APP_VERSION}\" ]; then\n        BUGLY_APP_VERSION=\"${BUNDLE_SHORT_VERSION}(${BUNDLE_VERSION})\"\n    else\n        BUGLY_APP_VERSION=\"${CUSTOMIZED_APP_VERSION}\"\n    fi\n\n    echo \"--------------------------------\"\n    echo \"Prepare application information.\"\n    echo \"--------------------------------\"\n\n    echo \"Product Name: ${PRODUCT_NAME}\"\n    echo \"Bundle Identifier: ${BUNDLE_IDENTIFIER}\"\n    echo \"Version: ${BUNDLE_SHORT_VERSION}\"\n    echo \"Build: ${BUNDLE_VERSION}\"\n\n    echo \"Bugly App ID: ${BUGLY_APP_ID}\"\n    echo \"Bugly App key: ${BUGLY_APP_KEY}\"\n    echo \"Bugly App Version: ${BUGLY_APP_VERSION}\"\n\n    echo \"--------------------------------\"\n    echo \"Check the arguments ...\"\n\n    ##检查模拟器编译是否允许上传符号\n    if [ \"$EFFECTIVE_PLATFORM_NAME\" == \"-iphonesimulator\" ]; then\n    if [ $UPLOAD_SIMULATOR_SYMBOLS -eq 0 ]; then\n        exitWithMessage \"Warning: Build for simulator and skipping to upload. \\nYou can modify 'UPLOAD_SIMULATOR_SYMBOLS' to 1 in the script.\" 0\n    fi\n    fi\n\n    ##检查是否是Release模式编译\n    if [ \"${CONFIGURATION=}\" == \"Debug\" ]; then\n    if [ $UPLOAD_DEBUG_SYMBOLS -eq 0 ]; then\n        exitWithMessage \"Warning: Build for debug mode and skipping to upload. \\nYou can modify 'UPLOAD_DEBUG_SYMBOLS' to 1 in the script.\" 0\n    fi\n    fi\n\n    ##检查是否Archive操作\n    if [ $UPLOAD_ARCHIVE_ONLY -eq 1 ]; then\n    if [[ \"$TARGET_BUILD_DIR\" == *\"/Archive\"* ]]; then\n        echo \"Archive the package\"\n    else\n        exitWithMessage \"Warning: Build for NOT Archive mode and skipping to upload. \\nYou can modify 'UPLOAD_ARCHIVE_ONLY' to 0 in the script.\" 0\n    fi\n    fi\n\n    #\n    run ${BUGLY_APP_ID} ${BUGLY_APP_KEY} ${BUNDLE_IDENTIFIER} ${BUGLY_APP_VERSION} ${DWARF_DSYM_FOLDER_PATH} ${BUILD_DIR}/BuglySymbolTemp ${UPLOAD_DSYM_ONLY}\n}\n\n# 根据Xcode的环境变量判断是否处于Xcode环境\nINFO_PLIST_FILE=\"${INFOPLIST_FILE}\"\n\nBuildInXcode=\"F\"\nif [ -f \"${INFO_PLIST_FILE}\" ]; then\n    BuildInXcode=\"T\"\nfi\n\nif [ $BuildInXcode = \"T\" ]; then\n    runInXcode\nelse\n    echo \"\\nUsage: dSYMUpload.sh <bugly_app_id> <bugly_app_key> <app_bundle_identifier> <app_version> <dSYM_src_dir> <bSYMBOL_dest_dir> [upload_dsym_only]\\n\"\n    # 你可以在此处直接设置BuglyAppID和BuglyAppKey，排除不常变参数的输入\n    BUGLY_APP_ID=\"$1\"\n    BUGLY_APP_KEY=\"$2\"\n    BUNDLE_IDENTIFIER=\"$3\"\n    BUGLY_APP_VERSION=\"$4\"\n    DWARF_DSYM_FOLDER_PATH=\"$5\"\n    SYMBOL_OUTPUT_PATH=\"$6\"\n    UPLOAD_DSYM_ONLY=$7\n    run ${BUGLY_APP_ID} ${BUGLY_APP_KEY} ${BUNDLE_IDENTIFIER} ${BUGLY_APP_VERSION} ${DWARF_DSYM_FOLDER_PATH} ${SYMBOL_OUTPUT_PATH} ${UPLOAD_DSYM_ONLY}\nfi\n";
 		};
 		A24156E0CECCDDD3132674C8 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1960,7 +1978,6 @@
 				9A56D2A325216FC70082CC08 /* ChartDataEntryBase.swift in Sources */,
 				9A5E932A2515BB630060AB13 /* UserModel.swift in Sources */,
 				9AB910292501322C006E0FC4 /* EMAlertController.swift in Sources */,
-				9AE66890267F99F800A8584A /* SleepCurveVIew.swift in Sources */,
 				9AE1A181262AB9F900B8B10D /* HeartRateView.swift in Sources */,
 				9A820B7C24CECFBC00A62C6F /* String+Extension.swift in Sources */,
 				9A8CA52225272C5200EC01A7 /* CVCalendarManager.swift in Sources */,
@@ -2159,6 +2176,7 @@
 				9A56D2A525216FC70082CC08 /* PieChartDataSet.swift in Sources */,
 				9A820B8024CEDCDA00A62C6F /* UIColor+Extension.swift in Sources */,
 				9A21843A255A38CB000330E5 /* OSS.swift in Sources */,
+				9AE436372686BF6E006A588F /* CurveView.swift in Sources */,
 				9A8CA51825272C5200EC01A7 /* CVCalendarContentPresentationCoordinator.swift in Sources */,
 				9A56D24F25216FC60082CC08 /* CrossShapeRenderer.swift in Sources */,
 				9A56D25925216FC60082CC08 /* BarHighlighter.swift in Sources */,
@@ -2359,8 +2377,10 @@
 				BUILD_LIBRARY_FOR_DISTRIBUTION = NO;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 8;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_ASSET_PATHS = TJDWristbandSDK.framework;
 				DEVELOPMENT_TEAM = RPZ68269DB;
 				ENABLE_BITCODE = NO;
@@ -2378,6 +2398,7 @@
 				OTHER_SWIFT_FLAGS = "$(inherited) -D WeiZhongYun_ -D DisplayPrint_";
 				PRODUCT_BUNDLE_IDENTIFIER = com.sinophy.smartbracelet;
 				PRODUCT_NAME = FitDAY;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTS_MACCATALYST = NO;
 				SWIFT_OBJC_BRIDGING_HEADER = "SmartBracelet/Kit/ObjC/SmartBracelet-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -2394,8 +2415,9 @@
 				BUILD_LIBRARY_FOR_DISTRIBUTION = NO;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_ASSET_PATHS = TJDWristbandSDK.framework;
 				DEVELOPMENT_TEAM = RPZ68269DB;
 				ENABLE_BITCODE = NO;
@@ -2413,6 +2435,7 @@
 				OTHER_SWIFT_FLAGS = "$(inherited) -D WeiZhongYun_ -D DisplayPrint_";
 				PRODUCT_BUNDLE_IDENTIFIER = com.sinophy.smartbracelet;
 				PRODUCT_NAME = FitDAY;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTS_MACCATALYST = NO;
 				SWIFT_OBJC_BRIDGING_HEADER = "SmartBracelet/Kit/ObjC/SmartBracelet-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;

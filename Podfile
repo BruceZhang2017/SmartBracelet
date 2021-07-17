@@ -24,5 +24,6 @@ pod 'Toast'
 pod 'AFNetworking'
 pod 'MJRefresh'
 pod 'AMapSearch'
+pod 'Bugly'
 
 end
