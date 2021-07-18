@@ -92,12 +92,12 @@ class BLEManager: NSObject {
     
     @objc func handleBLENotify(_ notify: Notification) {
         if notify.name == WUBleManagerNotifyKeys.on {
-            Toast(text: "蓝牙已打开").show()
+            print("蓝牙已打开")
             NotificationCenter.default.post(name: Notification.Name("HealthVCLoading"), object: 0)
         }
         
         if notify.name == WUBleManagerNotifyKeys.off {
-            Toast(text: "蓝牙未打开").show()
+            print("蓝牙未打开")
             NotificationCenter.default.post(name: Notification.Name("HealthVCLoading"), object: 1)
         }
         
@@ -116,13 +116,15 @@ class BLEManager: NSObject {
             NotificationCenter.default.post(name: Notification.Name("MTabBarController"), object: nil) // 通知主控页面
             lastestDeviceMac = bleSelf.bleModel.mac
             UserDefaults.standard.setValue(lastestDeviceMac, forKey: "LastestDeviceMac")
-            UserDefaults.standard.setValue(true, forKey: "IsLefun")
             UserDefaults.standard.synchronize()
         }
         
         if notify.name == WUBleManagerNotifyKeys.disconnected {
             print("蓝牙断开连接")
-            lastestDeviceMac = ""
+            if bleSelf.bleModel.isBond == true && lastestDeviceMac.count > 0 {
+                bleSelf.reConnectDevice()
+            }
+            NotificationCenter.default.post(name: Notification.Name("MTabBarController"), object: "disconnect")
         }
         
         if notify.name == WUBleManagerNotifyKeys.stateChanged {
@@ -221,6 +223,7 @@ class BLEManager: NSObject {
             wuPrint("可以进行列表上的功能操作了！")
             bleSelf.bindSetForWristband() // 第0步：先绑定设备
             bleSelf.setTimeForWristband() // 第0步：设置时间
+            bleSelf.setLanguageForWristband() // 第0步：同步语言
             NotificationCenter.default.post(name: Notification.Name("HealthVCLoading"), object: 2)
         }
         

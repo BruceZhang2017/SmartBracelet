@@ -40,9 +40,9 @@ extension DeviceInfoViewController: UITableViewDataSource {
         } else if indexPath.row == 1 {
             cell.valueLabel.text = bleSelf.bleModel.mac
         } else if indexPath.row == 2 {
-            cell.valueLabel.text = bleSelf.bleModel.firmwareVersion
+            cell.valueLabel.text = "V" + bleSelf.bleModel.firmwareVersion
         } else {
-            cell.valueLabel.text = bleSelf.bleModel.internalNumber
+            cell.valueLabel.text = "V" + bleSelf.bleModel.hardwareVersion
         }
         return cell
     }
@@ -56,6 +56,6 @@ extension DeviceInfoViewController: UITableViewDelegate {
 
 extension DeviceInfoViewController {
     var titles: [String] {
-        return ["设备型号", "MAC地址", "软件版本", "设备序列号"]
+        return ["设备型号", "MAC地址", "软件版本", "硬件版本"]
     }
 }

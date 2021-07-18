@@ -18,7 +18,7 @@ class UserManager: NSObject {
     
     override init() {
         super.init()
-        user = UserModel.read()
+        //user = UserModel.read()
     }
     
     func saveUser() {

@@ -28,7 +28,7 @@ class ModifyHeadViewController: UIViewController {
         super.viewDidLoad()
         headView.addVGradientLayer(at: CGRect(x: 0, y: 0, width: ScreenWidth, height: ScreenWidth), colors: [UIColor.k64F2B4, UIColor.k08CCCC])
         headImageView.clipsToBounds = true
-        let fileName = "head\(UserManager.sharedInstall.user?.id ?? 0).jpg"
+        let fileName = "head.jpg"
         let b = FileCache().fileIfExist(name: fileName)
         if b {
             let data = FileCache().readData(name: fileName)
@@ -91,8 +91,8 @@ class ModifyHeadViewController: UIViewController {
         guard let data = currentImage?.jpegData(compressionQuality: 0.05) else {
             return
         }
-        FileCache().saveData(data, name: "head\(UserManager.sharedInstall.user?.id ?? 0).jpg")
-        uploadImage(data: data)
+        FileCache().saveData(data, name: "head.jpg")
+        //uploadImage(data: data)
     }
     
     @IBAction func cancel(_ sender: Any) {
@@ -106,7 +106,7 @@ class ModifyHeadViewController: UIViewController {
     private func uploadImage(data: Data) {
         let image = UIImage(data: data)
         OSS.sharedInstance.setupOSSClient()
-        let key = "head\(UserManager.sharedInstall.user?.id ?? 0).jpg"
+        let key = "head.jpg"
         OSS.sharedInstance.putObject(image: image!, key: key) {
             (result) in
             DispatchQueue.main.async {

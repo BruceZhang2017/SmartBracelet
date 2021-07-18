@@ -30,7 +30,7 @@ class MTabBarController: UITabBarController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        NotificationCenter.default.addObserver(self, selector: #selector(handleDeviceConnected), name: Notification.Name("MTabBarController"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleDeviceConnected(_ :)), name: Notification.Name("MTabBarController"), object: nil)
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -42,7 +42,11 @@ class MTabBarController: UITabBarController {
         
     }
 
-    @objc func handleDeviceConnected() {
+    @objc func handleDeviceConnected(_ notification: Notification) {
+        let obj = notification.object as? String ?? ""
+        if obj == "disconnect" {
+            (selectedViewController as? UINavigationController)?.popToRootViewController(animated: true)
+        }
         
     }
     

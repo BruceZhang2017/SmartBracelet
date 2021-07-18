@@ -30,7 +30,7 @@ class MineViewController: BaseViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        let fileName = "head\(UserManager.sharedInstall.user?.id ?? 0).jpg"
+        let fileName = "head.jpg"
         let b = FileCache().fileIfExist(name: fileName)
         if b {
             let data = FileCache().readData(name: fileName)
@@ -51,7 +51,12 @@ class MineViewController: BaseViewController {
                 }
             }
         }
-        userNameLabel.text = UserManager.sharedInstall.user?.username ?? "未设置名称"
+        let name = UserDefaults.standard.string(forKey: "NickName")
+        if name?.count ?? 0 > 0 {
+            userNameLabel.text = name
+        } else {
+            userNameLabel.text = bleSelf.userInfo.name
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {

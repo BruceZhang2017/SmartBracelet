@@ -59,7 +59,7 @@ extension UserInfoViewController: UITableViewDataSource {
         cell.valueLabel.isHidden = indexPath.row == 0
         cell.valueLabel.text = values[indexPath.row]
         if indexPath.row == 0 {
-            let fileName = "head\(UserManager.sharedInstall.user?.id ?? 0).jpg"
+            let fileName = "head.jpg"
             let b = FileCache().fileIfExist(name: fileName)
             if b {
                 let data = FileCache().readData(name: fileName)
@@ -74,45 +74,56 @@ extension UserInfoViewController: UITableViewDataSource {
             }
         } else if indexPath.row == 1 {
             if UserManager.sharedInstall.user?.token == nil {
-                cell.valueLabel.text = bleSelf.userInfo.name
+                let name = UserDefaults.standard.string(forKey: "NickName")
+                if name?.count ?? 0 > 0 {
+                    cell.valueLabel.text = name
+                } else {
+                    cell.valueLabel.text = bleSelf.userInfo.name
+                }
             } else {
                 cell.valueLabel.text = UserManager.sharedInstall.user?.nickname ?? "未设置"
             }
             
-        } else if indexPath.row == 2 {
-            if UserManager.sharedInstall.user?.token == nil {
-                cell.valueLabel.text = bleSelf.userInfo.name
-            } else {
-                cell.valueLabel.text = UserManager.sharedInstall.user?.username ?? ""
-            }
+//        } else if indexPath.row == 2 {
+//            if UserManager.sharedInstall.user?.token == nil {
+//                cell.valueLabel.text = bleSelf.userInfo.name
+//            } else {
+//                cell.valueLabel.text = UserManager.sharedInstall.user?.username ?? ""
+//            }
             
-        } else if indexPath.row == 3 {
+        } else if indexPath.row == 2 {
             if UserManager.sharedInstall.user?.token == nil {
                 cell.valueLabel.text = bleSelf.userInfo.sex == 1 ? "男" : "女"
             } else {
                 cell.valueLabel.text = (UserManager.sharedInstall.user?.sex ?? 0 == 0) ? "男" : "女"
             }
             
-        } else if indexPath.row == 4 {
+        } else if indexPath.row == 3 {
             if UserManager.sharedInstall.user?.token == nil {
-                cell.valueLabel.text = WUDate.dateFromTimeStamp(bleSelf.userInfo.birthday).stringFromYmd()
+                let value = UserDefaults.standard.string(forKey: "Birthday")
+                if value?.count ?? 0 > 0 {
+                    cell.valueLabel.text = value
+                } else {
+                    cell.valueLabel.text = WUDate.dateFromTimeStamp(bleSelf.userInfo.birthday).stringFromYmd()
+                }
+                
             } else {
                 cell.valueLabel.text = UserManager.sharedInstall.user?.birthday ?? ""
             }
-        } else if indexPath.row == 5 {
+        } else if indexPath.row == 4 {
             if UserManager.sharedInstall.user?.token == nil {
                 cell.valueLabel.text = "\(bleSelf.userInfo.height)CM"
             } else {
                 cell.valueLabel.text = "\(UserManager.sharedInstall.user?.height ?? 0)CM"
             }
-        } else if indexPath.row == 6 {
+        } else if indexPath.row == 5 {
             if UserManager.sharedInstall.user?.token == nil {
                 cell.valueLabel.text = "\(bleSelf.userInfo.weight)KG"
             } else {
                 cell.valueLabel.text = "\(UserManager.sharedInstall.user?.weight ?? 0)KG"
             }
-        } else if indexPath.row == 7 {
-            cell.valueLabel.text = UserManager.sharedInstall.user?.area ?? ""
+//        } else if indexPath.row == 7 {
+//            cell.valueLabel.text = UserManager.sharedInstall.user?.area ?? ""
         }
         return cell
     }
@@ -126,10 +137,10 @@ extension UserInfoViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         if indexPath.row == 0 { // 头像
-            if UserManager.sharedInstall.user?.token == nil {
-                Toast(text: "服务器不可用").show()
-                return
-            }
+//            if UserManager.sharedInstall.user?.token == nil {
+//                Toast(text: "服务器不可用").show()
+//                return
+//            }
             let storyboard = UIStoryboard(name: .kMine, bundle: nil)
             let vc = storyboard.instantiateViewController(withIdentifier: "ModifyHeadViewController")
             navigationController?.pushViewController(vc, animated: true)
@@ -137,29 +148,43 @@ extension UserInfoViewController: UITableViewDelegate {
             let storyboard = UIStoryboard(name: .kMine, bundle: nil)
             let vc = storyboard.instantiateViewController(withIdentifier: "NickNameViewController")
             navigationController?.pushViewController(vc, animated: true)
-        } else if indexPath.row == 2 { // 姓名
-            let storyboard = UIStoryboard(name: .kMine, bundle: nil)
-            let vc = storyboard.instantiateViewController(withIdentifier: "NickNameViewController") as! NickNameViewController
-            vc.type = 1
-            navigationController?.pushViewController(vc, animated: true)
-        } else if indexPath.row == 3 { // 性别
+//        } else if indexPath.row == 2 { // 姓名
+//            let storyboard = UIStoryboard(name: .kMine, bundle: nil)
+//            let vc = storyboard.instantiateViewController(withIdentifier: "NickNameViewController") as! NickNameViewController
+//            vc.type = 1
+//            navigationController?.pushViewController(vc, animated: true)
+        } else if indexPath.row == 2 { // 性别
             let storyboard = UIStoryboard(name: .kMine, bundle: nil)
             let vc = storyboard.instantiateViewController(withIdentifier: "SelectSexViewController") as! SelectSexViewController
             vc.delegate = self
             vc.modalTransitionStyle = .crossDissolve
             vc.modalPresentationStyle = .overFullScreen
-            vc.sex = (UserManager.sharedInstall.user?.sex ?? 0) == 0 ? "男" : "女"
+            vc.sex = (bleSelf.userInfo.sex) == 0 ? "男" : "女"
             navigationController?.present(vc, animated: true, completion: nil)
-        } else if indexPath.row == 4 { // 出生年月
+        } else if indexPath.row == 3 { // 出生年月
             let storyboard = UIStoryboard(name: .kMine, bundle: nil)
             let vc = storyboard.instantiateViewController(withIdentifier: "SelectSexViewController") as! SelectSexViewController
             vc.delegate = self
-            if let birth = UserManager.sharedInstall.user?.birthday, birth.count > 0 {
-                vc.birth = birth.components(separatedBy: "-")
+            var birth = ""
+            let value = UserDefaults.standard.string(forKey: "Birthday") ?? ""
+            if value.count > 0 {
+                birth = value
+            } else {
+                birth = WUDate.dateFromTimeStamp(bleSelf.userInfo.birthday).stringFromYmd()
             }
+            vc.birth = birth.components(separatedBy: "-")
             vc.modalTransitionStyle = .crossDissolve
             vc.modalPresentationStyle = .overFullScreen
             vc.type = 1
+            navigationController?.present(vc, animated: true, completion: nil)
+        } else if indexPath.row == 4 {
+            let storyboard = UIStoryboard(name: .kMine, bundle: nil)
+            let vc = storyboard.instantiateViewController(withIdentifier: "InputHeightViewController") as! InputHeightViewController
+            vc.delegate = self
+            vc.modalTransitionStyle = .crossDissolve
+            vc.modalPresentationStyle = .overFullScreen
+            vc.type = 0
+            vc.value = "\(bleSelf.userInfo.height)"
             navigationController?.present(vc, animated: true, completion: nil)
         } else if indexPath.row == 5 {
             let storyboard = UIStoryboard(name: .kMine, bundle: nil)
@@ -167,33 +192,24 @@ extension UserInfoViewController: UITableViewDelegate {
             vc.delegate = self
             vc.modalTransitionStyle = .crossDissolve
             vc.modalPresentationStyle = .overFullScreen
-            vc.type = 0
-            vc.value = "\(UserManager.sharedInstall.user?.height ?? 0)"
-            navigationController?.present(vc, animated: true, completion: nil)
-        } else if indexPath.row == 6 {
-            let storyboard = UIStoryboard(name: .kMine, bundle: nil)
-            let vc = storyboard.instantiateViewController(withIdentifier: "InputHeightViewController") as! InputHeightViewController
-            vc.delegate = self
-            vc.modalTransitionStyle = .crossDissolve
-            vc.modalPresentationStyle = .overFullScreen
             vc.type = 1
-            vc.value = "\(UserManager.sharedInstall.user?.weight ?? 0)"
+            vc.value = "\(bleSelf.userInfo.weight)"
             navigationController?.present(vc, animated: true, completion: nil)
-        } else {
-            let vc = CitySelectorViewController()
-            vc.delegate = self
-            navigationController?.pushViewController(vc, animated: true)
+//        } else {
+//            let vc = CitySelectorViewController()
+//            vc.delegate = self
+//            navigationController?.pushViewController(vc, animated: true)
         }
     }
 }
 
 extension UserInfoViewController {
     var titles: [String] {
-        return ["头像", "昵称", "姓名", "性别", "出生年月", "身高", "体重", "地区"]
+        return ["头像", "昵称", "性别", "出生年月", "身高", "体重"]
     }
     
     var values: [String] {
-        return ["", "未设置", "张XX", "男", "19XX年XX月XX日", "168CM", "45KG", "当前位置"]
+        return ["", "未设置", "男", "19XX年XX月XX日", "168CM", "45KG"]
     }
 }
 
@@ -224,25 +240,27 @@ extension UserInfoViewController {
             }
         } else if type == 1 {
             parameters["birthday"] = value
+            UserDefaults.standard.setValue(value, forKey: "Birthday")
+            UserDefaults.standard.synchronize()
             if UserManager.sharedInstall.user?.token == nil {
                 bleSelf.userInfo.birthday = Int(DateHelper().ymdToDate(value: value).timeIntervalSince1970)
                 bleSelf.setUserinfoForWristband(bleSelf.userInfo)
                 return
             }
         }
-        AF.request("\(UrlPrefix)api/User/userinfo.php", method: .post, parameters: parameters, encoder: URLEncodedFormParameterEncoder.default).response { (response) in
-            debugPrint("Response: \(response.debugDescription)")
-            //ProgressHUD.dismiss()
-//            guard let data = response.value as? Data else {
-//                return
-//            }
-//            let model = try? JSONDecoder().decode(BaseResponse.self, from: data)
-//            if model == nil {
-//                Toast(text: model?.message ?? "注册失败").show()
-//                return
-//            }
-            
-        }
+//        AF.request("\(UrlPrefix)api/User/userinfo.php", method: .post, parameters: parameters, encoder: URLEncodedFormParameterEncoder.default).response { (response) in
+//            debugPrint("Response: \(response.debugDescription)")
+//            //ProgressHUD.dismiss()
+////            guard let data = response.value as? Data else {
+////                return
+////            }
+////            let model = try? JSONDecoder().decode(BaseResponse.self, from: data)
+////            if model == nil {
+////                Toast(text: model?.message ?? "注册失败").show()
+////                return
+////            }
+//            
+//        }
     }
 }
 
@@ -278,19 +296,19 @@ extension UserInfoViewController {
                 return
             }
         }
-        AF.request("\(UrlPrefix)api/User/userinfo.php", method: .post, parameters: parameters, encoder: URLEncodedFormParameterEncoder.default).response { (response) in
-            debugPrint("Response: \(response.debugDescription)")
-            //ProgressHUD.dismiss()
-//            guard let data = response.value as? Data else {
-//                return
-//            }
-//            let model = try? JSONDecoder().decode(BaseResponse.self, from: data)
-//            if model == nil {
-//                Toast(text: model?.message ?? "注册失败").show()
-//                return
-//            }
-            
-        }
+//        AF.request("\(UrlPrefix)api/User/userinfo.php", method: .post, parameters: parameters, encoder: URLEncodedFormParameterEncoder.default).response { (response) in
+//            debugPrint("Response: \(response.debugDescription)")
+//            //ProgressHUD.dismiss()
+////            guard let data = response.value as? Data else {
+////                return
+////            }
+////            let model = try? JSONDecoder().decode(BaseResponse.self, from: data)
+////            if model == nil {
+////                Toast(text: model?.message ?? "注册失败").show()
+////                return
+////            }
+//            
+//        }
     }
 }
 
@@ -308,18 +326,18 @@ extension UserInfoViewController {
         //ProgressHUD.show()
         var parameters = ["id": "\(UserManager.sharedInstall.user?.id ?? 0)"]
         parameters["area"] = city
-        AF.request("\(UrlPrefix)api/User/userinfo.php", method: .post, parameters: parameters, encoder: URLEncodedFormParameterEncoder.default).response { (response) in
-            debugPrint("Response: \(response.debugDescription)")
-            //ProgressHUD.dismiss()
-//            guard let data = response.value as? Data else {
-//                return
-//            }
-//            let model = try? JSONDecoder().decode(BaseResponse.self, from: data)
-//            if model == nil {
-//                Toast(text: model?.message ?? "注册失败").show()
-//                return
-//            }
-            
-        }
+//        AF.request("\(UrlPrefix)api/User/userinfo.php", method: .post, parameters: parameters, encoder: URLEncodedFormParameterEncoder.default).response { (response) in
+//            debugPrint("Response: \(response.debugDescription)")
+//            //ProgressHUD.dismiss()
+////            guard let data = response.value as? Data else {
+////                return
+////            }
+////            let model = try? JSONDecoder().decode(BaseResponse.self, from: data)
+////            if model == nil {
+////                Toast(text: model?.message ?? "注册失败").show()
+////                return
+////            }
+//            
+//        }
     }
 }

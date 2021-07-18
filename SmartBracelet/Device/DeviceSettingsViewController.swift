@@ -11,6 +11,8 @@
 	
 
 import UIKit
+import TJDWristbandSDK
+import Toaster
 
 class DeviceSettingsViewController: BaseViewController {
     @IBOutlet weak var tableView: UITableView!
@@ -55,7 +57,27 @@ class DeviceSettingsViewController: BaseViewController {
     */
     
     @objc private func deleteDevice(_ sender: Any) {
-        
+        let alert = UIAlertController(title: "提示", message: "您确定解除绑定该设备？如果确定，并请至手机“设置 -> 蓝牙”中删除该设备配对记录。", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "取消", style: .cancel, handler: { (action) in
+            
+        }))
+        alert.addAction(UIAlertAction(title: "确定", style: .default, handler: { [weak self] (action) in
+            BLEManager.shared.unbind()
+            try? DeviceManager.shared.currentDevice?.er.delete()
+            NotificationCenter.default.post(name: Notification.Name("HealthViewController"), object: "delete")
+            DeviceManager.shared.currentDevice = nil
+            UserDefaults.standard.removeObject(forKey: "LastestDeviceMac")
+            Toast(text: "解除绑定成功").show()
+            self?.navigationController?.popViewController(animated: true)
+            let url = URL(string: "App-Prefs:root=Bluetooth")
+            if UIApplication.shared.canOpenURL(url!) {
+                UIApplication.shared.open(url!, options: [:], completionHandler: nil)
+            }
+            
+        }))
+        present(alert, animated: true) {
+            
+        }
     }
     
     @objc private func valueChanged(_ sender: Any) {

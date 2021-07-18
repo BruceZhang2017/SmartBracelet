@@ -42,7 +42,7 @@ class HealthViewController: BaseViewController {
     @IBOutlet weak var heartRateImageView: UIImageView!
     var flag = 0 // 属性的作用
     var popup: PopupBViewController?
-    var activityIndicator: NVActivityIndicatorView? // loading图标
+    //var activityIndicator: NVActivityIndicatorView? // loading图标
     private var loadingViewCheckTimer: Timer?
     var heartRateView: HeartRateView!
     var curveView: CurveView!
@@ -61,16 +61,21 @@ class HealthViewController: BaseViewController {
             }
             self?.header?.endRefreshing()
         }.autoChangeTransparency(true).link(to: mScrollView)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        let lastestDeviceMac = UserDefaults.standard.string(forKey: "LastestDeviceMac") ?? ""
+        if lastestDeviceMac.count == 0 {
+            footGoalLabel.text = "目标 ｜ 0步"
+        } else {
+            footGoalLabel.text = "目标 ｜ \(bleSelf.userInfo.stepGoal)步"
+        }
         readDBStep() // 从本地数据库中读取步数数据
         readDBHeart() // 从本地数据库中读取心跳数据
         readDBSleep() // 从本地数据库中读取睡眠数据
         readDBBlood() // 从本地数据库中读取血压数据
         readDBOxygen() // 从本地数据库中读取血氧数据
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        footGoalLabel.text = "目标 ｜ \(bleSelf.userInfo.stepGoal)步"
     }
     
     deinit {
@@ -112,7 +117,7 @@ class HealthViewController: BaseViewController {
                 [weak self] in
                 let foot = NSMutableAttributedString()
                 let step = bleSelf.step
-                foot.append(NSAttributedString(string: "\(step)", attributes: [.font: UIFont.systemFont(ofSize: 36)]))
+                foot.append(NSAttributedString(string: "\(step)", attributes: [.font: UIFont.systemFont(ofSize: 32)]))
                 foot.append(NSAttributedString(string: "步", attributes: [.font: UIFont.systemFont(ofSize: 12)]))
                 self?.footValueLabel.attributedText = foot
                 let distance = bleSelf.distance
@@ -121,7 +126,7 @@ class HealthViewController: BaseViewController {
                 let value = NSMutableAttributedString()
                 let cal = bleSelf.cal
                 let v = Float(cal) / 1000
-                value.append(NSAttributedString(string: "\(String(format: "%.2f", v))", attributes: [.font: UIFont.systemFont(ofSize: 36)]))
+                value.append(NSAttributedString(string: "\(String(format: "%.2f", v))", attributes: [.font: UIFont.systemFont(ofSize: 32)]))
                 value.append(NSAttributedString(string: "千卡", attributes: [.font: UIFont.systemFont(ofSize: 12)]))
                 self?.heatValueLabel.attributedText = value
             }
@@ -135,9 +140,9 @@ class HealthViewController: BaseViewController {
                     let h = total / 60
                     let m = total % 60
                     let arrStr = NSMutableAttributedString()
-                    arrStr.append(NSAttributedString(string: "\(h)", attributes: [.font: UIFont.systemFont(ofSize: 36), .foregroundColor: UIColor.k666666]))
+                    arrStr.append(NSAttributedString(string: "\(h)", attributes: [.font: UIFont.systemFont(ofSize: 32), .foregroundColor: UIColor.k666666]))
                     arrStr.append(NSAttributedString(string: "小时", attributes: [.font: UIFont.systemFont(ofSize: 12), .foregroundColor: UIColor.k999999]))
-                    arrStr.append(NSAttributedString(string: "\(m)", attributes: [.font: UIFont.systemFont(ofSize: 36), .foregroundColor: UIColor.k666666]))
+                    arrStr.append(NSAttributedString(string: "\(m)", attributes: [.font: UIFont.systemFont(ofSize: 32), .foregroundColor: UIColor.k666666]))
                     arrStr.append(NSAttributedString(string: "分", attributes: [.font: UIFont.systemFont(ofSize: 12), .foregroundColor: UIColor.k999999]))
                     self?.sleepValueLabel.attributedText = arrStr
                     if arr.count == 3 {
@@ -146,9 +151,9 @@ class HealthViewController: BaseViewController {
                     }
                 } else {
                     let arrStr = NSMutableAttributedString()
-                    arrStr.append(NSAttributedString(string: "0", attributes: [.font: UIFont.systemFont(ofSize: 36), .foregroundColor: UIColor.k666666]))
+                    arrStr.append(NSAttributedString(string: "0", attributes: [.font: UIFont.systemFont(ofSize: 32), .foregroundColor: UIColor.k666666]))
                     arrStr.append(NSAttributedString(string: "小时", attributes: [.font: UIFont.systemFont(ofSize: 12), .foregroundColor: UIColor.k999999]))
-                    arrStr.append(NSAttributedString(string: "0", attributes: [.font: UIFont.systemFont(ofSize: 36), .foregroundColor: UIColor.k666666]))
+                    arrStr.append(NSAttributedString(string: "0", attributes: [.font: UIFont.systemFont(ofSize: 32), .foregroundColor: UIColor.k666666]))
                     arrStr.append(NSAttributedString(string: "分", attributes: [.font: UIFont.systemFont(ofSize: 12), .foregroundColor: UIColor.k999999]))
                     self?.sleepValueLabel.attributedText = arrStr
                 }
@@ -159,7 +164,7 @@ class HealthViewController: BaseViewController {
                 var heart = 0
                 heart = BLEManager.shared.heartArray[0].heart
                 let v = NSMutableAttributedString()
-                v.append(NSAttributedString(string: "\(heart)", attributes: [.font: UIFont.systemFont(ofSize: 36), .foregroundColor: UIColor.k666666]))
+                v.append(NSAttributedString(string: "\(heart)", attributes: [.font: UIFont.systemFont(ofSize: 32), .foregroundColor: UIColor.k666666]))
                 v.append(NSAttributedString(string: "次/分", attributes: [.font: UIFont.systemFont(ofSize: 12), .foregroundColor: UIColor.k999999]))
                 self?.heartValueLabel.attributedText = v
                 self?.refreshLefunHeartRate()
@@ -172,7 +177,7 @@ class HealthViewController: BaseViewController {
                 min = BLEManager.shared.bloodArray[0].min
                 max = BLEManager.shared.bloodArray[0].max
                 let v = NSMutableAttributedString()
-                v.append(NSAttributedString(string: "\(max)/\(min)", attributes: [.font: UIFont.systemFont(ofSize: 36), .foregroundColor: UIColor.k666666]))
+                v.append(NSAttributedString(string: "\(max)/\(min)", attributes: [.font: UIFont.systemFont(ofSize: 32), .foregroundColor: UIColor.k666666]))
                 v.append(NSAttributedString(string: "MMHG", attributes: [.font: UIFont.systemFont(ofSize: 12), .foregroundColor: UIColor.k999999]))
                 self?.pressureValueLabel.attributedText = v
             }
@@ -186,10 +191,16 @@ class HealthViewController: BaseViewController {
                     value = 0
                 }
                 let v = NSMutableAttributedString()
-                v.append(NSAttributedString(string: "\(value)", attributes: [.font: UIFont.systemFont(ofSize: 36), .foregroundColor: UIColor.k666666]))
+                v.append(NSAttributedString(string: "\(value)", attributes: [.font: UIFont.systemFont(ofSize: 32), .foregroundColor: UIColor.k666666]))
                 v.append(NSAttributedString(string: "%  健康", attributes: [.font: UIFont.systemFont(ofSize: 12), .foregroundColor: UIColor.k999999]))
                 self?.bleedValueLabel.attributedText = v
             }
+        } else if objc == "delete" {
+            refreshDBStep()
+            refreshDBHeart()
+            refreshDBSleep()
+            refreshDBBlood()
+            refreshDBOxygen()
         }
     }
     
@@ -225,26 +236,26 @@ class HealthViewController: BaseViewController {
         }
         if obj == 2 {
             print("显示loading图片")
-            let frame = CGRect(x: 0, y: 0, width: 150, height: 150)
-            activityIndicator = NVActivityIndicatorView(frame: frame, type: .ballSpinFadeLoader, color: UIColor.white, padding: 30)
-            activityIndicator?.backgroundColor = UIColor.black.withAlphaComponent(0.7)
-            activityIndicator?.center = CGPoint(x: view.center.x, y: view.center.y - 100)
-            view.addSubview(activityIndicator!)
-            activityIndicator?.startAnimating()
-            startLoadingViewCheckTimer()
+//            let frame = CGRect(x: 0, y: 0, width: 150, height: 150)
+//            activityIndicator = NVActivityIndicatorView(frame: frame, type: .ballSpinFadeLoader, color: UIColor.white, padding: 30)
+//            activityIndicator?.backgroundColor = UIColor.black.withAlphaComponent(0.7)
+//            activityIndicator?.center = CGPoint(x: view.center.x, y: view.center.y - 100)
+//            view.addSubview(activityIndicator!)
+//            activityIndicator?.startAnimating()
+//            startLoadingViewCheckTimer()
             return
         }
         if obj == 3 {
             print("隐藏loading图片")
-            endLoadingViewCheckTimer()
-            DispatchQueue.main.async {
-                [weak self] in
-                if self?.activityIndicator != nil && (self?.activityIndicator?.isAnimating ?? false) {
-                    self?.activityIndicator?.stopAnimating()
-                    self?.activityIndicator?.removeFromSuperview()
-                    self?.activityIndicator = nil
-                }
-            }
+//            endLoadingViewCheckTimer()
+//            DispatchQueue.main.async {
+//                [weak self] in
+//                if self?.activityIndicator != nil && (self?.activityIndicator?.isAnimating ?? false) {
+//                    self?.activityIndicator?.stopAnimating()
+//                    self?.activityIndicator?.removeFromSuperview()
+//                    self?.activityIndicator = nil
+//                }
+//            }
         }
     }
     
@@ -366,27 +377,40 @@ class HealthViewController: BaseViewController {
             distance += models?[i].distance ?? 0
             cal += models?[i].cal ?? 0
         }
-        foot.append(NSAttributedString(string: "\(step)", attributes: [.font: UIFont.systemFont(ofSize: 36)]))
+        foot.append(NSAttributedString(string: "\(step)", attributes: [.font: UIFont.systemFont(ofSize: 32)]))
         foot.append(NSAttributedString(string: "步", attributes: [.font: UIFont.systemFont(ofSize: 12)]))
         footValueLabel.attributedText = foot
         let unit = Float(distance) / 1000
         footUnitLabel.text = "\(String(format: "%.2f", unit))公里"
         let value = NSMutableAttributedString()
         let v = Float(cal) / 1000
-        value.append(NSAttributedString(string: "\(String(format: "%.2f", v))", attributes: [.font: UIFont.systemFont(ofSize: 36)]))
+        value.append(NSAttributedString(string: "\(String(format: "%.2f", v))", attributes: [.font: UIFont.systemFont(ofSize: 32)]))
         value.append(NSAttributedString(string: "千卡", attributes: [.font: UIFont.systemFont(ofSize: 12)]))
         heatValueLabel.attributedText = value
     }
     
+    private func refreshDBStep() {
+        let lastestDeviceMac = UserDefaults.standard.string(forKey: "LastestDeviceMac") ?? ""
+        if lastestDeviceMac.count > 0 {
+            guard let models = try? DStepModel.er.array("mac = '\(lastestDeviceMac)'") else {
+                return
+            }
+            for model in models {
+                try? model.er.delete()
+            }
+        }
+    }
+    
     private func readDBHeart() {
-        let models = try? DHeartRateModel.er.array("timeStamp > \(Int(Date().zeroTimeStamp())) AND mac = '\(lastestDeviceMac)'")
+        let stamp = Int(Date().zeroTimeStamp())
+        let models = try? DHeartRateModel.er.array("timeStamp>\(stamp) AND mac='\(lastestDeviceMac)'")
         print("数据库里心跳的数据总条数：\(models?.count ?? 0)")
         var heart = 0
         if models?.count ?? 0 > 0 {
             heart = models?[0].heartRate ?? 0
         }
         let v = NSMutableAttributedString()
-        v.append(NSAttributedString(string: "\(heart)", attributes: [.font: UIFont.systemFont(ofSize: 36), .foregroundColor: UIColor.k666666]))
+        v.append(NSAttributedString(string: "\(heart)", attributes: [.font: UIFont.systemFont(ofSize: 32), .foregroundColor: UIColor.k666666]))
         v.append(NSAttributedString(string: "次/分", attributes: [.font: UIFont.systemFont(ofSize: 12), .foregroundColor: UIColor.k999999]))
         heartValueLabel.attributedText = v
         if models == nil {
@@ -403,9 +427,21 @@ class HealthViewController: BaseViewController {
         heartRateView.collectionView.reloadData()
     }
     
+    private func refreshDBHeart() {
+        let lastestDeviceMac = UserDefaults.standard.string(forKey: "LastestDeviceMac") ?? ""
+        if lastestDeviceMac.count > 0 {
+            guard let models = try? DHeartRateModel.er.array("mac = '\(lastestDeviceMac)'") else {
+                return
+            }
+            for model in models {
+                try? model.er.delete()
+            }
+        }
+    }
+    
     private func readDBSleep() {
         let models = try? DSleepModel.er.array("timeStamp > \(Int(Date().zeroTimeStamp())) AND mac = '\(lastestDeviceMac)'")
-        print("数据库里心跳的数据总条数：\(models?.count ?? 0)")
+        print("数据库里睡眠的数据总条数：\(models?.count ?? 0)")
         if models?.count ?? 0 == 0 {
             return
         }
@@ -424,46 +460,82 @@ class HealthViewController: BaseViewController {
             let h = total / 60
             let m = total % 60
             let arrStr = NSMutableAttributedString()
-            arrStr.append(NSAttributedString(string: "\(h)", attributes: [.font: UIFont.systemFont(ofSize: 36), .foregroundColor: UIColor.k666666]))
+            arrStr.append(NSAttributedString(string: "\(h)", attributes: [.font: UIFont.systemFont(ofSize: 32), .foregroundColor: UIColor.k666666]))
             arrStr.append(NSAttributedString(string: "小时", attributes: [.font: UIFont.systemFont(ofSize: 12), .foregroundColor: UIColor.k999999]))
-            arrStr.append(NSAttributedString(string: "\(m)", attributes: [.font: UIFont.systemFont(ofSize: 36), .foregroundColor: UIColor.k666666]))
+            arrStr.append(NSAttributedString(string: "\(m)", attributes: [.font: UIFont.systemFont(ofSize: 32), .foregroundColor: UIColor.k666666]))
             arrStr.append(NSAttributedString(string: "分", attributes: [.font: UIFont.systemFont(ofSize: 12), .foregroundColor: UIColor.k999999]))
             sleepValueLabel.attributedText = arrStr
         } else {
             let arrStr = NSMutableAttributedString()
-            arrStr.append(NSAttributedString(string: "0", attributes: [.font: UIFont.systemFont(ofSize: 36), .foregroundColor: UIColor.k666666]))
+            arrStr.append(NSAttributedString(string: "0", attributes: [.font: UIFont.systemFont(ofSize: 32), .foregroundColor: UIColor.k666666]))
             arrStr.append(NSAttributedString(string: "小时", attributes: [.font: UIFont.systemFont(ofSize: 12), .foregroundColor: UIColor.k999999]))
-            arrStr.append(NSAttributedString(string: "0", attributes: [.font: UIFont.systemFont(ofSize: 36), .foregroundColor: UIColor.k666666]))
+            arrStr.append(NSAttributedString(string: "0", attributes: [.font: UIFont.systemFont(ofSize: 32), .foregroundColor: UIColor.k666666]))
             arrStr.append(NSAttributedString(string: "分", attributes: [.font: UIFont.systemFont(ofSize: 12), .foregroundColor: UIColor.k999999]))
             sleepValueLabel.attributedText = arrStr
         }
         
     }
     
+    private func refreshDBSleep() {
+        let lastestDeviceMac = UserDefaults.standard.string(forKey: "LastestDeviceMac") ?? ""
+        if lastestDeviceMac.count > 0 {
+            guard let models = try? DSleepModel.er.array("mac = '\(lastestDeviceMac)'") else {
+                return
+            }
+            for model in models {
+                try? model.er.delete()
+            }
+        }
+    }
+    
     private func readDBBlood() {
         let models = try? DBloodModel.er.array("timeStamp > \(Int(Date().zeroTimeStamp())) AND mac = '\(lastestDeviceMac)'")
-        print("数据库里心跳的数据总条数：\(models?.count ?? 0)")
+        print("数据库里血压的数据总条数：\(models?.count ?? 0)")
         if models?.count ?? 0 == 0 {
             return
         }
         let min = models?[0].min ?? 0
         let max = models?[0].max ?? 0
         let v = NSMutableAttributedString()
-        v.append(NSAttributedString(string: "\(max)/\(min)", attributes: [.font: UIFont.systemFont(ofSize: 36), .foregroundColor: UIColor.k666666]))
+        v.append(NSAttributedString(string: "\(max)/\(min)", attributes: [.font: UIFont.systemFont(ofSize: 32), .foregroundColor: UIColor.k666666]))
         v.append(NSAttributedString(string: "MMHG", attributes: [.font: UIFont.systemFont(ofSize: 12), .foregroundColor: UIColor.k999999]))
         pressureValueLabel.attributedText = v
     }
     
+    private func refreshDBBlood() {
+        let lastestDeviceMac = UserDefaults.standard.string(forKey: "LastestDeviceMac") ?? ""
+        if lastestDeviceMac.count > 0 {
+            guard let models = try? DBloodModel.er.array("mac = '\(lastestDeviceMac)'") else {
+                return
+            }
+            for model in models {
+                try? model.er.delete()
+            }
+        }
+    }
+    
     private func readDBOxygen() {
         let models = try? DOxygenModel.er.array("timeStamp > \(Int(Date().zeroTimeStamp())) AND mac = '\(lastestDeviceMac)'").sorted(byKeyPath: "timeStamp", ascending: false)
-        print("数据库里心跳的数据总条数：\(models?.count ?? 0)")
+        print("数据库里血氧的数据总条数：\(models?.count ?? 0)")
         if models?.count ?? 0 == 0 {
             return
         }
         let value = models?.first?.oxygen ?? 0
         let v = NSMutableAttributedString()
-        v.append(NSAttributedString(string: "\(value)", attributes: [.font: UIFont.systemFont(ofSize: 36), .foregroundColor: UIColor.k666666]))
+        v.append(NSAttributedString(string: "\(value)", attributes: [.font: UIFont.systemFont(ofSize: 32), .foregroundColor: UIColor.k666666]))
         v.append(NSAttributedString(string: "%  健康", attributes: [.font: UIFont.systemFont(ofSize: 12), .foregroundColor: UIColor.k999999]))
         bleedValueLabel.attributedText = v
+    }
+    
+    private func refreshDBOxygen() {
+        let lastestDeviceMac = UserDefaults.standard.string(forKey: "LastestDeviceMac") ?? ""
+        if lastestDeviceMac.count > 0 {
+            guard let models = try? DOxygenModel.er.array("mac = '\(lastestDeviceMac)'") else {
+                return
+            }
+            for model in models {
+                try? model.er.delete()
+            }
+        }
     }
 }

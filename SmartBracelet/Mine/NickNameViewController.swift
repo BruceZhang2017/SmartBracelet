@@ -18,6 +18,7 @@ import Alamofire
 class NickNameViewController: BaseViewController {
     var rightButton: UIButton!
     @IBOutlet weak var textView: UITextView!
+    @IBOutlet weak var countLabel: UILabel!
     var type = 0
     
     override func viewDidLoad() {
@@ -35,10 +36,16 @@ class NickNameViewController: BaseViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if type == 0 {
-            textView.text = UserManager.sharedInstall.user?.nickname ?? ""
+            let name = UserDefaults.standard.string(forKey: "NickName")
+            if name?.count ?? 0 > 0 {
+                textView.text = name
+            } else {
+                textView.text = bleSelf.userInfo.name
+            }
         } else if type == 1 {
             textView.text = UserManager.sharedInstall.user?.username ?? ""
         }
+        countLabel.text = "还可以输入\(15 - textView.text.count)个字"
     }
     
     private func setupValue() {
@@ -57,6 +64,8 @@ class NickNameViewController: BaseViewController {
         }
         if UserManager.sharedInstall.user?.token == nil {
             bleSelf.userInfo.name = name
+            UserDefaults.standard.setValue(name, forKey: "NickName")
+            UserDefaults.standard.synchronize()
             bleSelf.setUserinfoForWristband(bleSelf.userInfo)
             NotificationCenter.default.post(name: Notification.Name("UserInfo"), object: nil)
             navigationController?.popViewController(animated: true)
@@ -82,18 +91,40 @@ class NickNameViewController: BaseViewController {
         } else if type == 1 {
             parameters["username"] = name
         }
-        AF.request("\(UrlPrefix)api/User/userinfo.php", method: .post, parameters: parameters, encoder: URLEncodedFormParameterEncoder.default).response { (response) in
-            debugPrint("Response: \(response.debugDescription)")
-            //ProgressHUD.dismiss()
-//            guard let data = response.value as? Data else {
-//                return
-//            }
-//            let model = try? JSONDecoder().decode(BaseResponse.self, from: data)
-//            if model == nil {
-//                Toast(text: model?.message ?? "注册失败").show()
-//                return
-//            }
+//        AF.request("\(UrlPrefix)api/User/userinfo.php", method: .post, parameters: parameters, encoder: URLEncodedFormParameterEncoder.default).response { (response) in
+//            debugPrint("Response: \(response.debugDescription)")
+//            //ProgressHUD.dismiss()
+////            guard let data = response.value as? Data else {
+////                return
+////            }
+////            let model = try? JSONDecoder().decode(BaseResponse.self, from: data)
+////            if model == nil {
+////                Toast(text: model?.message ?? "注册失败").show()
+////                return
+////            }
+//            
+//        }
+    }
+}
+
+extension NickNameViewController: UITextViewDelegate {
+    func textViewDidChange(_ textView: UITextView) {
+        if textView.text.lengthOfBytes(using: .utf8) > 0 {
+            
+        } else {
             
         }
+    }
+    
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+            // 删除安全
+        if text == "" && range.length > 0 {
+            return true
+        }
+        countLabel.text = "还可以输入\(15 - textView.text.count)个字"
+        if textView.text.count > 15 {
+            return false
+        }
+        return true
     }
 }
