@@ -28,7 +28,7 @@ class DevicesViewController: BaseViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        deviceView?.collectionView?.reloadData()
+        deviceView?.refreshData()
     }
 
     /// 表盘管理

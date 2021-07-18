@@ -42,34 +42,24 @@ class DevicesView: UIView {
         collectionView.dataSource = self
         collectionView.register(CyclicCardCell.self, forCellWithReuseIdentifier: NSStringFromClass(CyclicCardCell.self))
         addSubview(self.collectionView)
-        let count = DeviceManager.shared.devices.count + (bleSelf.bleModel.mac.count > 0 ? 1 : 0)
+    }
+
+    public func refreshData() {
+        let count = DeviceManager.shared.devices.count
+        collectionView.reloadData()
         if count <= 1 {
             collectionView.scrollToItem(at: IndexPath(item: 1, section: 0), at: UICollectionView.ScrollPosition.centeredHorizontally, animated: false)
         } else {
-            let deviceCount = DeviceManager.shared.devices.count
-            var tem = false
-            if deviceCount > 0 {
+            if count > 0 {
                 for (index, item) in DeviceManager.shared.devices.enumerated() {
                     if item.mac == lastestDeviceMac {
                         collectionView.scrollToItem(at: IndexPath(item: 1 + index, section: 0), at: UICollectionView.ScrollPosition.centeredHorizontally, animated: false)
-                        tem = true
                         break
                     }
                 }
             }
-            if !tem {
-                if bleSelf.bleModel.mac == lastestDeviceMac {
-                    let total = max(3, count + 2)
-                    collectionView.scrollToItem(at: IndexPath(item: total - 2, section: 0), at: UICollectionView.ScrollPosition.centeredHorizontally, animated: false)
-                    tem = true
-                }
-            }
-            if !tem {
-                collectionView.scrollToItem(at: IndexPath(item: 1, section: 0), at: UICollectionView.ScrollPosition.centeredHorizontally, animated: false)
-            }
         }
     }
-
 }
 
 extension DevicesView: UICollectionViewDataSource, UICollectionViewDelegate {
@@ -98,6 +88,7 @@ extension DevicesView: UICollectionViewDataSource, UICollectionViewDelegate {
                     cell.addLabel.isHidden = false
                 }
             } else {
+                cell.isHidden = false
                 let model = DeviceManager.shared.devices[indexPath.row - 1]
                 cell.cardImgView.image = UIImage(named: "produce_image_no.2")
                 cell.cardNameLabel.text = model.name

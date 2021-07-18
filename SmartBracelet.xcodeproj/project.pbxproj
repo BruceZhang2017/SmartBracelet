@@ -2395,7 +2395,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				OTHER_SWIFT_FLAGS = "$(inherited) -D WeiZhongYun_ -D DisplayPrint_";
+				OTHER_SWIFT_FLAGS = "$(inherited) -D WeiZhongYun -D DisplayPrint -D TestMode";
 				PRODUCT_BUNDLE_IDENTIFIER = com.sinophy.smartbracelet;
 				PRODUCT_NAME = FitDAY;
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -2432,7 +2432,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				OTHER_SWIFT_FLAGS = "$(inherited) -D WeiZhongYun_ -D DisplayPrint_";
+				OTHER_SWIFT_FLAGS = "$(inherited) -D WeiZhongYun -D DisplayPrint -D TestMode";
 				PRODUCT_BUNDLE_IDENTIFIER = com.sinophy.smartbracelet;
 				PRODUCT_NAME = FitDAY;
 				PROVISIONING_PROFILE_SPECIFIER = "";

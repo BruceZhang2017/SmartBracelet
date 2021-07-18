@@ -56,7 +56,7 @@ class HealthViewController: BaseViewController {
             [weak self] in
             print("start")
             if bleSelf.isConnected {
-                bleSelf.setTimeForWristband() // 第0步：设置时间
+                bleSelf.getStep()
                 NotificationCenter.default.post(name: Notification.Name("HealthVCLoading"), object: 2)
             }
             self?.header?.endRefreshing()
@@ -136,7 +136,7 @@ class HealthViewController: BaseViewController {
                 let array = BLEManager.shared.sleepArray[0]
                 if array.count > 0 {
                     let arr = BLEManager.shared.readSleepData(array: array) // 获得睡眠时间
-                    let total = arr.reduce(0, +)
+                    let total = arr[1] + arr[2]
                     let h = total / 60
                     let m = total % 60
                     let arrStr = NSMutableAttributedString()
@@ -196,6 +196,17 @@ class HealthViewController: BaseViewController {
                 self?.bleedValueLabel.attributedText = v
             }
         } else if objc == "delete" {
+            let lastestDeviceMac = UserDefaults.standard.string(forKey: "LastestDeviceMac") ?? ""
+            if lastestDeviceMac.count > 0 {
+                for device in DeviceManager.shared.devices {
+                    if device.mac == lastestDeviceMac {
+                        try? device.er.delete()
+                        break
+                    }
+                }
+            }
+            DeviceManager.shared.initializeDevices()
+
             refreshDBStep()
             refreshDBHeart()
             refreshDBSleep()
@@ -403,7 +414,8 @@ class HealthViewController: BaseViewController {
     
     private func readDBHeart() {
         let stamp = Int(Date().zeroTimeStamp())
-        let models = try? DHeartRateModel.er.array("timeStamp>\(stamp) AND mac='\(lastestDeviceMac)'")
+        let a = try? DHeartRateModel.er.array("timeStamp>\(stamp) AND mac='\(lastestDeviceMac)'")
+        let models = a?.sorted {$0.timeStamp > $1.timeStamp}
         print("数据库里心跳的数据总条数：\(models?.count ?? 0)")
         var heart = 0
         if models?.count ?? 0 > 0 {
@@ -413,16 +425,18 @@ class HealthViewController: BaseViewController {
         v.append(NSAttributedString(string: "\(heart)", attributes: [.font: UIFont.systemFont(ofSize: 32), .foregroundColor: UIColor.k666666]))
         v.append(NSAttributedString(string: "次/分", attributes: [.font: UIFont.systemFont(ofSize: 12), .foregroundColor: UIColor.k999999]))
         heartValueLabel.attributedText = v
-        if models == nil {
-            return
-        }
-        for item in models! {
-            let timeStamp = item.timeStamp
-            let date = Date(timeIntervalSince1970: TimeInterval(timeStamp))
-            if date.isToday() {
-                let hour = Int(date.stringFromH()) ?? 0
-                heartRateView.heartRateArray[hour] = item.heartRate
+
+        if models?.count ?? 0 > 0 {
+            for item in models! {
+                let timeStamp = item.timeStamp
+                let date = Date(timeIntervalSince1970: TimeInterval(timeStamp))
+                if date.isToday() {
+                    let hour = Int(date.stringFromH()) ?? 0
+                    heartRateView.heartRateArray[hour] = item.heartRate
+                }
             }
+        } else {
+            heartRateView.heartRateArray = Array(repeating: 0, count: 24)
         }
         heartRateView.collectionView.reloadData()
     }
@@ -440,23 +454,23 @@ class HealthViewController: BaseViewController {
     }
     
     private func readDBSleep() {
-        let models = try? DSleepModel.er.array("timeStamp > \(Int(Date().zeroTimeStamp())) AND mac = '\(lastestDeviceMac)'")
+        let value = Int(Date().zeroTimeStamp())
+        let models = try? DSleepModel.er.array("timeStamp>\(value - 2 * 60 * 60) AND mac = '\(lastestDeviceMac)'")
         print("数据库里睡眠的数据总条数：\(models?.count ?? 0)")
-        if models?.count ?? 0 == 0 {
-            return
-        }
         var array: [TJDSleepModel] = []
-        for model in models! {
-            let m = TJDSleepModel()
-            m.uuidString = model.uuidString
-            m.mac = model.mac
-            m.timeStamp = model.timeStamp
-            m.state = model.state
-            array.append(m)
+        if models != nil {
+            for model in models! {
+                let m = TJDSleepModel()
+                m.uuidString = model.uuidString
+                m.mac = model.mac
+                m.timeStamp = model.timeStamp
+                m.state = model.state
+                array.append(m)
+            }
         }
         if array.count > 0 {
             let arr = BLEManager.shared.readSleepData(array: array) // 获得睡眠时间
-            let total = arr.reduce(0, +)
+            let total = arr[1] + arr[2]
             let h = total / 60
             let m = total % 60
             let arrStr = NSMutableAttributedString()
@@ -491,11 +505,12 @@ class HealthViewController: BaseViewController {
     private func readDBBlood() {
         let models = try? DBloodModel.er.array("timeStamp > \(Int(Date().zeroTimeStamp())) AND mac = '\(lastestDeviceMac)'")
         print("数据库里血压的数据总条数：\(models?.count ?? 0)")
-        if models?.count ?? 0 == 0 {
-            return
+        var min = 0
+        var max = 0
+        if models?.count ?? 0 > 0 {
+            min = models?[0].min ?? 0
+            max = models?[0].max ?? 0
         }
-        let min = models?[0].min ?? 0
-        let max = models?[0].max ?? 0
         let v = NSMutableAttributedString()
         v.append(NSAttributedString(string: "\(max)/\(min)", attributes: [.font: UIFont.systemFont(ofSize: 32), .foregroundColor: UIColor.k666666]))
         v.append(NSAttributedString(string: "MMHG", attributes: [.font: UIFont.systemFont(ofSize: 12), .foregroundColor: UIColor.k999999]))
@@ -517,9 +532,6 @@ class HealthViewController: BaseViewController {
     private func readDBOxygen() {
         let models = try? DOxygenModel.er.array("timeStamp > \(Int(Date().zeroTimeStamp())) AND mac = '\(lastestDeviceMac)'").sorted(byKeyPath: "timeStamp", ascending: false)
         print("数据库里血氧的数据总条数：\(models?.count ?? 0)")
-        if models?.count ?? 0 == 0 {
-            return
-        }
         let value = models?.first?.oxygen ?? 0
         let v = NSMutableAttributedString()
         v.append(NSAttributedString(string: "\(value)", attributes: [.font: UIFont.systemFont(ofSize: 32), .foregroundColor: UIColor.k666666]))

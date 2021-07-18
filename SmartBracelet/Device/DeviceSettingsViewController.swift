@@ -62,13 +62,10 @@ class DeviceSettingsViewController: BaseViewController {
             
         }))
         alert.addAction(UIAlertAction(title: "确定", style: .default, handler: { [weak self] (action) in
-            BLEManager.shared.unbind()
-            try? DeviceManager.shared.currentDevice?.er.delete()
             NotificationCenter.default.post(name: Notification.Name("HealthViewController"), object: "delete")
-            DeviceManager.shared.currentDevice = nil
+            BLEManager.shared.unbind()
             UserDefaults.standard.removeObject(forKey: "LastestDeviceMac")
-            Toast(text: "解除绑定成功").show()
-            self?.navigationController?.popViewController(animated: true)
+            self?.navigationController?.popViewController(animated: false)
             let url = URL(string: "App-Prefs:root=Bluetooth")
             if UIApplication.shared.canOpenURL(url!) {
                 UIApplication.shared.open(url!, options: [:], completionHandler: nil)

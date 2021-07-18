@@ -18,8 +18,8 @@ let bleSelf = WUBleManager.shared
 
 class BLEManager: NSObject {
     static let shared = BLEManager()
-    var sleepArray: [[TJDSleepModel]] = Array(repeating: [], count: 3)
-    var stepArray: [[StepModel]] = Array(repeating: [], count: 3)
+    var sleepArray: [[TJDSleepModel]] = Array(repeating: [], count: 6)
+    var stepArray: [[StepModel]] = Array(repeating: [], count: 6)
     var heartArray: [HeartModel] = []
     var bloodArray: [BloodModel] = []
     var oxygenArray: [OxygenModel] = []
@@ -190,7 +190,7 @@ class BLEManager: NSObject {
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotify(_:)), name: WristbandNotifyKeys.startDialPush, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotify(_:)), name: WristbandNotifyKeys.dialPush, object: nil)
         
-        #if WeiZhongYun
+        #if WeiZhongYun_
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotify(_:)), name: WristbandNotifyKeys.powerSwitch, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotify(_:)), name: WristbandNotifyKeys.telephoneSMS, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotify(_:)), name: WristbandNotifyKeys.gps_total, object: nil)
@@ -201,14 +201,14 @@ class BLEManager: NSObject {
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotify(_:)), name: WristbandNotifyKeys.e_sim, object: nil)
         #endif
         
-        #if DisplayPrint
+        #if DisplayPrint_
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotify(_:)), name: WristbandNotifyKeys.sendData, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotify(_:)), name: WristbandNotifyKeys.recieveData, object: nil)
         #endif
     }
 
     @objc func handleNotify(_ notify: Notification) {
-        #if DisplayPrint
+        #if DisplayPrint_
         if notify.name == WristbandNotifyKeys.sendData {
             let str = notify.object as! String
             wuPrint("发送的值：\(str)")
@@ -275,13 +275,16 @@ class BLEManager: NSObject {
         
         if notify.name == WristbandNotifyKeys.read_All_Sleep {
             let model = notify.object as! TJDSleepModel
-            print("sleep: \(model.day) \(model.totalCount) \(model.state)")
+            dump(model)
             sleepArray[model.day] += [model]
             let sleepModel = DSleepModel()
             sleepModel.mac = model.mac
             sleepModel.uuidString = model.uuidString
             sleepModel.state = model.state
             sleepModel.timeStamp = model.timeStamp
+            sleepModel.indexOfTotal = model.indexOfTotal
+            sleepModel.totalCount = model.totalCount
+            sleepModel.day = model.day
             try? sleepModel.er.save(update: true)
             if model.day == 2 {
                 if model.totalCount == model.indexOfTotal {
@@ -295,13 +298,16 @@ class BLEManager: NSObject {
                 }
             }
             if model.day == 0 {
-                bleSelf.aloneGetMeasure(.blood) // 第7步：获取血压历史数据
-                NotificationCenter.default.post(name: Notification.Name("HealthViewController"), object: "sleep")
+                if model.totalCount == model.indexOfTotal {
+                    bleSelf.aloneGetMeasure(.blood) // 第7步：获取血压历史数据
+                    NotificationCenter.default.post(name: Notification.Name("HealthViewController"), object: "sleep")
+                }
             }
         }
                 
         if notify.name == WristbandNotifyKeys.sysCeLiang_heart {
             let  model = notify.object as! HeartModel
+            dump(model)
             heartArray.append(model)
             let heartModel = DHeartRateModel()
             heartModel.mac = model.mac
@@ -309,11 +315,14 @@ class BLEManager: NSObject {
             heartModel.heartRate = model.heart
             heartModel.timeStamp = model.timeStamp
             try? heartModel.er.save(update: true)
-            NotificationCenter.default.post(name: Notification.Name("HealthViewController"), object: "heart")
             wuPrint("收到测试心跳的结果")
             if model.indexOfTotal == model.totalCount {
                 let str1 = String.init(format: "heart history complete, total %d line", model.totalCount)
                 wuPrint(str1)
+                heartArray.sort {
+                    $0.timeStamp > $1.timeStamp
+                }
+                NotificationCenter.default.post(name: Notification.Name("HealthViewController"), object: "heart")
             }
             NotificationCenter.default.post(name: Notification.Name("HealthVCLoading"), object: 3) // 移除Loading
             bleSelf.aloneGetSleep(with: 0) // 第6步：获取历史睡眠信息
@@ -331,11 +340,13 @@ class BLEManager: NSObject {
             bloodModel.max = model.max
             bloodModel.timeStamp = model.timeStamp
             try? bloodModel.er.save(update: true)
-            NotificationCenter.default.post(name: Notification.Name("HealthViewController"), object: "blood")
             if model.indexOfTotal == model.totalCount {
                 let str1 = String.init(format: "blood history complete, total %d line", model.totalCount)
                 wuPrint(str1)
-                
+                bloodArray.sort {
+                    $0.timeStamp > $1.timeStamp
+                }
+                NotificationCenter.default.post(name: Notification.Name("HealthViewController"), object: "blood")
             }
             bleSelf.aloneGetMeasure(.oxygen) // 第8步：获取血氧历史数据
         }
@@ -345,12 +356,14 @@ class BLEManager: NSObject {
             let  model = notify.object as! HeartModel
             dump(model)
             wuPrint("心跳结束")
+            heartArray.insert(model, at: 0)
         }
         if notify.name == WristbandNotifyKeys.devSendCeLiang_blood {
             measureAsync?.cancel()
             let  model = notify.object as! BloodModel
             dump(model)
             wuPrint("血压结束")
+            bloodArray.insert(model, at: 0)
         }
         
         if notify.name == WristbandNotifyKeys.sysCeLiang_oxygen {
@@ -366,7 +379,6 @@ class BLEManager: NSObject {
             let str = String(format: "oxygen：%d, %d, %d", model.oxygen, model.indexOfTotal, model.totalCount)
             wuPrint(str)
             oxygenArray.append(model)
-            NotificationCenter.default.post(name: Notification.Name("HealthViewController"), object: "oxygen")
             if model.indexOfTotal == model.totalCount {
                 let str1 = String(format: "oxygen history complete, total %d line", model.totalCount)
                 wuPrint(str1)
@@ -378,6 +390,10 @@ class BLEManager: NSObject {
                     let distance = Calendar.current.dateComponents([.day], from: Date(), to: date)
                     distanceDays = min(abs(distance.day ?? 0) + 1, 3)
                 }
+                oxygenArray.sort {
+                    $0.timeStamp > $1.timeStamp
+                }
+                NotificationCenter.default.post(name: Notification.Name("HealthViewController"), object: "oxygen")
                 bleSelf.aloneGetStep(with: 0) // 第9步：获取历史步行信息
             }
         }
@@ -388,6 +404,7 @@ class BLEManager: NSObject {
             }
             dump(model)
             print("血氧结束")
+            oxygenArray.insert(model, at: 0)
         }
         
         if notify.name == WristbandNotifyKeys.setOrRead_Time { // 时间设置成功
@@ -397,7 +414,7 @@ class BLEManager: NSObject {
         }
          
         if notify.name == WristbandNotifyKeys.syncEle { // 电量同步结束后
-            
+            print("电量设置成功")
         }
                 
         if notify.name == WristbandNotifyKeys.syncLanguage {
@@ -470,7 +487,7 @@ class BLEManager: NSObject {
         }
         
         
-        #if WeiZhongYun
+        #if WeiZhongYun_
         print("为中云2")
         if notify.name == WristbandNotifyKeys.powerSwitch {
             dump(bleSelf.userInfo)
@@ -543,6 +560,7 @@ extension BLEManager {
     public func readSleepData(array: [TJDSleepModel]) -> [Int]  {
         let arr = TJDSleepModel.sleepTime(array)
         let a = SleepTimeModel.detailSleep(arr)
+        print("清醒时间:\(a[0])，浅睡时间:\(a[1])，深睡时间:\(a[2])")
         return a
     }
     

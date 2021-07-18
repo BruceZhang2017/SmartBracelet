@@ -67,9 +67,11 @@ extension GuideViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: false)
         if indexPath.row == 4 {
-            let sb = UIStoryboard(name: "Mine", bundle: nil)
-            let nav = sb.instantiateViewController(withIdentifier: "MNavigationController")
-            UIApplication.shared.keyWindow?.rootViewController = nav
+//            let sb = UIStoryboard(name: "Mine", bundle: nil)
+//            let nav = sb.instantiateViewController(withIdentifier: "MNavigationController")
+            let sb = UIStoryboard(name: "Main", bundle: nil)
+            let vc = sb.instantiateViewController(withIdentifier: "MTabBarController")
+            UIApplication.shared.keyWindow?.rootViewController = vc
             CacheHelper().setCacheBool(name: "first", value: true)
         }
     }

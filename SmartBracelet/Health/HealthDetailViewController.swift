@@ -11,6 +11,7 @@
 	
 
 import UIKit
+import TJDWristbandSDK
 
 class HealthDetailViewController: BaseViewController {
     @IBOutlet weak var tableView: UITableView!
@@ -103,7 +104,7 @@ class HealthDetailViewController: BaseViewController {
         if type == 0 {
             lineChartView.rightAxis.axisMaximum = 5000
         } else if type == 1 {
-            lineChartView.rightAxis.axisMaximum = 20000
+            lineChartView.rightAxis.axisMaximum = 40000
         } else if type == 2 {
             lineChartView.rightAxis.axisMaximum = 200
         } else if type == 3 {
@@ -162,22 +163,19 @@ class HealthDetailViewController: BaseViewController {
         if type == 0 { // 步数
             totalValue = 0
             totalKM = 0
-            let between = mDate.daysBetweenDate(toDate: Date())
-            if between >= 0 && between <= 6 {
-                let array = BLEManager.shared.stepArray[between]
-                if array.count > 0 {
-                    values.append(ChartDataEntry(x: Double(-0.2), y: Double(0)))
-                    let zero = mDate.zeroTimeStamp()
-                    for i in 0..<array.count {
-                        let value = array[i].step
-                        totalValue += value
-                        totalKM += array[i].distance
-                        let x = Double(array[i].timeStamp - Int(zero)) / Double(3660 * 6)
-                        values.append(ChartDataEntry(x: x, y: Double(value) / Double(1000)))
-                    }
-                    values.append(ChartDataEntry(x: Double(4.2), y: Double(0)))
-                    print("获取到数据的数量为：\(values.count)")
+            let array = readDBStep()
+            if array.count > 0 {
+                values.append(ChartDataEntry(x: Double(-0.2), y: Double(0)))
+                let zero = mDate.zeroTimeStamp()
+                for i in 0..<array.count {
+                    let value = array[i].step
+                    totalValue += value
+                    totalKM += array[i].distance
+                    let x = Double(array[i].timeStamp - Int(zero)) / Double(3660 * 6)
+                    values.append(ChartDataEntry(x: x, y: Double(value) / Double(1000)))
                 }
+                values.append(ChartDataEntry(x: Double(4.2), y: Double(0)))
+                print("获取到数据的数量为：\(values.count)")
             }
             let arrStr = NSMutableAttributedString()
             arrStr.append(NSAttributedString(string: "\(totalValue)", attributes: [.font: UIFont.systemFont(ofSize: 25), .foregroundColor: UIColor.white]))
@@ -186,49 +184,41 @@ class HealthDetailViewController: BaseViewController {
             kmLabel.text = "\(String(format: "%.2f", Float(totalKM) / Float(1000))) 公里"
         } else if type == 1 { // 热量 卡路里
             totalValue = 0
-            let between = mDate.daysBetweenDate(toDate: Date())
-            if between >= 0 && between <= 6 {
-                let array = BLEManager.shared.stepArray[between]
-                if array.count > 0 {
-                    values.append(ChartDataEntry(x: Double(-0.2), y: Double(0)))
-                    let zero = mDate.zeroTimeStamp()
-                    for i in 0..<array.count {
-                        let value = array[i].cal // 热量
-                        totalValue += value
-                        let x = Double(array[i].timeStamp - Int(zero)) / Double(3660 * 6)
-                        values.append(ChartDataEntry(x: x, y: Double(value) / Double(4000)))
-                    }
-                    values.append(ChartDataEntry(x: Double(4.2), y: Double(0)))
-                    print("获取到数据的数量为：\(values.count)")
+            let array = readDBStep()
+            if array.count > 0 {
+                values.append(ChartDataEntry(x: Double(-0.2), y: Double(0)))
+                let zero = mDate.zeroTimeStamp()
+                for i in 0..<array.count {
+                    let value = array[i].cal // 热量
+                    totalValue += value
+                    let x = Double(array[i].timeStamp - Int(zero)) / Double(3660 * 6)
+                    values.append(ChartDataEntry(x: x, y: Double(value) / Double(8000)))
                 }
+                values.append(ChartDataEntry(x: Double(4.2), y: Double(0)))
+                print("获取到数据的数量为：\(values.count)")
             }
             let arrStr = NSMutableAttributedString()
             arrStr.append(NSAttributedString(string: "\(String(format: "%.2f", Float(totalValue) / Float(1000)))", attributes: [.font: UIFont.systemFont(ofSize: 25), .foregroundColor: UIColor.white]))
             arrStr.append(NSAttributedString(string: "千卡", attributes: [.font: UIFont.systemFont(ofSize: 11), .foregroundColor: UIColor.white]))
             valueLabel.attributedText = arrStr
         } else if type == 2 { // 心率
-            totalValue = 0
             var count = 0
-            let between = mDate.daysBetweenDate(toDate: Date())
-            if between == 0 {
-                let array = BLEManager.shared.heartArray
-                if array.count > 0 {
-                    count = array.count
-                    values.append(ChartDataEntry(x: Double(-0.2), y: Double(0)))
-                    let zero = mDate.zeroTimeStamp()
-                    for i in 0..<array.count {
-                        let value = array[i].heart
-                        totalValue += value
-                        let x = Double(array[i].timeStamp - Int(zero)) / Double(3660 * 6)
-                        values.append(ChartDataEntry(x: x, y: Double(value) / Double(40)))
-                    }
-                    values.append(ChartDataEntry(x: Double(4.2), y: Double(0)))
-                    print("获取到数据的数量为：\(values.count)")
+            let array = readDBHeart()
+            if array.count > 0 {
+                count = array.count
+                values.append(ChartDataEntry(x: Double(-0.2), y: Double(0)))
+                let zero = mDate.zeroTimeStamp()
+                for i in 0..<array.count {
+                    let value = array[i].heartRate
+                    let x = Double(array[i].timeStamp - Int(zero)) / Double(3660 * 6)
+                    values.append(ChartDataEntry(x: x, y: Double(value) / Double(40)))
                 }
+                values.append(ChartDataEntry(x: Double(4.2), y: Double(0)))
+                print("获取到数据的数量为：\(values.count)")
             }
             if count > 0 {
                 let arrStr = NSMutableAttributedString()
-                arrStr.append(NSAttributedString(string: "\(totalValue / count)", attributes: [.font: UIFont.systemFont(ofSize: 25), .foregroundColor: UIColor.white]))
+                arrStr.append(NSAttributedString(string: "\(array.last!.heartRate)", attributes: [.font: UIFont.systemFont(ofSize: 25), .foregroundColor: UIColor.white]))
                 arrStr.append(NSAttributedString(string: "次/分", attributes: [.font: UIFont.systemFont(ofSize: 11), .foregroundColor: UIColor.white]))
                 valueLabel.attributedText = arrStr
             } else {
@@ -238,57 +228,60 @@ class HealthDetailViewController: BaseViewController {
                 valueLabel.attributedText = arrStr
             }
         } else if type == 3 { // 睡眠
-            let between = mDate.daysBetweenDate(toDate: Date())
-            if between >= 0 && between <= 6 {
-                let array = BLEManager.shared.sleepArray[between]
-                if array.count > 0 {
-                    values.append(ChartDataEntry(x: Double(-0.2), y: Double(0)))
-                    let zero = mDate.zeroTimeStamp()
-                    let sort = array.sorted{ $0.timeStamp < $1.timeStamp}
-                    for i in 0..<sort.count {
-                        let value = sort[i].state // 1, 2, 3 清醒，浅睡，深睡
-                        var y = 0
-                        if value == 1 {
-                            y = 1
-                        } else if value == 2 {
-                            y = 3
-                        } else if value == 3 {
-                            y = 5
-                        }
-                        let x = Double(sort[i].timeStamp - Int(zero)) / Double(3660 * 6)
-                        values.append(ChartDataEntry(x: x, y: Double(y)))
+            let array = readDBSleep()
+            if array.count > 0 {
+                values.append(ChartDataEntry(x: Double(-0.2), y: Double(0)))
+                let zero = mDate.zeroTimeStamp()
+                let sort = array.sorted{ $0.timeStamp < $1.timeStamp}
+                for i in 0..<sort.count {
+                    if sort[i].timeStamp < Int(zero) || sort[i].timeStamp > Int(zero + 24 * 60 * 60) {
+                        continue
                     }
-                    values.append(ChartDataEntry(x: Double(4.2), y: Double(0)))
-                    print("获取到数据的数量为：\(values.count)")
+                    let value = sort[i].state // 1, 2, 3 清醒，浅睡，深睡
+                    var y = 0
+                    if value == 1 {
+                        y = 1
+                    } else if value == 2 {
+                        y = 3
+                    } else if value == 3 {
+                        y = 5
+                    }
+                    let x = Double(sort[i].timeStamp - Int(zero)) / Double(3660 * 6)
+                    values.append(ChartDataEntry(x: x, y: Double(y)))
                 }
-                if array.count > 0 {
-                    let arr = BLEManager.shared.readSleepData(array: array) // 获得睡眠时间
-                    let total = arr.reduce(0, +)
-                    let h = total / 60
-                    let m = total % 60
-                    let arrStr = NSMutableAttributedString()
-                    arrStr.append(NSAttributedString(string: "\(h)", attributes: [.font: UIFont.systemFont(ofSize: 25), .foregroundColor: UIColor.white]))
-                    arrStr.append(NSAttributedString(string: "小时", attributes: [.font: UIFont.systemFont(ofSize: 11), .foregroundColor: UIColor.white]))
-                    arrStr.append(NSAttributedString(string: "\(m)", attributes: [.font: UIFont.systemFont(ofSize: 25), .foregroundColor: UIColor.white]))
-                    arrStr.append(NSAttributedString(string: "分", attributes: [.font: UIFont.systemFont(ofSize: 11), .foregroundColor: UIColor.white]))
-                    valueLabel.attributedText = arrStr
-                    if arr.count == 3 {
-                        let h1 = arr[2] / 60
-                        let m1 = arr[2] % 60
-                        let h2 = arr[1] / 60
-                        let m2 = arr[1] % 60
-                        let h3 = arr[0] / 60
-                        let m3 = arr[0] % 60
-                        goalLabel.text = "深睡\(h1)小时\(m1)分 浅睡\(h2)小时\(m2)分 清醒\(h3)小时\(m3)分"
-                    }
-                } else {
-                    let arrStr = NSMutableAttributedString()
-                    arrStr.append(NSAttributedString(string: "0", attributes: [.font: UIFont.systemFont(ofSize: 25), .foregroundColor: UIColor.white]))
-                    arrStr.append(NSAttributedString(string: "小时", attributes: [.font: UIFont.systemFont(ofSize: 11), .foregroundColor: UIColor.white]))
-                    arrStr.append(NSAttributedString(string: "0", attributes: [.font: UIFont.systemFont(ofSize: 25), .foregroundColor: UIColor.white]))
-                    arrStr.append(NSAttributedString(string: "分", attributes: [.font: UIFont.systemFont(ofSize: 11), .foregroundColor: UIColor.white]))
-                    valueLabel.attributedText = arrStr
-                    goalLabel.text = "深睡0小时0分 浅睡0小时0分 清醒0小时0分"
+                values.append(ChartDataEntry(x: Double(4.2), y: Double(0)))
+                print("获取到数据的数量为：\(values.count)")
+            }
+            if array.count > 0 {
+                let a = array.map { item -> TJDSleepModel in
+                    let model = TJDSleepModel()
+                    model.timeStamp = item.timeStamp
+                    model.totalCount = item.totalCount
+                    model.indexOfTotal = item.indexOfTotal
+                    model.mac = item.mac
+                    model.uuidString = item.uuidString
+                    model.state = item.state
+                    model.day = item.day
+                    return model
+                }
+                let arr = BLEManager.shared.readSleepData(array: a) // 获得睡眠时间
+                let total = arr[1] + arr[2]
+                let h = total / 60
+                let m = total % 60
+                let arrStr = NSMutableAttributedString()
+                arrStr.append(NSAttributedString(string: "\(h)", attributes: [.font: UIFont.systemFont(ofSize: 25), .foregroundColor: UIColor.white]))
+                arrStr.append(NSAttributedString(string: "小时", attributes: [.font: UIFont.systemFont(ofSize: 11), .foregroundColor: UIColor.white]))
+                arrStr.append(NSAttributedString(string: "\(m)", attributes: [.font: UIFont.systemFont(ofSize: 25), .foregroundColor: UIColor.white]))
+                arrStr.append(NSAttributedString(string: "分", attributes: [.font: UIFont.systemFont(ofSize: 11), .foregroundColor: UIColor.white]))
+                valueLabel.attributedText = arrStr
+                if arr.count == 3 {
+                    let h1 = arr[2] / 60
+                    let m1 = arr[2] % 60
+                    let h2 = arr[1] / 60
+                    let m2 = arr[1] % 60
+                    let h3 = arr[0] / 60
+                    let m3 = arr[0] % 60
+                    goalLabel.text = "深睡\(h1)小时\(m1)分 浅睡\(h2)小时\(m2)分 清醒\(h3)小时\(m3)分"
                 }
             } else {
                 let arrStr = NSMutableAttributedString()
@@ -404,5 +397,27 @@ extension HealthDetailViewController {
         default:
             return "星期六"
         }
+    }
+}
+
+extension HealthDetailViewController {
+    func readDBStep() -> [DStepModel] {
+        let stamp = Int(mDate.zeroTimeStamp())
+        let models = try? DStepModel.er.array("timeStamp>\(stamp) AND timeStamp<\(stamp + 24 * 60 * 60) AND mac='\(lastestDeviceMac)'")
+        return models?.sorted { $0.timeStamp < $1.timeStamp } ?? []
+    }
+    
+    
+    func readDBHeart() -> [DHeartRateModel] {
+        let stamp = Int(mDate.zeroTimeStamp())
+        let models = try? DHeartRateModel.er.array("timeStamp>\(stamp) AND timeStamp<\(stamp + 24 * 60 * 60) AND mac='\(lastestDeviceMac)'")
+        return models?.sorted { $0.timeStamp < $1.timeStamp } ?? []
+    }
+    
+    func readDBSleep() -> [DSleepModel] {
+        let stamp = Int(mDate.zeroTimeStamp())
+        let models = try? DSleepModel.er.array("timeStamp>\(stamp - 2 * 60 * 60) AND timeStamp<\(stamp + 10 * 60 * 60) AND mac='\(lastestDeviceMac)'")
+        return models?.sorted { $0.timeStamp < $1.timeStamp } ?? []
+        
     }
 }

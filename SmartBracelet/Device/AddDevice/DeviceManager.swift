@@ -15,7 +15,6 @@ import Foundation
 class DeviceManager: NSObject {
     static let shared = DeviceManager()
     public var devices: [BLEModel] = []
-    public var currentDevice: BLEModel?
     public var deviceInfo: [String: DeviceModel] = [:]
     
     override init() {

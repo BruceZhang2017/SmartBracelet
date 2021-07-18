@@ -251,7 +251,7 @@ class DetailViewController: UIViewController, UITableViewDelegate, UITableViewDa
             }
         }
         
-        #if WeiZhongYun
+        #if WeiZhongYun_
         //MARK: section == 4
         if indexPath.section == 4 {
             if indexPath.row == 0 {
