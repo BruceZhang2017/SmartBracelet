@@ -36,6 +36,10 @@
 		9A08C6FB262F182000E178DA /* OTAListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A08C6F5262F182000E178DA /* OTAListCell.m */; };
 		9A08C6FC262F182000E178DA /* ProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A08C6F8262F182000E178DA /* ProgressView.m */; };
 		9A08C701262F19EC00E178DA /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A08C6FF262F19EC00E178DA /* MBProgressHUD.m */; };
+		9A0F1E8326A5BE76000D8989 /* preview_watch6.png in Resources */ = {isa = PBXBuildFile; fileRef = 9A0F1E7F26A5BE76000D8989 /* preview_watch6.png */; };
+		9A0F1E8426A5BE76000D8989 /* preview_watch6_ClkResPKG.bin in Resources */ = {isa = PBXBuildFile; fileRef = 9A0F1E8026A5BE76000D8989 /* preview_watch6_ClkResPKG.bin */; };
+		9A0F1E8526A5BE76000D8989 /* preview_watch5_ClkResPKG.bin in Resources */ = {isa = PBXBuildFile; fileRef = 9A0F1E8126A5BE76000D8989 /* preview_watch5_ClkResPKG.bin */; };
+		9A0F1E8626A5BE76000D8989 /* preview_watch5.png in Resources */ = {isa = PBXBuildFile; fileRef = 9A0F1E8226A5BE76000D8989 /* preview_watch5.png */; };
 		9A2181652557EDBE000330E5 /* apple.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 9A2181622557EDBE000330E5 /* apple.jpeg */; };
 		9A2181662557EDBE000330E5 /* walk.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 9A2181632557EDBE000330E5 /* walk.jpeg */; };
 		9A2181672557EDBE000330E5 /* water.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9A2181642557EDBE000330E5 /* water.jpg */; };
@@ -438,6 +442,10 @@
 		9A08C6FD262F183800E178DA /* ColorDefine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ColorDefine.h; sourceTree = "<group>"; };
 		9A08C6FF262F19EC00E178DA /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
 		9A08C700262F19EC00E178DA /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
+		9A0F1E7F26A5BE76000D8989 /* preview_watch6.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = preview_watch6.png; sourceTree = "<group>"; };
+		9A0F1E8026A5BE76000D8989 /* preview_watch6_ClkResPKG.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = preview_watch6_ClkResPKG.bin; sourceTree = "<group>"; };
+		9A0F1E8126A5BE76000D8989 /* preview_watch5_ClkResPKG.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = preview_watch5_ClkResPKG.bin; sourceTree = "<group>"; };
+		9A0F1E8226A5BE76000D8989 /* preview_watch5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = preview_watch5.png; sourceTree = "<group>"; };
 		9A2181622557EDBE000330E5 /* apple.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = apple.jpeg; sourceTree = "<group>"; };
 		9A2181632557EDBE000330E5 /* walk.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = walk.jpeg; sourceTree = "<group>"; };
 		9A2181642557EDBE000330E5 /* water.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = water.jpg; sourceTree = "<group>"; };
@@ -910,6 +918,10 @@
 				9A08C668262C6CE300E178DA /* preview_watch3_ClkResPKG.bin */,
 				9A08C664262C5FAA00E178DA /* preview_watch4.png */,
 				9A08C66E262C71A000E178DA /* preview_watch4_ClkResPKG.bin */,
+				9A0F1E8126A5BE76000D8989 /* preview_watch5_ClkResPKG.bin */,
+				9A0F1E8226A5BE76000D8989 /* preview_watch5.png */,
+				9A0F1E8026A5BE76000D8989 /* preview_watch6_ClkResPKG.bin */,
+				9A0F1E7F26A5BE76000D8989 /* preview_watch6.png */,
 			);
 			path = lefun;
 			sourceTree = "<group>";
@@ -1800,12 +1812,15 @@
 				9A60DEE3252F003800E0D849 /* hotCities.plist in Resources */,
 				9A2185B0255BC6AA000330E5 /* new5.jpg in Resources */,
 				9A4E624424F7E94E00A0E878 /* Device.storyboard in Resources */,
+				9A0F1E8426A5BE76000D8989 /* preview_watch6_ClkResPKG.bin in Resources */,
 				9AAF861C25C83E5000960BDD /* IdleResources.bundle in Resources */,
+				9A0F1E8626A5BE76000D8989 /* preview_watch5.png in Resources */,
 				9A08C66B262C716F00E178DA /* preview_watch1_ClkResPKG.bin in Resources */,
 				18385EAA24517F1A00EA380A /* LaunchScreen.storyboard in Resources */,
 				9A350BE524EA6476004CEE6A /* Mine.storyboard in Resources */,
 				9A839C672560F68B00714CBE /* SGSportingView.storyboard in Resources */,
 				9A2181662557EDBE000330E5 /* walk.jpeg in Resources */,
+				9A0F1E8326A5BE76000D8989 /* preview_watch6.png in Resources */,
 				9A2185AE255BC6AA000330E5 /* new1.jpg in Resources */,
 				9A2181672557EDBE000330E5 /* water.jpg in Resources */,
 				9A08C666262C5FAA00E178DA /* preview_watch4.png in Resources */,
@@ -1814,6 +1829,7 @@
 				9A08C671262C71DA00E178DA /* SmartBand_PHY_ota.hex in Resources */,
 				9A08C66F262C71A000E178DA /* preview_watch4_ClkResPKG.bin in Resources */,
 				9A5613F32524879600C43C6A /* CommonCalendarView.xib in Resources */,
+				9A0F1E8526A5BE76000D8989 /* preview_watch5_ClkResPKG.bin in Resources */,
 				9A820B7824CEA2C600A62C6F /* Health.storyboard in Resources */,
 				18385EA724517F1A00EA380A /* Assets.xcassets in Resources */,
 				9A21859E255BBDD9000330E5 /* root.jpg in Resources */,
@@ -2379,7 +2395,7 @@
 				CODE_SIGN_ENTITLEMENTS = "";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 11;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_ASSET_PATHS = TJDWristbandSDK.framework;
 				DEVELOPMENT_TEAM = RPZ68269DB;
@@ -2417,7 +2433,7 @@
 				CODE_SIGN_ENTITLEMENTS = "";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 11;
 				DEVELOPMENT_ASSET_PATHS = TJDWristbandSDK.framework;
 				DEVELOPMENT_TEAM = RPZ68269DB;
 				ENABLE_BITCODE = NO;

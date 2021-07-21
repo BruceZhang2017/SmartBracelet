@@ -10,7 +10,6 @@ import UIKit
 import IQKeyboardManagerSwift
 import XCGLogger
 import RealmSwift
-import Bugly
 
 let log = XCGLogger()
 
@@ -19,7 +18,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        Bugly.start(withAppId: "0c6ba8bb6a")
+        PgyManager.shared().start(withAppId: "206fd41ea01a58736f8e42fe2e85065f")
+        PgyUpdateManager.sharedPgy().start(withAppId: "206fd41ea01a58736f8e42fe2e85065f")
+        PgyUpdateManager.sharedPgy().checkUpdate()
         configRealm()
         AMapServices.shared().apiKey = "0ed08fc41dc5bd1adc43b9189af816f7"
         window?.backgroundColor = UIColor.white

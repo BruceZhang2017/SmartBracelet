@@ -210,11 +210,11 @@ class BLEManager: NSObject {
     @objc func handleNotify(_ notify: Notification) {
         #if DisplayPrint_
         if notify.name == WristbandNotifyKeys.sendData {
-            let str = notify.object as! String
+            let str = notify.object as? String ?? ""
             wuPrint("发送的值：\(str)")
         }
         if notify.name == WristbandNotifyKeys.recieveData {
-            let str = notify.object as! String
+            let str = notify.object as? String ?? ""
             wuPrint("接收的值：\(str)")
         }
         #endif
@@ -239,7 +239,9 @@ class BLEManager: NSObject {
         }
                 
         if notify.name == WristbandNotifyKeys.read_All_Sport {
-            let  model = notify.object as! StepModel
+            guard let  model = notify.object as? StepModel else {
+                return
+            }
             let savedTimeStamp = UserDefaults.standard.integer(forKey: "SavedTimeStamp")
             if model.timeStamp > savedTimeStamp {
                 UserDefaults.standard.setValue(model.timeStamp, forKey: "SavedTimeStamp")
@@ -274,7 +276,9 @@ class BLEManager: NSObject {
         }
         
         if notify.name == WristbandNotifyKeys.read_All_Sleep {
-            let model = notify.object as! TJDSleepModel
+            guard let model = notify.object as? TJDSleepModel else {
+                return
+            }
             dump(model)
             sleepArray[model.day] += [model]
             let sleepModel = DSleepModel()
@@ -306,7 +310,9 @@ class BLEManager: NSObject {
         }
                 
         if notify.name == WristbandNotifyKeys.sysCeLiang_heart {
-            let  model = notify.object as! HeartModel
+            guard let  model = notify.object as? HeartModel else {
+                return
+            }
             dump(model)
             heartArray.append(model)
             let heartModel = DHeartRateModel()
@@ -330,7 +336,9 @@ class BLEManager: NSObject {
         }
                 
         if notify.name == WristbandNotifyKeys.sysCeLiang_blood {
-            let  model = notify.object as! BloodModel
+            guard let  model = notify.object as? BloodModel else {
+                return
+            }
             dump(model)
             bloodArray.append(model)
             let bloodModel = DBloodModel()
@@ -353,17 +361,29 @@ class BLEManager: NSObject {
         
         if notify.name == WristbandNotifyKeys.devSendCeLiang_heart {
             measureAsync?.cancel()
-            let  model = notify.object as! HeartModel
+            guard let  model = notify.object as? HeartModel else {
+                return
+            }
             dump(model)
             wuPrint("心跳结束")
-            heartArray.insert(model, at: 0)
+            if heartArray.count > 0 {
+                heartArray.insert(model, at: 0)
+            } else {
+                heartArray.append(model)
+            }
         }
         if notify.name == WristbandNotifyKeys.devSendCeLiang_blood {
             measureAsync?.cancel()
-            let  model = notify.object as! BloodModel
+            guard let  model = notify.object as? BloodModel else {
+                return
+            }
             dump(model)
             wuPrint("血压结束")
-            bloodArray.insert(model, at: 0)
+            if bloodArray.count > 0 {
+                bloodArray.insert(model, at: 0)
+            } else {
+                bloodArray.append(model)
+            }
         }
         
         if notify.name == WristbandNotifyKeys.sysCeLiang_oxygen {
@@ -382,13 +402,13 @@ class BLEManager: NSObject {
             if model.indexOfTotal == model.totalCount {
                 let str1 = String(format: "oxygen history complete, total %d line", model.totalCount)
                 wuPrint(str1)
-                stepArray = Array(repeating: [], count: 3)
+                stepArray = Array(repeating: [], count: 6)
                 // 处理需要读取几天的数据
                 let savedTimeStamp = UserDefaults.standard.integer(forKey: "SavedTimeStamp")
                 if savedTimeStamp > 0 {
                     let date = WUDate.dateFromTimeStamp(savedTimeStamp)
                     let distance = Calendar.current.dateComponents([.day], from: Date(), to: date)
-                    distanceDays = min(abs(distance.day ?? 0) + 1, 3)
+                    distanceDays = min(abs(distance.day ?? 0) + 1, 6)
                 }
                 oxygenArray.sort {
                     $0.timeStamp > $1.timeStamp
@@ -404,7 +424,11 @@ class BLEManager: NSObject {
             }
             dump(model)
             print("血氧结束")
-            oxygenArray.insert(model, at: 0)
+            if oxygenArray.count > 0 {
+                oxygenArray.insert(model, at: 0)
+            } else {
+                oxygenArray.append(model)
+            }
         }
         
         if notify.name == WristbandNotifyKeys.setOrRead_Time { // 时间设置成功
@@ -518,7 +542,9 @@ class BLEManager: NSObject {
         }
         #endif
         if notify.name == WristbandNotifyKeys.setOrRead_Alarm { // 闹钟读取、设置
-            let model = notify.object as! WUAlarmClock
+            guard let model = notify.object as? WUAlarmClock else {
+                return
+            }
             if model.clockId == 0 {
                 alarmArray.removeAll()
             }

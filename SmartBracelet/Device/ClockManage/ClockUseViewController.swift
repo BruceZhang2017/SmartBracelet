@@ -27,7 +27,7 @@ class ClockUseViewController: BaseViewController {
         super.viewDidLoad()
         title = "表盘管理"
         var path = ""
-        if index <= 4 {
+        if index <= 6 {
             clockImageView.image = UIImage(named: "preview_watch\(index)")
             clockNameLabel.text = "ITIME-\(index)"
             path = Bundle.main.path(forResource: "preview_watch\(index)_ClkResPKG", ofType: "bin")!

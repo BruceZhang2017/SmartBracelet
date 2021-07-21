@@ -23,7 +23,6 @@ PODS:
     - AMapFoundation (~> 1.6.4)
   - AMapSearch (7.9.0):
     - AMapFoundation (~> 1.6.6)
-  - Bugly (2.5.90)
   - CountryPickerView (3.2.0)
   - IQKeyboardManagerSwift (6.3.0)
   - Kingfisher (6.3.0)
@@ -34,6 +33,8 @@ PODS:
   - ObjcExceptionBridging (1.0.1):
     - ObjcExceptionBridging/ObjcExceptionBridging (= 1.0.1)
   - ObjcExceptionBridging/ObjcExceptionBridging (1.0.1)
+  - Pgyer (2.8.9)
+  - PgyUpdate (1.6)
   - ProgressHUD (2.70)
   - Realm (10.7.6):
     - Realm/Headers (= 10.7.6)
@@ -57,12 +58,13 @@ DEPENDENCIES:
   - AMap2DMap
   - AMapLocation
   - AMapSearch
-  - Bugly
   - CountryPickerView
   - IQKeyboardManagerSwift (= 6.3.0)
   - Kingfisher
   - MJRefresh
   - NVActivityIndicatorView
+  - Pgyer
+  - PgyUpdate
   - ProgressHUD
   - Realm
   - RealmSwift
@@ -82,13 +84,14 @@ SPEC REPOS:
     - AMapFoundation
     - AMapLocation
     - AMapSearch
-    - Bugly
     - CountryPickerView
     - IQKeyboardManagerSwift
     - Kingfisher
     - MJRefresh
     - NVActivityIndicatorView
     - ObjcExceptionBridging
+    - Pgyer
+    - PgyUpdate
     - ProgressHUD
     - Realm
     - RealmSwift
@@ -116,13 +119,14 @@ SPEC CHECKSUMS:
   AMapFoundation: c7da72b42a713f1429c88af1858d623dde88934b
   AMapLocation: dad27669c4ca68e395ce7532ff614b7d4d45f7b7
   AMapSearch: 94cff5f6ab7233c1639111e486861ac2acea6d4b
-  Bugly: 88bc32c0acc6fef7b74d610f0319ee7560d6b9fe
   CountryPickerView: 9b093bfffb4b06a69ba6185a798cadbf863720e7
   IQKeyboardManagerSwift: a8228c257614af98743b4cd8584637025f36358f
   Kingfisher: 6c3df386db71d82c0817a429d2c9421a77396529
   MJRefresh: d2c1970d1cf6e77fcfcdfe76c943dfab8dbfa5c1
   NVActivityIndicatorView: 1f6c5687f1171810aa27a3296814dc2d7dec3667
   ObjcExceptionBridging: c30e00eb3700467e695faeea30e26e18bd445001
+  Pgyer: 830654e51e23f754cce5d8b3ea9ba72be68452eb
+  PgyUpdate: cd6c2ada5928f36a9f904d8f96a9b3b53e190755
   ProgressHUD: e603e8b8622c47d8818b9fb38b3cfe9d3e7ca421
   Realm: ed860452717c8db8f4bf832b6807f7f2ce708839
   RealmSwift: e31c4ddbcc42ac879313d656b86f9ca539f6f4f4
@@ -133,6 +137,6 @@ SPEC CHECKSUMS:
   Toaster: c3473963c78e8cabbf6ea6f11ad0fdaae6f54987
   XCGLogger: 1943831ef907df55108b0b18657953f868de973b
 
-PODFILE CHECKSUM: 8fa23690c1000748f56888a151a8fb47bb8608e2
+PODFILE CHECKSUM: 565e334c5039fb6b2e53dc5401d0996d8a6f9415
 
 COCOAPODS: 1.10.1

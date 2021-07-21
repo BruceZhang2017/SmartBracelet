@@ -80,14 +80,11 @@ class DeviceSettingsViewController: BaseViewController {
     @objc private func valueChanged(_ sender: Any) {
         let mSwitch = sender as? UISwitch
         let tag = mSwitch?.tag ?? 0
-        if tag == 1002 { // 长坐提醒
+        if tag == 1001 { // 长坐提醒
             bleSelf.functionSwitchModel.isLongSit = mSwitch?.isOn ?? false 
             bleSelf.setSwitchForWristband(bleSelf.functionSwitchModel)
-        } else if tag == 1001 { // 抬手亮屏
+        } else if tag == 1000 { // 抬手亮屏
             bleSelf.functionSwitchModel.isLightScreen = mSwitch?.isOn ?? false
-            bleSelf.setSwitchForWristband(bleSelf.functionSwitchModel)
-        } else if tag == 1000 { // 来电提醒
-            bleSelf.functionSwitchModel.isCallDown = mSwitch?.isOn ?? false
             bleSelf.setSwitchForWristband(bleSelf.functionSwitchModel)
         }
     }
@@ -106,17 +103,15 @@ extension DeviceSettingsViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: .kCellIdentifier, for: indexPath) as! DeviceSettingsTableViewCell
         cell.textLabel?.text = titles[indexPath.section][indexPath.row]
-        if indexPath.section == 0 && indexPath.row >= 1 && indexPath.row <= 3 {
+        if indexPath.section == 0 && indexPath.row >= 1 && indexPath.row <= 2 {
             let mSwitch = UISwitch()
             mSwitch.tag = 999 + indexPath.row
             mSwitch.addTarget(self, action: #selector(valueChanged(_:)), for: .valueChanged)
             cell.accessoryView = mSwitch
-            if indexPath.row == 3 {
+            if indexPath.row == 2 {
                 mSwitch.isOn = bleSelf.functionSwitchModel.isLongSit
-            } else if indexPath.row == 2 {
-                mSwitch.isOn = bleSelf.functionSwitchModel.isLightScreen
             } else if indexPath.row == 1 {
-                mSwitch.isOn = bleSelf.functionSwitchModel.isCallDown
+                mSwitch.isOn = bleSelf.functionSwitchModel.isLightScreen
             }
         } else {
             let imageView = UIImageView(image: UIImage(named: "content_next"))
@@ -140,7 +135,7 @@ extension DeviceSettingsViewController: UITableViewDelegate {
                 let storyboard = UIStoryboard(name: .kDevice, bundle: nil)
                 let vc = storyboard.instantiateViewController(withIdentifier: "APNSViewController")
                 navigationController?.pushViewController(vc, animated: true)
-            } else if indexPath.row == 4 {
+            } else if indexPath.row == 3 {
                 let vc = WeatherViewController()
                 navigationController?.pushViewController(vc, animated: true)
             }
@@ -164,7 +159,7 @@ extension DeviceSettingsViewController: UITableViewDelegate {
 
 extension DeviceSettingsViewController {
     var titles: [[String]] {
-        return [["推送设置", "来电提醒", "抬手亮屏", "久坐提醒", "天气推送"], ["闹钟设置", "查找设置", "设置信息"]]
+        return [["推送设置", "抬手亮屏", "久坐提醒", "天气推送"], ["闹钟设置", "查找设置", "设置信息"]]
     }
 }
 

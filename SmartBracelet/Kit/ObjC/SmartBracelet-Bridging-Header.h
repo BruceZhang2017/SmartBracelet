@@ -20,3 +20,6 @@
 #import "MAWeatherLiveView.h"
 #import "MAWeatherForecastView.h"
 
+#import <PgySDK/PgyManager.h>
+#import <PgyUpdate/PgyUpdateManager.h>
+
