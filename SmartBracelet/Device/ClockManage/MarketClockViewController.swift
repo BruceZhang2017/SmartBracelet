@@ -38,6 +38,8 @@ class MarketClockViewController: UIViewController {
         nullLabel.snp.makeConstraints {
             $0.center.equalToSuperview()
         }
+        collectionView.dataSource = self
+        collectionView.delegate = self
     }
     
 
@@ -55,15 +57,16 @@ class MarketClockViewController: UIViewController {
 
 extension MarketClockViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 0
+        return 2
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: .kCellIdentifier, for: indexPath) as! ClockCCollectionViewCell
-        
+        cell.clockImageView.image = UIImage(named: "\(indexPath.row + 1)_240_240")
+        cell.clockNameLabel.text = "ITIME-\(indexPath.row + 1)"
+        cell.width.constant = (ScreenWidth - 60) / 2
         return cell
     }
-    
     
 }
 
@@ -78,11 +81,11 @@ extension MarketClockViewController: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: (ScreenWidth - 16) / 2, height: ((ScreenWidth - 16) / 2) / 165 * 220)
+        return CGSize(width: (ScreenWidth - 60) / 2, height: ((ScreenWidth - 60) / 2) / 165 * 220)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
+        return UIEdgeInsets(top: 8, left: 20, bottom: 8, right: 20)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {

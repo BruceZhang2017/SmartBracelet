@@ -78,9 +78,9 @@ extension DevicesView: UICollectionViewDataSource, UICollectionViewDelegate {
         if indexPath.row == 0 || indexPath.row == total - 1 {
             cell.isHidden = true
         } else {
+            cell.isHidden = false
             if count == 0 {
                 if indexPath.row == 1 {
-                    cell.isHidden = false
                     cell.cardImgView.isHidden = true
                     cell.cardNameLabel.isHidden = true
                     cell.batteryButton.isHidden = true
@@ -88,7 +88,6 @@ extension DevicesView: UICollectionViewDataSource, UICollectionViewDelegate {
                     cell.addLabel.isHidden = false
                 }
             } else {
-                cell.isHidden = false
                 let model = DeviceManager.shared.devices[indexPath.row - 1]
                 cell.cardImgView.image = UIImage(named: "produce_image_no.2")
                 cell.cardNameLabel.text = model.name

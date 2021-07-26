@@ -11,7 +11,7 @@ import TJDWristbandSDK
 
 class DetailViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     var table = UITableView()
-    var sleepArray = [TJDSleepModel]()
+    var sleepArray = [SleepModel]()
     var textView = UITextView()
     
     var measureAsync: Async?

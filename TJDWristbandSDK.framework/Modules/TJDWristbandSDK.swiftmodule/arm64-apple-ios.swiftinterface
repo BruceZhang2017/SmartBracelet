@@ -1,5 +1,5 @@
 // swift-interface-format-version: 1.0
-// swift-compiler-version: Apple Swift version 5.3.2 (swiftlang-1200.0.45 clang-1200.0.32.28)
+// swift-compiler-version: Apple Swift version 5.4 (swiftlang-1205.0.26.9 clang-1205.0.19.55)
 // swift-module-flags: -target arm64-apple-ios9.0 -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -module-name TJDWristbandSDK
 import CoreBluetooth
 import Foundation
@@ -10,23 +10,23 @@ import UIKit
   @objc open var totalCount: Swift.Int
   @objc open var indexOfTotal: Swift.Int
   @objc open var heart: Swift.Int
-  @objc deinit
   @objc required dynamic public init()
+  @objc deinit
 }
 @objc @_inheritsConvenienceInitializers @objcMembers open class BloodModel : TJDWristbandSDK.DataModel {
   @objc open var totalCount: Swift.Int
   @objc open var indexOfTotal: Swift.Int
   @objc open var max: Swift.Int
   @objc open var min: Swift.Int
-  @objc deinit
   @objc required dynamic public init()
+  @objc deinit
 }
 @objc @_inheritsConvenienceInitializers @objcMembers open class OxygenModel : TJDWristbandSDK.DataModel {
   @objc open var totalCount: Swift.Int
   @objc open var indexOfTotal: Swift.Int
   @objc open var oxygen: Swift.Int
-  @objc deinit
   @objc required dynamic public init()
+  @objc deinit
 }
 @objc @_inheritsConvenienceInitializers @objcMembers open class WUDate : ObjectiveC.NSObject {
   @objc open var year: Swift.Int
@@ -42,8 +42,8 @@ import UIKit
   @objc open class func timeStampFromDate(_ date: Foundation.Date) -> Swift.Int
   @objc open func currentDate() -> Foundation.Date
   @objc open func gregorianDate() -> Foundation.Date
-  @objc deinit
   @objc override dynamic public init()
+  @objc deinit
 }
 @objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objcMembers open class WUUserInfo : ObjectiveC.NSObject {
   @objc open var name: Swift.String
@@ -58,14 +58,15 @@ import UIKit
     @objc get
     @objc set
   }
+  @objc open var hasTemperature: Swift.Bool
   @objc deinit
 }
 @objc public enum TestActionType : Swift.UInt8 {
   case noRepeat = 0x00
   case repeats = 0x01
   case end = 0x02
-  public typealias RawValue = Swift.UInt8
   public init?(rawValue: Swift.UInt8)
+  public typealias RawValue = Swift.UInt8
   public var rawValue: Swift.UInt8 {
     get
   }
@@ -102,8 +103,8 @@ public let bleSelf: TJDWristbandSDK.WUBleManager
   case connecting
   case connected
   case disconnecting
-  public typealias RawValue = Swift.Int
   public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
   public var rawValue: Swift.Int {
     get
   }
@@ -118,8 +119,9 @@ public typealias WUDidSetStartMeasure = (Swift.Bool, Swift.UInt8) -> ()
   @objc public static let connected: Foundation.Notification.Name
   @objc public static let disconnected: Foundation.Notification.Name
   @objc public static let stateChanged: Foundation.Notification.Name
-  @objc deinit
+  @objc public static let readRSSI: Foundation.Notification.Name
   @objc override dynamic public init()
+  @objc deinit
 }
 @objc @_inheritsConvenienceInitializers @objcMembers open class WUBleManager : ObjectiveC.NSObject {
   @objc public static let shared: TJDWristbandSDK.WUBleManager
@@ -167,6 +169,8 @@ public typealias WUDidSetStartMeasure = (Swift.Bool, Swift.UInt8) -> ()
   @objc open func connectBleDevice(model: TJDWristbandSDK.WUBleModel)
   @objc open func disconnectBleDevice()
   @objc open func reConnectDevice()
+  @objc open func readRSSI()
+  @objc open func retrievePeripheral(with uuidString: Swift.String) -> CoreBluetooth.CBPeripheral?
   @objc override dynamic public init()
   @objc deinit
 }
@@ -185,8 +189,8 @@ extension WUBleManager {
   case heart = 0x01
   case blood = 0x02
   case oxygen = 0x04
-  public typealias RawValue = Swift.UInt8
   public init?(rawValue: Swift.UInt8)
+  public typealias RawValue = Swift.UInt8
   public var rawValue: Swift.UInt8 {
     get
   }
@@ -225,24 +229,25 @@ extension WUBleManager {
   @objc public static let setWeather: Foundation.Notification.Name
   @objc public static let startAddressPush: Foundation.Notification.Name
   @objc public static let addressPush: Foundation.Notification.Name
+  @objc public static let temperature: Foundation.Notification.Name
   @objc public static let temperatureCalibration: Foundation.Notification.Name
   @objc public static let read_Temperature: Foundation.Notification.Name
-  @objc public static let temperatureSettings: Foundation.Notification.Name
-  @objc public static let temperatureMeasure: Foundation.Notification.Name
+  @objc public static let ruiyu_DialSet: Foundation.Notification.Name
   @objc public static let nfc_history: Foundation.Notification.Name
   @objc public static let nfc_current: Foundation.Notification.Name
   @objc public static let write_NFC: Foundation.Notification.Name
   @objc public static let write_NFC_complete: Foundation.Notification.Name
-  @objc deinit
   @objc override dynamic public init()
+  @objc deinit
 }
 @objc @_inheritsConvenienceInitializers @objcMembers open class TemperatureModel : TJDWristbandSDK.DataModel {
+  @objc open var day: Swift.Int
   @objc open var totalCount: Swift.Int
   @objc open var indexOfTotal: Swift.Int
   @objc open var forehead: Swift.Double
   @objc open var wrist: Swift.Double
-  @objc deinit
   @objc required dynamic public init()
+  @objc deinit
 }
 public let kWuDocumentDirectory: Swift.String!
 public let kWuScreenWidth: CoreGraphics.CGFloat
@@ -257,8 +262,8 @@ public func wuPrint(_ names: Any...)
   @objc public static var isDebug: Swift.Bool
   @objc public class func structPrint(_ any: Any)
   @objc public class func stringPrint(_ any: Any)
-  @objc deinit
   @objc override dynamic public init()
+  @objc deinit
 }
 @objc @_inheritsConvenienceInitializers @objcMembers open class FunctionListModel : ObjectiveC.NSObject {
   @objc open var hasTurnOff: Swift.Bool
@@ -278,8 +283,8 @@ public func wuPrint(_ names: Any...)
   @objc open var hasImage: Swift.Bool
   @objc open var hasP70: Swift.Bool
   @objc open var hasAddressBook: Swift.Bool
-  @objc deinit
   @objc override dynamic public init()
+  @objc deinit
 }
 @objc @_inheritsConvenienceInitializers @objcMembers open class AppleNotifyModel : ObjectiveC.NSObject {
   @objc open var isCall: Swift.Bool
@@ -292,8 +297,8 @@ public func wuPrint(_ names: Any...)
   @objc open var isWhatapp: Swift.Bool
   @objc open var isLine: Swift.Bool
   @objc open var isKakaoTalk: Swift.Bool
-  @objc deinit
   @objc override dynamic public init()
+  @objc deinit
 }
 @objc @_inheritsConvenienceInitializers @objcMembers public class WUCalendarManager : ObjectiveC.NSObject {
   @objc open class func current() -> Foundation.Calendar
@@ -301,8 +306,8 @@ public func wuPrint(_ names: Any...)
   @objc open class func add(numOfDay: Swift.Int, date: Foundation.Date) -> Foundation.Date
   @objc open class func add(numOfWeek: Swift.Int, date: Foundation.Date) -> Foundation.Date
   @objc open class func add(numOfMonth: Swift.Int, date: Foundation.Date) -> Foundation.Date
-  @objc deinit
   @objc override dynamic public init()
+  @objc deinit
 }
 @objc @_inheritsConvenienceInitializers @objcMembers open class FunctionSwitchModel : ObjectiveC.NSObject {
   @objc open var isLightScreen: Swift.Bool
@@ -311,13 +316,13 @@ public func wuPrint(_ names: Any...)
   @objc open var isTakePhoto: Swift.Bool
   @objc open var isCallDown: Swift.Bool
   @objc open var isAntiLost: Swift.Bool
-  @objc deinit
   @objc override dynamic public init()
+  @objc deinit
 }
 @objc @_inheritsConvenienceInitializers @objcMembers open class DrinkModel : ObjectiveC.NSObject {
   @objc open var interval: Swift.Int
-  @objc deinit
   @objc override dynamic public init()
+  @objc deinit
 }
 extension WUBleManager {
   @objc dynamic open func setWeather(temper: Swift.Int, type: Swift.Int, max: Swift.Int, min: Swift.Int)
@@ -356,17 +361,15 @@ extension WUBleManager {
   @objc dynamic open func setDialPush(_ data: Foundation.Data, dataIndex: Swift.Int)
   @objc dynamic open func startAddressPush(_ data: Foundation.Data)
   @objc dynamic open func setAddressBook(_ data: Foundation.Data, dataIndex: Swift.Int)
-  @objc dynamic open func startMeasureTemperature()
   @objc dynamic open func getHistoryTemperature(with day: Swift.Int)
   @objc dynamic open func calibrationTemperature(_ mode: Swift.Int, temper: Swift.Int)
-  @objc dynamic open func getTemperatureSettingForWristband()
-  @objc dynamic open func setTemperatureSettingForWristband(_ model: TJDWristbandSDK.TemperatureSettingModel)
+  @objc dynamic open func ruiYuDialSet()
   @objc dynamic open func getCRC(_ data: [Swift.UInt8]) -> Swift.UInt8
 }
 @objc @_inheritsConvenienceInitializers @objcMembers open class LongSitModel : ObjectiveC.NSObject {
   @objc open var interval: Swift.Int
-  @objc deinit
   @objc override dynamic public init()
+  @objc deinit
 }
 @objc @_inheritsConvenienceInitializers @objcMembers open class DisplayUiModel : ObjectiveC.NSObject {
   @objc open var isStep: Swift.Bool
@@ -377,8 +380,8 @@ extension WUBleManager {
   @objc open var isFindPhone: Swift.Bool
   @objc open var isMac: Swift.Bool
   @objc open var isTurnOff: Swift.Bool
-  @objc deinit
   @objc override dynamic public init()
+  @objc deinit
 }
 @objc @_inheritsConvenienceInitializers @objcMembers open class StepModel : TJDWristbandSDK.DataModel {
   @objc open var day: Swift.Int
@@ -414,6 +417,10 @@ extension WUBleManager {
   @objc open var vendorNumberString: Swift.String
   @objc open var internalNumber: Swift.String
   @objc open var internalNumberString: Swift.String
+  @objc open var screenType: Swift.Int
+  @objc open var screenWidth: Swift.Int
+  @objc open var screenHeight: Swift.Int
+  @objc open var maxSize: Swift.Int
   @objc override dynamic public init()
   @objc deinit
 }
@@ -438,21 +445,21 @@ extension WUBleManager {
   @objc override dynamic public init()
   @objc deinit
 }
-@objc @_inheritsConvenienceInitializers @objcMembers open class TJDSleepModel : TJDWristbandSDK.DataModel {
+@objc @_inheritsConvenienceInitializers @objcMembers open class SleepModel : TJDWristbandSDK.DataModel {
   @objc open var day: Swift.Int
   @objc open var totalCount: Swift.Int
   @objc open var indexOfTotal: Swift.Int
   @objc open var state: Swift.Int
-  @objc open class func sleepTime(_ array: [TJDWristbandSDK.TJDSleepModel]) -> [TJDWristbandSDK.SleepTimeModel]
+  @objc open class func sleepTime(_ array: [TJDWristbandSDK.SleepModel]) -> [TJDWristbandSDK.SleepTimeModel]
   @objc required dynamic public init()
   @objc deinit
 }
-@objc @_inheritsConvenienceInitializers @objcMembers open class SleepTimeModel : TJDWristbandSDK.TJDSleepModel {
+@objc @_inheritsConvenienceInitializers @objcMembers open class SleepTimeModel : TJDWristbandSDK.SleepModel {
   @objc open var sleepTime: Swift.Int
   @objc open class func detailSleep(_ array: [TJDWristbandSDK.SleepTimeModel]) -> [Swift.Int]
   @objc open class func sleepQuality(_ array: [Swift.Int]) -> Swift.Int
-  @objc deinit
   @objc required dynamic public init()
+  @objc deinit
 }
 @objc @_inheritsConvenienceInitializers @objcMembers open class DataModel : ObjectiveC.NSObject, Foundation.NSCopying {
   @objc open var uuidString: Swift.String

@@ -21,7 +21,11 @@ class SetTargetCViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = String.kSetTarget
-        let index = steps.firstIndex(of: bleSelf.userInfo.stepGoal) ?? 0
+        var goal = UserDefaults.standard.integer(forKey: "Goal") 
+        if goal == 0 {
+            goal = bleSelf.userInfo.stepGoal
+        }
+        let index = steps.firstIndex(of: goal) ?? 0
         if index >= 0 {
             selectedIndex = index
             pickerView.selectRow(index, inComponent: 0, animated: true)
@@ -30,6 +34,9 @@ class SetTargetCViewController: BaseViewController {
     
     @IBAction func startRun(_ sender: Any) {
         bleSelf.userInfo.stepGoal = steps[selectedIndex]
+        bleSelf.setUserinfoForWristband(bleSelf.userInfo)
+        UserDefaults.standard.setValue(bleSelf.userInfo.stepGoal, forKey: "Goal")
+        UserDefaults.standard.synchronize()
         navigationController?.popViewController(animated: true)
     }
 

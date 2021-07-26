@@ -19,4 +19,5 @@ class ClockCCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var loadingView: UIView!
     @IBOutlet weak var successButton: UIButton!
     
+    @IBOutlet weak var width: NSLayoutConstraint!
 }

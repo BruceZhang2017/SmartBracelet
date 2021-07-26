@@ -17,6 +17,7 @@ class CyclicCardCell: UICollectionViewCell {
     let btButton = UIButton(type: .custom)
     let batteryButton = UIButton(type: .custom)
     let addLabel = UILabel()
+    let settingsImageView = UIImageView()
     
     override  init(frame: CGRect) {
         super.init(frame: frame)
@@ -53,6 +54,14 @@ class CyclicCardCell: UICollectionViewCell {
         batteryButton.contentEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 6)
         batteryButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: 3, bottom: 0, right: -3)
         batteryButton.frame = CGRect(x: 76, y: 80, width: itemW - 80, height: 16)
+        
+        addSubview(settingsImageView)
+        settingsImageView.image = UIImage(named: "shezhi")
+        settingsImageView.snp.makeConstraints {
+            $0.width.height.equalTo(20)
+            $0.top.equalTo(10)
+            $0.right.equalTo(-10)
+        }
         
         addSubview(addLabel)
         addLabel.text = "请添加设备"

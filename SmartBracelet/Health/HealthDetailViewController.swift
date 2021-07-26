@@ -43,8 +43,12 @@ class HealthDetailViewController: BaseViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if type == 0 {
-            goalLabel.text = "目标 \(bleSelf.userInfo.stepGoal)"
-            goalBLabel.text = "\(bleSelf.userInfo.stepGoal)"
+            var goal = UserDefaults.standard.integer(forKey: "Goal")
+            if goal == 0 {
+                goal = bleSelf.userInfo.stepGoal
+            }
+            goalLabel.text = "目标 \(goal)"
+            goalBLabel.text = "\(goal)"
         }
         kmLabel.isHidden = type != 0
         if type == 0 {
@@ -253,8 +257,8 @@ class HealthDetailViewController: BaseViewController {
                 print("获取到数据的数量为：\(values.count)")
             }
             if array.count > 0 {
-                let a = array.map { item -> TJDSleepModel in
-                    let model = TJDSleepModel()
+                let a = array.map { item -> SleepModel in
+                    let model = SleepModel()
                     model.timeStamp = item.timeStamp
                     model.totalCount = item.totalCount
                     model.indexOfTotal = item.indexOfTotal
@@ -416,7 +420,7 @@ extension HealthDetailViewController {
     
     func readDBSleep() -> [DSleepModel] {
         let stamp = Int(mDate.zeroTimeStamp())
-        let models = try? DSleepModel.er.array("timeStamp>\(stamp - 2 * 60 * 60) AND timeStamp<\(stamp + 10 * 60 * 60) AND mac='\(lastestDeviceMac)'")
+        let models = try? DSleepModel.er.array("timeStamp>=\(stamp - 2 * 60 * 60) AND timeStamp<\(stamp + 10 * 60 * 60) AND mac='\(lastestDeviceMac)'")
         return models?.sorted { $0.timeStamp < $1.timeStamp } ?? []
         
     }

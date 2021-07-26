@@ -67,8 +67,11 @@
 	<array>
 		<string>bluetooth-central</string>
 		<string>bluetooth-peripheral</string>
+		<string>external-accessory</string>
 		<string>fetch</string>
 		<string>location</string>
+		<string>processing</string>
+		<string>remote-notification</string>
 	</array>
 	<key>UIFileSharingEnabled</key>
 	<true/>

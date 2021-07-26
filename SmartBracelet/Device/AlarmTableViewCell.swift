@@ -13,10 +13,6 @@
 import UIKit
 
 class AlarmTableViewCell: UITableViewCell {
-    @IBOutlet weak var deleteImageView: UIImageView!
-    @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var mSwitch: UISwitch!
-    @IBOutlet weak var arrorImageView: UIImageView!
     
     override func awakeFromNib() {
         super.awakeFromNib()

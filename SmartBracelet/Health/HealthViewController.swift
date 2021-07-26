@@ -61,6 +61,10 @@ class HealthViewController: BaseViewController {
             }
             self?.header?.endRefreshing()
         }.autoChangeTransparency(true).link(to: mScrollView)
+        WUBleManager.shared.didSetUserinfo = {
+            result in
+            print("设置用户信息是否成功: \(result)")
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -69,7 +73,11 @@ class HealthViewController: BaseViewController {
         if lastestDeviceMac.count == 0 {
             footGoalLabel.text = "目标 ｜ 0步"
         } else {
-            footGoalLabel.text = "目标 ｜ \(bleSelf.userInfo.stepGoal)步"
+            var goal = UserDefaults.standard.integer(forKey: "Goal")
+            if goal == 0 {
+                goal = bleSelf.userInfo.stepGoal
+            }
+            footGoalLabel.text = "目标 ｜ \(goal)步"
         }
         readDBStep() // 从本地数据库中读取步数数据
         readDBHeart() // 从本地数据库中读取心跳数据
@@ -413,8 +421,8 @@ class HealthViewController: BaseViewController {
     }
     
     private func readDBHeart() {
-        let stamp = Int(Date().zeroTimeStamp())
-        let a = try? DHeartRateModel.er.array("timeStamp>\(stamp) AND mac='\(lastestDeviceMac)'")
+        //let stamp = Int(Date().zeroTimeStamp())
+        let a = try? DHeartRateModel.er.array("mac='\(lastestDeviceMac)'")
         let models = a?.sorted {$0.timeStamp > $1.timeStamp}
         print("数据库里心跳的数据总条数：\(models?.count ?? 0)")
         var heart = 0
@@ -455,12 +463,12 @@ class HealthViewController: BaseViewController {
     
     private func readDBSleep() {
         let value = Int(Date().zeroTimeStamp())
-        let models = try? DSleepModel.er.array("timeStamp>\(value - 2 * 60 * 60) AND mac = '\(lastestDeviceMac)'")
+        let models = try? DSleepModel.er.array("timeStamp>=\(value - 2 * 60 * 60) AND mac = '\(lastestDeviceMac)'")
         print("数据库里睡眠的数据总条数：\(models?.count ?? 0)")
-        var array: [TJDSleepModel] = []
+        var array: [SleepModel] = []
         if models != nil {
             for model in models! {
-                let m = TJDSleepModel()
+                let m = SleepModel()
                 m.uuidString = model.uuidString
                 m.mac = model.mac
                 m.timeStamp = model.timeStamp

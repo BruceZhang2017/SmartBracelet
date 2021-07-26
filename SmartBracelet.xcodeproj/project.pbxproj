@@ -21,14 +21,6 @@
 		9A037E4A25BDB9E00006FB94 /* OTAViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A037E4925BDB9E00006FB94 /* OTAViewController.swift */; };
 		9A037E4C25BDBA5A0006FB94 /* SGCirleProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A037E4B25BDBA5A0006FB94 /* SGCirleProgress.swift */; };
 		9A037E4E25BDBC180006FB94 /* SGCirle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A037E4D25BDBC170006FB94 /* SGCirle.swift */; };
-		9A08C65B262C5B7800E178DA /* preview_watch1.png in Resources */ = {isa = PBXBuildFile; fileRef = 9A08C659262C5B7800E178DA /* preview_watch1.png */; };
-		9A08C65E262C5B9100E178DA /* preview_watch2.png in Resources */ = {isa = PBXBuildFile; fileRef = 9A08C65C262C5B9100E178DA /* preview_watch2.png */; };
-		9A08C662262C5BB500E178DA /* preview_watch3.png in Resources */ = {isa = PBXBuildFile; fileRef = 9A08C660262C5BB500E178DA /* preview_watch3.png */; };
-		9A08C666262C5FAA00E178DA /* preview_watch4.png in Resources */ = {isa = PBXBuildFile; fileRef = 9A08C664262C5FAA00E178DA /* preview_watch4.png */; };
-		9A08C669262C6CE300E178DA /* preview_watch3_ClkResPKG.bin in Resources */ = {isa = PBXBuildFile; fileRef = 9A08C668262C6CE300E178DA /* preview_watch3_ClkResPKG.bin */; };
-		9A08C66B262C716F00E178DA /* preview_watch1_ClkResPKG.bin in Resources */ = {isa = PBXBuildFile; fileRef = 9A08C66A262C716F00E178DA /* preview_watch1_ClkResPKG.bin */; };
-		9A08C66D262C718100E178DA /* preview_watch2_ClkResPKG.bin in Resources */ = {isa = PBXBuildFile; fileRef = 9A08C66C262C718100E178DA /* preview_watch2_ClkResPKG.bin */; };
-		9A08C66F262C71A000E178DA /* preview_watch4_ClkResPKG.bin in Resources */ = {isa = PBXBuildFile; fileRef = 9A08C66E262C71A000E178DA /* preview_watch4_ClkResPKG.bin */; };
 		9A08C671262C71DA00E178DA /* SmartBand_PHY_ota.hex in Resources */ = {isa = PBXBuildFile; fileRef = 9A08C670262C71DA00E178DA /* SmartBand_PHY_ota.hex */; };
 		9A08C673262C757A00E178DA /* WeatherTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A08C672262C757A00E178DA /* WeatherTestViewController.swift */; };
 		9A08C6EB262F17D500E178DA /* OTAUpgradeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A08C6EA262F17D500E178DA /* OTAUpgradeViewController.m */; };
@@ -36,10 +28,10 @@
 		9A08C6FB262F182000E178DA /* OTAListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A08C6F5262F182000E178DA /* OTAListCell.m */; };
 		9A08C6FC262F182000E178DA /* ProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A08C6F8262F182000E178DA /* ProgressView.m */; };
 		9A08C701262F19EC00E178DA /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A08C6FF262F19EC00E178DA /* MBProgressHUD.m */; };
-		9A0F1E8326A5BE76000D8989 /* preview_watch6.png in Resources */ = {isa = PBXBuildFile; fileRef = 9A0F1E7F26A5BE76000D8989 /* preview_watch6.png */; };
-		9A0F1E8426A5BE76000D8989 /* preview_watch6_ClkResPKG.bin in Resources */ = {isa = PBXBuildFile; fileRef = 9A0F1E8026A5BE76000D8989 /* preview_watch6_ClkResPKG.bin */; };
-		9A0F1E8526A5BE76000D8989 /* preview_watch5_ClkResPKG.bin in Resources */ = {isa = PBXBuildFile; fileRef = 9A0F1E8126A5BE76000D8989 /* preview_watch5_ClkResPKG.bin */; };
-		9A0F1E8626A5BE76000D8989 /* preview_watch5.png in Resources */ = {isa = PBXBuildFile; fileRef = 9A0F1E8226A5BE76000D8989 /* preview_watch5.png */; };
+		9A0F1E8326A5BE76000D8989 /* 2_240_240.png in Resources */ = {isa = PBXBuildFile; fileRef = 9A0F1E7F26A5BE76000D8989 /* 2_240_240.png */; };
+		9A0F1E8426A5BE76000D8989 /* 2_240_240.bin in Resources */ = {isa = PBXBuildFile; fileRef = 9A0F1E8026A5BE76000D8989 /* 2_240_240.bin */; };
+		9A0F1E8526A5BE76000D8989 /* 1_240_240.bin in Resources */ = {isa = PBXBuildFile; fileRef = 9A0F1E8126A5BE76000D8989 /* 1_240_240.bin */; };
+		9A0F1E8626A5BE76000D8989 /* 1_240_240.png in Resources */ = {isa = PBXBuildFile; fileRef = 9A0F1E8226A5BE76000D8989 /* 1_240_240.png */; };
 		9A2181652557EDBE000330E5 /* apple.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 9A2181622557EDBE000330E5 /* apple.jpeg */; };
 		9A2181662557EDBE000330E5 /* walk.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 9A2181632557EDBE000330E5 /* walk.jpeg */; };
 		9A2181672557EDBE000330E5 /* water.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9A2181642557EDBE000330E5 /* water.jpg */; };
@@ -68,6 +60,24 @@
 		9A32B06B2543C5C7008F0E26 /* BLEManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A32B06A2543C5C7008F0E26 /* BLEManager.swift */; };
 		9A33011F24BBDAE900F4D9F0 /* TJDWristbandSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18C2820C246A8D13009A60C0 /* TJDWristbandSDK.framework */; };
 		9A33012024BBDAE900F4D9F0 /* TJDWristbandSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 18C2820C246A8D13009A60C0 /* TJDWristbandSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		9A33D30826AD9A4F00DF9618 /* CameraViewAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9A33D2EF26AD9A4F00DF9618 /* CameraViewAssets.xcassets */; };
+		9A33D30926AD9A4F00DF9618 /* CroppingParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A33D2F126AD9A4F00DF9618 /* CroppingParameters.swift */; };
+		9A33D30A26AD9A4F00DF9618 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A33D2F226AD9A4F00DF9618 /* Utilities.swift */; };
+		9A33D30B26AD9A4F00DF9618 /* CameraGlobals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A33D2F326AD9A4F00DF9618 /* CameraGlobals.swift */; };
+		9A33D30C26AD9A4F00DF9618 /* SingleImageFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A33D2F426AD9A4F00DF9618 /* SingleImageFetcher.swift */; };
+		9A33D30D26AD9A4F00DF9618 /* CameraShot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A33D2F526AD9A4F00DF9618 /* CameraShot.swift */; };
+		9A33D30E26AD9A4F00DF9618 /* SingleImageSaver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A33D2F626AD9A4F00DF9618 /* SingleImageSaver.swift */; };
+		9A33D30F26AD9A4F00DF9618 /* VolumeControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A33D2F726AD9A4F00DF9618 /* VolumeControl.swift */; };
+		9A33D31026AD9A4F00DF9618 /* PhotoLibraryAuthorizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A33D2F826AD9A4F00DF9618 /* PhotoLibraryAuthorizer.swift */; };
+		9A33D31126AD9A4F00DF9618 /* UIViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A33D2F926AD9A4F00DF9618 /* UIViewExtensions.swift */; };
+		9A33D31226AD9A4F00DF9618 /* UIButtonExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A33D2FA26AD9A4F00DF9618 /* UIButtonExtensions.swift */; };
+		9A33D31326AD9A4F00DF9618 /* ImageFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A33D2FB26AD9A4F00DF9618 /* ImageFetcher.swift */; };
+		9A33D31426AD9A4F00DF9618 /* CameraView.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9A33D2FC26AD9A4F00DF9618 /* CameraView.strings */; };
+		9A33D31526AD9A4F00DF9618 /* CameraViewControllerConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A33D2FE26AD9A4F00DF9618 /* CameraViewControllerConstraint.swift */; };
+		9A33D31826AD9A4F00DF9618 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A33D30126AD9A4F00DF9618 /* CameraViewController.swift */; };
+		9A33D31A26AD9A4F00DF9618 /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A33D30426AD9A4F00DF9618 /* CameraView.swift */; };
+		9A33D31B26AD9A4F00DF9618 /* CropOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A33D30526AD9A4F00DF9618 /* CropOverlay.swift */; };
+		9A33D31C26AD9A4F00DF9618 /* PermissionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A33D30626AD9A4F00DF9618 /* PermissionsView.swift */; };
 		9A350BE324EA32CB004CEE6A /* MineViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A350BE224EA32CB004CEE6A /* MineViewController.swift */; };
 		9A350BE524EA6476004CEE6A /* Mine.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9A350BE424EA6476004CEE6A /* Mine.storyboard */; };
 		9A350BE724EA66BA004CEE6A /* AboutUSViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A350BE624EA66BA004CEE6A /* AboutUSViewController.swift */; };
@@ -245,6 +255,16 @@
 		9A56D2C225216FC70082CC08 /* BarLineScatterCandleBubbleChartDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A56D23625216FC60082CC08 /* BarLineScatterCandleBubbleChartDataProvider.swift */; };
 		9A56D2C325216FC70082CC08 /* ScatterChartDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A56D23725216FC60082CC08 /* ScatterChartDataProvider.swift */; };
 		9A56D2C425216FC70082CC08 /* BubbleChartDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A56D23825216FC60082CC08 /* BubbleChartDataProvider.swift */; };
+		9A58D8B626ABC4A1006C09A1 /* LongsitSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A58D8B526ABC4A0006C09A1 /* LongsitSettingsViewController.swift */; };
+		9A58D8B826AC1F09006C09A1 /* AlarmIntervalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A58D8B726AC1F09006C09A1 /* AlarmIntervalViewController.swift */; };
+		9A58D8BA26AC45E3006C09A1 /* 1_128_128.bin in Resources */ = {isa = PBXBuildFile; fileRef = 9A58D8B926AC45E3006C09A1 /* 1_128_128.bin */; };
+		9A58D8BE26AC45EF006C09A1 /* 2_128_128.png in Resources */ = {isa = PBXBuildFile; fileRef = 9A58D8BB26AC45EF006C09A1 /* 2_128_128.png */; };
+		9A58D8BF26AC45EF006C09A1 /* 1_128_128.png in Resources */ = {isa = PBXBuildFile; fileRef = 9A58D8BC26AC45EF006C09A1 /* 1_128_128.png */; };
+		9A58D8C026AC45EF006C09A1 /* 2_128_128.bin in Resources */ = {isa = PBXBuildFile; fileRef = 9A58D8BD26AC45EF006C09A1 /* 2_128_128.bin */; };
+		9A58D8C526AC464B006C09A1 /* 2_c_240_240.png in Resources */ = {isa = PBXBuildFile; fileRef = 9A58D8C126AC464B006C09A1 /* 2_c_240_240.png */; };
+		9A58D8C626AC464B006C09A1 /* 1_c_240_240.png in Resources */ = {isa = PBXBuildFile; fileRef = 9A58D8C226AC464B006C09A1 /* 1_c_240_240.png */; };
+		9A58D8C726AC464B006C09A1 /* 2_c_240_240.bin in Resources */ = {isa = PBXBuildFile; fileRef = 9A58D8C326AC464B006C09A1 /* 2_c_240_240.bin */; };
+		9A58D8C826AC464B006C09A1 /* 1_c_240_240.bin in Resources */ = {isa = PBXBuildFile; fileRef = 9A58D8C426AC464B006C09A1 /* 1_c_240_240.bin */; };
 		9A5E932A2515BB630060AB13 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5E93292515BB630060AB13 /* UserModel.swift */; };
 		9A5E932D2515C9710060AB13 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5E932C2515C9710060AB13 /* UserManager.swift */; };
 		9A5E93302515CC700060AB13 /* MTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5E932F2515CC700060AB13 /* MTabBarController.swift */; };
@@ -421,14 +441,6 @@
 		9A037E4925BDB9E00006FB94 /* OTAViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OTAViewController.swift; sourceTree = "<group>"; };
 		9A037E4B25BDBA5A0006FB94 /* SGCirleProgress.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SGCirleProgress.swift; sourceTree = "<group>"; };
 		9A037E4D25BDBC170006FB94 /* SGCirle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SGCirle.swift; sourceTree = "<group>"; };
-		9A08C659262C5B7800E178DA /* preview_watch1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = preview_watch1.png; sourceTree = "<group>"; };
-		9A08C65C262C5B9100E178DA /* preview_watch2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = preview_watch2.png; sourceTree = "<group>"; };
-		9A08C660262C5BB500E178DA /* preview_watch3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = preview_watch3.png; sourceTree = "<group>"; };
-		9A08C664262C5FAA00E178DA /* preview_watch4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = preview_watch4.png; sourceTree = "<group>"; };
-		9A08C668262C6CE300E178DA /* preview_watch3_ClkResPKG.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = preview_watch3_ClkResPKG.bin; sourceTree = "<group>"; };
-		9A08C66A262C716F00E178DA /* preview_watch1_ClkResPKG.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = preview_watch1_ClkResPKG.bin; sourceTree = "<group>"; };
-		9A08C66C262C718100E178DA /* preview_watch2_ClkResPKG.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = preview_watch2_ClkResPKG.bin; sourceTree = "<group>"; };
-		9A08C66E262C71A000E178DA /* preview_watch4_ClkResPKG.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = preview_watch4_ClkResPKG.bin; sourceTree = "<group>"; };
 		9A08C670262C71DA00E178DA /* SmartBand_PHY_ota.hex */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SmartBand_PHY_ota.hex; sourceTree = "<group>"; };
 		9A08C672262C757A00E178DA /* WeatherTestViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeatherTestViewController.swift; sourceTree = "<group>"; };
 		9A08C6E9262F17D500E178DA /* OTAUpgradeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTAUpgradeViewController.h; sourceTree = "<group>"; };
@@ -442,10 +454,10 @@
 		9A08C6FD262F183800E178DA /* ColorDefine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ColorDefine.h; sourceTree = "<group>"; };
 		9A08C6FF262F19EC00E178DA /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
 		9A08C700262F19EC00E178DA /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
-		9A0F1E7F26A5BE76000D8989 /* preview_watch6.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = preview_watch6.png; sourceTree = "<group>"; };
-		9A0F1E8026A5BE76000D8989 /* preview_watch6_ClkResPKG.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = preview_watch6_ClkResPKG.bin; sourceTree = "<group>"; };
-		9A0F1E8126A5BE76000D8989 /* preview_watch5_ClkResPKG.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = preview_watch5_ClkResPKG.bin; sourceTree = "<group>"; };
-		9A0F1E8226A5BE76000D8989 /* preview_watch5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = preview_watch5.png; sourceTree = "<group>"; };
+		9A0F1E7F26A5BE76000D8989 /* 2_240_240.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 2_240_240.png; sourceTree = "<group>"; };
+		9A0F1E8026A5BE76000D8989 /* 2_240_240.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = 2_240_240.bin; sourceTree = "<group>"; };
+		9A0F1E8126A5BE76000D8989 /* 1_240_240.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = 1_240_240.bin; sourceTree = "<group>"; };
+		9A0F1E8226A5BE76000D8989 /* 1_240_240.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 1_240_240.png; sourceTree = "<group>"; };
 		9A2181622557EDBE000330E5 /* apple.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = apple.jpeg; sourceTree = "<group>"; };
 		9A2181632557EDBE000330E5 /* walk.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = walk.jpeg; sourceTree = "<group>"; };
 		9A2181642557EDBE000330E5 /* water.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = water.jpg; sourceTree = "<group>"; };
@@ -473,6 +485,24 @@
 		9A28DA5C2518D4EA00F7B260 /* DotsLoadingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DotsLoadingView.swift; sourceTree = "<group>"; };
 		9A28DA77251CC6E800F7B260 /* DeviceListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceListViewController.swift; sourceTree = "<group>"; };
 		9A32B06A2543C5C7008F0E26 /* BLEManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BLEManager.swift; sourceTree = "<group>"; };
+		9A33D2EF26AD9A4F00DF9618 /* CameraViewAssets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = CameraViewAssets.xcassets; sourceTree = "<group>"; };
+		9A33D2F126AD9A4F00DF9618 /* CroppingParameters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CroppingParameters.swift; sourceTree = "<group>"; };
+		9A33D2F226AD9A4F00DF9618 /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
+		9A33D2F326AD9A4F00DF9618 /* CameraGlobals.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraGlobals.swift; sourceTree = "<group>"; };
+		9A33D2F426AD9A4F00DF9618 /* SingleImageFetcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SingleImageFetcher.swift; sourceTree = "<group>"; };
+		9A33D2F526AD9A4F00DF9618 /* CameraShot.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraShot.swift; sourceTree = "<group>"; };
+		9A33D2F626AD9A4F00DF9618 /* SingleImageSaver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SingleImageSaver.swift; sourceTree = "<group>"; };
+		9A33D2F726AD9A4F00DF9618 /* VolumeControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VolumeControl.swift; sourceTree = "<group>"; };
+		9A33D2F826AD9A4F00DF9618 /* PhotoLibraryAuthorizer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoLibraryAuthorizer.swift; sourceTree = "<group>"; };
+		9A33D2F926AD9A4F00DF9618 /* UIViewExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewExtensions.swift; sourceTree = "<group>"; };
+		9A33D2FA26AD9A4F00DF9618 /* UIButtonExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIButtonExtensions.swift; sourceTree = "<group>"; };
+		9A33D2FB26AD9A4F00DF9618 /* ImageFetcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageFetcher.swift; sourceTree = "<group>"; };
+		9A33D2FC26AD9A4F00DF9618 /* CameraView.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = CameraView.strings; sourceTree = "<group>"; };
+		9A33D2FE26AD9A4F00DF9618 /* CameraViewControllerConstraint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraViewControllerConstraint.swift; sourceTree = "<group>"; };
+		9A33D30126AD9A4F00DF9618 /* CameraViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
+		9A33D30426AD9A4F00DF9618 /* CameraView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
+		9A33D30526AD9A4F00DF9618 /* CropOverlay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CropOverlay.swift; sourceTree = "<group>"; };
+		9A33D30626AD9A4F00DF9618 /* PermissionsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PermissionsView.swift; sourceTree = "<group>"; };
 		9A350BE224EA32CB004CEE6A /* MineViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MineViewController.swift; sourceTree = "<group>"; };
 		9A350BE424EA6476004CEE6A /* Mine.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Mine.storyboard; sourceTree = "<group>"; };
 		9A350BE624EA66BA004CEE6A /* AboutUSViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutUSViewController.swift; sourceTree = "<group>"; };
@@ -650,6 +680,16 @@
 		9A56D23625216FC60082CC08 /* BarLineScatterCandleBubbleChartDataProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarLineScatterCandleBubbleChartDataProvider.swift; sourceTree = "<group>"; };
 		9A56D23725216FC60082CC08 /* ScatterChartDataProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScatterChartDataProvider.swift; sourceTree = "<group>"; };
 		9A56D23825216FC60082CC08 /* BubbleChartDataProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BubbleChartDataProvider.swift; sourceTree = "<group>"; };
+		9A58D8B526ABC4A0006C09A1 /* LongsitSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LongsitSettingsViewController.swift; sourceTree = "<group>"; };
+		9A58D8B726AC1F09006C09A1 /* AlarmIntervalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmIntervalViewController.swift; sourceTree = "<group>"; };
+		9A58D8B926AC45E3006C09A1 /* 1_128_128.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = 1_128_128.bin; sourceTree = "<group>"; };
+		9A58D8BB26AC45EF006C09A1 /* 2_128_128.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 2_128_128.png; sourceTree = "<group>"; };
+		9A58D8BC26AC45EF006C09A1 /* 1_128_128.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 1_128_128.png; sourceTree = "<group>"; };
+		9A58D8BD26AC45EF006C09A1 /* 2_128_128.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = 2_128_128.bin; sourceTree = "<group>"; };
+		9A58D8C126AC464B006C09A1 /* 2_c_240_240.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 2_c_240_240.png; sourceTree = "<group>"; };
+		9A58D8C226AC464B006C09A1 /* 1_c_240_240.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 1_c_240_240.png; sourceTree = "<group>"; };
+		9A58D8C326AC464B006C09A1 /* 2_c_240_240.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = 2_c_240_240.bin; sourceTree = "<group>"; };
+		9A58D8C426AC464B006C09A1 /* 1_c_240_240.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = 1_c_240_240.bin; sourceTree = "<group>"; };
 		9A5E93292515BB630060AB13 /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
 		9A5E932B2515BBFC0060AB13 /* User.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = User.md; sourceTree = "<group>"; };
 		9A5E932C2515C9710060AB13 /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
@@ -910,18 +950,18 @@
 		9A08C653262C5A1100E178DA /* lefun */ = {
 			isa = PBXGroup;
 			children = (
-				9A08C659262C5B7800E178DA /* preview_watch1.png */,
-				9A08C66A262C716F00E178DA /* preview_watch1_ClkResPKG.bin */,
-				9A08C65C262C5B9100E178DA /* preview_watch2.png */,
-				9A08C66C262C718100E178DA /* preview_watch2_ClkResPKG.bin */,
-				9A08C660262C5BB500E178DA /* preview_watch3.png */,
-				9A08C668262C6CE300E178DA /* preview_watch3_ClkResPKG.bin */,
-				9A08C664262C5FAA00E178DA /* preview_watch4.png */,
-				9A08C66E262C71A000E178DA /* preview_watch4_ClkResPKG.bin */,
-				9A0F1E8126A5BE76000D8989 /* preview_watch5_ClkResPKG.bin */,
-				9A0F1E8226A5BE76000D8989 /* preview_watch5.png */,
-				9A0F1E8026A5BE76000D8989 /* preview_watch6_ClkResPKG.bin */,
-				9A0F1E7F26A5BE76000D8989 /* preview_watch6.png */,
+				9A58D8B926AC45E3006C09A1 /* 1_128_128.bin */,
+				9A58D8BC26AC45EF006C09A1 /* 1_128_128.png */,
+				9A58D8BD26AC45EF006C09A1 /* 2_128_128.bin */,
+				9A58D8BB26AC45EF006C09A1 /* 2_128_128.png */,
+				9A0F1E8126A5BE76000D8989 /* 1_240_240.bin */,
+				9A0F1E8226A5BE76000D8989 /* 1_240_240.png */,
+				9A0F1E8026A5BE76000D8989 /* 2_240_240.bin */,
+				9A0F1E7F26A5BE76000D8989 /* 2_240_240.png */,
+				9A58D8C426AC464B006C09A1 /* 1_c_240_240.bin */,
+				9A58D8C226AC464B006C09A1 /* 1_c_240_240.png */,
+				9A58D8C326AC464B006C09A1 /* 2_c_240_240.bin */,
+				9A58D8C126AC464B006C09A1 /* 2_c_240_240.png */,
 			);
 			path = lefun;
 			sourceTree = "<group>";
@@ -1032,6 +1072,55 @@
 			path = Dot;
 			sourceTree = "<group>";
 		};
+		9A33D2EE26AD9A4F00DF9618 /* ALCameraViewController */ = {
+			isa = PBXGroup;
+			children = (
+				9A33D2EF26AD9A4F00DF9618 /* CameraViewAssets.xcassets */,
+				9A33D2F026AD9A4F00DF9618 /* Utilities */,
+				9A33D2FC26AD9A4F00DF9618 /* CameraView.strings */,
+				9A33D2FD26AD9A4F00DF9618 /* ViewController */,
+				9A33D30326AD9A4F00DF9618 /* Views */,
+			);
+			path = ALCameraViewController;
+			sourceTree = "<group>";
+		};
+		9A33D2F026AD9A4F00DF9618 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				9A33D2F126AD9A4F00DF9618 /* CroppingParameters.swift */,
+				9A33D2F226AD9A4F00DF9618 /* Utilities.swift */,
+				9A33D2F326AD9A4F00DF9618 /* CameraGlobals.swift */,
+				9A33D2F426AD9A4F00DF9618 /* SingleImageFetcher.swift */,
+				9A33D2F526AD9A4F00DF9618 /* CameraShot.swift */,
+				9A33D2F626AD9A4F00DF9618 /* SingleImageSaver.swift */,
+				9A33D2F726AD9A4F00DF9618 /* VolumeControl.swift */,
+				9A33D2F826AD9A4F00DF9618 /* PhotoLibraryAuthorizer.swift */,
+				9A33D2F926AD9A4F00DF9618 /* UIViewExtensions.swift */,
+				9A33D2FA26AD9A4F00DF9618 /* UIButtonExtensions.swift */,
+				9A33D2FB26AD9A4F00DF9618 /* ImageFetcher.swift */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
+		9A33D2FD26AD9A4F00DF9618 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				9A33D2FE26AD9A4F00DF9618 /* CameraViewControllerConstraint.swift */,
+				9A33D30126AD9A4F00DF9618 /* CameraViewController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		9A33D30326AD9A4F00DF9618 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				9A33D30426AD9A4F00DF9618 /* CameraView.swift */,
+				9A33D30526AD9A4F00DF9618 /* CropOverlay.swift */,
+				9A33D30626AD9A4F00DF9618 /* PermissionsView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		9A350BE024EA28E6004CEE6A /* Popup */ = {
 			isa = PBXGroup;
 			children = (
@@ -1093,6 +1182,7 @@
 				9A52106A2503349A00F64A7A /* ClockBCollectionViewCell.swift */,
 				9A4E624724F8DF3800A0E878 /* DevicesView.swift */,
 				9A5210722504937500F64A7A /* DeviceSettingsViewController.swift */,
+				9A58D8B526ABC4A0006C09A1 /* LongsitSettingsViewController.swift */,
 				9A52107425049FD900F64A7A /* DeviceSettingsTableViewCell.swift */,
 				9A037E4925BDB9E00006FB94 /* OTAViewController.swift */,
 				9A037E4B25BDBA5A0006FB94 /* SGCirleProgress.swift */,
@@ -1105,6 +1195,7 @@
 				9A60DEF0252F416E00E0D849 /* AlarmTableViewCell.swift */,
 				9A60DEF2252F418900E0D849 /* AlarmHeaderView.swift */,
 				9A60DEF4252F49A200E0D849 /* AlarmAddViewController.swift */,
+				9A58D8B726AC1F09006C09A1 /* AlarmIntervalViewController.swift */,
 				9A60DEF6252F50FF00E0D849 /* AlarmRepeatViewController.swift */,
 				9A64F0BB25DF50C30073E679 /* DAlarmModel.swift */,
 			);
@@ -1500,6 +1591,7 @@
 		9A820B6F24CE5A1A00A62C6F /* Kit */ = {
 			isa = PBXGroup;
 			children = (
+				9A33D2EE26AD9A4F00DF9618 /* ALCameraViewController */,
 				9AE1A1522629465F00B8B10D /* OTASDK */,
 				9A367B6C25BD207000BFB4C3 /* EasyRealm */,
 				9A839C512560F3EB00714CBE /* Map */,
@@ -1799,37 +1891,39 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9A08C65E262C5B9100E178DA /* preview_watch2.png in Resources */,
+				9A58D8C526AC464B006C09A1 /* 2_c_240_240.png in Resources */,
 				9A60DEE2252F003800E0D849 /* cities.plist in Resources */,
-				9A08C66D262C718100E178DA /* preview_watch2_ClkResPKG.bin in Resources */,
 				9A2185AC255BC6A9000330E5 /* new2.jpg in Resources */,
 				9A820B8224D0522300A62C6F /* Sport.storyboard in Resources */,
-				9A08C662262C5BB500E178DA /* preview_watch3.png in Resources */,
 				18385F13245181D900EA380A /* Main.storyboard in Resources */,
 				9A2185AD255BC6AA000330E5 /* new3.jpg in Resources */,
+				9A33D31426AD9A4F00DF9618 /* CameraView.strings in Resources */,
+				9A58D8C626AC464B006C09A1 /* 1_c_240_240.png in Resources */,
+				9A58D8BF26AC45EF006C09A1 /* 1_128_128.png in Resources */,
 				9A2181652557EDBE000330E5 /* apple.jpeg in Resources */,
-				9A08C65B262C5B7800E178DA /* preview_watch1.png in Resources */,
+				9A58D8BE26AC45EF006C09A1 /* 2_128_128.png in Resources */,
+				9A58D8C726AC464B006C09A1 /* 2_c_240_240.bin in Resources */,
 				9A60DEE3252F003800E0D849 /* hotCities.plist in Resources */,
 				9A2185B0255BC6AA000330E5 /* new5.jpg in Resources */,
 				9A4E624424F7E94E00A0E878 /* Device.storyboard in Resources */,
-				9A0F1E8426A5BE76000D8989 /* preview_watch6_ClkResPKG.bin in Resources */,
+				9A0F1E8426A5BE76000D8989 /* 2_240_240.bin in Resources */,
 				9AAF861C25C83E5000960BDD /* IdleResources.bundle in Resources */,
-				9A0F1E8626A5BE76000D8989 /* preview_watch5.png in Resources */,
-				9A08C66B262C716F00E178DA /* preview_watch1_ClkResPKG.bin in Resources */,
+				9A0F1E8626A5BE76000D8989 /* 1_240_240.png in Resources */,
 				18385EAA24517F1A00EA380A /* LaunchScreen.storyboard in Resources */,
 				9A350BE524EA6476004CEE6A /* Mine.storyboard in Resources */,
 				9A839C672560F68B00714CBE /* SGSportingView.storyboard in Resources */,
 				9A2181662557EDBE000330E5 /* walk.jpeg in Resources */,
-				9A0F1E8326A5BE76000D8989 /* preview_watch6.png in Resources */,
+				9A58D8C026AC45EF006C09A1 /* 2_128_128.bin in Resources */,
+				9A0F1E8326A5BE76000D8989 /* 2_240_240.png in Resources */,
+				9A58D8BA26AC45E3006C09A1 /* 1_128_128.bin in Resources */,
 				9A2185AE255BC6AA000330E5 /* new1.jpg in Resources */,
 				9A2181672557EDBE000330E5 /* water.jpg in Resources */,
-				9A08C666262C5FAA00E178DA /* preview_watch4.png in Resources */,
 				9A2185AF255BC6AA000330E5 /* new4.jpg in Resources */,
-				9A08C669262C6CE300E178DA /* preview_watch3_ClkResPKG.bin in Resources */,
+				9A58D8C826AC464B006C09A1 /* 1_c_240_240.bin in Resources */,
+				9A33D30826AD9A4F00DF9618 /* CameraViewAssets.xcassets in Resources */,
 				9A08C671262C71DA00E178DA /* SmartBand_PHY_ota.hex in Resources */,
-				9A08C66F262C71A000E178DA /* preview_watch4_ClkResPKG.bin in Resources */,
 				9A5613F32524879600C43C6A /* CommonCalendarView.xib in Resources */,
-				9A0F1E8526A5BE76000D8989 /* preview_watch5_ClkResPKG.bin in Resources */,
+				9A0F1E8526A5BE76000D8989 /* 1_240_240.bin in Resources */,
 				9A820B7824CEA2C600A62C6F /* Health.storyboard in Resources */,
 				18385EA724517F1A00EA380A /* Assets.xcassets in Resources */,
 				9A21859E255BBDD9000330E5 /* root.jpg in Resources */,
@@ -1928,6 +2022,7 @@
 				9A56D26125216FC60082CC08 /* IHighlighter.swift in Sources */,
 				9A56D24225216FC60082CC08 /* YAxisRenderer.swift in Sources */,
 				9A8CA51025272C5200EC01A7 /* CVDate.swift in Sources */,
+				9A33D30B26AD9A4F00DF9618 /* CameraGlobals.swift in Sources */,
 				9A56D24725216FC60082CC08 /* XAxisRenderer.swift in Sources */,
 				9A7E27E8262326E000DA658B /* HttpHelper.swift in Sources */,
 				9A5210732504937500F64A7A /* DeviceSettingsViewController.swift in Sources */,
@@ -1935,6 +2030,7 @@
 				9A08C701262F19EC00E178DA /* MBProgressHUD.m in Sources */,
 				9A4E624624F8926300A0E878 /* DevicesViewController.swift in Sources */,
 				9A8CA51125272C5200EC01A7 /* CVCalendarView.swift in Sources */,
+				9A33D31826AD9A4F00DF9618 /* CameraViewController.swift in Sources */,
 				9AE1A16F2629465F00B8B10D /* JCDataConvert.m in Sources */,
 				9A8CA51C25272C5200EC01A7 /* CVCalendarViewPresentationMode.swift in Sources */,
 				9A56D27925216FC60082CC08 /* Transformer.swift in Sources */,
@@ -1963,6 +2059,7 @@
 				9A56D27625216FC60082CC08 /* IFillFormatter.swift in Sources */,
 				9A56D27D25216FC60082CC08 /* Platform+Graphics.swift in Sources */,
 				9A56D26B25216FC60082CC08 /* PieRadarChartViewBase.swift in Sources */,
+				9A33D31326AD9A4F00DF9618 /* ImageFetcher.swift in Sources */,
 				9A56D23C25216FC60082CC08 /* LegendRenderer.swift in Sources */,
 				9A60DEF9252F5B7100E0D849 /* DeviceModel.swift in Sources */,
 				9A037E4525BDB1CD0006FB94 /* OTACMD.m in Sources */,
@@ -1991,9 +2088,11 @@
 				9A56D27F25216FC60082CC08 /* Platform.swift in Sources */,
 				9A56D28525216FC60082CC08 /* IMarker.swift in Sources */,
 				9A5E933325164B410060AB13 /* DeviceSearchViewController.swift in Sources */,
+				9A58D8B826AC1F09006C09A1 /* AlarmIntervalViewController.swift in Sources */,
 				9A56D2A325216FC70082CC08 /* ChartDataEntryBase.swift in Sources */,
 				9A5E932A2515BB630060AB13 /* UserModel.swift in Sources */,
 				9AB910292501322C006E0FC4 /* EMAlertController.swift in Sources */,
+				9A33D30D26AD9A4F00DF9618 /* CameraShot.swift in Sources */,
 				9AE1A181262AB9F900B8B10D /* HeartRateView.swift in Sources */,
 				9A820B7C24CECFBC00A62C6F /* String+Extension.swift in Sources */,
 				9A8CA52225272C5200EC01A7 /* CVCalendarManager.swift in Sources */,
@@ -2002,6 +2101,7 @@
 				9A2184D8255AE3D4000330E5 /* RegisterResponse.swift in Sources */,
 				9A820B8F24D1B15B00A62C6F /* UIButton+Extension.swift in Sources */,
 				9A56D2AB25216FC70082CC08 /* CandleChartData.swift in Sources */,
+				9A33D30926AD9A4F00DF9618 /* CroppingParameters.swift in Sources */,
 				9AE1A1712629465F00B8B10D /* Partition.m in Sources */,
 				9A56D29C25216FC70082CC08 /* CombinedChartData.swift in Sources */,
 				9A56D26C25216FC60082CC08 /* BarChartView.swift in Sources */,
@@ -2058,10 +2158,12 @@
 				9A08C6EB262F17D500E178DA /* OTAUpgradeViewController.m in Sources */,
 				9A037E4A25BDB9E00006FB94 /* OTAViewController.swift in Sources */,
 				9A367B9925BD425300BFB4C3 /* DeviceManager.swift in Sources */,
+				9A33D31C26AD9A4F00DF9618 /* PermissionsView.swift in Sources */,
 				9AA0BC94250F63B3003B9F64 /* LoginViewController.swift in Sources */,
 				9A839C5A2560F3FA00714CBE /* SGSportTrackingLine.m in Sources */,
 				9A52106B2503349A00F64A7A /* ClockBCollectionViewCell.swift in Sources */,
 				9A08C6EF262F17FE00E178DA /* OTCModel.m in Sources */,
+				9A33D30C26AD9A4F00DF9618 /* SingleImageFetcher.swift in Sources */,
 				9A64F08025DCDEB00073E679 /* SportRecordMonthView.swift in Sources */,
 				9A64F08225DD50D70073E679 /* ClockUseViewController.swift in Sources */,
 				9A350BED24EA8068004CEE6A /* BindPhoneNumViewController.swift in Sources */,
@@ -2116,6 +2218,7 @@
 				9AB910272501322C006E0FC4 /* EMAlertTextField.swift in Sources */,
 				9A56D2BA25216FC70082CC08 /* ILineScatterCandleRadarChartDataSet.swift in Sources */,
 				9A839C0325602BB700714CBE /* BaseResponse.swift in Sources */,
+				9A33D31B26AD9A4F00DF9618 /* CropOverlay.swift in Sources */,
 				9A56D2B225216FC70082CC08 /* IPieChartDataSet.swift in Sources */,
 				9A56D26225216FC60082CC08 /* CombinedHighlighter.swift in Sources */,
 				9A56D2AC25216FC70082CC08 /* LineChartDataSet.swift in Sources */,
@@ -2126,10 +2229,12 @@
 				9A820B7E24CED47700A62C6F /* UIView+Extension.swift in Sources */,
 				9A61683825DA192900918EFC /* CircleProgressView.m in Sources */,
 				9A2185B6255BD153000330E5 /* CacheHelper.swift in Sources */,
+				9A33D31126AD9A4F00DF9618 /* UIViewExtensions.swift in Sources */,
 				9A8CA50F25272C5200EC01A7 /* CVCalendarContentViewController.swift in Sources */,
 				9A8CA51325272C5200EC01A7 /* CVCalendarWeekContentViewController.swift in Sources */,
 				9AB910262501322C006E0FC4 /* UIColor+EMAlertController.swift in Sources */,
 				9A56D24025216FC60082CC08 /* AxisRendererBase.swift in Sources */,
+				9A33D30A26AD9A4F00DF9618 /* Utilities.swift in Sources */,
 				9A56D2AA25216FC70082CC08 /* PieChartData.swift in Sources */,
 				9A56D28C25216FC60082CC08 /* ChartLimitLine.swift in Sources */,
 				9A56D2AD25216FC70082CC08 /* BubbleChartDataSet.swift in Sources */,
@@ -2160,6 +2265,7 @@
 				9A820B7424CEA1CC00A62C6F /* BaseViewController.swift in Sources */,
 				9A56D28425216FC60082CC08 /* Description.swift in Sources */,
 				9A367B7925BD208100BFB4C3 /* EasyRealm.swift in Sources */,
+				9A33D31526AD9A4F00DF9618 /* CameraViewControllerConstraint.swift in Sources */,
 				9A8CA527252CA05E00EC01A7 /* DataRecordReuseSectionHeadView.swift in Sources */,
 				9A8CA50D25272C5200EC01A7 /* CVCalendarViewAppearanceDelegate.swift in Sources */,
 				9A839C6925610AB000714CBE /*  TargetModel.swift in Sources */,
@@ -2180,6 +2286,7 @@
 				9A521069250322E500F64A7A /* ClockCollectionViewCell.swift in Sources */,
 				9A5210712503DB2E00F64A7A /* ClockCCollectionViewCell.swift in Sources */,
 				9A56D25025216FC60082CC08 /* TriangleShapeRenderer.swift in Sources */,
+				9A33D31A26AD9A4F00DF9618 /* CameraView.swift in Sources */,
 				9AE1A16D2629465F00B8B10D /* OTAManager.m in Sources */,
 				9A037E4C25BDBA5A0006FB94 /* SGCirleProgress.swift in Sources */,
 				9AE6688D267F8B2A00A8584A /* MAWeatherForecastView.m in Sources */,
@@ -2195,8 +2302,10 @@
 				9AE436372686BF6E006A588F /* CurveView.swift in Sources */,
 				9A8CA51825272C5200EC01A7 /* CVCalendarContentPresentationCoordinator.swift in Sources */,
 				9A56D24F25216FC60082CC08 /* CrossShapeRenderer.swift in Sources */,
+				9A33D30E26AD9A4F00DF9618 /* SingleImageSaver.swift in Sources */,
 				9A56D25925216FC60082CC08 /* BarHighlighter.swift in Sources */,
 				9A839C5B2560F3FA00714CBE /* SGPolyLine.m in Sources */,
+				9A58D8B626ABC4A1006C09A1 /* LongsitSettingsViewController.swift in Sources */,
 				9A56D29425216FC70082CC08 /* AnimatedMoveViewJob.swift in Sources */,
 				9A56D25B25216FC60082CC08 /* Highlight.swift in Sources */,
 				9A820B6E24CD06AC00A62C6F /* HealthViewController.swift in Sources */,
@@ -2210,6 +2319,7 @@
 				9A8CA51525272C5200EC01A7 /* CVSet.swift in Sources */,
 				9A5613F525248BFC00C43C6A /* AudioButtonView.swift in Sources */,
 				9A8CA51425272C5200EC01A7 /* CVSelectionType.swift in Sources */,
+				9A33D31226AD9A4F00DF9618 /* UIButtonExtensions.swift in Sources */,
 				9A56D2A425216FC70082CC08 /* ChartDataEntry.swift in Sources */,
 				9A56D2BE25216FC70082CC08 /* ChartDataProvider.swift in Sources */,
 				9A56D28325216FC60082CC08 /* ChartUtils.swift in Sources */,
@@ -2220,6 +2330,7 @@
 				9A56D28225216FC60082CC08 /* Platform+Color.swift in Sources */,
 				9A61689825DCA64300918EFC /* SportRecordViewController.swift in Sources */,
 				9A350BE724EA66BA004CEE6A /* AboutUSViewController.swift in Sources */,
+				9A33D30F26AD9A4F00DF9618 /* VolumeControl.swift in Sources */,
 				9A367B9525BD235A00BFB4C3 /* RealmManager.swift in Sources */,
 				9A56D2B625216FC70082CC08 /* IBarChartDataSet.swift in Sources */,
 				9A56D2A125216FC70082CC08 /* BarLineScatterCandleBubbleChartData.swift in Sources */,
@@ -2250,6 +2361,7 @@
 				9A56D28B25216FC60082CC08 /* XAxis.swift in Sources */,
 				9A56D25A25216FC60082CC08 /* RadarHighlighter.swift in Sources */,
 				9A56D26825216FC60082CC08 /* HorizontalBarChartView.swift in Sources */,
+				9A33D31026AD9A4F00DF9618 /* PhotoLibraryAuthorizer.swift in Sources */,
 				9A5E932D2515C9710060AB13 /* UserManager.swift in Sources */,
 				9A60DEF7252F50FF00E0D849 /* AlarmRepeatViewController.swift in Sources */,
 				9A56D27125216FC60082CC08 /* IAxisValueFormatter.swift in Sources */,
@@ -2395,7 +2507,7 @@
 				CODE_SIGN_ENTITLEMENTS = "";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 11;
+				CURRENT_PROJECT_VERSION = 12;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_ASSET_PATHS = TJDWristbandSDK.framework;
 				DEVELOPMENT_TEAM = RPZ68269DB;
@@ -2433,7 +2545,7 @@
 				CODE_SIGN_ENTITLEMENTS = "";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 11;
+				CURRENT_PROJECT_VERSION = 12;
 				DEVELOPMENT_ASSET_PATHS = TJDWristbandSDK.framework;
 				DEVELOPMENT_TEAM = RPZ68269DB;
 				ENABLE_BITCODE = NO;

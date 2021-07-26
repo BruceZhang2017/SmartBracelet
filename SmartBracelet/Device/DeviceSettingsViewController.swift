@@ -21,9 +21,11 @@ class DeviceSettingsViewController: BaseViewController {
     @IBOutlet weak var deviceNameLabel: UILabel!
     @IBOutlet weak var btButton: UIButton!
     @IBOutlet weak var batteryButton: UIButton!
+    var cameraViewController: CameraViewController?
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        bleSelf.getLongSitForWristband()
         title = "设备设置"
         tableView.backgroundColor = UIColor.kF5F5F5
         footerView = UIView(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: 104))
@@ -43,18 +45,27 @@ class DeviceSettingsViewController: BaseViewController {
         deviceNameLabel.text = bleSelf.bleModel.name
         batteryButton.setTitle("剩余电量\(bleSelf.batteryLevel)%", for: .normal)
         bleSelf.getAncsSwitchForWristband() // 苹果推送消息
+        NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: Notification.Name("DeviceSettings"), object: nil)
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        tableView.reloadData()
     }
-    */
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    @objc private func handleNotification(_ notification: Notification) {
+        if #available(iOS 3.1, *) {
+            DispatchQueue.main.async {
+                [weak self] in
+                self?.cameraViewController?.capturePhoto()
+            }
+        }
+        
+    }
     
     @objc private func deleteDevice(_ sender: Any) {
         let alert = UIAlertController(title: "提示", message: "您确定解除绑定该设备？如果确定，并请至手机“设置 -> 蓝牙”中删除该设备配对记录。", preferredStyle: .alert)
@@ -80,15 +91,31 @@ class DeviceSettingsViewController: BaseViewController {
     @objc private func valueChanged(_ sender: Any) {
         let mSwitch = sender as? UISwitch
         let tag = mSwitch?.tag ?? 0
-        if tag == 1001 { // 长坐提醒
+        if tag == 1002 { // 长坐提醒
             bleSelf.functionSwitchModel.isLongSit = mSwitch?.isOn ?? false 
             bleSelf.setSwitchForWristband(bleSelf.functionSwitchModel)
-        } else if tag == 1000 { // 抬手亮屏
+        } else if tag == 1001 { // 抬手亮屏
             bleSelf.functionSwitchModel.isLightScreen = mSwitch?.isOn ?? false
+            bleSelf.setSwitchForWristband(bleSelf.functionSwitchModel)
+        } else if tag == 1000 { // 来电提醒
+            bleSelf.functionSwitchModel.isCallDown = mSwitch?.isOn ?? false
             bleSelf.setSwitchForWristband(bleSelf.functionSwitchModel)
         }
     }
-
+    
+    private func takePhoto() {
+        var croppingParameters: CroppingParameters {
+            return CroppingParameters(isEnabled: false, allowResizing: false, allowMoving: false, minimumSize: CGSize(width: 60, height: 60))
+        }
+        cameraViewController = CameraViewController(croppingParameters: croppingParameters, allowsLibraryAccess: true) { [weak self] image, asset in
+            self?.dismiss(animated: true, completion: nil)
+            self?.cameraViewController = nil
+            bleSelf.setCameraForWristband(false)
+            bleSelf.responseCameraForWristband()
+        }
+        
+        present(cameraViewController!, animated: true, completion: nil)
+    }
 }
 
 extension DeviceSettingsViewController: UITableViewDataSource {
@@ -103,19 +130,28 @@ extension DeviceSettingsViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: .kCellIdentifier, for: indexPath) as! DeviceSettingsTableViewCell
         cell.textLabel?.text = titles[indexPath.section][indexPath.row]
-        if indexPath.section == 0 && indexPath.row >= 1 && indexPath.row <= 2 {
+        if indexPath.section == 0 && indexPath.row >= 1 && indexPath.row <= 3 {
             let mSwitch = UISwitch()
             mSwitch.tag = 999 + indexPath.row
             mSwitch.addTarget(self, action: #selector(valueChanged(_:)), for: .valueChanged)
             cell.accessoryView = mSwitch
-            if indexPath.row == 2 {
+            if indexPath.row == 3 {
                 mSwitch.isOn = bleSelf.functionSwitchModel.isLongSit
+            } else if indexPath.row == 2 {
+                mSwitch.isOn = bleSelf.functionSwitchModel.isLightScreen
             } else if indexPath.row == 1 {
+                mSwitch.isOn = bleSelf.functionSwitchModel.isCallDown
                 mSwitch.isOn = bleSelf.functionSwitchModel.isLightScreen
             }
+
         } else {
             let imageView = UIImageView(image: UIImage(named: "content_next"))
             cell.accessoryView = imageView
+        }
+        if indexPath.section == 0 && indexPath.row == 4 {
+            cell.detailTextLabel?.text = "\(bleSelf.longSitModel.interval)分钟"
+        } else {
+            cell.detailTextLabel?.text = ""
         }
         return cell
     }
@@ -135,12 +171,18 @@ extension DeviceSettingsViewController: UITableViewDelegate {
                 let storyboard = UIStoryboard(name: .kDevice, bundle: nil)
                 let vc = storyboard.instantiateViewController(withIdentifier: "APNSViewController")
                 navigationController?.pushViewController(vc, animated: true)
-            } else if indexPath.row == 3 {
+            } else if indexPath.row == 4 {
+                let vc = storyboard?.instantiateViewController(withIdentifier: "LongsitSettingsViewController")
+                navigationController?.pushViewController(vc!, animated: true)
+            } else if indexPath.row == 5 {
                 let vc = WeatherViewController()
                 navigationController?.pushViewController(vc, animated: true)
             }
         } else {
-            if indexPath.row == 2 { // 设置信息
+            if indexPath.row == 3 {
+                bleSelf.setCameraForWristband(true)
+                takePhoto()
+            } else if indexPath.row == 2 { // 设置信息
                 let storyboard = UIStoryboard(name: .kDevice, bundle: nil)
                 let vc = storyboard.instantiateViewController(withIdentifier: "DeviceInfoViewController")
                 navigationController?.pushViewController(vc, animated: true)
@@ -159,8 +201,7 @@ extension DeviceSettingsViewController: UITableViewDelegate {
 
 extension DeviceSettingsViewController {
     var titles: [[String]] {
-        return [["推送设置", "抬手亮屏", "久坐提醒", "天气推送"], ["闹钟设置", "查找设置", "设置信息"]]
+        return [["推送设置", "来电提醒", "抬手亮屏", "久坐提醒", "提醒间隔", "天气推送"], ["闹钟设置", "查找设置", "设备信息","摇一摇拍照"]]
     }
 }
-
 

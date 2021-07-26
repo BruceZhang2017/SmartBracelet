@@ -13,12 +13,13 @@
 import UIKit
 import TJDWristbandSDK
 import Toaster
+import AudioToolbox
 
 let bleSelf = WUBleManager.shared
 
 class BLEManager: NSObject {
     static let shared = BLEManager()
-    var sleepArray: [[TJDSleepModel]] = Array(repeating: [], count: 6)
+    var sleepArray: [[SleepModel]] = Array(repeating: [], count: 6)
     var stepArray: [[StepModel]] = Array(repeating: [], count: 6)
     var heartArray: [HeartModel] = []
     var bloodArray: [BloodModel] = []
@@ -28,6 +29,7 @@ class BLEManager: NSObject {
     var binData = Data()
     var total = 0
     var distanceDays = 0 // 相隔多少天
+    var bleFlag = -1
     
     override init() {
         super.init()
@@ -94,10 +96,15 @@ class BLEManager: NSObject {
         if notify.name == WUBleManagerNotifyKeys.on {
             print("蓝牙已打开")
             NotificationCenter.default.post(name: Notification.Name("HealthVCLoading"), object: 0)
+            if bleFlag == 1 {
+                bleFlag = -1
+                startScanAndConnect()
+            }
         }
         
         if notify.name == WUBleManagerNotifyKeys.off {
             print("蓝牙未打开")
+            bleFlag = 1
             NotificationCenter.default.post(name: Notification.Name("HealthVCLoading"), object: 1)
         }
         
@@ -134,30 +141,36 @@ class BLEManager: NSObject {
     
     private func callback() {
         bleSelf.didSetStartMeasure = {(isSuccess, type) in
+            print("回调设置开始测试功能: \(isSuccess) \(type)")
             if isSuccess {
             }
         }
         
         bleSelf.didSetUserinfo = { isSuccess in
+            print("回调设置用户信息功能: \(isSuccess)")
             if isSuccess {
             }
         }
         
         bleSelf.didSetCamera = { (isSuccess, isEnter) in
+            print("回调拍照是否成功: \(isSuccess) \(isEnter)")
         }
         
         bleSelf.didSetLongSit = { isSuccess in
+            print("回调设置长座提醒功能: \(isSuccess)")
             if isSuccess {
             }
         }
         
         bleSelf.didSetSwitch = { isSuccess in
+            print("回调设置开关功能: \(isSuccess)")
             if isSuccess {
             }
         }
     }
     
     public func regNotification() {
+        NotificationCenter.default.addObserver(self, selector: #selector(handleNotify(_:)), name: WristbandNotifyKeys.search_Phone, object: nil )
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotify(_:)), name: WristbandNotifyKeys.readyToWrite, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotify(_:)), name: WristbandNotifyKeys.read_Sport, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotify(_:)), name: WristbandNotifyKeys.read_All_Sport, object: nil)
@@ -218,7 +231,19 @@ class BLEManager: NSObject {
             wuPrint("接收的值：\(str)")
         }
         #endif
-                
+        if notify.name == WristbandNotifyKeys.search_Phone {
+            let content = UNMutableNotificationContent()
+            content.title = "提示"
+            content.body = "查找手机成功"
+            content.badge = 1
+            content.sound = UNNotificationSound.default
+            let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 5, repeats: false)
+            let request = UNNotificationRequest(identifier: "Notification", content: content, trigger: trigger)
+            UNUserNotificationCenter.current().add(request) { err in
+                err != nil ? print("添加本地通知错误", err!.localizedDescription) : print("添加本地通知成功")
+            }
+        }
+        
         if notify.name == WristbandNotifyKeys.readyToWrite {
             wuPrint("可以进行列表上的功能操作了！")
             bleSelf.bindSetForWristband() // 第0步：先绑定设备
@@ -249,8 +274,11 @@ class BLEManager: NSObject {
             let date = WUDate.dateFromTimeStamp(model.timeStamp)
             let dateStr = date.stringFromYmdHms()
             wuPrint(model.step, dateStr)
+            if model.day >= 6 {
+                return
+            }
             stepArray[model.day] += [model]
-            let day = min(3, distanceDays)
+            let day = min(6, distanceDays)
             if model.day == day {
                 if model.totalCount == model.indexOfTotal {
                     print("detail step sync complete", model.day)
@@ -273,10 +301,11 @@ class BLEManager: NSObject {
             stepModel.distance = model.distance
             stepModel.cal = model.cal
             try? stepModel.er.save(update: true)
+            print("将步数信息保存到数据库中: \(stepModel.timeStamp)")
         }
         
         if notify.name == WristbandNotifyKeys.read_All_Sleep {
-            guard let model = notify.object as? TJDSleepModel else {
+            guard let model = notify.object as? SleepModel else {
                 return
             }
             dump(model)
@@ -290,6 +319,7 @@ class BLEManager: NSObject {
             sleepModel.totalCount = model.totalCount
             sleepModel.day = model.day
             try? sleepModel.er.save(update: true)
+            print("将睡眠信息保存到数据库中: \(sleepModel.timeStamp)")
             if model.day == 2 {
                 if model.totalCount == model.indexOfTotal {
                     print("detail sleep sync complete", model.day) // 第11步：数据已经全部读完
@@ -321,7 +351,7 @@ class BLEManager: NSObject {
             heartModel.heartRate = model.heart
             heartModel.timeStamp = model.timeStamp
             try? heartModel.er.save(update: true)
-            wuPrint("收到测试心跳的结果")
+            print("收到测试心跳的结果: \(heartModel.timeStamp)")
             if model.indexOfTotal == model.totalCount {
                 let str1 = String.init(format: "heart history complete, total %d line", model.totalCount)
                 wuPrint(str1)
@@ -355,6 +385,7 @@ class BLEManager: NSObject {
                     $0.timeStamp > $1.timeStamp
                 }
                 NotificationCenter.default.post(name: Notification.Name("HealthViewController"), object: "blood")
+                bleSelf.aloneGetStep(with: 0) // 第9步：获取历史步行信息
             }
             bleSelf.aloneGetMeasure(.oxygen) // 第8步：获取血氧历史数据
         }
@@ -414,7 +445,6 @@ class BLEManager: NSObject {
                     $0.timeStamp > $1.timeStamp
                 }
                 NotificationCenter.default.post(name: Notification.Name("HealthViewController"), object: "oxygen")
-                bleSelf.aloneGetStep(with: 0) // 第9步：获取历史步行信息
             }
         }
         if notify.name == WristbandNotifyKeys.devSendCeLiang_oxygen {
@@ -469,6 +499,7 @@ class BLEManager: NSObject {
                 
         if notify.name == WristbandNotifyKeys.takePhoto {
             print("takePhoto成功")
+            NotificationCenter.default.post(name: Notification.Name("DeviceSettings"), object: nil)
         }
         
         if notify.name == WristbandNotifyKeys.setOrRead_SitParam {
@@ -548,9 +579,7 @@ class BLEManager: NSObject {
             if model.clockId == 0 {
                 alarmArray.removeAll()
             }
-            if model.hour > 0 || model.minute > 0  {
-                alarmArray.append(model)
-            }
+            alarmArray.append(model)
             if model.clockId == 4 {
                 DispatchQueue.main.async { // 返回主线程刷新
                     NotificationCenter.default.post(name: Notification.Name.Alarm, object: nil)
@@ -583,8 +612,8 @@ extension BLEManager {
 }
 
 extension BLEManager {
-    public func readSleepData(array: [TJDSleepModel]) -> [Int]  {
-        let arr = TJDSleepModel.sleepTime(array)
+    public func readSleepData(array: [SleepModel]) -> [Int]  {
+        let arr = SleepModel.sleepTime(array)
         let a = SleepTimeModel.detailSleep(arr)
         print("清醒时间:\(a[0])，浅睡时间:\(a[1])，深睡时间:\(a[2])")
         return a

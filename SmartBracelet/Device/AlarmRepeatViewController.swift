@@ -14,7 +14,7 @@ import UIKit
 
 class AlarmRepeatViewController: BaseViewController {
     @IBOutlet weak var tableView: UITableView!
-    var days: Int = 0
+    var weekday: Int = 0
     var callbackBlock: ((Int) -> ())?
     
     override func viewDidLoad() {
@@ -25,7 +25,7 @@ class AlarmRepeatViewController: BaseViewController {
     }
     
     @objc private func submit(_ sender: Any) {
-        callbackBlock?(days)
+        callbackBlock?(weekday)
         navigationController?.popViewController(animated: true)
     }
 
@@ -43,49 +43,43 @@ extension AlarmRepeatViewController: UITableViewDataSource {
         cell.textLabel?.font = UIFont.systemFont(ofSize: 15)
         cell.textLabel?.text = titles[indexPath.row]
         if indexPath.row == 0 {
-            if days >= 10000 || days == 0 {
+            if ((weekday >> 1) & 0x01) > 0 {
                 cell.accessoryView = UIImageView(image: UIImage(named: "content_icon_selecte"))
             } else {
                 cell.accessoryView = nil
             }
         } else if indexPath.row == 1 {
-            if (days % 10000) % 64 % 32 % 16 % 8 % 4 % 2 > 0 {
+            if ((weekday >> 2) & 0x01) > 0 {
                 cell.accessoryView = UIImageView(image: UIImage(named: "content_icon_selecte"))
             } else {
                 cell.accessoryView = nil
             }
         } else if indexPath.row == 2 {
-            if (days % 10000) % 64 % 32 % 16 % 8 % 4 >= 2 {
+            if ((weekday >> 3) & 0x01) > 0 {
                 cell.accessoryView = UIImageView(image: UIImage(named: "content_icon_selecte"))
             } else {
                 cell.accessoryView = nil
             }
         } else if indexPath.row == 3 {
-            if (days % 10000) % 64 % 32 % 16 % 8 >= 4 {
+            if ((weekday >> 4) & 0x01) > 0 {
                 cell.accessoryView = UIImageView(image: UIImage(named: "content_icon_selecte"))
             } else {
                 cell.accessoryView = nil
             }
         } else if indexPath.row == 4 {
-            if (days % 10000) % 64 % 32 % 16 >= 8 {
+            if ((weekday >> 5) & 0x01) > 0 {
                 cell.accessoryView = UIImageView(image: UIImage(named: "content_icon_selecte"))
             } else {
                 cell.accessoryView = nil
             }
         } else if indexPath.row == 5 {
-            if (days % 10000) % 64 % 32 >= 16 {
-                cell.accessoryView = UIImageView(image: UIImage(named: "content_icon_selecte"))
-            } else {
-                cell.accessoryView = nil
-            }
-        } else if indexPath.row == 6 {
-            if (days % 10000) % 64 >= 32 {
+            if ((weekday >> 6) & 0x01) > 0 {
                 cell.accessoryView = UIImageView(image: UIImage(named: "content_icon_selecte"))
             } else {
                 cell.accessoryView = nil
             }
         } else {
-            if (days % 10000) >= 64 {
+            if (weekday & 0x01) > 0 {
                 cell.accessoryView = UIImageView(image: UIImage(named: "content_icon_selecte"))
             } else {
                 cell.accessoryView = nil
@@ -99,52 +93,46 @@ extension AlarmRepeatViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         if indexPath.row == 0 {
-            if days > 10000 {
-                days = days - 10000
+            if ((weekday >> 1) & 0x01) > 0 {
+                weekday = weekday - 2
             } else {
-                days = days + 10000
+                weekday = weekday + 2
             }
         } else if indexPath.row == 1 {
-            if (days % 10000) % 64 % 32 % 16 % 8 % 4 % 2 > 0 {
-                days = days - 1
+            if ((weekday >> 2) & 0x01) > 0 {
+                weekday = weekday - 4
             } else {
-                days = days + 1
+                weekday = weekday + 4
             }
         } else if indexPath.row == 2 {
-            if (days % 10000) % 64 % 32 % 16 % 8 % 4 >= 2 {
-                days = days - 2
+            if ((weekday >> 3) & 0x01) > 0 {
+                weekday = weekday - 8
             } else {
-                days = days + 2
+                weekday = weekday + 8
             }
         } else if indexPath.row == 3 {
-            if (days % 10000) % 64 % 32 % 16 % 8 >= 4 {
-                days = days - 4
+            if ((weekday >> 4) & 0x01) > 0 {
+                weekday = weekday - 16
             } else {
-                days = days + 4
+                weekday = weekday + 16
             }
         } else if indexPath.row == 4 {
-            if (days % 10000) % 64 % 32 % 16 >= 8 {
-                days = days - 8
+            if ((weekday >> 5) & 0x01) > 0 {
+                weekday = weekday - 32
             } else {
-                days = days + 8
+                weekday = weekday + 32
             }
         } else if indexPath.row == 5 {
-            if (days % 10000) % 64 % 32 >= 16 {
-                days = days - 16
+            if ((weekday >> 6) & 0x01) > 0 {
+                weekday = weekday - 64
             } else {
-                days = days + 16
-            }
-        } else if indexPath.row == 6 {
-            if (days % 10000) % 64 >= 32 {
-                days = days - 32
-            } else {
-                days = days + 32
+                weekday = weekday + 64
             }
         } else {
-            if (days % 10000) >= 64 {
-                days = days - 64
+            if (weekday & 0x01) > 0 {
+                weekday = weekday - 1
             } else {
-                days = days + 64
+                weekday = weekday + 1
             }
         }
         tableView.reloadData()
@@ -153,6 +141,6 @@ extension AlarmRepeatViewController: UITableViewDelegate {
 
 extension AlarmRepeatViewController {
     var titles: [String] {
-        return ["仅此一次", "周一", "周二", "周三", "周四", "周五", "周六", "周日"]
+        return ["周一", "周二", "周三", "周四", "周五", "周六", "周日"]
     }
 }

@@ -28,6 +28,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         setupConfig()
         pushToTab()
         log.setup(level: .info, showLogIdentifier: true, showFunctionName: true, showThreadName: true, showLevel: true, showFileNames: true, showLineNumbers: true, showDate: true, writeToFile: false, fileLevel: .alert)
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { (status, err) in
+            if !status {
+                print("用户不同意授权通知权限")
+                guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
+                if UIApplication.shared.canOpenURL(url) {
+                    UIApplication.shared.open(url, completionHandler: nil)
+                }
+                return
+            }
+        }
+        application.applicationIconBadgeNumber = 0
+        UNUserNotificationCenter.current().delegate = self
         return true
     }
     
@@ -64,6 +76,33 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
         }, deleteRealmIfMigrationNeeded: false, shouldCompactOnLaunch: nil, objectTypes: nil)
         Realm.Configuration.defaultConfiguration = config
+    }
+}
+
+extension AppDelegate: UNUserNotificationCenterDelegate {
+    func userNotificationCenter(_ center: UNUserNotificationCenter, openSettingsFor notification: UNNotification?) {
+        
+    }
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        guard let trigger = notification.request.trigger else { return; }
+        if trigger.isKind(of: UNTimeIntervalNotificationTrigger.classForCoder()) {
+            print("Notification did receive, Is class UNTimeIntervalNotificationTrigger")
+        } else if trigger.isKind(of: UNCalendarNotificationTrigger.classForCoder()) {
+            print("Notification did receive, Is class UNCalendarNotificationTrigger")
+        }
+        // show alert while app is running in foreground
+        return completionHandler(UNNotificationPresentationOptions.alert)
+    }
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        guard let trigger = response.notification.request.trigger else { return; }
+        if trigger.isKind(of: UNTimeIntervalNotificationTrigger.classForCoder()) {
+            print("Notification did receive, Is class UNTimeIntervalNotificationTrigger")
+        } else if trigger.isKind(of: UNCalendarNotificationTrigger.classForCoder()) {
+            print("Notification did receive, Is class UNCalendarNotificationTrigger")
+        }
+        return completionHandler()
     }
 }
 

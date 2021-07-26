@@ -11,6 +11,7 @@
 	
 
 import UIKit
+import TJDWristbandSDK
 
 class DevicesViewController: BaseViewController {
     @IBOutlet weak var collectionView: UICollectionView!
@@ -23,7 +24,7 @@ class DevicesViewController: BaseViewController {
         deviceView.delegate = self
         contentView.addSubview(deviceView)
         bleSelf.getSwitchForWristband()
-        
+        print("设备型号：\(bleSelf.bleModel.internalNumberString)")
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -80,8 +81,13 @@ extension DevicesViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: .kCellIdentifier, for: indexPath) as! ClockBCollectionViewCell
-        cell.clockImageView.image = UIImage(named: "preview_watch\(indexPath.row + 1)")
-        cell.clockNameLabel.text = "ITIME-\(indexPath.row + 1)"
+        if indexPath.row < 2 {
+            cell.clockImageView.image = UIImage(named: "\(indexPath.row + 1)_240_240")
+            cell.clockNameLabel.text = "ITIME-\(indexPath.row + 1)"
+        } else {
+            cell.clockImageView.image = UIImage(named: "jiahao")
+            cell.clockNameLabel.text = "更多表盘"
+        }
         return cell
     }
     
