@@ -11,6 +11,7 @@
 	
 
 import UIKit
+import Toaster
 
 class MarketClockViewController: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
@@ -29,20 +30,14 @@ class MarketClockViewController: UIViewController {
             navigationItem.rightBarButtonItem = UIBarButtonItem(customView: rightButton)
         }
         collectionView.bounces = false
-        let nullLabel = UILabel().then {
-            $0.textColor = UIColor.black
-            $0.font = UIFont.systemFont(ofSize: 20)
-            $0.text = "敬请期待..."
-        }
-        view.addSubview(nullLabel)
-        nullLabel.snp.makeConstraints {
-            $0.center.equalToSuperview()
-        }
         collectionView.dataSource = self
         collectionView.delegate = self
     }
     
-
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        collectionView.reloadData()
+    }
     /*
     // MARK: - Navigation
 
@@ -62,9 +57,29 @@ extension MarketClockViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: .kCellIdentifier, for: indexPath) as! ClockCCollectionViewCell
-        cell.clockImageView.image = UIImage(named: "\(indexPath.row + 1)_240_240")
-        cell.clockNameLabel.text = "ITIME-\(indexPath.row + 1)"
+        let type = bleSelf.bleModel.screenType
+        let w = bleSelf.bleModel.screenWidth
+        let h = bleSelf.bleModel.screenHeight
+        let imagename = "\(indexPath.row + 1)\(type == 1 ? "" : "_c")_\(w)_\(h)"
+        cell.clockImageView.image = UIImage(named: imagename)
+        cell.clockNameLabel.text = "\(bleSelf.bleModel.name)-\(indexPath.row + 1)"
         cell.width.constant = (ScreenWidth - 60) / 2
+        cell.successButton.isHidden = true
+        cell.loadingWidth.constant = 0
+        let clockDir = UserDefaults.standard.dictionary(forKey: "LoadingClock") ?? [:]
+        let loadingStr = clockDir[bleSelf.bleModel.mac] as? String ?? ""
+        if loadingStr.count > 0 {
+            let ClockArray = loadingStr.components(separatedBy: "&&&")
+            if ClockArray.count > 0 {
+                for item in ClockArray {
+                    let array = item.components(separatedBy: "&&")
+                    if imagename == array[1] {
+                        cell.successButton.isHidden = false
+                        cell.loadingWidth.constant = (ScreenWidth - 60) / 2
+                    }
+                }
+            }
+        }
         return cell
     }
     
@@ -72,12 +87,13 @@ extension MarketClockViewController: UICollectionViewDataSource {
 
 extension MarketClockViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if bShowDetail {
-            bShowDetail = false
-            let storyboard = UIStoryboard(name: "Device", bundle: nil)
-            let marketClockVC = storyboard.instantiateViewController(withIdentifier: "MarketClockViewController") as! MarketClockViewController
-            parent?.navigationController?.pushViewController(marketClockVC, animated: true)
+        if !bleSelf.isConnected {
+            Toast(text: "未连接手环").show()
+            return
         }
+        let vc = storyboard?.instantiateViewController(withIdentifier: "ClockUseViewController") as? ClockUseViewController
+        vc?.index = indexPath.row + 1
+        parent?.navigationController?.pushViewController(vc!, animated: true)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

@@ -24,6 +24,11 @@ class AlarmViewController: BaseViewController {
         registerNotification()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tableView.reloadData()
+    }
+    
     deinit {
         unregisterNotification()
     }
@@ -50,7 +55,11 @@ class AlarmViewController: BaseViewController {
     }
     
     @objc private func valueChanged(_ sender: Any) {
-        
+        let mSwitch = sender as! UISwitch
+        let isOn = mSwitch.isOn
+        var model = BLEManager.shared.alarmArray[mSwitch.tag - 999]
+        model.isOn = isOn
+        bleSelf.setAlarmForWristband(model)
     }
     
     private func refreshWeekValue(model: WUAlarmClock) -> String {

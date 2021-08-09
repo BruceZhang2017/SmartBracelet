@@ -14,6 +14,7 @@ import UIKit
 import TJDWristbandSDK
 import Toaster
 import AudioToolbox
+import AVKit
 
 let bleSelf = WUBleManager.shared
 
@@ -30,6 +31,7 @@ class BLEManager: NSObject {
     var total = 0
     var distanceDays = 0 // 相隔多少天
     var bleFlag = -1
+    var audioPlayer: AVAudioPlayer!
     
     override init() {
         super.init()
@@ -115,15 +117,17 @@ class BLEManager: NSObject {
         
         if notify.name == WUBleManagerNotifyKeys.connected {
             // 将蓝牙对象设置为已绑定，保存蓝牙对象
-            print("lefun设备连接成功")
+            Toast(text: "连接成功").show()
             endTimer()
             bleSelf.bleModel.isBond = true
             WUBleModel.setModel(bleSelf.bleModel)
             NotificationCenter.default.post(name: Notification.Name.SearchDevice, object: "connected") // 通知搜索页面
             NotificationCenter.default.post(name: Notification.Name("MTabBarController"), object: nil) // 通知主控页面
             lastestDeviceMac = bleSelf.bleModel.mac
-            UserDefaults.standard.setValue(lastestDeviceMac, forKey: "LastestDeviceMac")
-            UserDefaults.standard.synchronize()
+            if lastestDeviceMac.count > 0 {
+                UserDefaults.standard.setValue(lastestDeviceMac, forKey: "LastestDeviceMac")
+                UserDefaults.standard.synchronize()
+            }
         }
         
         if notify.name == WUBleManagerNotifyKeys.disconnected {
@@ -241,6 +245,25 @@ class BLEManager: NSObject {
             let request = UNNotificationRequest(identifier: "Notification", content: content, trigger: trigger)
             UNUserNotificationCenter.current().add(request) { err in
                 err != nil ? print("添加本地通知错误", err!.localizedDescription) : print("添加本地通知成功")
+            }
+            
+            let path = Bundle.main.path(forResource: "Alarm", ofType: "mp3")!
+            let url = URL(fileURLWithPath: path)
+            do {
+              audioPlayer =  try AVAudioPlayer(contentsOf: url)
+            } catch {
+              // can't load file
+            }
+            audioPlayer.play()
+            
+            DispatchQueue.main.async {
+                let alert = UIAlertController(title: "提示", message: "查找手机成功", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "确定", style: .cancel, handler: { [weak self] action in
+                    self?.audioPlayer.stop()
+                }))
+                UIApplication.shared.keyWindow?.rootViewController?.present(alert, animated: true, completion: {
+                    
+                })
             }
         }
         
@@ -479,6 +502,11 @@ class BLEManager: NSObject {
             dump(bleSelf.bleModel)
             dump(bleSelf.funcListModel)
             print("设备信息获取成功")
+            if bleSelf.bleModel.mac.count > 0 {
+                lastestDeviceMac = bleSelf.bleModel.mac
+                UserDefaults.standard.setValue(bleSelf.bleModel.mac, forKey: "LastestDeviceMac")
+                UserDefaults.standard.synchronize()
+            }
             bleSelf.getUserinfoForWristband() // 第2步：获取用户信息
         }
                 

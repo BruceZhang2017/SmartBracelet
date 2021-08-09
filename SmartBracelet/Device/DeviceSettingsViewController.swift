@@ -22,6 +22,7 @@ class DeviceSettingsViewController: BaseViewController {
     @IBOutlet weak var btButton: UIButton!
     @IBOutlet weak var batteryButton: UIButton!
     var cameraViewController: CameraViewController?
+    private var currentTime: TimeInterval = 0 // 当前时间戳
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -58,9 +59,18 @@ class DeviceSettingsViewController: BaseViewController {
     }
     
     @objc private func handleNotification(_ notification: Notification) {
+        let current = Date().timeIntervalSince1970
+        if currentTime > 0 {
+            if current - currentTime < 2 {
+                return
+            }
+        } else {
+            currentTime = current
+        }
         if #available(iOS 3.1, *) {
             DispatchQueue.main.async {
                 [weak self] in
+                self?.currentTime = current
                 self?.cameraViewController?.capturePhoto()
             }
         }
@@ -113,7 +123,7 @@ class DeviceSettingsViewController: BaseViewController {
             bleSelf.setCameraForWristband(false)
             bleSelf.responseCameraForWristband()
         }
-        
+        cameraViewController?.modalPresentationStyle = .fullScreen
         present(cameraViewController!, animated: true, completion: nil)
     }
 }
@@ -201,7 +211,7 @@ extension DeviceSettingsViewController: UITableViewDelegate {
 
 extension DeviceSettingsViewController {
     var titles: [[String]] {
-        return [["推送设置", "来电提醒", "抬手亮屏", "久坐提醒", "提醒间隔", "天气推送"], ["闹钟设置", "查找设置", "设备信息","摇一摇拍照"]]
+        return [["推送设置", "来电提醒", "抬手亮屏", "久座提醒", "久座提醒时间", "天气推送"], ["闹钟设置", "查找设置", "设备信息","摇一摇拍照"]]
     }
 }
 

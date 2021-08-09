@@ -53,6 +53,8 @@
 		9A2185B6255BD153000330E5 /* CacheHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2185B5255BD153000330E5 /* CacheHelper.swift */; };
 		9A2185C7255BE42D000330E5 /* GuideCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2185C6255BE42D000330E5 /* GuideCollectionViewCell.swift */; };
 		9A218627255CEA1D000330E5 /* LoginResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A218626255CEA1D000330E5 /* LoginResponse.swift */; };
+		9A2676AC26B1969B0096BC61 /* Alarm.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 9A2676AB26B1969B0096BC61 /* Alarm.mp3 */; };
+		9A2676AE26B239D40096BC61 /* ClockCollectionViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2676AD26B239D40096BC61 /* ClockCollectionViewFlowLayout.swift */; };
 		9A28DA5D2518D4EA00F7B260 /* DotView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A28DA5A2518D4E900F7B260 /* DotView.swift */; };
 		9A28DA5E2518D4EA00F7B260 /* UIColor+hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A28DA5B2518D4E900F7B260 /* UIColor+hex.swift */; };
 		9A28DA5F2518D4EA00F7B260 /* DotsLoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A28DA5C2518D4EA00F7B260 /* DotsLoadingView.swift */; };
@@ -480,6 +482,8 @@
 		9A2185B5255BD153000330E5 /* CacheHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheHelper.swift; sourceTree = "<group>"; };
 		9A2185C6255BE42D000330E5 /* GuideCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuideCollectionViewCell.swift; sourceTree = "<group>"; };
 		9A218626255CEA1D000330E5 /* LoginResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginResponse.swift; sourceTree = "<group>"; };
+		9A2676AB26B1969B0096BC61 /* Alarm.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Alarm.mp3; sourceTree = "<group>"; };
+		9A2676AD26B239D40096BC61 /* ClockCollectionViewFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClockCollectionViewFlowLayout.swift; sourceTree = "<group>"; };
 		9A28DA5A2518D4E900F7B260 /* DotView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DotView.swift; sourceTree = "<group>"; };
 		9A28DA5B2518D4E900F7B260 /* UIColor+hex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+hex.swift"; sourceTree = "<group>"; };
 		9A28DA5C2518D4EA00F7B260 /* DotsLoadingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DotsLoadingView.swift; sourceTree = "<group>"; };
@@ -939,6 +943,7 @@
 		9A037E4025BDACDB0006FB94 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				9A2676AB26B1969B0096BC61 /* Alarm.mp3 */,
 				9A08C653262C5A1100E178DA /* lefun */,
 				9A037E4125BDACFE0006FB94 /* 8267_module_tOTA.bin */,
 				9A08C670262C71DA00E178DA /* SmartBand_PHY_ota.hex */,
@@ -1553,6 +1558,7 @@
 				9A6D092B2501D99400B4972F /* ClockManageViewController.swift */,
 				9A521068250322E500F64A7A /* ClockCollectionViewCell.swift */,
 				9A52106C2503A5D400F64A7A /* MyClockViewController.swift */,
+				9A2676AD26B239D40096BC61 /* ClockCollectionViewFlowLayout.swift */,
 				9A52106E2503A62F00F64A7A /* MarketClockViewController.swift */,
 				9A5210702503DB2E00F64A7A /* ClockCCollectionViewCell.swift */,
 				9A64F08125DD50D70073E679 /* ClockUseViewController.swift */,
@@ -1913,6 +1919,7 @@
 				9A350BE524EA6476004CEE6A /* Mine.storyboard in Resources */,
 				9A839C672560F68B00714CBE /* SGSportingView.storyboard in Resources */,
 				9A2181662557EDBE000330E5 /* walk.jpeg in Resources */,
+				9A2676AC26B1969B0096BC61 /* Alarm.mp3 in Resources */,
 				9A58D8C026AC45EF006C09A1 /* 2_128_128.bin in Resources */,
 				9A0F1E8326A5BE76000D8989 /* 2_240_240.png in Resources */,
 				9A58D8BA26AC45E3006C09A1 /* 1_128_128.bin in Resources */,
@@ -2122,6 +2129,7 @@
 				9A56D26A25216FC60082CC08 /* BubbleChartView.swift in Sources */,
 				18385E9E24517F1600EA380A /* AppDelegate.swift in Sources */,
 				9AE1A1702629465F00B8B10D /* DDFileReader.m in Sources */,
+				9A2676AE26B239D40096BC61 /* ClockCollectionViewFlowLayout.swift in Sources */,
 				9A218627255CEA1D000330E5 /* LoginResponse.swift in Sources */,
 				9A56D2B425216FC70082CC08 /* ILineChartDataSet.swift in Sources */,
 				9A56D23D25216FC60082CC08 /* YAxisRendererHorizontalBarChart.swift in Sources */,
@@ -2507,7 +2515,7 @@
 				CODE_SIGN_ENTITLEMENTS = "";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 14;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_ASSET_PATHS = TJDWristbandSDK.framework;
 				DEVELOPMENT_TEAM = RPZ68269DB;
@@ -2545,7 +2553,7 @@
 				CODE_SIGN_ENTITLEMENTS = "";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 14;
 				DEVELOPMENT_ASSET_PATHS = TJDWristbandSDK.framework;
 				DEVELOPMENT_TEAM = RPZ68269DB;
 				ENABLE_BITCODE = NO;

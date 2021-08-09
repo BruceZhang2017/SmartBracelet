@@ -85,9 +85,16 @@ extension DevicesView: UICollectionViewDataSource, UICollectionViewDelegate {
                     cell.cardNameLabel.isHidden = true
                     cell.batteryButton.isHidden = true
                     cell.btButton.isHidden = true
+                    cell.settingsImageView.isHidden = true
                     cell.addLabel.isHidden = false
                 }
             } else {
+                cell.cardImgView.isHidden = false
+                cell.cardNameLabel.isHidden = false
+                cell.batteryButton.isHidden = false
+                cell.btButton.isHidden = false
+                cell.settingsImageView.isHidden = false
+                cell.addLabel.isHidden = true
                 let model = DeviceManager.shared.devices[indexPath.row - 1]
                 cell.cardImgView.image = UIImage(named: "produce_image_no.2")
                 cell.cardNameLabel.text = model.name

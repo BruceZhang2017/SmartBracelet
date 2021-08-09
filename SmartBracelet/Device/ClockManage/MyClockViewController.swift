@@ -11,11 +11,14 @@
 
 import UIKit
 import Then
+import Toaster
 
 class MyClockViewController: UIViewController {
     @IBOutlet weak var collctionView: UICollectionView!
     var rightButton: UIButton!
-    var bShowDetail = false 
+    var bShowDetail = false
+    var nullLabel: UILabel!
+    var ClockArray: [String] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,19 +31,45 @@ class MyClockViewController: UIViewController {
             }
             navigationItem.rightBarButtonItem = UIBarButtonItem(customView: rightButton)
         }
-        collctionView.bounces = false 
+        collctionView.bounces = false
+        let flow = ClockCollectionViewFlowLayout()
+        collctionView.collectionViewLayout = flow
+        
+        nullLabel = UILabel().then {
+            $0.textColor = UIColor.black
+            $0.font = UIFont.systemFont(ofSize: 20)
+            $0.text = "请至表盘市场下载表盘"
+        }
+        view.addSubview(nullLabel)
+        nullLabel.snp.makeConstraints {
+            $0.center.equalToSuperview()
+        }
+        
+        let clockDir = UserDefaults.standard.dictionary(forKey: "MyClock") ?? [:]
+        let clockStr = clockDir[bleSelf.bleModel.mac] as? String ?? ""
+        if clockStr.count > 0 {
+            ClockArray = clockStr.components(separatedBy: "&&&")
+            nullLabel.isHidden = true
+        }
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        collctionView.reloadData()
+    }
 }
 
 extension MyClockViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 2
+        return ClockArray.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: .kCellIdentifier, for: indexPath) as! ClockCollectionViewCell
-        cell.dialImageView.image = UIImage(named: "\(indexPath.row + 1)_240_240")
+        let item = ClockArray[indexPath.row]
+        let array = item.components(separatedBy: "&&")
+        cell.dialImageView.image = UIImage(named: array[1])
+        //cell.clockNameLabel.text = "\(bleSelf.bleModel.name)-\(indexPath.row + 1)"
         cell.opaqueView.isHidden = true
         cell.optionImageView.isHidden = true
         return cell
@@ -51,8 +80,13 @@ extension MyClockViewController: UICollectionViewDataSource {
 extension MyClockViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
+        if !bleSelf.isConnected {
+            Toast(text: "未连接手环").show()
+            return
+        }
         let vc = storyboard?.instantiateViewController(withIdentifier: "ClockUseViewController") as? ClockUseViewController
         vc?.index = indexPath.row + 1
+        vc?.clockStr = ClockArray[indexPath.row]
         parent?.navigationController?.pushViewController(vc!, animated: true)
     }
     

@@ -42,7 +42,7 @@ class HealthViewController: BaseViewController {
     @IBOutlet weak var heartRateImageView: UIImageView!
     var flag = 0 // 属性的作用
     var popup: PopupBViewController?
-    //var activityIndicator: NVActivityIndicatorView? // loading图标
+    var activityIndicator: NVActivityIndicatorView? // loading图标
     private var loadingViewCheckTimer: Timer?
     var heartRateView: HeartRateView!
     var curveView: CurveView!
@@ -255,26 +255,26 @@ class HealthViewController: BaseViewController {
         }
         if obj == 2 {
             print("显示loading图片")
-//            let frame = CGRect(x: 0, y: 0, width: 150, height: 150)
-//            activityIndicator = NVActivityIndicatorView(frame: frame, type: .ballSpinFadeLoader, color: UIColor.white, padding: 30)
-//            activityIndicator?.backgroundColor = UIColor.black.withAlphaComponent(0.7)
-//            activityIndicator?.center = CGPoint(x: view.center.x, y: view.center.y - 100)
-//            view.addSubview(activityIndicator!)
-//            activityIndicator?.startAnimating()
-//            startLoadingViewCheckTimer()
+            let frame = CGRect(x: 0, y: 0, width: 150, height: 150)
+            activityIndicator = NVActivityIndicatorView(frame: frame, type: .ballSpinFadeLoader, color: UIColor.white, padding: 30)
+            activityIndicator?.backgroundColor = UIColor.black.withAlphaComponent(0.7)
+            activityIndicator?.center = CGPoint(x: view.center.x, y: view.center.y - 100)
+            view.addSubview(activityIndicator!)
+            activityIndicator?.startAnimating()
+            startLoadingViewCheckTimer()
             return
         }
         if obj == 3 {
             print("隐藏loading图片")
-//            endLoadingViewCheckTimer()
-//            DispatchQueue.main.async {
-//                [weak self] in
-//                if self?.activityIndicator != nil && (self?.activityIndicator?.isAnimating ?? false) {
-//                    self?.activityIndicator?.stopAnimating()
-//                    self?.activityIndicator?.removeFromSuperview()
-//                    self?.activityIndicator = nil
-//                }
-//            }
+            endLoadingViewCheckTimer()
+            DispatchQueue.main.async {
+                [weak self] in
+                if self?.activityIndicator != nil && (self?.activityIndicator?.isAnimating ?? false) {
+                    self?.activityIndicator?.stopAnimating()
+                    self?.activityIndicator?.removeFromSuperview()
+                    self?.activityIndicator = nil
+                }
+            }
         }
     }
     
@@ -421,8 +421,8 @@ class HealthViewController: BaseViewController {
     }
     
     private func readDBHeart() {
-        //let stamp = Int(Date().zeroTimeStamp())
-        let a = try? DHeartRateModel.er.array("mac='\(lastestDeviceMac)'")
+        let stamp = Int(Date().zeroTimeStamp())
+        let a = try? DHeartRateModel.er.array("timeStamp>=\(stamp) AND timeStamp<\(stamp + 24 * 60 * 60) AND mac='\(lastestDeviceMac)'")
         let models = a?.sorted {$0.timeStamp > $1.timeStamp}
         print("数据库里心跳的数据总条数：\(models?.count ?? 0)")
         var heart = 0
@@ -463,7 +463,7 @@ class HealthViewController: BaseViewController {
     
     private func readDBSleep() {
         let value = Int(Date().zeroTimeStamp())
-        let models = try? DSleepModel.er.array("timeStamp>=\(value - 2 * 60 * 60) AND mac = '\(lastestDeviceMac)'")
+        let models = try? DSleepModel.er.array("timeStamp>=\(value - 2 * 60 * 60) AND timeStamp<\(value + 10 * 60 * 60) AND mac = '\(lastestDeviceMac)'")
         print("数据库里睡眠的数据总条数：\(models?.count ?? 0)")
         var array: [SleepModel] = []
         if models != nil {
@@ -477,6 +477,7 @@ class HealthViewController: BaseViewController {
             }
         }
         if array.count > 0 {
+            BLEManager.shared.sleepArray[0] = array
             let arr = BLEManager.shared.readSleepData(array: array) // 获得睡眠时间
             let total = arr[1] + arr[2]
             let h = total / 60
@@ -487,6 +488,10 @@ class HealthViewController: BaseViewController {
             arrStr.append(NSAttributedString(string: "\(m)", attributes: [.font: UIFont.systemFont(ofSize: 32), .foregroundColor: UIColor.k666666]))
             arrStr.append(NSAttributedString(string: "分", attributes: [.font: UIFont.systemFont(ofSize: 12), .foregroundColor: UIColor.k999999]))
             sleepValueLabel.attributedText = arrStr
+            if arr.count == 3 {
+                let value: [CGFloat] = [CGFloat(arr[0] * 50 / (12 * 60) ), CGFloat(arr[1] * 50 / (12 * 60)), CGFloat(arr[2] * 50 / (12 * 60))]
+                curveView.refreshHeight(value)
+            }
         } else {
             let arrStr = NSMutableAttributedString()
             arrStr.append(NSAttributedString(string: "0", attributes: [.font: UIFont.systemFont(ofSize: 32), .foregroundColor: UIColor.k666666]))
@@ -495,7 +500,6 @@ class HealthViewController: BaseViewController {
             arrStr.append(NSAttributedString(string: "分", attributes: [.font: UIFont.systemFont(ofSize: 12), .foregroundColor: UIColor.k999999]))
             sleepValueLabel.attributedText = arrStr
         }
-        
     }
     
     private func refreshDBSleep() {

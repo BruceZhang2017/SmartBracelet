@@ -291,6 +291,7 @@
                                             <outlet property="clockImageView" destination="Wa6-Bp-OcR" id="Gm3-Oz-TDa"/>
                                             <outlet property="clockNameLabel" destination="gba-W2-ABb" id="CMT-Zc-dMB"/>
                                             <outlet property="loadingView" destination="AXS-p8-87q" id="Is4-y6-qHL"/>
+                                            <outlet property="loadingWidth" destination="eyr-tb-Ght" id="0RN-Fn-mJT"/>
                                             <outlet property="opaqueView" destination="5wf-F4-hiT" id="RpQ-li-Yb0"/>
                                             <outlet property="successButton" destination="A0e-aD-Zsk" id="aNc-Fb-Uwh"/>
                                             <outlet property="width" destination="LvW-iX-HgJ" id="hui-dU-g2n"/>

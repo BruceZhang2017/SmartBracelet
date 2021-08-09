@@ -60,7 +60,7 @@ class HealthDetailViewController: BaseViewController {
         }
         unitBLabel.text = type == 0 ? "步" : "千卡"
         tipLabel.text = type == 0 ? "每日步数目标" : "每日热量目标"
-        goalView.isHidden = type > 1
+        goalView.isHidden = type > 0
     }
     
     /// 设置图表

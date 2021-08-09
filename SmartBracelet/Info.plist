@@ -65,6 +65,7 @@
 	<string>App may use your camera and save pictures via Bluetooth</string>
 	<key>UIBackgroundModes</key>
 	<array>
+		<string>audio</string>
 		<string>bluetooth-central</string>
 		<string>bluetooth-peripheral</string>
 		<string>external-accessory</string>

@@ -22,30 +22,49 @@ class ClockUseViewController: BaseViewController {
     var rightButton: UIButton!
     var binData: Data!
     var timer: Timer?
+    var clockStr: String!
+    var clockName: String = ""
+    var imagename: String = ""
+    var path = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "表盘管理"
-        var path = ""
-        if index <= 6 {
-            clockImageView.image = UIImage(named: "preview_watch\(index)")
-            clockNameLabel.text = "ITIME-\(index)"
-            path = Bundle.main.path(forResource: "preview_watch\(index)_ClkResPKG", ofType: "bin")!
+        if index > 0 {
+            let type = bleSelf.bleModel.screenType
+            let w = bleSelf.bleModel.screenWidth
+            let h = bleSelf.bleModel.screenHeight
+            imagename = "\(index)\(type == 1 ? "" : "_c")_\(w)_\(h)"
+            clockName = "\(bleSelf.bleModel.name)-\(index)"
+            clockImageView.image = UIImage(named: imagename)
+            clockNameLabel.text = clockName
+            path = Bundle.main.path(forResource: imagename, ofType: "bin")!
         } else {
-            let bundle = Bundle(path: Bundle.main.path(forResource: "IdleResources", ofType: "bundle")!)
-            clockImageView.image = UIImage(contentsOfFile: bundle!.path(forResource: "Static", ofType: nil, inDirectory: "80x160")! + "/\(index - 4).png")
-            clockNameLabel.text = "PFm5-\(index - 4)"
-            path = bundle!.path(forResource: "Static", ofType: nil, inDirectory: "80x160")! + "/\(index - 4).bin"
+            let array = clockStr.components(separatedBy: "&&")
+            imagename = array[1]
+            clockImageView.image = UIImage(named: imagename)
+            clockNameLabel.text = array[0]
+            path = Bundle.main.path(forResource: imagename, ofType: "bin")!
         }
         binData = try? Data(contentsOf: URL(fileURLWithPath: path))
         sizeLabel.text = "文件大小：" + (binData?.count ?? 0).sizeToStr()
         
-        rightButton = UIButton(type: .custom).then {
-            $0.initializeRightNavigationItem()
-            $0.setTitle("使用", for: .normal)
-            $0.addTarget(self, action: #selector(handleOTA(_:)), for: .touchUpInside)
+        var bHave = false
+        if index > 0 {
+            let manager = FileManager.default
+            if manager.isExecutableFile(atPath: path) {
+                bHave = true
+            }
         }
-        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: rightButton)
+        if !bHave {
+            rightButton = UIButton(type: .custom).then {
+                $0.initializeRightNavigationItem()
+                $0.setTitle(index > 0 ? "下载并使用" : "使用", for: .normal)
+                $0.addTarget(self, action: #selector(handleOTA(_:)), for: .touchUpInside)
+            }
+            navigationItem.rightBarButtonItem = UIBarButtonItem(customView: rightButton)
+        }
+        
         registerNotification()
     }
     
@@ -55,8 +74,21 @@ class ClockUseViewController: BaseViewController {
 
     @objc private func handleOTA(_ sender: Any) {
         if !bleSelf.isConnected {
-            Toast(text: "未连接设备，请先连接设备").show()
+            Toast(text: "未连接设备").show()
             return
+        }
+        if index > 0 {
+            Toast(text: "下载成功").show()
+            var clockDir = UserDefaults.standard.dictionary(forKey: "LoadingClock") ?? [:]
+            var loadingStr = clockDir[bleSelf.bleModel.mac] as? String ?? ""
+            if loadingStr.count > 0 {
+                loadingStr.append("&&&\(clockName)&&\(imagename)&&\(path)")
+            } else {
+                loadingStr.append("\(clockName)&&\(imagename)&&\(path)")
+            }
+            clockDir[bleSelf.bleModel.mac] = loadingStr
+            UserDefaults.standard.setValue(clockDir, forKey: "LoadingClock")
+            UserDefaults.standard.synchronize()
         }
         rightButton.isEnabled = false
         if binData != nil {
@@ -136,6 +168,18 @@ class ClockUseViewController: BaseViewController {
             popup?.contentLabel?.attributedText = attStr
         }
         hideDialog()
+        
+        var clockDir = UserDefaults.standard.dictionary(forKey: "MyClock") ?? [:]
+        var clockStr = clockDir[bleSelf.bleModel.mac] as? String ?? ""
+        if clockStr.count > 0 {
+            clockStr.append("&&&\(clockName)&&\(imagename)&&\(path)")
+        } else {
+            clockStr.append("\(clockName)&&\(imagename)&&\(path)")
+        }
+        clockDir[bleSelf.bleModel.mac] = clockStr
+        UserDefaults.standard.setValue(clockDir, forKey: "MyClock")
+        UserDefaults.standard.synchronize()
+        
         perform(#selector(back), with: nil, afterDelay: 2)
     }
     

@@ -31,6 +31,12 @@ class AlarmAddViewController: BaseViewController {
         dateFormatter.dateFormat = "HH:mm";
         let date = dateFormatter.date(from: "\(String(format: "%02d", alarm.hour)):\(String(format: "%02d", alarm.minute))")
         datePicker.setDate(date!, animated: true)
+        if #available(iOS 13.4, *) {
+            datePicker.preferredDatePickerStyle = .wheels
+        } else {
+            // Fallback on earlier versions
+        }
+        
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "保存", style: .plain, target: self, action: #selector(save))
     }
@@ -49,6 +55,7 @@ class AlarmAddViewController: BaseViewController {
             alarm.hour = Int(array[0]) ?? 0
             alarm.minute = Int(array[1]) ?? 0
         }
+        alarm.isOn = true
         bleSelf.setAlarmForWristband(alarm)
         navigationController?.popViewController(animated: true)
     }
