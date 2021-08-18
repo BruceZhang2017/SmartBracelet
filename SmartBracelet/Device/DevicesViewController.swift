@@ -25,6 +25,7 @@ class DevicesViewController: BaseViewController {
         deviceView.delegate = self
         contentView.addSubview(deviceView)
         bleSelf.getSwitchForWristband()
+        NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: Notification.Name("DevicesViewController"), object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -36,12 +37,31 @@ class DevicesViewController: BaseViewController {
         if clockStr.count > 0 {
             clockArray = clockStr.components(separatedBy: "&&&")
         }
-        collectionView.reloadData()
+        collectionView?.reloadData()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    @objc private func handleNotification(_ notification: Notification) {
+        if let obj = notification.object as? String, obj.count > 0 {
+            deviceView?.refreshData()
+            return
+        }
+        self.perform(#selector(pushToMobileSettings), with: nil, afterDelay: 0.3)
+    }
+    
+    @objc private func pushToMobileSettings() {
+        let url = URL(string: "App-Prefs:root=Bluetooth")
+        if UIApplication.shared.canOpenURL(url!) {
+            UIApplication.shared.open(url!, options: [:], completionHandler: nil)
+        }
     }
 
     /// 表盘管理

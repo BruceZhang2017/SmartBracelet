@@ -61,16 +61,14 @@ class DeviceSettingsViewController: BaseViewController {
     @objc private func handleNotification(_ notification: Notification) {
         let current = Date().timeIntervalSince1970
         if currentTime > 0 {
-            if current - currentTime < 2 {
+            if abs(current - currentTime) < 4 {
                 return
             }
-        } else {
-            currentTime = current
         }
+        currentTime = current
         if #available(iOS 3.1, *) {
             DispatchQueue.main.async {
                 [weak self] in
-                self?.currentTime = current
                 self?.cameraViewController?.capturePhoto()
             }
         }
@@ -86,12 +84,8 @@ class DeviceSettingsViewController: BaseViewController {
             NotificationCenter.default.post(name: Notification.Name("HealthViewController"), object: "delete")
             BLEManager.shared.unbind()
             UserDefaults.standard.removeObject(forKey: "LastestDeviceMac")
-            self?.navigationController?.popViewController(animated: false)
-            let url = URL(string: "App-Prefs:root=Bluetooth")
-            if UIApplication.shared.canOpenURL(url!) {
-                UIApplication.shared.open(url!, options: [:], completionHandler: nil)
-            }
-            
+            NotificationCenter.default.post(name: Notification.Name("DevicesViewController"), object: nil)
+            self?.navigationController?.popViewController(animated: true)
         }))
         present(alert, animated: true) {
             

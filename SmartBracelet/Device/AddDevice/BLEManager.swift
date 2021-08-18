@@ -32,6 +32,8 @@ class BLEManager: NSObject {
     var distanceDays = 0 // 相隔多少天
     var bleFlag = -1
     var audioPlayer: AVAudioPlayer!
+    var mTimer: Timer?
+    var currentFunctionStep = 0 // 当前读取数据的阶段
     
     override init() {
         super.init()
@@ -283,10 +285,18 @@ class BLEManager: NSObject {
         if notify.name == WristbandNotifyKeys.read_Sport {
             wuPrint("current step：%d", bleSelf.step)
             NotificationCenter.default.post(name: Notification.Name("HealthViewController"), object: "step")
+            print("开始读取心跳")
+            if currentFunctionStep == 5 {
+                return
+            }
+            currentFunctionStep = 5
             bleSelf.aloneGetMeasure(.heart) // 第5步：获取心跳历史数据
+            startReadDataTimer() //启动服务器
         }
                 
         if notify.name == WristbandNotifyKeys.read_All_Sport {
+            endReadDataTimer()
+            currentFunctionStep = 0
             guard let  model = notify.object as? StepModel else {
                 return
             }
@@ -356,8 +366,14 @@ class BLEManager: NSObject {
             }
             if model.day == 0 {
                 if model.totalCount == model.indexOfTotal {
-                    bleSelf.aloneGetMeasure(.blood) // 第7步：获取血压历史数据
+                    print("开始读取血压")
                     NotificationCenter.default.post(name: Notification.Name("HealthViewController"), object: "sleep")
+                    if currentFunctionStep == 7 {
+                        return
+                    }
+                    currentFunctionStep = 7
+                    bleSelf.aloneGetMeasure(.blood) // 第7步：获取血压历史数据
+                    startReadDataTimer()
                 }
             }
         }
@@ -384,8 +400,13 @@ class BLEManager: NSObject {
                 NotificationCenter.default.post(name: Notification.Name("HealthViewController"), object: "heart")
             }
             NotificationCenter.default.post(name: Notification.Name("HealthVCLoading"), object: 3) // 移除Loading
+            if currentFunctionStep == 6 {
+                return
+            }
+            currentFunctionStep = 6
+            print("开始读取睡眠")
             bleSelf.aloneGetSleep(with: 0) // 第6步：获取历史睡眠信息
-            
+            startReadDataTimer()
         }
                 
         if notify.name == WristbandNotifyKeys.sysCeLiang_blood {
@@ -393,6 +414,7 @@ class BLEManager: NSObject {
                 return
             }
             dump(model)
+            print("开始解析血压数据")
             bloodArray.append(model)
             let bloodModel = DBloodModel()
             bloodModel.mac = model.mac
@@ -400,7 +422,9 @@ class BLEManager: NSObject {
             bloodModel.min = model.min
             bloodModel.max = model.max
             bloodModel.timeStamp = model.timeStamp
-            try? bloodModel.er.save(update: true)
+            if model.min > 0 && model.max > 0 {
+                try? bloodModel.er.save(update: true)
+            }
             if model.indexOfTotal == model.totalCount {
                 let str1 = String.init(format: "blood history complete, total %d line", model.totalCount)
                 wuPrint(str1)
@@ -408,9 +432,12 @@ class BLEManager: NSObject {
                     $0.timeStamp > $1.timeStamp
                 }
                 NotificationCenter.default.post(name: Notification.Name("HealthViewController"), object: "blood")
-                bleSelf.aloneGetStep(with: 0) // 第9步：获取历史步行信息
             }
-            bleSelf.aloneGetMeasure(.oxygen) // 第8步：获取血氧历史数据
+            DispatchQueue.main.async {
+                [weak self] in
+                bleSelf.aloneGetMeasure(.oxygen) // 第8步：获取血氧历史数据
+                self?.perform(#selector(BLEManager.readStepHistory), with: nil, afterDelay: 2)
+            }
         }
         
         if notify.name == WristbandNotifyKeys.devSendCeLiang_heart {
@@ -449,7 +476,9 @@ class BLEManager: NSObject {
             oxygenModel.uuidString = model.uuidString
             oxygenModel.timeStamp = model.timeStamp
             oxygenModel.oxygen = model.oxygen
-            try? oxygenModel.er.save(update: true)
+            if model.oxygen > 0 {
+                try? oxygenModel.er.save(update: true)
+            }
             let str = String(format: "oxygen：%d, %d, %d", model.oxygen, model.indexOfTotal, model.totalCount)
             wuPrint(str)
             oxygenArray.append(model)
@@ -463,6 +492,8 @@ class BLEManager: NSObject {
                     let date = WUDate.dateFromTimeStamp(savedTimeStamp)
                     let distance = Calendar.current.dateComponents([.day], from: Date(), to: date)
                     distanceDays = min(abs(distance.day ?? 0) + 1, 6)
+                } else {
+                    distanceDays = 6
                 }
                 oxygenArray.sort {
                     $0.timeStamp > $1.timeStamp
@@ -667,5 +698,47 @@ extension BLEManager {
         total = Int(ceil(Double(value.count)/16))
         binData = value
         bleSelf.startDialPush(value)
+    }
+}
+
+extension BLEManager {
+    // 初始化获取数据定时器判断
+    func startReadDataTimer() {
+        endReadDataTimer()
+        mTimer = Timer.scheduledTimer(withTimeInterval: 3, repeats: false, block: { [weak self] t in
+            if self?.currentFunctionStep == 0 {
+                print("开始读取心跳2")
+                self?.currentFunctionStep = 5
+                bleSelf.aloneGetMeasure(.heart) // 第5步：获取心跳历史数据
+            } else if self?.currentFunctionStep == 5 {
+                print("开始读取睡眠2")
+                self?.currentFunctionStep = 6
+                bleSelf.aloneGetSleep(with: 0) // 第6步：获取历史睡眠信息
+            } else if self?.currentFunctionStep == 6 {
+                print("开始读取血压2")
+                self?.currentFunctionStep = 7
+                bleSelf.aloneGetMeasure(.blood) // 第7步：获取血压历史数据
+            } else if self?.currentFunctionStep == 7 {
+                print("开始读取步行2")
+                self?.currentFunctionStep = 9
+                bleSelf.aloneGetStep(with: 0) // 第9步：获取历史步行信息
+            }
+        })
+    }
+    
+    // 结束
+    func endReadDataTimer() {
+        mTimer?.invalidate()
+        mTimer = nil
+    }
+    
+    @objc func readStepHistory() {
+        print("开始读取步数")
+        if currentFunctionStep == 9 {
+            return
+        }
+        currentFunctionStep = 9
+        bleSelf.aloneGetStep(with: 0) // 第9步：获取历史步行信息
+        startReadDataTimer()
     }
 }

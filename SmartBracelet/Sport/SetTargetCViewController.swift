@@ -35,7 +35,7 @@ class SetTargetCViewController: BaseViewController {
     @IBAction func startRun(_ sender: Any) {
         bleSelf.userInfo.stepGoal = steps[selectedIndex]
         bleSelf.setUserinfoForWristband(bleSelf.userInfo)
-        UserDefaults.standard.setValue(bleSelf.userInfo.stepGoal, forKey: "Goal")
+        UserDefaults.standard.setValue(steps[selectedIndex], forKey: "Goal")
         UserDefaults.standard.synchronize()
         navigationController?.popViewController(animated: true)
     }

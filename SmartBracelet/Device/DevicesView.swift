@@ -46,6 +46,7 @@ class DevicesView: UIView {
 
     public func refreshData() {
         let count = DeviceManager.shared.devices.count
+        print("已经连接过的设备总数为：\(count)")
         collectionView.reloadData()
         if count <= 1 {
             collectionView.scrollToItem(at: IndexPath(item: 1, section: 0), at: UICollectionView.ScrollPosition.centeredHorizontally, animated: false)

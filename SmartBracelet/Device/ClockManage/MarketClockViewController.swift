@@ -58,6 +58,7 @@ extension MarketClockViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: .kCellIdentifier, for: indexPath) as! ClockCCollectionViewCell
         let type = bleSelf.bleModel.screenType
+        log.info("当前连接设备为：\(type == 1 ? "方形" : "圆形")")
         let w = bleSelf.bleModel.screenWidth
         let h = bleSelf.bleModel.screenHeight
         let imagename = "\(indexPath.row + 1)\(type == 1 ? "" : "_c")_\(w)_\(h)"

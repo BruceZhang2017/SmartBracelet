@@ -76,6 +76,8 @@ class DeviceSearchViewController: BaseViewController {
                 currentModel.imageName = "produce_image_no.2"
                 try? currentModel?.er.save(update: true)
                 DeviceManager.shared.initializeDevices() // 重新刷新绑定的设备
+                NotificationCenter.default.post(name: Notification.Name("DevicesViewController"), object: "1")
+                NotificationCenter.default.post(name: Notification.Name("DeviceList"), object: "1")
             }
             ProgressHUD.dismiss()
             navigationController?.popViewController(animated: true)

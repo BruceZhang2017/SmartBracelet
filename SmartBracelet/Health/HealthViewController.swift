@@ -73,9 +73,12 @@ class HealthViewController: BaseViewController {
         if lastestDeviceMac.count == 0 {
             footGoalLabel.text = "目标 ｜ 0步"
         } else {
-            var goal = UserDefaults.standard.integer(forKey: "Goal")
+            var goal = bleSelf.userInfo.stepGoal
             if goal == 0 {
-                goal = bleSelf.userInfo.stepGoal
+                goal = UserDefaults.standard.integer(forKey: "Goal")
+            }
+            if goal == 0 {
+                goal = 6000
             }
             footGoalLabel.text = "目标 ｜ \(goal)步"
         }
@@ -208,7 +211,9 @@ class HealthViewController: BaseViewController {
             if lastestDeviceMac.count > 0 {
                 for device in DeviceManager.shared.devices {
                     if device.mac == lastestDeviceMac {
-                        try? device.er.delete()
+                        if let model = try? BLEModel.er.array("mac = '\(lastestDeviceMac)'").first {
+                            try? model.er.delete()
+                        }
                         break
                     }
                 }
@@ -425,10 +430,10 @@ class HealthViewController: BaseViewController {
         let a = try? DHeartRateModel.er.array("timeStamp>=\(stamp) AND timeStamp<\(stamp + 24 * 60 * 60) AND mac='\(lastestDeviceMac)'")
         let models = a?.sorted {$0.timeStamp > $1.timeStamp}
         print("数据库里心跳的数据总条数：\(models?.count ?? 0)")
-        var heart = 0
-        if models?.count ?? 0 > 0 {
-            heart = models?[0].heartRate ?? 0
-        }
+        
+        let b = try? DHeartRateModel.er.last("mac='\(lastestDeviceMac)'")
+        let heart = b?.heartRate ?? 0
+        
         let v = NSMutableAttributedString()
         v.append(NSAttributedString(string: "\(heart)", attributes: [.font: UIFont.systemFont(ofSize: 32), .foregroundColor: UIColor.k666666]))
         v.append(NSAttributedString(string: "次/分", attributes: [.font: UIFont.systemFont(ofSize: 12), .foregroundColor: UIColor.k999999]))
@@ -515,7 +520,7 @@ class HealthViewController: BaseViewController {
     }
     
     private func readDBBlood() {
-        let models = try? DBloodModel.er.array("timeStamp > \(Int(Date().zeroTimeStamp())) AND mac = '\(lastestDeviceMac)'")
+        let models = try? DBloodModel.er.array("mac = '\(lastestDeviceMac)'").sorted(byKeyPath: "timeStamp", ascending: false)
         print("数据库里血压的数据总条数：\(models?.count ?? 0)")
         var min = 0
         var max = 0
@@ -542,7 +547,7 @@ class HealthViewController: BaseViewController {
     }
     
     private func readDBOxygen() {
-        let models = try? DOxygenModel.er.array("timeStamp > \(Int(Date().zeroTimeStamp())) AND mac = '\(lastestDeviceMac)'").sorted(byKeyPath: "timeStamp", ascending: false)
+        let models = try? DOxygenModel.er.array("mac = '\(lastestDeviceMac)'").sorted(byKeyPath: "timeStamp", ascending: false)
         print("数据库里血氧的数据总条数：\(models?.count ?? 0)")
         let value = models?.first?.oxygen ?? 0
         let v = NSMutableAttributedString()

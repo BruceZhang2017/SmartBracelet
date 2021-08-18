@@ -60,8 +60,6 @@
 		9A28DA5F2518D4EA00F7B260 /* DotsLoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A28DA5C2518D4EA00F7B260 /* DotsLoadingView.swift */; };
 		9A28DA78251CC6E800F7B260 /* DeviceListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A28DA77251CC6E800F7B260 /* DeviceListViewController.swift */; };
 		9A32B06B2543C5C7008F0E26 /* BLEManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A32B06A2543C5C7008F0E26 /* BLEManager.swift */; };
-		9A33011F24BBDAE900F4D9F0 /* TJDWristbandSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18C2820C246A8D13009A60C0 /* TJDWristbandSDK.framework */; };
-		9A33012024BBDAE900F4D9F0 /* TJDWristbandSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 18C2820C246A8D13009A60C0 /* TJDWristbandSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9A33D30826AD9A4F00DF9618 /* CameraViewAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9A33D2EF26AD9A4F00DF9618 /* CameraViewAssets.xcassets */; };
 		9A33D30926AD9A4F00DF9618 /* CroppingParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A33D2F126AD9A4F00DF9618 /* CroppingParameters.swift */; };
 		9A33D30A26AD9A4F00DF9618 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A33D2F226AD9A4F00DF9618 /* Utilities.swift */; };
@@ -376,6 +374,8 @@
 		9A8CA529252CA8BA00EC01A7 /* DataRecordTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8CA528252CA8BA00EC01A7 /* DataRecordTableViewCell.swift */; };
 		9A8CA52B252CB6E000EC01A7 /* HelpCenterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8CA52A252CB6E000EC01A7 /* HelpCenterViewController.swift */; };
 		9A8D431D250F411800E8D6F7 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8D431C250F411800E8D6F7 /* RegisterViewController.swift */; };
+		9A99CCEA26CB57DE00D6972A /* TJDWristbandSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18C2820C246A8D13009A60C0 /* TJDWristbandSDK.framework */; };
+		9A99CCEB26CB57DE00D6972A /* TJDWristbandSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 18C2820C246A8D13009A60C0 /* TJDWristbandSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9AA0BC94250F63B3003B9F64 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA0BC93250F63B3003B9F64 /* LoginViewController.swift */; };
 		9AAF85CC25C6D42000960BDD /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AAF85CB25C6D42000960BDD /* MapKit.framework */; };
 		9AAF861C25C83E5000960BDD /* IdleResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 9AAF861B25C83E5000960BDD /* IdleResources.bundle */; };
@@ -408,13 +408,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		9A33012124BBDAE900F4D9F0 /* Embed Frameworks */ = {
+		9A99CCEC26CB57DE00D6972A /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				9A33012024BBDAE900F4D9F0 /* TJDWristbandSDK.framework in Embed Frameworks */,
+				9A99CCEB26CB57DE00D6972A /* TJDWristbandSDK.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -871,8 +871,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				9A218423255A3351000330E5 /* CoreTelephony.framework in Frameworks */,
+				9A99CCEA26CB57DE00D6972A /* TJDWristbandSDK.framework in Frameworks */,
 				9A218425255A335F000330E5 /* SystemConfiguration.framework in Frameworks */,
-				9A33011F24BBDAE900F4D9F0 /* TJDWristbandSDK.framework in Frameworks */,
 				9A218421255A3347000330E5 /* libresolv.tbd in Frameworks */,
 				9AAF85CC25C6D42000960BDD /* MapKit.framework in Frameworks */,
 				6358A1BC7537C0FAECF400E2 /* Pods_SmartBracelet.framework in Frameworks */,
@@ -1844,10 +1844,10 @@
 				18385E9624517F1600EA380A /* Sources */,
 				18385E9724517F1600EA380A /* Frameworks */,
 				18385E9824517F1600EA380A /* Resources */,
-				9A33012124BBDAE900F4D9F0 /* Embed Frameworks */,
 				3C2BC16E5C3276174901A3C8 /* [CP] Copy Pods Resources */,
 				B0366B58887F6993DD4CCB8B /* [CP] Embed Pods Frameworks */,
 				9AE436382689BDAD006A588F /* ShellScript */,
+				9A99CCEC26CB57DE00D6972A /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -1865,7 +1865,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1140;
-				LastUpgradeCheck = 1140;
+				LastUpgradeCheck = 1250;
 				ORGANIZATIONNAME = tjd;
 				TargetAttributes = {
 					18385E9924517F1600EA380A = {
@@ -2417,6 +2417,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -2477,6 +2478,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -2515,7 +2517,7 @@
 				CODE_SIGN_ENTITLEMENTS = "";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 14;
+				CURRENT_PROJECT_VERSION = 15;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_ASSET_PATHS = TJDWristbandSDK.framework;
 				DEVELOPMENT_TEAM = RPZ68269DB;
@@ -2526,7 +2528,7 @@
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = SmartBracelet/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -2553,7 +2555,7 @@
 				CODE_SIGN_ENTITLEMENTS = "";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 14;
+				CURRENT_PROJECT_VERSION = 15;
 				DEVELOPMENT_ASSET_PATHS = TJDWristbandSDK.framework;
 				DEVELOPMENT_TEAM = RPZ68269DB;
 				ENABLE_BITCODE = NO;
@@ -2563,7 +2565,7 @@
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = SmartBracelet/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
