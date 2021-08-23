@@ -31,7 +31,10 @@ class ClockUseViewController: BaseViewController {
         super.viewDidLoad()
         title = "表盘管理"
         if index > 0 {
-            let type = bleSelf.bleModel.screenType
+            var type = BLEDeviceNameHandler().handleName()
+            if type == 0 {
+                type = bleSelf.bleModel.screenType
+            }
             let w = bleSelf.bleModel.screenWidth
             let h = bleSelf.bleModel.screenHeight
             imagename = "\(index)\(type == 1 ? "" : "_c")_\(w)_\(h)"

@@ -396,12 +396,13 @@
 		9AE436372686BF6E006A588F /* CurveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE436362686BF6E006A588F /* CurveView.swift */; };
 		9AE66874267E410200A8584A /* DSleepModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE66873267E410100A8584A /* DSleepModel.swift */; };
 		9AE66876267E491A00A8584A /* DOxygenModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE66875267E491A00A8584A /* DOxygenModel.swift */; };
-		9AE6687A267F88D900A8584A /* WeatherViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE66879267F88D900A8584A /* WeatherViewController.swift */; };
 		9AE6687D267F8A4F00A8584A /* MAWeatherLiveView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AE6687C267F8A4F00A8584A /* MAWeatherLiveView.m */; };
 		9AE66888267F8AD700A8584A /* NSLayoutConstraint+PureLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AE66881267F8AD700A8584A /* NSLayoutConstraint+PureLayout.m */; };
 		9AE66889267F8AD700A8584A /* ALView+PureLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AE66884267F8AD700A8584A /* ALView+PureLayout.m */; };
 		9AE6688A267F8AD700A8584A /* NSArray+PureLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AE66887267F8AD700A8584A /* NSArray+PureLayout.m */; };
 		9AE6688D267F8B2A00A8584A /* MAWeatherForecastView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AE6688B267F8B2A00A8584A /* MAWeatherForecastView.m */; };
+		9AEBEC3226D29FD9008D13AA /* WeatherViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AEBEC3126D29FD9008D13AA /* WeatherViewController.swift */; };
+		9AEBEC3426D2A3BE008D13AA /* BLEDeviceNameHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AEBEC3326D2A3BE008D13AA /* BLEDeviceNameHandler.swift */; };
 		9AEC22CD25B707C000DE899A /* BLEModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AEC22CC25B707C000DE899A /* BLEModel.swift */; };
 		9AEC230025B7114500DE899A /* Data+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AEC22FF25B7114500DE899A /* Data+Extension.swift */; };
 		9AF0AA2025AAF1CE000BDAED /* CMDData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF0AA1F25AAF1CE000BDAED /* CMDData.swift */; };
@@ -844,7 +845,6 @@
 		9AE436362686BF6E006A588F /* CurveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurveView.swift; sourceTree = "<group>"; };
 		9AE66873267E410100A8584A /* DSleepModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DSleepModel.swift; sourceTree = "<group>"; };
 		9AE66875267E491A00A8584A /* DOxygenModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DOxygenModel.swift; sourceTree = "<group>"; };
-		9AE66879267F88D900A8584A /* WeatherViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WeatherViewController.swift; path = "../../../../Downloads/AMap_iOS_Demo/MAMapKit_3D_Demo/MAMapKit-3D-Demo-swift/samples/misc/WeatherViewController.swift"; sourceTree = "<group>"; };
 		9AE6687B267F8A4F00A8584A /* MAWeatherLiveView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAWeatherLiveView.h; sourceTree = "<group>"; };
 		9AE6687C267F8A4F00A8584A /* MAWeatherLiveView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MAWeatherLiveView.m; sourceTree = "<group>"; };
 		9AE6687F267F8AD700A8584A /* PureLayoutDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PureLayoutDefines.h; sourceTree = "<group>"; };
@@ -858,6 +858,8 @@
 		9AE66887267F8AD700A8584A /* NSArray+PureLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+PureLayout.m"; sourceTree = "<group>"; };
 		9AE6688B267F8B2A00A8584A /* MAWeatherForecastView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MAWeatherForecastView.m; sourceTree = "<group>"; };
 		9AE6688C267F8B2A00A8584A /* MAWeatherForecastView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAWeatherForecastView.h; sourceTree = "<group>"; };
+		9AEBEC3126D29FD9008D13AA /* WeatherViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeatherViewController.swift; sourceTree = "<group>"; };
+		9AEBEC3326D2A3BE008D13AA /* BLEDeviceNameHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BLEDeviceNameHandler.swift; sourceTree = "<group>"; };
 		9AEC22CC25B707C000DE899A /* BLEModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BLEModel.swift; sourceTree = "<group>"; };
 		9AEC22FF25B7114500DE899A /* Data+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+Extension.swift"; sourceTree = "<group>"; };
 		9AF0AA1F25AAF1CE000BDAED /* CMDData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CMDData.swift; sourceTree = "<group>"; };
@@ -1522,7 +1524,7 @@
 				9A367B9825BD425300BFB4C3 /* DeviceManager.swift */,
 				9AF0AA1F25AAF1CE000BDAED /* CMDData.swift */,
 				9A367B9425BD235A00BFB4C3 /* RealmManager.swift */,
-				9AE66879267F88D900A8584A /* WeatherViewController.swift */,
+				9AEBEC3126D29FD9008D13AA /* WeatherViewController.swift */,
 				9A08C672262C757A00E178DA /* WeatherTestViewController.swift */,
 			);
 			path = AddDevice;
@@ -1562,6 +1564,7 @@
 				9A52106E2503A62F00F64A7A /* MarketClockViewController.swift */,
 				9A5210702503DB2E00F64A7A /* ClockCCollectionViewCell.swift */,
 				9A64F08125DD50D70073E679 /* ClockUseViewController.swift */,
+				9AEBEC3326D2A3BE008D13AA /* BLEDeviceNameHandler.swift */,
 			);
 			path = ClockManage;
 			sourceTree = "<group>";
@@ -2178,6 +2181,7 @@
 				9A4E624D24F8DF6B00A0E878 /* CyclicCardCell.swift in Sources */,
 				9A8CA51D25272C5200EC01A7 /* CVCalendarWeekView.swift in Sources */,
 				9A8CA50C25272C5200EC01A7 /* CVStatus.swift in Sources */,
+				9AEBEC3226D29FD9008D13AA /* WeatherViewController.swift in Sources */,
 				9A56D2A025216FC70082CC08 /* LineRadarChartDataSet.swift in Sources */,
 				9A839C642560F40300714CBE /* SGSportMapViewController.m in Sources */,
 				9A56D25325216FC60082CC08 /* HorizontalBarChartRenderer.swift in Sources */,
@@ -2203,6 +2207,7 @@
 				9A8CA52325272C5200EC01A7 /* CVShape.swift in Sources */,
 				9A56D29925216FC70082CC08 /* BarLineScatterCandleBubbleChartDataSet.swift in Sources */,
 				9A8CA529252CA8BA00EC01A7 /* DataRecordTableViewCell.swift in Sources */,
+				9AEBEC3426D2A3BE008D13AA /* BLEDeviceNameHandler.swift in Sources */,
 				9A56D29825216FC70082CC08 /* RadarChartDataEntry.swift in Sources */,
 				9A56D29D25216FC70082CC08 /* LineChartData.swift in Sources */,
 				9A56D29E25216FC70082CC08 /* RadarChartData.swift in Sources */,
@@ -2221,7 +2226,6 @@
 				9AE1A1722629465F00B8B10D /* FileManager.m in Sources */,
 				9A8CA51725272C5200EC01A7 /* CVCalendarMenuView.swift in Sources */,
 				9A56D27725216FC60082CC08 /* IValueFormatter.swift in Sources */,
-				9AE6687A267F88D900A8584A /* WeatherViewController.swift in Sources */,
 				9AE66888267F8AD700A8584A /* NSLayoutConstraint+PureLayout.m in Sources */,
 				9AB910272501322C006E0FC4 /* EMAlertTextField.swift in Sources */,
 				9A56D2BA25216FC70082CC08 /* ILineScatterCandleRadarChartDataSet.swift in Sources */,
@@ -2517,7 +2521,7 @@
 				CODE_SIGN_ENTITLEMENTS = "";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 15;
+				CURRENT_PROJECT_VERSION = 16;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_ASSET_PATHS = TJDWristbandSDK.framework;
 				DEVELOPMENT_TEAM = RPZ68269DB;
@@ -2555,7 +2559,7 @@
 				CODE_SIGN_ENTITLEMENTS = "";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 15;
+				CURRENT_PROJECT_VERSION = 16;
 				DEVELOPMENT_ASSET_PATHS = TJDWristbandSDK.framework;
 				DEVELOPMENT_TEAM = RPZ68269DB;
 				ENABLE_BITCODE = NO;
