@@ -54,7 +54,7 @@ class DevicesView: UIView {
             if count > 0 {
                 for (index, item) in DeviceManager.shared.devices.enumerated() {
                     if item.mac == lastestDeviceMac {
-                        collectionView.scrollToItem(at: IndexPath(item: 1 + index, section: 0), at: UICollectionView.ScrollPosition.centeredHorizontally, animated: false)
+                        collectionView.scrollToItem(at: IndexPath(item: index, section: 0), at: UICollectionView.ScrollPosition.centeredHorizontally, animated: false)
                         break
                     }
                 }
@@ -66,12 +66,16 @@ class DevicesView: UIView {
 extension DevicesView: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         let count = DeviceManager.shared.devices.count
-        return max(3, count + 2)
+        if count <= 2 {
+            return 3
+        } else {
+            return count
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NSStringFromClass(CyclicCardCell.self), for: indexPath) as! CyclicCardCell
+        cell.bConnected = false
         cell.backgroundColor = UIColor.white.withAlphaComponent(0.8)
         cell.layer.cornerRadius = 10
         let count = DeviceManager.shared.devices.count
@@ -102,6 +106,7 @@ extension DevicesView: UICollectionViewDataSource, UICollectionViewDelegate {
                 if model.mac == lastestDeviceMac {
                     cell.btButton.setImage(UIImage(named: "content_blueteeth_link"), for: .normal)
                     cell.btButton.setTitle("蓝牙已连接", for: .normal)
+                    cell.bConnected = true
                 } else {
                     cell.btButton.setImage(UIImage(named: "content_blueteeth_unlink"), for: .normal)
                     cell.btButton.setTitle("请连接蓝牙", for: .normal)
@@ -128,7 +133,7 @@ extension DevicesView: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let cell = collectionView.cellForItem(at: indexPath) as! CyclicCardCell
         print("点击第\(cell.index)张图片")
-        delegate?.callbackTap(index: indexPath.row)
+        delegate?.callbackTap(index: indexPath.row, bConnected: cell.bConnected)
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
@@ -146,5 +151,5 @@ extension DevicesView: UICollectionViewDataSource, UICollectionViewDelegate {
 }
 
 protocol DevicesViewDelegate: NSObjectProtocol {
-    func callbackTap(index: Int)
+    func callbackTap(index: Int, bConnected: Bool)
 }

@@ -104,6 +104,33 @@ class DevicesViewController: BaseViewController {
             navigationController?.pushViewController(vc, animated: true)
         }
     }
+    
+    private func deleteDevice(index: Int) {
+        let alert = UIAlertController(title: "提示", message: "您确定解除绑定该设备？如果确定，并请至手机“设置 -> 蓝牙”中删除该设备配对记录。", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "取消", style: .cancel, handler: { (action) in
+            
+        }))
+        alert.addAction(UIAlertAction(title: "确定", style: .default, handler: { [weak self] (action) in
+            let count = DeviceManager.shared.devices.count
+            if count <= 1 {
+                NotificationCenter.default.post(name: Notification.Name("HealthViewController"), object: "delete", userInfo: ["mac": DeviceManager.shared.devices[0].mac])
+                BLEManager.shared.unbind()
+                UserDefaults.standard.removeObject(forKey: "LastestDeviceMac")
+            } else {
+                NotificationCenter.default.post(name: Notification.Name("HealthViewController"), object: "delete", userInfo: ["mac": DeviceManager.shared.devices[index].mac])
+                let lastestDeviceMac = UserDefaults.standard.string(forKey: "LastestDeviceMac") ?? ""
+                let mac = DeviceManager.shared.devices[index].mac
+                if lastestDeviceMac == mac {
+                    BLEManager.shared.unbind()
+                    UserDefaults.standard.removeObject(forKey: "LastestDeviceMac")
+                }
+            }
+            self?.deviceView?.refreshData()
+        }))
+        present(alert, animated: true) {
+            
+        }
+    }
 }
 
 extension DevicesViewController: UICollectionViewDataSource {
@@ -151,7 +178,7 @@ extension DevicesViewController: UICollectionViewDelegateFlowLayout {
 }
 
 extension DevicesViewController: DevicesViewDelegate {
-    func callbackTap(index: Int) {
+    func callbackTap(index: Int, bConnected: Bool) {
         let count = DeviceManager.shared.devices.count
         if count == 0 {
             let storyboard = UIStoryboard(name: "Device", bundle: nil)
@@ -159,6 +186,10 @@ extension DevicesViewController: DevicesViewDelegate {
             vc.title = "添加设备"
             vc.hidesBottomBarWhenPushed = true
             navigationController?.pushViewController(vc, animated: true)
+            return
+        }
+        if !bConnected { // 如果是没有连接的设备
+            deleteDevice(index: index)
             return
         }
         let storyboard = UIStoryboard(name: "Device", bundle: nil)

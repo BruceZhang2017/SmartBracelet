@@ -191,6 +191,8 @@ class HealthViewController: BaseViewController {
                 v.append(NSAttributedString(string: "\(max)/\(min)", attributes: [.font: UIFont.systemFont(ofSize: 32), .foregroundColor: UIColor.k666666]))
                 v.append(NSAttributedString(string: "MMHG", attributes: [.font: UIFont.systemFont(ofSize: 12), .foregroundColor: UIColor.k999999]))
                 self?.pressureValueLabel.attributedText = v
+                UserDefaults.standard.setValue("\(max)/\(min)", forKey: "blood")
+                UserDefaults.standard.synchronize()
             }
         } else if objc == "oxygen" {
             DispatchQueue.main.async {
@@ -205,13 +207,19 @@ class HealthViewController: BaseViewController {
                 v.append(NSAttributedString(string: "\(value)", attributes: [.font: UIFont.systemFont(ofSize: 32), .foregroundColor: UIColor.k666666]))
                 v.append(NSAttributedString(string: "%  健康", attributes: [.font: UIFont.systemFont(ofSize: 12), .foregroundColor: UIColor.k999999]))
                 self?.bleedValueLabel.attributedText = v
+                UserDefaults.standard.setValue("\(value)", forKey: "oxygen")
+                UserDefaults.standard.synchronize()
             }
         } else if objc == "delete" {
-            let lastestDeviceMac = UserDefaults.standard.string(forKey: "LastestDeviceMac") ?? ""
-            if lastestDeviceMac.count > 0 {
+            let userinfo = notification.userInfo as? [String : String]
+            var mac = userinfo?["mac"] ?? ""
+            if mac.count == 0 {
+                mac = UserDefaults.standard.string(forKey: "LastestDeviceMac") ?? ""
+            }
+            if mac.count > 0 {
                 for device in DeviceManager.shared.devices {
-                    if device.mac == lastestDeviceMac {
-                        if let model = try? BLEModel.er.array("mac = '\(lastestDeviceMac)'").first {
+                    if device.mac == mac {
+                        if let model = try? BLEModel.er.array("mac = '\(mac)'").first {
                             try? model.er.delete()
                         }
                         break
@@ -270,7 +278,7 @@ class HealthViewController: BaseViewController {
             return
         }
         if obj == 3 {
-            print("隐藏loading图片")
+            log.info("隐藏loading图片")
             endLoadingViewCheckTimer()
             DispatchQueue.main.async {
                 [weak self] in
@@ -520,6 +528,13 @@ class HealthViewController: BaseViewController {
     }
     
     private func readDBBlood() {
+        if let value = UserDefaults.standard.string(forKey: "blood"), value.count > 0 {
+            let v = NSMutableAttributedString()
+            v.append(NSAttributedString(string: "\(value)", attributes: [.font: UIFont.systemFont(ofSize: 32), .foregroundColor: UIColor.k666666]))
+            v.append(NSAttributedString(string: "MMHG", attributes: [.font: UIFont.systemFont(ofSize: 12), .foregroundColor: UIColor.k999999]))
+            pressureValueLabel.attributedText = v
+            return
+        }
         let models = try? DBloodModel.er.array("mac = '\(lastestDeviceMac)'").sorted(byKeyPath: "timeStamp", ascending: false)
         print("数据库里血压的数据总条数：\(models?.count ?? 0)")
         var min = 0
@@ -547,6 +562,13 @@ class HealthViewController: BaseViewController {
     }
     
     private func readDBOxygen() {
+        if let value = UserDefaults.standard.string(forKey: "oxygen"), value.count > 0 {
+            let v = NSMutableAttributedString()
+            v.append(NSAttributedString(string: "\(value)", attributes: [.font: UIFont.systemFont(ofSize: 32), .foregroundColor: UIColor.k666666]))
+            v.append(NSAttributedString(string: "%  健康", attributes: [.font: UIFont.systemFont(ofSize: 12), .foregroundColor: UIColor.k999999]))
+            bleedValueLabel.attributedText = v
+            return
+        }
         let models = try? DOxygenModel.er.array("mac = '\(lastestDeviceMac)'").sorted(byKeyPath: "timeStamp", ascending: false)
         print("数据库里血氧的数据总条数：\(models?.count ?? 0)")
         let value = models?.first?.oxygen ?? 0

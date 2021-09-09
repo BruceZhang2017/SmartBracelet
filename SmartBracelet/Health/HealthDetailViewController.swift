@@ -17,6 +17,7 @@ class HealthDetailViewController: BaseViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var headerView: UIView!
     @IBOutlet weak var lineChartView: LineChartView!
+    @IBOutlet weak var pieChartView: PieChartView!
     @IBOutlet weak var gradentView: UIView!
     @IBOutlet weak var goalView: UIView!
     @IBOutlet weak var dateLabel: UILabel! // 日期
@@ -35,8 +36,15 @@ class HealthDetailViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupChart()
-        setData()
+        if type == 3 {
+            lineChartView.isHidden = true
+            setupPieChart()
+            setDataCount()
+        } else {
+            pieChartView.isHidden = true
+            setupChart()
+            setData()
+        }
         setupProperty()
     }
     
@@ -50,7 +58,7 @@ class HealthDetailViewController: BaseViewController {
             goalLabel.text = "目标 \(goal)"
             goalBLabel.text = "\(goal)"
         }
-        kmLabel.isHidden = type != 0
+        //kmLabel.isHidden = type != 0
         if type == 0 {
             
         } else if type == 1 {
@@ -75,25 +83,12 @@ class HealthDetailViewController: BaseViewController {
         lineChartView.xAxis.labelTextColor = UIColor.white
         lineChartView.xAxis.avoidFirstLastClippingEnabled = true
         lineChartView.xAxis.axisMinimum = Double(0)
-        lineChartView.xAxis.axisMaximum = Double(4)
-        lineChartView.xAxis.setLabelCount(5, force: true)
+        lineChartView.xAxis.axisMaximum = Double(23)
+        lineChartView.xAxis.setLabelCount(24, force: true)
         lineChartView.xAxis.gridColor = UIColor.clear
         lineChartView.xAxis.drawGridLinesEnabled = true
         lineChartView.xAxis.drawAxisLineEnabled = false
         lineChartView.xAxis.labelPosition = .bottom
-        lineChartView.xAxis.valueFormatter = DefaultAxisValueFormatter(block: { (value, axis) -> String in
-            if value == 0 {
-                return "00:00"
-            } else if value == 1 {
-                return "06:00"
-            } else if value == 2 {
-                return "12:00"
-            } else if value == 3 {
-                return "18:00"
-            } else {
-                return "00:00"
-            }
-        })
         
         lineChartView.leftAxis.labelTextColor = UIColor.clear
         lineChartView.leftAxis.axisMinimum = 0
@@ -108,29 +103,15 @@ class HealthDetailViewController: BaseViewController {
         if type == 0 {
             lineChartView.rightAxis.axisMaximum = 5000
         } else if type == 1 {
-            lineChartView.rightAxis.axisMaximum = 40000
+            lineChartView.rightAxis.axisMaximum = 50000
         } else if type == 2 {
             lineChartView.rightAxis.axisMaximum = 200
-        } else if type == 3 {
-            lineChartView.rightAxis.axisMaximum = 5
         }
         lineChartView.rightAxis.setLabelCount(6, force: true)
         lineChartView.rightAxis.gridColor = UIColor.white
         lineChartView.rightAxis.drawGridLinesEnabled = true
         lineChartView.rightAxis.drawAxisLineEnabled = false
         lineChartView.legend.form = .none
-        if type == 3 {
-            lineChartView.rightAxis.valueFormatter = DefaultAxisValueFormatter(block: { (value, axis) -> String in
-                if value == 1 {
-                    return "清醒"
-                } else if value == 3 {
-                    return "浅睡"
-                } else if value == 5 {
-                    return "深睡"
-                }
-                return ""
-            })
-        }
     }
     
     func setData() {
@@ -162,24 +143,79 @@ class HealthDetailViewController: BaseViewController {
         lineChartView.data = data
     }
     
+    private func setupPieChart() {
+        pieChartView.delegate = self
+        pieChartView.drawHoleEnabled = false
+        let l = pieChartView.legend
+        l.horizontalAlignment = .right
+        l.verticalAlignment = .top
+        l.orientation = .vertical
+        l.xEntrySpace = 7
+        l.yEntrySpace = 0
+        l.yOffset = 0
+        //pieChartView.legend = l
+
+        // entry label styling
+        pieChartView.entryLabelColor = .white
+        pieChartView.entryLabelFont = .systemFont(ofSize: 12, weight: .light)
+        
+        pieChartView.animate(xAxisDuration: 0.4, easingOption: .easeOutBack)
+    }
+    
+    func setDataCount() {
+        var models: [PieChartDataEntry] = []
+        let array = ["清醒", "浅睡", "深睡"]
+        let entries = initializePreData()
+        for (index, item) in entries.enumerated() {
+            models.append(PieChartDataEntry(value: item, label: array[index]))
+        }
+        
+        let set = PieChartDataSet(entries: models, label: "")
+        set.drawIconsEnabled = false
+        set.sliceSpace = 2
+        
+        set.colors = ChartColorTemplates.vordiplom()
+            + ChartColorTemplates.joyful()
+            + ChartColorTemplates.colorful()
+            + ChartColorTemplates.liberty()
+            + ChartColorTemplates.pastel()
+            + [UIColor(red: 51/255, green: 181/255, blue: 229/255, alpha: 1)]
+        
+        let data = PieChartData(dataSet: set)
+        
+        let pFormatter = NumberFormatter()
+        pFormatter.numberStyle = .percent
+        pFormatter.maximumFractionDigits = 1
+        pFormatter.multiplier = 1
+        pFormatter.percentSymbol = " %"
+        data.setValueFormatter(DefaultValueFormatter(formatter: pFormatter))
+        
+        data.setValueFont(UIFont.systemFont(ofSize: 11))
+        data.setValueTextColor(.black)
+        
+        pieChartView.data = data
+        pieChartView.highlightValues(nil)
+    }
+    
     private func initializeData() -> [ChartDataEntry] {
         var values: [ChartDataEntry] = []
+        for i in 0..<24 {
+            values.append(ChartDataEntry(x: Double(i), y: Double(0)))
+        }
         if type == 0 { // 步数
             totalValue = 0
             totalKM = 0
             let array = readDBStep()
             if array.count > 0 {
-                values.append(ChartDataEntry(x: Double(-0.2), y: Double(0)))
                 let zero = mDate.zeroTimeStamp()
                 for i in 0..<array.count {
                     let value = array[i].step
                     totalValue += value
                     totalKM += array[i].distance
-                    let x = Double(array[i].timeStamp - Int(zero)) / Double(3660 * 6)
-                    values.append(ChartDataEntry(x: x, y: Double(value) / Double(1000)))
+                    let x = (array[i].timeStamp - Int(zero)) / 3660
+                    let item = values[x]
+                    values[x] = ChartDataEntry(x: Double(x), y: Double(value) / Double(1000) + item.y)
                 }
-                values.append(ChartDataEntry(x: Double(4.2), y: Double(0)))
-                print("获取到数据的数量为：\(values.count)")
             }
             let arrStr = NSMutableAttributedString()
             arrStr.append(NSAttributedString(string: "\(totalValue)", attributes: [.font: UIFont.systemFont(ofSize: 25), .foregroundColor: UIColor.white]))
@@ -190,16 +226,14 @@ class HealthDetailViewController: BaseViewController {
             totalValue = 0
             let array = readDBStep()
             if array.count > 0 {
-                values.append(ChartDataEntry(x: Double(-0.2), y: Double(0)))
                 let zero = mDate.zeroTimeStamp()
                 for i in 0..<array.count {
                     let value = array[i].cal // 热量
                     totalValue += value
-                    let x = Double(array[i].timeStamp - Int(zero)) / Double(3660 * 6)
-                    values.append(ChartDataEntry(x: x, y: Double(value) / Double(8000)))
+                    let x = (array[i].timeStamp - Int(zero)) / 3660
+                    let item = values[x]
+                    values[x] = ChartDataEntry(x: Double(x), y: Double(value) / Double(10000) + item.y)
                 }
-                values.append(ChartDataEntry(x: Double(4.2), y: Double(0)))
-                print("获取到数据的数量为：\(values.count)")
             }
             let arrStr = NSMutableAttributedString()
             arrStr.append(NSAttributedString(string: "\(String(format: "%.2f", Float(totalValue) / Float(1000)))", attributes: [.font: UIFont.systemFont(ofSize: 25), .foregroundColor: UIColor.white]))
@@ -210,14 +244,12 @@ class HealthDetailViewController: BaseViewController {
             let array = readDBHeart()
             if array.count > 0 {
                 count = array.count
-                values.append(ChartDataEntry(x: Double(-0.2), y: Double(0)))
                 let zero = mDate.zeroTimeStamp()
                 for i in 0..<array.count {
                     let value = array[i].heartRate
-                    let x = Double(array[i].timeStamp - Int(zero)) / Double(3660 * 6)
-                    values.append(ChartDataEntry(x: x, y: Double(value) / Double(40)))
+                    let x = (array[i].timeStamp - Int(zero)) / 3660
+                    values[x] = ChartDataEntry(x: Double(x), y: Double(value) / Double(40))
                 }
-                values.append(ChartDataEntry(x: Double(4.2), y: Double(0)))
                 print("获取到数据的数量为：\(values.count)")
             }
             if count > 0 {
@@ -231,31 +263,13 @@ class HealthDetailViewController: BaseViewController {
                 arrStr.append(NSAttributedString(string: "次/分", attributes: [.font: UIFont.systemFont(ofSize: 11), .foregroundColor: UIColor.white]))
                 valueLabel.attributedText = arrStr
             }
-        } else if type == 3 { // 睡眠
+        }
+        return values
+    }
+    
+    private func initializePreData() -> [Double] {
+        if type == 3 { // 睡眠
             let array = readDBSleep()
-            if array.count > 0 {
-                values.append(ChartDataEntry(x: Double(-0.2), y: Double(0)))
-                let zero = mDate.zeroTimeStamp()
-                let sort = array.sorted{ $0.timeStamp < $1.timeStamp}
-                for i in 0..<sort.count {
-                    if sort[i].timeStamp < Int(zero) || sort[i].timeStamp > Int(zero + 24 * 60 * 60) {
-                        continue
-                    }
-                    let value = sort[i].state // 1, 2, 3 清醒，浅睡，深睡
-                    var y = 0
-                    if value == 1 {
-                        y = 1
-                    } else if value == 2 {
-                        y = 3
-                    } else if value == 3 {
-                        y = 5
-                    }
-                    let x = Double(sort[i].timeStamp - Int(zero)) / Double(3660 * 6)
-                    values.append(ChartDataEntry(x: x, y: Double(y)))
-                }
-                values.append(ChartDataEntry(x: Double(4.2), y: Double(0)))
-                print("获取到数据的数量为：\(values.count)")
-            }
             if array.count > 0 {
                 let a = array.map { item -> SleepModel in
                     let model = SleepModel()
@@ -286,6 +300,8 @@ class HealthDetailViewController: BaseViewController {
                     let h3 = arr[0] / 60
                     let m3 = arr[0] % 60
                     goalLabel.text = "深睡\(h1)小时\(m1)分 浅睡\(h2)小时\(m2)分 清醒\(h3)小时\(m3)分"
+                    let total = h1 * 60 + m1 + h2 * 60 + m2 + h3 * 60 + m3
+                    return [Double(h3 * 60 + m3) * 100 / Double(total), Double(h2 * 60 + m2) * 100 / Double(total), Double(h1 * 60 + m1) * 100 / Double(total)]
                 }
             } else {
                 let arrStr = NSMutableAttributedString()
@@ -296,14 +312,15 @@ class HealthDetailViewController: BaseViewController {
                 valueLabel.attributedText = arrStr
                 goalLabel.text = "深睡0小时0分 浅睡0小时0分 清醒0小时0分"
             }
-            
         }
-        return values
+        return [100, 0, 0]
     }
 
     private func setupProperty() {
         goalView.addShadow(color: UIColor.k333333, offset: CGSize(width: 0, height: 1), opacity: 0.3)
-        gradentView.addGradientLayer(at: CGRect(x: 0, y: 0, width: ScreenWidth, height: 322), colors: colors)
+        if type != 3 {
+            gradentView.addGradientLayer(at: CGRect(x: 0, y: 0, width: ScreenWidth, height: 322), colors: colors)
+        }
         dateLabel.isUserInteractionEnabled = true
         let times = getTimes(date: mDate)
         dateLabel.text = changeTimeToWeek(times[6]) + "\(times[1])月\(times[2])日"
@@ -311,17 +328,29 @@ class HealthDetailViewController: BaseViewController {
     
     /// 选择日期
     @IBAction func chooseDate(_ sender: Any) {
-        if commonCalendarView != nil {
-            commonCalendarView?.isHidden = !commonCalendarView!.isHidden
-            return
-        }
-        commonCalendarView = Bundle.main.loadNibNamed("CommonCalendarView", owner: nil, options: nil)?.first as? CommonCalendarView
-        commonCalendarView?.delegate = self
-        view.addSubview(commonCalendarView!)
-        commonCalendarView?.snp.makeConstraints {
-            $0.left.right.equalToSuperview()
-            $0.top.equalTo(dateLabel.snp.bottom)
-            $0.bottom.equalToSuperview()
+//        if commonCalendarView != nil {
+//            commonCalendarView?.isHidden = !commonCalendarView!.isHidden
+//            return
+//        }
+//        commonCalendarView = Bundle.main.loadNibNamed("CommonCalendarView", owner: nil, options: nil)?.first as? CommonCalendarView
+//        commonCalendarView?.delegate = self
+//        view.addSubview(commonCalendarView!)
+//        commonCalendarView?.snp.makeConstraints {
+//            $0.left.right.equalToSuperview()
+//            $0.top.equalTo(dateLabel.snp.bottom)
+//            $0.bottom.equalToSuperview()
+//        }
+        let pickerView = TTADataPickerView(title: "选择时间", type: .text, delegate: nil)
+        pickerView.type = .date
+        /* Set `minimumDate` and `maximumDate`
+        pickerView.minimumDate = Date(timeIntervalSinceNow: -24 * 60 * 60)
+        pickerView.maximumDate = Date(timeIntervalSinceNow: 24 * 60 * 60)
+        */
+        pickerView.delegate = self
+        pickerView.show {
+            UIView.animate(withDuration: 0.3, animations: {
+                self.view.backgroundColor = UIColor(white: 1.0, alpha: 0.01)
+            })
         }
     }
     
@@ -425,3 +454,31 @@ extension HealthDetailViewController {
         
     }
 }
+
+extension HealthDetailViewController: TTADataPickerViewDelegate {
+    // when the pickerView type is `.text`, you clicked the done button, you will get the titles you selected just now from the `titles` parameter
+    func dataPickerView(_ pickerView: TTADataPickerView, didSelectTitles titles: [String]) {
+        //showLabel.text = titles.joined(separator: " ")
+    }
+    // when the pickerView type is NOT `.text`, you clicked the done button, you will get the date you selected just now from the `date` parameters
+    func dataPickerView(_ pickerView: TTADataPickerView, didSelectDate date: Date) {
+        mDate = date
+        setData()
+        let times = getTimes(date: mDate)
+        dateLabel.text = changeTimeToWeek(times[6]) + "\(times[1])月\(times[2])日"
+    }
+    // when the pickerView  has been changed, this function will be called, and you will get the row and component which changed just now
+    func dataPickerView(_ pickerView: TTADataPickerView, didChange row: Int, inComponent component: Int) {
+        print(#function)
+    }
+    // when you clicked the cancel button, this function will be called firstly
+    func dataPickerViewWillCancel(_ pickerView: TTADataPickerView) {
+        print(#function)
+    }
+    // when you clicked the cancel button, this function will be called at the last
+    func dataPickerViewDidCancel(_ pickerView: TTADataPickerView) {
+        print(#function)
+    }
+}
+
+

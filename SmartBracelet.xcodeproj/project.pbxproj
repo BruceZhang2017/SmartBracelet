@@ -403,6 +403,10 @@
 		9AE6688D267F8B2A00A8584A /* MAWeatherForecastView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AE6688B267F8B2A00A8584A /* MAWeatherForecastView.m */; };
 		9AEBEC3226D29FD9008D13AA /* WeatherViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AEBEC3126D29FD9008D13AA /* WeatherViewController.swift */; };
 		9AEBEC3426D2A3BE008D13AA /* BLEDeviceNameHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AEBEC3326D2A3BE008D13AA /* BLEDeviceNameHandler.swift */; };
+		9AEBEC3D26DE5AD0008D13AA /* TTADataPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AEBEC3C26DE5AD0008D13AA /* TTADataPickerView.swift */; };
+		9AEBEC3F26DE5AFC008D13AA /* TTADataPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AEBEC3E26DE5AFC008D13AA /* TTADataPickerViewController.swift */; };
+		9AEBEC4226DE5B03008D13AA /* TTADataPickerToolBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AEBEC4026DE5B03008D13AA /* TTADataPickerToolBar.swift */; };
+		9AEBEC4326DE5B03008D13AA /* TTADataPickerTitleBarButtonItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AEBEC4126DE5B03008D13AA /* TTADataPickerTitleBarButtonItem.swift */; };
 		9AEC22CD25B707C000DE899A /* BLEModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AEC22CC25B707C000DE899A /* BLEModel.swift */; };
 		9AEC230025B7114500DE899A /* Data+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AEC22FF25B7114500DE899A /* Data+Extension.swift */; };
 		9AF0AA2025AAF1CE000BDAED /* CMDData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF0AA1F25AAF1CE000BDAED /* CMDData.swift */; };
@@ -860,6 +864,10 @@
 		9AE6688C267F8B2A00A8584A /* MAWeatherForecastView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MAWeatherForecastView.h; sourceTree = "<group>"; };
 		9AEBEC3126D29FD9008D13AA /* WeatherViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeatherViewController.swift; sourceTree = "<group>"; };
 		9AEBEC3326D2A3BE008D13AA /* BLEDeviceNameHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BLEDeviceNameHandler.swift; sourceTree = "<group>"; };
+		9AEBEC3C26DE5AD0008D13AA /* TTADataPickerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TTADataPickerView.swift; sourceTree = "<group>"; };
+		9AEBEC3E26DE5AFC008D13AA /* TTADataPickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TTADataPickerViewController.swift; sourceTree = "<group>"; };
+		9AEBEC4026DE5B03008D13AA /* TTADataPickerToolBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TTADataPickerToolBar.swift; sourceTree = "<group>"; };
+		9AEBEC4126DE5B03008D13AA /* TTADataPickerTitleBarButtonItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TTADataPickerTitleBarButtonItem.swift; sourceTree = "<group>"; };
 		9AEC22CC25B707C000DE899A /* BLEModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BLEModel.swift; sourceTree = "<group>"; };
 		9AEC22FF25B7114500DE899A /* Data+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+Extension.swift"; sourceTree = "<group>"; };
 		9AF0AA1F25AAF1CE000BDAED /* CMDData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CMDData.swift; sourceTree = "<group>"; };
@@ -1585,6 +1593,10 @@
 		9A820B6C24CD066E00A62C6F /* Health */ = {
 			isa = PBXGroup;
 			children = (
+				9AEBEC4126DE5B03008D13AA /* TTADataPickerTitleBarButtonItem.swift */,
+				9AEBEC4026DE5B03008D13AA /* TTADataPickerToolBar.swift */,
+				9AEBEC3E26DE5AFC008D13AA /* TTADataPickerViewController.swift */,
+				9AEBEC3C26DE5AD0008D13AA /* TTADataPickerView.swift */,
 				9A820B6D24CD06AC00A62C6F /* HealthViewController.swift */,
 				9A820B7524CEA2A500A62C6F /* HealthDetailViewController.swift */,
 				9A820B7924CECB1700A62C6F /* HealthDetailTableViewCell.swift */,
@@ -2155,6 +2167,7 @@
 				9A367B7725BD208100BFB4C3 /* Error.swift in Sources */,
 				9A60DECC252E0D9600E0D849 /* ModifyHeadViewController.swift in Sources */,
 				9A56D23A25216FC60082CC08 /* DataApproximator+N.swift in Sources */,
+				9AEBEC3D26DE5AD0008D13AA /* TTADataPickerView.swift in Sources */,
 				9A61685625DA502F00918EFC /* HBLockSliderView.m in Sources */,
 				9A56D25E25216FC60082CC08 /* PieRadarHighlighter.swift in Sources */,
 				9A2185B4255BCDA0000330E5 /* MNavigationController.swift in Sources */,
@@ -2165,6 +2178,7 @@
 				9A60DEDA252F002400E0D849 /* RecentCitiesableViewCell.swift in Sources */,
 				9A60DEF1252F416E00E0D849 /* AlarmTableViewCell.swift in Sources */,
 				9A40E02C25D37477001879B3 /* DStepModel.swift in Sources */,
+				9AEBEC4226DE5B03008D13AA /* TTADataPickerToolBar.swift in Sources */,
 				9A56D2BB25216FC70082CC08 /* IBubbleChartDataSet.swift in Sources */,
 				9A08C6EB262F17D500E178DA /* OTAUpgradeViewController.m in Sources */,
 				9A037E4A25BDB9E00006FB94 /* OTAViewController.swift in Sources */,
@@ -2241,6 +2255,7 @@
 				9A820B7E24CED47700A62C6F /* UIView+Extension.swift in Sources */,
 				9A61683825DA192900918EFC /* CircleProgressView.m in Sources */,
 				9A2185B6255BD153000330E5 /* CacheHelper.swift in Sources */,
+				9AEBEC4326DE5B03008D13AA /* TTADataPickerTitleBarButtonItem.swift in Sources */,
 				9A33D31126AD9A4F00DF9618 /* UIViewExtensions.swift in Sources */,
 				9A8CA50F25272C5200EC01A7 /* CVCalendarContentViewController.swift in Sources */,
 				9A8CA51325272C5200EC01A7 /* CVCalendarWeekContentViewController.swift in Sources */,
@@ -2287,6 +2302,7 @@
 				9A60DEC2252D5BF600E0D849 /* AccountSafeViewController.swift in Sources */,
 				9A5613F12524875400C43C6A /* CommonCalendarView.swift in Sources */,
 				9A037E4E25BDBC180006FB94 /* SGCirle.swift in Sources */,
+				9AEBEC3F26DE5AFC008D13AA /* TTADataPickerViewController.swift in Sources */,
 				9A61685A25DAB5B200918EFC /* GradeTableViewCell.swift in Sources */,
 				9AB910282501322C006E0FC4 /* EMAlertAction.swift in Sources */,
 				9A08C6FB262F182000E178DA /* OTAListCell.m in Sources */,
@@ -2537,6 +2553,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.1;
 				OTHER_SWIFT_FLAGS = "$(inherited) -D WeiZhongYun -D DisplayPrint -D TestMode";
 				PRODUCT_BUNDLE_IDENTIFIER = com.sinophy.smartbracelet;
 				PRODUCT_NAME = FitDAY;
@@ -2574,6 +2591,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.1;
 				OTHER_SWIFT_FLAGS = "$(inherited) -D WeiZhongYun -D DisplayPrint -D TestMode";
 				PRODUCT_BUNDLE_IDENTIFIER = com.sinophy.smartbracelet;
 				PRODUCT_NAME = FitDAY;

@@ -11,7 +11,7 @@ import UIKit
 class CyclicCardCell: UICollectionViewCell {
     
     var index = Int() // 下标
-    
+    var bConnected = false 
     let cardImgView = UIImageView()
     let cardNameLabel = UILabel()
     let btButton = UIButton(type: .custom)
