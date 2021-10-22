@@ -27,6 +27,9 @@ class InputHeightViewController: UIViewController {
         super.viewDidLoad()
         setupValue()
         mTextField.keyboardType = .numberPad
+        cancelButton.setTitle("mine_cancel".localized(), for: .normal)
+        titleLabel.text = "mine_height".localized()
+        okButton.setTitle("mine_confirm".localized(), for: .normal)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -36,11 +39,11 @@ class InputHeightViewController: UIViewController {
     
     private func setupValue() {
         if type == 0 {
-            titleLabel.text = "身高"
+            titleLabel.text = "mine_height".localized()
             unitLabel.text = "CM"
             
         } else {
-            titleLabel.text = "体重"
+            titleLabel.text = "mine_weight".localized()
             unitLabel.text = "KG"
         }
     }

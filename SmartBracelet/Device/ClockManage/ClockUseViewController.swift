@@ -29,7 +29,7 @@ class ClockUseViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "表盘管理"
+        title = "dial_management".localized()
         if index > 0 {
             var type = BLEDeviceNameHandler().handleName()
             if type == 0 {
@@ -50,7 +50,7 @@ class ClockUseViewController: BaseViewController {
             path = Bundle.main.path(forResource: imagename, ofType: "bin")!
         }
         binData = try? Data(contentsOf: URL(fileURLWithPath: path))
-        sizeLabel.text = "文件大小：" + (binData?.count ?? 0).sizeToStr()
+        sizeLabel.text = "device_ota_file_size".localized() + (binData?.count ?? 0).sizeToStr()
         
         var bHave = false
         if index > 0 {
@@ -62,7 +62,7 @@ class ClockUseViewController: BaseViewController {
         if !bHave {
             rightButton = UIButton(type: .custom).then {
                 $0.initializeRightNavigationItem()
-                $0.setTitle(index > 0 ? "下载并使用" : "使用", for: .normal)
+                $0.setTitle(index > 0 ? "device_download_add_use".localized() : "device_use".localized(), for: .normal)
                 $0.addTarget(self, action: #selector(handleOTA(_:)), for: .touchUpInside)
             }
             navigationItem.rightBarButtonItem = UIBarButtonItem(customView: rightButton)
@@ -77,7 +77,7 @@ class ClockUseViewController: BaseViewController {
 
     @objc private func handleOTA(_ sender: Any) {
         if !bleSelf.isConnected {
-            Toast(text: "未连接设备").show()
+            Toast(text: "mine_unconnect".localized()).show()
             return
         }
         if index > 0 {

@@ -16,11 +16,12 @@ class BindPhoneNumViewController: BaseViewController {
     @IBOutlet weak var phoneTextField: UITextField!
     @IBOutlet weak var codeButton: UIButton!
     @IBOutlet weak var codeTextField: UITextField!
+    @IBOutlet weak var submitButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        submitButton.setTitle("mine_confirm".localized(), for: .normal)
     }
     
     @IBAction func requestCode(_ sender: Any) {

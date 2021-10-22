@@ -22,6 +22,8 @@ class SetTargetViewController: UIViewController {
         super.viewDidLoad()
         title = String.kSetTarget
         timeTextField.keyboardType = .numbersAndPunctuation
+        
+        unitLabel.text = "health_walk_unit".localized()
     }
     
     override func viewWillDisappear(_ animated: Bool) {

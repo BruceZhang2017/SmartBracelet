@@ -24,7 +24,7 @@ class MarketClockViewController: UIViewController {
             rightButton = UIButton(type: .custom).then {
                 $0.initializeRightNavigationItem()
                 $0.setTitle("管理", for: .normal)
-                $0.setTitle("删除", for: .selected)
+                $0.setTitle("mine_delete".localized(), for: .selected)
                 $0.setTitle("完成", for: .disabled)
             }
             navigationItem.rightBarButtonItem = UIBarButtonItem(customView: rightButton)
@@ -92,7 +92,7 @@ extension MarketClockViewController: UICollectionViewDataSource {
 extension MarketClockViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if !bleSelf.isConnected {
-            Toast(text: "未连接手环").show()
+            Toast(text: "mine_unconnect".localized()).show()
             return
         }
         let vc = storyboard?.instantiateViewController(withIdentifier: "ClockUseViewController") as? ClockUseViewController

@@ -714,7 +714,7 @@
                                                     <outletCollection property="gestureRecognizers" destination="5b6-q1-VNS" appends="YES" id="KNb-p5-HzU"/>
                                                 </connections>
                                             </view>
-                                            <imageView clipsSubviews="YES" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="content_banner_illustration" translatesAutoresizingMaskIntoConstraints="NO" id="FVC-cn-cte">
+                                            <imageView hidden="YES" clipsSubviews="YES" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="content_banner_illustration" translatesAutoresizingMaskIntoConstraints="NO" id="FVC-cn-cte">
                                                 <rect key="frame" x="15" y="518" width="384" height="66"/>
                                                 <gestureRecognizers/>
                                                 <constraints>
@@ -783,6 +783,7 @@
                     <connections>
                         <outlet property="collectionView" destination="XML-AF-UbS" id="sTN-YC-qa4"/>
                         <outlet property="contentView" destination="NJp-PX-3qd" id="1DX-3z-1a1"/>
+                        <outlet property="dialManagmentLabel" destination="Bw4-Os-NVl" id="n1m-P5-obF"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cI3-qa-Naj" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -1399,12 +1400,18 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="aboutUsLabel" destination="Hco-gT-A5n" id="6rR-ou-Qzh"/>
+                        <outlet property="accountInfoLabel" destination="lm3-fU-iTP" id="WYE-r3-VkQ"/>
                         <outlet property="batteryButton" destination="jPA-TM-KT5" id="aeN-fm-zv0"/>
                         <outlet property="btButton" destination="S78-IH-etG" id="qRl-9t-cnK"/>
                         <outlet property="deviceButton" destination="o0a-ff-Riz" id="8Ka-NO-bxC"/>
+                        <outlet property="deviceInfoLabel" destination="Hr2-8q-2m4" id="rZn-2J-lrU"/>
                         <outlet property="headImageView" destination="bXc-Us-qAm" id="oic-Z4-GjT"/>
+                        <outlet property="helpCenterLabel" destination="I3x-f5-Zxm" id="m3d-N1-dRL"/>
+                        <outlet property="otaLabel" destination="uM1-0K-WZh" id="CPC-MK-evQ"/>
                         <outlet property="recordLabel" destination="VKN-Gk-5yr" id="EfE-8S-Dc7"/>
                         <outlet property="userNameLabel" destination="aSq-aq-Mmr" id="3iE-DJ-xne"/>
+                        <outlet property="userinfoLabel" destination="I4c-xg-o62" id="2yz-wh-9sm"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="YjH-pd-CKp" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

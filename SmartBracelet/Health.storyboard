@@ -265,6 +265,7 @@
                     </view>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <connections>
+                        <outlet property="dataDynamicLabel" destination="2QO-2X-34Y" id="VSG-jz-Tsk"/>
                         <outlet property="dateLabel" destination="joB-al-1uR" id="uSv-fm-2Q9"/>
                         <outlet property="goalBLabel" destination="vT6-wm-lib" id="h2N-ZC-Mu6"/>
                         <outlet property="goalLabel" destination="bL6-cl-ovc" id="UmV-jL-f0V"/>

@@ -23,6 +23,8 @@ class BindEmailViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         emailTextField.text = email
+        cancelButton.setTitle("mine_cancel".localized(), for: .normal)
+        okButton.setTitle("mine_confirm".localized(), for: .normal)
     }
     
 

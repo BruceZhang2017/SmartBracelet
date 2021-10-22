@@ -239,7 +239,7 @@ class BLEManager: NSObject {
         #endif
         if notify.name == WristbandNotifyKeys.search_Phone {
             let content = UNMutableNotificationContent()
-            content.title = "提示"
+            content.title = "device_tip".localized()
             content.body = "查找手机成功"
             content.badge = 1
             content.sound = UNNotificationSound.default
@@ -259,8 +259,8 @@ class BLEManager: NSObject {
             audioPlayer.play()
             
             DispatchQueue.main.async {
-                let alert = UIAlertController(title: "提示", message: "查找手机成功", preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "确定", style: .cancel, handler: { [weak self] action in
+                let alert = UIAlertController(title: "device_tip".localized(), message: "查找手机成功", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "mine_confirm".localized(), style: .cancel, handler: { [weak self] action in
                     self?.audioPlayer.stop()
                 }))
                 UIApplication.shared.keyWindow?.rootViewController?.present(alert, animated: true, completion: {
@@ -643,10 +643,10 @@ class BLEManager: NSObject {
 extension BLEManager {
     public func showBLEAlertView() {
         let alertView = UIAlertController(title: "系统提示", message: "请先开启蓝牙，设置 -> 蓝牙", preferredStyle: .alert)
-        let cancel = UIAlertAction(title: "取消", style: .cancel) { (action) in
+        let cancel = UIAlertAction(title: "mine_cancel".localized(), style: .cancel) { (action) in
             
         }
-        let ok = UIAlertAction(title: "确定", style: .default) { (action) in
+        let ok = UIAlertAction(title: "mine_confirm".localized(), style: .default) { (action) in
             let url = URL(string: "App-Prefs:root=Bluetooth")
             if UIApplication.shared.canOpenURL(url!) {
                 UIApplication.shared.open(url!, options: [:], completionHandler: nil)

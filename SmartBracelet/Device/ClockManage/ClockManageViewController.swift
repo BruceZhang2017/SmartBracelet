@@ -22,9 +22,9 @@ class ClockManageViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "表盘管理"
-        let mine = SegmentioItem(title: "我的表盘", image: nil)
-        let market = SegmentioItem(title: "表盘市场", image: nil)
+        title = "dial_management".localized()
+        let mine = SegmentioItem(title: "device_my_dial".localized(), image: nil)
+        let market = SegmentioItem(title: "device_dial_mall".localized(), image: nil)
         let state = SegmentioStates(
                     defaultState: SegmentioState(
                         backgroundColor: .white,

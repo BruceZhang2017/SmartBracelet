@@ -26,7 +26,7 @@ class MyClockViewController: UIViewController {
             rightButton = UIButton(type: .custom).then {
                 $0.initializeRightNavigationItem()
                 $0.setTitle("管理", for: .normal)
-                $0.setTitle("删除", for: .selected)
+                $0.setTitle("mine_delete".localized(), for: .selected)
                 $0.setTitle("完成", for: .disabled)
             }
             navigationItem.rightBarButtonItem = UIBarButtonItem(customView: rightButton)
@@ -38,11 +38,14 @@ class MyClockViewController: UIViewController {
         nullLabel = UILabel().then {
             $0.textColor = UIColor.black
             $0.font = UIFont.systemFont(ofSize: 20)
-            $0.text = "请至表盘市场下载表盘"
+            $0.text = "device_need_download_dial_tip".localized()
+            $0.numberOfLines = 0
         }
         view.addSubview(nullLabel)
         nullLabel.snp.makeConstraints {
-            $0.center.equalToSuperview()
+            $0.left.equalTo(20)
+            $0.right.equalTo(-20)
+            $0.centerY.equalToSuperview()
         }
         
         let clockDir = UserDefaults.standard.dictionary(forKey: "MyClock") ?? [:]
@@ -81,7 +84,7 @@ extension MyClockViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
         if !bleSelf.isConnected {
-            Toast(text: "未连接手环").show()
+            Toast(text: "mine_unconnect".localized()).show()
             return
         }
         let vc = storyboard?.instantiateViewController(withIdentifier: "ClockUseViewController") as? ClockUseViewController

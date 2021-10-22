@@ -19,7 +19,7 @@ class DeviceInfoViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "设备信息"
+        title = "device_device_info".localized()
         tableView.tableHeaderView?.frame = CGRect(x: 0, y: 0, width: ScreenWidth, height: 150)
         tableView.tableFooterView = UIView()
     }
@@ -56,6 +56,6 @@ extension DeviceInfoViewController: UITableViewDelegate {
 
 extension DeviceInfoViewController {
     var titles: [String] {
-        return ["设备型号", "MAC地址", "软件版本", "硬件版本"]
+        return ["deivce_model".localized(), "deivce_mac".localized(), "deivce_soft_version".localized(), "deivce_hardware_version".localized()]
     }
 }

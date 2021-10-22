@@ -23,6 +23,8 @@ class ModifyPWDViewController: BaseViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        cancelButton.setTitle("mine_cancel".localized(), for: .normal)
+        okButton.setTitle("mine_confirm".localized(), for: .normal)
     }
     
 

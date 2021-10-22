@@ -26,6 +26,9 @@ class MTabBarController: UITabBarController {
             perform(#selector(checkIfNeedScanDevice), with: nil, afterDelay: 1)
         }
         print("数据库里面：\(DeviceManager.shared.devices.count)")
+        viewControllers?[0].title = "health_head".localized()
+        viewControllers?[1].title = "device".localized()
+        viewControllers?[2].title = "mine".localized()
     }
     
     override func viewDidAppear(_ animated: Bool) {

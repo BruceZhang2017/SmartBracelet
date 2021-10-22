@@ -55,9 +55,9 @@ class CurveView: UIView {
             return
         }
         
-        getupLayer.frame = CGRect(x: 242.0 / 6 - 5, y: 50 - value[0], width: 10, height: value[0])
-        lightSleepLayer.frame = CGRect(x: 242.0 * 3 / 6 - 5, y: 50 - value[1], width: 10, height: value[1])
-        deepSleepLayer.frame = CGRect(x: 242.0 * 5 / 6 - 5, y: 50 - value[2], width: 10, height: value[2])
+        getupLayer.frame = CGRect(x: 242.0 / 6 - 5, y: 50 - value[0], width: 10, height: min(50, value[0]))
+        lightSleepLayer.frame = CGRect(x: 242.0 * 3 / 6 - 5, y: 50 - value[1], width: 10, height: min(50, value[1]))
+        deepSleepLayer.frame = CGRect(x: 242.0 * 5 / 6 - 5, y: 50 - value[2], width: 10, height: min(50, value[2]))
         
     }
 

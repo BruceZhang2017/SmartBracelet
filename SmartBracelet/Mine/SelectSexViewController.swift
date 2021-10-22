@@ -26,6 +26,9 @@ class SelectSexViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        cancelButton.setTitle("mine_cancel".localized(), for: .normal)
+        chooseSexLabel.text = "mine_select_sex".localized()
+        okButton.setTitle("mine_confirm".localized(), for: .normal)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -104,7 +107,7 @@ extension SelectSexViewController: UIPickerViewDelegate {
 
 extension SelectSexViewController {
     var titles: [String] {
-        return ["男", "女"]
+        return ["mine_male".localized(), "mine_female".localized()]
     }
 }
 

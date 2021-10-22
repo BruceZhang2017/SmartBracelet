@@ -41,6 +41,11 @@ class ModifyHeadViewController: UIViewController {
                 headImageView.image = UIImage(named: "image_portrait")
             }
         }
+        
+        CameraButton.setTitle("mine_camera".localized(), for: .normal)
+        selectPhotoButton.setTitle("mine_select_photo".localized(), for: .normal)
+        saveButton.setTitle("mine_save".localized(), for: .normal)
+        cancelButton.setTitle("mine_cancel".localized(), for: .normal)
     }
     
     override func viewWillAppear(_ animated: Bool) {

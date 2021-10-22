@@ -17,7 +17,7 @@ class APNSViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "推送设置"
+        title = "device_push_settings".localized()
         let footImageView = UIImageView(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: 0.5))
         footImageView.backgroundColor = UIColor.kDEDEDE
         tableView.tableFooterView = footImageView
@@ -98,6 +98,6 @@ extension APNSViewController: UITableViewDelegate {
 
 extension APNSViewController {
     var titles: [[String]] {
-        return [["微信", "QQ", "LIKEDIN", "FACEBOOK", "TIWTTER"], ["WHATSAPP"]]
+        return [["device_push_settings_wechat".localized(), "QQ", "LIKEDIN", "FACEBOOK", "TIWTTER"], ["WHATSAPP"]]
     }
 }

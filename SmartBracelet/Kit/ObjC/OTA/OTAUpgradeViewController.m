@@ -207,7 +207,7 @@
         }
             break;
         case 0x6b: {
-            NSString *tip = [NSString stringWithFormat:@"设备未连接"];
+            NSString *tip = [NSString stringWithFormat:NSLocalizedString(@"mine_unconnect", nil)];
             [self hudSetting:tip];
         }
             break;
@@ -231,14 +231,14 @@
             [self hudSetting:tip];
             UIAlertController *alertC = [UIAlertController alertControllerWithTitle:nil message:manager.bleKeyStr preferredStyle:UIAlertControllerStyleAlert];
 
-            UIAlertAction *action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+            UIAlertAction *action = [UIAlertAction actionWithTitle:NSLocalizedString(@"mine_confirm", nil) style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
             }];
             [alertC addAction:action];
             [self presentViewController:alertC animated:YES completion:nil];
         }
             break;
         default:{
-            NSString *tip = [NSString stringWithFormat:@"OTA升级失败，请重试"];
+            NSString *tip = [NSString stringWithFormat:NSLocalizedString(@"mine_device_ota_fail", nil)];
             [self hudSetting:tip];
         }
             break;
@@ -253,8 +253,8 @@
         if (self.isFirstConnectionOTA) {
             //首次进入已经连接了OTA模式的蓝牙，提醒手动连接
             self.isFirstConnectionOTA = NO;
-            UIAlertController *alertC = [UIAlertController alertControllerWithTitle:@"提示" message:@"请手动连接设备" preferredStyle:UIAlertControllerStyleAlert];
-            UIAlertAction *action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:nil];
+            UIAlertController *alertC = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"device_tip", nil) message:@"请手动连接设备" preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction *action = [UIAlertAction actionWithTitle:NSLocalizedString(@"mine_confirm", nil) style:UIAlertActionStyleDefault handler:nil];
             [alertC addAction:action];
             [self presentViewController:alertC animated:YES completion:nil];
             [self popVC];

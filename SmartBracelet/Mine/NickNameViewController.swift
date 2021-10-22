@@ -26,7 +26,7 @@ class NickNameViewController: BaseViewController {
         rightButton = UIButton(type: .custom).then {
             $0.setTitleColor(.k64F2B4, for: .normal)
             $0.titleLabel?.font = UIFont.systemFont(ofSize: 15)
-            $0.setTitle("保存", for: .normal)
+            $0.setTitle("mine_save".localized(), for: .normal)
             $0.addTarget(self, action: #selector(save), for: .touchUpInside)
         }
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: rightButton)
@@ -45,12 +45,12 @@ class NickNameViewController: BaseViewController {
         } else if type == 1 {
             textView.text = UserManager.sharedInstall.user?.username ?? ""
         }
-        countLabel.text = "还可以输入\(15 - textView.text.count)个字"
+        countLabel.text = "mine_insert_num_limit".localized().replacingOccurrences(of: "XX", with: "\(15 - textView.text.count)")
     }
     
     private func setupValue() {
         if type == 0 {
-            title = "昵称"
+            title = "mine_nick".localized()
         } else if type == 1 {
             title = "姓名"
         }
@@ -121,7 +121,7 @@ extension NickNameViewController: UITextViewDelegate {
         if text == "" && range.length > 0 {
             return true
         }
-        countLabel.text = "还可以输入\(15 - textView.text.count)个字"
+        countLabel.text = "mine_insert_num_limit".localized().replacingOccurrences(of: "XX", with: "\(15 - textView.text.count)")
         if textView.text.count > 15 {
             return false
         }

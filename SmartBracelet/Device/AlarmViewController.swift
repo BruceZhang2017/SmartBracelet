@@ -19,7 +19,7 @@ class AlarmViewController: BaseViewController {
     override func viewDidLoad() {
         bleSelf.getAlarmForWristband() // 获取闹钟信息
         super.viewDidLoad()
-        title = "闹钟设置"
+        title = "device_alarm_settings".localized()
         tableView.tableFooterView = UIView()
         registerNotification()
     }
@@ -66,28 +66,28 @@ class AlarmViewController: BaseViewController {
         let weekday = model.weekday
         var value = ""
         if ((weekday >> 1) & 0x01) > 0 {
-            value += "周一、"
+            value += "\("mine_monday".localized())、"
         }
         if ((weekday >> 2) & 0x01) > 0  {
-            value += "周二、"
+            value += "\("mine_satuday".localized())、"
         }
         if ((weekday >> 3) & 0x01) > 0  {
-            value += "周三、"
+            value += "\("mine_wednesday".localized())、"
         }
         if ((weekday >> 4) & 0x01) > 0  {
-            value += "周四、"
+            value += "\("mine_thursday".localized())、"
         }
         if ((weekday >> 5) & 0x01) > 0  {
-            value += "周五、"
+            value += "\("mine_friday".localized())、"
         }
         if ((weekday >> 6) & 0x01) > 0  {
-            value += "周六、"
+            value += "\("mine_saturday".localized())、"
         }
         if (weekday & 0x01) > 0 {
-            value += "周日、"
+            value += "\("mine_sunday".localized())、"
         }
         if value.count == 0 {
-            return "无"
+            return "mine_null".localized()
         } else {
             let _ = value.removeLast()
             return value
@@ -113,7 +113,7 @@ extension AlarmViewController: UITableViewDataSource {
         mSwitch?.addTarget(self, action: #selector(valueChanged(_:)), for: .valueChanged)
         cell.accessoryView = mSwitch!
         mSwitch?.isOn = model.isOn
-        cell.detailTextLabel?.text = "重复模式 \(refreshWeekValue(model: model))"
+        cell.detailTextLabel?.text = "\("mine_repeat_mode".localized()) \(refreshWeekValue(model: model))"
         return cell
     }
 }

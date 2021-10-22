@@ -19,7 +19,7 @@ class AlarmRepeatViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "闹钟设置"
+        title = "device_alarm_settings".localized()
         tableView.tableFooterView = UIView()
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "nav_icon_edit"), style: .plain, target: self, action: #selector(submit(_:)))
     }
@@ -141,6 +141,6 @@ extension AlarmRepeatViewController: UITableViewDelegate {
 
 extension AlarmRepeatViewController {
     var titles: [String] {
-        return ["周一", "周二", "周三", "周四", "周五", "周六", "周日"]
+        return ["mine_monday".localized(), "mine_satuday".localized(), "mine_wednesday".localized(), "mine_thursday".localized(), "mine_friday".localized(), "mine_saturday".localized(), "mine_sunday".localized()]
     }
 }

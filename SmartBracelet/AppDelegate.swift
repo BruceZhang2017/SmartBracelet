@@ -106,3 +106,9 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
     }
 }
 
+extension String {
+    func localized() -> String {
+        return NSLocalizedString(self, comment: "")
+    }
+}
+

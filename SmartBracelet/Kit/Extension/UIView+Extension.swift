@@ -84,7 +84,7 @@ extension UIViewController {
 extension UIViewController {
     public func showLocationAlertView(title: String, message: String) {
         let alertView = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let ok = UIAlertAction(title: "确定", style: .default) { (action) in
+        let ok = UIAlertAction(title: "mine_confirm".localized(), style: .default) { (action) in
             let url = URL(string: "App-Prefs:root=LOCATION_SERVICES")
             if UIApplication.shared.canOpenURL(url!) {
                 UIApplication.shared.open(url!, options: [:], completionHandler: nil)

@@ -16,6 +16,7 @@ import TJDWristbandSDK
 class DevicesViewController: BaseViewController {
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var contentView: UIView!
+    @IBOutlet weak var dialManagmentLabel: UILabel!
     var deviceView: DevicesView!
     var clockArray: [String] = []
     
@@ -26,6 +27,8 @@ class DevicesViewController: BaseViewController {
         contentView.addSubview(deviceView)
         bleSelf.getSwitchForWristband()
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: Notification.Name("DevicesViewController"), object: nil)
+        navigationItem.rightBarButtonItem?.title = "device".localized()
+        dialManagmentLabel.text = "dial_management".localized()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -94,23 +97,23 @@ class DevicesViewController: BaseViewController {
         let storyboard = UIStoryboard(name: "Device", bundle: nil)
         if count == 0 {
             let vc = storyboard.instantiateViewController(withIdentifier: "DeviceSearchViewController")
-            vc.title = "添加设备"
+            vc.title = "device_add".localized()
             vc.hidesBottomBarWhenPushed = true
             navigationController?.pushViewController(vc, animated: true)
         } else {
             let vc = storyboard.instantiateViewController(withIdentifier: "DeviceListViewController")
-            vc.title = "设备切换"
+            vc.title = "device_change".localized()
             vc.hidesBottomBarWhenPushed = true
             navigationController?.pushViewController(vc, animated: true)
         }
     }
     
     private func deleteDevice(index: Int) {
-        let alert = UIAlertController(title: "提示", message: "您确定解除绑定该设备？如果确定，并请至手机“设置 -> 蓝牙”中删除该设备配对记录。", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "取消", style: .cancel, handler: { (action) in
+        let alert = UIAlertController(title: "device_tip".localized(), message: "device_unbind_desc".localized(), preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "mine_cancel".localized(), style: .cancel, handler: { (action) in
             
         }))
-        alert.addAction(UIAlertAction(title: "确定", style: .default, handler: { [weak self] (action) in
+        alert.addAction(UIAlertAction(title: "mine_confirm".localized(), style: .default, handler: { [weak self] (action) in
             let count = DeviceManager.shared.devices.count
             if count <= 1 {
                 NotificationCenter.default.post(name: Notification.Name("HealthViewController"), object: "delete", userInfo: ["mac": DeviceManager.shared.devices[0].mac])
@@ -147,7 +150,7 @@ extension DevicesViewController: UICollectionViewDataSource {
             cell.clockNameLabel.text = array[0]
         } else {
             cell.clockImageView.image = UIImage(named: "jiahao")
-            cell.clockNameLabel.text = "更多表盘"
+            cell.clockNameLabel.text = "more_dial".localized()
         }
         return cell
     }
@@ -183,7 +186,7 @@ extension DevicesViewController: DevicesViewDelegate {
         if count == 0 {
             let storyboard = UIStoryboard(name: "Device", bundle: nil)
             let vc = storyboard.instantiateViewController(withIdentifier: "DeviceSearchViewController")
-            vc.title = "添加设备"
+            vc.title = "device_add".localized()
             vc.hidesBottomBarWhenPushed = true
             navigationController?.pushViewController(vc, animated: true)
             return

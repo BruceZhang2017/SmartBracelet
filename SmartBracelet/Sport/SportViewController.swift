@@ -107,7 +107,7 @@ class SportViewController: BaseViewController {
         let distance = UserDefaults.standard.double(forKey: "distance")
         let title = NSMutableAttributedString()
         title.append(NSAttributedString(string: "\(String(format: "%.2f", Float(totalDistance + distance)))", attributes: [.font: UIFont.systemFont(ofSize: 32),   .foregroundColor: UIColor.k666666]))
-        title.append(NSAttributedString(string: "  公里", attributes: [.font: UIFont.systemFont(ofSize: 12),   .foregroundColor: UIColor.k666666]))
+        title.append(NSAttributedString(string: "  \("health_walk_unit".localized())", attributes: [.font: UIFont.systemFont(ofSize: 12),   .foregroundColor: UIColor.k666666]))
         totalValueLabel.attributedText = title
         if distance > 0 {
             UserDefaults.standard.setValue(totalDistance + distance, forKey: "totalDistance")
@@ -210,12 +210,12 @@ class SportViewController: BaseViewController {
         let storyboard = UIStoryboard(name: "Device", bundle: nil)
         if count == 0 {
             let vc = storyboard.instantiateViewController(withIdentifier: "DeviceSearchViewController")
-            vc.title = "添加设备"
+            vc.title = "device_add".localized()
             vc.hidesBottomBarWhenPushed = true
             navigationController?.pushViewController(vc, animated: true)
         } else {
             let vc = storyboard.instantiateViewController(withIdentifier: "DeviceListViewController")
-            vc.title = "设备切换"
+            vc.title = "device_change".localized()
             vc.hidesBottomBarWhenPushed = true
             navigationController?.pushViewController(vc, animated: true)
         }

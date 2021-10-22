@@ -35,7 +35,7 @@ class DeviceSettingsViewController: BaseViewController {
         deleteButton.frame = CGRect(x: 15, y: 30, width: ScreenWidth - 30, height: 44)
         deleteButton.backgroundColor = UIColor.kEEEEEE
         deleteButton.setTitleColor(UIColor.kFF3276, for: .normal)
-        deleteButton.setTitle("解除绑定", for: .normal)
+        deleteButton.setTitle("deivce_unbind".localized(), for: .normal)
         deleteButton.addTarget(self, action: #selector(deleteDevice(_:)), for: .touchUpInside)
         footerView.addSubview(deleteButton)
         tableView.tableFooterView = footerView
@@ -44,7 +44,7 @@ class DeviceSettingsViewController: BaseViewController {
         batteryButton.titleLabel?.setContentCompressionResistancePriority(.required, for: .horizontal)
         
         deviceNameLabel.text = bleSelf.bleModel.name
-        batteryButton.setTitle("剩余电量\(bleSelf.batteryLevel)%", for: .normal)
+        batteryButton.setTitle("\("mine_battery_level".localized())\(bleSelf.batteryLevel)%", for: .normal)
         bleSelf.getAncsSwitchForWristband() // 苹果推送消息
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: Notification.Name("DeviceSettings"), object: nil)
     }
@@ -76,11 +76,11 @@ class DeviceSettingsViewController: BaseViewController {
     }
     
     @objc private func deleteDevice(_ sender: Any) {
-        let alert = UIAlertController(title: "提示", message: "您确定解除绑定该设备？如果确定，并请至手机“设置 -> 蓝牙”中删除该设备配对记录。", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "取消", style: .cancel, handler: { (action) in
+        let alert = UIAlertController(title: "device_tip".localized(), message: "device_unbind_desc".localized(), preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "mine_cancel".localized(), style: .cancel, handler: { (action) in
             
         }))
-        alert.addAction(UIAlertAction(title: "确定", style: .default, handler: { [weak self] (action) in
+        alert.addAction(UIAlertAction(title: "mine_confirm".localized(), style: .default, handler: { [weak self] (action) in
             NotificationCenter.default.post(name: Notification.Name("HealthViewController"), object: "delete")
             BLEManager.shared.unbind()
             UserDefaults.standard.removeObject(forKey: "LastestDeviceMac")
@@ -205,7 +205,7 @@ extension DeviceSettingsViewController: UITableViewDelegate {
 
 extension DeviceSettingsViewController {
     var titles: [[String]] {
-        return [["推送设置", "来电提醒", "抬手亮屏", "久座提醒", "久座提醒时间", "天气推送"], ["闹钟设置", "查找设置", "设备信息","摇一摇拍照"]]
+        return [["device_push_settings".localized(), "device_call_amind".localized(), "device_hand_up_screen".localized(), "device_longsit_amind".localized(), "device_longsit_amind_time".localized(), "device_weather_push".localized()], ["device_alarm_settings".localized(), "device_search_settings".localized(), "device_device_info".localized(),"device_shark_photo".localized()]]
     }
 }
 

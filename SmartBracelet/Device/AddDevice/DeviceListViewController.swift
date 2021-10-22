@@ -55,7 +55,7 @@ class DeviceListViewController: BaseViewController {
     @objc private func pushToSearchDevice(_ sender: Any) {
         let storyboard = UIStoryboard(name: "Device", bundle: nil)
         let vc = storyboard.instantiateViewController(withIdentifier: "DeviceSearchViewController")
-        vc.title = "添加设备"
+        vc.title = "device_add".localized()
         vc.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(vc, animated: true)
     }
@@ -90,7 +90,7 @@ extension DeviceListViewController: UITableViewDataSource {
             cell.bgView.layer.borderWidth = 1
             cell.bgView.layer.borderColor = UIColor.color(hex: "14C8C6").cgColor
             cell.bleConnectButton.setImage(UIImage(named: "content_blueteeth_link"), for: .normal)
-            cell.bleConnectButton.setTitle("蓝牙已连接", for: .normal)
+            cell.bleConnectButton.setTitle("mine_bluetooth_connect".localized(), for: .normal)
         } else {
             cell.selectImageView.isHidden = true
             cell.bgView.layer.borderWidth = 0
@@ -102,14 +102,14 @@ extension DeviceListViewController: UITableViewDataSource {
         if deviceInfo != nil {
             if deviceInfo?.battery ?? 0 < 5 {
                 cell.batteryButton.setImage(UIImage(named: "conten_battery_runout"), for: .normal)
-                cell.batteryButton.setTitle("剩余电量不足5%", for: .normal)
+                cell.batteryButton.setTitle("\("mine_battery_level_low".localized())5%", for: .normal)
             } else {
                 cell.batteryButton.setImage(UIImage(named: "conten_battery_full"), for: .normal)
-                cell.batteryButton.setTitle("剩余电量\(deviceInfo?.battery ?? 0)%", for: .normal)
+                cell.batteryButton.setTitle("\("mine_battery_level".localized())\(deviceInfo?.battery ?? 0)%", for: .normal)
             }
         } else {
             cell.batteryButton.setImage(UIImage(named: "conten_battery_null"), for: .normal)
-            cell.batteryButton.setTitle("剩余电量未知", for: .normal)
+            cell.batteryButton.setTitle("mine_battery_level_unknown".localized(), for: .normal)
         }
         return cell
     }

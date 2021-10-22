@@ -79,10 +79,10 @@ extension DataRecordViewController {
     }
     
     var titles: [[String]] {
-        return [["步数", "距离", "热量", "跑步", "登山", "骑车", "徒步"], ["心率", "体重", "睡眠", "血压", "血氧"]]
+        return [["health_step".localized(), "距离", "health_heat".localized(), "跑步", "登山", "骑车", "徒步"], ["health_heart_rate".localized(), "mine_weight".localized(), "health_sleep".localized(), "health_blood_pressure".localized(), "health_blood_oxygen".localized()]]
     }
     
     var units: [[String]] {
-        return [["步", "公里", "千卡", "小时", "米", "公里", "公里"], ["次/分", "KG", "小时", "MMHG", "%"]]
+        return [["health_step_noun".localized(), "health_walk_unit".localized(), "health_kilo_calorie".localized(), "health_hour".localized(), "米", "health_walk_unit".localized(), "health_walk_unit".localized()], ["health_value_p_minute".localized(), "KG", "health_hour".localized(), "MMHG", "%"]]
     }
 }

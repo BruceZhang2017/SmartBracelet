@@ -27,6 +27,7 @@ class HealthDetailViewController: BaseViewController {
     @IBOutlet weak var kmLabel: UILabel!
     @IBOutlet weak var goalBLabel: UILabel!
     @IBOutlet weak var tipLabel: UILabel!
+    @IBOutlet weak var dataDynamicLabel: UILabel!
     public var colors: [UIColor]!
     var commonCalendarView: CommonCalendarView?
     var type = 0 // 0 步数 1 热量 2 心率 3 睡眠
@@ -46,6 +47,9 @@ class HealthDetailViewController: BaseViewController {
             setData()
         }
         setupProperty()
+        
+        unitBLabel.text = "health_step_noun".localized()
+        dataDynamicLabel.text = "health_data_dynamic".localized()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -55,7 +59,7 @@ class HealthDetailViewController: BaseViewController {
             if goal == 0 {
                 goal = bleSelf.userInfo.stepGoal
             }
-            goalLabel.text = "目标 \(goal)"
+            goalLabel.text = "\("health_goal".localized()) \(goal)"
             goalBLabel.text = "\(goal)"
         }
         //kmLabel.isHidden = type != 0
@@ -66,7 +70,7 @@ class HealthDetailViewController: BaseViewController {
         } else if type == 2 {
             goalLabel.isHidden = true
         }
-        unitBLabel.text = type == 0 ? "步" : "千卡"
+        unitBLabel.text = type == 0 ? "health_step_noun".localized() : "health_kilo_calorie".localized()
         tipLabel.text = type == 0 ? "每日步数目标" : "每日热量目标"
         goalView.isHidden = type > 0
     }
@@ -219,9 +223,9 @@ class HealthDetailViewController: BaseViewController {
             }
             let arrStr = NSMutableAttributedString()
             arrStr.append(NSAttributedString(string: "\(totalValue)", attributes: [.font: UIFont.systemFont(ofSize: 25), .foregroundColor: UIColor.white]))
-            arrStr.append(NSAttributedString(string: "步", attributes: [.font: UIFont.systemFont(ofSize: 11), .foregroundColor: UIColor.white]))
+            arrStr.append(NSAttributedString(string: "\("health_step_noun".localized())", attributes: [.font: UIFont.systemFont(ofSize: 11), .foregroundColor: UIColor.white]))
             valueLabel.attributedText = arrStr
-            kmLabel.text = "\(String(format: "%.2f", Float(totalKM) / Float(1000))) 公里"
+            kmLabel.text = "\(String(format: "%.2f", Float(totalKM) / Float(1000))) \("health_walk_unit".localized())"
         } else if type == 1 { // 热量 卡路里
             totalValue = 0
             let array = readDBStep()
@@ -237,7 +241,7 @@ class HealthDetailViewController: BaseViewController {
             }
             let arrStr = NSMutableAttributedString()
             arrStr.append(NSAttributedString(string: "\(String(format: "%.2f", Float(totalValue) / Float(1000)))", attributes: [.font: UIFont.systemFont(ofSize: 25), .foregroundColor: UIColor.white]))
-            arrStr.append(NSAttributedString(string: "千卡", attributes: [.font: UIFont.systemFont(ofSize: 11), .foregroundColor: UIColor.white]))
+            arrStr.append(NSAttributedString(string: "health_kilo_calorie".localized(), attributes: [.font: UIFont.systemFont(ofSize: 11), .foregroundColor: UIColor.white]))
             valueLabel.attributedText = arrStr
         } else if type == 2 { // 心率
             var count = 0
@@ -255,12 +259,12 @@ class HealthDetailViewController: BaseViewController {
             if count > 0 {
                 let arrStr = NSMutableAttributedString()
                 arrStr.append(NSAttributedString(string: "\(array.last!.heartRate)", attributes: [.font: UIFont.systemFont(ofSize: 25), .foregroundColor: UIColor.white]))
-                arrStr.append(NSAttributedString(string: "次/分", attributes: [.font: UIFont.systemFont(ofSize: 11), .foregroundColor: UIColor.white]))
+                arrStr.append(NSAttributedString(string: "health_value_p_minute".localized(), attributes: [.font: UIFont.systemFont(ofSize: 11), .foregroundColor: UIColor.white]))
                 valueLabel.attributedText = arrStr
             } else {
                 let arrStr = NSMutableAttributedString()
                 arrStr.append(NSAttributedString(string: "0", attributes: [.font: UIFont.systemFont(ofSize: 25), .foregroundColor: UIColor.white]))
-                arrStr.append(NSAttributedString(string: "次/分", attributes: [.font: UIFont.systemFont(ofSize: 11), .foregroundColor: UIColor.white]))
+                arrStr.append(NSAttributedString(string: "health_value_p_minute".localized(), attributes: [.font: UIFont.systemFont(ofSize: 11), .foregroundColor: UIColor.white]))
                 valueLabel.attributedText = arrStr
             }
         }
@@ -288,9 +292,9 @@ class HealthDetailViewController: BaseViewController {
                 let m = total % 60
                 let arrStr = NSMutableAttributedString()
                 arrStr.append(NSAttributedString(string: "\(h)", attributes: [.font: UIFont.systemFont(ofSize: 25), .foregroundColor: UIColor.white]))
-                arrStr.append(NSAttributedString(string: "小时", attributes: [.font: UIFont.systemFont(ofSize: 11), .foregroundColor: UIColor.white]))
+                arrStr.append(NSAttributedString(string: "health_hour".localized(), attributes: [.font: UIFont.systemFont(ofSize: 11), .foregroundColor: UIColor.white]))
                 arrStr.append(NSAttributedString(string: "\(m)", attributes: [.font: UIFont.systemFont(ofSize: 25), .foregroundColor: UIColor.white]))
-                arrStr.append(NSAttributedString(string: "分", attributes: [.font: UIFont.systemFont(ofSize: 11), .foregroundColor: UIColor.white]))
+                arrStr.append(NSAttributedString(string: "health_minute".localized(), attributes: [.font: UIFont.systemFont(ofSize: 11), .foregroundColor: UIColor.white]))
                 valueLabel.attributedText = arrStr
                 if arr.count == 3 {
                     let h1 = arr[2] / 60
@@ -299,18 +303,18 @@ class HealthDetailViewController: BaseViewController {
                     let m2 = arr[1] % 60
                     let h3 = arr[0] / 60
                     let m3 = arr[0] % 60
-                    goalLabel.text = "深睡\(h1)小时\(m1)分 浅睡\(h2)小时\(m2)分 清醒\(h3)小时\(m3)分"
+                    goalLabel.text = "深睡\(h1)\("health_hour".localized())\(m1)\("health_minute".localized()) 浅睡\(h2)\("health_hour".localized())\(m2)\("health_minute".localized()) 清醒\(h3)\("health_hour".localized())\(m3)\("health_minute".localized())"
                     let total = h1 * 60 + m1 + h2 * 60 + m2 + h3 * 60 + m3
                     return [Double(h3 * 60 + m3) * 100 / Double(total), Double(h2 * 60 + m2) * 100 / Double(total), Double(h1 * 60 + m1) * 100 / Double(total)]
                 }
             } else {
                 let arrStr = NSMutableAttributedString()
                 arrStr.append(NSAttributedString(string: "0", attributes: [.font: UIFont.systemFont(ofSize: 25), .foregroundColor: UIColor.white]))
-                arrStr.append(NSAttributedString(string: "小时", attributes: [.font: UIFont.systemFont(ofSize: 11), .foregroundColor: UIColor.white]))
+                arrStr.append(NSAttributedString(string: "health_minute".localized(), attributes: [.font: UIFont.systemFont(ofSize: 11), .foregroundColor: UIColor.white]))
                 arrStr.append(NSAttributedString(string: "0", attributes: [.font: UIFont.systemFont(ofSize: 25), .foregroundColor: UIColor.white]))
-                arrStr.append(NSAttributedString(string: "分", attributes: [.font: UIFont.systemFont(ofSize: 11), .foregroundColor: UIColor.white]))
+                arrStr.append(NSAttributedString(string: "health_minute".localized(), attributes: [.font: UIFont.systemFont(ofSize: 11), .foregroundColor: UIColor.white]))
                 valueLabel.attributedText = arrStr
-                goalLabel.text = "深睡0小时0分 浅睡0小时0分 清醒0小时0分"
+                goalLabel.text = "深睡0\("health_hour".localized())0\("health_minute".localized()) 浅睡0\("health_hour".localized())0\("health_minute".localized()) 清醒0小时0\("health_minute".localized())"
             }
         }
         return [100, 0, 0]
@@ -323,7 +327,7 @@ class HealthDetailViewController: BaseViewController {
         }
         dateLabel.isUserInteractionEnabled = true
         let times = getTimes(date: mDate)
-        dateLabel.text = changeTimeToWeek(times[6]) + "\(times[1])月\(times[2])日"
+        dateLabel.text = changeTimeToWeek(times[6]) + "\(times[1])/\(times[2])"
     }
     
     /// 选择日期
@@ -408,7 +412,7 @@ extension HealthDetailViewController: CommonCalendarViewProtocol {
         mDate = date
         setData()
         let times = getTimes(date: mDate)
-        dateLabel.text = changeTimeToWeek(times[6]) + "\(times[1])月\(times[2])日"
+        dateLabel.text = changeTimeToWeek(times[6]) + "\(times[1])/\(times[2])"
     }
 }
 
@@ -465,7 +469,7 @@ extension HealthDetailViewController: TTADataPickerViewDelegate {
         mDate = date
         setData()
         let times = getTimes(date: mDate)
-        dateLabel.text = changeTimeToWeek(times[6]) + "\(times[1])月\(times[2])日"
+        dateLabel.text = changeTimeToWeek(times[6]) + "\(times[1])/\(times[2])"
     }
     // when the pickerView  has been changed, this function will be called, and you will get the row and component which changed just now
     func dataPickerView(_ pickerView: TTADataPickerView, didChange row: Int, inComponent component: Int) {

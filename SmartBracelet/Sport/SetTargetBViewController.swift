@@ -27,7 +27,7 @@ class SetTargetBViewController: BaseViewController {
         title = String.kSetTarget
         
         let distance = SegmentioItem(title: "距离", image: nil)
-        let cal = SegmentioItem(title: "热量", image: nil)
+        let cal = SegmentioItem(title: "health_heat".localized(), image: nil)
         let duration = SegmentioItem(title: "时长", image: nil)
         let rate = SegmentioItem(title: "配速", image: nil)
         let state = SegmentioStates(
@@ -76,12 +76,12 @@ class SetTargetBViewController: BaseViewController {
             if segmentIndex == 0 {
                 let title = NSMutableAttributedString()
                 title.append(NSAttributedString(string: "\(String(format: "%.2f", Float(self!.target.distance) / 1000))", attributes: [.font: UIFont.systemFont(ofSize: 32),   .foregroundColor: UIColor.k343434]))
-                title.append(NSAttributedString(string: "  公里", attributes: [.font: UIFont.systemFont(ofSize: 12),   .foregroundColor: UIColor.k9A9A9A]))
+                title.append(NSAttributedString(string: "  \("health_walk_unit".localized())", attributes: [.font: UIFont.systemFont(ofSize: 12),   .foregroundColor: UIColor.k9A9A9A]))
                 self?.targetValueLabel.attributedText = title
             } else if segmentIndex == 1 {
                 let title = NSMutableAttributedString()
                 title.append(NSAttributedString(string: "\(self!.target.cal)", attributes: [.font: UIFont.systemFont(ofSize: 32),   .foregroundColor: UIColor.k343434]))
-                title.append(NSAttributedString(string: "  千卡", attributes: [.font: UIFont.systemFont(ofSize: 12),   .foregroundColor: UIColor.k9A9A9A]))
+                title.append(NSAttributedString(string: "  \("health_kilo_calorie".localized())", attributes: [.font: UIFont.systemFont(ofSize: 12),   .foregroundColor: UIColor.k9A9A9A]))
                 self?.targetValueLabel.attributedText = title
             }  else if segmentIndex == 2 {
                 let title = NSMutableAttributedString()
@@ -101,13 +101,14 @@ class SetTargetBViewController: BaseViewController {
                 self?.targetValueLabel.attributedText = title
             }
         }
+        startRunButton.setTitle("mine_confirm".localized(), for: .normal)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         let title = NSMutableAttributedString()
         title.append(NSAttributedString(string: "\(String(format: "%.2f", Float(target.distance) / 1000))", attributes: [.font: UIFont.systemFont(ofSize: 32),   .foregroundColor: UIColor.k343434]))
-        title.append(NSAttributedString(string: "  公里", attributes: [.font: UIFont.systemFont(ofSize: 12),   .foregroundColor: UIColor.k9A9A9A]))
+        title.append(NSAttributedString(string: "  \("health_walk_unit".localized())", attributes: [.font: UIFont.systemFont(ofSize: 12),   .foregroundColor: UIColor.k9A9A9A]))
         targetValueLabel.attributedText = title
     }
     
@@ -171,11 +172,11 @@ extension SetTargetBViewController: UIPickerViewDelegate {
         let title = NSMutableAttributedString()
         if selectedIndex == 0 {
             title.append(NSAttributedString(string: "\(distances[row]).00", attributes: [.font: UIFont.systemFont(ofSize: 32),   .foregroundColor: UIColor.k343434]))
-            title.append(NSAttributedString(string: "  公里", attributes: [.font: UIFont.systemFont(ofSize: 12),   .foregroundColor: UIColor.k9A9A9A]))
+            title.append(NSAttributedString(string: "  \("health_walk_unit".localized())", attributes: [.font: UIFont.systemFont(ofSize: 12),   .foregroundColor: UIColor.k9A9A9A]))
         }
         if selectedIndex == 1 {
             title.append(NSAttributedString(string: "\(heats[row])", attributes: [.font: UIFont.systemFont(ofSize: 32),   .foregroundColor: UIColor.k343434]))
-            title.append(NSAttributedString(string: "  千卡", attributes: [.font: UIFont.systemFont(ofSize: 12),   .foregroundColor: UIColor.k9A9A9A]))
+            title.append(NSAttributedString(string: "  \("health_kilo_calorie".localized())", attributes: [.font: UIFont.systemFont(ofSize: 12),   .foregroundColor: UIColor.k9A9A9A]))
         }
         if selectedIndex == 2 {
             title.append(NSAttributedString(string: "\(times[row])", attributes: [.font: UIFont.systemFont(ofSize: 32),   .foregroundColor: UIColor.k343434]))
@@ -194,12 +195,12 @@ extension SetTargetBViewController: UIPickerViewDelegate {
         let title = NSMutableAttributedString()
         if selectedIndex == 0 {
             title.append(NSAttributedString(string: "\(distances[row]).00", attributes: [.font: UIFont.systemFont(ofSize: 32),   .foregroundColor: UIColor.k343434]))
-            title.append(NSAttributedString(string: "  公里", attributes: [.font: UIFont.systemFont(ofSize: 12),   .foregroundColor: UIColor.k9A9A9A]))
+            title.append(NSAttributedString(string: "  \("health_walk_unit".localized())", attributes: [.font: UIFont.systemFont(ofSize: 12),   .foregroundColor: UIColor.k9A9A9A]))
             target.distance = distances[row] * 1000
         }
         if selectedIndex == 1 {
             title.append(NSAttributedString(string: "\(heats[row])", attributes: [.font: UIFont.systemFont(ofSize: 32),   .foregroundColor: UIColor.k343434]))
-            title.append(NSAttributedString(string: "  千卡", attributes: [.font: UIFont.systemFont(ofSize: 12),   .foregroundColor: UIColor.k9A9A9A]))
+            title.append(NSAttributedString(string: "  \("health_kilo_calorie".localized())", attributes: [.font: UIFont.systemFont(ofSize: 12),   .foregroundColor: UIColor.k9A9A9A]))
             target.cal = heats[row]
         }
         if selectedIndex == 2 {

@@ -105,7 +105,7 @@ extension DevicesView: UICollectionViewDataSource, UICollectionViewDelegate {
                 cell.cardNameLabel.text = model.name
                 if model.mac == lastestDeviceMac {
                     cell.btButton.setImage(UIImage(named: "content_blueteeth_link"), for: .normal)
-                    cell.btButton.setTitle("蓝牙已连接", for: .normal)
+                    cell.btButton.setTitle("mine_bluetooth_connect".localized(), for: .normal)
                     cell.bConnected = true
                 } else {
                     cell.btButton.setImage(UIImage(named: "content_blueteeth_unlink"), for: .normal)
@@ -115,14 +115,14 @@ extension DevicesView: UICollectionViewDataSource, UICollectionViewDelegate {
                 if deviceInfo != nil {
                     if deviceInfo?.battery ?? 0 < 5 {
                         cell.batteryButton.setImage(UIImage(named: "conten_battery_runout"), for: .normal)
-                        cell.batteryButton.setTitle("剩余电量不足5%", for: .normal)
+                        cell.batteryButton.setTitle("\("mine_battery_level_low".localized())5%", for: .normal)
                     } else {
                         cell.batteryButton.setImage(UIImage(named: "conten_battery_full"), for: .normal)
-                        cell.batteryButton.setTitle("剩余电量\(deviceInfo?.battery ?? 0)%", for: .normal)
+                        cell.batteryButton.setTitle("\("mine_battery_level".localized())\(deviceInfo?.battery ?? 0)%", for: .normal)
                     }
                 } else {
                     cell.batteryButton.setImage(UIImage(named: "conten_battery_null"), for: .normal)
-                    cell.batteryButton.setTitle("剩余电量未知", for: .normal)
+                    cell.batteryButton.setTitle("mine_battery_level_unknown".localized(), for: .normal)
                 }
             }
         }

@@ -15,7 +15,7 @@ class AlarmIntervalViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "稍后提醒"
+        title = "mine_alarm_late_amind".localized()
         tableView.tableFooterView = UIView()
     }
 

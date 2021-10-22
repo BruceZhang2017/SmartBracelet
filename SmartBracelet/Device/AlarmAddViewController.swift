@@ -18,12 +18,13 @@ class AlarmAddViewController: BaseViewController {
     @IBOutlet weak var repeatLabel: UILabel!
     @IBOutlet weak var lateLabel: UILabel!
     @IBOutlet weak var weekLabel: UILabel!
+    @IBOutlet weak var laterTipLabel: UILabel!
     var alarm: WUAlarmClock!
     var weekday = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "闹钟设置"
+        title = "device_alarm_settings".localized()
         if weekday >= 0 {
             refreshWeekValue()
         }
@@ -38,7 +39,8 @@ class AlarmAddViewController: BaseViewController {
         }
         
         
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "保存", style: .plain, target: self, action: #selector(save))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "mine_save".localized(), style: .plain, target: self, action: #selector(save))
+        laterTipLabel.text = "mine_alarm_late_amind".localized()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -91,28 +93,28 @@ class AlarmAddViewController: BaseViewController {
     private func refreshWeekValue() {
         var value = ""
         if ((weekday >> 1) & 0x01) > 0 {
-            value += "周一、"
+            value += "\("mine_monday".localized())、"
         }
         if ((weekday >> 2) & 0x01) > 0 {
-            value += "周二、"
+            value += "\("mine_satuday".localized())、"
         }
         if ((weekday >> 3) & 0x01) > 0 {
-            value += "周三、"
+            value += "\("mine_wednesday".localized())、"
         }
         if ((weekday >> 4) & 0x01) > 0 {
-            value += "周四、"
+            value += "\("mine_thursday".localized())、"
         }
         if ((weekday >> 5) & 0x01) > 0 {
-            value += "周五、"
+            value += "\("mine_friday".localized())、"
         }
         if ((weekday >> 6) & 0x01) > 0 {
-            value += "周六、"
+            value += "\("mine_saturday".localized())、"
         }
         if (weekday & 0x01) > 0  {
-            value += "周日、"
+            value += "\("mine_sunday".localized())、"
         }
         if value.count == 0 {
-            weekLabel.text = "无"
+            weekLabel.text = "mine_null".localized()
             return
         }
         let _ = value.removeLast()

@@ -37,7 +37,7 @@ class CyclicCardCell: UICollectionViewCell {
         
         addSubview(btButton)
         btButton.setImage(UIImage(named: "content_blueteeth_link"), for: .normal)
-        btButton.setTitle("蓝牙已连接", for: .normal)
+        btButton.setTitle("mine_bluetooth_connect".localized(), for: .normal)
         btButton.titleLabel?.font = UIFont.systemFont(ofSize: 8)
         btButton.setTitleColor(.k999999, for: .normal)
         btButton.contentHorizontalAlignment = .left
@@ -47,7 +47,7 @@ class CyclicCardCell: UICollectionViewCell {
         
         addSubview(batteryButton)
         batteryButton.setImage(UIImage(named: "conten_battery_full"), for: .normal)
-        batteryButton.setTitle("剩余电量88%", for: .normal)
+        batteryButton.setTitle("\("mine_battery_level".localized())88%", for: .normal)
         batteryButton.titleLabel?.font = UIFont.systemFont(ofSize: 8)
         batteryButton.setTitleColor(.k999999, for: .normal)
         batteryButton.contentHorizontalAlignment = .left
@@ -64,7 +64,7 @@ class CyclicCardCell: UICollectionViewCell {
         }
         
         addSubview(addLabel)
-        addLabel.text = "请添加设备"
+        addLabel.text = "add_device".localized()
         addLabel.textColor = .k333333
         addLabel.isHidden = true 
         addLabel.font = UIFont.systemFont(ofSize: 16)

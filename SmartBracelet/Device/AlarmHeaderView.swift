@@ -59,7 +59,7 @@ class AlarmHeaderView: UITableViewHeaderFooterView {
         }
         deleteButton = UIButton(type: .custom).then {
             $0.backgroundColor = UIColor.kFF5E46
-            $0.setTitle("删除", for: .normal)
+            $0.setTitle("mine_delete".localized(), for: .normal)
             $0.layer.cornerRadius = 2
             $0.contentEdgeInsets = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
             $0.setTitleColor(UIColor.white, for: .normal)

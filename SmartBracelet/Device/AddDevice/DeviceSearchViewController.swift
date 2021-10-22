@@ -33,6 +33,10 @@ class DeviceSearchViewController: BaseViewController {
         tableView.isHidden = true
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: Notification.Name.SearchDevice, object: nil)
         BLEManager.shared.startScan()
+        btScanTipLabel.text = "device_search".localized()
+        scanLabel.text = "device_scan".localized()
+        scanCodeTipLabel.text = "device_scan_add_device".localized()
+        helpButton.setTitle("device_search_help".localized(), for: .normal)
     }
     
     deinit {

@@ -22,7 +22,10 @@ class HelpCenterViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "帮助中心"
+        title = "mine_help_center".localized()
+        questionRemarkLabel.text = "mine_help_center_feedback".localized()
+        submitButton.setTitle("mine_help_center_submit".localized(), for: .normal)
+        cancelButton.setTitle("mine_cancel".localized(), for: .normal)
     }
     
 
@@ -59,13 +62,13 @@ extension HelpCenterViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: .kCellIdentifier, for: indexPath)
         let label = cell.viewWithTag(1) as! UILabel
         if indexPath.row == 0 {
-            label.text = "常见问题一"
+            label.text = "mine_help_center_question_1".localized()
         } else if indexPath.row == 1 {
-            label.text = "常见问题二"
+            label.text = "mine_help_center_question_2".localized()
         } else if indexPath.row == 2 {
-            label.text = "常见问题三"
+            label.text = "mine_help_center_question_3".localized()
         } else if indexPath.row == 3 {
-            label.text = "常见问题四"
+            label.text = "mine_help_center_question_4".localized()
         }
         return cell
     }

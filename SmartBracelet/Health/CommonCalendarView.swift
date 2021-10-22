@@ -47,7 +47,7 @@ class CommonCalendarView: UIView {
     private func addSubView() {
         monthView = AudioButtonView(frame: .zero).then {
             $0.label.text = "11"
-            $0.unitLabel.text = "月"
+            $0.unitLabel.text = "mine_month".localized()
         }
         topView.addSubview(monthView)
         monthView.snp.makeConstraints {
@@ -57,7 +57,7 @@ class CommonCalendarView: UIView {
         }
         yearView = AudioButtonView(frame: .zero).then {
             $0.label.text = "2020"
-            $0.unitLabel.text = "年"
+            $0.unitLabel.text = "mine_year".localized()
         }
         topView.addSubview(yearView)
         yearView.snp.makeConstraints {

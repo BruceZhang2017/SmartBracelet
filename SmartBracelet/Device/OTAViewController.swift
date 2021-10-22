@@ -64,7 +64,7 @@ extension OTAViewController: OTADelegate {
     func callback(_ progress: CGFloat) {
         circle.progress = progress
         if progress >= 100 {
-            Toast(text: "OTA升级成功").show()
+            Toast(text: "mine_device_ota_success".localized()).show()
             navigationController?.popViewController(animated: true)
         }
     }

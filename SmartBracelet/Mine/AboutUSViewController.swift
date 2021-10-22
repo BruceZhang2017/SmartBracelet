@@ -13,11 +13,15 @@
 import UIKit
 
 class AboutUSViewController: BaseViewController {
-
+    @IBOutlet weak var versionLabel: UILabel!
+    @IBOutlet weak var ownerLabel: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        title = "mine_about".localized()
         // Do any additional setup after loading the view.
+        versionLabel.text = "v1.0.0  \("mine_version".localized())"
+        ownerLabel.text = "＠ VPI6  \("mine_about_desc".localized())"
     }
     
 

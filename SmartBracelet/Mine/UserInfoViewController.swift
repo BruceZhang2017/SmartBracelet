@@ -21,7 +21,7 @@ class UserInfoViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "个人信息"
+        title = "mine_userinfo".localized()
         registerNotification()
     }
     
@@ -93,9 +93,9 @@ extension UserInfoViewController: UITableViewDataSource {
             
         } else if indexPath.row == 2 {
             if UserManager.sharedInstall.user?.token == nil {
-                cell.valueLabel.text = bleSelf.userInfo.sex == 1 ? "男" : "女"
+                cell.valueLabel.text = bleSelf.userInfo.sex == 1 ? "mine_male".localized() : "mine_female".localized()
             } else {
-                cell.valueLabel.text = (UserManager.sharedInstall.user?.sex ?? 0 == 0) ? "男" : "女"
+                cell.valueLabel.text = (UserManager.sharedInstall.user?.sex ?? 0 == 0) ? "mine_male".localized() : "mine_female".localized()
             }
             
         } else if indexPath.row == 3 {
@@ -159,7 +159,7 @@ extension UserInfoViewController: UITableViewDelegate {
             vc.delegate = self
             vc.modalTransitionStyle = .crossDissolve
             vc.modalPresentationStyle = .overFullScreen
-            vc.sex = (bleSelf.userInfo.sex) == 0 ? "男" : "女"
+            vc.sex = (bleSelf.userInfo.sex) == 0 ? "mine_male".localized() : "mine_female".localized()
             navigationController?.present(vc, animated: true, completion: nil)
         } else if indexPath.row == 3 { // 出生年月
             let storyboard = UIStoryboard(name: .kMine, bundle: nil)
@@ -205,18 +205,18 @@ extension UserInfoViewController: UITableViewDelegate {
 
 extension UserInfoViewController {
     var titles: [String] {
-        return ["头像", "昵称", "性别", "出生年月", "身高", "体重"]
+        return ["mine_head_image".localized(), "mine_nick".localized(), "mine_sex".localized(), "mine_birthday".localized(), "mine_height".localized(), "mine_weight".localized()]
     }
     
     var values: [String] {
-        return ["", "未设置", "男", "19XX年XX月XX日", "168CM", "45KG"]
+        return ["", "未设置", "mine_male".localized(), "19XX年XX月XX日", "168CM", "45KG"]
     }
 }
 
 extension UserInfoViewController: SelectSexVCDelegate {
     func callback(type: Int, value: String) {
         if type == 0 {
-            UserManager.sharedInstall.user?.sex = value == "男" ? 0 : 1
+            UserManager.sharedInstall.user?.sex = value == "mine_male".localized() ? 0 : 1
         } else {
             UserManager.sharedInstall.user?.birthday = value
         }
@@ -231,7 +231,7 @@ extension UserInfoViewController {
         //ProgressHUD.show()
         var parameters = ["id": "\(UserManager.sharedInstall.user?.id ?? 0)"]
         if type == 0 {
-            let sex = value == "男" ? 0 : 1
+            let sex = value == "mine_male".localized() ? 0 : 1
             parameters["sex"] = "\(sex)"
             if UserManager.sharedInstall.user?.token == nil {
                 bleSelf.userInfo.sex = sex == 0 ? 1 : 0

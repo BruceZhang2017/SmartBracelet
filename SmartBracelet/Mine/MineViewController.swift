@@ -20,12 +20,25 @@ class MineViewController: BaseViewController {
     @IBOutlet weak var deviceButton: UIButton!
     @IBOutlet weak var btButton: UIButton!
     @IBOutlet weak var batteryButton: UIButton!
+    @IBOutlet weak var deviceInfoLabel: UILabel!
+    @IBOutlet weak var helpCenterLabel: UILabel!
+    @IBOutlet weak var aboutUsLabel: UILabel!
+    @IBOutlet weak var accountInfoLabel: UILabel!
+    @IBOutlet weak var userinfoLabel: UILabel!
+    @IBOutlet weak var otaLabel: UILabel!
     var originalMacAddress = ""
     var originalUUID = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: Notification.Name("BluetoothGetMacAddress"), object: nil)
+        deviceInfoLabel.text = "device_device_info".localized()
+        navigationItem.rightBarButtonItem?.title = "mine".localized()
+        helpCenterLabel.text = "mine_help_center".localized()
+        aboutUsLabel.text = "mine_about".localized()
+        accountInfoLabel.text = "mine_account_info".localized()
+        userinfoLabel.text = "mine_userinfo".localized()
+        otaLabel.text = "mine_device_ota".localized()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -62,11 +75,11 @@ class MineViewController: BaseViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         if bleSelf.isConnected == false {
-            deviceButton.setTitle("未连接设备", for: .normal)
+            deviceButton.setTitle("mine_unconnect".localized(), for: .normal)
             btButton.setImage(UIImage(named: "content_blueteeth_unlink"), for: .normal)
-            btButton.setTitle("蓝牙未连接", for: .normal)
+            btButton.setTitle("mine_bluetooth_unconnect".localized(), for: .normal)
             batteryButton.setImage(UIImage(named: "conten_battery_null"), for: .normal)
-            batteryButton.setTitle("剩余电量未知", for: .normal)
+            batteryButton.setTitle("mine_battery_level_unknown".localized(), for: .normal)
             return
         }
         let deviceCount = DeviceManager.shared.devices.count
@@ -77,19 +90,19 @@ class MineViewController: BaseViewController {
                     tem = true
                     deviceButton.setTitle(item.name, for: .normal)
                     btButton.setImage(UIImage(named: "content_blueteeth_link"), for: .normal)
-                    btButton.setTitle("蓝牙已连接", for: .normal)
+                    btButton.setTitle("mine_bluetooth_connect".localized(), for: .normal)
                     let deviceInfo = DeviceManager.shared.deviceInfo[item.mac]
                     if deviceInfo != nil {
                         if deviceInfo?.battery ?? 0 < 5 {
                             batteryButton.setImage(UIImage(named: "conten_battery_runout"), for: .normal)
-                            batteryButton.setTitle("剩余电量不足5%", for: .normal)
+                            batteryButton.setTitle("\("mine_battery_level_low".localized())5%", for: .normal)
                         } else {
                             batteryButton.setImage(UIImage(named: "conten_battery_full"), for: .normal)
-                            batteryButton.setTitle("剩余电量\(deviceInfo?.battery ?? 0)%", for: .normal)
+                            batteryButton.setTitle("\("mine_battery_level".localized())\(deviceInfo?.battery ?? 0)%", for: .normal)
                         }
                     } else {
                         batteryButton.setImage(UIImage(named: "conten_battery_null"), for: .normal)
-                        batteryButton.setTitle("剩余电量未知", for: .normal)
+                        batteryButton.setTitle("mine_battery_level_unknown".localized(), for: .normal)
                     }
                     break
                 }
@@ -148,11 +161,11 @@ class MineViewController: BaseViewController {
     }
     
     private func logout() {
-        let alert = UIAlertController(title: "提示", message: "您确定退出该账号？", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "取消", style: .cancel, handler: { (action) in
+        let alert = UIAlertController(title: "device_tip".localized(), message: "您确定退出该账号？", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "mine_cancel".localized(), style: .cancel, handler: { (action) in
             
         }))
-        alert.addAction(UIAlertAction(title: "确定", style: .default, handler: { (action) in
+        alert.addAction(UIAlertAction(title: "mine_confirm".localized(), style: .default, handler: { (action) in
             let sb = UIStoryboard(name: "Mine", bundle: nil)
             let nav = sb.instantiateViewController(withIdentifier: "MNavigationController")
             UIApplication.shared.keyWindow?.rootViewController = nav
@@ -165,7 +178,7 @@ class MineViewController: BaseViewController {
     
     private func startOTA() {
         if lastestDeviceMac.count == 0 {
-            Toast(text: "设备未连接，请先连接设备。").show()
+            Toast(text: "mine_unconnect".localized()).show()
             return
         }
         let count = DeviceManager.shared.devices.count
@@ -186,7 +199,7 @@ class MineViewController: BaseViewController {
     
     private func showOTAView(_ value: Bool) {
         let alert = UIAlertController(title: "OTA", message: "使用本地OTA文件：\(value ? "SmartBand_PHY_ota.hex" : "8267_module_tOTA.bin")", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "取消", style: .cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: "mine_cancel".localized(), style: .cancel, handler: nil))
         alert.addAction(UIAlertAction(title: "确认", style: .default, handler: { [weak self] (action) in
             self?.pushToOTA(value)
         }))
@@ -226,12 +239,12 @@ class MineViewController: BaseViewController {
         let storyboard = UIStoryboard(name: "Device", bundle: nil)
         if count == 0 {
             let vc = storyboard.instantiateViewController(withIdentifier: "DeviceSearchViewController")
-            vc.title = "添加设备"
+            vc.title = "device_add".localized()
             vc.hidesBottomBarWhenPushed = true
             navigationController?.pushViewController(vc, animated: true)
         } else {
             let vc = storyboard.instantiateViewController(withIdentifier: "DeviceListViewController")
-            vc.title = "设备切换"
+            vc.title = "device_change".localized()
             vc.hidesBottomBarWhenPushed = true
             navigationController?.pushViewController(vc, animated: true)
         }

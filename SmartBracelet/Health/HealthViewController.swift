@@ -65,13 +65,20 @@ class HealthViewController: BaseViewController {
             result in
             print("设置用户信息是否成功: \(result)")
         }
+        navigationItem.rightBarButtonItem?.title = "health_head".localized()
+        footTipLabel.text = "health_step".localized()
+        heatTipLabel.text = "health_heat".localized()
+        heartTipLabel.text = "health_heart_rate".localized()
+        sleepTipLabel.text = "health_sleep".localized()
+        pressureTipLabel.text = "health_blood_pressure".localized()
+        bleedTipLabel.text = "health_blood_oxygen".localized()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         let lastestDeviceMac = UserDefaults.standard.string(forKey: "LastestDeviceMac") ?? ""
         if lastestDeviceMac.count == 0 {
-            footGoalLabel.text = "目标 ｜ 0步"
+            footGoalLabel.text = "\("health_goal".localized()) ｜ 0\("health_step_noun".localized())"
         } else {
             var goal = bleSelf.userInfo.stepGoal
             if goal == 0 {
@@ -80,7 +87,7 @@ class HealthViewController: BaseViewController {
             if goal == 0 {
                 goal = 6000
             }
-            footGoalLabel.text = "目标 ｜ \(goal)步"
+            footGoalLabel.text = "\("health_goal".localized()) ｜ \(goal)\("health_step_noun".localized())"
         }
         readDBStep() // 从本地数据库中读取步数数据
         readDBHeart() // 从本地数据库中读取心跳数据
@@ -129,16 +136,16 @@ class HealthViewController: BaseViewController {
                 let foot = NSMutableAttributedString()
                 let step = bleSelf.step
                 foot.append(NSAttributedString(string: "\(step)", attributes: [.font: UIFont.systemFont(ofSize: 32)]))
-                foot.append(NSAttributedString(string: "步", attributes: [.font: UIFont.systemFont(ofSize: 12)]))
+                foot.append(NSAttributedString(string: "\("health_step_noun".localized())", attributes: [.font: UIFont.systemFont(ofSize: 12)]))
                 self?.footValueLabel.attributedText = foot
                 let distance = bleSelf.distance
                 let unit = Float(distance) / 1000
-                self?.footUnitLabel.text = "\(String(format: "%.2f", unit))公里"
+                self?.footUnitLabel.text = "\(String(format: "%.2f", unit))\("health_walk_unit".localized())"
                 let value = NSMutableAttributedString()
                 let cal = bleSelf.cal
                 let v = Float(cal) / 1000
                 value.append(NSAttributedString(string: "\(String(format: "%.2f", v))", attributes: [.font: UIFont.systemFont(ofSize: 32)]))
-                value.append(NSAttributedString(string: "千卡", attributes: [.font: UIFont.systemFont(ofSize: 12)]))
+                value.append(NSAttributedString(string: "health_kilo_calorie".localized(), attributes: [.font: UIFont.systemFont(ofSize: 12)]))
                 self?.heatValueLabel.attributedText = value
             }
         } else if objc == "sleep" {
@@ -152,9 +159,9 @@ class HealthViewController: BaseViewController {
                     let m = total % 60
                     let arrStr = NSMutableAttributedString()
                     arrStr.append(NSAttributedString(string: "\(h)", attributes: [.font: UIFont.systemFont(ofSize: 32), .foregroundColor: UIColor.k666666]))
-                    arrStr.append(NSAttributedString(string: "小时", attributes: [.font: UIFont.systemFont(ofSize: 12), .foregroundColor: UIColor.k999999]))
+                    arrStr.append(NSAttributedString(string: "health_hour".localized(), attributes: [.font: UIFont.systemFont(ofSize: 12), .foregroundColor: UIColor.k999999]))
                     arrStr.append(NSAttributedString(string: "\(m)", attributes: [.font: UIFont.systemFont(ofSize: 32), .foregroundColor: UIColor.k666666]))
-                    arrStr.append(NSAttributedString(string: "分", attributes: [.font: UIFont.systemFont(ofSize: 12), .foregroundColor: UIColor.k999999]))
+                    arrStr.append(NSAttributedString(string: "health_minute".localized(), attributes: [.font: UIFont.systemFont(ofSize: 12), .foregroundColor: UIColor.k999999]))
                     self?.sleepValueLabel.attributedText = arrStr
                     if arr.count == 3 {
                         let value: [CGFloat] = [CGFloat(arr[0] * 50 / (12 * 60) ), CGFloat(arr[1] * 50 / (12 * 60)), CGFloat(arr[2] * 50 / (12 * 60))]
@@ -163,9 +170,9 @@ class HealthViewController: BaseViewController {
                 } else {
                     let arrStr = NSMutableAttributedString()
                     arrStr.append(NSAttributedString(string: "0", attributes: [.font: UIFont.systemFont(ofSize: 32), .foregroundColor: UIColor.k666666]))
-                    arrStr.append(NSAttributedString(string: "小时", attributes: [.font: UIFont.systemFont(ofSize: 12), .foregroundColor: UIColor.k999999]))
+                    arrStr.append(NSAttributedString(string: "health_hour".localized(), attributes: [.font: UIFont.systemFont(ofSize: 12), .foregroundColor: UIColor.k999999]))
                     arrStr.append(NSAttributedString(string: "0", attributes: [.font: UIFont.systemFont(ofSize: 32), .foregroundColor: UIColor.k666666]))
-                    arrStr.append(NSAttributedString(string: "分", attributes: [.font: UIFont.systemFont(ofSize: 12), .foregroundColor: UIColor.k999999]))
+                    arrStr.append(NSAttributedString(string: "health_minute".localized(), attributes: [.font: UIFont.systemFont(ofSize: 12), .foregroundColor: UIColor.k999999]))
                     self?.sleepValueLabel.attributedText = arrStr
                 }
             }
@@ -176,7 +183,7 @@ class HealthViewController: BaseViewController {
                 heart = BLEManager.shared.heartArray[0].heart
                 let v = NSMutableAttributedString()
                 v.append(NSAttributedString(string: "\(heart)", attributes: [.font: UIFont.systemFont(ofSize: 32), .foregroundColor: UIColor.k666666]))
-                v.append(NSAttributedString(string: "次/分", attributes: [.font: UIFont.systemFont(ofSize: 12), .foregroundColor: UIColor.k999999]))
+                v.append(NSAttributedString(string: "health_value_p_minute".localized(), attributes: [.font: UIFont.systemFont(ofSize: 12), .foregroundColor: UIColor.k999999]))
                 self?.heartValueLabel.attributedText = v
                 self?.refreshLefunHeartRate()
             }
@@ -205,7 +212,7 @@ class HealthViewController: BaseViewController {
                 }
                 let v = NSMutableAttributedString()
                 v.append(NSAttributedString(string: "\(value)", attributes: [.font: UIFont.systemFont(ofSize: 32), .foregroundColor: UIColor.k666666]))
-                v.append(NSAttributedString(string: "%  健康", attributes: [.font: UIFont.systemFont(ofSize: 12), .foregroundColor: UIColor.k999999]))
+                v.append(NSAttributedString(string: "%  \("health_head".localized())", attributes: [.font: UIFont.systemFont(ofSize: 12), .foregroundColor: UIColor.k999999]))
                 self?.bleedValueLabel.attributedText = v
                 UserDefaults.standard.setValue("\(value)", forKey: "oxygen")
                 UserDefaults.standard.synchronize()
@@ -251,7 +258,7 @@ class HealthViewController: BaseViewController {
             tabBarController?.present(popup!, animated: false, completion: nil)
             popup?.iconImageView?.image = UIImage(named: "bt_close")
             let attStr = NSMutableAttributedString()
-            attStr.append(NSAttributedString(string: "蓝牙未连接\n请到", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 13)]))
+            attStr.append(NSAttributedString(string: "\("mine_bluetooth_unconnect".localized())\n请到", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 13)]))
             attStr.append(NSAttributedString(string: "设置-打开蓝牙", attributes: [.foregroundColor: UIColor.k14C8C6, .font: UIFont.systemFont(ofSize: 13), .underlineStyle: NSUnderlineStyle.single.rawValue]))
             let style = NSMutableParagraphStyle()
             style.alignment = .center
@@ -377,12 +384,12 @@ class HealthViewController: BaseViewController {
         let storyboard = UIStoryboard(name: "Device", bundle: nil)
         if count == 0 {
             let vc = storyboard.instantiateViewController(withIdentifier: "DeviceSearchViewController")
-            vc.title = "添加设备"
+            vc.title = "device_add".localized()
             vc.hidesBottomBarWhenPushed = true
             navigationController?.pushViewController(vc, animated: true)
         } else {
             let vc = storyboard.instantiateViewController(withIdentifier: "DeviceListViewController")
-            vc.title = "设备切换"
+            vc.title = "device_change".localized()
             vc.hidesBottomBarWhenPushed = true
             navigationController?.pushViewController(vc, animated: true)
         }
@@ -410,14 +417,14 @@ class HealthViewController: BaseViewController {
             cal += models?[i].cal ?? 0
         }
         foot.append(NSAttributedString(string: "\(step)", attributes: [.font: UIFont.systemFont(ofSize: 32)]))
-        foot.append(NSAttributedString(string: "步", attributes: [.font: UIFont.systemFont(ofSize: 12)]))
+        foot.append(NSAttributedString(string: "\("health_step_noun".localized())", attributes: [.font: UIFont.systemFont(ofSize: 12)]))
         footValueLabel.attributedText = foot
         let unit = Float(distance) / 1000
-        footUnitLabel.text = "\(String(format: "%.2f", unit))公里"
+        footUnitLabel.text = "\(String(format: "%.2f", unit))\("health_walk_unit".localized())"
         let value = NSMutableAttributedString()
         let v = Float(cal) / 1000
         value.append(NSAttributedString(string: "\(String(format: "%.2f", v))", attributes: [.font: UIFont.systemFont(ofSize: 32)]))
-        value.append(NSAttributedString(string: "千卡", attributes: [.font: UIFont.systemFont(ofSize: 12)]))
+        value.append(NSAttributedString(string: "health_kilo_calorie".localized(), attributes: [.font: UIFont.systemFont(ofSize: 12)]))
         heatValueLabel.attributedText = value
     }
     
@@ -444,7 +451,7 @@ class HealthViewController: BaseViewController {
         
         let v = NSMutableAttributedString()
         v.append(NSAttributedString(string: "\(heart)", attributes: [.font: UIFont.systemFont(ofSize: 32), .foregroundColor: UIColor.k666666]))
-        v.append(NSAttributedString(string: "次/分", attributes: [.font: UIFont.systemFont(ofSize: 12), .foregroundColor: UIColor.k999999]))
+        v.append(NSAttributedString(string: "health_value_p_minute".localized(), attributes: [.font: UIFont.systemFont(ofSize: 12), .foregroundColor: UIColor.k999999]))
         heartValueLabel.attributedText = v
 
         if models?.count ?? 0 > 0 {
@@ -497,9 +504,9 @@ class HealthViewController: BaseViewController {
             let m = total % 60
             let arrStr = NSMutableAttributedString()
             arrStr.append(NSAttributedString(string: "\(h)", attributes: [.font: UIFont.systemFont(ofSize: 32), .foregroundColor: UIColor.k666666]))
-            arrStr.append(NSAttributedString(string: "小时", attributes: [.font: UIFont.systemFont(ofSize: 12), .foregroundColor: UIColor.k999999]))
+            arrStr.append(NSAttributedString(string: "health_hour".localized(), attributes: [.font: UIFont.systemFont(ofSize: 12), .foregroundColor: UIColor.k999999]))
             arrStr.append(NSAttributedString(string: "\(m)", attributes: [.font: UIFont.systemFont(ofSize: 32), .foregroundColor: UIColor.k666666]))
-            arrStr.append(NSAttributedString(string: "分", attributes: [.font: UIFont.systemFont(ofSize: 12), .foregroundColor: UIColor.k999999]))
+            arrStr.append(NSAttributedString(string: "health_minute".localized(), attributes: [.font: UIFont.systemFont(ofSize: 12), .foregroundColor: UIColor.k999999]))
             sleepValueLabel.attributedText = arrStr
             if arr.count == 3 {
                 let value: [CGFloat] = [CGFloat(arr[0] * 50 / (12 * 60) ), CGFloat(arr[1] * 50 / (12 * 60)), CGFloat(arr[2] * 50 / (12 * 60))]
@@ -508,9 +515,9 @@ class HealthViewController: BaseViewController {
         } else {
             let arrStr = NSMutableAttributedString()
             arrStr.append(NSAttributedString(string: "0", attributes: [.font: UIFont.systemFont(ofSize: 32), .foregroundColor: UIColor.k666666]))
-            arrStr.append(NSAttributedString(string: "小时", attributes: [.font: UIFont.systemFont(ofSize: 12), .foregroundColor: UIColor.k999999]))
+            arrStr.append(NSAttributedString(string: "health_hour".localized(), attributes: [.font: UIFont.systemFont(ofSize: 12), .foregroundColor: UIColor.k999999]))
             arrStr.append(NSAttributedString(string: "0", attributes: [.font: UIFont.systemFont(ofSize: 32), .foregroundColor: UIColor.k666666]))
-            arrStr.append(NSAttributedString(string: "分", attributes: [.font: UIFont.systemFont(ofSize: 12), .foregroundColor: UIColor.k999999]))
+            arrStr.append(NSAttributedString(string: "health_minute".localized(), attributes: [.font: UIFont.systemFont(ofSize: 12), .foregroundColor: UIColor.k999999]))
             sleepValueLabel.attributedText = arrStr
         }
     }
@@ -565,7 +572,7 @@ class HealthViewController: BaseViewController {
         if let value = UserDefaults.standard.string(forKey: "oxygen"), value.count > 0 {
             let v = NSMutableAttributedString()
             v.append(NSAttributedString(string: "\(value)", attributes: [.font: UIFont.systemFont(ofSize: 32), .foregroundColor: UIColor.k666666]))
-            v.append(NSAttributedString(string: "%  健康", attributes: [.font: UIFont.systemFont(ofSize: 12), .foregroundColor: UIColor.k999999]))
+            v.append(NSAttributedString(string: "%  \("health_head".localized())", attributes: [.font: UIFont.systemFont(ofSize: 12), .foregroundColor: UIColor.k999999]))
             bleedValueLabel.attributedText = v
             return
         }
@@ -574,7 +581,7 @@ class HealthViewController: BaseViewController {
         let value = models?.first?.oxygen ?? 0
         let v = NSMutableAttributedString()
         v.append(NSAttributedString(string: "\(value)", attributes: [.font: UIFont.systemFont(ofSize: 32), .foregroundColor: UIColor.k666666]))
-        v.append(NSAttributedString(string: "%  健康", attributes: [.font: UIFont.systemFont(ofSize: 12), .foregroundColor: UIColor.k999999]))
+        v.append(NSAttributedString(string: "%  \("health_head".localized())", attributes: [.font: UIFont.systemFont(ofSize: 12), .foregroundColor: UIColor.k999999]))
         bleedValueLabel.attributedText = v
     }
     

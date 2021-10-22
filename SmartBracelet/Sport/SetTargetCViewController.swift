@@ -30,6 +30,7 @@ class SetTargetCViewController: BaseViewController {
             selectedIndex = index
             pickerView.selectRow(index, inComponent: 0, animated: true)
         }
+        startRunButton.setTitle("mine_confirm".localized(), for: .normal)
     }
     
     @IBAction func startRun(_ sender: Any) {

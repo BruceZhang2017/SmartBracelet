@@ -58,6 +58,10 @@
                     </view>
                     <navigationItem key="navigationItem" title="关于" id="Brk-7P-Zhq"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                    <connections>
+                        <outlet property="ownerLabel" destination="z0U-Ev-LiW" id="yST-JG-vtz"/>
+                        <outlet property="versionLabel" destination="GQD-7R-PI4" id="CZA-46-814"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AyE-VK-OYp" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -394,6 +398,7 @@
                         <outlet property="codeButton" destination="BED-4s-HIt" id="Zlx-VQ-sQj"/>
                         <outlet property="codeTextField" destination="CSX-Fo-OUV" id="SPZ-e5-tvy"/>
                         <outlet property="phoneTextField" destination="ms4-6h-V1y" id="nWk-Uh-BkG"/>
+                        <outlet property="submitButton" destination="spu-5p-NSR" id="s98-BJ-5ou"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cYo-Bh-uMj" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

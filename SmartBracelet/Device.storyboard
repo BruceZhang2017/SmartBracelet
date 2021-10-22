@@ -1352,6 +1352,7 @@
                     <connections>
                         <outlet property="datePicker" destination="4nG-mx-Xq1" id="2y4-0k-V3G"/>
                         <outlet property="lateLabel" destination="Do3-8l-BM8" id="9lz-8b-xdu"/>
+                        <outlet property="laterTipLabel" destination="cEa-Bc-tKI" id="oKK-cm-Qlx"/>
                         <outlet property="repeatLabel" destination="Vcr-DN-MNX" id="EV6-DB-Co8"/>
                         <outlet property="weekLabel" destination="bub-1w-92J" id="gsx-gf-eup"/>
                     </connections>
