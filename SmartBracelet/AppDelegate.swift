@@ -30,7 +30,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         log.setup(level: .info, showLogIdentifier: true, showFunctionName: true, showThreadName: true, showLevel: true, showFileNames: true, showLineNumbers: true, showDate: true, writeToFile: false, fileLevel: .alert)
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { (status, err) in
             if !status {
-                print("用户不同意授权通知权限")
+                print("当用户不同意授权通知权限，则做其他的判读")
                 guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
                 if UIApplication.shared.canOpenURL(url) {
                     UIApplication.shared.open(url, completionHandler: nil)

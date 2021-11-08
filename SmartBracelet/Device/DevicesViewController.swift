@@ -17,6 +17,7 @@ class DevicesViewController: BaseViewController {
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var contentView: UIView!
     @IBOutlet weak var dialManagmentLabel: UILabel!
+    @IBOutlet weak var dialView: UIView!
     var deviceView: DevicesView!
     var clockArray: [String] = []
     
@@ -195,6 +196,7 @@ extension DevicesViewController: DevicesViewDelegate {
             deleteDevice(index: index)
             return
         }
+        // 当设备已经连接后，并且连接成功后，则跳转至设备设置页面。
         let storyboard = UIStoryboard(name: "Device", bundle: nil)
         let vc = storyboard.instantiateViewController(withIdentifier: "DeviceSettingsViewController") as! DeviceSettingsViewController
         navigationController?.pushViewController(vc, animated: true)

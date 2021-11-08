@@ -784,6 +784,7 @@
                         <outlet property="collectionView" destination="XML-AF-UbS" id="sTN-YC-qa4"/>
                         <outlet property="contentView" destination="NJp-PX-3qd" id="1DX-3z-1a1"/>
                         <outlet property="dialManagmentLabel" destination="Bw4-Os-NVl" id="n1m-P5-obF"/>
+                        <outlet property="dialView" destination="29Q-vy-Wz1" id="eFL-WC-gAp"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cI3-qa-Naj" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

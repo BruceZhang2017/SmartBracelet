@@ -395,9 +395,9 @@ class HealthViewController: BaseViewController {
         }
     }
     
-    @IBAction func handleHealth(_ sender: Any) {
-        let detail = DetailViewController()
-        navigationController?.pushViewController(detail, animated: true)
+    @IBAction func handleHealth(_ sender: Any) { // 不要保留入口
+        //let detail = DetailViewController()
+        //navigationController?.pushViewController(detail, animated: true)
     }
     
     
