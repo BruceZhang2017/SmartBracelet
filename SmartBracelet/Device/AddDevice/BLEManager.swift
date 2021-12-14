@@ -438,6 +438,9 @@ class BLEManager: NSObject {
             }
             dump(model)
             wuPrint("心跳结束")
+            DispatchQueue.main.async {
+                NotificationCenter.default.post(name: Notification.Name("healthDetail"), object: nil)
+            }
             if heartArray.count > 0 {
                 heartArray.insert(model, at: 0)
             } else {
@@ -451,6 +454,9 @@ class BLEManager: NSObject {
             }
             dump(model)
             wuPrint("血压结束")
+            DispatchQueue.main.async {
+                NotificationCenter.default.post(name: Notification.Name("healthDetail"), object: nil)
+            }
             if bloodArray.count > 0 {
                 bloodArray.insert(model, at: 0)
             } else {
@@ -468,6 +474,7 @@ class BLEManager: NSObject {
             oxygenModel.timeStamp = model.timeStamp
             oxygenModel.oxygen = model.oxygen
             if model.oxygen > 0 {
+                print("将血氧数据保存至数据库中：\(model.timeStamp)")
                 try? oxygenModel.er.save(update: true)
             }
             let str = String(format: "oxygen：%d, %d, %d", model.oxygen, model.indexOfTotal, model.totalCount)
@@ -499,6 +506,9 @@ class BLEManager: NSObject {
             }
             dump(model)
             print("血氧结束")
+            DispatchQueue.main.async {
+                NotificationCenter.default.post(name: Notification.Name("healthDetail"), object: nil)
+            }
             if oxygenArray.count > 0 {
                 oxygenArray.insert(model, at: 0)
             } else {

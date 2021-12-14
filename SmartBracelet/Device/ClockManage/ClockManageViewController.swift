@@ -23,7 +23,7 @@ class ClockManageViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "dial_management".localized()
-        let mine = SegmentioItem(title: "device_my_dial".localized(), image: nil)
+        let mine = SegmentioItem(title: "自定义表盘".localized(), image: nil)
         let market = SegmentioItem(title: "device_dial_mall".localized(), image: nil)
         let state = SegmentioStates(
                     defaultState: SegmentioState(
@@ -55,7 +55,7 @@ class ClockManageViewController: BaseViewController {
         )
         
         segmentio.setup(
-            content: [mine, market],
+            content: [market, mine],
             style: .onlyLabel,
             options: options
         )
@@ -80,24 +80,26 @@ class ClockManageViewController: BaseViewController {
             return
         }
         let storyboard = UIStoryboard(name: "Device", bundle: nil)
-        let myClockVC = storyboard.instantiateViewController(withIdentifier: "MyClockViewController") as! MyClockViewController
-        contentView.addSubview(myClockVC.view)
-        myClockVC.bShowDetail = true
-        addChild(myClockVC)
-        myClockVC.view.snp.makeConstraints {
-            $0.left.equalToSuperview()
-            $0.width.equalTo(ScreenWidth)
-            $0.top.bottom.equalToSuperview()
-        }
+
         let marketClockVC = storyboard.instantiateViewController(withIdentifier: "MarketClockViewController") as! MarketClockViewController
         contentView.addSubview(marketClockVC.view)
         marketClockVC.bShowDetail = true
         addChild(marketClockVC)
         marketClockVC.view.snp.makeConstraints {
-            $0.left.equalTo(myClockVC.view.snp.right)
+            $0.left.equalToSuperview()
             $0.width.equalTo(ScreenWidth)
             $0.top.bottom.equalToSuperview()
         }
+        
+        let myClockVC = storyboard.instantiateViewController(withIdentifier: "MyClockViewController") as! MyClockViewController
+        contentView.addSubview(myClockVC.view)
+        addChild(myClockVC)
+        myClockVC.view.snp.makeConstraints {
+            $0.left.equalTo(marketClockVC.view.snp.right)
+            $0.width.equalTo(ScreenWidth)
+            $0.top.bottom.equalToSuperview()
+        }
+        
         contentViewWidthConstraint.constant = ScreenWidth * 2
     }
 

@@ -17,7 +17,9 @@ class DevicesViewController: BaseViewController {
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var contentView: UIView!
     @IBOutlet weak var dialManagmentLabel: UILabel!
+    @IBOutlet weak var bottomLConstraint: NSLayoutConstraint!
     @IBOutlet weak var dialView: UIView!
+    var deviceSettingView: UIView? // 设备设置的视图
     var deviceView: DevicesView!
     var clockArray: [String] = []
     
@@ -30,6 +32,8 @@ class DevicesViewController: BaseViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: Notification.Name("DevicesViewController"), object: nil)
         navigationItem.rightBarButtonItem?.title = "device".localized()
         dialManagmentLabel.text = "dial_management".localized()
+        
+        initializeDeviceSettings()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -51,6 +55,43 @@ class DevicesViewController: BaseViewController {
     
     deinit {
         NotificationCenter.default.removeObserver(self)
+    }
+    
+    // 设备设置
+    private func initializeDeviceSettings() {
+        deviceSettingView = UIView().then {
+            $0.backgroundColor = UIColor.white
+            
+        }
+        contentView.addSubview(deviceSettingView!)
+        deviceSettingView?.snp.makeConstraints {
+            $0.left.right.equalToSuperview()
+            $0.top.equalTo(dialView.snp.bottom).offset(15)
+        }
+        let lblTitle = UILabel().then {
+            $0.textColor = UIColor.black
+            $0.font = UIFont.boldSystemFont(ofSize: 15)
+            $0.text = "device_settings".localized()
+        }
+        deviceSettingView?.addSubview(lblTitle)
+        lblTitle.snp.makeConstraints {
+            $0.left.equalTo(15)
+            $0.top.equalTo(10)
+            $0.height.equalTo(20)
+        }
+        
+        let storyboard = UIStoryboard(name: "Device", bundle: nil)
+        let vc = storyboard.instantiateViewController(withIdentifier: "DeviceSettingsViewController") as! DeviceSettingsViewController
+        addChild(vc)
+        deviceSettingView?.addSubview(vc.view)
+        vc.view.snp.makeConstraints {
+            $0.left.equalTo(0)
+            $0.top.equalTo(lblTitle.snp.bottom).offset(10)
+            $0.right.equalTo(0)
+            $0.height.equalTo(500)
+            $0.bottom.equalToSuperview()
+        }
+        bottomLConstraint.constant = 460
     }
     
     @objc private func handleNotification(_ notification: Notification) {

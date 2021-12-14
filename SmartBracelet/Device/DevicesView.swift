@@ -32,9 +32,10 @@ class DevicesView: UIView {
         layout.minimumLineSpacing = padding
         layout.minimumInteritemSpacing = padding
         layout.sectionInset = UIEdgeInsets(top: padding, left: 0, bottom: padding, right: 0)
-        let itemW = (ScreenWidth - padding * 2) / 1.5
+        let itemW = ScreenWidth - padding * 2
         layout.itemSize = CGSize(width: itemW, height: 110)
-        collectionView = UICollectionView(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: 200), collectionViewLayout: layout)
+        collectionView = UICollectionView(frame: CGRect(x: 20, y: 0, width: itemW + 1, height: 200), collectionViewLayout: layout)
+        collectionView.isScrollEnabled = false
         collectionView.backgroundColor = UIColor.clear
         collectionView.collectionViewLayout = layout
         collectionView.showsHorizontalScrollIndicator = false
@@ -45,32 +46,13 @@ class DevicesView: UIView {
     }
 
     public func refreshData() {
-        let count = DeviceManager.shared.devices.count
-        print("已经连接过的设备总数为：\(count)")
         collectionView.reloadData()
-        if count <= 1 {
-            collectionView.scrollToItem(at: IndexPath(item: 1, section: 0), at: UICollectionView.ScrollPosition.centeredHorizontally, animated: false)
-        } else {
-            if count > 0 {
-                for (index, item) in DeviceManager.shared.devices.enumerated() {
-                    if item.mac == lastestDeviceMac {
-                        collectionView.scrollToItem(at: IndexPath(item: index, section: 0), at: UICollectionView.ScrollPosition.centeredHorizontally, animated: false)
-                        break
-                    }
-                }
-            }
-        }
     }
 }
 
 extension DevicesView: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        let count = DeviceManager.shared.devices.count
-        if count <= 2 {
-            return 3
-        } else {
-            return count
-        }
+        return 1
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -79,31 +61,36 @@ extension DevicesView: UICollectionViewDataSource, UICollectionViewDelegate {
         cell.backgroundColor = UIColor.white.withAlphaComponent(0.8)
         cell.layer.cornerRadius = 10
         let count = DeviceManager.shared.devices.count
-        let total = max(3, count + 2)
-        if indexPath.row == 0 || indexPath.row == total - 1 {
-            cell.isHidden = true
+        if count == 0 {
+            cell.cardImgView.isHidden = true
+            cell.cardNameLabel.isHidden = true
+            cell.batteryButton.isHidden = true
+            cell.btButton.isHidden = true
+            cell.addLabel.isHidden = false
         } else {
-            cell.isHidden = false
-            if count == 0 {
-                if indexPath.row == 1 {
-                    cell.cardImgView.isHidden = true
-                    cell.cardNameLabel.isHidden = true
-                    cell.batteryButton.isHidden = true
-                    cell.btButton.isHidden = true
-                    cell.settingsImageView.isHidden = true
-                    cell.addLabel.isHidden = false
+            cell.cardImgView.isHidden = false
+            cell.cardNameLabel.isHidden = false
+            cell.batteryButton.isHidden = false
+            cell.btButton.isHidden = false
+            cell.addLabel.isHidden = true
+            var model: BLEModel! = nil
+            for item in DeviceManager.shared.devices {
+                if item.mac == lastestDeviceMac {
+                    model = item
+                    break
                 }
+            }
+            if model == nil {
+                cell.cardImgView.isHidden = true
+                cell.cardNameLabel.isHidden = true
+                cell.batteryButton.isHidden = true
+                cell.btButton.isHidden = true
+                cell.addLabel.isHidden = false
+                cell.addLabel.text = "请先连接设备"
             } else {
-                cell.cardImgView.isHidden = false
-                cell.cardNameLabel.isHidden = false
-                cell.batteryButton.isHidden = false
-                cell.btButton.isHidden = false
-                cell.settingsImageView.isHidden = false
-                cell.addLabel.isHidden = true
-                let model = DeviceManager.shared.devices[indexPath.row - 1]
                 cell.cardImgView.image = UIImage(named: "produce_image_no.2")
                 cell.cardNameLabel.text = model.name
-                if model.mac == lastestDeviceMac {
+                if model.mac == lastestDeviceMac && bleSelf.isConnected {
                     cell.btButton.setImage(UIImage(named: "content_blueteeth_link"), for: .normal)
                     cell.btButton.setTitle("mine_bluetooth_connect".localized(), for: .normal)
                     cell.bConnected = true
@@ -125,6 +112,7 @@ extension DevicesView: UICollectionViewDataSource, UICollectionViewDelegate {
                     cell.batteryButton.setTitle("mine_battery_level_unknown".localized(), for: .normal)
                 }
             }
+            
         }
         
         return cell

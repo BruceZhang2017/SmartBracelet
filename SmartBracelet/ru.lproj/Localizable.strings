@@ -110,3 +110,5 @@
 "mine_kg_unit" = "KG";
 
 "mine_unconnect" = "не падлучаны";
+"device_settings" = "Настройки устройства";
+"health_distance" = "Distance";

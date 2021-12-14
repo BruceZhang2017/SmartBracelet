@@ -110,3 +110,5 @@
 "mine_kg_unit" = "KG";
 
 "mine_unconnect" = "ไม่ได้เชื่อมต่อบลูทูธ";
+"device_settings" = "การตั้งค่าอุปกรณ์";
+"health_distance" = "Distance";

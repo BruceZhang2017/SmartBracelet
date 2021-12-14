@@ -110,3 +110,5 @@
 "mine_kg_unit" = "KG";
 
 "mine_unconnect" = "블루투스가 연결되지 않았습니다";
+"device_settings" = "기기 설정";
+"health_distance" = "Distance";

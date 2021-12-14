@@ -110,3 +110,5 @@
 "mine_kg_unit" = "KG";
 
 "mine_unconnect" = "البلوتوث غير متصل";
+"device_settings" = "إعدادات الجهاز";
+"health_distance" = "Distance";

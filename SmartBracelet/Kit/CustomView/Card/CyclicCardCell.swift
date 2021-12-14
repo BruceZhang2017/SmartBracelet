@@ -17,12 +17,11 @@ class CyclicCardCell: UICollectionViewCell {
     let btButton = UIButton(type: .custom)
     let batteryButton = UIButton(type: .custom)
     let addLabel = UILabel()
-    let settingsImageView = UIImageView()
     
     override  init(frame: CGRect) {
         super.init(frame: frame)
         self.addSubview(cardImgView)
-        cardImgView.frame = CGRect(x: 4, y: 25, width: 60, height: 60)
+        cardImgView.frame = CGRect(x: 24, y: 25, width: 60, height: 60)
         cardImgView.layer.cornerRadius = 30
         cardImgView.layer.borderColor = UIColor.kDDDDDD.cgColor
         cardImgView.layer.borderWidth = 0.5
@@ -30,7 +29,7 @@ class CyclicCardCell: UICollectionViewCell {
         
         let itemW = (ScreenWidth - 20 * 2) * 0.5
         self.addSubview(cardNameLabel)
-        cardNameLabel.frame = CGRect(x: 76, y: 17, width: itemW - 80, height: 20)
+        cardNameLabel.frame = CGRect(x: 106, y: 17, width: itemW - 80, height: 20)
         cardNameLabel.textColor = UIColor.k333333
         cardNameLabel.font = UIFont.systemFont(ofSize: 16)
         cardNameLabel.textAlignment = .left
@@ -43,7 +42,7 @@ class CyclicCardCell: UICollectionViewCell {
         btButton.contentHorizontalAlignment = .left
         btButton.contentEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 6)
         btButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: 3, bottom: 0, right: -3)
-        btButton.frame = CGRect(x: 76, y: 60, width: itemW - 80, height: 16)
+        btButton.frame = CGRect(x: 106, y: 60, width: itemW - 80, height: 16)
         
         addSubview(batteryButton)
         batteryButton.setImage(UIImage(named: "conten_battery_full"), for: .normal)
@@ -53,15 +52,7 @@ class CyclicCardCell: UICollectionViewCell {
         batteryButton.contentHorizontalAlignment = .left
         batteryButton.contentEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 6)
         batteryButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: 3, bottom: 0, right: -3)
-        batteryButton.frame = CGRect(x: 76, y: 80, width: itemW - 80, height: 16)
-        
-        addSubview(settingsImageView)
-        settingsImageView.image = UIImage(named: "shezhi")
-        settingsImageView.snp.makeConstraints {
-            $0.width.height.equalTo(20)
-            $0.top.equalTo(10)
-            $0.right.equalTo(-10)
-        }
+        batteryButton.frame = CGRect(x: 106, y: 80, width: itemW - 80, height: 16)
         
         addSubview(addLabel)
         addLabel.text = "add_device".localized()

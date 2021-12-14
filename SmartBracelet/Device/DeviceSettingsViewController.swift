@@ -16,35 +16,26 @@ import Toaster
 
 class DeviceSettingsViewController: BaseViewController {
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var headerView: UIView!
-    var footerView: UIView!
-    @IBOutlet weak var deviceNameLabel: UILabel!
-    @IBOutlet weak var btButton: UIButton!
-    @IBOutlet weak var batteryButton: UIButton!
+    //var footerView: UIView!
     var cameraViewController: CameraViewController?
     private var currentTime: TimeInterval = 0 // 当前时间戳
     
     override func viewDidLoad() {
         super.viewDidLoad()
         bleSelf.getLongSitForWristband()
-        title = "设备设置"
+       // title = "设备设置"
         tableView.backgroundColor = UIColor.kF5F5F5
-        footerView = UIView(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: 104))
-        footerView.backgroundColor = UIColor.clear
-        let deleteButton = UIButton(type: .custom)
-        deleteButton.frame = CGRect(x: 15, y: 30, width: ScreenWidth - 30, height: 44)
-        deleteButton.backgroundColor = UIColor.kEEEEEE
-        deleteButton.setTitleColor(UIColor.kFF3276, for: .normal)
-        deleteButton.setTitle("deivce_unbind".localized(), for: .normal)
-        deleteButton.addTarget(self, action: #selector(deleteDevice(_:)), for: .touchUpInside)
-        footerView.addSubview(deleteButton)
-        tableView.tableFooterView = footerView
+//        footerView = UIView(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: 104))
+//        footerView.backgroundColor = UIColor.clear
+//        let deleteButton = UIButton(type: .custom)
+//        deleteButton.frame = CGRect(x: 15, y: 30, width: ScreenWidth - 30, height: 44)
+//        deleteButton.backgroundColor = UIColor.kEEEEEE
+//        deleteButton.setTitleColor(UIColor.kFF3276, for: .normal)
+//        deleteButton.setTitle("deivce_unbind".localized(), for: .normal)
+//        deleteButton.addTarget(self, action: #selector(deleteDevice(_:)), for: .touchUpInside)
+//        footerView.addSubview(deleteButton)
+//        tableView.tableFooterView = footerView
         
-        btButton.titleLabel?.setContentCompressionResistancePriority(.required, for: .horizontal)
-        batteryButton.titleLabel?.setContentCompressionResistancePriority(.required, for: .horizontal)
-        
-        deviceNameLabel.text = bleSelf.bleModel.name
-        batteryButton.setTitle("\("mine_battery_level".localized())\(bleSelf.batteryLevel)%", for: .normal)
         bleSelf.getAncsSwitchForWristband() // 苹果推送消息
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: Notification.Name("DeviceSettings"), object: nil)
     }
@@ -118,7 +109,7 @@ class DeviceSettingsViewController: BaseViewController {
             bleSelf.responseCameraForWristband()
         }
         cameraViewController?.modalPresentationStyle = .fullScreen
-        present(cameraViewController!, animated: true, completion: nil)
+        parent?.present(cameraViewController!, animated: true, completion: nil)
     }
 }
 
@@ -161,7 +152,7 @@ extension DeviceSettingsViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 15
+        return 1
     }
     
     
@@ -170,17 +161,24 @@ extension DeviceSettingsViewController: UITableViewDataSource {
 extension DeviceSettingsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        if bleSelf.isConnected == false {
+            Toast(text: "mine_unconnect".localized()).show()
+            return
+        }
         if indexPath.section == 0 {
             if indexPath.row == 0 { // 推送设置
                 let storyboard = UIStoryboard(name: .kDevice, bundle: nil)
                 let vc = storyboard.instantiateViewController(withIdentifier: "APNSViewController")
-                navigationController?.pushViewController(vc, animated: true)
+                vc.hidesBottomBarWhenPushed = true
+                parent?.navigationController?.pushViewController(vc, animated: true)
             } else if indexPath.row == 4 {
                 let vc = storyboard?.instantiateViewController(withIdentifier: "LongsitSettingsViewController")
-                navigationController?.pushViewController(vc!, animated: true)
+                vc?.hidesBottomBarWhenPushed = true
+                parent?.navigationController?.pushViewController(vc!, animated: true)
             } else if indexPath.row == 5 {
                 let vc = WeatherViewController()
-                navigationController?.pushViewController(vc, animated: true)
+                vc.hidesBottomBarWhenPushed = true
+                parent?.navigationController?.pushViewController(vc, animated: true)
             }
         } else {
             if indexPath.row == 3 {
@@ -189,15 +187,18 @@ extension DeviceSettingsViewController: UITableViewDelegate {
             } else if indexPath.row == 2 { // 设置信息
                 let storyboard = UIStoryboard(name: .kDevice, bundle: nil)
                 let vc = storyboard.instantiateViewController(withIdentifier: "DeviceInfoViewController")
-                navigationController?.pushViewController(vc, animated: true)
+                vc.hidesBottomBarWhenPushed = true
+                parent?.navigationController?.pushViewController(vc, animated: true)
             } else if indexPath.row == 1 { // 查找设备
                 let storyboard = UIStoryboard(name: .kDevice, bundle: nil)
                 let vc = storyboard.instantiateViewController(withIdentifier: "DeviceFoundViewController")
-                navigationController?.pushViewController(vc, animated: true)
+                vc.hidesBottomBarWhenPushed = true
+                parent?.navigationController?.pushViewController(vc, animated: true)
             } else { // 闹钟设置
                 let storyboard = UIStoryboard(name: .kDevice, bundle: nil)
                 let vc = storyboard.instantiateViewController(withIdentifier: "AlarmViewController") as! AlarmViewController
-                navigationController?.pushViewController(vc, animated: true)
+                vc.hidesBottomBarWhenPushed = true
+                parent?.navigationController?.pushViewController(vc, animated: true)
             }
         }
     }

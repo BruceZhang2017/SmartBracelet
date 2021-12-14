@@ -110,3 +110,5 @@
 "mine_kg_unit" = "KG";
 
 "mine_unconnect" = "bağlı değil";
+"device_settings" = "Cihaz ayarları";
+"health_distance" = "Distance";

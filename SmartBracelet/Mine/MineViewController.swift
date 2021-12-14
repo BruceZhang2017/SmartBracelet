@@ -70,6 +70,9 @@ class MineViewController: BaseViewController {
         } else {
             userNameLabel.text = bleSelf.userInfo.name
         }
+        if userNameLabel.text?.count ?? 0 == 0 {
+            userNameLabel.text = "个人信息 -> 设置昵称"
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {

@@ -85,7 +85,7 @@ extension DeviceListViewController: UITableViewDataSource {
         let model = DeviceManager.shared.devices[indexPath.row]
         cell.deviceNameLabel.text = model.name + ""
         cell.deviceImageView.image = UIImage(named: "produce_image_no.2")
-        if model.mac == lastestDeviceMac {
+        if model.mac == lastestDeviceMac && bleSelf.isConnected {
             cell.selectImageView.isHidden = false
             cell.bgView.layer.borderWidth = 1
             cell.bgView.layer.borderColor = UIColor.color(hex: "14C8C6").cgColor
@@ -118,7 +118,7 @@ extension DeviceListViewController: UITableViewDataSource {
 extension DeviceListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        if bleSelf.bleModel.mac == lastestDeviceMac {
+        if bleSelf.bleModel.mac == lastestDeviceMac && bleSelf.isConnected {
             return
         }
         bleSelf.disconnectBleDevice()

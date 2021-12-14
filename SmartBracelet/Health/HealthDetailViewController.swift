@@ -28,12 +28,14 @@ class HealthDetailViewController: BaseViewController {
     @IBOutlet weak var goalBLabel: UILabel!
     @IBOutlet weak var tipLabel: UILabel!
     @IBOutlet weak var dataDynamicLabel: UILabel!
+    @IBOutlet weak var startTestButton: UIButton! // 开始测试按钮
     public var colors: [UIColor]!
     var commonCalendarView: CommonCalendarView?
     var type = 0 // 0 步数 1 热量 2 心率 3 睡眠
     var mDate: Date = Date()
     var totalValue = 0 // 总步数
     var totalKM = 0 // 总公里
+    var measureAsync: Async?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,6 +52,30 @@ class HealthDetailViewController: BaseViewController {
         
         unitBLabel.text = "health_step_noun".localized()
         dataDynamicLabel.text = "health_data_dynamic".localized()
+        
+        startTestButton.setTitleColor(UIColor.white, for: .normal)
+        startTestButton.titleLabel?.font = UIFont.systemFont(ofSize: 16)
+        startTestButton.backgroundColor = UIColor.white.withAlphaComponent(0.5)
+        startTestButton.isHidden = type <= 0 || type == 3
+        startTestButton.clipsToBounds = true
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: Notification.Name("healthDetail"), object: nil)
+        
+        if type == 0 {
+            title = "health_step".localized()
+        }
+        if type == 2 {
+            title = "health_heart_rate".localized()
+        }
+        if type == 3 {
+            title = "health_sleep".localized()
+        }
+        if type == 4 {
+            title = "health_blood_pressure".localized()
+        }
+        if type == 5 {
+            title = "health_blood_oxygen".localized()
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -73,6 +99,15 @@ class HealthDetailViewController: BaseViewController {
         unitBLabel.text = type == 0 ? "health_step_noun".localized() : "health_kilo_calorie".localized()
         tipLabel.text = type == 0 ? "每日步数目标" : "每日热量目标"
         goalView.isHidden = type > 0
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    @objc private func handleNotification(_ notification: Notification) {
+        startTestButton.setTitle("开始测试", for: .normal)
+        startTestButton.isUserInteractionEnabled = true
     }
     
     /// 设置图表
@@ -110,6 +145,10 @@ class HealthDetailViewController: BaseViewController {
             lineChartView.rightAxis.axisMaximum = 50000
         } else if type == 2 {
             lineChartView.rightAxis.axisMaximum = 200
+        } else if type == 4 {
+            lineChartView.rightAxis.axisMaximum = 200
+        } else if type == 5 {
+            lineChartView.rightAxis.axisMaximum = 100
         }
         lineChartView.rightAxis.setLabelCount(6, force: true)
         lineChartView.rightAxis.gridColor = UIColor.white
@@ -267,6 +306,55 @@ class HealthDetailViewController: BaseViewController {
                 arrStr.append(NSAttributedString(string: "health_value_p_minute".localized(), attributes: [.font: UIFont.systemFont(ofSize: 11), .foregroundColor: UIColor.white]))
                 valueLabel.attributedText = arrStr
             }
+        } else if type == 4 { // 血压
+            var count = 0
+            let array = readPressure()
+            if array.count > 0 {
+                count = array.count
+                let zero = mDate.zeroTimeStamp()
+                for i in 0..<array.count {
+                    let value = array[i].max
+                    let x = (array[i].timeStamp - Int(zero)) / 3660
+                    values[x] = ChartDataEntry(x: Double(x), y: Double(value) / Double(40))
+                }
+                print("获取到数据的数量为：\(values.count)")
+            }
+            if count > 0 {
+                let arrStr = NSMutableAttributedString()
+                arrStr.append(NSAttributedString(string: "\(array.last!.max)", attributes: [.font: UIFont.systemFont(ofSize: 25), .foregroundColor: UIColor.white]))
+                arrStr.append(NSAttributedString(string: "health_value_p_minute".localized(), attributes: [.font: UIFont.systemFont(ofSize: 11), .foregroundColor: UIColor.white]))
+                valueLabel.attributedText = arrStr
+            } else {
+                let arrStr = NSMutableAttributedString()
+                arrStr.append(NSAttributedString(string: "0", attributes: [.font: UIFont.systemFont(ofSize: 25), .foregroundColor: UIColor.white]))
+                arrStr.append(NSAttributedString(string: "health_value_p_minute".localized(), attributes: [.font: UIFont.systemFont(ofSize: 11), .foregroundColor: UIColor.white]))
+                valueLabel.attributedText = arrStr
+            }
+        } else if type == 5 { // 血氧
+            var count = 0
+            let array = readBlood()
+            print("从数据库里读取到的血氧数据数量为：\(array.count)")
+            if array.count > 0 {
+                count = array.count
+                let zero = mDate.zeroTimeStamp()
+                for i in 0..<array.count {
+                    let value = array[i].oxygen
+                    let x = (array[i].timeStamp - Int(zero)) / 3660
+                    values[x] = ChartDataEntry(x: Double(x), y: Double(value) / Double(40))
+                }
+                print("获取到数据的数量为：\(values.count)")
+            }
+            if count > 0 {
+                let arrStr = NSMutableAttributedString()
+                arrStr.append(NSAttributedString(string: "\(array.last!.oxygen)", attributes: [.font: UIFont.systemFont(ofSize: 25), .foregroundColor: UIColor.white]))
+                arrStr.append(NSAttributedString(string: "health_value_p_minute".localized(), attributes: [.font: UIFont.systemFont(ofSize: 11), .foregroundColor: UIColor.white]))
+                valueLabel.attributedText = arrStr
+            } else {
+                let arrStr = NSMutableAttributedString()
+                arrStr.append(NSAttributedString(string: "0", attributes: [.font: UIFont.systemFont(ofSize: 25), .foregroundColor: UIColor.white]))
+                arrStr.append(NSAttributedString(string: "health_value_p_minute".localized(), attributes: [.font: UIFont.systemFont(ofSize: 11), .foregroundColor: UIColor.white]))
+                valueLabel.attributedText = arrStr
+            }
         }
         return values
     }
@@ -364,6 +452,34 @@ class HealthDetailViewController: BaseViewController {
         navigationController?.pushViewController(vc, animated: true)
     }
     
+    @IBAction func handleStartTest(_ sender: Any) {
+        if type == 2 {
+            bleSelf.startMeasure(WristbandMeasureType.heart)
+            startTestButton.setTitle("测试中...", for: .normal)
+            startTestButton.isUserInteractionEnabled = false
+            measureAsync = Async.main(after: 30) {
+                // do something for update UI
+                
+            }
+        }
+        if type == 4 {
+            bleSelf.startMeasure(WristbandMeasureType.blood)
+            startTestButton.setTitle("测试中...", for: .normal)
+            startTestButton.isUserInteractionEnabled = false
+            measureAsync = Async.main(after: 30) {
+                // do something for update UI
+            }
+        }
+        
+        if type == 5 {
+            bleSelf.startMeasure(WristbandMeasureType.oxygen)
+            startTestButton.setTitle("测试中...", for: .normal)
+            startTestButton.isUserInteractionEnabled = false
+            measureAsync = Async.main(after: 30) {
+                // do something for update UI
+            }
+        }
+    }
 }
 
 extension HealthDetailViewController: UITableViewDataSource {
@@ -456,6 +572,18 @@ extension HealthDetailViewController {
         let models = try? DSleepModel.er.array("timeStamp>=\(stamp - 2 * 60 * 60) AND timeStamp<\(stamp + 10 * 60 * 60) AND mac='\(lastestDeviceMac)'")
         return models?.sorted { $0.timeStamp < $1.timeStamp } ?? []
         
+    }
+    
+    func readPressure() -> [DBloodModel] {
+        let stamp = Int(mDate.zeroTimeStamp())
+        let models = try? DBloodModel.er.array("timeStamp>\(stamp) AND timeStamp<\(stamp + 24 * 60 * 60) AND mac='\(lastestDeviceMac)'")
+        return models?.sorted { $0.timeStamp < $1.timeStamp } ?? []
+    }
+    
+    func readBlood() -> [DOxygenModel] {
+        let stamp = Int(mDate.zeroTimeStamp())
+        let models = try? DOxygenModel.er.array("timeStamp>\(stamp) AND timeStamp<\(stamp + 24 * 60 * 60) AND mac='\(lastestDeviceMac)'")
+        return models?.sorted { $0.timeStamp < $1.timeStamp } ?? []
     }
 }
 

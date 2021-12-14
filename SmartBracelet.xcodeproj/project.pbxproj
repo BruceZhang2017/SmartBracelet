@@ -380,10 +380,20 @@
 		9AAF85CC25C6D42000960BDD /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AAF85CB25C6D42000960BDD /* MapKit.framework */; };
 		9AAF861C25C83E5000960BDD /* IdleResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 9AAF861B25C83E5000960BDD /* IdleResources.bundle */; };
 		9AB563FD26F6186000D16869 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9AB563FF26F6186000D16869 /* Localizable.strings */; };
+		9AB7AC422765B96700D51DBC /* QACircleProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AB7AC412765B96700D51DBC /* QACircleProgressView.m */; };
+		9AB7AC442766424A00D51DBC /* EidtClockHeadTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB7AC432766424A00D51DBC /* EidtClockHeadTableViewCell.swift */; };
+		9AB7AC462766425800D51DBC /* EditClcokBottomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB7AC452766425800D51DBC /* EditClcokBottomTableViewCell.swift */; };
+		9AB7AC482766426A00D51DBC /* EditClockMiddleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB7AC472766426A00D51DBC /* EditClockMiddleTableViewCell.swift */; };
+		9AB7AC4A2766551300D51DBC /* EditClockCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB7AC492766551300D51DBC /* EditClockCollectionViewCell.swift */; };
+		9AB7AC4C2767004C00D51DBC /* SelectItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB7AC4B2767004C00D51DBC /* SelectItemViewController.swift */; };
 		9AB910262501322C006E0FC4 /* UIColor+EMAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB910222501322B006E0FC4 /* UIColor+EMAlertController.swift */; };
 		9AB910272501322C006E0FC4 /* EMAlertTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB910232501322B006E0FC4 /* EMAlertTextField.swift */; };
 		9AB910282501322C006E0FC4 /* EMAlertAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB910242501322B006E0FC4 /* EMAlertAction.swift */; };
 		9AB910292501322C006E0FC4 /* EMAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB910252501322B006E0FC4 /* EMAlertController.swift */; };
+		9ADB7EFC275EFB5C009689FE /* blood.gif in Resources */ = {isa = PBXBuildFile; fileRef = 9ADB7EF8275EFB5B009689FE /* blood.gif */; };
+		9ADB7EFD275EFB5C009689FE /* sleep.gif in Resources */ = {isa = PBXBuildFile; fileRef = 9ADB7EF9275EFB5C009689FE /* sleep.gif */; };
+		9ADB7EFE275EFB5C009689FE /* pressure.gif in Resources */ = {isa = PBXBuildFile; fileRef = 9ADB7EFA275EFB5C009689FE /* pressure.gif */; };
+		9ADB7EFF275EFB5C009689FE /* heart.gif in Resources */ = {isa = PBXBuildFile; fileRef = 9ADB7EFB275EFB5C009689FE /* heart.gif */; };
 		9AE1A16B2629465F00B8B10D /* ErrorCode.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AE1A1552629465F00B8B10D /* ErrorCode.m */; };
 		9AE1A16C2629465F00B8B10D /* JCBlutoothInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AE1A1582629465F00B8B10D /* JCBlutoothInfoModel.m */; };
 		9AE1A16D2629465F00B8B10D /* OTAManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AE1A1592629465F00B8B10D /* OTAManager.m */; };
@@ -826,6 +836,13 @@
 		9AB563FC26F6185500D16869 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
 		9AB563FE26F6186000D16869 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		9AB5640026F6186400D16869 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		9AB7AC402765B96700D51DBC /* QACircleProgressView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QACircleProgressView.h; sourceTree = "<group>"; };
+		9AB7AC412765B96700D51DBC /* QACircleProgressView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = QACircleProgressView.m; sourceTree = "<group>"; };
+		9AB7AC432766424A00D51DBC /* EidtClockHeadTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EidtClockHeadTableViewCell.swift; sourceTree = "<group>"; };
+		9AB7AC452766425800D51DBC /* EditClcokBottomTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditClcokBottomTableViewCell.swift; sourceTree = "<group>"; };
+		9AB7AC472766426A00D51DBC /* EditClockMiddleTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditClockMiddleTableViewCell.swift; sourceTree = "<group>"; };
+		9AB7AC492766551300D51DBC /* EditClockCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditClockCollectionViewCell.swift; sourceTree = "<group>"; };
+		9AB7AC4B2767004C00D51DBC /* SelectItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectItemViewController.swift; sourceTree = "<group>"; };
 		9AB910222501322B006E0FC4 /* UIColor+EMAlertController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+EMAlertController.swift"; sourceTree = "<group>"; };
 		9AB910232501322B006E0FC4 /* EMAlertTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EMAlertTextField.swift; sourceTree = "<group>"; };
 		9AB910242501322B006E0FC4 /* EMAlertAction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EMAlertAction.swift; sourceTree = "<group>"; };
@@ -871,6 +888,10 @@
 		9AD43219271B2B33001A6E8F /* zh-HK */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-HK"; path = "zh-HK.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		9AD4321A271B2B52001A6E8F /* ms */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ms; path = ms.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		9AD4321B271B2B52001A6E8F /* ms */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ms; path = ms.lproj/Localizable.strings; sourceTree = "<group>"; };
+		9ADB7EF8275EFB5B009689FE /* blood.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = blood.gif; sourceTree = "<group>"; };
+		9ADB7EF9275EFB5C009689FE /* sleep.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = sleep.gif; sourceTree = "<group>"; };
+		9ADB7EFA275EFB5C009689FE /* pressure.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = pressure.gif; sourceTree = "<group>"; };
+		9ADB7EFB275EFB5C009689FE /* heart.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = heart.gif; sourceTree = "<group>"; };
 		9AE1A1542629465F00B8B10D /* ErrorCode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ErrorCode.h; sourceTree = "<group>"; };
 		9AE1A1552629465F00B8B10D /* ErrorCode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ErrorCode.m; sourceTree = "<group>"; };
 		9AE1A1582629465F00B8B10D /* JCBlutoothInfoModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCBlutoothInfoModel.m; sourceTree = "<group>"; };
@@ -998,6 +1019,7 @@
 		9A037E4025BDACDB0006FB94 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				9ADB7EF7275EFB48009689FE /* Gif */,
 				9A2676AB26B1969B0096BC61 /* Alarm.mp3 */,
 				9A08C653262C5A1100E178DA /* lefun */,
 				9A037E4125BDACFE0006FB94 /* 8267_module_tOTA.bin */,
@@ -1212,6 +1234,7 @@
 				9A8CA52A252CB6E000EC01A7 /* HelpCenterViewController.swift */,
 				9A60DECB252E0D9600E0D849 /* ModifyHeadViewController.swift */,
 				9A60DECD252EB0F400E0D849 /* SelectSexViewController.swift */,
+				9AB7AC4B2767004C00D51DBC /* SelectItemViewController.swift */,
 				9A60DED1252EBDC700E0D849 /* InputHeightViewController.swift */,
 			);
 			path = Mine;
@@ -1269,6 +1292,8 @@
 				9A28DA592518D4DC00F7B260 /* Dot */,
 				9A4E624A24F8DF5F00A0E878 /* Card */,
 				9AE436362686BF6E006A588F /* CurveView.swift */,
+				9AB7AC402765B96700D51DBC /* QACircleProgressView.h */,
+				9AB7AC412765B96700D51DBC /* QACircleProgressView.m */,
 			);
 			path = CustomView;
 			sourceTree = "<group>";
@@ -1613,6 +1638,10 @@
 				9A6D092B2501D99400B4972F /* ClockManageViewController.swift */,
 				9A521068250322E500F64A7A /* ClockCollectionViewCell.swift */,
 				9A52106C2503A5D400F64A7A /* MyClockViewController.swift */,
+				9AB7AC432766424A00D51DBC /* EidtClockHeadTableViewCell.swift */,
+				9AB7AC452766425800D51DBC /* EditClcokBottomTableViewCell.swift */,
+				9AB7AC472766426A00D51DBC /* EditClockMiddleTableViewCell.swift */,
+				9AB7AC492766551300D51DBC /* EditClockCollectionViewCell.swift */,
 				9A2676AD26B239D40096BC61 /* ClockCollectionViewFlowLayout.swift */,
 				9A52106E2503A62F00F64A7A /* MarketClockViewController.swift */,
 				9A5210702503DB2E00F64A7A /* ClockCCollectionViewCell.swift */,
@@ -1810,6 +1839,17 @@
 			path = AlertController;
 			sourceTree = "<group>";
 		};
+		9ADB7EF7275EFB48009689FE /* Gif */ = {
+			isa = PBXGroup;
+			children = (
+				9ADB7EF9275EFB5C009689FE /* sleep.gif */,
+				9ADB7EFB275EFB5C009689FE /* heart.gif */,
+				9ADB7EFA275EFB5C009689FE /* pressure.gif */,
+				9ADB7EF8275EFB5B009689FE /* blood.gif */,
+			);
+			path = Gif;
+			sourceTree = "<group>";
+		};
 		9AE1A1522629465F00B8B10D /* OTASDK */ = {
 			isa = PBXGroup;
 			children = (
@@ -1993,7 +2033,10 @@
 				9A60DEE3252F003800E0D849 /* hotCities.plist in Resources */,
 				9A2185B0255BC6AA000330E5 /* new5.jpg in Resources */,
 				9A4E624424F7E94E00A0E878 /* Device.storyboard in Resources */,
+				9ADB7EFD275EFB5C009689FE /* sleep.gif in Resources */,
+				9ADB7EFF275EFB5C009689FE /* heart.gif in Resources */,
 				9A0F1E8426A5BE76000D8989 /* 2_240_240.bin in Resources */,
+				9ADB7EFE275EFB5C009689FE /* pressure.gif in Resources */,
 				9AAF861C25C83E5000960BDD /* IdleResources.bundle in Resources */,
 				9A0F1E8626A5BE76000D8989 /* 1_240_240.png in Resources */,
 				18385EAA24517F1A00EA380A /* LaunchScreen.storyboard in Resources */,
@@ -2003,6 +2046,7 @@
 				9AB563FD26F6186000D16869 /* Localizable.strings in Resources */,
 				9A2676AC26B1969B0096BC61 /* Alarm.mp3 in Resources */,
 				9A58D8C026AC45EF006C09A1 /* 2_128_128.bin in Resources */,
+				9ADB7EFC275EFB5C009689FE /* blood.gif in Resources */,
 				9A0F1E8326A5BE76000D8989 /* 2_240_240.png in Resources */,
 				9A58D8BA26AC45E3006C09A1 /* 1_128_128.bin in Resources */,
 				9A2185AE255BC6AA000330E5 /* new1.jpg in Resources */,
@@ -2182,6 +2226,7 @@
 				9A5E932A2515BB630060AB13 /* UserModel.swift in Sources */,
 				9AB910292501322C006E0FC4 /* EMAlertController.swift in Sources */,
 				9A33D30D26AD9A4F00DF9618 /* CameraShot.swift in Sources */,
+				9AB7AC482766426A00D51DBC /* EditClockMiddleTableViewCell.swift in Sources */,
 				9AE1A181262AB9F900B8B10D /* HeartRateView.swift in Sources */,
 				9A820B7C24CECFBC00A62C6F /* String+Extension.swift in Sources */,
 				9A8CA52225272C5200EC01A7 /* CVCalendarManager.swift in Sources */,
@@ -2195,6 +2240,7 @@
 				9A56D29C25216FC70082CC08 /* CombinedChartData.swift in Sources */,
 				9A56D26C25216FC60082CC08 /* BarChartView.swift in Sources */,
 				9A52106F2503A62F00F64A7A /* MarketClockViewController.swift in Sources */,
+				9AB7AC462766425800D51DBC /* EditClcokBottomTableViewCell.swift in Sources */,
 				9A8CA51B25272C5200EC01A7 /* CVCalendarMonthContentViewController.swift in Sources */,
 				9AEC22CD25B707C000DE899A /* BLEModel.swift in Sources */,
 				9A8CA50925272C5200EC01A7 /* CVRange.swift in Sources */,
@@ -2210,6 +2256,7 @@
 				9A350BE924EA765F004CEE6A /* UserInfoViewController.swift in Sources */,
 				9A56D26A25216FC60082CC08 /* BubbleChartView.swift in Sources */,
 				18385E9E24517F1600EA380A /* AppDelegate.swift in Sources */,
+				9AB7AC422765B96700D51DBC /* QACircleProgressView.m in Sources */,
 				9AE1A1702629465F00B8B10D /* DDFileReader.m in Sources */,
 				9A2676AE26B239D40096BC61 /* ClockCollectionViewFlowLayout.swift in Sources */,
 				9A218627255CEA1D000330E5 /* LoginResponse.swift in Sources */,
@@ -2242,6 +2289,7 @@
 				9A56D2B325216FC70082CC08 /* IScatterChartDataSet.swift in Sources */,
 				9A56D2C225216FC70082CC08 /* BarLineScatterCandleBubbleChartDataProvider.swift in Sources */,
 				9A64F07E25DCBF9D0073E679 /* SportRecordHeadTableViewCell.swift in Sources */,
+				9AB7AC442766424A00D51DBC /* EidtClockHeadTableViewCell.swift in Sources */,
 				9A60DEDA252F002400E0D849 /* RecentCitiesableViewCell.swift in Sources */,
 				9A60DEF1252F416E00E0D849 /* AlarmTableViewCell.swift in Sources */,
 				9A40E02C25D37477001879B3 /* DStepModel.swift in Sources */,
@@ -2278,6 +2326,7 @@
 				9A64F0BC25DF50C30073E679 /* DAlarmModel.swift in Sources */,
 				9AE6687D267F8A4F00A8584A /* MAWeatherLiveView.m in Sources */,
 				9AE66889267F8AD700A8584A /* ALView+PureLayout.m in Sources */,
+				9AB7AC4C2767004C00D51DBC /* SelectItemViewController.swift in Sources */,
 				9A56D29B25216FC70082CC08 /* CandleChartDataEntry.swift in Sources */,
 				9A64F07C25DCBF900073E679 /* SportRecordContentTableViewCell.swift in Sources */,
 				9A60DEEB252F34B700E0D849 /* DeviceInfoTableViewCell.swift in Sources */,
@@ -2298,6 +2347,7 @@
 				9A52107525049FD900F64A7A /* DeviceSettingsTableViewCell.swift in Sources */,
 				9A28DA5F2518D4EA00F7B260 /* DotsLoadingView.swift in Sources */,
 				9A56D24E25216FC60082CC08 /* CircleShapeRenderer.swift in Sources */,
+				9AB7AC4A2766551300D51DBC /* EditClockCollectionViewCell.swift in Sources */,
 				9A56D29225216FC70082CC08 /* ZoomViewJob.swift in Sources */,
 				9A56D2B525216FC70082CC08 /* IRadarChartDataSet.swift in Sources */,
 				9A8CA52B252CB6E000EC01A7 /* HelpCenterViewController.swift in Sources */,
@@ -2656,7 +2706,7 @@
 				CODE_SIGN_ENTITLEMENTS = "";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 19;
+				CURRENT_PROJECT_VERSION = 20;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_ASSET_PATHS = TJDWristbandSDK.framework;
 				DEVELOPMENT_TEAM = RPZ68269DB;
@@ -2672,7 +2722,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.0;
+				MARKETING_VERSION = 1.0.2;
 				OTHER_SWIFT_FLAGS = "$(inherited) -D WeiZhongYun -D DisplayPrint -D TestMode";
 				PRODUCT_BUNDLE_IDENTIFIER = com.sinophy.smartbracelet;
 				PRODUCT_NAME = FitDAY;
@@ -2695,7 +2745,7 @@
 				CODE_SIGN_ENTITLEMENTS = "";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 19;
+				CURRENT_PROJECT_VERSION = 20;
 				DEVELOPMENT_ASSET_PATHS = TJDWristbandSDK.framework;
 				DEVELOPMENT_TEAM = RPZ68269DB;
 				ENABLE_BITCODE = NO;
@@ -2710,7 +2760,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.0;
+				MARKETING_VERSION = 1.0.2;
 				OTHER_SWIFT_FLAGS = "$(inherited) -D WeiZhongYun -D DisplayPrint -D TestMode";
 				PRODUCT_BUNDLE_IDENTIFIER = com.sinophy.smartbracelet;
 				PRODUCT_NAME = FitDAY;

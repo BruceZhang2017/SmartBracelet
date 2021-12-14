@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="fHq-yY-mDA">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19455" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="fHq-yY-mDA">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -61,6 +61,23 @@
                                                     <rect key="frame" x="25" y="46" width="364" height="230"/>
                                                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                 </view>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eTX-Sd-Mt8">
+                                                    <rect key="frame" x="132" y="276" width="150" height="40"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="150" id="Lqy-jM-7lE"/>
+                                                        <constraint firstAttribute="height" constant="40" id="bEl-oJ-O12"/>
+                                                    </constraints>
+                                                    <state key="normal" title="Button"/>
+                                                    <buttonConfiguration key="configuration" style="plain" title="开始测试"/>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerradius">
+                                                            <integer key="value" value="15"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                    </userDefinedRuntimeAttributes>
+                                                    <connections>
+                                                        <action selector="handleStartTest:" destination="fHq-yY-mDA" eventType="touchUpInside" id="ah3-VZ-8hg"/>
+                                                    </connections>
+                                                </button>
                                                 <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WGf-QT-Q18">
                                                     <rect key="frame" x="25" y="10" width="16" height="30"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="25"/>
@@ -82,7 +99,9 @@
                                             </subviews>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <constraints>
+                                                <constraint firstItem="qhn-0l-m4M" firstAttribute="bottom" secondItem="eTX-Sd-Mt8" secondAttribute="top" id="0Hx-JN-Ej7"/>
                                                 <constraint firstItem="M78-hO-ftw" firstAttribute="centerY" secondItem="Gjm-1t-dCK" secondAttribute="centerY" id="1gh-hB-wrb"/>
+                                                <constraint firstItem="eTX-Sd-Mt8" firstAttribute="centerX" secondItem="Gjm-1t-dCK" secondAttribute="centerX" id="3j9-Yz-vNP"/>
                                                 <constraint firstAttribute="height" constant="322" id="9Ln-Aw-6c9"/>
                                                 <constraint firstItem="bL6-cl-ovc" firstAttribute="leading" secondItem="Gjm-1t-dCK" secondAttribute="leading" constant="25" id="CA8-wQ-hnx"/>
                                                 <constraint firstItem="bL6-cl-ovc" firstAttribute="top" secondItem="WGf-QT-Q18" secondAttribute="bottom" id="HtP-Rk-tr4"/>
@@ -185,7 +204,7 @@
                                 </view>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" rowHeight="80" id="Tkm-0f-hin" customClass="HealthDetailTableViewCell" customModule="FitDAY" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="479.5" width="414" height="80"/>
+                                        <rect key="frame" x="0.0" y="499.5" width="414" height="80"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Tkm-0f-hin" id="TGs-WB-1Iy">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="80"/>
@@ -275,6 +294,7 @@
                         <outlet property="kmLabel" destination="cBt-8j-0Vl" id="VEf-AV-svw"/>
                         <outlet property="lineChartView" destination="M78-hO-ftw" id="T5V-I8-f5A"/>
                         <outlet property="pieChartView" destination="qhn-0l-m4M" id="8aK-ei-v9L"/>
+                        <outlet property="startTestButton" destination="eTX-Sd-Mt8" id="tDB-bl-zCI"/>
                         <outlet property="tableView" destination="rxR-LU-XjB" id="voQ-bp-KEs"/>
                         <outlet property="tipLabel" destination="nFu-AH-r7N" id="D6C-DO-vBT"/>
                         <outlet property="unitBLabel" destination="3RS-ui-rob" id="RYT-f2-tHN"/>

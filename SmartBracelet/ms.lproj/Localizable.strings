@@ -110,3 +110,5 @@
 "mine_kg_unit" = "KG";
 
 "mine_unconnect" = "tidak tersambung";
+"device_settings" = "Tetapan peranti";
+"health_distance" = "Distance";

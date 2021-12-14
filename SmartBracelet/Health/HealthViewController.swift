@@ -14,43 +14,40 @@ import UIKit
 import NVActivityIndicatorView
 import Toaster
 import TJDWristbandSDK
+import YYImage
 
 class HealthViewController: BaseViewController {
+    @IBOutlet weak var bleedGIFImageView: YYAnimatedImageView!
+    @IBOutlet weak var pressureGIFImageView: YYAnimatedImageView!
+    @IBOutlet weak var sleepCurveImageView: YYAnimatedImageView!
+    @IBOutlet weak var heartRateImageView: YYAnimatedImageView!
     @IBOutlet weak var mScrollView: UIScrollView!
     @IBOutlet weak var footView: UIView!
-    @IBOutlet weak var heatView: UIView!
     @IBOutlet weak var footTipLabel: UILabel!
     @IBOutlet weak var footUnitLabel: UILabel!
     @IBOutlet weak var footValueLabel: UILabel!
     @IBOutlet weak var footGoalLabel: UILabel!
-    @IBOutlet weak var heatTipLabel: UILabel!
-    @IBOutlet weak var heatValueLabel: UILabel!
-    @IBOutlet weak var heatGoalLabel: UILabel!
     @IBOutlet weak var heartView: UIView!
     @IBOutlet weak var heartTipLabel: UILabel!
     @IBOutlet weak var heartValueLabel: UILabel!
     @IBOutlet weak var sleepView: UIView!
     @IBOutlet weak var sleepTipLabel: UILabel!
     @IBOutlet weak var sleepValueLabel: UILabel!
-    @IBOutlet weak var sleepCurveImageView: UIImageView!
     @IBOutlet weak var pressureView: UIView!
     @IBOutlet weak var pressureTipLabel: UILabel!
     @IBOutlet weak var pressureValueLabel: UILabel!
     @IBOutlet weak var bleedView: UIView!
     @IBOutlet weak var bleedTipLabel: UILabel!
     @IBOutlet weak var bleedValueLabel: UILabel!
-    @IBOutlet weak var heartRateImageView: UIImageView!
+    @IBOutlet weak var progressStepView: UIView!
     var flag = 0 // 属性的作用
     var popup: PopupBViewController?
     var activityIndicator: NVActivityIndicatorView? // loading图标
     private var loadingViewCheckTimer: Timer?
-    var heartRateView: HeartRateView!
-    var curveView: CurveView!
     var header: MJRefreshNormalHeader?
      
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupProperty()
         registerNotification()
         header = MJRefreshNormalHeader {
             [weak self] in
@@ -67,28 +64,28 @@ class HealthViewController: BaseViewController {
         }
         navigationItem.rightBarButtonItem?.title = "health_head".localized()
         footTipLabel.text = "health_step".localized()
-        heatTipLabel.text = "health_heat".localized()
         heartTipLabel.text = "health_heart_rate".localized()
         sleepTipLabel.text = "health_sleep".localized()
         pressureTipLabel.text = "health_blood_pressure".localized()
         bleedTipLabel.text = "health_blood_oxygen".localized()
+        
+        bleedGIFImageView.image = YYImage(named: "blood.gif")
+        pressureGIFImageView.image = YYImage(named: "pressure.gif")
+        heartRateImageView.image = YYImage(named: "heart")
+        sleepCurveImageView.image = YYImage(named: "sleep.gif")
+        
+        
+        let pView = QACircleProgressView(frame: CGRect(x: 0, y: 0, width: 150, height: 150))
+        progressStepView?.addSubview(pView)
+        pView.progressWidth = 10
+        pView.progressColor = UIColor.white
+        pView.trackColor = UIColor.white.withAlphaComponent(0.5)
+        pView.progress = 0
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        let lastestDeviceMac = UserDefaults.standard.string(forKey: "LastestDeviceMac") ?? ""
-        if lastestDeviceMac.count == 0 {
-            footGoalLabel.text = "\("health_goal".localized()) ｜ 0\("health_step_noun".localized())"
-        } else {
-            var goal = bleSelf.userInfo.stepGoal
-            if goal == 0 {
-                goal = UserDefaults.standard.integer(forKey: "Goal")
-            }
-            if goal == 0 {
-                goal = 6000
-            }
-            footGoalLabel.text = "\("health_goal".localized()) ｜ \(goal)\("health_step_noun".localized())"
-        }
+        
         readDBStep() // 从本地数据库中读取步数数据
         readDBHeart() // 从本地数据库中读取心跳数据
         readDBSleep() // 从本地数据库中读取睡眠数据
@@ -100,25 +97,6 @@ class HealthViewController: BaseViewController {
         unregisterNotification()
     }
     
-    func setupProperty() {
-        heartView.addShadow(color: UIColor.k333333, offset: CGSize(width: 0, height: 1), opacity: 0.1)
-        sleepView.addShadow(color: UIColor.k333333, offset: CGSize(width: 0, height: 1), opacity: 0.1)
-        pressureView.addShadow(color: UIColor.k333333, offset: CGSize(width: 0, height: 1), opacity: 0.1)
-        bleedView.addShadow(color: UIColor.k333333, offset: CGSize(width: 0, height: 1), opacity: 0.1)
-        
-        heartRateView = HeartRateView(frame: CGRect(x: 0, y: 0, width: 242, height: 50))
-        heartView.addSubview(heartRateView)
-        heartRateView.snp.makeConstraints {
-            $0.edges.equalTo(heartRateImageView)
-        }
-        
-        curveView = CurveView(frame: CGRect(x: 0, y: 0, width: 242, height: 50))
-        sleepView.addSubview(curveView)
-        curveView.snp.makeConstraints {
-            $0.edges.equalTo(sleepCurveImageView)
-        }
-    }
-    
     private func registerNotification() {
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: Notification.Name("HealthViewController"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleShowLoading(_:)), name: Notification.Name("HealthVCLoading"), object: nil)
@@ -128,25 +106,37 @@ class HealthViewController: BaseViewController {
         NotificationCenter.default.removeObserver(self)
     }
     
+    private func refreshStepValue(unit: Float, v: Float) {
+        let lastestDeviceMac = UserDefaults.standard.string(forKey: "LastestDeviceMac") ?? ""
+        var goal = 0
+        if lastestDeviceMac.count == 0 {
+            
+        } else {
+            goal = bleSelf.userInfo.stepGoal
+            if goal == 0 {
+                goal = UserDefaults.standard.integer(forKey: "Goal")
+            }
+            if goal == 0 {
+                goal = 6000
+            }
+        }
+        
+        footGoalLabel.text = "\("health_goal".localized()) \(goal) \("health_step_noun".localized()) ｜ \("health_distance".localized()) \(String(format: "%.2f", unit)) \("health_walk_unit".localized()) | \("health_heat".localized()) \(String(format: "%.2f", v)) \("health_kilo_calorie".localized())"
+    }
+    
     @objc private func handleNotification(_ notification: Notification) {
         let objc = notification.object as! String
         if objc == "step" {
             DispatchQueue.main.async {
                 [weak self] in
-                let foot = NSMutableAttributedString()
                 let step = bleSelf.step
-                foot.append(NSAttributedString(string: "\(step)", attributes: [.font: UIFont.systemFont(ofSize: 32)]))
-                foot.append(NSAttributedString(string: "\("health_step_noun".localized())", attributes: [.font: UIFont.systemFont(ofSize: 12)]))
-                self?.footValueLabel.attributedText = foot
+                self?.footValueLabel.text = "\(step)"
                 let distance = bleSelf.distance
                 let unit = Float(distance) / 1000
-                self?.footUnitLabel.text = "\(String(format: "%.2f", unit))\("health_walk_unit".localized())"
-                let value = NSMutableAttributedString()
+            
                 let cal = bleSelf.cal
                 let v = Float(cal) / 1000
-                value.append(NSAttributedString(string: "\(String(format: "%.2f", v))", attributes: [.font: UIFont.systemFont(ofSize: 32)]))
-                value.append(NSAttributedString(string: "health_kilo_calorie".localized(), attributes: [.font: UIFont.systemFont(ofSize: 12)]))
-                self?.heatValueLabel.attributedText = value
+                self?.refreshStepValue(unit: unit, v: v)
             }
         } else if objc == "sleep" {
             DispatchQueue.main.async {
@@ -163,10 +153,7 @@ class HealthViewController: BaseViewController {
                     arrStr.append(NSAttributedString(string: "\(m)", attributes: [.font: UIFont.systemFont(ofSize: 32), .foregroundColor: UIColor.k666666]))
                     arrStr.append(NSAttributedString(string: "health_minute".localized(), attributes: [.font: UIFont.systemFont(ofSize: 12), .foregroundColor: UIColor.k999999]))
                     self?.sleepValueLabel.attributedText = arrStr
-                    if arr.count == 3 {
-                        let value: [CGFloat] = [CGFloat(arr[0] * 50 / (12 * 60) ), CGFloat(arr[1] * 50 / (12 * 60)), CGFloat(arr[2] * 50 / (12 * 60))]
-                        self?.curveView.refreshHeight(value)
-                    }
+                    
                 } else {
                     let arrStr = NSMutableAttributedString()
                     arrStr.append(NSAttributedString(string: "0", attributes: [.font: UIFont.systemFont(ofSize: 32), .foregroundColor: UIColor.k666666]))
@@ -311,16 +298,7 @@ class HealthViewController: BaseViewController {
     }
     
     private func refreshLefunHeartRate() {
-        let array = BLEManager.shared.heartArray
-        for item in array {
-            let timeStamp = item.timeStamp
-            let date = Date(timeIntervalSince1970: TimeInterval(timeStamp))
-            if date.isToday() {
-                let hour = Int(date.stringFromH()) ?? 0
-                heartRateView.heartRateArray[hour] = item.heart
-            }
-        }
-        heartRateView.collectionView.reloadData()
+        
     }
     
     // MARK: - Navigation
@@ -330,22 +308,8 @@ class HealthViewController: BaseViewController {
         guard let vc = segue.destination as? HealthDetailViewController else {
             return
         }
-        if flag == 0 {
-            vc.colors = [UIColor.k88C9FA, UIColor.k0095F5]
-            vc.type = 0
-        }
-        if flag == 1 {
-            vc.colors = [UIColor.kFFB642, UIColor.kFF5E46]
-            vc.type = 1
-        }
-        if flag == 2 {
-            vc.colors = [UIColor.kFFA87E, UIColor.kEA5959]
-            vc.type = 2
-        }
-        if flag == 3 {
-            vc.colors = [UIColor.kCE96FF, UIColor.k7A61FF]
-            vc.type = 3
-        }
+        vc.colors = [UIColor.kFFB642, UIColor.kFF5E46]
+        vc.type = flag
     }
     
     // MARK: - Action
@@ -371,11 +335,13 @@ class HealthViewController: BaseViewController {
     }
     
     @IBAction func handlePressure(_ sender: Any) {
-        
+        flag = 4
+        self.performSegue(withIdentifier: .kShowHealthDetail, sender: self)
     }
     
     @IBAction func handleBleed(_ sender: Any) {
-        
+        flag = 5
+        self.performSegue(withIdentifier: .kShowHealthDetail, sender: self)
     }
     
     
@@ -406,7 +372,6 @@ class HealthViewController: BaseViewController {
         let time = Int(Date().zeroTimeStamp())
         let models = try? DStepModel.er.array("timeStamp > \(time) AND mac = '\(lastestDeviceMac)'")
         print("数据库里\(lastestDeviceMac)步数晚于\(time)的数据总条数：\(models?.count ?? 0)")
-        let foot = NSMutableAttributedString()
         var step = 0
         var distance = 0
         var cal = 0
@@ -416,16 +381,10 @@ class HealthViewController: BaseViewController {
             distance += models?[i].distance ?? 0
             cal += models?[i].cal ?? 0
         }
-        foot.append(NSAttributedString(string: "\(step)", attributes: [.font: UIFont.systemFont(ofSize: 32)]))
-        foot.append(NSAttributedString(string: "\("health_step_noun".localized())", attributes: [.font: UIFont.systemFont(ofSize: 12)]))
-        footValueLabel.attributedText = foot
+        footValueLabel.text = "\(step)"
         let unit = Float(distance) / 1000
-        footUnitLabel.text = "\(String(format: "%.2f", unit))\("health_walk_unit".localized())"
-        let value = NSMutableAttributedString()
         let v = Float(cal) / 1000
-        value.append(NSAttributedString(string: "\(String(format: "%.2f", v))", attributes: [.font: UIFont.systemFont(ofSize: 32)]))
-        value.append(NSAttributedString(string: "health_kilo_calorie".localized(), attributes: [.font: UIFont.systemFont(ofSize: 12)]))
-        heatValueLabel.attributedText = value
+        refreshStepValue(unit: unit, v: v)
     }
     
     private func refreshDBStep() {
@@ -454,19 +413,6 @@ class HealthViewController: BaseViewController {
         v.append(NSAttributedString(string: "health_value_p_minute".localized(), attributes: [.font: UIFont.systemFont(ofSize: 12), .foregroundColor: UIColor.k999999]))
         heartValueLabel.attributedText = v
 
-        if models?.count ?? 0 > 0 {
-            for item in models! {
-                let timeStamp = item.timeStamp
-                let date = Date(timeIntervalSince1970: TimeInterval(timeStamp))
-                if date.isToday() {
-                    let hour = Int(date.stringFromH()) ?? 0
-                    heartRateView.heartRateArray[hour] = item.heartRate
-                }
-            }
-        } else {
-            heartRateView.heartRateArray = Array(repeating: 0, count: 24)
-        }
-        heartRateView.collectionView.reloadData()
     }
     
     private func refreshDBHeart() {
@@ -508,10 +454,7 @@ class HealthViewController: BaseViewController {
             arrStr.append(NSAttributedString(string: "\(m)", attributes: [.font: UIFont.systemFont(ofSize: 32), .foregroundColor: UIColor.k666666]))
             arrStr.append(NSAttributedString(string: "health_minute".localized(), attributes: [.font: UIFont.systemFont(ofSize: 12), .foregroundColor: UIColor.k999999]))
             sleepValueLabel.attributedText = arrStr
-            if arr.count == 3 {
-                let value: [CGFloat] = [CGFloat(arr[0] * 50 / (12 * 60) ), CGFloat(arr[1] * 50 / (12 * 60)), CGFloat(arr[2] * 50 / (12 * 60))]
-                curveView.refreshHeight(value)
-            }
+            
         } else {
             let arrStr = NSMutableAttributedString()
             arrStr.append(NSAttributedString(string: "0", attributes: [.font: UIFont.systemFont(ofSize: 32), .foregroundColor: UIColor.k666666]))

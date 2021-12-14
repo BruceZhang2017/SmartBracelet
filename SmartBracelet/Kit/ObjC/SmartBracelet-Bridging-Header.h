@@ -23,3 +23,8 @@
 #import <PgySDK/PgyManager.h>
 #import <PgyUpdate/PgyUpdateManager.h>
 
+#import "QACircleProgressView.h"
+
+#import <TZImagePickerController/TZImagePickerController.h>
+#import <RSKImageCropper/RSKImageCropper.h>
+

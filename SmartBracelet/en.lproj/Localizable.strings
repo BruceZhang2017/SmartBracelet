@@ -109,3 +109,6 @@
 "mine_weight" = "weight";
 "mine_kg_unit" = "KG";
 "mine_unconnect"="not connected";
+
+"device_settings" = "Device settings";
+"health_distance" = "Distance";

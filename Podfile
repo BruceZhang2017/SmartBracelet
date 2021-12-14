@@ -26,5 +26,8 @@ pod 'MJRefresh'
 pod 'AMapSearch'
 pod 'Pgyer'
 pod 'PgyUpdate'
+pod 'YYImage'
+pod 'TZImagePickerController'
+pod 'RSKImageCropper'
 
 end
