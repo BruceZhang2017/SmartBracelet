@@ -393,7 +393,7 @@ class BLEManager: NSObject {
                 }
                 NotificationCenter.default.post(name: Notification.Name("HealthViewController"), object: "heart")
             }
-            NotificationCenter.default.post(name: Notification.Name("HealthVCLoading"), object: 3) // 移除Loading
+            perform(#selector(handleHideLoading), with: nil, afterDelay: 5)
             currentFunctionStep = 6
             print("开始读取睡眠: \(currentFunctionStep)")
             bleSelf.aloneGetSleep(with: 0) // 第6步：获取历史睡眠信息
@@ -524,6 +524,9 @@ class BLEManager: NSObject {
          
         if notify.name == WristbandNotifyKeys.syncEle { // 电量同步结束后
             print("电量设置成功")
+            DispatchQueue.main.async {
+                NotificationCenter.default.post(name: Notification.Name("DevicesViewController"), object: "1")
+            }
         }
                 
         if notify.name == WristbandNotifyKeys.syncLanguage {
@@ -646,6 +649,12 @@ class BLEManager: NSObject {
                 }
             }
             dump(model)
+        }
+    }
+    
+    @objc private func handleHideLoading() {
+        DispatchQueue.main.async {
+            NotificationCenter.default.post(name: Notification.Name("HealthVCLoading"), object: 3) // 移除Loading
         }
     }
 }

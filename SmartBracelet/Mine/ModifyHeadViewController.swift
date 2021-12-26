@@ -98,6 +98,8 @@ class ModifyHeadViewController: UIViewController {
         }
         FileCache().saveData(data, name: "head.jpg")
         //uploadImage(data: data)
+        Toast(text: "保存成功").show()
+        navigationController?.popViewController(animated: true)
     }
     
     @IBAction func cancel(_ sender: Any) {

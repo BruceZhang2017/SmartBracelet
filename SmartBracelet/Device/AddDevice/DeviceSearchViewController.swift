@@ -39,6 +39,11 @@ class DeviceSearchViewController: BaseViewController {
         helpButton.setTitle("device_search_help".localized(), for: .normal)
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        tableView.reloadData()
+    }
+    
     deinit {
         dotLoadingView.stop()
         bleSelf.stopFindBleDevices()

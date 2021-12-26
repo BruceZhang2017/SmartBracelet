@@ -17,7 +17,6 @@ class AlarmViewController: BaseViewController {
     @IBOutlet weak var tableView: UITableView!
     
     override func viewDidLoad() {
-        bleSelf.getAlarmForWristband() // 获取闹钟信息
         super.viewDidLoad()
         title = "device_alarm_settings".localized()
         tableView.tableFooterView = UIView()

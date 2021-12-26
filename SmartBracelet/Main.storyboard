@@ -722,13 +722,11 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="fpJ-bW-Td0">
-                        <barButtonItem key="leftBarButtonItem" title="Item" image="nav_icon_add_normal" id="CCn-yc-nBp">
-                            <connections>
-                                <action selector="addDevice:" destination="fEI-qL-rja" id="pUZ-DA-RAB"/>
-                            </connections>
-                        </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="设备" id="tMp-kp-yqb">
+                        <barButtonItem key="rightBarButtonItem" title="切换设备" id="tMp-kp-yqb">
                             <color key="tintColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                            <connections>
+                                <action selector="addDevice:" destination="fEI-qL-rja" id="LVT-QN-Fuh"/>
+                            </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>

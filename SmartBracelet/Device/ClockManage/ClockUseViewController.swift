@@ -147,12 +147,10 @@ class ClockUseViewController: BaseViewController {
         }
         popup?.iconImageView.addSubview(iv)
         
-        rotate360Degree(iv: iv)
     }
     
     public func refreshDialogForResult(value: Bool) {
         let iv = popup?.iconImageView.viewWithTag(888) as? UIImageView
-        stopRotate()
         if value {
             iv?.image = UIImage(named: "content_icon_success")
             let attStr = NSMutableAttributedString()
@@ -193,21 +191,6 @@ class ClockUseViewController: BaseViewController {
     @objc private func back() {
         navigationController?.popViewController(animated: true)
     }
-    
-    // 360度旋转图片
-    func rotate360Degree(iv: UIImageView) {
-        timer = Timer.scheduledTimer(withTimeInterval: 2, repeats: true) { (_) in
-            UIView.animate(withDuration: 1) {
-                iv.transform = CGAffineTransform(rotationAngle: CGFloat.pi / 2).inverted().concatenating(iv.transform)
-            }
-        }
-    }
-    
-    // 停止旋转
-    func stopRotate() {
-        timer?.invalidate()
-        timer = nil
-    }
 }
 
 extension Int {
@@ -215,9 +198,9 @@ extension Int {
         if self < 1024 {
             return "\(self)B"
         } else if self < 1024 * 1024 {
-            return "\(self / 1024)K"
+            return "\(self / 1024)KB"
         } else {
-            return "\(self / 1024 / 1024)M"
+            return "\(self / 1024 / 1024)MB"
         }
     }
 }

@@ -36,6 +36,8 @@ class HealthDetailViewController: BaseViewController {
     var totalValue = 0 // 总步数
     var totalKM = 0 // 总公里
     var measureAsync: Async?
+    var mTimer: Timer?
+    var alpha: CGFloat = 0.3
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -108,6 +110,7 @@ class HealthDetailViewController: BaseViewController {
     @objc private func handleNotification(_ notification: Notification) {
         startTestButton.setTitle("开始测试", for: .normal)
         startTestButton.isUserInteractionEnabled = true
+        endColorChangeAnimation()
     }
     
     /// 设置图表
@@ -461,6 +464,7 @@ class HealthDetailViewController: BaseViewController {
                 // do something for update UI
                 
             }
+            startColorChangeAnimation()
         }
         if type == 4 {
             bleSelf.startMeasure(WristbandMeasureType.blood)
@@ -469,6 +473,7 @@ class HealthDetailViewController: BaseViewController {
             measureAsync = Async.main(after: 30) {
                 // do something for update UI
             }
+            startColorChangeAnimation()
         }
         
         if type == 5 {
@@ -478,7 +483,28 @@ class HealthDetailViewController: BaseViewController {
             measureAsync = Async.main(after: 30) {
                 // do something for update UI
             }
+            startColorChangeAnimation()
         }
+    }
+    
+    private func startColorChangeAnimation() {
+        mTimer = Timer.scheduledTimer(timeInterval: 0.3, target: self, selector: #selector(handleTimer), userInfo: nil, repeats: true)
+        RunLoop.current.add(mTimer!, forMode: .common)
+    }
+    
+    private func endColorChangeAnimation() {
+        mTimer?.invalidate()
+        mTimer = nil
+        alpha = 0.3
+        startTestButton.backgroundColor = UIColor.white.withAlphaComponent(0.5)
+    }
+    
+    @objc private func handleTimer() {
+        if alpha >= 1 {
+            alpha = 0.3
+        }
+        alpha += 0.1
+        startTestButton.backgroundColor = UIColor.blue.withAlphaComponent(alpha)
     }
 }
 

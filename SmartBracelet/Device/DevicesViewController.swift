@@ -30,9 +30,7 @@ class DevicesViewController: BaseViewController {
         contentView.addSubview(deviceView)
         bleSelf.getSwitchForWristband()
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: Notification.Name("DevicesViewController"), object: nil)
-        navigationItem.rightBarButtonItem?.title = "device".localized()
         dialManagmentLabel.text = "dial_management".localized()
-        
         initializeDeviceSettings()
     }
     
@@ -50,7 +48,6 @@ class DevicesViewController: BaseViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
     }
     
     deinit {
@@ -96,6 +93,7 @@ class DevicesViewController: BaseViewController {
     
     @objc private func handleNotification(_ notification: Notification) {
         if let obj = notification.object as? String, obj.count > 0 {
+            print("刷新设备列表数据")
             deviceView?.refreshData()
             return
         }
@@ -150,7 +148,7 @@ class DevicesViewController: BaseViewController {
         }
     }
     
-    private func deleteDevice(index: Int) {
+    private func deleteDevice(model: BLEModel?) {
         let alert = UIAlertController(title: "device_tip".localized(), message: "device_unbind_desc".localized(), preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "mine_cancel".localized(), style: .cancel, handler: { (action) in
             
@@ -162,9 +160,11 @@ class DevicesViewController: BaseViewController {
                 BLEManager.shared.unbind()
                 UserDefaults.standard.removeObject(forKey: "LastestDeviceMac")
             } else {
-                NotificationCenter.default.post(name: Notification.Name("HealthViewController"), object: "delete", userInfo: ["mac": DeviceManager.shared.devices[index].mac])
+                guard let mac = model?.mac else {
+                    return
+                }
+                NotificationCenter.default.post(name: Notification.Name("HealthViewController"), object: "delete", userInfo: ["mac": mac])
                 let lastestDeviceMac = UserDefaults.standard.string(forKey: "LastestDeviceMac") ?? ""
-                let mac = DeviceManager.shared.devices[index].mac
                 if lastestDeviceMac == mac {
                     BLEManager.shared.unbind()
                     UserDefaults.standard.removeObject(forKey: "LastestDeviceMac")
@@ -223,7 +223,7 @@ extension DevicesViewController: UICollectionViewDelegateFlowLayout {
 }
 
 extension DevicesViewController: DevicesViewDelegate {
-    func callbackTap(index: Int, bConnected: Bool) {
+    func callbackTap(model: BLEModel?, bConnected: Bool) {
         let count = DeviceManager.shared.devices.count
         if count == 0 {
             let storyboard = UIStoryboard(name: "Device", bundle: nil)
@@ -233,14 +233,8 @@ extension DevicesViewController: DevicesViewDelegate {
             navigationController?.pushViewController(vc, animated: true)
             return
         }
-        if !bConnected { // 如果是没有连接的设备
-            deleteDevice(index: index)
-            return
-        }
-        // 当设备已经连接后，并且连接成功后，则跳转至设备设置页面。
-        let storyboard = UIStoryboard(name: "Device", bundle: nil)
-        let vc = storyboard.instantiateViewController(withIdentifier: "DeviceSettingsViewController") as! DeviceSettingsViewController
-        navigationController?.pushViewController(vc, animated: true)
+        deleteDevice(model: model)
+        // 当设备已经连接后，并且连接成功后，则跳转至设备设置页面。删除该部分逻辑
     }
 }
 

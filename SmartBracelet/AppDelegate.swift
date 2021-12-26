@@ -18,6 +18,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        Bugly.start(withAppId: "0c6ba8bb6a")
         PgyManager.shared().start(withAppId: "206fd41ea01a58736f8e42fe2e85065f")
         PgyUpdateManager.sharedPgy().start(withAppId: "206fd41ea01a58736f8e42fe2e85065f")
         PgyUpdateManager.sharedPgy().checkUpdate()

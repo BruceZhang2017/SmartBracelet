@@ -12,6 +12,9 @@
 import UIKit
 import Then
 import Toaster
+import TJDWristbandSDK
+
+typealias imgBlock = () ->()
 
 class MyClockViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
@@ -21,16 +24,32 @@ class MyClockViewController: UIViewController {
 //    var nullLabel: UILabel!
 //    var ClockArray: [String] = []
     var imagePickerVc: TZImagePickerController?
+    var imageUploadVc: UploadImageViewController?
     
-    var datetimeLocation = 0
-    var datetimeTopLocation = 0
-    var datetimeBottomLocation = 0
+    var datetimeLocation = 0  ///时间上方0 时间下方1
+    var datetimeTopLocation = 0 ///关闭0 日期1 睡眠2 心率3 计步4
+    var datetimeBottomLocation = 0 ///关闭0 日期1 睡眠2 心率3 计步4
+    var colorIndex = 0 ///白色0 黑色1 黄色2 橙色3 粉色4 紫色5 蓝色6 青色7
     final let locations = ["上方", "下方"]
     final let tops = ["关闭", "日期", "睡眠", "心率", "记步"]
     var topTap = false
+    final var colors: [UIColor] = [UIColor.white, UIColor.black, UIColor.yellow,
+                             UIColor(red: 232/255.0, green: 149/255.0, blue: 102/255.0, alpha: 1),
+                             UIColor(red: 229/255.0, green: 120/255.0, blue: 131/255.0, alpha: 1),
+                             UIColor(red: 171/255.0, green: 140/255.0, blue: 218/255.0, alpha: 1),
+                             UIColor(red: 121/255.0, green: 168/255.0, blue: 232/255.0, alpha: 1),
+                             UIColor(red: 154/255.0, green: 227/255.0, blue: 224/255.0, alpha: 1),
+                             UIColor(red: 155/255.0, green: 226/255.0, blue: 163/255.0, alpha: 1)]
+    var itemVC: SelectItemViewController?
+    
+    var binData = Data()
+    var current = 0
+    var total = 0
+    var needStop = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        print("瑞昱设备表盘宽%@高%@,可推空间",bleSelf.bleModel.screenWidth, bleSelf.bleModel.screenHeight)
 //        if bShowDetail == false {
 //            rightButton = UIButton(type: .custom).then {
 //                $0.initializeRightNavigationItem()
@@ -64,6 +83,12 @@ class MyClockViewController: UIViewController {
 //            nullLabel.isHidden = true
 //        }
         
+        
+        datetimeLocation = bleSelf.dialSelectModel.timeDirection
+        datetimeTopLocation = bleSelf.dialSelectModel.onTheTime
+        datetimeBottomLocation = bleSelf.dialSelectModel.belowTheTime
+        colorIndex = bleSelf.dialSelectModel.textColor
+        
         //去掉没有数据显示部分多余的分隔线
         tableView.tableFooterView =  UIView.init(frame: CGRect.zero)
         
@@ -73,11 +98,105 @@ class MyClockViewController: UIViewController {
         //设置分隔线颜色
         tableView.separatorColor = UIColor.gray
         
+        //壁纸推送
+        NotificationCenter.default.addObserver(self, selector: #selector(handleNotify(_:)), name: WristbandNotifyKeys.startImagePush, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleNotify(_:)), name: WristbandNotifyKeys.imagePush, object: nil)
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         //collctionView.reloadData()
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+        itemVC?.dismiss(animated: false, completion: {
+            
+        })
+        needStop = true
+        imageUploadVc?.dismiss(animated: false, completion: {
+            
+        })
+    }
+    
+    // 修改自定义设置内容位置
+    private func modifyCustomDialSettings() {
+        ///时间上方0 时间下方1
+        bleSelf.dialSelectModel.timeDirection = datetimeLocation
+        
+        ///关闭0 日期1 睡眠2 心率3 计步4
+        bleSelf.dialSelectModel.onTheTime = datetimeTopLocation
+        
+        ///关闭0 日期1 睡眠2 心率3 计步4
+        bleSelf.dialSelectModel.belowTheTime = datetimeBottomLocation
+        
+        ///白色0 黑色1 黄色2 橙色3 粉色4 紫色5 蓝色6 青色7
+        bleSelf.dialSelectModel.textColor = colorIndex
+        
+        bleSelf.setImagePushSettings(bleSelf.dialSelectModel)
+        DialSelectModel.setModel(bleSelf.dialSelectModel)
+    }
+    
+    @objc func handleNotify(_ notify: Notification) {
+        if notify.name == WristbandNotifyKeys.startImagePush {
+            let any = notify.object as! Int
+            if any == 1 {
+                for i in 0..<self.total {
+                    if needStop == true {
+                        Async.main {
+                            [weak self] in
+                            self?.imageUploadVc?.dismiss(animated: false, completion: {
+                                
+                            })
+                        }
+                        return
+                    }
+                    Async.main {
+                        [weak self] in
+                        guard let sSelf = self else {
+                            return
+                        }
+                        let d = Float(i * 100) / Float(sSelf.total)
+                        self?.imageUploadVc?.uploadButton.setTitle(String(format: "%.02f%%", d), for: .normal)
+                    }
+                    print("for循环推送: \(i) \(self.total)")
+                    bleSelf.setImagePush(binData, dataIndex: i)
+                    usleep(20 * 1000)
+                    if i + 1 == self.total {
+                        Async.main {
+                            [weak self] in
+                            self?.imageUploadVc?.dismiss(animated: false, completion: {
+                                
+                            })
+                        }
+                    }
+                }
+                
+            } else {
+                Async.main {
+                    wuPrint(NSLocalizedString("该设备不支持壁纸推送，或者电量过低", comment: ""))
+                    
+                }
+            }
+        }
+        
+        if notify.name == WristbandNotifyKeys.imagePush {
+            if let any = notify.object, any is [Int] {
+                let array = any as! [Int]
+                if array[1] == 0 {
+                    wuPrint("更新失败")
+                    return
+                }
+                wuPrint("更新成功")
+                Async.main {
+                    [weak self] in
+                    self?.imageUploadVc?.dismiss(animated: false, completion: {
+                        
+                    })
+                    self?.tableView.reloadData()
+                }
+            }
+        }
     }
 }
 
@@ -144,35 +263,38 @@ extension MyClockViewController: UITableViewDelegate {
         tableView.deselectRow(at: indexPath, animated: true)
         if indexPath.row == 1 {
             let storyboard = UIStoryboard(name: .kMine, bundle: nil)
-            let vc = storyboard.instantiateViewController(withIdentifier: "SelectItemViewController") as! SelectItemViewController
-            vc.delegate = self
-            vc.modalTransitionStyle = .crossDissolve
-            vc.modalPresentationStyle = .overFullScreen
-            vc.index = datetimeLocation
-            vc.type = 0
-            vc.titles = locations
-            navigationController?.present(vc, animated: false, completion: nil)
+            itemVC = storyboard.instantiateViewController(withIdentifier: "SelectItemViewController") as? SelectItemViewController
+            itemVC?.delegate = self
+            itemVC?.modalTransitionStyle = .crossDissolve
+            itemVC?.modalPresentationStyle = .overFullScreen
+            itemVC?.index = datetimeLocation
+            itemVC?.type = 0
+            itemVC?.titles = locations
+            itemVC?.titleStr = "时间位置"
+            navigationController?.present(itemVC!, animated: false, completion: nil)
         } else if indexPath.row == 2 {
             let storyboard = UIStoryboard(name: .kMine, bundle: nil)
-            let vc = storyboard.instantiateViewController(withIdentifier: "SelectItemViewController") as! SelectItemViewController
-            vc.delegate = self
+            itemVC = storyboard.instantiateViewController(withIdentifier: "SelectItemViewController") as? SelectItemViewController
+            itemVC?.delegate = self
             topTap = true
-            vc.modalTransitionStyle = .crossDissolve
-            vc.modalPresentationStyle = .overFullScreen
-            vc.index = datetimeTopLocation
-            vc.type = 1
-            vc.titles = tops
-            navigationController?.present(vc, animated: false, completion: nil)
+            itemVC?.modalTransitionStyle = .crossDissolve
+            itemVC?.modalPresentationStyle = .overFullScreen
+            itemVC?.index = datetimeTopLocation
+            itemVC?.type = 1
+            itemVC?.titles = tops
+            itemVC?.titleStr = "时间上方内容"
+            navigationController?.present(itemVC!, animated: false, completion: nil)
         } else if indexPath.row == 3 {
             let storyboard = UIStoryboard(name: .kMine, bundle: nil)
-            let vc = storyboard.instantiateViewController(withIdentifier: "SelectItemViewController") as! SelectItemViewController
-            vc.delegate = self
-            vc.modalTransitionStyle = .crossDissolve
-            vc.modalPresentationStyle = .overFullScreen
-            vc.index = datetimeBottomLocation
-            vc.type = 2
-            vc.titles = tops
-            navigationController?.present(vc, animated: false, completion: nil)
+            itemVC = storyboard.instantiateViewController(withIdentifier: "SelectItemViewController") as? SelectItemViewController
+            itemVC?.delegate = self
+            itemVC?.modalTransitionStyle = .crossDissolve
+            itemVC?.modalPresentationStyle = .overFullScreen
+            itemVC?.index = datetimeBottomLocation
+            itemVC?.type = 2
+            itemVC?.titles = tops
+            itemVC?.titleStr = "时间下方内容"
+            navigationController?.present(itemVC!, animated: false, completion: nil)
         }
     }
 }
@@ -186,11 +308,22 @@ extension MyClockViewController: UITableViewDataSource {
         if indexPath.row == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "Cell1", for: indexPath) as! EidtClockHeadTableViewCell
             cell.delegate = self
+            cell.dateTimeLabel.text = "时间"
+            cell.dateTimeTopLabel.text = datetimeTopLocation > 0 ? tops[datetimeTopLocation] : ""
+            cell.dateTimeBottomLabel.text = datetimeBottomLocation > 0 ? tops[datetimeBottomLocation] : ""
+            cell.dateTimeLabel.textColor = colors[colorIndex]
+            cell.dateTimeTopLabel.textColor = colors[colorIndex]
+            cell.dateTimeBottomLabel.textColor = colors[colorIndex]
+            cell.topLC.constant = datetimeLocation == 0 ? 10 : 74
+            if binData.count > 0 {
+                cell.imageView?.image = UIImage(data: binData)
+            }
             return cell
         }
         if indexPath.row == 4 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "Cell3", for: indexPath) as! EditClcokBottomTableViewCell
-            
+            cell.index = colorIndex
+            cell.delegate = self
             return cell
         }
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell2", for: indexPath) as! EditClockMiddleTableViewCell
@@ -226,6 +359,7 @@ extension MyClockViewController: SelectItemVCDelegate {
             datetimeBottomLocation = index
             tableView.reloadData()
         }
+        modifyCustomDialSettings()
     }
 }
 
@@ -233,8 +367,14 @@ extension MyClockViewController: EidtClockHeadTableViewCellDelegate {
     func handleSelectPhoto() {
         imagePickerVc = TZImagePickerController(maxImagesCount: 1, delegate: self)
         imagePickerVc?.modalPresentationStyle = .fullScreen
-        imagePickerVc?.allowCrop = false
+        imagePickerVc?.allowCrop = true
         imagePickerVc?.showSelectBtn = false
+        let w: CGFloat = CGFloat(bleSelf.bleModel.screenWidth)
+        let h: CGFloat = CGFloat(bleSelf.bleModel.screenHeight)
+        imagePickerVc?.cropRect = CGRect(x: (ScreenWidth - w) / 2, y: (ScreenHeight - h) / 2, width: w, height: h)
+        imagePickerVc?.naviTitleColor = UIColor.black
+        imagePickerVc?.barItemTextColor = UIColor.black
+        imagePickerVc?.iconThemeColor = UIColor.black
         self.parent?.present(imagePickerVc!, animated: true) {
             
         }
@@ -244,42 +384,40 @@ extension MyClockViewController: EidtClockHeadTableViewCellDelegate {
 
 extension MyClockViewController: TZImagePickerControllerDelegate {
     func imagePickerController(_ picker: TZImagePickerController!, didFinishPickingPhotos photos: [UIImage]!, sourceAssets assets: [Any]!, isSelectOriginalPhoto: Bool) {
+        if photos.count <= 0 {
+            return
+        }
         print("选定了图片")
-        let imageCropVC = RSKImageCropViewController(image: photos.first!, cropMode: .custom)
-        imageCropVC.delegate = self
-        imageCropVC.dataSource = self
-        imagePickerVc?.navigationController?.pushViewController(imageCropVC, animated: true)
+        imageUploadVc = UploadImageViewController()
+        imageUploadVc?.modalPresentationStyle = .overCurrentContext
+        imageUploadVc?.modalTransitionStyle = .crossDissolve
+        imageUploadVc?.view.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+        imageUploadVc?.delegate = self
+        imageUploadVc?.image = photos.first
+        self.present(imageUploadVc!, animated: false) {
+            
+        }
     }
     
     func imagePickerController(_ picker: TZImagePickerController!, didFinishPickingPhotos photos: [UIImage]!, sourceAssets assets: [Any]!, isSelectOriginalPhoto: Bool, infos: [[AnyHashable : Any]]!) {
-        print("选定了图片")
     }
 }
 
-extension MyClockViewController: RSKImageCropViewControllerDataSource {
-    func imageCropViewControllerCustomMaskRect(_ controller: RSKImageCropViewController) -> CGRect {
-        return CGRect(x: (ScreenWidth - 140) / 2, y: (ScreenHeight - 140) / 2, width: 140, height: 140)
+extension MyClockViewController: EditClcokBottomTableViewCellDelegate {
+    func callbackForSelectColor(collectionView: UICollectionView, index: Int) {
+        colorIndex = index
+        modifyCustomDialSettings()
+        tableView.reloadRows(at: [IndexPath(item: 4, section: 0), IndexPath(item: 0, section: 0)], with: UITableView.RowAnimation.automatic)
+        collectionView.reloadData()
     }
-    
-    func imageCropViewControllerCustomMaskPath(_ controller: RSKImageCropViewController) -> UIBezierPath {
-        return UIBezierPath(roundedRect: CGRect(x: (ScreenWidth - 140) / 2, y: (ScreenHeight - 140) / 2, width: 140, height: 140), cornerRadius: 0)
-    }
-    
-    func imageCropViewControllerCustomMovementRect(_ controller: RSKImageCropViewController) -> CGRect {
-        return controller.maskRect
-    }
-    
-    
 }
 
-extension MyClockViewController: RSKImageCropViewControllerDelegate {
-    func imageCropViewControllerDidCancelCrop(_ controller: RSKImageCropViewController) {
-        imagePickerVc?.navigationController?.popViewController(animated: true)
+extension MyClockViewController: UploadImageDelegate {
+    func startUpload(image: UIImage) {
+        let data = bleSelf.getRGBData565FromImage(image: image)!
+        self.total = Int(ceil(Double(data.count)/16))
+        self.binData = data
+        
+        bleSelf.startImagePush(data)
     }
-    
-    func imageCropViewController(_ controller: RSKImageCropViewController, didCropImage croppedImage: UIImage, usingCropRect cropRect: CGRect, rotationAngle: CGFloat) {
-        imagePickerVc?.navigationController?.popViewController(animated: true)
-    }
-    
-    
 }

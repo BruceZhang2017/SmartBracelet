@@ -155,18 +155,25 @@ open class TTADataPickerView: UIView {
     // MARK: - Private properties
     fileprivate lazy var pickerView: UIPickerView? = {
         let toolBarFrame = self.toolBar.frame
-        let pickerView = UIPickerView(frame: CGRect(x: 0, y: toolBarFrame.maxY, width: toolBarFrame.width, height: 216))
+        let pickerView = UIPickerView(frame: CGRect(x: 0, y: toolBarFrame.maxY, width: ScreenWidth, height: 216))
         pickerView.showsSelectionIndicator = true
         pickerView.delegate = self
         pickerView.dataSource = self
+        
         return pickerView
     }()
     fileprivate lazy var datePicker: UIDatePicker? = {
         let toolBarFrame = self.toolBar.frame
-        let datePicker = UIDatePicker(frame: CGRect(x: 0, y: toolBarFrame.maxY, width: toolBarFrame.width, height: 216))
+        let datePicker = UIDatePicker(frame: CGRect(x: 0, y: toolBarFrame.maxY, width: ScreenWidth, height: 216))
         datePicker.datePickerMode = .date
+        if #available(iOS 13.4, *) {
+            datePicker.preferredDatePickerStyle = .wheels
+        } else {
+            // Fallback on earlier versions
+        }
         return datePicker
     }()
+    
     fileprivate let toolBar: TTADataPickerToolBar = {
         let toolBar = TTADataPickerToolBar()
         return toolBar
@@ -204,11 +211,23 @@ open class TTADataPickerView: UIView {
         toolBar.confirmButton.target = self
         toolBar.confirmButton.action = #selector(didClickConfirmButton(button:))
         addSubview(toolBar)
+        toolBar.frame = CGRect(x: 0, y: 0, width: ScreenWidth, height: 44)
         
         guard let picker = pickerView else { return }
         self.addSubview(picker)
+        picker.snp.makeConstraints {
+            $0.leading.trailing.equalToSuperview()
+            $0.top.equalTo(44)
+            $0.height.equalTo(216)
+        }
+        
         guard let apicker = datePicker else { return }
         self.addSubview(apicker)
+        apicker.snp.makeConstraints {
+            $0.leading.trailing.equalToSuperview()
+            $0.top.equalTo(44)
+            $0.height.equalTo(216)
+        }
     }
     
     /// the initializer can NOT call the `didSet` and `willSet` method, so we need this function

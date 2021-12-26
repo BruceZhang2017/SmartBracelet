@@ -22,6 +22,7 @@ class ClockManageViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        bleSelf.getImagePushSettings()
         title = "dial_management".localized()
         let mine = SegmentioItem(title: "自定义表盘".localized(), image: nil)
         let market = SegmentioItem(title: "device_dial_mall".localized(), image: nil)

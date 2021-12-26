@@ -15,6 +15,7 @@ import UIKit
 class DevicesView: UIView {
     var collectionView : UICollectionView!
     weak var delegate: DevicesViewDelegate?
+    weak var currentModel: BLEModel?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -73,14 +74,14 @@ extension DevicesView: UICollectionViewDataSource, UICollectionViewDelegate {
             cell.batteryButton.isHidden = false
             cell.btButton.isHidden = false
             cell.addLabel.isHidden = true
-            var model: BLEModel! = nil
+            currentModel = nil
             for item in DeviceManager.shared.devices {
                 if item.mac == lastestDeviceMac {
-                    model = item
+                    currentModel = item
                     break
                 }
             }
-            if model == nil {
+            if currentModel == nil {
                 cell.cardImgView.isHidden = true
                 cell.cardNameLabel.isHidden = true
                 cell.batteryButton.isHidden = true
@@ -89,8 +90,8 @@ extension DevicesView: UICollectionViewDataSource, UICollectionViewDelegate {
                 cell.addLabel.text = "请先连接设备"
             } else {
                 cell.cardImgView.image = UIImage(named: "produce_image_no.2")
-                cell.cardNameLabel.text = model.name
-                if model.mac == lastestDeviceMac && bleSelf.isConnected {
+                cell.cardNameLabel.text = currentModel?.name ?? ""
+                if currentModel!.mac == lastestDeviceMac && bleSelf.isConnected {
                     cell.btButton.setImage(UIImage(named: "content_blueteeth_link"), for: .normal)
                     cell.btButton.setTitle("mine_bluetooth_connect".localized(), for: .normal)
                     cell.bConnected = true
@@ -98,7 +99,7 @@ extension DevicesView: UICollectionViewDataSource, UICollectionViewDelegate {
                     cell.btButton.setImage(UIImage(named: "content_blueteeth_unlink"), for: .normal)
                     cell.btButton.setTitle("请连接蓝牙", for: .normal)
                 }
-                let deviceInfo = DeviceManager.shared.deviceInfo[model.mac]
+                let deviceInfo = DeviceManager.shared.deviceInfo[currentModel!.mac]
                 if deviceInfo != nil {
                     if deviceInfo?.battery ?? 0 < 5 {
                         cell.batteryButton.setImage(UIImage(named: "conten_battery_runout"), for: .normal)
@@ -120,8 +121,7 @@ extension DevicesView: UICollectionViewDataSource, UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let cell = collectionView.cellForItem(at: indexPath) as! CyclicCardCell
-        print("点击第\(cell.index)张图片")
-        delegate?.callbackTap(index: indexPath.row, bConnected: cell.bConnected)
+        delegate?.callbackTap(model:currentModel, bConnected: cell.bConnected)
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
@@ -139,5 +139,5 @@ extension DevicesView: UICollectionViewDataSource, UICollectionViewDelegate {
 }
 
 protocol DevicesViewDelegate: NSObjectProtocol {
-    func callbackTap(index: Int, bConnected: Bool)
+    func callbackTap(model: BLEModel?, bConnected: Bool)
 }

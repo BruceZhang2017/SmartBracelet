@@ -111,6 +111,13 @@ class DeviceSettingsViewController: BaseViewController {
         cameraViewController?.modalPresentationStyle = .fullScreen
         parent?.present(cameraViewController!, animated: true, completion: nil)
     }
+    
+    @objc private func readAlarm() {
+        let storyboard = UIStoryboard(name: .kDevice, bundle: nil)
+        let vc = storyboard.instantiateViewController(withIdentifier: "AlarmViewController") as! AlarmViewController
+        vc.hidesBottomBarWhenPushed = true
+        parent?.navigationController?.pushViewController(vc, animated: true)
+    }
 }
 
 extension DeviceSettingsViewController: UITableViewDataSource {
@@ -195,10 +202,8 @@ extension DeviceSettingsViewController: UITableViewDelegate {
                 vc.hidesBottomBarWhenPushed = true
                 parent?.navigationController?.pushViewController(vc, animated: true)
             } else { // 闹钟设置
-                let storyboard = UIStoryboard(name: .kDevice, bundle: nil)
-                let vc = storyboard.instantiateViewController(withIdentifier: "AlarmViewController") as! AlarmViewController
-                vc.hidesBottomBarWhenPushed = true
-                parent?.navigationController?.pushViewController(vc, animated: true)
+                bleSelf.getAlarmForWristband() // 获取闹钟信息
+                perform(#selector(readAlarm), with: nil, afterDelay: 0.3)
             }
         }
     }

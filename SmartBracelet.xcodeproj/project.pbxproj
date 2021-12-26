@@ -310,6 +310,7 @@
 		9A64F0BA25DE19B30073E679 /* DHeartRateModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A64F0B925DE19B30073E679 /* DHeartRateModel.swift */; };
 		9A64F0BC25DF50C30073E679 /* DAlarmModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A64F0BB25DF50C30073E679 /* DAlarmModel.swift */; };
 		9A6D092C2501D99400B4972F /* ClockManageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A6D092B2501D99400B4972F /* ClockManageViewController.swift */; };
+		9A7C31A4276EFFAD00BC1BFB /* UploadImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7C31A3276EFFAD00BC1BFB /* UploadImageViewController.swift */; };
 		9A7D5E4225490EA20016E4BC /* MRGCDTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7D5E4125490EA20016E4BC /* MRGCDTimer.swift */; };
 		9A7E27E8262326E000DA658B /* HttpHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7E27E7262326E000DA658B /* HttpHelper.swift */; };
 		9A820B6E24CD06AC00A62C6F /* HealthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A820B6D24CD06AC00A62C6F /* HealthViewController.swift */; };
@@ -759,6 +760,7 @@
 		9A64F0BB25DF50C30073E679 /* DAlarmModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DAlarmModel.swift; sourceTree = "<group>"; };
 		9A6D092B2501D99400B4972F /* ClockManageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClockManageViewController.swift; sourceTree = "<group>"; };
 		9A6D092D2501E3EC00B4972F /* Device.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Device.md; sourceTree = "<group>"; };
+		9A7C31A3276EFFAD00BC1BFB /* UploadImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadImageViewController.swift; sourceTree = "<group>"; };
 		9A7D5E3F254907AA0016E4BC /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		9A7D5E4125490EA20016E4BC /* MRGCDTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MRGCDTimer.swift; sourceTree = "<group>"; };
 		9A7E27E7262326E000DA658B /* HttpHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HttpHelper.swift; sourceTree = "<group>"; };
@@ -1642,6 +1644,7 @@
 				9AB7AC452766425800D51DBC /* EditClcokBottomTableViewCell.swift */,
 				9AB7AC472766426A00D51DBC /* EditClockMiddleTableViewCell.swift */,
 				9AB7AC492766551300D51DBC /* EditClockCollectionViewCell.swift */,
+				9A7C31A3276EFFAD00BC1BFB /* UploadImageViewController.swift */,
 				9A2676AD26B239D40096BC61 /* ClockCollectionViewFlowLayout.swift */,
 				9A52106E2503A62F00F64A7A /* MarketClockViewController.swift */,
 				9A5210702503DB2E00F64A7A /* ClockCCollectionViewCell.swift */,
@@ -2429,6 +2432,7 @@
 				9A2185B2255BC7E8000330E5 /* GuideViewController.swift in Sources */,
 				9A56D24D25216FC60082CC08 /* IShapeRenderer.swift in Sources */,
 				9A521069250322E500F64A7A /* ClockCollectionViewCell.swift in Sources */,
+				9A7C31A4276EFFAD00BC1BFB /* UploadImageViewController.swift in Sources */,
 				9A5210712503DB2E00F64A7A /* ClockCCollectionViewCell.swift in Sources */,
 				9A56D25025216FC60082CC08 /* TriangleShapeRenderer.swift in Sources */,
 				9A33D31A26AD9A4F00DF9618 /* CameraView.swift in Sources */,
@@ -2706,7 +2710,7 @@
 				CODE_SIGN_ENTITLEMENTS = "";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 20;
+				CURRENT_PROJECT_VERSION = 21;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_ASSET_PATHS = TJDWristbandSDK.framework;
 				DEVELOPMENT_TEAM = RPZ68269DB;
@@ -2745,7 +2749,7 @@
 				CODE_SIGN_ENTITLEMENTS = "";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 20;
+				CURRENT_PROJECT_VERSION = 21;
 				DEVELOPMENT_ASSET_PATHS = TJDWristbandSDK.framework;
 				DEVELOPMENT_TEAM = RPZ68269DB;
 				ENABLE_BITCODE = NO;

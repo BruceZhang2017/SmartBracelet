@@ -26,5 +26,6 @@
 #import "QACircleProgressView.h"
 
 #import <TZImagePickerController/TZImagePickerController.h>
-#import <RSKImageCropper/RSKImageCropper.h>
+
+#import <Bugly/Bugly.h>
 

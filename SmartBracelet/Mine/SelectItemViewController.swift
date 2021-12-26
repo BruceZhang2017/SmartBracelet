@@ -18,13 +18,13 @@ class SelectItemViewController: UIViewController {
     var index = 0 // 当前选中的index
     var titles: [String] = []
     weak var delegate: SelectItemVCDelegate?
+    var titleStr: String = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
         cancelButton.setTitle("mine_cancel".localized(), for: .normal)
-        chooseSexLabel.text = "mine_select_sex".localized()
         okButton.setTitle("mine_confirm".localized(), for: .normal)
     }
     
@@ -32,6 +32,7 @@ class SelectItemViewController: UIViewController {
         super.viewWillAppear(animated)
         mPickerView.selectRow(index, inComponent: 0, animated: false)
         
+        chooseSexLabel.text = titleStr
     }
     
     @IBAction func cancel(_ sender: Any) {

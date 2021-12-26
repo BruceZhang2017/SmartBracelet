@@ -265,8 +265,8 @@ class HealthViewController: BaseViewController {
             let frame = CGRect(x: 0, y: 0, width: 150, height: 150)
             activityIndicator = NVActivityIndicatorView(frame: frame, type: .ballSpinFadeLoader, color: UIColor.white, padding: 30)
             activityIndicator?.backgroundColor = UIColor.black.withAlphaComponent(0.7)
-            activityIndicator?.center = CGPoint(x: view.center.x, y: view.center.y - 100)
-            view.addSubview(activityIndicator!)
+            activityIndicator?.center = CGPoint(x: view.center.x, y: view.center.y)
+            navigationController?.tabBarController?.view?.addSubview(activityIndicator!)
             activityIndicator?.startAnimating()
             startLoadingViewCheckTimer()
             return
@@ -290,6 +290,7 @@ class HealthViewController: BaseViewController {
         loadingViewCheckTimer = Timer.scheduledTimer(withTimeInterval: 20, repeats: false, block: { (timer) in
             NotificationCenter.default.post(name: Notification.Name("HealthVCLoading"), object: 3)
         })
+        RunLoop.current.add(loadingViewCheckTimer!, forMode: .common)
     }
     
     private func endLoadingViewCheckTimer() {

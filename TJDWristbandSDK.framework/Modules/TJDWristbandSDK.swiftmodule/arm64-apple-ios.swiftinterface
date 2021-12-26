@@ -45,6 +45,55 @@ import UIKit
   @objc override dynamic public init()
   @objc deinit
 }
+public typealias Async = TJDWristbandSDK.AsyncBlock<Swift.Void, Swift.Void>
+public struct AsyncBlock<In, Out> {
+  public var output: Out? {
+    get
+  }
+  @discardableResult
+  public static func main<O>(after seconds: Swift.Double? = nil, _ block: @escaping () -> O) -> TJDWristbandSDK.AsyncBlock<Swift.Void, O>
+  @discardableResult
+  public static func global<O>(after seconds: Swift.Double? = nil, _ block: @escaping () -> O) -> TJDWristbandSDK.AsyncBlock<Swift.Void, O>
+  @discardableResult
+  public static func background<O>(after seconds: Swift.Double? = nil, _ block: @escaping () -> O) -> TJDWristbandSDK.AsyncBlock<Swift.Void, O>
+  @discardableResult
+  public static func custom<O>(queue: Dispatch.DispatchQueue, after seconds: Swift.Double? = nil, _ block: @escaping () -> O) -> TJDWristbandSDK.AsyncBlock<Swift.Void, O>
+  @discardableResult
+  public func main<O>(after seconds: Swift.Double? = nil, _ chainingBlock: @escaping (Out) -> O) -> TJDWristbandSDK.AsyncBlock<Out, O>
+  @discardableResult
+  public func global<O>(after seconds: Swift.Double? = nil, _ chainingBlock: @escaping (Out) -> O) -> TJDWristbandSDK.AsyncBlock<Out, O>
+  @discardableResult
+  public func background<O>(after seconds: Swift.Double? = nil, _ chainingBlock: @escaping (Out) -> O) -> TJDWristbandSDK.AsyncBlock<Out, O>
+  @discardableResult
+  public func custom<O>(queue: Dispatch.DispatchQueue, after seconds: Swift.Double? = nil, _ chainingBlock: @escaping (Out) -> O) -> TJDWristbandSDK.AsyncBlock<Out, O>
+  public func cancel()
+  @discardableResult
+  public func wait(seconds: Swift.Double? = nil) -> Dispatch.DispatchTimeoutResult
+}
+public struct Apply {
+  public static func global(_ iterations: Swift.Int, block: @escaping (Swift.Int) -> ())
+  public static func background(_ iterations: Swift.Int, block: @escaping (Swift.Int) -> ())
+  public static func custom(queue: Dispatch.DispatchQueue, iterations: Swift.Int, block: @escaping (Swift.Int) -> ())
+}
+public struct AsyncGroup {
+  public init()
+  public func enter()
+  public func leave()
+  public func main(_ block: @escaping @convention(block) () -> Swift.Void)
+  public func global(_ block: @escaping @convention(block) () -> Swift.Void)
+  public func background(_ block: @escaping @convention(block) () -> Swift.Void)
+  public func custom(queue: Dispatch.DispatchQueue, block: @escaping @convention(block) () -> Swift.Void)
+  @discardableResult
+  public func wait(seconds: Swift.Double? = nil) -> Dispatch.DispatchTimeoutResult
+}
+@objc extension NSObject {
+  @objc dynamic public class func getPropertiesType() -> [Swift.String]
+  @objc dynamic public func getPropertiesType() -> [Swift.String]
+  @objc dynamic public class func getPropertiesName() -> [Swift.String]
+  @objc dynamic public func getPropertiesName() -> [Swift.String]
+  @objc dynamic public func getPropertiesValue() -> [Any]
+  @objc dynamic public func getPropertiesValueDic() -> Swift.AnyObject
+}
 @objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objcMembers open class WUUserInfo : ObjectiveC.NSObject {
   @objc open var name: Swift.String
   @objc open var sex: Swift.Int
@@ -97,6 +146,35 @@ extension WUBleManager {
   @objc dynamic open func setRestoreFactorySettings(_ type: TJDWristbandSDK.TestActionType, isRespond: Swift.Bool)
   @objc dynamic open func setTurnoffBluetooth(_ type: TJDWristbandSDK.TestActionType, isRespond: Swift.Bool)
 }
+@objc @_inheritsConvenienceInitializers @objcMembers public class WUCentralManager : ObjectiveC.NSObject, CoreBluetooth.CBCentralManagerDelegate, CoreBluetooth.CBPeripheralDelegate {
+  @objc open var myPeripheral: CoreBluetooth.CBPeripheral?
+  @objc public func centralManagerDidUpdateState(_ central: CoreBluetooth.CBCentralManager)
+  @objc public func centralManager(_ central: CoreBluetooth.CBCentralManager, didDiscover peripheral: CoreBluetooth.CBPeripheral, advertisementData: [Swift.String : Any], rssi RSSI: Foundation.NSNumber)
+  @objc public func centralManager(_ central: CoreBluetooth.CBCentralManager, didDisconnectPeripheral peripheral: CoreBluetooth.CBPeripheral, error: Swift.Error?)
+  @objc public func centralManager(_ central: CoreBluetooth.CBCentralManager, didFailToConnect peripheral: CoreBluetooth.CBPeripheral, error: Swift.Error?)
+  @objc public func centralManager(_ central: CoreBluetooth.CBCentralManager, didConnect peripheral: CoreBluetooth.CBPeripheral)
+  @objc public func peripheral(_ peripheral: CoreBluetooth.CBPeripheral, didDiscoverServices error: Swift.Error?)
+  @objc public func peripheral(_ peripheral: CoreBluetooth.CBPeripheral, didDiscoverCharacteristicsFor service: CoreBluetooth.CBService, error: Swift.Error?)
+  @objc public func peripheral(_ peripheral: CoreBluetooth.CBPeripheral, didUpdateNotificationStateFor characteristic: CoreBluetooth.CBCharacteristic, error: Swift.Error?)
+  @objc public func peripheral(_ peripheral: CoreBluetooth.CBPeripheral, didUpdateValueFor characteristic: CoreBluetooth.CBCharacteristic, error: Swift.Error?)
+  @objc public func peripheral(_ peripheral: CoreBluetooth.CBPeripheral, didWriteValueFor characteristic: CoreBluetooth.CBCharacteristic, error: Swift.Error?)
+  @objc public func peripheralIsReady(toSendWriteWithoutResponse peripheral: CoreBluetooth.CBPeripheral)
+  @objc public func peripheral(_ peripheral: CoreBluetooth.CBPeripheral, didModifyServices invalidatedServices: [CoreBluetooth.CBService])
+  @objc public func peripheralDidUpdateName(_ peripheral: CoreBluetooth.CBPeripheral)
+  @objc public func centralManager(_ central: CoreBluetooth.CBCentralManager, connectionEventDidOccur event: CoreBluetooth.CBConnectionEvent, for peripheral: CoreBluetooth.CBPeripheral)
+  @objc public func centralManager(_ central: CoreBluetooth.CBCentralManager, didUpdateANCSAuthorizationFor peripheral: CoreBluetooth.CBPeripheral)
+  @objc public func centralManager(_ central: CoreBluetooth.CBCentralManager, willRestoreState dict: [Swift.String : Any])
+  @objc public func peripheral(_ peripheral: CoreBluetooth.CBPeripheral, didReadRSSI RSSI: Foundation.NSNumber, error: Swift.Error?)
+  @objc override dynamic public init()
+  @objc deinit
+}
+extension WUCentralManager {
+  @objc override dynamic public func observeValue(forKeyPath keyPath: Swift.String?, of object: Any?, change: [Foundation.NSKeyValueChangeKey : Any]?, context: Swift.UnsafeMutableRawPointer?)
+}
+@objc @_inheritsConvenienceInitializers @objcMembers open class FunctionCategoryModel : ObjectiveC.NSObject {
+  @objc override dynamic public init()
+  @objc deinit
+}
 public let bleSelf: TJDWristbandSDK.WUBleManager
 @objc public enum WUBleState : Swift.Int {
   case disconnected
@@ -137,6 +215,7 @@ public typealias WUDidSetStartMeasure = (Swift.Bool, Swift.UInt8) -> ()
   @objc open var isScanning: Swift.Bool {
     @objc get
   }
+  @objc open var dialSelectModel: TJDWristbandSDK.DialSelectModel
   @objc open var step: Swift.Int
   @objc open var cal: Swift.Int
   @objc open var distance: Swift.Int
@@ -150,7 +229,9 @@ public typealias WUDidSetStartMeasure = (Swift.Bool, Swift.UInt8) -> ()
   @objc open var drinkModel: TJDWristbandSDK.DrinkModel
   @objc open var longSitModel: TJDWristbandSDK.LongSitModel
   @objc open var notifyModel: TJDWristbandSDK.AppleNotifyModel
+  @objc open var funcCategoryModel: TJDWristbandSDK.FunctionCategoryModel
   @objc open var otaPackIndex: Swift.UInt
+  @objc open var manager: TJDWristbandSDK.WUCentralManager
   @objc open var didSetAlarm: TJDWristbandSDK.WUDidSetStartMeasure?
   @objc open var didSetUserinfo: TJDWristbandSDK.WUDidSetUserinfo?
   @objc open var didSetDisplayUi: TJDWristbandSDK.WUDidSetUserinfo?
@@ -161,6 +242,7 @@ public typealias WUDidSetStartMeasure = (Swift.Bool, Swift.UInt8) -> ()
   @objc open var didSetCamera: TJDWristbandSDK.WUDidSetCamera?
   @objc open var didSetStartMeasure: TJDWristbandSDK.WUDidSetStartMeasure?
   @objc open var didSetAncsSwitch: TJDWristbandSDK.WUDidSetUserinfo?
+  @objc open var didSetFunction: TJDWristbandSDK.WUDidSetUserinfo?
   @objc open var didSetTemperatureSettings: TJDWristbandSDK.WUDidSetUserinfo?
   @objc open var didSetTemperatureStartMeasure: TJDWristbandSDK.WUDidSetUserinfo?
   @objc open func setupManager()
@@ -227,6 +309,9 @@ extension WUBleManager {
   @objc public static let startDialPush: Foundation.Notification.Name
   @objc public static let dialPush: Foundation.Notification.Name
   @objc public static let setWeather: Foundation.Notification.Name
+  @objc public static let startImagePush: Foundation.Notification.Name
+  @objc public static let imagePush: Foundation.Notification.Name
+  @objc public static let imagePushSetting: Foundation.Notification.Name
   @objc public static let startAddressPush: Foundation.Notification.Name
   @objc public static let addressPush: Foundation.Notification.Name
   @objc public static let temperature: Foundation.Notification.Name
@@ -237,6 +322,14 @@ extension WUBleManager {
   @objc public static let nfc_current: Foundation.Notification.Name
   @objc public static let write_NFC: Foundation.Notification.Name
   @objc public static let write_NFC_complete: Foundation.Notification.Name
+  @objc public static let write_QRCode: Foundation.Notification.Name
+  @objc public static let otherFunction: Foundation.Notification.Name
+  @objc public static let JL_BlueClose: Foundation.Notification.Name
+  @objc public static let JL_didDisconnectPeripheral: Foundation.Notification.Name
+  @objc public static let JL_didConnect: Foundation.Notification.Name
+  @objc public static let JL_didDiscoverChar: Foundation.Notification.Name
+  @objc public static let JL_didUpdateNoti: Foundation.Notification.Name
+  @objc public static let JL_didUpdateValueFor: Foundation.Notification.Name
   @objc override dynamic public init()
   @objc deinit
 }
@@ -297,6 +390,11 @@ public func wuPrint(_ names: Any...)
   @objc open var isWhatapp: Swift.Bool
   @objc open var isLine: Swift.Bool
   @objc open var isKakaoTalk: Swift.Bool
+  @objc open var isFacebookMessage: Swift.Bool
+  @objc open var isInstagram: Swift.Bool
+  @objc open var isWhatappBusiness: Swift.Bool
+  @objc open var isVK: Swift.Bool
+  @objc open var isTelegram: Swift.Bool
   @objc override dynamic public init()
   @objc deinit
 }
@@ -359,12 +457,20 @@ extension WUBleManager {
   @objc dynamic open func setAncsSwitchForWristband(_ model: TJDWristbandSDK.AppleNotifyModel)
   @objc dynamic open func startDialPush(_ data: Foundation.Data)
   @objc dynamic open func setDialPush(_ data: Foundation.Data, dataIndex: Swift.Int)
+  @objc dynamic open func startImagePush(_ data: Foundation.Data)
+  @objc dynamic open func setImagePush(_ data: Foundation.Data, dataIndex: Swift.Int)
+  @objc dynamic open func getImagePushSettings()
+  @objc dynamic open func setImagePushSettings(_ model: TJDWristbandSDK.DialSelectModel)
   @objc dynamic open func startAddressPush(_ data: Foundation.Data)
   @objc dynamic open func setAddressBook(_ data: Foundation.Data, dataIndex: Swift.Int)
   @objc dynamic open func getHistoryTemperature(with day: Swift.Int)
   @objc dynamic open func calibrationTemperature(_ mode: Swift.Int, temper: Swift.Int)
   @objc dynamic open func ruiYuDialSet()
+  @objc dynamic open func setQRCodeData(_ data: Foundation.Data, dataCount: Swift.Int, type: Swift.Int, dataIndex: Swift.Int)
+  @objc dynamic open func getQRSet()
   @objc dynamic open func getCRC(_ data: [Swift.UInt8]) -> Swift.UInt8
+  @objc dynamic open func getRGBData565FromImage(image: UIKit.UIImage) -> Foundation.Data?
+  @objc dynamic open func tjdScale(image: UIKit.UIImage, toSize: CoreGraphics.CGSize) -> UIKit.UIImage?
 }
 @objc @_inheritsConvenienceInitializers @objcMembers open class LongSitModel : ObjectiveC.NSObject {
   @objc open var interval: Swift.Int
@@ -467,6 +573,17 @@ extension WUBleManager {
   @objc open var timeStamp: Swift.Int
   @objc required override dynamic public init()
   @objc public func copy(with zone: ObjectiveC.NSZone? = nil) -> Any
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objcMembers open class DialSelectModel : ObjectiveC.NSObject {
+  @objc open var selectedIndex: Swift.Int
+  @objc open var imageData: Foundation.Data
+  @objc open var binData: Foundation.Data
+  @objc open var timeDirection: Swift.Int
+  @objc open var onTheTime: Swift.Int
+  @objc open var belowTheTime: Swift.Int
+  @objc open var textColor: Swift.Int
+  @objc open var isDefault: Swift.Int
   @objc deinit
 }
 extension TJDWristbandSDK.TestActionType : Swift.Equatable {}

@@ -14,6 +14,8 @@ class EidtClockHeadTableViewCell: UITableViewCell {
     @IBOutlet weak var dateTimeTopLabel: UILabel!
     @IBOutlet weak var dateTimeBottomLabel: UILabel!
     @IBOutlet weak var selectButton: UIButton!
+    @IBOutlet weak var topLC: NSLayoutConstraint!
+    
     weak var delegate: EidtClockHeadTableViewCellDelegate?
 
     override func awakeFromNib() {

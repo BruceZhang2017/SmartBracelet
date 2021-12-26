@@ -23,6 +23,7 @@ PODS:
     - AMapFoundation (~> 1.6.4)
   - AMapSearch (7.9.0):
     - AMapFoundation (~> 1.6.6)
+  - Bugly (2.5.91)
   - CountryPickerView (3.2.0)
   - IQKeyboardManagerSwift (6.3.0)
   - Kingfisher (6.3.0)
@@ -41,7 +42,6 @@ PODS:
   - Realm/Headers (10.7.6)
   - RealmSwift (10.7.6):
     - Realm (= 10.7.6)
-  - RSKImageCropper (3.0.2)
   - Segmentio (4.1)
   - SnapKit (5.0.1)
   - Then (2.7.0)
@@ -63,6 +63,7 @@ DEPENDENCIES:
   - AMap2DMap
   - AMapLocation
   - AMapSearch
+  - Bugly
   - CountryPickerView
   - IQKeyboardManagerSwift (= 6.3.0)
   - Kingfisher
@@ -73,7 +74,6 @@ DEPENDENCIES:
   - ProgressHUD
   - Realm
   - RealmSwift
-  - RSKImageCropper
   - Segmentio
   - SnapKit
   - Then
@@ -92,6 +92,7 @@ SPEC REPOS:
     - AMapFoundation
     - AMapLocation
     - AMapSearch
+    - Bugly
     - CountryPickerView
     - IQKeyboardManagerSwift
     - Kingfisher
@@ -103,7 +104,6 @@ SPEC REPOS:
     - ProgressHUD
     - Realm
     - RealmSwift
-    - RSKImageCropper
     - Segmentio
     - SnapKit
     - Then
@@ -130,6 +130,7 @@ SPEC CHECKSUMS:
   AMapFoundation: c7da72b42a713f1429c88af1858d623dde88934b
   AMapLocation: dad27669c4ca68e395ce7532ff614b7d4d45f7b7
   AMapSearch: 94cff5f6ab7233c1639111e486861ac2acea6d4b
+  Bugly: afe841bba2ea6de6d432a3c125240a5e75949c55
   CountryPickerView: 9b093bfffb4b06a69ba6185a798cadbf863720e7
   IQKeyboardManagerSwift: a8228c257614af98743b4cd8584637025f36358f
   Kingfisher: 6c3df386db71d82c0817a429d2c9421a77396529
@@ -141,7 +142,6 @@ SPEC CHECKSUMS:
   ProgressHUD: e603e8b8622c47d8818b9fb38b3cfe9d3e7ca421
   Realm: ed860452717c8db8f4bf832b6807f7f2ce708839
   RealmSwift: e31c4ddbcc42ac879313d656b86f9ca539f6f4f4
-  RSKImageCropper: 1ac71e9a82e3f41eea3eedfff8eacb0d3821c9ec
   Segmentio: ab29def64e1bff6e6e9b97671788a99bed3f1d9f
   SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
   Then: acfe0be7e98221c6204e12f8161459606d5d822d
@@ -151,6 +151,6 @@ SPEC CHECKSUMS:
   XCGLogger: 1943831ef907df55108b0b18657953f868de973b
   YYImage: 1e1b62a9997399593e4b9c4ecfbbabbf1d3f3b54
 
-PODFILE CHECKSUM: e6913f4f905fe847386fa829fea8c3abfcfeb17a
+PODFILE CHECKSUM: c197a68b32cca82185d08705f9703f03e80c0b04
 
 COCOAPODS: 1.11.0
