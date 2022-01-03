@@ -14,6 +14,9 @@ import Then
 import Toaster
 import TJDWristbandSDK
 
+
+var needStop = false
+
 typealias imgBlock = () ->()
 
 class MyClockViewController: UIViewController {
@@ -45,10 +48,13 @@ class MyClockViewController: UIViewController {
     var binData = Data()
     var current = 0
     var total = 0
-    var needStop = false
+    var currentImage: UIImage?
+    
+    var footView: CustomImageFooterView?
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        title = "自定义表盘"
         print("瑞昱设备表盘宽%@高%@,可推空间",bleSelf.bleModel.screenWidth, bleSelf.bleModel.screenHeight)
 //        if bShowDetail == false {
 //            rightButton = UIButton(type: .custom).then {
@@ -101,6 +107,14 @@ class MyClockViewController: UIViewController {
         //壁纸推送
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotify(_:)), name: WristbandNotifyKeys.startImagePush, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotify(_:)), name: WristbandNotifyKeys.imagePush, object: nil)
+        
+        footView = CustomImageFooterView(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: 160))
+        tableView.tableFooterView = footView
+        
+        let w: CGFloat = CGFloat(bleSelf.bleModel.screenWidth)
+        let h: CGFloat = CGFloat(bleSelf.bleModel.screenHeight)
+        footView?.isHidden = !(w == 80 && h == 160)
+        footView?.delegate = self
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -109,7 +123,6 @@ class MyClockViewController: UIViewController {
     }
     
     deinit {
-        NotificationCenter.default.removeObserver(self)
         itemVC?.dismiss(animated: false, completion: {
             
         })
@@ -117,6 +130,7 @@ class MyClockViewController: UIViewController {
         imageUploadVc?.dismiss(animated: false, completion: {
             
         })
+        NotificationCenter.default.removeObserver(self)
     }
     
     // 修改自定义设置内容位置
@@ -161,20 +175,32 @@ class MyClockViewController: UIViewController {
                     }
                     print("for循环推送: \(i) \(self.total)")
                     bleSelf.setImagePush(binData, dataIndex: i)
-                    usleep(20 * 1000)
+                    usleep(50 * 1000)
                     if i + 1 == self.total {
-                        Async.main {
+                        DispatchQueue.main.async {
                             [weak self] in
+                            if self?.currentImage == nil {
+                                return
+                            }
+                            let w  = bleSelf.bleModel.screenWidth
+                            let h = bleSelf.bleModel.screenHeight
+                            self?.saveImage(currentImage: self!.currentImage!, imageName: "\(w)_\(h).png")
+                            self?.tableView.reloadData()
                             self?.imageUploadVc?.dismiss(animated: false, completion: {
                                 
                             })
+                            self?.tableView?.reloadData()
                         }
                     }
                 }
                 
             } else {
                 Async.main {
-                    wuPrint(NSLocalizedString("该设备不支持壁纸推送，或者电量过低", comment: ""))
+                    [weak self] in
+                    self?.imageUploadVc?.dismiss(animated: false, completion: {
+                        
+                    })
+                    Toast(text: NSLocalizedString("该设备不支持壁纸推送，或者电量过低", comment: "")).show()
                     
                 }
             }
@@ -188,14 +214,21 @@ class MyClockViewController: UIViewController {
                     return
                 }
                 wuPrint("更新成功")
-                Async.main {
+                DispatchQueue.main.async {
                     [weak self] in
                     self?.imageUploadVc?.dismiss(animated: false, completion: {
                         
                     })
-                    self?.tableView.reloadData()
                 }
             }
+        }
+    }
+    
+    //保存图片至沙盒
+    private func saveImage(currentImage: UIImage, imageName: String){
+        if let imageData = currentImage.jpegData(compressionQuality: 1) as NSData? {
+            let fullPath = NSHomeDirectory().appending("/Documents/").appending(imageName)
+            imageData.write(toFile: fullPath, atomically: true)
         }
     }
 }
@@ -315,8 +348,12 @@ extension MyClockViewController: UITableViewDataSource {
             cell.dateTimeTopLabel.textColor = colors[colorIndex]
             cell.dateTimeBottomLabel.textColor = colors[colorIndex]
             cell.topLC.constant = datetimeLocation == 0 ? 10 : 74
-            if binData.count > 0 {
-                cell.imageView?.image = UIImage(data: binData)
+            cell.itemImageView.contentMode = .scaleAspectFit
+            let w  = bleSelf.bleModel.screenWidth
+            let h = bleSelf.bleModel.screenHeight
+            let fullPath = NSHomeDirectory().appending("/Documents/").appending("\(w)_\(h).png")
+            if let savedImage = UIImage(contentsOfFile: fullPath) {
+                cell.itemImageView?.image = savedImage
             }
             return cell
         }
@@ -341,8 +378,6 @@ extension MyClockViewController: UITableViewDataSource {
         }
         return cell
     }
-    
-    
 }
 
 extension MyClockViewController: SelectItemVCDelegate {
@@ -371,7 +406,16 @@ extension MyClockViewController: EidtClockHeadTableViewCellDelegate {
         imagePickerVc?.showSelectBtn = false
         let w: CGFloat = CGFloat(bleSelf.bleModel.screenWidth)
         let h: CGFloat = CGFloat(bleSelf.bleModel.screenHeight)
-        imagePickerVc?.cropRect = CGRect(x: (ScreenWidth - w) / 2, y: (ScreenHeight - h) / 2, width: w, height: h)
+        var w1: CGFloat = 0
+        var h1: CGFloat = 0
+        if w >= h {
+            h1 = 300 * h / w
+            w1 = 300
+        } else {
+            h1 = 300
+            w1 = 300 * w / h
+        }
+        imagePickerVc?.cropRect = CGRect(x: (ScreenWidth - w1) / 2, y: (ScreenHeight - h1) / 2, width: w1, height: h1)
         imagePickerVc?.naviTitleColor = UIColor.black
         imagePickerVc?.barItemTextColor = UIColor.black
         imagePickerVc?.iconThemeColor = UIColor.black
@@ -394,6 +438,7 @@ extension MyClockViewController: TZImagePickerControllerDelegate {
         imageUploadVc?.view.backgroundColor = UIColor.black.withAlphaComponent(0.5)
         imageUploadVc?.delegate = self
         imageUploadVc?.image = photos.first
+        imageUploadVc?.imgView.contentMode = .scaleAspectFit
         self.present(imageUploadVc!, animated: false) {
             
         }
@@ -414,10 +459,56 @@ extension MyClockViewController: EditClcokBottomTableViewCellDelegate {
 
 extension MyClockViewController: UploadImageDelegate {
     func startUpload(image: UIImage) {
+        currentImage = image
         let data = bleSelf.getRGBData565FromImage(image: image)!
         self.total = Int(ceil(Double(data.count)/16))
         self.binData = data
         
         bleSelf.startImagePush(data)
+    }
+}
+
+extension UIImage {
+    func compressImageOnlength(maxLength: Int) -> Data? {
+        let maxL = maxLength * 1024
+        var compress:CGFloat = 0.9
+        let maxCompress:CGFloat = 0.1
+        var imageData = self.jpegData(compressionQuality: compress)
+        while (imageData?.count)! > maxL && compress > maxCompress {
+            compress -= 0.1
+            imageData = self.jpegData(compressionQuality: compress)
+        }
+        return imageData
+    }
+}
+
+extension UIImage {
+     
+    //将图片缩放成指定尺寸（多余部分自动删除）
+    func scaled(to newSize: CGSize) -> UIImage {
+        //绘制并获取最终图片
+        UIGraphicsBeginImageContext(newSize)
+        draw(in: CGRect(x: 0, y: 0, width: newSize.width, height: newSize.height))
+        let scaledImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return scaledImage!
+    }
+}
+
+extension MyClockViewController: CustomImageFooterViewDelegate {
+    func callbackForSelectImage(collectionView: UICollectionView, index: Int) {
+        let image = UIImage(named: "\(index + 1)_80_160")!
+        
+        print("选定了图片")
+        imageUploadVc = UploadImageViewController()
+        imageUploadVc?.modalPresentationStyle = .overCurrentContext
+        imageUploadVc?.modalTransitionStyle = .crossDissolve
+        imageUploadVc?.view.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+        imageUploadVc?.delegate = self
+        imageUploadVc?.image = image
+        imageUploadVc?.imgView.contentMode = .scaleAspectFit
+        self.present(imageUploadVc!, animated: false) {
+            
+        }
     }
 }

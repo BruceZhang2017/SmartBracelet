@@ -9,6 +9,7 @@
 import UIKit
 
 class EidtClockHeadTableViewCell: UITableViewCell {
+    @IBOutlet weak var itemImageView: UIImageView!
     @IBOutlet weak var clockView: UIView!
     @IBOutlet weak var dateTimeLabel: UILabel!
     @IBOutlet weak var dateTimeTopLabel: UILabel!

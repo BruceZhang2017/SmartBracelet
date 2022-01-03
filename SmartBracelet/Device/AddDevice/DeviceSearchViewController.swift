@@ -37,6 +37,10 @@ class DeviceSearchViewController: BaseViewController {
         scanLabel.text = "device_scan".localized()
         scanCodeTipLabel.text = "device_scan_add_device".localized()
         helpButton.setTitle("device_search_help".localized(), for: .normal)
+        
+        scanLabel.isHidden = true
+        scanButton.isHidden = true
+        btScanTipLabel.isHidden = true 
     }
     
     override func viewDidAppear(_ animated: Bool) {

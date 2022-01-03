@@ -74,6 +74,17 @@ class ClockManageViewController: BaseViewController {
         scrollView.bounces = false
         scrollView.delegate = self
         setupUI()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(handleStop), name: Notification.Name("UploadImageViewController"), object: nil)
+        needStop = false 
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    @objc private func handleStop() {
+        needStop = true
     }
     
     private func setupUI() {

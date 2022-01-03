@@ -138,6 +138,7 @@ class BLEManager: NSObject {
                 bleSelf.reConnectDevice()
             }
             NotificationCenter.default.post(name: Notification.Name("MTabBarController"), object: "disconnect")
+            NotificationCenter.default.post(name: Notification.Name("UploadImageViewController"), object: nil)
         }
         
         if notify.name == WUBleManagerNotifyKeys.stateChanged {
@@ -280,6 +281,7 @@ class BLEManager: NSObject {
         if notify.name == WristbandNotifyKeys.bindSet {
             wuPrint("ANCS 绑定成功")
             bleSelf.getDeviceInfoForWristband() // 第1步：获取设备信息
+            bleSelf.ruiYuDialSet()
         }
                 
         if notify.name == WristbandNotifyKeys.read_Sport {
@@ -437,14 +439,20 @@ class BLEManager: NSObject {
                 return
             }
             dump(model)
-            wuPrint("心跳结束")
-            DispatchQueue.main.async {
-                NotificationCenter.default.post(name: Notification.Name("healthDetail"), object: nil)
-            }
+            let heartModel = DHeartRateModel()
+            heartModel.mac = model.mac
+            heartModel.uuidString = model.uuidString
+            heartModel.heartRate = model.heart
+            heartModel.timeStamp = model.timeStamp
+            try? heartModel.er.save(update: true)
+            print("收到测试心跳的结果: \(heartModel.timeStamp)")
             if heartArray.count > 0 {
                 heartArray.insert(model, at: 0)
             } else {
                 heartArray.append(model)
+            }
+            DispatchQueue.main.async {
+                NotificationCenter.default.post(name: Notification.Name("healthDetail"), object: nil)
             }
         }
         if notify.name == WristbandNotifyKeys.devSendCeLiang_blood {
@@ -453,6 +461,15 @@ class BLEManager: NSObject {
                 return
             }
             dump(model)
+            let bloodModel = DBloodModel()
+            bloodModel.mac = model.mac
+            bloodModel.uuidString = model.uuidString
+            bloodModel.min = model.min
+            bloodModel.max = model.max
+            bloodModel.timeStamp = model.timeStamp
+            if model.min > 0 && model.max > 0 {
+                try? bloodModel.er.save(update: true)
+            }
             wuPrint("血压结束")
             DispatchQueue.main.async {
                 NotificationCenter.default.post(name: Notification.Name("healthDetail"), object: nil)
@@ -505,6 +522,15 @@ class BLEManager: NSObject {
                 return
             }
             dump(model)
+            let oxygenModel = DOxygenModel()
+            oxygenModel.mac = model.mac
+            oxygenModel.uuidString = model.uuidString
+            oxygenModel.timeStamp = model.timeStamp
+            oxygenModel.oxygen = model.oxygen
+            if model.oxygen > 0 {
+                print("将血氧数据保存至数据库中：\(model.timeStamp)")
+                try? oxygenModel.er.save(update: true)
+            }
             print("血氧结束")
             DispatchQueue.main.async {
                 NotificationCenter.default.post(name: Notification.Name("healthDetail"), object: nil)
@@ -519,6 +545,7 @@ class BLEManager: NSObject {
         if notify.name == WristbandNotifyKeys.setOrRead_Time { // 时间设置成功
             print("时间同步成功")
             bleSelf.getDeviceInfoForWristband() // 第1步：获取设备信息
+            bleSelf.ruiYuDialSet()
             bleSelf.getBatteryForWristband()
         }
          
@@ -526,6 +553,7 @@ class BLEManager: NSObject {
             print("电量设置成功")
             DispatchQueue.main.async {
                 NotificationCenter.default.post(name: Notification.Name("DevicesViewController"), object: "1")
+                NotificationCenter.default.post(name: Notification.Name("DeviceList"), object: "1")
             }
         }
                 
@@ -584,7 +612,7 @@ class BLEManager: NSObject {
                 for i in 0..<self.total {
                     print("循环推送数据:"+String(i))
                     bleSelf.setDialPush(binData, dataIndex: i)
-                    usleep(20 * 1000);
+                    usleep(50 * 1000);
                 }
                 NotificationCenter.default.post(name: Notification.Name("ClockUseViewController"), object: 2)
             } else {

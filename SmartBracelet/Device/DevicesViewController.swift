@@ -32,6 +32,11 @@ class DevicesViewController: BaseViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: Notification.Name("DevicesViewController"), object: nil)
         dialManagmentLabel.text = "dial_management".localized()
         initializeDeviceSettings()
+        
+        if bleSelf.bleModel.name == "Fit-Here" {
+            bleSelf.bleModel.screenWidth = 80
+            bleSelf.bleModel.screenHeight = 160
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -109,6 +114,13 @@ class DevicesViewController: BaseViewController {
 
     /// 表盘管理
     @IBAction func pushToClockManage(_ sender: Any) {
+        if bleSelf.bleModel.screenWidth == 80 {
+            let storyboard = UIStoryboard(name: "Device", bundle: nil)
+            let myClockVC = storyboard.instantiateViewController(withIdentifier: "MyClockViewController") as! MyClockViewController
+            navigationController?.pushViewController(myClockVC, animated: true)
+            return
+        }
+        
         let storyboard = UIStoryboard(name: "Device", bundle: nil)
         let vc = storyboard.instantiateViewController(withIdentifier: "ClockManageViewController")
         navigationController?.pushViewController(vc, animated: true)

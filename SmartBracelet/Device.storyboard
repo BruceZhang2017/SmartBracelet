@@ -224,6 +224,7 @@
                                             <outlet property="dateTimeBottomLabel" destination="g1x-wr-ZGu" id="4X9-Oj-52S"/>
                                             <outlet property="dateTimeLabel" destination="J3W-Ec-U6z" id="boT-iz-PAF"/>
                                             <outlet property="dateTimeTopLabel" destination="bVg-iq-ZhN" id="VRl-pB-iGq"/>
+                                            <outlet property="itemImageView" destination="Y4r-IF-SWL" id="916-9t-UtP"/>
                                             <outlet property="selectButton" destination="zle-an-mo5" id="rE6-pW-eK4"/>
                                             <outlet property="topLC" destination="n1e-Qh-bLf" id="M4T-da-Nce"/>
                                         </connections>

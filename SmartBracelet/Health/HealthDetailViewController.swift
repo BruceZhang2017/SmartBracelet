@@ -111,6 +111,7 @@ class HealthDetailViewController: BaseViewController {
         startTestButton.setTitle("开始测试", for: .normal)
         startTestButton.isUserInteractionEnabled = true
         endColorChangeAnimation()
+        setData() // 刷新数据
     }
     
     /// 设置图表

@@ -19,7 +19,7 @@ class UploadImageViewController: UIViewController {
                 return
             }
             imgView.image = image!
-            guard let imageData = NSUIImagePNGRepresentation(image!) else {
+            guard let imageData = NSUIImageJPEGRepresentation(image!, 0.3) else {
                 return
             }
             sizeLabel.text = imageData.count.sizeToStr()
@@ -99,12 +99,29 @@ class UploadImageViewController: UIViewController {
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(handleHide(_:)))
         view.addGestureRecognizer(tap)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(handleStop), name: Notification.Name("UploadImageViewController"), object: nil)
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    @objc private func handleStop() {
+        view.isHidden = true 
+        dismiss(animated: false) {
+            
+        }
     }
     
     @objc func handleUpload() {
         uploadButton.isUserInteractionEnabled = false
         if let i = image {
-            delegate?.startUpload(image: i)
+            let w: CGFloat = CGFloat(bleSelf.bleModel.screenWidth)
+            let h: CGFloat = CGFloat(bleSelf.bleModel.screenHeight)
+            let newImage = i.scaled(to: CGSize(width: w, height: h))
+            let imageData = newImage.compressImageOnlength(maxLength: 100)
+            delegate?.startUpload(image: UIImage(data: imageData!)!)
         }
     }
 
