@@ -63,8 +63,10 @@ class WeatherViewController: UIViewController, AMapSearchDelegate {
     }
     
     func initSearch() {
+        AMapSearchAPI.updatePrivacyShow(.didShow, privacyInfo: .didContain)
+        AMapSearchAPI.updatePrivacyAgree(.didAgree)
         search = AMapSearchAPI()
-        search.delegate = self
+        search?.delegate = self
     }
     
     //MARK: - Action
@@ -74,7 +76,7 @@ class WeatherViewController: UIViewController, AMapSearchDelegate {
         req.city = "深圳"
         req.type = AMapWeatherType.forecast
         
-        self.search.aMapWeatherSearch(req)
+        self.search?.aMapWeatherSearch(req)
     }
     
     func searchLiveWeather() {
@@ -83,7 +85,7 @@ class WeatherViewController: UIViewController, AMapSearchDelegate {
         req.city = "深圳"
         req.type = AMapWeatherType.live
         
-        self.search.aMapWeatherSearch(req)
+        self.search?.aMapWeatherSearch(req)
     }
     
     

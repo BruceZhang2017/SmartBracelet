@@ -10,7 +10,7 @@
 //
 	
 
-import Foundation
+import UIKit
 
 class PopupBViewController: UIViewController {
     var contentView: UIView!

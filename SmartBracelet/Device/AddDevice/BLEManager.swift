@@ -135,7 +135,7 @@ class BLEManager: NSObject {
         if notify.name == WUBleManagerNotifyKeys.disconnected {
             print("蓝牙断开连接")
             if bleSelf.bleModel.isBond == true && lastestDeviceMac.count > 0 {
-                bleSelf.reConnectDevice()
+                bleSelf.reConnectDevice() // 执行重新连接
             }
             NotificationCenter.default.post(name: Notification.Name("MTabBarController"), object: "disconnect")
             NotificationCenter.default.post(name: Notification.Name("UploadImageViewController"), object: nil)
@@ -479,6 +479,7 @@ class BLEManager: NSObject {
             } else {
                 bloodArray.append(model)
             }
+            NotificationCenter.default.post(name: Notification.Name("HealthViewController"), object: "blood")
         }
         
         if notify.name == WristbandNotifyKeys.sysCeLiang_oxygen {
@@ -540,6 +541,7 @@ class BLEManager: NSObject {
             } else {
                 oxygenArray.append(model)
             }
+            NotificationCenter.default.post(name: Notification.Name("HealthViewController"), object: "oxygen")
         }
         
         if notify.name == WristbandNotifyKeys.setOrRead_Time { // 时间设置成功
@@ -611,8 +613,11 @@ class BLEManager: NSObject {
                 NotificationCenter.default.post(name: Notification.Name("ClockUseViewController"), object: 1)
                 for i in 0..<self.total {
                     print("循环推送数据:"+String(i))
+                    let d = Float(i * 100) / Float(self.total)
+                    let s = String(format: "%.02f%%", d)
+                    NotificationCenter.default.post(name: Notification.Name("ClockUseViewController"), object: 1, userInfo: ["p": s])
                     bleSelf.setDialPush(binData, dataIndex: i)
-                    usleep(50 * 1000);
+                    usleep(30 * 1000);
                 }
                 NotificationCenter.default.post(name: Notification.Name("ClockUseViewController"), object: 2)
             } else {

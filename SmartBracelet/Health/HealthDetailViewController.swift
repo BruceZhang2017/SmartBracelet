@@ -344,7 +344,7 @@ class HealthDetailViewController: BaseViewController {
                 for i in 0..<array.count {
                     let value = array[i].oxygen
                     let x = (array[i].timeStamp - Int(zero)) / 3660
-                    values[x] = ChartDataEntry(x: Double(x), y: Double(value) / Double(40))
+                    values[x] = ChartDataEntry(x: Double(x), y: Double(value) / Double(20))
                 }
                 print("获取到数据的数量为：\(values.count)")
             }

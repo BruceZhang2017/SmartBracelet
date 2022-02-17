@@ -15,6 +15,8 @@ import NVActivityIndicatorView
 import Toaster
 import TJDWristbandSDK
 import YYImage
+import MJRefresh
+
 
 class HealthViewController: BaseViewController {
     @IBOutlet weak var bleedGIFImageView: YYAnimatedImageView!
@@ -81,6 +83,17 @@ class HealthViewController: BaseViewController {
         pView.progressColor = UIColor.white
         pView.trackColor = UIColor.white.withAlphaComponent(0.5)
         pView.progress = 0
+        
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(handleDidEnterBackgroundNotification), name: UIApplication.didEnterBackgroundNotification, object: nil)
+    }
+    
+    @objc private func handleDidEnterBackgroundNotification() {
+        if activityIndicator != nil {
+            activityIndicator?.stopAnimating()
+            activityIndicator?.removeFromSuperview()
+            activityIndicator = nil
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -287,7 +300,7 @@ class HealthViewController: BaseViewController {
     
     private func startLoadingViewCheckTimer() {
         endLoadingViewCheckTimer()
-        loadingViewCheckTimer = Timer.scheduledTimer(withTimeInterval: 20, repeats: false, block: { (timer) in
+        loadingViewCheckTimer = Timer.scheduledTimer(withTimeInterval: 12, repeats: false, block: { (timer) in
             NotificationCenter.default.post(name: Notification.Name("HealthVCLoading"), object: 3)
         })
         RunLoop.current.add(loadingViewCheckTimer!, forMode: .common)

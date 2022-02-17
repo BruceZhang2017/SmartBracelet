@@ -21,7 +21,7 @@ class AlarmRepeatViewController: BaseViewController {
         super.viewDidLoad()
         title = "device_alarm_settings".localized()
         tableView.tableFooterView = UIView()
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "nav_icon_edit"), style: .plain, target: self, action: #selector(submit(_:)))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "mine_save".localized(), style: .plain, target: self, action: #selector(submit(_:)))
     }
     
     @objc private func submit(_ sender: Any) {

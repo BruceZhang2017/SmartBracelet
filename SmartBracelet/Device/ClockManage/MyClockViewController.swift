@@ -56,39 +56,6 @@ class MyClockViewController: UIViewController {
         super.viewDidLoad()
         title = "自定义表盘"
         print("瑞昱设备表盘宽%@高%@,可推空间",bleSelf.bleModel.screenWidth, bleSelf.bleModel.screenHeight)
-//        if bShowDetail == false {
-//            rightButton = UIButton(type: .custom).then {
-//                $0.initializeRightNavigationItem()
-//                $0.setTitle("管理", for: .normal)
-//                $0.setTitle("mine_delete".localized(), for: .selected)
-//                $0.setTitle("完成", for: .disabled)
-//            }
-//            navigationItem.rightBarButtonItem = UIBarButtonItem(customView: rightButton)
-//        }
-//        collctionView.bounces = false
-//        let flow = ClockCollectionViewFlowLayout()
-//        collctionView.collectionViewLayout = flow
-//
-//        nullLabel = UILabel().then {
-//            $0.textColor = UIColor.black
-//            $0.font = UIFont.systemFont(ofSize: 20)
-//            $0.text = "device_need_download_dial_tip".localized()
-//            $0.numberOfLines = 0
-//        }
-//        view.addSubview(nullLabel)
-//        nullLabel.snp.makeConstraints {
-//            $0.left.equalTo(20)
-//            $0.right.equalTo(-20)
-//            $0.centerY.equalToSuperview()
-//        }
-//
-//        let clockDir = UserDefaults.standard.dictionary(forKey: "MyClock") ?? [:]
-//        let clockStr = clockDir[bleSelf.bleModel.mac] as? String ?? ""
-//        if clockStr.count > 0 {
-//            ClockArray = clockStr.components(separatedBy: "&&&")
-//            nullLabel.isHidden = true
-//        }
-        
         
         datetimeLocation = bleSelf.dialSelectModel.timeDirection
         datetimeTopLocation = bleSelf.dialSelectModel.onTheTime
@@ -175,7 +142,7 @@ class MyClockViewController: UIViewController {
                     }
                     print("for循环推送: \(i) \(self.total)")
                     bleSelf.setImagePush(binData, dataIndex: i)
-                    usleep(50 * 1000)
+                    usleep(30 * 1000)
                     if i + 1 == self.total {
                         DispatchQueue.main.async {
                             [weak self] in
@@ -191,6 +158,26 @@ class MyClockViewController: UIViewController {
                             })
                             self?.tableView?.reloadData()
                         }
+                        
+                        var clockDir = UserDefaults.standard.dictionary(forKey: "MyClock") ?? [:]
+                        var clockStr = clockDir["00:00:00:00:00:00"] as? String ?? ""
+                        let w  = bleSelf.bleModel.screenWidth
+                        let h = bleSelf.bleModel.screenHeight
+                        let imageN = "\(w)_\(h).png"
+                        let fullPath = NSHomeDirectory().appending("/Documents/").appending(imageN)
+                        if clockStr.contains(fullPath) {
+                            return
+                        }
+                        if clockStr.count > 0 {
+                            clockStr.append("&&&\("自定义表盘")&&\(imageN)&&\(fullPath)")
+                        } else {
+                            clockStr.append("\("自定义表盘")&&\(imageN)&&\(fullPath)")
+                        }
+                        clockDir["00:00:00:00:00:00"] = clockStr
+                        UserDefaults.standard.setValue(clockDir, forKey: "MyClock")
+                        UserDefaults.standard.synchronize()
+                        
+                        
                     }
                 }
                 

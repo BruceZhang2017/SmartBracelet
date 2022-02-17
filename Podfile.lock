@@ -14,20 +14,20 @@ PODS:
   - AFNetworking/Serialization (4.0.1)
   - AFNetworking/UIKit (4.0.1):
     - AFNetworking/NSURLSession
-  - Alamofire (5.4.3)
-  - AliyunOSSiOS (2.10.9)
+  - Alamofire (5.4.4)
+  - AliyunOSSiOS (2.10.12)
   - AMap2DMap (5.6.1):
     - AMapFoundation (~> 1.4)
-  - AMapFoundation (1.6.7)
-  - AMapLocation (2.6.8):
-    - AMapFoundation (~> 1.6.4)
-  - AMapSearch (7.9.0):
-    - AMapFoundation (~> 1.6.6)
+  - AMapFoundation (1.6.9)
+  - AMapLocation (2.8.0):
+    - AMapFoundation (~> 1.6.9)
+  - AMapSearch (8.1.0):
+    - AMapFoundation (~> 1.6.9)
   - Bugly (2.5.91)
-  - CountryPickerView (3.2.0)
+  - CountryPickerView (3.3.0)
   - IQKeyboardManagerSwift (6.3.0)
-  - Kingfisher (6.3.0)
-  - MJRefresh (3.6.1)
+  - Kingfisher (6.3.1)
+  - MJRefresh (3.7.5)
   - NVActivityIndicatorView (5.1.1):
     - NVActivityIndicatorView/Base (= 5.1.1)
   - NVActivityIndicatorView/Base (5.1.1)
@@ -37,17 +37,17 @@ PODS:
   - Pgyer (2.8.9)
   - PgyUpdate (1.6)
   - ProgressHUD (2.70)
-  - Realm (10.7.6):
-    - Realm/Headers (= 10.7.6)
-  - Realm/Headers (10.7.6)
-  - RealmSwift (10.7.6):
-    - Realm (= 10.7.6)
+  - Realm (10.13.0):
+    - Realm/Headers (= 10.13.0)
+  - Realm/Headers (10.13.0)
+  - RealmSwift (10.13.0):
+    - Realm (= 10.13.0)
   - Segmentio (4.1)
   - SnapKit (5.0.1)
   - Then (2.7.0)
   - Toast (4.0.0)
   - Toaster (2.3.0)
-  - TZImagePickerController (3.6.7)
+  - TZImagePickerController (3.7.2)
   - XCGLogger (7.0.1):
     - XCGLogger/Core (= 7.0.1)
   - XCGLogger/Core (7.0.1):
@@ -58,7 +58,7 @@ PODS:
 
 DEPENDENCIES:
   - AFNetworking
-  - Alamofire (~> 5.2)
+  - Alamofire (~> 5.4.4)
   - AliyunOSSiOS
   - AMap2DMap
   - AMapLocation
@@ -72,8 +72,8 @@ DEPENDENCIES:
   - Pgyer
   - PgyUpdate
   - ProgressHUD
-  - Realm
-  - RealmSwift
+  - Realm (~> 10.13.0)
+  - RealmSwift (~> 10.13.0)
   - Segmentio
   - SnapKit
   - Then
@@ -119,38 +119,38 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   Toaster:
-    :commit: b4fa1aa8d9231ea62dac5c3255f4313d727d22a4
+    :commit: e291374fda2be69bed0330e4346d5fb2af08f4ba
     :git: https://github.com/devxoul/Toaster.git
 
 SPEC CHECKSUMS:
   AFNetworking: 7864c38297c79aaca1500c33288e429c3451fdce
-  Alamofire: e447a2774a40c996748296fa2c55112fdbbc42f9
-  AliyunOSSiOS: 13173e9eaf05d3816315319876025de3028ea31d
+  Alamofire: f3b09a368f1582ab751b3fff5460276e0d2cf5c9
+  AliyunOSSiOS: b8e5838b52f0e37b0cd2a593c487bb4a73148033
   AMap2DMap: cac76bc057de18a1641f34df6b50bf5bc6b23571
-  AMapFoundation: c7da72b42a713f1429c88af1858d623dde88934b
-  AMapLocation: dad27669c4ca68e395ce7532ff614b7d4d45f7b7
-  AMapSearch: 94cff5f6ab7233c1639111e486861ac2acea6d4b
+  AMapFoundation: 8d8ecbb0b2e9ce5487995360d26c885d94642bfd
+  AMapLocation: 5ef44a1117be7dc541cb7a7d43d03c5ee91e4387
+  AMapSearch: 5c1cc07429f04b9cc76438fcb2411c66fdbbb178
   Bugly: afe841bba2ea6de6d432a3c125240a5e75949c55
-  CountryPickerView: 9b093bfffb4b06a69ba6185a798cadbf863720e7
+  CountryPickerView: 6322ada32a80b0cd721b0267282a5c24f406f263
   IQKeyboardManagerSwift: a8228c257614af98743b4cd8584637025f36358f
-  Kingfisher: 6c3df386db71d82c0817a429d2c9421a77396529
-  MJRefresh: d2c1970d1cf6e77fcfcdfe76c943dfab8dbfa5c1
+  Kingfisher: 016c8b653a35add51dd34a3aba36b580041acc74
+  MJRefresh: fdf5e979eb406a0341468932d1dfc8b7f9fce961
   NVActivityIndicatorView: 1f6c5687f1171810aa27a3296814dc2d7dec3667
   ObjcExceptionBridging: c30e00eb3700467e695faeea30e26e18bd445001
   Pgyer: 830654e51e23f754cce5d8b3ea9ba72be68452eb
   PgyUpdate: cd6c2ada5928f36a9f904d8f96a9b3b53e190755
   ProgressHUD: e603e8b8622c47d8818b9fb38b3cfe9d3e7ca421
-  Realm: ed860452717c8db8f4bf832b6807f7f2ce708839
-  RealmSwift: e31c4ddbcc42ac879313d656b86f9ca539f6f4f4
+  Realm: e3a1225aafa7cec96a020dc199201b9d1f9cd59c
+  RealmSwift: 62585b4a934754a9d9117331689f4e8a5b1f6113
   Segmentio: ab29def64e1bff6e6e9b97671788a99bed3f1d9f
   SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
   Then: acfe0be7e98221c6204e12f8161459606d5d822d
   Toast: 91b396c56ee72a5790816f40d3a94dd357abc196
   Toaster: c3473963c78e8cabbf6ea6f11ad0fdaae6f54987
-  TZImagePickerController: 679ae9fa11e189a9a81291ae96f0a4463be8edc1
+  TZImagePickerController: 0f926234c46362d3c4ed128832b6da59b2d9917e
   XCGLogger: 1943831ef907df55108b0b18657953f868de973b
   YYImage: 1e1b62a9997399593e4b9c4ecfbbabbf1d3f3b54
 
-PODFILE CHECKSUM: c197a68b32cca82185d08705f9703f03e80c0b04
+PODFILE CHECKSUM: 3ebac794adc975e2ddac4137121e84a811e192b4
 
 COCOAPODS: 1.11.0

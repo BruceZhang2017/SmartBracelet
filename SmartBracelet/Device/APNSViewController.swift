@@ -37,8 +37,16 @@ class APNSViewController: BaseViewController {
             bleSelf.notifyModel.isFacebook = mSwitch?.isOn ?? false
         } else if tag == 4 {
             bleSelf.notifyModel.isTwitter = mSwitch?.isOn ?? false
-        } else {
+        } else if tag == 10 {
             bleSelf.notifyModel.isWhatapp = mSwitch?.isOn ?? false
+        } else if tag == 11 {
+            bleSelf.notifyModel.isLine = mSwitch?.isOn ?? false
+        } else if tag == 12 {
+            bleSelf.notifyModel.isKakaoTalk = mSwitch?.isOn ?? false
+        } else if tag == 13 {
+            bleSelf.notifyModel.isFacebookMessage = mSwitch?.isOn ?? false
+        } else if tag == 14 {
+            bleSelf.notifyModel.isInstagram = mSwitch?.isOn ?? false
         }
         
         bleSelf.setAncsSwitchForWristband(bleSelf.notifyModel)
@@ -77,8 +85,18 @@ extension APNSViewController: UITableViewDataSource {
             } else {
                 mSwitch.isOn = bleSelf.notifyModel.isTwitter
             }
-        } else {
-            mSwitch.isOn = bleSelf.notifyModel.isWhatapp
+        } else if indexPath.section == 1 {
+            if indexPath.row == 0 {
+                mSwitch.isOn = bleSelf.notifyModel.isWhatapp
+            } else if indexPath.row == 1 {
+                mSwitch.isOn = bleSelf.notifyModel.isLine
+            } else if indexPath.row == 2 {
+                mSwitch.isOn = bleSelf.notifyModel.isKakaoTalk
+            } else if indexPath.row == 3 {
+                mSwitch.isOn = bleSelf.notifyModel.isFacebookMessage
+            } else if indexPath.row == 4 {
+                mSwitch.isOn = bleSelf.notifyModel.isInstagram
+            }
         }
         mSwitch.addTarget(self, action: #selector(valueChanged(_:)), for: .valueChanged)
         return cell
@@ -98,6 +116,6 @@ extension APNSViewController: UITableViewDelegate {
 
 extension APNSViewController {
     var titles: [[String]] {
-        return [["device_push_settings_wechat".localized(), "QQ", "LIKEDIN", "FACEBOOK", "TIWTTER"], ["WHATSAPP"]]
+        return [["device_push_settings_wechat".localized(), "QQ", "LIKEDIN", "FACEBOOK", "TIWTTER"], ["WHATSAPP", "Line", "KakaoTalk", "Facebook Message", "Instagram"]]
     }
 }

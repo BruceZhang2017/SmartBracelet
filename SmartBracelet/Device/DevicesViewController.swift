@@ -44,9 +44,12 @@ class DevicesViewController: BaseViewController {
         deviceView?.refreshData()
         
         let clockDir = UserDefaults.standard.dictionary(forKey: "MyClock") ?? [:]
-        let clockStr = clockDir[bleSelf.bleModel.mac] as? String ?? ""
+        let clockStr = clockDir["00:00:00:00:00:00"] as? String ?? ""
         if clockStr.count > 0 {
             clockArray = clockStr.components(separatedBy: "&&&")
+            if clockArray.count > 3 {
+                clockArray = clockArray.suffix(3)
+            }
         }
         collectionView?.reloadData()
     }
@@ -200,7 +203,14 @@ extension DevicesViewController: UICollectionViewDataSource {
         if indexPath.row < clockArray.count  {
             let item = clockArray[indexPath.row]
             let array = item.components(separatedBy: "&&")
-            cell.clockImageView.image = UIImage(named: array[1])
+            if array[1].contains(".png"){
+                print("保存的图片路径：\(array[1])")
+                let fullPath = NSHomeDirectory().appending("/Documents/").appending(array[1])
+                cell.clockImageView.image = UIImage(contentsOfFile: fullPath)
+            } else {
+                cell.clockImageView.image = UIImage(named: array[1])
+            }
+            
             cell.clockNameLabel.text = array[0]
         } else {
             cell.clockImageView.image = UIImage(named: "jiahao")

@@ -17,7 +17,7 @@ class ClockUseViewController: BaseViewController {
     @IBOutlet weak var clockImageView: UIImageView!
     @IBOutlet weak var clockNameLabel: UILabel!
     @IBOutlet weak var sizeLabel: UILabel!
-    var popup: PopupBViewController?
+
     var index = 0
     var rightButton: UIButton!
     var binData: Data!
@@ -26,6 +26,8 @@ class ClockUseViewController: BaseViewController {
     var clockName: String = ""
     var imagename: String = ""
     var path = ""
+    
+    var imageUploadVc: UploadImageViewController?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -109,9 +111,15 @@ class ClockUseViewController: BaseViewController {
     
     @objc private func handleNotification(_ notification: Notification) {
         let obj = notification.object as? Int ?? 0 // 1.开始 2.成功 3.失败
+        let userinfo = notification.userInfo as? [String: String]
+        let p = userinfo?["p"] ?? ""
         DispatchQueue.main.async {
             [weak self] in
             if obj == 1 {
+                if p.count > 0 {
+                    self?.imageUploadVc?.uploadButton.setTitle(p, for: .normal)
+                    return
+                }
                 self?.showDialog()
             } else if obj == 2 {
                 self?.refreshDialogForResult(value: true)
@@ -122,70 +130,40 @@ class ClockUseViewController: BaseViewController {
     }
     
     public func showDialog() {
-        popup = PopupBViewController()
-        popup?.modalTransitionStyle = .crossDissolve
-        popup?.modalPresentationStyle = .overCurrentContext
-        tabBarController?.present(popup!, animated: false, completion: nil)
-        popup?.iconImageView.layer.borderColor = UIColor.color(hex: "64F2B4").cgColor
-        popup?.iconImageView.layer.borderWidth = 2
-        popup?.iconImageView.layer.cornerRadius = 24
-        let attStr = NSMutableAttributedString()
-        attStr.append(NSAttributedString(string: "正在同步至手环，请稍后...", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 13)]))
-        let style = NSMutableParagraphStyle()
-        style.alignment = .center
-        attStr.addAttributes([.paragraphStyle: style], range: NSMakeRange(0, attStr.length))
-        popup?.contentLabel?.attributedText = attStr
-        popup?.callback = {
+        imageUploadVc = UploadImageViewController()
+        imageUploadVc?.modalPresentationStyle = .overCurrentContext
+        imageUploadVc?.modalTransitionStyle = .crossDissolve
+        imageUploadVc?.view.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+        imageUploadVc?.delegate = self
+        imageUploadVc?.image = UIImage(named: imagename)
+        imageUploadVc?.imgView.contentMode = .scaleAspectFit
+        self.present(imageUploadVc!, animated: false) {
             
         }
-        popup?.iconImageView.snp.updateConstraints {
-            $0.width.height.equalTo(48)
-        }
-        let iv = UIImageView(frame: CGRect(x: 17, y: 17, width: 14, height: 14)).then {
-            $0.image = UIImage(named: "conten_icon_refresh")
-            $0.tag = 888
-        }
-        popup?.iconImageView.addSubview(iv)
-        
     }
     
     public func refreshDialogForResult(value: Bool) {
-        let iv = popup?.iconImageView.viewWithTag(888) as? UIImageView
-        if value {
-            iv?.image = UIImage(named: "content_icon_success")
-            let attStr = NSMutableAttributedString()
-            attStr.append(NSAttributedString(string: "推送成功", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 13)]))
-            let style = NSMutableParagraphStyle()
-            style.alignment = .center
-            attStr.addAttributes([.paragraphStyle: style], range: NSMakeRange(0, attStr.length))
-            popup?.contentLabel?.attributedText = attStr
-        } else {
-            iv?.image = UIImage(named: "content_icon_fail")
-            let attStr = NSMutableAttributedString()
-            attStr.append(NSAttributedString(string: "推送失败", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 13)]))
-            let style = NSMutableParagraphStyle()
-            style.alignment = .center
-            attStr.addAttributes([.paragraphStyle: style], range: NSMakeRange(0, attStr.length))
-            popup?.contentLabel?.attributedText = attStr
-        }
+        Toast(text: value ? "推送成功" : "推送失败").show()
         hideDialog()
         
-        var clockDir = UserDefaults.standard.dictionary(forKey: "MyClock") ?? [:]
-        var clockStr = clockDir[bleSelf.bleModel.mac] as? String ?? ""
-        if clockStr.count > 0 {
-            clockStr.append("&&&\(clockName)&&\(imagename)&&\(path)")
-        } else {
-            clockStr.append("\(clockName)&&\(imagename)&&\(path)")
+        if value {
+            var clockDir = UserDefaults.standard.dictionary(forKey: "MyClock") ?? [:]
+            var clockStr = clockDir["00:00:00:00:00:00"] as? String ?? ""
+            if clockStr.count > 0 {
+                clockStr.append("&&&\(clockName)&&\(imagename)&&\(path)")
+            } else {
+                clockStr.append("\(clockName)&&\(imagename)&&\(path)")
+            }
+            clockDir["00:00:00:00:00:00"] = clockStr
+            UserDefaults.standard.setValue(clockDir, forKey: "MyClock")
+            UserDefaults.standard.synchronize()
         }
-        clockDir[bleSelf.bleModel.mac] = clockStr
-        UserDefaults.standard.setValue(clockDir, forKey: "MyClock")
-        UserDefaults.standard.synchronize()
         
         perform(#selector(back), with: nil, afterDelay: 2)
     }
     
     private func hideDialog() {
-        popup?.dismiss(animated: false, completion: nil)
+        imageUploadVc?.dismiss(animated: false, completion: nil)
     }
     
     @objc private func back() {
@@ -202,5 +180,11 @@ extension Int {
         } else {
             return "\(self / 1024 / 1024)MB"
         }
+    }
+}
+
+extension ClockUseViewController: UploadImageDelegate {
+    func startUpload(image: UIImage) {
+        
     }
 }
