@@ -17,7 +17,7 @@ extension String {
     static let kShowHealthDetail = "ShowHealthDetail"
     static let kSetTargetViewController = "SetTargetViewController"
     static let kSetTargetBViewController = "SetTargetBViewController"
-    static let kSetTarget = "设定目标"
+    static let kSetTarget = "setting_goal".localized()
     
     /// Storyboard
     static let kSport = "Sport"

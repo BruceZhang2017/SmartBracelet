@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19455" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="iVR-zD-w8P">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="iVR-zD-w8P">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
@@ -194,8 +194,8 @@
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="目标 ｜ 0步" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tEk-Na-rvs">
-                                                        <rect key="frame" x="152.5" y="211" width="79" height="18"/>
-                                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                        <rect key="frame" x="163" y="215.5" width="58.5" height="13.5"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
@@ -661,9 +661,6 @@
                                                     <constraint firstAttribute="bottom" secondItem="XML-AF-UbS" secondAttribute="bottom" id="cuI-QW-Ojs"/>
                                                     <constraint firstItem="Bw4-Os-NVl" firstAttribute="top" secondItem="29Q-vy-Wz1" secondAttribute="top" constant="10" id="ehy-y1-AJJ"/>
                                                 </constraints>
-                                                <connections>
-                                                    <outletCollection property="gestureRecognizers" destination="5b6-q1-VNS" appends="YES" id="KNb-p5-HzU"/>
-                                                </connections>
                                             </view>
                                             <imageView hidden="YES" clipsSubviews="YES" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="content_banner_illustration" translatesAutoresizingMaskIntoConstraints="NO" id="FVC-cn-cte">
                                                 <rect key="frame" x="15" y="518" width="384" height="66"/>
@@ -735,14 +732,10 @@
                         <outlet property="contentView" destination="NJp-PX-3qd" id="1DX-3z-1a1"/>
                         <outlet property="dialManagmentLabel" destination="Bw4-Os-NVl" id="n1m-P5-obF"/>
                         <outlet property="dialView" destination="29Q-vy-Wz1" id="eFL-WC-gAp"/>
+                        <outlet property="exchangeBarButtonItem" destination="tMp-kp-yqb" id="J4y-ei-JyW"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cI3-qa-Naj" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-                <tapGestureRecognizer id="5b6-q1-VNS">
-                    <connections>
-                        <action selector="pushToClockManage:" destination="fEI-qL-rja" id="YiR-rD-x2R"/>
-                    </connections>
-                </tapGestureRecognizer>
                 <tapGestureRecognizer id="ylK-eg-S8d">
                     <connections>
                         <action selector="showPop:" destination="fEI-qL-rja" id="sC0-2l-HC3"/>

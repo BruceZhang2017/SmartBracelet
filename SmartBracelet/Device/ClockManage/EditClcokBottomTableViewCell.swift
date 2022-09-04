@@ -9,6 +9,7 @@
 import UIKit
 
 class EditClcokBottomTableViewCell: UITableViewCell {
+    @IBOutlet weak var colorLabel: UILabel!
     @IBOutlet weak var collectionView: UICollectionView!
     var colors: [UIColor] = [UIColor.white, UIColor.black, UIColor.yellow,
                              UIColor(red: 232/255.0, green: 149/255.0, blue: 102/255.0, alpha: 1),
@@ -24,6 +25,7 @@ class EditClcokBottomTableViewCell: UITableViewCell {
         super.awakeFromNib()
         // Initialization code
         collectionView?.isScrollEnabled = false
+        colorLabel.text = "text_color".localized()
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

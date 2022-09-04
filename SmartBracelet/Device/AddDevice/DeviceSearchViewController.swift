@@ -40,7 +40,9 @@ class DeviceSearchViewController: BaseViewController {
         
         scanLabel.isHidden = true
         scanButton.isHidden = true
-        btScanTipLabel.isHidden = true 
+        btScanTipLabel.isHidden = true
+        scanCodeTipLabel.isHidden = true
+        helpButton.isHidden = true 
     }
     
     override func viewDidAppear(_ animated: Bool) {

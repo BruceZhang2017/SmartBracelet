@@ -67,7 +67,7 @@ class DeviceSettingsViewController: BaseViewController {
     }
     
     @objc private func deleteDevice(_ sender: Any) {
-        let alert = UIAlertController(title: "device_tip".localized(), message: "device_unbind_desc".localized(), preferredStyle: .alert)
+        let alert = UIAlertController(title: "device_tip".localized(), message: "unbind_device_desc".localized(), preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "mine_cancel".localized(), style: .cancel, handler: { (action) in
             
         }))
@@ -151,7 +151,7 @@ extension DeviceSettingsViewController: UITableViewDataSource {
             cell.accessoryView = imageView
         }
         if indexPath.section == 0 && indexPath.row == 4 {
-            cell.detailTextLabel?.text = "\(bleSelf.longSitModel.interval)分钟"
+            cell.detailTextLabel?.text = "\(bleSelf.longSitModel.interval)\("minute".localized())"
         } else {
             cell.detailTextLabel?.text = ""
         }
@@ -183,7 +183,7 @@ extension DeviceSettingsViewController: UITableViewDelegate {
                 vc?.hidesBottomBarWhenPushed = true
                 parent?.navigationController?.pushViewController(vc!, animated: true)
             } else if indexPath.row == 5 {
-                let vc = WeatherViewController()
+                let vc = OpenWeatherViewController()
                 vc.hidesBottomBarWhenPushed = true
                 parent?.navigationController?.pushViewController(vc, animated: true)
             }

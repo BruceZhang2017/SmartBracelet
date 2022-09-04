@@ -18,8 +18,9 @@ class DeviceFoundViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "查找设备"
+        title = "find_a_device".localized()
         cancelButton.setTitle("mine_cancel".localized(), for: .normal)
+        foundButton.setTitle("find".localized(), for: .normal)
     }
     
     @IBAction func found(_ sender: Any) {

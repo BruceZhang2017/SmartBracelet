@@ -34,6 +34,8 @@ class BLEManager: NSObject {
     var audioPlayer: AVAudioPlayer!
     var mTimer: Timer?
     var currentFunctionStep = 0 // 当前读取数据的阶段
+    var isReconnect = false // 当前操作是否为回连
+    var isFirstConnected = true // 第一次连接
     
     override init() {
         super.init()
@@ -49,6 +51,7 @@ class BLEManager: NSObject {
     
     public func startScan() {
         if bleSelf.isBluetoothOn {
+            log.info("开始扫描设备")
             bleSelf.startFindBleDevices()
 
         }
@@ -60,6 +63,10 @@ class BLEManager: NSObject {
         }
         if let model = WUBleModel.getModel() as? TJDWristbandSDK.WUBleModel {
             bleSelf.bleModel = model
+            if bleSelf.bleModel.internalNumberString.hasPrefix("P1") || bleSelf.bleModel.internalNumberString.hasPrefix("S1") {
+                bleSelf.bleModel.screenWidth = 80
+                bleSelf.bleModel.screenHeight = 160
+            }
             bleSelf.connectBleDevice(model: bleSelf.bleModel)
             startTimer(timerTnternal: 2)
             log.info("开始连接设备")
@@ -73,8 +80,12 @@ class BLEManager: NSObject {
 
     public func unbind() {
         bleSelf.disconnectBleDevice()
-        bleSelf.bleModel.isBond = false
+        //解绑
+        let model = WUBleModel()
+        bleSelf.bleModel = model
         WUBleModel.setModel(bleSelf.bleModel)
+        Toast(text: "unbind_device_desc".localized()).show()
+        wuPrint("解绑成功 - 设置 - 手动忽略该设备后可重新扫描蓝牙进行重连")
     }
     
     public func startTimer(timerTnternal: TimeInterval) {
@@ -125,16 +136,25 @@ class BLEManager: NSObject {
             WUBleModel.setModel(bleSelf.bleModel)
             NotificationCenter.default.post(name: Notification.Name.SearchDevice, object: "connected") // 通知搜索页面
             NotificationCenter.default.post(name: Notification.Name("MTabBarController"), object: nil) // 通知主控页面
+            let deviceMac = lastestDeviceMac
             lastestDeviceMac = bleSelf.bleModel.mac
             if lastestDeviceMac.count > 0 {
                 UserDefaults.standard.setValue(lastestDeviceMac, forKey: "LastestDeviceMac")
                 UserDefaults.standard.synchronize()
+                if deviceMac == lastestDeviceMac && isFirstConnected == false {
+                    isReconnect = true
+                } else {
+                    isReconnect = false
+                }
             }
+            isFirstConnected = false
         }
         
         if notify.name == WUBleManagerNotifyKeys.disconnected {
             print("蓝牙断开连接")
+            isReconnect = false
             if bleSelf.bleModel.isBond == true && lastestDeviceMac.count > 0 {
+                isReconnect = true
                 bleSelf.reConnectDevice() // 执行重新连接
             }
             NotificationCenter.default.post(name: Notification.Name("MTabBarController"), object: "disconnect")
@@ -241,7 +261,7 @@ class BLEManager: NSObject {
         if notify.name == WristbandNotifyKeys.search_Phone {
             let content = UNMutableNotificationContent()
             content.title = "device_tip".localized()
-            content.body = "查找手机成功"
+            content.body = "found_success".localized()
             content.badge = 1
             content.sound = UNNotificationSound.default
             let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 5, repeats: false)
@@ -260,7 +280,7 @@ class BLEManager: NSObject {
             audioPlayer.play()
             
             DispatchQueue.main.async {
-                let alert = UIAlertController(title: "device_tip".localized(), message: "查找手机成功", preferredStyle: .alert)
+                let alert = UIAlertController(title: "device_tip".localized(), message: "found_success".localized(), preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "mine_confirm".localized(), style: .cancel, handler: { [weak self] action in
                     self?.audioPlayer.stop()
                 }))
@@ -272,16 +292,23 @@ class BLEManager: NSObject {
         
         if notify.name == WristbandNotifyKeys.readyToWrite {
             wuPrint("可以进行列表上的功能操作了！")
+            if isReconnect { // 如果是断开，则不进行数据读取
+                wuPrint("回连，不读取信息")
+                return
+            }
             bleSelf.bindSetForWristband() // 第0步：先绑定设备
-            bleSelf.setTimeForWristband() // 第0步：设置时间
-            bleSelf.setLanguageForWristband() // 第0步：同步语言
+            Async.main(after: 0.1) {
+                bleSelf.setTimeForWristband() // 第0步：设置时间
+            }
+            
+            Async.main(after: 0.3) {
+                bleSelf.setLanguageForWristband() // 第0步：同步语言
+            }
             NotificationCenter.default.post(name: Notification.Name("HealthVCLoading"), object: 2)
         }
         
         if notify.name == WristbandNotifyKeys.bindSet {
             wuPrint("ANCS 绑定成功")
-            bleSelf.getDeviceInfoForWristband() // 第1步：获取设备信息
-            bleSelf.ruiYuDialSet()
         }
                 
         if notify.name == WristbandNotifyKeys.read_Sport {
@@ -545,10 +572,17 @@ class BLEManager: NSObject {
         }
         
         if notify.name == WristbandNotifyKeys.setOrRead_Time { // 时间设置成功
-            print("时间同步成功")
-            bleSelf.getDeviceInfoForWristband() // 第1步：获取设备信息
             bleSelf.ruiYuDialSet()
-            bleSelf.getBatteryForWristband()
+            print("时间同步成功")
+            Async.main(after: 0.3) {
+                bleSelf.getBatteryForWristband()
+            }
+            Async.main(after: 1.5) {
+                bleSelf.getDeviceInfoForWristband() // 第1步：获取设备信息
+            }
+            Async.main(after: 2.5) {
+                NotificationCenter.default.post(name: Notification.Name("DevicesViewController"), object: "1")
+            }
         }
          
         if notify.name == WristbandNotifyKeys.syncEle { // 电量同步结束后
@@ -572,7 +606,16 @@ class BLEManager: NSObject {
                 UserDefaults.standard.setValue(bleSelf.bleModel.mac, forKey: "LastestDeviceMac")
                 UserDefaults.standard.synchronize()
             }
+            if bleSelf.bleModel.internalNumberString.hasPrefix("P1") || bleSelf.bleModel.internalNumberString.hasPrefix("S1") {
+                bleSelf.bleModel.screenWidth = 80
+                bleSelf.bleModel.screenHeight = 160
+                log.info("更新设备的信息")
+            }
             bleSelf.getUserinfoForWristband() // 第2步：获取用户信息
+            
+            Async.main(after: 1) {
+                bleSelf.getBatteryForWristband()
+            }
         }
                 
         if notify.name == WristbandNotifyKeys.search_Dev {
@@ -588,6 +631,10 @@ class BLEManager: NSObject {
             deviceModel.mac = bleSelf.bleModel.mac
             deviceModel.name = bleSelf.bleModel.name
             DeviceManager.shared.deviceInfo[bleSelf.bleModel.mac] = deviceModel
+            
+            DispatchQueue.main.async {
+                NotificationCenter.default.post(name: Notification.Name("DevicesViewController"), object: "1")
+            }
         }
                 
         if notify.name == WristbandNotifyKeys.takePhoto {
@@ -676,7 +723,7 @@ class BLEManager: NSObject {
                 alarmArray.removeAll()
             }
             alarmArray.append(model)
-            if model.clockId == 4 {
+            if model.clockId >= 2 {
                 DispatchQueue.main.async { // 返回主线程刷新
                     NotificationCenter.default.post(name: Notification.Name.Alarm, object: nil)
                 }

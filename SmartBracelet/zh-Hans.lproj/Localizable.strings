@@ -119,7 +119,6 @@
 "mine_kg_unit"="KG";
 
 // 缺少的文案
-"setting_goal" = "设定目标";
 "every_day_goal" = "每日步数目标";
 "week_1" = "星期一";
 "week_2" = "星期二";
@@ -128,11 +127,52 @@
 "week_5" = "星期五";
 "week_6" = "星期六";
 "week_7" = "星期日";
-"mine_unconnect"="未连接";
-
+"mine_unconnect" = "未连接";
 "device_settings" = "设备设置";
-
 "health_distance" = "距离";
+"setting_goal" = "设定目标";
+"health_detail_sports" = "运动健康小常识";
+"health_detail_sports_desc" = "饭后散步是否有助于消化？";
+"health_detail_apple" = "一天一个苹果远离医生的说法";
+"health_detail_apple_desc" = "起床一杯白开水有助于排毒的";
+"health_detail_sleep_awake" = "清醒";
+"health_detail_sleep_light" = "浅睡";
+"health_detail_sleep_deep" = "深睡";
+"health_start_test" = "开始测试";
+"health_select_time" = "选择时间";
+"health_testing" = "测试中...";
+"add_new_device" = "添加新设备";
+"bind_device" = "绑定";
+"switch_device" = "切换设备";
+"custom_watch_face" = "自定义表盘";
+"unbind_device_desc" = "您确定解除绑定该设备？如果确定，并请至手机“设置 -> 蓝牙”中删除该设备配对记录。";
+"hint" = "提示";
+"find_a_device" = "查找设备";
+"find" = "查找";
+"repeat" = "重复";
+"minute" = "分钟";
+"reminder_interval" = "提醒间隔";
+"week" = "星期";
+"time" = "时间";
+"select_image" = "选择图片";
+"time_position" = "时间位置";
+"above" = "上方";
+"below" = "下方";
+"content_above_time" = "时间上方内容";
+"content_below_time" = "时间下方内容";
+"closure" = "关闭";
+"date" = "日期";
+"sleep" = "睡眠";
+"heart_rate" = "心率";
+"step" = "记步";
+"text_color" = "文字颜色";
+"person_info" = "个人信息 ->设置昵称";
+"time_system" = "时间制";
+"unit" = "单位";
+"local_ota_file" = "使用本地OTA文件";
+"confirm" = "确认";
+"found_success" = "查找手机成功";
+
 
 
 

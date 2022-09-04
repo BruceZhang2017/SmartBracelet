@@ -28,13 +28,13 @@ class MyClockViewController: UIViewController {
 //    var ClockArray: [String] = []
     var imagePickerVc: TZImagePickerController?
     var imageUploadVc: UploadImageViewController?
-    
+    var index = 0
     var datetimeLocation = 0  ///时间上方0 时间下方1
     var datetimeTopLocation = 0 ///关闭0 日期1 睡眠2 心率3 计步4
     var datetimeBottomLocation = 0 ///关闭0 日期1 睡眠2 心率3 计步4
     var colorIndex = 0 ///白色0 黑色1 黄色2 橙色3 粉色4 紫色5 蓝色6 青色7
-    final let locations = ["上方", "下方"]
-    final let tops = ["关闭", "日期", "睡眠", "心率", "记步"]
+    final let locations = ["above".localized(), "below".localized()]
+    final let tops = ["closure".localized(), "date".localized(), "sleep".localized(), "heart_rate".localized(), "step".localized()]
     var topTap = false
     final var colors: [UIColor] = [UIColor.white, UIColor.black, UIColor.yellow,
                              UIColor(red: 232/255.0, green: 149/255.0, blue: 102/255.0, alpha: 1),
@@ -54,7 +54,7 @@ class MyClockViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "自定义表盘"
+        title = "custom_watch_face".localized()
         print("瑞昱设备表盘宽%@高%@,可推空间",bleSelf.bleModel.screenWidth, bleSelf.bleModel.screenHeight)
         
         datetimeLocation = bleSelf.dialSelectModel.timeDirection
@@ -94,6 +94,7 @@ class MyClockViewController: UIViewController {
             
         })
         needStop = true
+        print("壁纸推送暂停")
         imageUploadVc?.dismiss(animated: false, completion: {
             
         })
@@ -121,6 +122,7 @@ class MyClockViewController: UIViewController {
     @objc func handleNotify(_ notify: Notification) {
         if notify.name == WristbandNotifyKeys.startImagePush {
             let any = notify.object as! Int
+            print("收到壁纸推送通知: \(any)")
             if any == 1 {
                 for i in 0..<self.total {
                     if needStop == true {
@@ -144,6 +146,7 @@ class MyClockViewController: UIViewController {
                     bleSelf.setImagePush(binData, dataIndex: i)
                     usleep(30 * 1000)
                     if i + 1 == self.total {
+                        let timestamp = Int(Date().timeIntervalSince1970)
                         DispatchQueue.main.async {
                             [weak self] in
                             if self?.currentImage == nil {
@@ -151,29 +154,26 @@ class MyClockViewController: UIViewController {
                             }
                             let w  = bleSelf.bleModel.screenWidth
                             let h = bleSelf.bleModel.screenHeight
-                            self?.saveImage(currentImage: self!.currentImage!, imageName: "\(w)_\(h).png")
-                            self?.tableView.reloadData()
+                            let lastestDeviceMac = UserDefaults.standard.string(forKey: "LastestDeviceMac") ?? "00:00:00:00:00:00"
+                            self?.saveImage(currentImage: self!.currentImage!, imageName: "\(lastestDeviceMac)_\(w)_\(h)_\(timestamp).png")
+                            var lastStamp = UserDefaults.standard.dictionary(forKey: "lastStamp") ?? [:]
+                            lastStamp[lastestDeviceMac] = timestamp
+                            UserDefaults.standard.set(lastStamp, forKey: "lastStamp")
+                            UserDefaults.standard.synchronize()
                             self?.imageUploadVc?.dismiss(animated: false, completion: {
                                 
                             })
                             self?.tableView?.reloadData()
                         }
-                        
+                        let lastestDeviceMac = UserDefaults.standard.string(forKey: "LastestDeviceMac") ?? "00:00:00:00:00:00"
                         var clockDir = UserDefaults.standard.dictionary(forKey: "MyClock") ?? [:]
-                        var clockStr = clockDir["00:00:00:00:00:00"] as? String ?? ""
+                        var clockStr = clockDir[lastestDeviceMac] as? [String] ?? ["_&&_&&_", "_&&_&&_", "_&&_&&_"]
                         let w  = bleSelf.bleModel.screenWidth
                         let h = bleSelf.bleModel.screenHeight
-                        let imageN = "\(w)_\(h).png"
+                        let imageN = "\(lastestDeviceMac)_\(w)_\(h)_\(timestamp).png"
                         let fullPath = NSHomeDirectory().appending("/Documents/").appending(imageN)
-                        if clockStr.contains(fullPath) {
-                            return
-                        }
-                        if clockStr.count > 0 {
-                            clockStr.append("&&&\("自定义表盘")&&\(imageN)&&\(fullPath)")
-                        } else {
-                            clockStr.append("\("自定义表盘")&&\(imageN)&&\(fullPath)")
-                        }
-                        clockDir["00:00:00:00:00:00"] = clockStr
+                        clockStr[index] = "\("custom_watch_face".localized())&&\(imageN)&&\(fullPath)"
+                        clockDir[lastestDeviceMac] = clockStr
                         UserDefaults.standard.setValue(clockDir, forKey: "MyClock")
                         UserDefaults.standard.synchronize()
                         
@@ -290,7 +290,7 @@ extension MyClockViewController: UITableViewDelegate {
             itemVC?.index = datetimeLocation
             itemVC?.type = 0
             itemVC?.titles = locations
-            itemVC?.titleStr = "时间位置"
+            itemVC?.titleStr = "time_position".localized()
             navigationController?.present(itemVC!, animated: false, completion: nil)
         } else if indexPath.row == 2 {
             let storyboard = UIStoryboard(name: .kMine, bundle: nil)
@@ -302,7 +302,7 @@ extension MyClockViewController: UITableViewDelegate {
             itemVC?.index = datetimeTopLocation
             itemVC?.type = 1
             itemVC?.titles = tops
-            itemVC?.titleStr = "时间上方内容"
+            itemVC?.titleStr = "content_above_time".localized()
             navigationController?.present(itemVC!, animated: false, completion: nil)
         } else if indexPath.row == 3 {
             let storyboard = UIStoryboard(name: .kMine, bundle: nil)
@@ -313,7 +313,7 @@ extension MyClockViewController: UITableViewDelegate {
             itemVC?.index = datetimeBottomLocation
             itemVC?.type = 2
             itemVC?.titles = tops
-            itemVC?.titleStr = "时间下方内容"
+            itemVC?.titleStr = "content_below_time".localized()
             navigationController?.present(itemVC!, animated: false, completion: nil)
         }
     }
@@ -328,7 +328,7 @@ extension MyClockViewController: UITableViewDataSource {
         if indexPath.row == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "Cell1", for: indexPath) as! EidtClockHeadTableViewCell
             cell.delegate = self
-            cell.dateTimeLabel.text = "时间"
+            cell.dateTimeLabel.text = "time".localized()
             cell.dateTimeTopLabel.text = datetimeTopLocation > 0 ? tops[datetimeTopLocation] : ""
             cell.dateTimeBottomLabel.text = datetimeBottomLocation > 0 ? tops[datetimeBottomLocation] : ""
             cell.dateTimeLabel.textColor = colors[colorIndex]
@@ -336,12 +336,24 @@ extension MyClockViewController: UITableViewDataSource {
             cell.dateTimeBottomLabel.textColor = colors[colorIndex]
             cell.topLC.constant = datetimeLocation == 0 ? 10 : 74
             cell.itemImageView.contentMode = .scaleAspectFit
+            cell.selectButton.setTitle("mine_select_photo".localized(), for: .normal)
             let w  = bleSelf.bleModel.screenWidth
             let h = bleSelf.bleModel.screenHeight
-            let fullPath = NSHomeDirectory().appending("/Documents/").appending("\(w)_\(h).png")
+            let lastestDeviceMac = UserDefaults.standard.string(forKey: "LastestDeviceMac") ?? "00:00:00:00:00:00"
+            let lastStamp = UserDefaults.standard.dictionary(forKey: "lastStamp") ?? [:]
+            let stamp = lastStamp[lastestDeviceMac] ?? ""
+            let fullPath = NSHomeDirectory().appending("/Documents/").appending("\(lastestDeviceMac)_\(w)_\(h)_\(stamp).png")
             if let savedImage = UIImage(contentsOfFile: fullPath) {
                 cell.itemImageView?.image = savedImage
             }
+            let width = bleSelf.bleModel.screenWidth
+            let height = bleSelf.bleModel.screenHeight
+            if width == 80 && height == 160 {
+                cell.leadingLC.constant = 50
+                cell.ivWidthLC.constant = 80
+                cell.ivHeightLC.constant = 160
+            }
+        
             return cell
         }
         if indexPath.row == 4 {
@@ -352,15 +364,15 @@ extension MyClockViewController: UITableViewDataSource {
         }
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell2", for: indexPath) as! EditClockMiddleTableViewCell
         if indexPath.row == 1 {
-            cell.textLabel?.text = "时间位置"
+            cell.textLabel?.text = "time_position".localized()
             cell.detailTextLabel?.text = locations[datetimeLocation]
         }
         if indexPath.row == 2 {
-            cell.textLabel?.text = "时间上方内容"
+            cell.textLabel?.text = "content_above_time".localized()
             cell.detailTextLabel?.text = tops[datetimeTopLocation]
         }
         if indexPath.row == 3 {
-            cell.textLabel?.text = "时间下方内容"
+            cell.textLabel?.text = "content_below_time".localized()
             cell.detailTextLabel?.text = tops[datetimeBottomLocation]
         }
         return cell

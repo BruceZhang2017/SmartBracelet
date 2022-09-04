@@ -71,7 +71,7 @@ class MineViewController: BaseViewController {
             userNameLabel.text = bleSelf.userInfo.name
         }
         if userNameLabel.text?.count ?? 0 == 0 {
-            userNameLabel.text = "个人信息 -> 设置昵称"
+            userNameLabel.text = "person_info".localized()
         }
     }
     
@@ -98,10 +98,10 @@ class MineViewController: BaseViewController {
                     if deviceInfo != nil {
                         if deviceInfo?.battery ?? 0 < 5 {
                             batteryButton.setImage(UIImage(named: "conten_battery_runout"), for: .normal)
-                            batteryButton.setTitle("\("mine_battery_level_low".localized())5%", for: .normal)
+                            batteryButton.setTitle("5%", for: .normal)
                         } else {
                             batteryButton.setImage(UIImage(named: "conten_battery_full"), for: .normal)
-                            batteryButton.setTitle("\("mine_battery_level".localized())\(deviceInfo?.battery ?? 0)%", for: .normal)
+                            batteryButton.setTitle("\(deviceInfo?.battery ?? 0)%", for: .normal)
                         }
                     } else {
                         batteryButton.setImage(UIImage(named: "conten_battery_null"), for: .normal)
@@ -201,9 +201,9 @@ class MineViewController: BaseViewController {
     }
     
     private func showOTAView(_ value: Bool) {
-        let alert = UIAlertController(title: "OTA", message: "使用本地OTA文件：\(value ? "SmartBand_PHY_ota.hex" : "8267_module_tOTA.bin")", preferredStyle: .alert)
+        let alert = UIAlertController(title: "OTA", message: "\("local_ota_file".localized())：\(value ? "SmartBand_PHY_ota.hex" : "8267_module_tOTA.bin")", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "mine_cancel".localized(), style: .cancel, handler: nil))
-        alert.addAction(UIAlertAction(title: "确认", style: .default, handler: { [weak self] (action) in
+        alert.addAction(UIAlertAction(title: "confirm".localized(), style: .default, handler: { [weak self] (action) in
             self?.pushToOTA(value)
         }))
         present(alert, animated: true) {

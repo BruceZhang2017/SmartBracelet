@@ -38,7 +38,7 @@ class DeviceListViewController: BaseViewController {
     private func addFootView() {
         let footView = UIView(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: 80))
         let button = UIButton(type: .custom).then {
-            $0.setTitle("添加新设备", for: .normal)
+            $0.setTitle("add_new_device".localized(), for: .normal)
             $0.setTitleColor(UIColor.color(hex: "14C8C6"), for: .normal)
             $0.setImage(UIImage(named: "content_icon_add"), for: .normal)
             $0.titleLabel?.font = UIFont.systemFont(ofSize: 18)
@@ -102,10 +102,10 @@ extension DeviceListViewController: UITableViewDataSource {
         if deviceInfo != nil {
             if deviceInfo?.battery ?? 0 < 5 {
                 cell.batteryButton.setImage(UIImage(named: "conten_battery_runout"), for: .normal)
-                cell.batteryButton.setTitle("\("mine_battery_level_low".localized())5%", for: .normal)
+                cell.batteryButton.setTitle("5%", for: .normal)
             } else {
                 cell.batteryButton.setImage(UIImage(named: "conten_battery_full"), for: .normal)
-                cell.batteryButton.setTitle("\("mine_battery_level".localized())\(deviceInfo?.battery ?? 0)%", for: .normal)
+                cell.batteryButton.setTitle("\(deviceInfo?.battery ?? 0)%", for: .normal)
             }
         } else {
             cell.batteryButton.setImage(UIImage(named: "conten_battery_null"), for: .normal)
@@ -118,11 +118,26 @@ extension DeviceListViewController: UITableViewDataSource {
 extension DeviceListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        if bleSelf.bleModel.mac == lastestDeviceMac && bleSelf.isConnected {
+        let model = DeviceManager.shared.devices[indexPath.row]
+        if model.mac == lastestDeviceMac && bleSelf.isConnected  {
             return
         }
         bleSelf.disconnectBleDevice()
+        bleSelf.bleModel.isBond = model.isBond
+        bleSelf.bleModel.uuidString = model.uuidString
+        bleSelf.bleModel.name = model.name
+        bleSelf.bleModel.rssi = model.rssi
+        bleSelf.bleModel.mac = model.mac
+        bleSelf.bleModel.hardwareVersion = model.hardwareVersion
+        bleSelf.bleModel.firmwareVersion = model.firmwareVersion
+        bleSelf.bleModel.vendorNumberASCII = model.vendorNumberASCII
+        bleSelf.bleModel.vendorNumberString = model.vendorNumberString
+        bleSelf.bleModel.internalNumber = model.internalNumber
+        bleSelf.bleModel.internalNumberString = model.internalNumberString
+        if bleSelf.bleModel.internalNumberString.hasPrefix("P1") || bleSelf.bleModel.internalNumberString.hasPrefix("S1") {
+            bleSelf.bleModel.screenWidth = 80
+            bleSelf.bleModel.screenHeight = 160
+        }
         bleSelf.connectBleDevice(model: bleSelf.bleModel)
-        navigationController?.popViewController(animated: true)
     }
 }

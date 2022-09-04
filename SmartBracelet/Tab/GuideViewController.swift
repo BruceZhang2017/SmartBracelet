@@ -22,15 +22,12 @@ class GuideViewController: UIViewController {
     }
     
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
     }
-    */
+    
+    
 
 }
 
@@ -73,6 +70,18 @@ extension GuideViewController: UICollectionViewDelegateFlowLayout {
             let vc = sb.instantiateViewController(withIdentifier: "MTabBarController")
             UIApplication.shared.keyWindow?.rootViewController = vc
             CacheHelper().setCacheBool(name: "first", value: true)
+        }
+    }
+}
+
+extension NSMutableAttributedString {
+    public func SetAsLink(textToFind:String, linkURL:String) {
+        
+        let foundRange = self.mutableString.range(of: textToFind)
+        if foundRange.location != NSNotFound {
+            self.addAttribute(.link, value: linkURL, range: foundRange)
+            self.addAttribute(.foregroundColor, value: UIColor.blue, range: foundRange)
+            self.addAttribute(.underlineStyle, value: 0, range: foundRange)
         }
     }
 }

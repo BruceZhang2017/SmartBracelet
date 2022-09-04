@@ -28,10 +28,6 @@
 		9A08C6FB262F182000E178DA /* OTAListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A08C6F5262F182000E178DA /* OTAListCell.m */; };
 		9A08C6FC262F182000E178DA /* ProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A08C6F8262F182000E178DA /* ProgressView.m */; };
 		9A08C701262F19EC00E178DA /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A08C6FF262F19EC00E178DA /* MBProgressHUD.m */; };
-		9A0F1E8326A5BE76000D8989 /* 2_240_240.png in Resources */ = {isa = PBXBuildFile; fileRef = 9A0F1E7F26A5BE76000D8989 /* 2_240_240.png */; };
-		9A0F1E8426A5BE76000D8989 /* 2_240_240.bin in Resources */ = {isa = PBXBuildFile; fileRef = 9A0F1E8026A5BE76000D8989 /* 2_240_240.bin */; };
-		9A0F1E8526A5BE76000D8989 /* 1_240_240.bin in Resources */ = {isa = PBXBuildFile; fileRef = 9A0F1E8126A5BE76000D8989 /* 1_240_240.bin */; };
-		9A0F1E8626A5BE76000D8989 /* 1_240_240.png in Resources */ = {isa = PBXBuildFile; fileRef = 9A0F1E8226A5BE76000D8989 /* 1_240_240.png */; };
 		9A2181652557EDBE000330E5 /* apple.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 9A2181622557EDBE000330E5 /* apple.jpeg */; };
 		9A2181662557EDBE000330E5 /* walk.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 9A2181632557EDBE000330E5 /* walk.jpeg */; };
 		9A2181672557EDBE000330E5 /* water.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9A2181642557EDBE000330E5 /* water.jpg */; };
@@ -257,14 +253,6 @@
 		9A56D2C425216FC70082CC08 /* BubbleChartDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A56D23825216FC60082CC08 /* BubbleChartDataProvider.swift */; };
 		9A58D8B626ABC4A1006C09A1 /* LongsitSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A58D8B526ABC4A0006C09A1 /* LongsitSettingsViewController.swift */; };
 		9A58D8B826AC1F09006C09A1 /* AlarmIntervalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A58D8B726AC1F09006C09A1 /* AlarmIntervalViewController.swift */; };
-		9A58D8BA26AC45E3006C09A1 /* 1_128_128.bin in Resources */ = {isa = PBXBuildFile; fileRef = 9A58D8B926AC45E3006C09A1 /* 1_128_128.bin */; };
-		9A58D8BE26AC45EF006C09A1 /* 2_128_128.png in Resources */ = {isa = PBXBuildFile; fileRef = 9A58D8BB26AC45EF006C09A1 /* 2_128_128.png */; };
-		9A58D8BF26AC45EF006C09A1 /* 1_128_128.png in Resources */ = {isa = PBXBuildFile; fileRef = 9A58D8BC26AC45EF006C09A1 /* 1_128_128.png */; };
-		9A58D8C026AC45EF006C09A1 /* 2_128_128.bin in Resources */ = {isa = PBXBuildFile; fileRef = 9A58D8BD26AC45EF006C09A1 /* 2_128_128.bin */; };
-		9A58D8C526AC464B006C09A1 /* 2_c_240_240.png in Resources */ = {isa = PBXBuildFile; fileRef = 9A58D8C126AC464B006C09A1 /* 2_c_240_240.png */; };
-		9A58D8C626AC464B006C09A1 /* 1_c_240_240.png in Resources */ = {isa = PBXBuildFile; fileRef = 9A58D8C226AC464B006C09A1 /* 1_c_240_240.png */; };
-		9A58D8C726AC464B006C09A1 /* 2_c_240_240.bin in Resources */ = {isa = PBXBuildFile; fileRef = 9A58D8C326AC464B006C09A1 /* 2_c_240_240.bin */; };
-		9A58D8C826AC464B006C09A1 /* 1_c_240_240.bin in Resources */ = {isa = PBXBuildFile; fileRef = 9A58D8C426AC464B006C09A1 /* 1_c_240_240.bin */; };
 		9A5E932A2515BB630060AB13 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5E93292515BB630060AB13 /* UserModel.swift */; };
 		9A5E932D2515C9710060AB13 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5E932C2515C9710060AB13 /* UserManager.swift */; };
 		9A5E93302515CC700060AB13 /* MTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5E932F2515CC700060AB13 /* MTabBarController.swift */; };
@@ -310,6 +298,11 @@
 		9A64F0BA25DE19B30073E679 /* DHeartRateModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A64F0B925DE19B30073E679 /* DHeartRateModel.swift */; };
 		9A64F0BC25DF50C30073E679 /* DAlarmModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A64F0BB25DF50C30073E679 /* DAlarmModel.swift */; };
 		9A6D092C2501D99400B4972F /* ClockManageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A6D092B2501D99400B4972F /* ClockManageViewController.swift */; };
+		9A7315C22871B0BA00D378A7 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7315C12871B0B900D378A7 /* NetworkManager.swift */; };
+		9A7315C62871B0CA00D378A7 /* CurrentWeatherData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7315C52871B0C900D378A7 /* CurrentWeatherData.swift */; };
+		9A7315C82871B0D000D378A7 /* OpenWeatherViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7315C72871B0D000D378A7 /* OpenWeatherViewController.swift */; };
+		9A7315CA2871B0DE00D378A7 /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7315C92871B0DD00D378A7 /* ViewModel.swift */; };
+		9A7315CC2871B16C00D378A7 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7315CB2871B16C00D378A7 /* Constant.swift */; };
 		9A7C31A4276EFFAD00BC1BFB /* UploadImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7C31A3276EFFAD00BC1BFB /* UploadImageViewController.swift */; };
 		9A7D5E4225490EA20016E4BC /* MRGCDTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7D5E4125490EA20016E4BC /* MRGCDTimer.swift */; };
 		9A7E27E8262326E000DA658B /* HttpHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7E27E7262326E000DA658B /* HttpHelper.swift */; };
@@ -396,6 +389,7 @@
 		9AB910272501322C006E0FC4 /* EMAlertTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB910232501322B006E0FC4 /* EMAlertTextField.swift */; };
 		9AB910282501322C006E0FC4 /* EMAlertAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB910242501322B006E0FC4 /* EMAlertAction.swift */; };
 		9AB910292501322C006E0FC4 /* EMAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB910252501322B006E0FC4 /* EMAlertController.swift */; };
+		9AC58A1528C37A3800992836 /* ClockResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AC58A1428C37A3800992836 /* ClockResponse.swift */; };
 		9ADB7EFC275EFB5C009689FE /* blood.gif in Resources */ = {isa = PBXBuildFile; fileRef = 9ADB7EF8275EFB5B009689FE /* blood.gif */; };
 		9ADB7EFD275EFB5C009689FE /* sleep.gif in Resources */ = {isa = PBXBuildFile; fileRef = 9ADB7EF9275EFB5C009689FE /* sleep.gif */; };
 		9ADB7EFE275EFB5C009689FE /* pressure.gif in Resources */ = {isa = PBXBuildFile; fileRef = 9ADB7EFA275EFB5C009689FE /* pressure.gif */; };
@@ -478,10 +472,6 @@
 		9A08C6FD262F183800E178DA /* ColorDefine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ColorDefine.h; sourceTree = "<group>"; };
 		9A08C6FF262F19EC00E178DA /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
 		9A08C700262F19EC00E178DA /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
-		9A0F1E7F26A5BE76000D8989 /* 2_240_240.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 2_240_240.png; sourceTree = "<group>"; };
-		9A0F1E8026A5BE76000D8989 /* 2_240_240.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = 2_240_240.bin; sourceTree = "<group>"; };
-		9A0F1E8126A5BE76000D8989 /* 1_240_240.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = 1_240_240.bin; sourceTree = "<group>"; };
-		9A0F1E8226A5BE76000D8989 /* 1_240_240.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 1_240_240.png; sourceTree = "<group>"; };
 		9A2181622557EDBE000330E5 /* apple.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = apple.jpeg; sourceTree = "<group>"; };
 		9A2181632557EDBE000330E5 /* walk.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = walk.jpeg; sourceTree = "<group>"; };
 		9A2181642557EDBE000330E5 /* water.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = water.jpg; sourceTree = "<group>"; };
@@ -708,14 +698,6 @@
 		9A56D23825216FC60082CC08 /* BubbleChartDataProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BubbleChartDataProvider.swift; sourceTree = "<group>"; };
 		9A58D8B526ABC4A0006C09A1 /* LongsitSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LongsitSettingsViewController.swift; sourceTree = "<group>"; };
 		9A58D8B726AC1F09006C09A1 /* AlarmIntervalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmIntervalViewController.swift; sourceTree = "<group>"; };
-		9A58D8B926AC45E3006C09A1 /* 1_128_128.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = 1_128_128.bin; sourceTree = "<group>"; };
-		9A58D8BB26AC45EF006C09A1 /* 2_128_128.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 2_128_128.png; sourceTree = "<group>"; };
-		9A58D8BC26AC45EF006C09A1 /* 1_128_128.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 1_128_128.png; sourceTree = "<group>"; };
-		9A58D8BD26AC45EF006C09A1 /* 2_128_128.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = 2_128_128.bin; sourceTree = "<group>"; };
-		9A58D8C126AC464B006C09A1 /* 2_c_240_240.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 2_c_240_240.png; sourceTree = "<group>"; };
-		9A58D8C226AC464B006C09A1 /* 1_c_240_240.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 1_c_240_240.png; sourceTree = "<group>"; };
-		9A58D8C326AC464B006C09A1 /* 2_c_240_240.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = 2_c_240_240.bin; sourceTree = "<group>"; };
-		9A58D8C426AC464B006C09A1 /* 1_c_240_240.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = 1_c_240_240.bin; sourceTree = "<group>"; };
 		9A5E93292515BB630060AB13 /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
 		9A5E932B2515BBFC0060AB13 /* User.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = User.md; sourceTree = "<group>"; };
 		9A5E932C2515C9710060AB13 /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
@@ -765,6 +747,11 @@
 		9A64F0BB25DF50C30073E679 /* DAlarmModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DAlarmModel.swift; sourceTree = "<group>"; };
 		9A6D092B2501D99400B4972F /* ClockManageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClockManageViewController.swift; sourceTree = "<group>"; };
 		9A6D092D2501E3EC00B4972F /* Device.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Device.md; sourceTree = "<group>"; };
+		9A7315C12871B0B900D378A7 /* NetworkManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		9A7315C52871B0C900D378A7 /* CurrentWeatherData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurrentWeatherData.swift; sourceTree = "<group>"; };
+		9A7315C72871B0D000D378A7 /* OpenWeatherViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpenWeatherViewController.swift; sourceTree = "<group>"; };
+		9A7315C92871B0DD00D378A7 /* ViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
+		9A7315CB2871B16C00D378A7 /* Constant.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
 		9A7C31A3276EFFAD00BC1BFB /* UploadImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadImageViewController.swift; sourceTree = "<group>"; };
 		9A7D5E3F254907AA0016E4BC /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		9A7D5E4125490EA20016E4BC /* MRGCDTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MRGCDTimer.swift; sourceTree = "<group>"; };
@@ -862,6 +849,7 @@
 		9AB9102A25013281006E0FC4 /* AlertController.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = AlertController.md; sourceTree = "<group>"; };
 		9ABE55F8271AD429006E0452 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		9ABE55F9271AD429006E0452 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
+		9AC58A1428C37A3800992836 /* ClockResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClockResponse.swift; sourceTree = "<group>"; };
 		9AD431F6271B2671001A6E8F /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		9AD431F7271B2671001A6E8F /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
 		9AD431F8271B2678001A6E8F /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
@@ -1048,18 +1036,6 @@
 				9A9E4E11278136E70084CCFF /* 2_80_160.png */,
 				9A9E4E0E278136E60084CCFF /* 3_80_160.png */,
 				9A9E4E10278136E70084CCFF /* 4_80_160.png */,
-				9A58D8B926AC45E3006C09A1 /* 1_128_128.bin */,
-				9A58D8BC26AC45EF006C09A1 /* 1_128_128.png */,
-				9A58D8BD26AC45EF006C09A1 /* 2_128_128.bin */,
-				9A58D8BB26AC45EF006C09A1 /* 2_128_128.png */,
-				9A0F1E8126A5BE76000D8989 /* 1_240_240.bin */,
-				9A0F1E8226A5BE76000D8989 /* 1_240_240.png */,
-				9A0F1E8026A5BE76000D8989 /* 2_240_240.bin */,
-				9A0F1E7F26A5BE76000D8989 /* 2_240_240.png */,
-				9A58D8C426AC464B006C09A1 /* 1_c_240_240.bin */,
-				9A58D8C226AC464B006C09A1 /* 1_c_240_240.png */,
-				9A58D8C326AC464B006C09A1 /* 2_c_240_240.bin */,
-				9A58D8C126AC464B006C09A1 /* 2_c_240_240.png */,
 			);
 			path = lefun;
 			sourceTree = "<group>";
@@ -1156,6 +1132,7 @@
 				9A2184D7255AE3D4000330E5 /* RegisterResponse.swift */,
 				9A218626255CEA1D000330E5 /* LoginResponse.swift */,
 				9A839C0225602BB700714CBE /* BaseResponse.swift */,
+				9AC58A1428C37A3800992836 /* ClockResponse.swift */,
 			);
 			path = RequestAndResponse;
 			sourceTree = "<group>";
@@ -1604,6 +1581,7 @@
 		9A5E933125164B2D0060AB13 /* AddDevice */ = {
 			isa = PBXGroup;
 			children = (
+				9A7315C02871B0A300D378A7 /* weather */,
 				9A5E933225164B410060AB13 /* DeviceSearchViewController.swift */,
 				9A60DEFC25301FEE00E0D849 /* DeviceSearchTableViewCell.swift */,
 				9A28DA77251CC6E800F7B260 /* DeviceListViewController.swift */,
@@ -1667,6 +1645,18 @@
 				9AEBEC3326D2A3BE008D13AA /* BLEDeviceNameHandler.swift */,
 			);
 			path = ClockManage;
+			sourceTree = "<group>";
+		};
+		9A7315C02871B0A300D378A7 /* weather */ = {
+			isa = PBXGroup;
+			children = (
+				9A7315CB2871B16C00D378A7 /* Constant.swift */,
+				9A7315C12871B0B900D378A7 /* NetworkManager.swift */,
+				9A7315C52871B0C900D378A7 /* CurrentWeatherData.swift */,
+				9A7315C72871B0D000D378A7 /* OpenWeatherViewController.swift */,
+				9A7315C92871B0DD00D378A7 /* ViewModel.swift */,
+			);
+			path = weather;
 			sourceTree = "<group>";
 		};
 		9A7D5E4025490E850016E4BC /* Utils */ = {
@@ -1927,15 +1917,15 @@
 		9AE6687E267F8AD700A8584A /* PureLayout */ = {
 			isa = PBXGroup;
 			children = (
-				9AE6687F267F8AD700A8584A /* PureLayoutDefines.h */,
 				9AE66880267F8AD700A8584A /* ALView+PureLayout.h */,
-				9AE66881267F8AD700A8584A /* NSLayoutConstraint+PureLayout.m */,
-				9AE66882267F8AD700A8584A /* NSArray+PureLayout.h */,
-				9AE66883267F8AD700A8584A /* NSLayoutConstraint+PureLayout.h */,
 				9AE66884267F8AD700A8584A /* ALView+PureLayout.m */,
-				9AE66885267F8AD700A8584A /* PureLayout+Internal.h */,
-				9AE66886267F8AD700A8584A /* PureLayout.h */,
+				9AE66882267F8AD700A8584A /* NSArray+PureLayout.h */,
 				9AE66887267F8AD700A8584A /* NSArray+PureLayout.m */,
+				9AE66883267F8AD700A8584A /* NSLayoutConstraint+PureLayout.h */,
+				9AE66881267F8AD700A8584A /* NSLayoutConstraint+PureLayout.m */,
+				9AE66886267F8AD700A8584A /* PureLayout.h */,
+				9AE66885267F8AD700A8584A /* PureLayout+Internal.h */,
+				9AE6687F267F8AD700A8584A /* PureLayoutDefines.h */,
 			);
 			path = PureLayout;
 			sourceTree = "<group>";
@@ -2036,29 +2026,22 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9A58D8C526AC464B006C09A1 /* 2_c_240_240.png in Resources */,
 				9A60DEE2252F003800E0D849 /* cities.plist in Resources */,
 				9A2185AC255BC6A9000330E5 /* new2.jpg in Resources */,
 				9A820B8224D0522300A62C6F /* Sport.storyboard in Resources */,
 				18385F13245181D900EA380A /* Main.storyboard in Resources */,
 				9A2185AD255BC6AA000330E5 /* new3.jpg in Resources */,
 				9A33D31426AD9A4F00DF9618 /* CameraView.strings in Resources */,
-				9A58D8C626AC464B006C09A1 /* 1_c_240_240.png in Resources */,
-				9A58D8BF26AC45EF006C09A1 /* 1_128_128.png in Resources */,
 				9A2181652557EDBE000330E5 /* apple.jpeg in Resources */,
-				9A58D8BE26AC45EF006C09A1 /* 2_128_128.png in Resources */,
-				9A58D8C726AC464B006C09A1 /* 2_c_240_240.bin in Resources */,
 				9A60DEE3252F003800E0D849 /* hotCities.plist in Resources */,
 				9A2185B0255BC6AA000330E5 /* new5.jpg in Resources */,
 				9A4E624424F7E94E00A0E878 /* Device.storyboard in Resources */,
 				9ADB7EFD275EFB5C009689FE /* sleep.gif in Resources */,
 				9A9E4E13278136E70084CCFF /* 1_80_160.png in Resources */,
 				9ADB7EFF275EFB5C009689FE /* heart.gif in Resources */,
-				9A0F1E8426A5BE76000D8989 /* 2_240_240.bin in Resources */,
 				9ADB7EFE275EFB5C009689FE /* pressure.gif in Resources */,
 				9A9E4E12278136E70084CCFF /* 3_80_160.png in Resources */,
 				9AAF861C25C83E5000960BDD /* IdleResources.bundle in Resources */,
-				9A0F1E8626A5BE76000D8989 /* 1_240_240.png in Resources */,
 				18385EAA24517F1A00EA380A /* LaunchScreen.storyboard in Resources */,
 				9A350BE524EA6476004CEE6A /* Mine.storyboard in Resources */,
 				9A839C672560F68B00714CBE /* SGSportingView.storyboard in Resources */,
@@ -2066,19 +2049,14 @@
 				9AB563FD26F6186000D16869 /* Localizable.strings in Resources */,
 				9A2676AC26B1969B0096BC61 /* Alarm.mp3 in Resources */,
 				9A9E4E15278136E70084CCFF /* 2_80_160.png in Resources */,
-				9A58D8C026AC45EF006C09A1 /* 2_128_128.bin in Resources */,
 				9ADB7EFC275EFB5C009689FE /* blood.gif in Resources */,
-				9A0F1E8326A5BE76000D8989 /* 2_240_240.png in Resources */,
 				9A9E4E14278136E70084CCFF /* 4_80_160.png in Resources */,
-				9A58D8BA26AC45E3006C09A1 /* 1_128_128.bin in Resources */,
 				9A2185AE255BC6AA000330E5 /* new1.jpg in Resources */,
 				9A2181672557EDBE000330E5 /* water.jpg in Resources */,
 				9A2185AF255BC6AA000330E5 /* new4.jpg in Resources */,
-				9A58D8C826AC464B006C09A1 /* 1_c_240_240.bin in Resources */,
 				9A33D30826AD9A4F00DF9618 /* CameraViewAssets.xcassets in Resources */,
 				9A08C671262C71DA00E178DA /* SmartBand_PHY_ota.hex in Resources */,
 				9A5613F32524879600C43C6A /* CommonCalendarView.xib in Resources */,
-				9A0F1E8526A5BE76000D8989 /* 1_240_240.bin in Resources */,
 				9A820B7824CEA2C600A62C6F /* Health.storyboard in Resources */,
 				18385EA724517F1A00EA380A /* Assets.xcassets in Resources */,
 				9A21859E255BBDD9000330E5 /* root.jpg in Resources */,
@@ -2311,6 +2289,7 @@
 				9A56D2B325216FC70082CC08 /* IScatterChartDataSet.swift in Sources */,
 				9A56D2C225216FC70082CC08 /* BarLineScatterCandleBubbleChartDataProvider.swift in Sources */,
 				9A64F07E25DCBF9D0073E679 /* SportRecordHeadTableViewCell.swift in Sources */,
+				9A7315CC2871B16C00D378A7 /* Constant.swift in Sources */,
 				9AB7AC442766424A00D51DBC /* EidtClockHeadTableViewCell.swift in Sources */,
 				9A60DEDA252F002400E0D849 /* RecentCitiesableViewCell.swift in Sources */,
 				9A60DEF1252F416E00E0D849 /* AlarmTableViewCell.swift in Sources */,
@@ -2335,7 +2314,9 @@
 				9AEBEC3226D29FD9008D13AA /* WeatherViewController.swift in Sources */,
 				9A56D2A025216FC70082CC08 /* LineRadarChartDataSet.swift in Sources */,
 				9A839C642560F40300714CBE /* SGSportMapViewController.m in Sources */,
+				9A7315C62871B0CA00D378A7 /* CurrentWeatherData.swift in Sources */,
 				9A56D25325216FC60082CC08 /* HorizontalBarChartRenderer.swift in Sources */,
+				9A7315C82871B0D000D378A7 /* OpenWeatherViewController.swift in Sources */,
 				9A56D24925216FC60082CC08 /* BarLineScatterCandleBubbleRenderer.swift in Sources */,
 				9A56D26425216FC60082CC08 /* RadarChartView.swift in Sources */,
 				9A56D24B25216FC60082CC08 /* SquareShapeRenderer.swift in Sources */,
@@ -2354,10 +2335,12 @@
 				9A60DEEB252F34B700E0D849 /* DeviceInfoTableViewCell.swift in Sources */,
 				9A2185C7255BE42D000330E5 /* GuideCollectionViewCell.swift in Sources */,
 				9A367B7E25BD208100BFB4C3 /* EasyRealmList.swift in Sources */,
+				9A7315CA2871B0DE00D378A7 /* ViewModel.swift in Sources */,
 				9A56D24825216FC60082CC08 /* LineRadarRenderer.swift in Sources */,
 				9A350BEF24EB5DE0004CEE6A /* DataRecordViewController.swift in Sources */,
 				9A8CA52325272C5200EC01A7 /* CVShape.swift in Sources */,
 				9A56D29925216FC70082CC08 /* BarLineScatterCandleBubbleChartDataSet.swift in Sources */,
+				9AC58A1528C37A3800992836 /* ClockResponse.swift in Sources */,
 				9A8CA529252CA8BA00EC01A7 /* DataRecordTableViewCell.swift in Sources */,
 				9AEBEC3426D2A3BE008D13AA /* BLEDeviceNameHandler.swift in Sources */,
 				9A56D29825216FC70082CC08 /* RadarChartDataEntry.swift in Sources */,
@@ -2532,6 +2515,7 @@
 				9A56D26825216FC60082CC08 /* HorizontalBarChartView.swift in Sources */,
 				9A33D31026AD9A4F00DF9618 /* PhotoLibraryAuthorizer.swift in Sources */,
 				9A5E932D2515C9710060AB13 /* UserManager.swift in Sources */,
+				9A7315C22871B0BA00D378A7 /* NetworkManager.swift in Sources */,
 				9A60DEF7252F50FF00E0D849 /* AlarmRepeatViewController.swift in Sources */,
 				9A56D27125216FC60082CC08 /* IAxisValueFormatter.swift in Sources */,
 				9A8CA50B25272C5200EC01A7 /* CVCalendarViewAppearance.swift in Sources */,
@@ -2730,7 +2714,7 @@
 				CODE_SIGN_ENTITLEMENTS = "";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 4;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_ASSET_PATHS = TJDWristbandSDK.framework;
 				DEVELOPMENT_TEAM = RPZ68269DB;
@@ -2746,7 +2730,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.6;
+				MARKETING_VERSION = 1.1.3;
 				OTHER_SWIFT_FLAGS = "$(inherited) -D WeiZhongYun -D DisplayPrint -D TestMode";
 				PRODUCT_BUNDLE_IDENTIFIER = com.sinophy.smartbracelet;
 				PRODUCT_NAME = FitDAY;
@@ -2769,7 +2753,7 @@
 				CODE_SIGN_ENTITLEMENTS = "";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_ASSET_PATHS = TJDWristbandSDK.framework;
 				DEVELOPMENT_TEAM = RPZ68269DB;
 				ENABLE_BITCODE = NO;
@@ -2784,7 +2768,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.6;
+				MARKETING_VERSION = 1.1.3;
 				OTHER_SWIFT_FLAGS = "$(inherited) -D WeiZhongYun -D DisplayPrint -D TestMode";
 				PRODUCT_BUNDLE_IDENTIFIER = com.sinophy.smartbracelet;
 				PRODUCT_NAME = FitDAY;

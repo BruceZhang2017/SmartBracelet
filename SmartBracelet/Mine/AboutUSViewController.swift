@@ -22,9 +22,38 @@ class AboutUSViewController: BaseViewController {
         // Do any additional setup after loading the view.
         versionLabel.text = "v1.0.0  \("mine_version".localized())"
         ownerLabel.text = "＠ VPI6  \("mine_about_desc".localized())"
+        
+        addPrivacyPolicyLabel()
     }
     
-
+    private func addPrivacyPolicyLabel() {
+        let Txt:UITextView = UITextView(frame:CGRect(x: 0, y: 0, width: 100, height: 50))
+        Txt.font = UIFont.systemFont(ofSize: 20)
+        Txt.textAlignment = .center
+        Txt.backgroundColor = UIColor.clear
+        Txt.isEditable = false
+        Txt.dataDetectorTypes = UIDataDetectorTypes.link
+        let attributedString = NSMutableAttributedString(string:"《隐私保护》 《用户协议》")
+        attributedString.SetAsLink(textToFind: "《隐私保护》", linkURL: "http://www.sinophy.com/Arc_See.aspx?aid=185#")
+        attributedString.SetAsLink(textToFind: "《用户协议》", linkURL: "http://www.sinophy.com/Arc_See.aspx?aid=188")
+        attributedString.addAttribute(.font, value: UIFont.systemFont(ofSize: 20), range:  NSMakeRange(0, attributedString.length))
+        let paragraph = NSMutableParagraphStyle()
+        paragraph.alignment = .center
+        attributedString.addAttribute(.paragraphStyle, value: paragraph, range: NSMakeRange(0, attributedString.length))
+        Txt.attributedText = attributedString
+        view.addSubview(Txt)
+        
+        Txt.snp.makeConstraints {
+            $0.left.equalToSuperview()
+            $0.right.equalToSuperview()
+            $0.bottom.equalTo(ownerLabel.snp.top).offset(-30)
+            $0.height.equalTo(50)
+        }
+        
+    }
+    
+    
+    
     /*
     // MARK: - Navigation
 

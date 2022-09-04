@@ -22,6 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         PgyManager.shared().start(withAppId: "206fd41ea01a58736f8e42fe2e85065f")
         PgyUpdateManager.sharedPgy().start(withAppId: "206fd41ea01a58736f8e42fe2e85065f")
         PgyUpdateManager.sharedPgy().checkUpdate()
+        PgyManager.shared().isFeedbackEnabled = false 
         configRealm()
         AMapServices.shared().apiKey = "0ed08fc41dc5bd1adc43b9189af816f7"
         window?.backgroundColor = UIColor.white
@@ -45,12 +46,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     public func pushToTab() {
-        if !CacheHelper().getCacheBool(name: "first") {
-            let sb = UIStoryboard(name: "Main", bundle: nil)
-            let vc = sb.instantiateViewController(withIdentifier: "GuideViewController")
-            window?.rootViewController = vc
-            return
-        }
+//        if !CacheHelper().getCacheBool(name: "first") {
+//            let sb = UIStoryboard(name: "Main", bundle: nil)
+//            let vc = sb.instantiateViewController(withIdentifier: "GuideViewController")
+//            window?.rootViewController = vc
+//            return
+//        }
 //        if UserManager.sharedInstall.user == nil {
 //            return
 //        }

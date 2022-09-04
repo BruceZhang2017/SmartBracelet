@@ -29,6 +29,7 @@ class HealthDetailViewController: BaseViewController {
     @IBOutlet weak var tipLabel: UILabel!
     @IBOutlet weak var dataDynamicLabel: UILabel!
     @IBOutlet weak var startTestButton: UIButton! // 开始测试按钮
+    @IBOutlet weak var sportTitleLabel: UILabel!
     public var colors: [UIColor]!
     var commonCalendarView: CommonCalendarView?
     var type = 0 // 0 步数 1 热量 2 心率 3 睡眠
@@ -78,6 +79,8 @@ class HealthDetailViewController: BaseViewController {
         if type == 5 {
             title = "health_blood_oxygen".localized()
         }
+        sportTitleLabel.text = "health_detail_sports".localized()
+        startTestButton.setTitle("health_start_test".localized(), for: .normal)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -99,7 +102,7 @@ class HealthDetailViewController: BaseViewController {
             goalLabel.isHidden = true
         }
         unitBLabel.text = type == 0 ? "health_step_noun".localized() : "health_kilo_calorie".localized()
-        tipLabel.text = type == 0 ? "每日步数目标" : "每日热量目标"
+        tipLabel.text = type == 0 ? "every_day_goal".localized() : "每日热量目标"
         goalView.isHidden = type > 0
     }
     
@@ -108,7 +111,7 @@ class HealthDetailViewController: BaseViewController {
     }
     
     @objc private func handleNotification(_ notification: Notification) {
-        startTestButton.setTitle("开始测试", for: .normal)
+        startTestButton.setTitle("health_start_test".localized(), for: .normal)
         startTestButton.isUserInteractionEnabled = true
         endColorChangeAnimation()
         setData() // 刷新数据
@@ -211,7 +214,7 @@ class HealthDetailViewController: BaseViewController {
     
     func setDataCount() {
         var models: [PieChartDataEntry] = []
-        let array = ["清醒", "浅睡", "深睡"]
+        let array = ["health_detail_sleep_awake".localized(), "health_detail_sleep_light".localized(), "health_detail_sleep_deep".localized()]
         let entries = initializePreData()
         for (index, item) in entries.enumerated() {
             models.append(PieChartDataEntry(value: item, label: array[index]))
@@ -395,7 +398,7 @@ class HealthDetailViewController: BaseViewController {
                     let m2 = arr[1] % 60
                     let h3 = arr[0] / 60
                     let m3 = arr[0] % 60
-                    goalLabel.text = "深睡\(h1)\("health_hour".localized())\(m1)\("health_minute".localized()) 浅睡\(h2)\("health_hour".localized())\(m2)\("health_minute".localized()) 清醒\(h3)\("health_hour".localized())\(m3)\("health_minute".localized())"
+                    goalLabel.text = "\("health_detail_sleep_deep".localized())\(h1)\("health_hour".localized())\(m1)\("health_minute".localized()) \("health_detail_sleep_light".localized())\(h2)\("health_hour".localized())\(m2)\("health_minute".localized()) \("health_detail_sleep_awake".localized())\(h3)\("health_hour".localized())\(m3)\("health_minute".localized())"
                     let total = h1 * 60 + m1 + h2 * 60 + m2 + h3 * 60 + m3
                     return [Double(h3 * 60 + m3) * 100 / Double(total), Double(h2 * 60 + m2) * 100 / Double(total), Double(h1 * 60 + m1) * 100 / Double(total)]
                 }
@@ -406,7 +409,7 @@ class HealthDetailViewController: BaseViewController {
                 arrStr.append(NSAttributedString(string: "0", attributes: [.font: UIFont.systemFont(ofSize: 25), .foregroundColor: UIColor.white]))
                 arrStr.append(NSAttributedString(string: "health_minute".localized(), attributes: [.font: UIFont.systemFont(ofSize: 11), .foregroundColor: UIColor.white]))
                 valueLabel.attributedText = arrStr
-                goalLabel.text = "深睡0\("health_hour".localized())0\("health_minute".localized()) 浅睡0\("health_hour".localized())0\("health_minute".localized()) 清醒0小时0\("health_minute".localized())"
+                goalLabel.text = "\("health_detail_sleep_deep".localized())0\("health_hour".localized())0\("health_minute".localized()) \("health_detail_sleep_light".localized())0\("health_hour".localized())0\("health_minute".localized()) \("health_detail_sleep_awake".localized())0\("health_hour".localized())0\("health_minute".localized())"
             }
         }
         return [100, 0, 0]
@@ -436,7 +439,7 @@ class HealthDetailViewController: BaseViewController {
 //            $0.top.equalTo(dateLabel.snp.bottom)
 //            $0.bottom.equalToSuperview()
 //        }
-        let pickerView = TTADataPickerView(title: "选择时间", type: .text, delegate: nil)
+        let pickerView = TTADataPickerView(title: "health_select_time".localized(), type: .text, delegate: nil)
         pickerView.type = .date
         /* Set `minimumDate` and `maximumDate`
         pickerView.minimumDate = Date(timeIntervalSinceNow: -24 * 60 * 60)
@@ -459,7 +462,7 @@ class HealthDetailViewController: BaseViewController {
     @IBAction func handleStartTest(_ sender: Any) {
         if type == 2 {
             bleSelf.startMeasure(WristbandMeasureType.heart)
-            startTestButton.setTitle("测试中...", for: .normal)
+            startTestButton.setTitle("health_testing".localized(), for: .normal)
             startTestButton.isUserInteractionEnabled = false
             measureAsync = Async.main(after: 30) {
                 // do something for update UI
@@ -469,7 +472,7 @@ class HealthDetailViewController: BaseViewController {
         }
         if type == 4 {
             bleSelf.startMeasure(WristbandMeasureType.blood)
-            startTestButton.setTitle("测试中...", for: .normal)
+            startTestButton.setTitle("health_testing".localized(), for: .normal)
             startTestButton.isUserInteractionEnabled = false
             measureAsync = Async.main(after: 30) {
                 // do something for update UI
@@ -479,7 +482,7 @@ class HealthDetailViewController: BaseViewController {
         
         if type == 5 {
             bleSelf.startMeasure(WristbandMeasureType.oxygen)
-            startTestButton.setTitle("测试中...", for: .normal)
+            startTestButton.setTitle("health_testing".localized(), for: .normal)
             startTestButton.isUserInteractionEnabled = false
             measureAsync = Async.main(after: 30) {
                 // do something for update UI
@@ -518,13 +521,13 @@ extension HealthDetailViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: .kCellIdentifier, for: indexPath) as! HealthDetailTableViewCell
         if indexPath.row == 0 {
             cell.iconImageView.image = UIImage(named: "walk.jpeg")
-            cell.titleLabel.text = "饭后散步是否有助于消化？"
+            cell.titleLabel.text = "health_detail_sports_desc".localized()
         } else if indexPath.row == 1 {
             cell.iconImageView.image = UIImage(named: "apple.jpeg")
-            cell.titleLabel.text = "一天一个苹果远离医生的说法…"
+            cell.titleLabel.text = "health_detail_apple".localized()
         } else {
             cell.iconImageView.image = UIImage(named: "water.jpg")
-            cell.titleLabel.text = "起床一杯白开水有助于排毒的…"
+            cell.titleLabel.text = "health_detail_apple_desc".localized()
         }
         cell.arrorImageView.image = UIImage(named: "content_icon_nextgray_normal")
         cell.selectionStyle = .none
@@ -563,25 +566,26 @@ extension HealthDetailViewController {
     func changeTimeToWeek(_ value: Int) -> String {
         switch value {
         case 0:
-            return "星期日"
+            return "week_7".localized()
         case 1:
-            return "星期一"
+            return "week_1".localized()
         case 2:
-            return "星期二"
+            return "week_2".localized()
         case 3:
-            return "星期三"
+            return "week_3".localized()
         case 4:
-            return "星期四"
+            return "week_4".localized()
         case 5:
-            return "星期五"
+            return "week_5".localized()
         default:
-            return "星期六"
+            return "week_6".localized()
         }
     }
 }
 
 extension HealthDetailViewController {
     func readDBStep() -> [DStepModel] {
+        print("你想查询的设备的mac地址是：\(lastestDeviceMac)")
         let stamp = Int(mDate.zeroTimeStamp())
         let models = try? DStepModel.er.array("timeStamp>\(stamp) AND timeStamp<\(stamp + 24 * 60 * 60) AND mac='\(lastestDeviceMac)'")
         return models?.sorted { $0.timeStamp < $1.timeStamp } ?? []

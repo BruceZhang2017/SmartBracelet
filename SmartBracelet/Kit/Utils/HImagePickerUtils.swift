@@ -235,7 +235,7 @@ class HImagePickerUtils: NSObject,UIImagePickerControllerDelegate,UINavigationCo
             alertVC.addAction(openIt)
             rootVC.present(alertVC, animated: true, completion: nil)
         }else{
-            let alertVC = UIAlertController(title: "提示", message: "请在 '系统设置|隐私|\(type.description())' 中开启相机访问权限", preferredStyle: .alert)
+            let alertVC = UIAlertController(title: "hint".localized(), message: "请在 '系统设置|隐私|\(type.description())' 中开启相机访问权限", preferredStyle: .alert)
             rootVC.present(alertVC, animated: true, completion: nil)
         }
     }

@@ -90,7 +90,7 @@ extension DevicesView: UICollectionViewDataSource, UICollectionViewDelegate {
                 cell.addLabel.text = "请先连接设备"
             } else {
                 cell.cardImgView.image = UIImage(named: "produce_image_no.2")
-                cell.cardNameLabel.text = currentModel?.name ?? ""
+                cell.cardNameLabel.text = (currentModel?.name ?? "") + " - \(bleSelf.bleModel.screenWidth)*\(bleSelf.bleModel.screenHeight)"
                 if currentModel!.mac == lastestDeviceMac && bleSelf.isConnected {
                     cell.btButton.setImage(UIImage(named: "content_blueteeth_link"), for: .normal)
                     cell.btButton.setTitle("mine_bluetooth_connect".localized(), for: .normal)
@@ -103,10 +103,10 @@ extension DevicesView: UICollectionViewDataSource, UICollectionViewDelegate {
                 if deviceInfo != nil {
                     if deviceInfo?.battery ?? 0 < 5 {
                         cell.batteryButton.setImage(UIImage(named: "conten_battery_runout"), for: .normal)
-                        cell.batteryButton.setTitle("\("mine_battery_level_low".localized())5%", for: .normal)
+                        cell.batteryButton.setTitle("5%", for: .normal)
                     } else {
                         cell.batteryButton.setImage(UIImage(named: "conten_battery_full"), for: .normal)
-                        cell.batteryButton.setTitle("\("mine_battery_level".localized())\(deviceInfo?.battery ?? 0)%", for: .normal)
+                        cell.batteryButton.setTitle("\(deviceInfo?.battery ?? 0)%", for: .normal)
                     }
                 } else {
                     cell.batteryButton.setImage(UIImage(named: "conten_battery_null"), for: .normal)

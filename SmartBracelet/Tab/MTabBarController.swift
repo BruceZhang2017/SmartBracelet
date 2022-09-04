@@ -34,6 +34,11 @@ class MTabBarController: UITabBarController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         NotificationCenter.default.addObserver(self, selector: #selector(handleDeviceConnected(_ :)), name: Notification.Name("MTabBarController"), object: nil)
+        
+        let bShow = UserDefaults.standard.bool(forKey: "PrivacyPolicy")
+        if !bShow {
+            showLinkedAlert()
+        }
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -43,6 +48,29 @@ class MTabBarController: UITabBarController {
     
     deinit {
         
+    }
+    
+    private func showLinkedAlert() {
+        let attributedString = NSMutableAttributedString(string:"《隐私保护》和 《用户协议》")
+        attributedString.SetAsLink(textToFind: "《隐私保护》", linkURL: "http://www.sinophy.com/Arc_See.aspx?aid=185#")
+        attributedString.SetAsLink(textToFind: "《用户协议》", linkURL: "http://www.sinophy.com/Arc_See.aspx?aid=188")
+        let paragraph = NSMutableParagraphStyle()
+        paragraph.alignment = .center
+        attributedString.addAttribute(.paragraphStyle, value: paragraph, range: NSMakeRange(0, attributedString.length))
+        attributedString.addAttribute(.font, value: UIFont.systemFont(ofSize: 20), range:  NSMakeRange(0, attributedString.length))
+        let alert: UIAlertView = UIAlertView(title: "服务协议和隐私政策", message: "请你务必审慎阅读",
+                                             delegate: self, cancelButtonTitle: "拒绝并退出", otherButtonTitles: "同意")
+        
+        let Txt:UITextView = UITextView(frame:CGRect(x: 0, y: 0, width: 100, height: 80))
+        Txt.font = UIFont.systemFont(ofSize: 25)
+        Txt.textAlignment = .center
+        Txt.backgroundColor = UIColor.clear
+        Txt.attributedText = attributedString
+        Txt.isEditable = false
+        Txt.dataDetectorTypes = UIDataDetectorTypes.link
+        
+        alert.setValue(Txt, forKey: "accessoryView")
+        alert.show()
     }
 
     @objc func handleDeviceConnected(_ notification: Notification) {
@@ -62,5 +90,12 @@ class MTabBarController: UITabBarController {
                 return
             }
         }
+    }
+}
+
+extension MTabBarController: UIAlertViewDelegate {
+    func alertView(_ alertView: UIAlertView, clickedButtonAt buttonIndex: Int) {
+        UserDefaults.standard.set(true, forKey: "PrivacyPolicy")
+        UserDefaults.standard.synchronize()
     }
 }

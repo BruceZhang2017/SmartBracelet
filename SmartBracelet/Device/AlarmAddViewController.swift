@@ -41,11 +41,12 @@ class AlarmAddViewController: BaseViewController {
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "mine_save".localized(), style: .plain, target: self, action: #selector(save))
         laterTipLabel.text = "mine_alarm_late_amind".localized()
+        repeatLabel.text = "repeat".localized()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        lateLabel.text = "\(alarm.repeatInterval)分钟"
+        lateLabel.text = "\(alarm.repeatInterval)\("minute".localized())"
     }
     
     @objc private func save() {

@@ -13,7 +13,7 @@ class LongsitSettingsViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "提醒间隔"
+        title = "reminder_interval".localized()
         // Do any additional setup after loading the view.
     }
     
@@ -38,7 +38,7 @@ extension LongsitSettingsViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
         if let timeLabel = cell.viewWithTag(1) as? UILabel {
-            timeLabel.text = "\(times[indexPath.row])分钟"
+            timeLabel.text = "\(times[indexPath.row])\("minute".localized())"
         }
         if let iv = cell.viewWithTag(2) as? UIImageView {
             let inter = bleSelf.longSitModel.interval

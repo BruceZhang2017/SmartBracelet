@@ -19,12 +19,13 @@ class ClockManageViewController: BaseViewController {
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var contentView: UIView!
     @IBOutlet weak var contentViewWidthConstraint: NSLayoutConstraint!
+    var index = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
         bleSelf.getImagePushSettings()
         title = "dial_management".localized()
-        let mine = SegmentioItem(title: "自定义表盘".localized(), image: nil)
+        let mine = SegmentioItem(title: "custom_watch_face".localized(), image: nil)
         let market = SegmentioItem(title: "device_dial_mall".localized(), image: nil)
         let state = SegmentioStates(
                     defaultState: SegmentioState(
@@ -85,6 +86,7 @@ class ClockManageViewController: BaseViewController {
     
     @objc private func handleStop() {
         needStop = true
+        print("壁纸推送暂停")
     }
     
     private func setupUI() {
@@ -94,6 +96,7 @@ class ClockManageViewController: BaseViewController {
         let storyboard = UIStoryboard(name: "Device", bundle: nil)
 
         let marketClockVC = storyboard.instantiateViewController(withIdentifier: "MarketClockViewController") as! MarketClockViewController
+        marketClockVC.current = index
         contentView.addSubview(marketClockVC.view)
         marketClockVC.bShowDetail = true
         addChild(marketClockVC)
@@ -104,6 +107,7 @@ class ClockManageViewController: BaseViewController {
         }
         
         let myClockVC = storyboard.instantiateViewController(withIdentifier: "MyClockViewController") as! MyClockViewController
+        myClockVC.index = index
         contentView.addSubview(myClockVC.view)
         addChild(myClockVC)
         myClockVC.view.snp.makeConstraints {

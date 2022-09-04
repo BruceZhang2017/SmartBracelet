@@ -12,11 +12,16 @@
 
 import UIKit
 import Toaster
+import ProgressHUD
+import Alamofire
 
 class MarketClockViewController: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
     var rightButton: UIButton!
-    var bShowDetail = false 
+    var bShowDetail = false
+    var current = 0
+    var marketModel: MarketClockResponse? // 从后台读取到的数据
+    var clockArray: [ClockResponse] = [] // 指定分辨率的数组
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,6 +37,7 @@ class MarketClockViewController: UIViewController {
         collectionView.bounces = false
         collectionView.dataSource = self
         collectionView.delegate = self
+        downloadClock() // 下载资源
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -47,16 +53,41 @@ class MarketClockViewController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
+    
+    private func downloadClock() {
+        ProgressHUD.show()
+        let parameters = ["pageSize": "100", "pageNum": "1", "isPublish": "Y"]
+        AF.request("http://8.129.113.186/api/app/dial/list", method: .post, parameters: parameters).response { [weak self] (response) in
+            debugPrint("Response: \(response.debugDescription)")
+            ProgressHUD.dismiss()
+            guard let data = response.value as? Data else {
+                return
+            }
+            print("返回的数据：\(data)")
+            // MarketClockResponse
+            let model = try? JSONDecoder().decode(MarketClockResponse.self, from: data)
+            if model == nil {
+                Toast(text: "解析失败").show()
+                return
+            }
+            let w = bleSelf.bleModel.screenWidth
+            let h = bleSelf.bleModel.screenHeight
+            self?.clockArray = model?.rows?.filter { $0.resolutionRatio == "\(w)*\(h)" } ?? []
+            self?.collectionView.reloadData()
+            
+        }
+    }
 
 }
 
 extension MarketClockViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 2
+        return clockArray.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: .kCellIdentifier, for: indexPath) as! ClockCCollectionViewCell
+        let item = clockArray[indexPath.row]
         var type = BLEDeviceNameHandler().handleName()
         if type == 0 {
             type = bleSelf.bleModel.screenType
@@ -65,7 +96,7 @@ extension MarketClockViewController: UICollectionViewDataSource {
         let w = bleSelf.bleModel.screenWidth
         let h = bleSelf.bleModel.screenHeight
         let imagename = "\(indexPath.row + 1)\(type == 1 ? "" : "_c")_\(w)_\(h)"
-        cell.clockImageView.image = UIImage(named: imagename)
+        cell.clockImageView.kf.setImage(with: URL(string: item.previewPic ?? ""))
         cell.clockNameLabel.text = "\(bleSelf.bleModel.name)-\(indexPath.row + 1)"
         cell.width.constant = (ScreenWidth - 60) / 2
         cell.successButton.isHidden = true
@@ -96,7 +127,9 @@ extension MarketClockViewController: UICollectionViewDelegateFlowLayout {
             return
         }
         let vc = storyboard?.instantiateViewController(withIdentifier: "ClockUseViewController") as? ClockUseViewController
-        vc?.index = indexPath.row + 1
+        vc?.index = indexPath.row + 1 // 代表什么含义
+        vc?.current = current
+        vc?.currentClock = clockArray[indexPath.row]
         parent?.navigationController?.pushViewController(vc!, animated: true)
     }
     

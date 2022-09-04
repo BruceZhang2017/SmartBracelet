@@ -47,6 +47,7 @@ class HealthViewController: BaseViewController {
     var activityIndicator: NVActivityIndicatorView? // loading图标
     private var loadingViewCheckTimer: Timer?
     var header: MJRefreshNormalHeader?
+    var isFirst = false
      
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -70,7 +71,7 @@ class HealthViewController: BaseViewController {
         sleepTipLabel.text = "health_sleep".localized()
         pressureTipLabel.text = "health_blood_pressure".localized()
         bleedTipLabel.text = "health_blood_oxygen".localized()
-        
+        footUnitLabel.text = "health_step_noun".localized()
         bleedGIFImageView.image = YYImage(named: "blood.gif")
         pressureGIFImageView.image = YYImage(named: "pressure.gif")
         heartRateImageView.image = YYImage(named: "heart")
@@ -99,11 +100,15 @@ class HealthViewController: BaseViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        readDBStep() // 从本地数据库中读取步数数据
+        if !isFirst {
+            readDBStep() // 从本地数据库中读取步数数据
+        }
+        isFirst = true
         readDBHeart() // 从本地数据库中读取心跳数据
-        readDBSleep() // 从本地数据库中读取睡眠数据
         readDBBlood() // 从本地数据库中读取血压数据
         readDBOxygen() // 从本地数据库中读取血氧数据
+        readDBSleep() // 从本地数据库中读取睡眠数据
+        refreshGoal()
     }
     
     deinit {
@@ -125,16 +130,42 @@ class HealthViewController: BaseViewController {
         if lastestDeviceMac.count == 0 {
             
         } else {
-            goal = bleSelf.userInfo.stepGoal
+            goal = UserDefaults.standard.integer(forKey: "Goal")
             if goal == 0 {
-                goal = UserDefaults.standard.integer(forKey: "Goal")
+                goal = bleSelf.userInfo.stepGoal
             }
             if goal == 0 {
                 goal = 6000
             }
         }
         
-        footGoalLabel.text = "\("health_goal".localized()) \(goal) \("health_step_noun".localized()) ｜ \("health_distance".localized()) \(String(format: "%.2f", unit)) \("health_walk_unit".localized()) | \("health_heat".localized()) \(String(format: "%.2f", v)) \("health_kilo_calorie".localized())"
+        footGoalLabel.text = "\("health_goal".localized()) \(goal) \("health_step_noun".localized()) | \("health_distance".localized()) \(String(format: "%.2f", unit)) \("health_walk_unit".localized()) | \("health_heat".localized()) \(String(format: "%.2f", v)) \("health_kilo_calorie".localized())"
+    }
+    
+    private func refreshGoal() {
+        var value = footGoalLabel.text ?? ""
+        if value.count > 0 {
+            var array = value.components(separatedBy: "|")
+            if array.count < 3 {
+                return
+            }
+            let lastestDeviceMac = UserDefaults.standard.string(forKey: "LastestDeviceMac") ?? ""
+            var goal = 0
+            if lastestDeviceMac.count == 0 {
+                
+            } else {
+                goal = UserDefaults.standard.integer(forKey: "Goal")
+                if goal == 0 {
+                    goal = bleSelf.userInfo.stepGoal
+                }
+                if goal == 0 {
+                    goal = 6000
+                }
+            }
+            array[0] = "\("health_goal".localized()) \(goal) \("health_step_noun".localized()) "
+            value = array.joined(separator: "|")
+            footGoalLabel.text = value
+        }
     }
     
     @objc private func handleNotification(_ notification: Notification) {
@@ -275,13 +306,18 @@ class HealthViewController: BaseViewController {
         }
         if obj == 2 {
             print("显示loading图片")
+            if activityIndicator != nil {
+                return
+            }
             let frame = CGRect(x: 0, y: 0, width: 150, height: 150)
             activityIndicator = NVActivityIndicatorView(frame: frame, type: .ballSpinFadeLoader, color: UIColor.white, padding: 30)
             activityIndicator?.backgroundColor = UIColor.black.withAlphaComponent(0.7)
             activityIndicator?.center = CGPoint(x: view.center.x, y: view.center.y)
-            navigationController?.tabBarController?.view?.addSubview(activityIndicator!)
+            let delegate  = UIApplication.shared.delegate as! AppDelegate
+            delegate.window?.addSubview(activityIndicator!)
             activityIndicator?.startAnimating()
             startLoadingViewCheckTimer()
+            activityIndicator?.tag = 9999
             return
         }
         if obj == 3 {
@@ -290,8 +326,11 @@ class HealthViewController: BaseViewController {
             DispatchQueue.main.async {
                 [weak self] in
                 if self?.activityIndicator != nil && (self?.activityIndicator?.isAnimating ?? false) {
+                    log.info("已经执行隐藏")
+                    self?.activityIndicator?.isHidden = true
                     self?.activityIndicator?.stopAnimating()
-                    self?.activityIndicator?.removeFromSuperview()
+                    let delegate  = UIApplication.shared.delegate as! AppDelegate
+                    delegate.window?.viewWithTag(9999)?.removeFromSuperview()
                     self?.activityIndicator = nil
                 }
             }

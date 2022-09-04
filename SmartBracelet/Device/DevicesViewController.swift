@@ -19,6 +19,7 @@ class DevicesViewController: BaseViewController {
     @IBOutlet weak var dialManagmentLabel: UILabel!
     @IBOutlet weak var bottomLConstraint: NSLayoutConstraint!
     @IBOutlet weak var dialView: UIView!
+    @IBOutlet weak var exchangeBarButtonItem: UIBarButtonItem!
     var deviceSettingView: UIView? // 设备设置的视图
     var deviceView: DevicesView!
     var clockArray: [String] = []
@@ -32,30 +33,29 @@ class DevicesViewController: BaseViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: Notification.Name("DevicesViewController"), object: nil)
         dialManagmentLabel.text = "dial_management".localized()
         initializeDeviceSettings()
-        
-        if bleSelf.bleModel.name == "Fit-Here" {
-            bleSelf.bleModel.screenWidth = 80
-            bleSelf.bleModel.screenHeight = 160
-        }
+        exchangeBarButtonItem.title = "switch_device".localized()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        deviceView?.refreshData()
-        
+    }
+    
+    private func refreshDevices() {
+        let lastestDeviceMac = UserDefaults.standard.string(forKey: "LastestDeviceMac") ?? "00:00:00:00:00:00"
         let clockDir = UserDefaults.standard.dictionary(forKey: "MyClock") ?? [:]
-        let clockStr = clockDir["00:00:00:00:00:00"] as? String ?? ""
+        let clockStr = clockDir[lastestDeviceMac] as? [String] ?? ["_&&_&&_", "_&&_&&_", "_&&_&&_"]
         if clockStr.count > 0 {
-            clockArray = clockStr.components(separatedBy: "&&&")
-            if clockArray.count > 3 {
-                clockArray = clockArray.suffix(3)
-            }
+            clockArray = clockStr
+        } else {
+            clockArray.removeAll()
         }
         collectionView?.reloadData()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        deviceView?.refreshData()
+        refreshDevices()
     }
     
     deinit {
@@ -103,6 +103,7 @@ class DevicesViewController: BaseViewController {
         if let obj = notification.object as? String, obj.count > 0 {
             print("刷新设备列表数据")
             deviceView?.refreshData()
+            refreshDevices()
             return
         }
         self.perform(#selector(pushToMobileSettings), with: nil, afterDelay: 0.3)
@@ -116,17 +117,19 @@ class DevicesViewController: BaseViewController {
     }
 
     /// 表盘管理
-    @IBAction func pushToClockManage(_ sender: Any) {
+    func pushToClockManage(index: Int) {
         if bleSelf.bleModel.screenWidth == 80 {
             let storyboard = UIStoryboard(name: "Device", bundle: nil)
             let myClockVC = storyboard.instantiateViewController(withIdentifier: "MyClockViewController") as! MyClockViewController
+            myClockVC.index = index
             navigationController?.pushViewController(myClockVC, animated: true)
             return
         }
         
         let storyboard = UIStoryboard(name: "Device", bundle: nil)
-        let vc = storyboard.instantiateViewController(withIdentifier: "ClockManageViewController")
-        navigationController?.pushViewController(vc, animated: true)
+        let vc = storyboard.instantiateViewController(withIdentifier: "ClockManageViewController") as? ClockManageViewController
+        vc?.index = index
+        navigationController?.pushViewController(vc!, animated: true)
     }
     
     @IBAction private func showPop(_ sender: Any) {
@@ -164,7 +167,7 @@ class DevicesViewController: BaseViewController {
     }
     
     private func deleteDevice(model: BLEModel?) {
-        let alert = UIAlertController(title: "device_tip".localized(), message: "device_unbind_desc".localized(), preferredStyle: .alert)
+        let alert = UIAlertController(title: "device_tip".localized(), message: "unbind_device_desc".localized(), preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "mine_cancel".localized(), style: .cancel, handler: { (action) in
             
         }))
@@ -201,17 +204,32 @@ extension DevicesViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: .kCellIdentifier, for: indexPath) as! ClockBCollectionViewCell
         if indexPath.row < clockArray.count  {
-            let item = clockArray[indexPath.row]
+            let item = clockArray[indexPath.item]
             let array = item.components(separatedBy: "&&")
-            if array[1].contains(".png"){
-                print("保存的图片路径：\(array[1])")
-                let fullPath = NSHomeDirectory().appending("/Documents/").appending(array[1])
-                cell.clockImageView.image = UIImage(contentsOfFile: fullPath)
+            if array[0] == "_" {
+                cell.clockImageView.image = UIImage(named: "jiahao")
+                cell.clockNameLabel.text = "more_dial".localized()
             } else {
-                cell.clockImageView.image = UIImage(named: array[1])
+                cell.clockImageView.image = UIImage(named: "jiahao")
+                if array[1].contains(".png"){
+                    print("保存的图片路径：\(array[1])")
+                    if array[1].contains("Documents") {
+                        cell.clockImageView.image = UIImage(contentsOfFile: array[1])
+                    } else {
+                        if array[1].contains("http") {
+                            cell.clockImageView.kf.setImage(with: URL(string: array[1]))
+                        } else {
+                            let fullPath = NSHomeDirectory().appending("/Documents/").appending(array[1])
+                            cell.clockImageView.image = UIImage(contentsOfFile: fullPath)
+                        }
+                        
+                    }
+                    
+                }
+                
+                cell.clockNameLabel.text = array[0]
             }
             
-            cell.clockNameLabel.text = array[0]
         } else {
             cell.clockImageView.image = UIImage(named: "jiahao")
             cell.clockNameLabel.text = "more_dial".localized()
@@ -225,6 +243,7 @@ extension DevicesViewController: UICollectionViewDataSource {
 extension DevicesViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
+        pushToClockManage(index: indexPath.row)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

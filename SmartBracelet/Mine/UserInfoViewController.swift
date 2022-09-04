@@ -126,7 +126,7 @@ extension UserInfoViewController: UITableViewDataSource {
 //        } else if indexPath.row == 7 {
 //            cell.valueLabel.text = UserManager.sharedInstall.user?.area ?? ""
         } else if indexPath.row == 6 {
-            cell.valueLabel.text = bleSelf.userInfo.timeUnit == 0 ? "24小时" : "12小时"
+            cell.valueLabel.text = bleSelf.userInfo.timeUnit == 0 ? "24\("health_hour".localized())" : "12\("health_hour".localized())"
         } else if indexPath.row == 7 {
             cell.valueLabel.text = bleSelf.userInfo.unit == 0 ? "cm,kg" : "ft-in,lb"
         }
@@ -212,8 +212,8 @@ extension UserInfoViewController: UITableViewDelegate {
             itemVC?.modalPresentationStyle = .overFullScreen
             itemVC?.index = 0
             itemVC?.type = 0
-            itemVC?.titles = ["24小时制", "12小时制"]
-            itemVC?.titleStr = "时间制"
+            itemVC?.titles = ["24", "12"]
+            itemVC?.titleStr = "time_system".localized()
             navigationController?.present(itemVC!, animated: false, completion: nil)
         } else if indexPath.row == 7 { // 单位
             let storyboard = UIStoryboard(name: .kMine, bundle: nil)
@@ -224,7 +224,7 @@ extension UserInfoViewController: UITableViewDelegate {
             itemVC?.index = 0
             itemVC?.type = 1
             itemVC?.titles = ["cm,kg" , "ft-in,lb"]
-            itemVC?.titleStr = "单位"
+            itemVC?.titleStr = "unit".localized()
             navigationController?.present(itemVC!, animated: false, completion: nil)
         }
     }
@@ -232,11 +232,11 @@ extension UserInfoViewController: UITableViewDelegate {
 
 extension UserInfoViewController {
     var titles: [String] {
-        return ["mine_head_image".localized(), "mine_nick".localized(), "mine_sex".localized(), "mine_birthday".localized(), "mine_height".localized(), "mine_weight".localized(), "时间制", "单位"]
+        return ["mine_head_image".localized(), "mine_nick".localized(), "mine_sex".localized(), "mine_birthday".localized(), "mine_height".localized(), "mine_weight".localized(), "time_system".localized(), "unit".localized()]
     }
     
     var values: [String] {
-        return ["", "未设置", "mine_male".localized(), "19XX年XX月XX日", "168CM", "45KG", "24小时", "cm,kg"]
+        return ["", "未设置", "mine_male".localized(), "19XX-XX-XX", "168CM", "45KG", "24\("health_hour".localized())", "cm,kg"]
     }
 }
 

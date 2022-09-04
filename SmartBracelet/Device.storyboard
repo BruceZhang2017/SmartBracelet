@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19455" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
@@ -225,6 +225,9 @@
                                             <outlet property="dateTimeLabel" destination="J3W-Ec-U6z" id="boT-iz-PAF"/>
                                             <outlet property="dateTimeTopLabel" destination="bVg-iq-ZhN" id="VRl-pB-iGq"/>
                                             <outlet property="itemImageView" destination="Y4r-IF-SWL" id="916-9t-UtP"/>
+                                            <outlet property="ivHeightLC" destination="LnL-O7-NSi" id="SnJ-Pz-Zwq"/>
+                                            <outlet property="ivWidthLC" destination="D2T-kg-jmb" id="47K-Ge-Nn4"/>
+                                            <outlet property="leadingLC" destination="KT0-o2-x8e" id="EFL-nt-NQ0"/>
                                             <outlet property="selectButton" destination="zle-an-mo5" id="rE6-pW-eK4"/>
                                             <outlet property="topLC" destination="n1e-Qh-bLf" id="M4T-da-Nce"/>
                                         </connections>
@@ -233,7 +236,7 @@
                                         <rect key="frame" x="0.0" y="200.5" width="414" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="oUi-UO-vK6" id="duV-qz-9Ez">
-                                            <rect key="frame" x="0.0" y="0.0" width="384.5" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="385.5" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Tcy-zg-8kf">
@@ -244,7 +247,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Detail" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="gra-X1-OqW">
-                                                    <rect key="frame" x="343.5" y="15" width="33" height="14.5"/>
+                                                    <rect key="frame" x="344.5" y="15" width="33" height="14.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="0.0"/>
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -343,6 +346,7 @@
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="collectionView" destination="dMH-Jz-Cc8" id="LaA-b5-E3n"/>
+                                            <outlet property="colorLabel" destination="SJ8-0b-eGn" id="9p9-VE-cEf"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>

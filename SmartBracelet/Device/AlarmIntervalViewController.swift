@@ -30,7 +30,7 @@ extension AlarmIntervalViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: .kCellIdentifier, for: indexPath)
         if let label = cell.viewWithTag(1) as? UILabel {
-            label.text = "\((indexPath.row + 1) * 10)分钟"
+            label.text = "\((indexPath.row + 1) * 10)\("minute".localized())"
         }
         
         if let iv = cell.viewWithTag(2) as? UIImageView {

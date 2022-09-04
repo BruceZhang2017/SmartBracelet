@@ -10,8 +10,6 @@ import UIKit
 
 class UploadImageViewController: UIViewController {
     
-    var needStop = false 
-    
     weak var delegate: UploadImageDelegate?
     var image:UIImage? {
         didSet {
@@ -101,9 +99,13 @@ class UploadImageViewController: UIViewController {
         view.addGestureRecognizer(tap)
         
         NotificationCenter.default.addObserver(self, selector: #selector(handleStop), name: Notification.Name("UploadImageViewController"), object: nil)
+        needStop = false
+        
+        UIApplication.shared.isIdleTimerDisabled = true // 保持常亮
     }
     
     deinit {
+        UIApplication.shared.isIdleTimerDisabled = false // 取消常亮
         NotificationCenter.default.removeObserver(self)
     }
     
@@ -120,9 +122,17 @@ class UploadImageViewController: UIViewController {
             let w: CGFloat = CGFloat(bleSelf.bleModel.screenWidth)
             let h: CGFloat = CGFloat(bleSelf.bleModel.screenHeight)
             let newImage = i.scaled(to: CGSize(width: w, height: h))
-            let imageData = newImage.compressImageOnlength(maxLength: 100)
+            let imageData = newImage.compressImageOnlength(maxLength: (w <= 80 || h <= 160) ? 28 : 100)
             delegate?.startUpload(image: UIImage(data: imageData!)!)
         }
+    }
+    
+    func scale(image: UIImage, toSize: CGSize) -> UIImage? {
+        UIGraphicsBeginImageContextWithOptions(toSize, false, 1)
+        image.draw(in: CGRect.init(origin: .zero, size: toSize))
+        let temp = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return temp
     }
 
     @objc private func handleHide(_ sender: Any) {

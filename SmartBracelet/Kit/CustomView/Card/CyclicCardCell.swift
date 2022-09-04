@@ -29,7 +29,7 @@ class CyclicCardCell: UICollectionViewCell {
         
         let itemW = (ScreenWidth - 20 * 2) * 0.5
         self.addSubview(cardNameLabel)
-        cardNameLabel.frame = CGRect(x: 106, y: 17, width: itemW - 80, height: 20)
+        cardNameLabel.frame = CGRect(x: 106, y: 17, width: itemW - 20, height: 20)
         cardNameLabel.textColor = UIColor.k333333
         cardNameLabel.font = UIFont.systemFont(ofSize: 16)
         cardNameLabel.textAlignment = .left
@@ -46,7 +46,7 @@ class CyclicCardCell: UICollectionViewCell {
         
         addSubview(batteryButton)
         batteryButton.setImage(UIImage(named: "conten_battery_full"), for: .normal)
-        batteryButton.setTitle("\("mine_battery_level".localized())88%", for: .normal)
+        batteryButton.setTitle("88%", for: .normal)
         batteryButton.titleLabel?.font = UIFont.systemFont(ofSize: 8)
         batteryButton.setTitleColor(.k999999, for: .normal)
         batteryButton.contentHorizontalAlignment = .left

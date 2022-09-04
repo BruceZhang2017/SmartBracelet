@@ -12,45 +12,38 @@
 
 import UIKit
 import Toaster
+import Kingfisher
+import Alamofire
+import ProgressHUD
 
 class ClockUseViewController: BaseViewController {
     @IBOutlet weak var clockImageView: UIImageView!
     @IBOutlet weak var clockNameLabel: UILabel!
     @IBOutlet weak var sizeLabel: UILabel!
-
+    var current = 0
     var index = 0
     var rightButton: UIButton!
     var binData: Data!
     var timer: Timer?
-    var clockStr: String!
+    var clockStr: String! //
     var clockName: String = ""
-    var imagename: String = ""
     var path = ""
+    var currentClock: ClockResponse?
     
     var imageUploadVc: UploadImageViewController?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "dial_management".localized()
-        if index > 0 {
-            var type = BLEDeviceNameHandler().handleName()
-            if type == 0 {
-                type = bleSelf.bleModel.screenType
-            }
-            let w = bleSelf.bleModel.screenWidth
-            let h = bleSelf.bleModel.screenHeight
-            imagename = "\(index)\(type == 1 ? "" : "_c")_\(w)_\(h)"
-            clockName = "\(bleSelf.bleModel.name)-\(index)"
-            clockImageView.image = UIImage(named: imagename)
-            clockNameLabel.text = clockName
-            path = Bundle.main.path(forResource: imagename, ofType: "bin")!
-        } else {
-            let array = clockStr.components(separatedBy: "&&")
-            imagename = array[1]
-            clockImageView.image = UIImage(named: imagename)
-            clockNameLabel.text = array[0]
-            path = Bundle.main.path(forResource: imagename, ofType: "bin")!
-        }
+       
+        clockName = "\(bleSelf.bleModel.name)-\(index)"
+        clockImageView.kf.setImage(with: URL(string: currentClock?.previewPic ?? ""))
+        clockNameLabel.text = clockName
+        let url = currentClock?.resourcesUrl ?? ""
+        let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        let fileURL = documentsURL.appendingPathComponent(NSString(string: url).lastPathComponent)
+        path = fileURL.absoluteString
+
         binData = try? Data(contentsOf: URL(fileURLWithPath: path))
         sizeLabel.text = "device_ota_file_size".localized() + (binData?.count ?? 0).sizeToStr()
         
@@ -76,24 +69,71 @@ class ClockUseViewController: BaseViewController {
     deinit {
         unregisterNotification()
     }
+    
+    private func checkFile(name: String) -> Bool {
+        let path = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as String
+            let url = NSURL(fileURLWithPath: path)
+            if let pathComponent = url.appendingPathComponent(name) {
+                let filePath = pathComponent.path
+                let fileManager = FileManager.default
+                if fileManager.fileExists(atPath: filePath) {
+                    return true
+                } else {
+                    return false
+                }
+            } else {
+                return false
+            }
+    }
 
+    private func downloadFile(url: String) {
+        let picname = NSString(string: url).lastPathComponent
+        let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        let fileURL = documentsURL.appendingPathComponent(picname)
+        if checkFile(name: picname) {
+            let fileData : Data = try! Data(contentsOf: fileURL, options: .alwaysMapped)
+            rightButton.isEnabled = false
+            BLEManager.shared.sendDialWithLocalBin(fileData)
+            return
+        }
+        
+        let destination: DownloadRequest.Destination = { _, _ in
+            return (fileURL, [.removePreviousFile, .createIntermediateDirectories])
+        }
+        ProgressHUD.show()
+        AF.download(url, to: destination).response { [weak self] response in
+            ProgressHUD.dismiss()
+            if response.error == nil, let imagePath = response.fileURL?.path {
+                let fileData : Data = FileManager.default.contents(atPath: imagePath)!
+
+                self?.rightButton.isEnabled = false
+                BLEManager.shared.sendDialWithLocalBin(fileData)
+                
+            }
+            
+            var clockDir = UserDefaults.standard.dictionary(forKey: "LoadingClock") ?? [:]
+            var loadingStr = clockDir[bleSelf.bleModel.mac] as? String ?? ""
+            let pName = self?.currentClock?.previewPic ?? ""
+            if loadingStr.count > 0 {
+                loadingStr.append("&&&\(self!.clockName)&&\(pName)&&\(self!.path)")
+            } else {
+                loadingStr.append("\(self!.clockName)&&\(pName)&&\(self!.path)")
+            }
+            clockDir[bleSelf.bleModel.mac] = loadingStr
+            UserDefaults.standard.setValue(clockDir, forKey: "LoadingClock")
+            UserDefaults.standard.synchronize()
+            
+        }
+    }
+    
     @objc private func handleOTA(_ sender: Any) {
         if !bleSelf.isConnected {
             Toast(text: "mine_unconnect".localized()).show()
             return
         }
         if index > 0 {
-            Toast(text: "下载成功").show()
-            var clockDir = UserDefaults.standard.dictionary(forKey: "LoadingClock") ?? [:]
-            var loadingStr = clockDir[bleSelf.bleModel.mac] as? String ?? ""
-            if loadingStr.count > 0 {
-                loadingStr.append("&&&\(clockName)&&\(imagename)&&\(path)")
-            } else {
-                loadingStr.append("\(clockName)&&\(imagename)&&\(path)")
-            }
-            clockDir[bleSelf.bleModel.mac] = loadingStr
-            UserDefaults.standard.setValue(clockDir, forKey: "LoadingClock")
-            UserDefaults.standard.synchronize()
+            downloadFile(url: currentClock?.resourcesUrl ?? "")
+            return
         }
         rightButton.isEnabled = false
         if binData != nil {
@@ -135,7 +175,12 @@ class ClockUseViewController: BaseViewController {
         imageUploadVc?.modalTransitionStyle = .crossDissolve
         imageUploadVc?.view.backgroundColor = UIColor.black.withAlphaComponent(0.5)
         imageUploadVc?.delegate = self
-        imageUploadVc?.image = UIImage(named: imagename)
+        if clockStr != nil {
+            let array = clockStr.components(separatedBy: "&&")
+            imageUploadVc?.image = UIImage(named: array[1])
+        } else {
+            imageUploadVc?.imgView.kf.setImage(with: URL(string: currentClock?.previewPic ?? ""))
+        }
         imageUploadVc?.imgView.contentMode = .scaleAspectFit
         self.present(imageUploadVc!, animated: false) {
             
@@ -147,14 +192,18 @@ class ClockUseViewController: BaseViewController {
         hideDialog()
         
         if value {
+            let lastestDeviceMac = UserDefaults.standard.string(forKey: "LastestDeviceMac") ?? "00:00:00:00:00:00"
             var clockDir = UserDefaults.standard.dictionary(forKey: "MyClock") ?? [:]
-            var clockStr = clockDir["00:00:00:00:00:00"] as? String ?? ""
-            if clockStr.count > 0 {
-                clockStr.append("&&&\(clockName)&&\(imagename)&&\(path)")
+            var cStr = clockDir[lastestDeviceMac] as? [String] ?? ["_&&_&&_", "_&&_&&_", "_&&_&&_"]
+            var imagename: String = ""
+            if clockStr != nil {
+                let array = clockStr.components(separatedBy: "&&")
+                imagename = array[1]
             } else {
-                clockStr.append("\(clockName)&&\(imagename)&&\(path)")
+                imagename = currentClock?.previewPic ?? ""
             }
-            clockDir["00:00:00:00:00:00"] = clockStr
+            cStr[current] = "\(clockName)&&\(imagename)&&\(path)"
+            clockDir[lastestDeviceMac] = cStr
             UserDefaults.standard.setValue(clockDir, forKey: "MyClock")
             UserDefaults.standard.synchronize()
         }
