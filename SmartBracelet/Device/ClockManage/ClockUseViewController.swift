@@ -188,7 +188,7 @@ class ClockUseViewController: BaseViewController {
     }
     
     public func refreshDialogForResult(value: Bool) {
-        Toast(text: value ? "推送成功" : "推送失败").show()
+        //Toast(text: value ? "推送成功" : "推送失败").show()
         hideDialog()
         
         if value {
