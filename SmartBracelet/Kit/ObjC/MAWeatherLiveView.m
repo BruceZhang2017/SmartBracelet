@@ -26,7 +26,9 @@
     self.city.text        = liveInfo.city;
     self.weather.text     = liveInfo.weather;
     self.temperature.text = [NSString stringWithFormat:@"%@°",liveInfo.temperature];
-    self.wind.text        = [NSString stringWithFormat:@"%@风 %@级  湿度%@%%",liveInfo.windDirection,liveInfo.windPower,liveInfo.humidity];
+    NSString * str1 = NSLocalizedString(@"humidity", @"");
+    NSString * str2 = NSLocalizedString(@"wind_speed", @"");
+    self.wind.text        = [NSString stringWithFormat:@"%@ %@%@  %@%@%%",liveInfo.windDirection,liveInfo.windPower, str2,str1,liveInfo.humidity];
 }
 
 - (instancetype)init

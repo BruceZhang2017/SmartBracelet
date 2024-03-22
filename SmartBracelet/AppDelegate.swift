@@ -18,11 +18,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        Bugly.start(withAppId: "0c6ba8bb6a")
-        PgyManager.shared().start(withAppId: "206fd41ea01a58736f8e42fe2e85065f")
-        PgyUpdateManager.sharedPgy().start(withAppId: "206fd41ea01a58736f8e42fe2e85065f")
-        PgyUpdateManager.sharedPgy().checkUpdate()
-        PgyManager.shared().isFeedbackEnabled = false 
         configRealm()
         AMapServices.shared().apiKey = "0ed08fc41dc5bd1adc43b9189af816f7"
         window?.backgroundColor = UIColor.white
@@ -42,6 +37,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         application.applicationIconBadgeNumber = 0
         UNUserNotificationCenter.current().delegate = self
+        
+        Bugly.start(withAppId: "0c6ba8bb6a")
+        
+        var openCount = UserDefaults.standard.integer(forKey: "APPOPEN") ?? 0
+        openCount += 1
+        UserDefaults.standard.set(openCount, forKey: "APPOPEN")
+        
         return true
     }
     
@@ -97,15 +99,21 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         return completionHandler(UNNotificationPresentationOptions.alert)
     }
     
-    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
-        guard let trigger = response.notification.request.trigger else { return; }
-        if trigger.isKind(of: UNTimeIntervalNotificationTrigger.classForCoder()) {
-            print("Notification did receive, Is class UNTimeIntervalNotificationTrigger")
-        } else if trigger.isKind(of: UNCalendarNotificationTrigger.classForCoder()) {
-            print("Notification did receive, Is class UNCalendarNotificationTrigger")
-        }
-        return completionHandler()
+func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+    // 判断通知的触发器类型
+    // 如果触发器是 UNTimeIntervalNotificationTrigger 类型
+    if let trigger = response.notification.request.trigger as? UNTimeIntervalNotificationTrigger {
+        print("Notification did receive, Is class UNTimeIntervalNotificationTrigger")
     }
+    // 如果触发器是 UNCalendarNotificationTrigger 类型
+    else if let trigger = response.notification.request.trigger as? UNCalendarNotificationTrigger {
+        print("Notification did receive, Is class UNCalendarNotificationTrigger")
+    }
+    // 调用 completionHandler 表示处理完成
+    return completionHandler()
+}
+
+//这段代码是一个实现 UNUserNotificationCenterDelegate 协议的方法，用于处理用户对通知的响应。在方法中，首先获取通知的触发器类型，然后根据触发器类型打印相应的日志。最后调用 completionHandler 表示处理完成。
 }
 
 extension String {

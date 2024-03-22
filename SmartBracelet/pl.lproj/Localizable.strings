@@ -87,7 +87,7 @@
 "mine_device_ota_fail" = "Aktualizacja OTA nie powiodła się";
 "mine_about" = "o";
 "mine_version" = "Wersja";
-"mine_about_desc" = "Wszelkie prawa do interpretacji należą do interpretacji FitDAY";
+"mine_about_desc" = "Wszelkie prawa do interpretacji należą do interpretacji u-watch";
 "mine_account_info" = "informacje o koncie";
 "mine_userinfo" = "informacje osobiste";
 "mine_head_image" = "Awatara";
@@ -166,3 +166,14 @@
 "local_ota_file" = "Użyj lokalnego pliku OTA";
 "confirm" = "potwierdzać";
 "found_success" = "Mobile phone found successfully";
+"help_center_submit_success"="Submitted successfully";
+"Help_center_text_tip"="Please enter content";
+"Help_center_data_parse_fail"="Parsing failed";
+"help_center_submit_fail"="Submission failed";
+"Cancel" = "Cancel";
+"Close" = "Close";
+"Log In" = "Log In";
+"Log in to" = "Log in to %@";
+"OK" = "OK";
+"Password" = "Password";
+"User Name" = "User Name";

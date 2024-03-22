@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Toaster
 
 class UploadImageViewController: UIViewController {
     
@@ -46,7 +47,7 @@ class UploadImageViewController: UIViewController {
         label.font = UIFont.systemFont(ofSize: 16)
         conView.addSubview(label)
         label.snp.makeConstraints {
-            $0.top.equalTo(5)
+            $0.top.equalTo(10)
             $0.centerX.equalToSuperview()
         }
         return label
@@ -68,7 +69,7 @@ class UploadImageViewController: UIViewController {
             $0.backgroundColor = UIColor.blue
             $0.setTitleColor(UIColor.white, for: .normal)
             $0.titleLabel?.font = UIFont.systemFont(ofSize: 16)
-            $0.setTitle("开始上传", for: .normal)
+            $0.setTitle("start_uploading".localized(), for: .normal)
             $0.addTarget(self, action: #selector(handleUpload), for: .touchUpInside)
         }
         conView.addSubview(button)
@@ -79,12 +80,26 @@ class UploadImageViewController: UIViewController {
         }
         return button
     }()
+    
+    lazy var cancelButton: UIButton = {
+        let button = UIButton(type: .custom).then {
+            $0.setImage(UIImage(named: "quxiao"), for: .normal)
+            $0.addTarget(self, action: #selector(handleCancel), for: .touchUpInside)
+        }
+        conView.addSubview(button)
+        button.snp.makeConstraints {
+            $0.top.right.equalToSuperview()
+            $0.height.width.equalTo(40)
+        }
+        return button
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         conView.isHidden = false
         uploadButton.isHidden = false
+        cancelButton.isHidden = false
         
         let lineImageView = UIImageView()
         lineImageView.backgroundColor = UIColor.black.withAlphaComponent(0.5)
@@ -94,9 +109,6 @@ class UploadImageViewController: UIViewController {
             $0.top.equalTo(40)
             $0.height.equalTo(0.5)
         }
-        
-        let tap = UITapGestureRecognizer(target: self, action: #selector(handleHide(_:)))
-        view.addGestureRecognizer(tap)
         
         NotificationCenter.default.addObserver(self, selector: #selector(handleStop), name: Notification.Name("UploadImageViewController"), object: nil)
         needStop = false
@@ -117,13 +129,28 @@ class UploadImageViewController: UIViewController {
     }
     
     @objc func handleUpload() {
+        if !bleSelf.isConnected {
+            Toast(text: "mine_unconnect".localized()).show()
+            return
+        }
         uploadButton.isUserInteractionEnabled = false
         if let i = image {
+            cancelButton.isHidden = true 
             let w: CGFloat = CGFloat(bleSelf.bleModel.screenWidth)
             let h: CGFloat = CGFloat(bleSelf.bleModel.screenHeight)
             let newImage = i.scaled(to: CGSize(width: w, height: h))
-            let imageData = newImage.compressImageOnlength(maxLength: (w <= 80 || h <= 160) ? 28 : 100)
-            delegate?.startUpload(image: UIImage(data: imageData!)!)
+            if bleSelf.isJLBlue {
+                delegate?.startUpload(image: newImage)
+            } else {
+                let imageData = newImage.compressImageOnlength(maxLength: (w <= 80 || h <= 160) ? 28 : 100)
+                delegate?.startUpload(image: UIImage(data: imageData!)!)
+            }
+        }
+    }
+    
+    @objc func handleCancel() {
+        if uploadButton.titleLabel?.text == "start_uploading".localized() {
+            dismiss(animated: false, completion: nil)
         }
     }
     
@@ -134,17 +161,9 @@ class UploadImageViewController: UIViewController {
         UIGraphicsEndImageContext()
         return temp
     }
-
-    @objc private func handleHide(_ sender: Any) {
-        guard let s = sender as? UITapGestureRecognizer else {
-            return
-        }
-        if s.state == .ended {
-            let location = s.location(in: view)
-            if !conView.point(inside: conView.convert(location, from: view), with: nil) {
-                dismiss(animated: false, completion: nil)
-            }
-        }
+    
+    public func refreshProgress(p : String) {
+        uploadButton.setTitle(p, for: .normal)
     }
 }
 

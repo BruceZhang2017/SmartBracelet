@@ -82,6 +82,7 @@ class MyClockViewController: UIViewController {
         let h: CGFloat = CGFloat(bleSelf.bleModel.screenHeight)
         footView?.isHidden = !(w == 80 && h == 160)
         footView?.delegate = self
+        bleSelf.getFuncCategory()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -129,7 +130,8 @@ class MyClockViewController: UIViewController {
                         Async.main {
                             [weak self] in
                             self?.imageUploadVc?.dismiss(animated: false, completion: {
-                                
+                                [weak self] in
+                                self?.imageUploadVc = nil
                             })
                         }
                         return
@@ -140,7 +142,7 @@ class MyClockViewController: UIViewController {
                             return
                         }
                         let d = Float(i * 100) / Float(sSelf.total)
-                        self?.imageUploadVc?.uploadButton.setTitle(String(format: "%.02f%%", d), for: .normal)
+                        self?.imageUploadVc?.refreshProgress(p: String(format: "%.02f%%", d))
                     }
                     print("for循环推送: \(i) \(self.total)")
                     bleSelf.setImagePush(binData, dataIndex: i)
@@ -161,7 +163,8 @@ class MyClockViewController: UIViewController {
                             UserDefaults.standard.set(lastStamp, forKey: "lastStamp")
                             UserDefaults.standard.synchronize()
                             self?.imageUploadVc?.dismiss(animated: false, completion: {
-                                
+                                [weak self] in
+                                self?.imageUploadVc = nil
                             })
                             self?.tableView?.reloadData()
                         }
@@ -185,7 +188,8 @@ class MyClockViewController: UIViewController {
                 Async.main {
                     [weak self] in
                     self?.imageUploadVc?.dismiss(animated: false, completion: {
-                        
+                        [weak self] in
+                        self?.imageUploadVc = nil
                     })
                     Toast(text: NSLocalizedString("该设备不支持壁纸推送，或者电量过低", comment: "")).show()
                     
@@ -218,55 +222,77 @@ class MyClockViewController: UIViewController {
             imageData.write(toFile: fullPath, atomically: true)
         }
     }
+    
+    private func jlPushInitialize(image: UIImage) {
+        ///壁纸推送需要点先初始化壁纸
+        if bleSelf.isJLBlue && !bleSelf.funcCategoryModel.hasJLImagePush{
+            //此方法最好放到杰里设备连接同步完成后调用
+            JLSelf.getFlashInfo()
+            //壁纸或者表盘前调用需要调用一次
+            JLSelf.btn_List()
+        }
+        
+        perform(#selector(self.jlPushImage(image:)), with: image, afterDelay: 0.5)
+    }
+    
+    @objc private func jlPushImage(image: UIImage) {
+        ///壁纸推送  需要设备支持
+        //自行裁剪对应宽高，并压缩图片 目前没有限制 但是设备空间有限 一般150kb差不多 尽量控制300kb左右
+        if bleSelf.isJLBlue && !bleSelf.funcCategoryModel.hasJLImagePush{
+            if bleSelf.batteryLevel <= 15 {
+                self.showHud(NSLocalizedString("设备电量低，请先给设备充电", comment: ""))
+                return
+            }
+            
+            var newImage = image
+            if bleSelf.bleModel.screenType == 2 {
+                newImage = maskRoundedImage(image: image, radius: (CGFloat(bleSelf.bleModel.screenHeight))/2)
+            }
+            
+            JLSelf.getJLDataFromImage(image: newImage)
+            
+            JLSelf.getInfoList()
+            
+        }else{
+            var data = bleSelf.getRGBData565FromImage(image: image)!
+            
+            if bleSelf.funcCategoryModel.hasJLImagePush {
+                //两个字节互调
+                var i = 0
+                while i < data.count - 1 {
+                    let one = data[i]
+                    let two = data[i+1]
+                    
+                    data[i] = two
+                    data[i+1] = one
+                    i += 2
+                }
+            }
+            
+            
+            wuPrint(data.count)
+            self.total = Int(ceil(Double(data.count)/16))
+            self.binData = data
+            
+            bleSelf.startImagePush(data)
+            
+        }
+    }
+    
+    func maskRoundedImage(image: UIImage, radius: CGFloat) -> UIImage {
+        let imageView: UIImageView = UIImageView(image: image)
+        let layer = imageView.layer
+        layer.masksToBounds = true
+        layer.cornerRadius = radius
+        UIGraphicsBeginImageContext(imageView.bounds.size)
+        layer.render(in: UIGraphicsGetCurrentContext()!)
+        let roundedImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return roundedImage!
+    }
 }
 
-//extension MyClockViewController: UICollectionViewDataSource {
-//    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-//        return ClockArray.count
-//    }
-//
-//    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-//        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: .kCellIdentifier, for: indexPath) as! ClockCollectionViewCell
-//        let item = ClockArray[indexPath.row]
-//        let array = item.components(separatedBy: "&&")
-//        cell.dialImageView.image = UIImage(named: array[1])
-//        //cell.clockNameLabel.text = "\(bleSelf.bleModel.name)-\(indexPath.row + 1)"
-//        cell.opaqueView.isHidden = true
-//        cell.optionImageView.isHidden = true
-//        return cell
-//    }
-//
-//}
-//
-//extension MyClockViewController: UICollectionViewDelegateFlowLayout {
-//    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//        collectionView.deselectItem(at: indexPath, animated: true)
-//        if !bleSelf.isConnected {
-//            Toast(text: "mine_unconnect".localized()).show()
-//            return
-//        }
-//        let vc = storyboard?.instantiateViewController(withIdentifier: "ClockUseViewController") as? ClockUseViewController
-//        vc?.index = indexPath.row + 1
-//        vc?.clockStr = ClockArray[indexPath.row]
-//        parent?.navigationController?.pushViewController(vc!, animated: true)
-//    }
-//
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-//        return CGSize(width: (ScreenWidth - 60) / 2, height: (ScreenWidth - 60) / 2)
-//    }
-//
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-//        return UIEdgeInsets(top: 8, left: 20, bottom: 8, right: 20)
-//    }
-//
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-//        return 0
-//    }
-//
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-//        return 0
-//    }
-//}
+
 
 extension MyClockViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -321,6 +347,9 @@ extension MyClockViewController: UITableViewDelegate {
 
 extension MyClockViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if bleSelf.isJLBlue {
+            return 1
+        }
         return 5
     }
     
@@ -336,7 +365,9 @@ extension MyClockViewController: UITableViewDataSource {
             cell.dateTimeBottomLabel.textColor = colors[colorIndex]
             cell.topLC.constant = datetimeLocation == 0 ? 10 : 74
             cell.itemImageView.contentMode = .scaleAspectFit
-            cell.selectButton.setTitle("mine_select_photo".localized(), for: .normal)
+            cell.selectButton.setTitle(" ", for: .normal)
+//            cell.selectButton.titleLabel?.adjustsFontSizeToFitWidth = true
+//            cell.selectButton.titleLabel?.numberOfLines = 1
             let w  = bleSelf.bleModel.screenWidth
             let h = bleSelf.bleModel.screenHeight
             let lastestDeviceMac = UserDefaults.standard.string(forKey: "LastestDeviceMac") ?? "00:00:00:00:00:00"
@@ -431,6 +462,9 @@ extension MyClockViewController: TZImagePickerControllerDelegate {
             return
         }
         print("选定了图片")
+        if imageUploadVc != nil {
+            return
+        }
         imageUploadVc = UploadImageViewController()
         imageUploadVc?.modalPresentationStyle = .overCurrentContext
         imageUploadVc?.modalTransitionStyle = .crossDissolve
@@ -462,8 +496,11 @@ extension MyClockViewController: UploadImageDelegate {
         let data = bleSelf.getRGBData565FromImage(image: image)!
         self.total = Int(ceil(Double(data.count)/16))
         self.binData = data
-        
-        bleSelf.startImagePush(data)
+        if bleSelf.isJLBlue {
+            jlPushInitialize(image: image)
+        } else {
+            bleSelf.startImagePush(data)
+        }
     }
 }
 
@@ -499,6 +536,9 @@ extension MyClockViewController: CustomImageFooterViewDelegate {
         let image = UIImage(named: "\(index + 1)_80_160")!
         
         print("选定了图片")
+        if imageUploadVc != nil {
+            return
+        }
         imageUploadVc = UploadImageViewController()
         imageUploadVc?.modalPresentationStyle = .overCurrentContext
         imageUploadVc?.modalTransitionStyle = .crossDissolve

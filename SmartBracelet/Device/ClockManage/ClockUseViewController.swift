@@ -115,9 +115,9 @@ class ClockUseViewController: BaseViewController {
             var loadingStr = clockDir[bleSelf.bleModel.mac] as? String ?? ""
             let pName = self?.currentClock?.previewPic ?? ""
             if loadingStr.count > 0 {
-                loadingStr.append("&&&\(self!.clockName)&&\(pName)&&\(self!.path)")
+                loadingStr.append("&&&\(self?.clockName ?? "")&&\(pName)&&\(self?.path ?? "")")
             } else {
-                loadingStr.append("\(self!.clockName)&&\(pName)&&\(self!.path)")
+                loadingStr.append("\(self?.clockName ?? "")&&\(pName)&&\(self?.path ?? "")")
             }
             clockDir[bleSelf.bleModel.mac] = loadingStr
             UserDefaults.standard.setValue(clockDir, forKey: "LoadingClock")
@@ -131,14 +131,38 @@ class ClockUseViewController: BaseViewController {
             Toast(text: "mine_unconnect".localized()).show()
             return
         }
-        if index > 0 {
-            downloadFile(url: currentClock?.resourcesUrl ?? "")
-            return
+        showDownloadAlert()
+    }
+    
+    func showDownloadAlert() {
+        // 创建UIAlertController
+        let alertController = UIAlertController(title: nil, message: "agree_download_upload".localized(), preferredStyle: .alert)
+        
+        // 创建"确定"按钮
+        let confirmAction = UIAlertAction(title: "mine_confirm".localized(), style: .default) {[weak self] (action) in
+            // 在这里添加下载和上传至手表的代码
+            print("确定按钮被点击")
+            
+            if self?.index ?? 0 > 0 {
+                self?.downloadFile(url: self?.currentClock?.resourcesUrl ?? "")
+                return
+            }
+            self?.rightButton.isEnabled = false
+            if self?.binData != nil {
+                BLEManager.shared.sendDialWithLocalBin(self!.binData!)
+            }
+            
         }
-        rightButton.isEnabled = false
-        if binData != nil {
-            BLEManager.shared.sendDialWithLocalBin(binData!)
+        alertController.addAction(confirmAction)
+        
+        // 创建"取消"按钮
+        let cancelAction = UIAlertAction(title: "mine_cancel".localized(), style: .cancel) { (action) in
+            print("取消按钮被点击")
         }
+        alertController.addAction(cancelAction)
+        
+        // 显示UIAlertController
+        self.present(alertController, animated: true, completion: nil)
     }
     
     private func registerNotification() {
@@ -153,23 +177,41 @@ class ClockUseViewController: BaseViewController {
         let obj = notification.object as? Int ?? 0 // 1.开始 2.成功 3.失败
         let userinfo = notification.userInfo as? [String: String]
         let p = userinfo?["p"] ?? ""
-        DispatchQueue.main.async {
-            [weak self] in
-            if obj == 1 {
-                if p.count > 0 {
-                    self?.imageUploadVc?.uploadButton.setTitle(p, for: .normal)
-                    return
+        if obj == 1 {
+            if p.count > 0 {
+                print("代码执行到这里，上传进度：\(p) \(imageUploadVc == nil)")
+                if Thread.isMainThread {
+                    imageUploadVc?.refreshProgress(p: p)
+                } else {
+                    DispatchQueue.main.async {
+                        [weak self] in
+                        self?.imageUploadVc?.refreshProgress(p: p)
+                    }
                 }
+                return
+            }
+            DispatchQueue.main.async {
+                [weak self] in
                 self?.showDialog()
-            } else if obj == 2 {
+            }
+        } else if obj == 2 {
+            DispatchQueue.main.async {
+                [weak self] in
                 self?.refreshDialogForResult(value: true)
-            } else if obj == 3 {
+            }
+        } else if obj == 3 {
+            DispatchQueue.main.async {
+                [weak self] in
                 self?.refreshDialogForResult(value: false)
             }
+            
         }
     }
     
     public func showDialog() {
+        if imageUploadVc != nil {
+            return 
+        }
         imageUploadVc = UploadImageViewController()
         imageUploadVc?.modalPresentationStyle = .overCurrentContext
         imageUploadVc?.modalTransitionStyle = .crossDissolve

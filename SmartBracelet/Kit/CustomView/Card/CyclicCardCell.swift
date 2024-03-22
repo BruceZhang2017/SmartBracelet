@@ -46,7 +46,7 @@ class CyclicCardCell: UICollectionViewCell {
         
         addSubview(batteryButton)
         batteryButton.setImage(UIImage(named: "conten_battery_full"), for: .normal)
-        batteryButton.setTitle("88%", for: .normal)
+        batteryButton.setTitle(" ", for: .normal)
         batteryButton.titleLabel?.font = UIFont.systemFont(ofSize: 8)
         batteryButton.setTitleColor(.k999999, for: .normal)
         batteryButton.contentHorizontalAlignment = .left

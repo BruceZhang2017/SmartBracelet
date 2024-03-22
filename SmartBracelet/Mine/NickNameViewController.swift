@@ -59,7 +59,7 @@ class NickNameViewController: BaseViewController {
     @objc private func save() {
         let name = textView.text.trimmingCharacters(in: .whitespacesAndNewlines) 
         if name.count == 0 {
-            Toast(text: "请输入内容").show()
+            Toast(text: "help_center_text_tip".localized()).show()
             return
         }
         if UserManager.sharedInstall.user?.token == nil {

@@ -6,7 +6,7 @@
 	<dict>
 		<key>Headers/TJDWristbandSDK-Swift.h</key>
 		<data>
-		qko64lonK2Z//GLIYY8KSkxlrwo=
+		QDAYqFT9MfoE1EyLHnipwzCA2sU=
 		</data>
 		<key>Headers/TJDWristbandSDK.h</key>
 		<data>
@@ -14,39 +14,23 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		1G9U2+fLwvVo+/w7fuxLpCaiFzE=
+		2dGyqS/jD0VjX8fxrWK48QqP3sg=
 		</data>
 		<key>Modules/TJDWristbandSDK.swiftmodule/Project/arm64-apple-ios.swiftsourceinfo</key>
 		<data>
-		2Pw9wulBIswhu/CSAweYExDmnBY=
-		</data>
-		<key>Modules/TJDWristbandSDK.swiftmodule/Project/arm64.swiftsourceinfo</key>
-		<data>
-		2Pw9wulBIswhu/CSAweYExDmnBY=
+		cht8Zg9OGTkBzmlFfXdOEpSeq98=
 		</data>
 		<key>Modules/TJDWristbandSDK.swiftmodule/arm64-apple-ios.swiftdoc</key>
 		<data>
-		Lhnta/JmLMv4x6PHnZi9DsETVOQ=
+		m3bYdOs/FnjmNBfcsWROns6RCE0=
 		</data>
 		<key>Modules/TJDWristbandSDK.swiftmodule/arm64-apple-ios.swiftinterface</key>
 		<data>
-		7DOKOVBcC4rsDu3BOzS+a4GqJ5M=
+		TWefbjl/s4jE2sD9PM5lmVsJkKM=
 		</data>
 		<key>Modules/TJDWristbandSDK.swiftmodule/arm64-apple-ios.swiftmodule</key>
 		<data>
-		zqj8/RfLUGt+AVn5xDdOVLx7qjk=
-		</data>
-		<key>Modules/TJDWristbandSDK.swiftmodule/arm64.swiftdoc</key>
-		<data>
-		Lhnta/JmLMv4x6PHnZi9DsETVOQ=
-		</data>
-		<key>Modules/TJDWristbandSDK.swiftmodule/arm64.swiftinterface</key>
-		<data>
-		7DOKOVBcC4rsDu3BOzS+a4GqJ5M=
-		</data>
-		<key>Modules/TJDWristbandSDK.swiftmodule/arm64.swiftmodule</key>
-		<data>
-		zqj8/RfLUGt+AVn5xDdOVLx7qjk=
+		VQT3oSjZ6RD9W1Bd+ghmz4KKtgs=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -59,11 +43,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			qko64lonK2Z//GLIYY8KSkxlrwo=
+			QDAYqFT9MfoE1EyLHnipwzCA2sU=
 			</data>
 			<key>hash2</key>
 			<data>
-			8T+x0dcfOsymSPb9pt/C1mfPF7pcOisr9rwqINTpqkU=
+			Q40mQXKiKGzXaGUhbraByksov53l1AiimwakQ7nXK9g=
 			</data>
 		</dict>
 		<key>Headers/TJDWristbandSDK.h</key>
@@ -81,88 +65,44 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			2Pw9wulBIswhu/CSAweYExDmnBY=
+			cht8Zg9OGTkBzmlFfXdOEpSeq98=
 			</data>
 			<key>hash2</key>
 			<data>
-			PsfekSpkCkbGkOT4obm1yXumCfj0m5eEUEr4bPUFpWQ=
-			</data>
-		</dict>
-		<key>Modules/TJDWristbandSDK.swiftmodule/Project/arm64.swiftsourceinfo</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			2Pw9wulBIswhu/CSAweYExDmnBY=
-			</data>
-			<key>hash2</key>
-			<data>
-			PsfekSpkCkbGkOT4obm1yXumCfj0m5eEUEr4bPUFpWQ=
+			35gQQqXBrHRVKmo/0LZdEsyaDfLjKmBjBOtfFc/P7IM=
 			</data>
 		</dict>
 		<key>Modules/TJDWristbandSDK.swiftmodule/arm64-apple-ios.swiftdoc</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			Lhnta/JmLMv4x6PHnZi9DsETVOQ=
+			m3bYdOs/FnjmNBfcsWROns6RCE0=
 			</data>
 			<key>hash2</key>
 			<data>
-			rgzUOViWGA2l4+rrRvUEbhg5x1vefcKRKO03UMZpRWY=
+			btblC2QY/LtDrYl/KrG+YP4Dp9nT3K8mJIK3Yp8rd4A=
 			</data>
 		</dict>
 		<key>Modules/TJDWristbandSDK.swiftmodule/arm64-apple-ios.swiftinterface</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			7DOKOVBcC4rsDu3BOzS+a4GqJ5M=
+			TWefbjl/s4jE2sD9PM5lmVsJkKM=
 			</data>
 			<key>hash2</key>
 			<data>
-			0TigA7rhvoeNCUvVnDFY4pmc03TmTRN1cE9IrOA5pBc=
+			97NoQY0CBLE6gxLa1dQoMfXSbtRrlzK0AcJ0AQNektY=
 			</data>
 		</dict>
 		<key>Modules/TJDWristbandSDK.swiftmodule/arm64-apple-ios.swiftmodule</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			zqj8/RfLUGt+AVn5xDdOVLx7qjk=
+			VQT3oSjZ6RD9W1Bd+ghmz4KKtgs=
 			</data>
 			<key>hash2</key>
 			<data>
-			1YaxGHX0qjJx+cUiMAcE4k57gKsiskdq2IVg49VLWk0=
-			</data>
-		</dict>
-		<key>Modules/TJDWristbandSDK.swiftmodule/arm64.swiftdoc</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			Lhnta/JmLMv4x6PHnZi9DsETVOQ=
-			</data>
-			<key>hash2</key>
-			<data>
-			rgzUOViWGA2l4+rrRvUEbhg5x1vefcKRKO03UMZpRWY=
-			</data>
-		</dict>
-		<key>Modules/TJDWristbandSDK.swiftmodule/arm64.swiftinterface</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			7DOKOVBcC4rsDu3BOzS+a4GqJ5M=
-			</data>
-			<key>hash2</key>
-			<data>
-			0TigA7rhvoeNCUvVnDFY4pmc03TmTRN1cE9IrOA5pBc=
-			</data>
-		</dict>
-		<key>Modules/TJDWristbandSDK.swiftmodule/arm64.swiftmodule</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			zqj8/RfLUGt+AVn5xDdOVLx7qjk=
-			</data>
-			<key>hash2</key>
-			<data>
-			1YaxGHX0qjJx+cUiMAcE4k57gKsiskdq2IVg49VLWk0=
+			cT/YxfoLQe3OQNRE0OBHAg2NicC3Gvaoyge2IyQYc/o=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>

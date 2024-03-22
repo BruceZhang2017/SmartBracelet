@@ -49,20 +49,7 @@ class MineViewController: BaseViewController {
             let data = FileCache().readData(name: fileName)
             headImageView.image = UIImage(data: data)
         } else {
-            let url = UserManager.sharedInstall.user?.headUrl ?? ""
-            if url.count > 0 {
-                OSS.sharedInstance.setupOSSClient()
-                OSS.sharedInstance.getObject(key: fileName) {
-                    (data) in
-                    DispatchQueue.main.async {
-                        [weak self] in
-                        if data != nil {
-                            self?.headImageView.image = UIImage(data: data!)
-                            FileCache().saveData(data!, name: fileName)
-                        }
-                    }
-                }
-            }
+            
         }
         let name = UserDefaults.standard.string(forKey: "NickName")
         if name?.count ?? 0 > 0 {
@@ -86,11 +73,9 @@ class MineViewController: BaseViewController {
             return
         }
         let deviceCount = DeviceManager.shared.devices.count
-        var tem = false
         if deviceCount > 0 {
             for item in DeviceManager.shared.devices {
                 if item.mac == lastestDeviceMac {
-                    tem = true
                     deviceButton.setTitle(item.name, for: .normal)
                     btButton.setImage(UIImage(named: "content_blueteeth_link"), for: .normal)
                     btButton.setTitle("mine_bluetooth_connect".localized(), for: .normal)
@@ -98,10 +83,10 @@ class MineViewController: BaseViewController {
                     if deviceInfo != nil {
                         if deviceInfo?.battery ?? 0 < 5 {
                             batteryButton.setImage(UIImage(named: "conten_battery_runout"), for: .normal)
-                            batteryButton.setTitle("5%", for: .normal)
+                            batteryButton.setTitle(" ", for: .normal)
                         } else {
                             batteryButton.setImage(UIImage(named: "conten_battery_full"), for: .normal)
-                            batteryButton.setTitle("\(deviceInfo?.battery ?? 0)%", for: .normal)
+                            batteryButton.setTitle(" ", for: .normal)
                         }
                     } else {
                         batteryButton.setImage(UIImage(named: "conten_battery_null"), for: .normal)
@@ -164,7 +149,7 @@ class MineViewController: BaseViewController {
     }
     
     private func logout() {
-        let alert = UIAlertController(title: "device_tip".localized(), message: "您确定退出该账号？", preferredStyle: .alert)
+        let alert = UIAlertController(title: "device_tip".localized(), message: "agree_log_out".localized(), preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "mine_cancel".localized(), style: .cancel, handler: { (action) in
             
         }))

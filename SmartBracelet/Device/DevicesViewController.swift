@@ -93,10 +93,10 @@ class DevicesViewController: BaseViewController {
             $0.left.equalTo(0)
             $0.top.equalTo(lblTitle.snp.bottom).offset(10)
             $0.right.equalTo(0)
-            $0.height.equalTo(500)
+            $0.height.equalTo(484)
             $0.bottom.equalToSuperview()
         }
-        bottomLConstraint.constant = 460
+        bottomLConstraint.constant = 460 + 44
     }
     
     @objc private func handleNotification(_ notification: Notification) {
@@ -140,14 +140,7 @@ class DevicesViewController: BaseViewController {
         present(pop, animated: true, completion: nil)
         pop.titleLabel.text = "玩机技巧"
         pop.contentLabel.text =
-        """
-        左上键：短按时返回上一层菜单。 在时间界面时短按进行时间显示模式切换。
-        　　  插卡口：打开机身左侧插卡口软塞，按箭头方向将SIM卡推进卡槽，固定住即可。
-        　　  左下键：长按3秒，进行开关机操作;短按时返回对应的(时钟、电话、脉搏、计步器、GPS、设置)一级菜单或在各个一级菜单之间循环滑动。
-        　　  SOS一键求救右上键：长按3秒后开始拨打服务中心电话。
-        　　  充电&耳机接口：连接充电器或连接USB耳机
-        　　  右下键：长按3秒后开始拨打设定的亲友号码。
-        """
+        " "
     }
     
     @IBAction func addDevice(_ sender: Any) {
@@ -211,7 +204,7 @@ extension DevicesViewController: UICollectionViewDataSource {
                 cell.clockNameLabel.text = "more_dial".localized()
             } else {
                 cell.clockImageView.image = UIImage(named: "jiahao")
-                if array[1].contains(".png"){
+                if array[1].contains(".png") || array[1].contains(".jpg") || array[1].contains(".jpeg") {
                     print("保存的图片路径：\(array[1])")
                     if array[1].contains("Documents") {
                         cell.clockImageView.image = UIImage(contentsOfFile: array[1])

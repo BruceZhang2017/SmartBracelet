@@ -11,12 +11,13 @@
 	
 
 import UIKit
-import NVActivityIndicatorView
 import Toaster
 import TJDWristbandSDK
 import YYImage
 import MJRefresh
-
+import StoreKit
+import AliIotConnectKit
+import JL_BLEKit
 
 class HealthViewController: BaseViewController {
     @IBOutlet weak var bleedGIFImageView: YYAnimatedImageView!
@@ -42,15 +43,35 @@ class HealthViewController: BaseViewController {
     @IBOutlet weak var bleedTipLabel: UILabel!
     @IBOutlet weak var bleedValueLabel: UILabel!
     @IBOutlet weak var progressStepView: UIView!
+    var currentDialog: UIView? //记录当前的弹框，在页面异常关闭时移除
+    
     var flag = 0 // 属性的作用
     var popup: PopupBViewController?
-    var activityIndicator: NVActivityIndicatorView? // loading图标
+    var hud: JGProgressHUD? // loading图标
     private var loadingViewCheckTimer: Timer?
     var header: MJRefreshNormalHeader?
     var isFirst = false
+    var indexBigData:Int = 0
+    var mBigDataManager:JL_BigDataManager?
+    var bt_sdk:JL_RunSDK?
+    var bt_ble:QCY_BLEApple?
+    
+    var testData:Data?
+    var getTimes:Int = 0
+    var sendTimesOk:Int = 0
+    var sendTimesFail:Int = 0
+    var testAuto:Bool = true
+    var isSupportAlipay = false // 是否支持支付宝支付
+    
+    private var manager = OpenWeatherManager()
      
     override func viewDidLoad() {
         super.viewDidLoad()
+        let openCount = UserDefaults.standard.integer(forKey: "APPOPEN") // 如果app打开次数
+        if openCount >= 10 { //当打开次数>10次后，就打开邀请评论app的弹窗
+            perform(#selector(self.showDialogForInviteAPPReview), with: nil, afterDelay: 20)
+            UserDefaults.standard.set(0, forKey: "APPOPEN")
+        }
         registerNotification()
         header = MJRefreshNormalHeader {
             [weak self] in
@@ -87,13 +108,60 @@ class HealthViewController: BaseViewController {
         
         
         NotificationCenter.default.addObserver(self, selector: #selector(handleDidEnterBackgroundNotification), name: UIApplication.didEnterBackgroundNotification, object: nil)
+        
+        
+        if lastestDeviceMac.count == 0 {
+            pressureView.isHidden = true
+            bleedView.isHidden = true
+        }
+        
+        if isSupportAlipay {
+            AliConnectMananger_C.shared.bleSendDataDelegate = self // 阿里云相关逻辑
+            
+            bt_sdk = JL_RunSDK.sharedMe() as? JL_RunSDK
+            bt_ble = bt_sdk?.bt_ble
+
+            mBigDataManager = bt_ble?.mAssist .mCmdManager.mBigDataManager
+            onSetupBigData()
+        }
+        
+    }
+    
+    func onSetupBigData(){
+     
+        mBigDataManager?.cmdBigDataMonitor({ [self] bigData in
+            let status = bigData.mResult
+            if status == .get{
+                NSLog("--->ALi Get:")
+                NSLog("%@",JL_Tools.dataChange(toString: bigData.mData))
+                AliConnectMananger_C.shared.bleDataReceived(data: bigData.mData)
+                
+            }else if status == .sendSuccess{
+                NSLog("--->ALi Send Success:\(bigData.mIndex)")
+                
+                JL_Tools.mainTask {
+                    AudioServicesPlaySystemSound(1519);
+                    self.sendTimesOk = self.sendTimesOk+1
+                    let str = "GET:\(self.getTimes)    SEND(ok:\(self.sendTimesOk)  fail:\(self.sendTimesFail))"
+                    //self.subLabel.text = str
+                }
+
+            }else{
+                NSLog("--->ALi Send Fail! (Index:\(bigData.mIndex) Reason:\(bigData.mResult.rawValue))")
+
+                JL_Tools.mainTask {
+                    AudioServicesPlaySystemSound(1002);
+                    self.sendTimesFail = self.sendTimesFail+1
+                    let str = "GET:\(self.getTimes)    SEND(ok:\(self.sendTimesOk)  fail:\(self.sendTimesFail))"
+                    //self.subLabel.text = str
+                }
+            }
+        })
     }
     
     @objc private func handleDidEnterBackgroundNotification() {
-        if activityIndicator != nil {
-            activityIndicator?.stopAnimating()
-            activityIndicator?.removeFromSuperview()
-            activityIndicator = nil
+        if hud != nil {
+            hud?.hideHud()
         }
     }
     
@@ -111,8 +179,21 @@ class HealthViewController: BaseViewController {
         refreshGoal()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        refreshUIForBleed()
+    }
+    
+    private func refreshUIForBleed() {
+        if lastestDeviceMac.count > 0 {
+            pressureView.isHidden = false
+            bleedView.isHidden = false
+        }
+    }
+    
     deinit {
         unregisterNotification()
+        currentDialog?.removeFromSuperview()
     }
     
     private func registerNotification() {
@@ -173,6 +254,7 @@ class HealthViewController: BaseViewController {
         if objc == "step" {
             DispatchQueue.main.async {
                 [weak self] in
+                self?.refreshUIForBleed()
                 let step = bleSelf.step
                 self?.footValueLabel.text = "\(step)"
                 let distance = bleSelf.distance
@@ -305,19 +387,24 @@ class HealthViewController: BaseViewController {
             return
         }
         if obj == 2 {
-            print("显示loading图片")
-            if activityIndicator != nil {
-                return
+            if isSupportAlipay {
+                checkFGSStatus() // 连接成功后，再检查
             }
-            let frame = CGRect(x: 0, y: 0, width: 150, height: 150)
-            activityIndicator = NVActivityIndicatorView(frame: frame, type: .ballSpinFadeLoader, color: UIColor.white, padding: 30)
-            activityIndicator?.backgroundColor = UIColor.black.withAlphaComponent(0.7)
-            activityIndicator?.center = CGPoint(x: view.center.x, y: view.center.y)
-            let delegate  = UIApplication.shared.delegate as! AppDelegate
-            delegate.window?.addSubview(activityIndicator!)
-            activityIndicator?.startAnimating()
+            print("显示loading图片")
+            if hud != nil {
+                hud?.dismiss(animated: false)
+                hud = nil
+            }
+            if let delegate  = UIApplication.shared.delegate as? AppDelegate {
+                hud = JGProgressHUD(style: .light)
+                let gifImage = UIImage.gifImageWithName("loading")
+                let imageView = UIImageView(image: gifImage)
+                let indicatorView = JGProgressHUDImageIndicatorView(contentView: imageView)
+                hud?.indicatorView = indicatorView
+                hud?.textLabel.text = "\("sync_data".localized())0/9"
+                hud?.show(in: delegate.window ?? UIView())
+            }
             startLoadingViewCheckTimer()
-            activityIndicator?.tag = 9999
             return
         }
         if obj == 3 {
@@ -325,21 +412,29 @@ class HealthViewController: BaseViewController {
             endLoadingViewCheckTimer()
             DispatchQueue.main.async {
                 [weak self] in
-                if self?.activityIndicator != nil && (self?.activityIndicator?.isAnimating ?? false) {
-                    log.info("已经执行隐藏")
-                    self?.activityIndicator?.isHidden = true
-                    self?.activityIndicator?.stopAnimating()
-                    let delegate  = UIApplication.shared.delegate as! AppDelegate
-                    delegate.window?.viewWithTag(9999)?.removeFromSuperview()
-                    self?.activityIndicator = nil
+                self?.hud?.textLabel.text = "\("sync_data".localized())9/9"
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                    self?.hud?.dismiss(animated: false)
                 }
+            }
+            
+            manager.syncTemprature() //  连接成功后，则同步天气。
+        }
+        if obj == 100 {
+            let userinfo = notification.userInfo as? [String : String]
+            let msg = userinfo?["msg"] ?? "\("sync_data".localized())9/9"
+            DispatchQueue.main.async {
+                [weak self] in
+                self?.hud?.textLabel.text = msg
             }
         }
     }
     
     private func startLoadingViewCheckTimer() {
+        print("张晓飞：启动加载loading的检查")
         endLoadingViewCheckTimer()
-        loadingViewCheckTimer = Timer.scheduledTimer(withTimeInterval: 12, repeats: false, block: { (timer) in
+        loadingViewCheckTimer = Timer.scheduledTimer(withTimeInterval: 10, repeats: false, block: { (timer) in
             NotificationCenter.default.post(name: Notification.Name("HealthVCLoading"), object: 3)
         })
         RunLoop.current.add(loadingViewCheckTimer!, forMode: .common)
@@ -591,5 +686,143 @@ class HealthViewController: BaseViewController {
                 try? model.er.delete()
             }
         }
+    }
+    
+    
+    @objc public func showDialogForInviteAPPReview() {
+        if
+            let navigationView = navigationController?.view{
+            let noActionInfo = SCReviewView.ActionInfo(
+                title: "NO",
+                titleFont: UIFont.systemFont(ofSize: 18),
+                image: UIImage(named: "amazon_image_sad_no"))
+            let yesActionInfo = SCReviewView.ActionInfo(
+                title: "YES",
+                titleFont: UIFont.systemFont(ofSize: 18),
+                image: UIImage(named: "amazon_image_smile_yes"))
+            let viewInfo = SCReviewView.ViewInfo(
+                image: UIImage(named: "amazon_image_heart") ?? UIImage(),
+                imageSize: CGSize(width: 70, height: 60),
+                imageTop: 19,
+                title: " ",
+                spaceBetweenImageAndTitle: 13,
+                spaceBetweenArcBGAndTitle: 26,
+                actionsInfo: [noActionInfo, yesActionInfo])
+            let inviteReviewAPPDialog = SCReviewView(viewInfo: viewInfo).then {
+                //将视图加到navigation上，达到全页面模态的效果，否则无法覆盖导航栏
+                navigationView.addSubview($0)
+                $0.snp.makeConstraints {
+                    $0.edges.equalToSuperview()
+                }
+            }
+            currentDialog = inviteReviewAPPDialog
+            inviteReviewAPPDialog.didClickedClosure = {
+                [weak self] (index) in
+                    guard let sself = self else { return }
+                    inviteReviewAPPDialog.removeFromSuperview()
+                    if index == 0 {
+                        sself.notEnjoyApp()
+                    } else {
+                        sself.enjoyApp()
+                    }
+            }
+        }
+    }
+    
+    private func enjoyApp() {
+        showAPPStoreReview()
+    }
+    
+    private func showAPPStoreReview() {
+        if #available(iOS 10.3, *) {
+            SKStoreReviewController.requestReview()
+            log.info("SKStoreReviewController: requestReview")
+        } else {
+            log.info("SKStoreReviewController: failed, system is unvalid")
+        }
+    }
+    
+    private func notEnjoyApp() {
+        //显示help弹框
+        
+    }
+    
+    public func checkFGSStatus() {
+
+        AliConnectMananger_C.shared.checkFgsState { isSuccess, data in
+            JL_Tools.mainTask {
+                [weak self] in
+                self?.connectLp()
+                if isSuccess {
+                    NSLog("已有三元组数据")
+                    //DFUITools.showText("已有三元组数据", on: self.view, delay: 1.0)
+                }else {
+                    NSLog("没有,错误日志 : \(String(describing: data["msg"]))")
+                    //DFUITools.showText("三元组数据错误", on: self.view, delay: 1.0)
+                }
+            }
+        }
+    }
+    
+    public func connectLp() {
+        
+        //swift-Lp连接
+        AliConnectMananger_C.shared.startConnectLpState { isSuccess, data in
+            JL_Tools.mainTask {
+                if isSuccess {
+                    NSLog("LP连接成功")
+                    //DFUITools.showText("LP连接成功", on: self.view, delay: 1.0)
+                }else {
+                    NSLog("LP连接失败,错误日志 : \(String(describing: data["msg"]))")
+                    //DFUITools.showText("LP连接失败", on: self.view, delay: 1.0)
+                }
+            }
+        }
+    }
+}
+
+
+extension UIImage {
+    class func gifImageWithName(_ name: String) -> UIImage? {
+        guard let bundleURL = Bundle.main
+            .url(forResource: name, withExtension: "gif") else {
+                print("Unable to find the GIF file named \(name).gif")
+                return nil
+        }
+        guard let imageData = try? Data(contentsOf: bundleURL) else {
+            print("Unable to load the data for the GIF file \(name).gif")
+            return nil
+        }
+        guard let source = CGImageSourceCreateWithData(imageData as CFData, nil) else {
+            print("Unable to create image source for the GIF file \(name).gif")
+            return nil
+        }
+        var images = [UIImage]()
+        let count = CGImageSourceGetCount(source)
+        for i in 0..<count {
+            guard let cgImage = CGImageSourceCreateImageAtIndex(source, i, nil) else {
+                print("Unable to create image for frame \(i) of the GIF file \(name).gif")
+                continue
+            }
+            let uiImage = UIImage(cgImage: cgImage)
+            images.append(uiImage)
+        }
+        return UIImage.animatedImage(with: images, duration: 1.0)
+    }
+}
+
+extension HealthViewController: BleNeedSendDataDelegate_C {
+    func sendBleData(data: Data) {
+        NSLog("--->ALi Send:")
+        NSLog("%@",JL_Tools.dataChange(toString: data))
+
+
+        let bigData = JL_BigData()
+        bigData.mIndex = indexBigData
+        bigData.mData  = data
+        bigData.mType  = 1;
+
+        mBigDataManager?.cmdInputBigData(bigData)
+        indexBigData = indexBigData+1
     }
 }

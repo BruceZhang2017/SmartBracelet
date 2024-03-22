@@ -54,7 +54,7 @@ class InputHeightViewController: UIViewController {
     
     @IBAction func submit(_ sender: Any) {
         guard let value = mTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines), value.count > 0 else {
-            Toast(text: "请输入内容").show()
+            Toast(text: "help_center_text_tip".localized()).show()
             return
         }
         delegate?.callback(type: type, value: Int(value) ?? 0)

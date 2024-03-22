@@ -25,6 +25,7 @@ class DeviceSettingsViewController: BaseViewController {
         bleSelf.getLongSitForWristband()
        // title = "设备设置"
         tableView.backgroundColor = UIColor.kF5F5F5
+        tableView.isScrollEnabled = false 
 //        footerView = UIView(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: 104))
 //        footerView.backgroundColor = UIColor.clear
 //        let deleteButton = UIButton(type: .custom)
@@ -93,8 +94,8 @@ class DeviceSettingsViewController: BaseViewController {
             bleSelf.functionSwitchModel.isLightScreen = mSwitch?.isOn ?? false
             bleSelf.setSwitchForWristband(bleSelf.functionSwitchModel)
         } else if tag == 1000 { // 来电提醒
-            bleSelf.functionSwitchModel.isCallDown = mSwitch?.isOn ?? false
-            bleSelf.setSwitchForWristband(bleSelf.functionSwitchModel)
+            bleSelf.notifyModel.isCall = mSwitch?.isOn ?? false
+            bleSelf.setAncsSwitchForWristband(bleSelf.notifyModel)
         }
     }
     
@@ -122,17 +123,17 @@ class DeviceSettingsViewController: BaseViewController {
 
 extension DeviceSettingsViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        return titles.count
+        return 1
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return titles[section].count
+        return titles.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: .kCellIdentifier, for: indexPath) as! DeviceSettingsTableViewCell
-        cell.textLabel?.text = titles[indexPath.section][indexPath.row]
-        if indexPath.section == 0 && indexPath.row >= 1 && indexPath.row <= 3 {
+        cell.textLabel?.text = titles[indexPath.row]
+        if indexPath.row >= 1 && indexPath.row <= 3 {
             let mSwitch = UISwitch()
             mSwitch.tag = 999 + indexPath.row
             mSwitch.addTarget(self, action: #selector(valueChanged(_:)), for: .valueChanged)
@@ -142,26 +143,20 @@ extension DeviceSettingsViewController: UITableViewDataSource {
             } else if indexPath.row == 2 {
                 mSwitch.isOn = bleSelf.functionSwitchModel.isLightScreen
             } else if indexPath.row == 1 {
-                mSwitch.isOn = bleSelf.functionSwitchModel.isCallDown
-                mSwitch.isOn = bleSelf.functionSwitchModel.isLightScreen
+                mSwitch.isOn = bleSelf.notifyModel.isCall
             }
 
         } else {
             let imageView = UIImageView(image: UIImage(named: "content_next"))
             cell.accessoryView = imageView
         }
-        if indexPath.section == 0 && indexPath.row == 4 {
+        if indexPath.row == 4 {
             cell.detailTextLabel?.text = "\(bleSelf.longSitModel.interval)\("minute".localized())"
         } else {
             cell.detailTextLabel?.text = ""
         }
         return cell
     }
-    
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 1
-    }
-    
     
 }
 
@@ -187,31 +182,39 @@ extension DeviceSettingsViewController: UITableViewDelegate {
                 vc.hidesBottomBarWhenPushed = true
                 parent?.navigationController?.pushViewController(vc, animated: true)
             }
-        } else {
-            if indexPath.row == 3 {
-                bleSelf.setCameraForWristband(true)
-                takePhoto()
-            } else if indexPath.row == 2 { // 设置信息
-                let storyboard = UIStoryboard(name: .kDevice, bundle: nil)
-                let vc = storyboard.instantiateViewController(withIdentifier: "DeviceInfoViewController")
-                vc.hidesBottomBarWhenPushed = true
-                parent?.navigationController?.pushViewController(vc, animated: true)
-            } else if indexPath.row == 1 { // 查找设备
-                let storyboard = UIStoryboard(name: .kDevice, bundle: nil)
-                let vc = storyboard.instantiateViewController(withIdentifier: "DeviceFoundViewController")
-                vc.hidesBottomBarWhenPushed = true
-                parent?.navigationController?.pushViewController(vc, animated: true)
-            } else { // 闹钟设置
-                bleSelf.getAlarmForWristband() // 获取闹钟信息
-                perform(#selector(readAlarm), with: nil, afterDelay: 0.3)
+        }
+        if indexPath.row == 9 {
+            bleSelf.setCameraForWristband(true)
+            takePhoto()
+        } else if indexPath.row == 8 { // 设置信息
+            let storyboard = UIStoryboard(name: .kDevice, bundle: nil)
+            let vc = storyboard.instantiateViewController(withIdentifier: "DeviceInfoViewController")
+            vc.hidesBottomBarWhenPushed = true
+            parent?.navigationController?.pushViewController(vc, animated: true)
+        } else if indexPath.row == 7 { // 查找设备
+            let storyboard = UIStoryboard(name: .kDevice, bundle: nil)
+            let vc = storyboard.instantiateViewController(withIdentifier: "DeviceFoundViewController")
+            vc.hidesBottomBarWhenPushed = true
+            parent?.navigationController?.pushViewController(vc, animated: true)
+        } else if indexPath.row == 6 { // 闹钟设置
+            bleSelf.getAlarmForWristband() // 获取闹钟信息
+            perform(#selector(readAlarm), with: nil, afterDelay: 0.3)
+        } else if indexPath.row == 10 { // 同步数据
+            if bleSelf.isConnected {
+                bleSelf.getStep()
+                NotificationCenter.default.post(name: Notification.Name("HealthVCLoading"), object: 2)
             }
         }
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 44
     }
 }
 
 extension DeviceSettingsViewController {
-    var titles: [[String]] {
-        return [["device_push_settings".localized(), "device_call_amind".localized(), "device_hand_up_screen".localized(), "device_longsit_amind".localized(), "device_longsit_amind_time".localized(), "device_weather_push".localized()], ["device_alarm_settings".localized(), "device_search_settings".localized(), "device_device_info".localized(),"device_shark_photo".localized()]]
+    var titles: [String] {
+        return ["device_push_settings".localized(), "device_call_amind".localized(), "device_hand_up_screen".localized(), "device_longsit_amind".localized(), "device_longsit_amind_time".localized(), "device_weather_push".localized(), "device_alarm_settings".localized(), "device_search_settings".localized(), "device_device_info".localized(),"device_shark_photo".localized(), "synchronize_data".localized()]
     }
 }
 

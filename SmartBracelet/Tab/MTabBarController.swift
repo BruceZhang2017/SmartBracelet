@@ -51,15 +51,18 @@ class MTabBarController: UITabBarController {
     }
     
     private func showLinkedAlert() {
-        let attributedString = NSMutableAttributedString(string:"《隐私保护》和 《用户协议》")
-        attributedString.SetAsLink(textToFind: "《隐私保护》", linkURL: "http://www.sinophy.com/Arc_See.aspx?aid=185#")
-        attributedString.SetAsLink(textToFind: "《用户协议》", linkURL: "http://www.sinophy.com/Arc_See.aspx?aid=188")
+        let pp = "privacy_protection".localized()
+        let up = "user_agreement".localized()
+        let and = "and".localized()
+        let attributedString = NSMutableAttributedString(string:"\(pp) \(and) \(up)")
+        attributedString.SetAsLink(textToFind: pp, linkURL: "http://www.sinophy.com/Arc_See.aspx?aid=185#")
+        attributedString.SetAsLink(textToFind: up, linkURL: "http://www.sinophy.com/Arc_See.aspx?aid=188")
         let paragraph = NSMutableParagraphStyle()
         paragraph.alignment = .center
         attributedString.addAttribute(.paragraphStyle, value: paragraph, range: NSMakeRange(0, attributedString.length))
         attributedString.addAttribute(.font, value: UIFont.systemFont(ofSize: 20), range:  NSMakeRange(0, attributedString.length))
-        let alert: UIAlertView = UIAlertView(title: "服务协议和隐私政策", message: "请你务必审慎阅读",
-                                             delegate: self, cancelButtonTitle: "拒绝并退出", otherButtonTitles: "同意")
+        let alert: UIAlertView = UIAlertView(title: "\(pp) \(and) \(up)", message: "read_carefully".localized(),
+                                             delegate: self, cancelButtonTitle: "reject_and_exit".localized(), otherButtonTitles: "agree".localized())
         
         let Txt:UITextView = UITextView(frame:CGRect(x: 0, y: 0, width: 100, height: 80))
         Txt.font = UIFont.systemFont(ofSize: 25)

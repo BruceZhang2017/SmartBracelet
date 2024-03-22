@@ -102,10 +102,10 @@ extension DeviceListViewController: UITableViewDataSource {
         if deviceInfo != nil {
             if deviceInfo?.battery ?? 0 < 5 {
                 cell.batteryButton.setImage(UIImage(named: "conten_battery_runout"), for: .normal)
-                cell.batteryButton.setTitle("5%", for: .normal)
+                cell.batteryButton.setTitle(" ", for: .normal)
             } else {
                 cell.batteryButton.setImage(UIImage(named: "conten_battery_full"), for: .normal)
-                cell.batteryButton.setTitle("\(deviceInfo?.battery ?? 0)%", for: .normal)
+                cell.batteryButton.setTitle(" ", for: .normal)
             }
         } else {
             cell.batteryButton.setImage(UIImage(named: "conten_battery_null"), for: .normal)

@@ -4,31 +4,41 @@ use_frameworks!
 
 target 'SmartBracelet' do
 source 'https://github.com/CocoaPods/Specs.git'
+source 'https://github.com/aliyun/aliyun-specs.git'
+pod 'AFNetworking'
 pod 'AMap2DMap'
 pod 'AMapLocation'
-pod 'SnapKit'
+pod 'SnapKit','5.0.1'
 pod 'Segmentio'
 pod 'Then'
 pod 'ProgressHUD'
 pod 'Toaster', :git => 'https://github.com/devxoul/Toaster.git', :branch => 'master'
 pod 'CountryPickerView'
 pod 'IQKeyboardManagerSwift', '6.3.0'
-pod 'NVActivityIndicatorView'
-pod 'AliyunOSSiOS'
+#pod 'NVActivityIndicatorView'
 pod 'Alamofire', '~> 5.4.4'
 pod 'Kingfisher'
 pod 'XCGLogger'
 pod 'RealmSwift', '~> 10.13.0'
 pod 'Realm', '~> 10.13.0'
 pod 'Toast'
-pod 'AFNetworking'
 pod 'MJRefresh'
 pod 'AMapSearch'
-pod 'Pgyer'
-pod 'PgyUpdate'
 pod 'YYImage'
 pod 'TZImagePickerController'
 pod 'Bugly'
+pod 'HandyJSON'
+pod 'Moya'
+pod 'SDWebImage'
+#pod 'FLAnimatedImage'
+
+pod 'SwiftyBeaver'
+pod 'SwiftyJSON'
+pod 'RxSwift'
+
+pod 'CryptoSwift'
+pod 'IotLinkKit', '1.2.1'
+pod 'RxBluetoothKit'
 
   post_install do |installer|
     #调用移除函数
@@ -38,6 +48,7 @@ pod 'Bugly'
         config.build_settings['ENABLE_BITCODE'] ='NO'
         config.build_settings['ENABLE_STRICT_OBJC_MSGSEND'] = 'NO'
         config.build_settings['APPLICATION_EXTENSION_API_ONLY'] = 'NO'
+        config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '12.0'
       end
     end
   end

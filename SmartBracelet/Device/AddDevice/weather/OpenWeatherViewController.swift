@@ -7,18 +7,10 @@
 
 import UIKit
 import CoreLocation
-import ProgressHUD
 
 class OpenWeatherViewController: UIViewController {
-    private let viewModel = ViewModel()
-    lazy var locationManager: CLLocationManager = {
-        let location = CLLocationManager()
-        location.delegate = self
-        location.desiredAccuracy = kCLLocationAccuracyKilometer
-        location.requestWhenInUseAuthorization()
-        return location
-    }()
 
+    private var manager = OpenWeatherManager()
     private let backgroundImageView = UIImageView()
     private let weatherIconImageView = UIImageView()
     private let temperatureLabel = UILabel()
@@ -32,10 +24,12 @@ class OpenWeatherViewController: UIViewController {
         setupWeatherView()
 
         title = "device_weather_push".localized()
-        
-        if CLLocationManager.locationServicesEnabled() {
-            locationManager.requestLocation()
+        manager.syncTemprature()
+        manager.callback = {
+            [weak self] weatherData in
+            self?.updateInterface(weather: weatherData)
         }
+
     }
 
     private func presentSearchAlertController(completionHandler: @escaping (String) -> Void) {
@@ -72,32 +66,11 @@ class OpenWeatherViewController: UIViewController {
             //self.weatherIconImageView.image = UIImage(systemName: weather.systemIconNameString)
             self.temperatureLabel.text = "\(Int(self.tempratureKToC(temp: weather.list.first?.temp.day ?? 0)))°C"
             self.feelsLikeLabel.text = "min:\(Int(self.tempratureKToC(temp: weather.list.first?.temp.min ?? 0)))°C - max:\(Int(self.tempratureKToC(temp: weather.list.first?.temp.max ?? 0)))°C"
-            self.syncTemprature(weather: weather)
         }
     }
     
     
-    private func syncTemprature(weather: CurrentWeatherData) {
-        let temp = Int(tempratureKToC(temp: weather.list.first?.temp.day ?? 0))
-        let max: Int = Int(tempratureKToC(temp: weather.list.first?.temp.max ?? 0))
-        let min: Int = Int(tempratureKToC(temp: weather.list.first?.temp.min ?? 0))
-        let weather = weather.list.first?.weather.first?.icon ?? ""
-        var type = 0
-        if weather.hasPrefix("02") || weather.hasPrefix("03") {
-            type = 1
-        }
-        if weather.hasPrefix("09") || weather.hasPrefix("10") || weather.hasPrefix("11")  {
-            type = 2
-        }
-        if weather.hasPrefix("13") {
-            type = 3
-        }
-        if weather.hasPrefix("04") {
-            type = 4
-        }
-            
-        bleSelf.setWeather(temper: temp, type: type, max: max, min: min)
-    }
+
     
     
     /// 绝对温度转摄氏度
@@ -153,21 +126,3 @@ extension OpenWeatherViewController {
     }
 }
 
-// MARK: CoreLocationDelegate
-
-extension OpenWeatherViewController: CLLocationManagerDelegate {
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        guard let location = locations.last else { return }
-        let latitude = location.coordinate.latitude
-        let longitude = location.coordinate.longitude
-        ProgressHUD.show()
-        viewModel.fetchWeather(requestType: .coordinate(latitude: latitude, longitude: longitude)) { weather in
-            ProgressHUD.dismiss()
-            self.updateInterface(weather: weather)
-        }
-    }
-
-    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        print(error.localizedDescription)
-    }
-}

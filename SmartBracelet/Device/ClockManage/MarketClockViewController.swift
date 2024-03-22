@@ -56,9 +56,12 @@ class MarketClockViewController: UIViewController {
     
     private func downloadClock() {
         ProgressHUD.show()
-        let parameters = ["pageSize": "100", "pageNum": "1", "isPublish": "Y"]
-        AF.request("http://8.129.113.186/api/app/dial/list", method: .post, parameters: parameters).response { [weak self] (response) in
-            debugPrint("Response: \(response.debugDescription)")
+        let w = bleSelf.bleModel.screenWidth
+        let h = bleSelf.bleModel.screenHeight
+        let firmNo = bleSelf.isJLBlue ? "JieLi" : "FengJiaWei"
+        let parameters = ["pageSize": "100", "pageNum": "1", "isPublish": "Y", "resolutionRatio": "\(w)*\(h)", "firmNo": firmNo]
+        AF.request("https://u-watch.com.cn/api/app/dial/list?pageSize=100&pageNum=1", method: .post, parameters: parameters, encoder: JSONParameterEncoder.default).response { [weak self] (response) in
+            debugPrint("Request: \((String(data:response.request?.httpBody ?? Data(),encoding:.utf8) ?? "")) Response: \(response.debugDescription)")
             ProgressHUD.dismiss()
             guard let data = response.value as? Data else {
                 return
@@ -70,8 +73,6 @@ class MarketClockViewController: UIViewController {
                 Toast(text: "解析失败").show()
                 return
             }
-            let w = bleSelf.bleModel.screenWidth
-            let h = bleSelf.bleModel.screenHeight
             self?.clockArray = model?.rows?.filter { $0.resolutionRatio == "\(w)*\(h)" } ?? []
             self?.collectionView.reloadData()
             

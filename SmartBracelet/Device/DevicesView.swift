@@ -47,6 +47,7 @@ class DevicesView: UIView {
     }
 
     public func refreshData() {
+        DeviceManager.shared.initializeDevices()
         collectionView.reloadData()
     }
 }
@@ -75,10 +76,13 @@ extension DevicesView: UICollectionViewDataSource, UICollectionViewDelegate {
             cell.btButton.isHidden = false
             cell.addLabel.isHidden = true
             currentModel = nil
-            for item in DeviceManager.shared.devices {
-                if item.mac == lastestDeviceMac {
-                    currentModel = item
-                    break
+            if count > 0 {
+                for item in DeviceManager.shared.devices {
+                    
+                    if item.mac == lastestDeviceMac {
+                        currentModel = item
+                        break
+                    }
                 }
             }
             if currentModel == nil {
@@ -103,10 +107,10 @@ extension DevicesView: UICollectionViewDataSource, UICollectionViewDelegate {
                 if deviceInfo != nil {
                     if deviceInfo?.battery ?? 0 < 5 {
                         cell.batteryButton.setImage(UIImage(named: "conten_battery_runout"), for: .normal)
-                        cell.batteryButton.setTitle("5%", for: .normal)
+                        cell.batteryButton.setTitle(" ", for: .normal)
                     } else {
                         cell.batteryButton.setImage(UIImage(named: "conten_battery_full"), for: .normal)
-                        cell.batteryButton.setTitle("\(deviceInfo?.battery ?? 0)%", for: .normal)
+                        cell.batteryButton.setTitle(" ", for: .normal)
                     }
                 } else {
                     cell.batteryButton.setImage(UIImage(named: "conten_battery_null"), for: .normal)

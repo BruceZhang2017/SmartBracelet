@@ -31,7 +31,9 @@ class AlarmAddViewController: BaseViewController {
         let dateFormatter = DateFormatter();
         dateFormatter.dateFormat = "HH:mm";
         let date = dateFormatter.date(from: "\(String(format: "%02d", alarm.hour)):\(String(format: "%02d", alarm.minute))")
-        datePicker.setDate(date!, animated: true)
+        if date != nil {
+            datePicker.setDate(date!, animated: true)
+        }
         if #available(iOS 13.4, *) {
             datePicker.preferredDatePickerStyle = .wheels
         } else {

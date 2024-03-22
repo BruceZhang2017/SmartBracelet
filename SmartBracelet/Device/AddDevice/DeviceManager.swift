@@ -23,10 +23,20 @@ class DeviceManager: NSObject {
     }
     
     public func initializeDevices() {
+        if Thread.current.isMainThread == true {
+            devices = []
+            if let models = try? BLEModel.er.all(), models.count > 0 {
+                devices.append(contentsOf: models)
+                print("数据库中的数据数量为: \(models.count)")
+                return
+            }
+            print("数据库中的数据数量为: 0")
+            return 
+        }
         DispatchQueue.main.async {
             [weak self] in
             print("当前为主线程：\(Thread.current.isMainThread)")
-            self?.devices.removeAll()
+            self?.devices = []
             if let models = try? BLEModel.er.all(), models.count > 0 {
                 self?.devices.append(contentsOf: models)
                 print("数据库中的数据数量为: \(models.count)")

@@ -102,6 +102,46 @@ class DeviceSearchViewController: BaseViewController {
             Toast(text: "连接失败").show()
         }
     }
+    
+    @IBAction func scanQRCode(_ sender: Any) {
+        /// 创建二维码扫描
+        let vc = ScannerVC()
+        vc.modalPresentationStyle = .fullScreen
+        //设置标题、颜色、扫描样式（线条、网格）、提示文字
+        vc.setupScanner("device_scan".localized(), .blue, .grid, "device_scan_add_device".localized()) {[weak self] (code) in
+            //扫描回调方法
+            print("扫描的结果是：\(code)")
+            if code.count > 0 && code.contains("mac=") {
+                let mac = self?.extractMacValue(from: code)
+                if bleSelf.bleModels.count > 0 {
+                    for model in bleSelf.bleModels {
+                        let m = model.mac.replacingOccurrences(of: ":", with: "").lowercased()
+                        if m == mac?.lowercased() {
+                            bleSelf.connectBleDevice(model: model)
+                            break
+                        }
+                    }
+                }
+            }
+            //关闭扫描页面
+            self?.dismiss(animated: true, completion: nil)
+            
+        }
+
+        //Present到扫描页面
+        present(vc, animated: true, completion: nil)
+    }
+    
+    func extractMacValue(from string: String) -> String? {
+        let pattern = "mac="
+        guard let range = string.range(of: pattern, options: .backwards) else {
+            // 如果没有找到 "mac="，返回 nil
+            return nil
+        }
+        // 截取 "mac=" 之后的字符串
+        let macValue = string[range.upperBound...]
+        return String(macValue)
+    }
 }
 
 extension DeviceSearchViewController: UITableViewDataSource {

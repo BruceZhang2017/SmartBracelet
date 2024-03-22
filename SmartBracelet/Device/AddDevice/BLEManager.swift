@@ -34,6 +34,11 @@ class BLEManager: NSObject {
     var audioPlayer: AVAudioPlayer!
     var mTimer: Timer?
     var currentFunctionStep = 0 // 当前读取数据的阶段
+    var currentReadProgress = 0 {
+        didSet {
+            NotificationCenter.default.post(name: Notification.Name("HealthVCLoading"), object: 100, userInfo: ["msg": "\("sync_data".localized())\(currentReadProgress)/9"])
+        }
+    }
     var isReconnect = false // 当前操作是否为回连
     var isFirstConnected = true // 第一次连接
     
@@ -41,8 +46,30 @@ class BLEManager: NSObject {
         super.init()
         WUAppManager.isDebug = true 
         bleSelf.setupManager()
+        //杰里初始化
+        JLSelf.setUpJLinfo()
         callback()
         setupNotify()
+        
+        // MARK:- 杰里回调
+        JLSelf.JLPushBlock = { result in
+            if result {
+                Async.main {
+                    self.showHud(NSLocalizedString("推送成功", comment: ""))
+                    NotificationCenter.default.post(name: Notification.Name("ClockUseViewController"), object: 2)
+                }
+            }else{
+                Async.main {
+                    self.showHud(NSLocalizedString("推送失败", comment: ""))
+                    NotificationCenter.default.post(name: Notification.Name("ClockUseViewController"), object: 3)
+                }
+            }
+        }
+        
+        JLSelf.JLProgressBlock = { result in
+            let s = String(format: "%.02f%%", result*100.0)
+            NotificationCenter.default.post(name: Notification.Name("ClockUseViewController"), object: 1, userInfo: ["p": s])
+        }
     }
     
     deinit {
@@ -130,7 +157,7 @@ class BLEManager: NSObject {
         
         if notify.name == WUBleManagerNotifyKeys.connected {
             // 将蓝牙对象设置为已绑定，保存蓝牙对象
-            Toast(text: "连接成功").show()
+            Toast(text: "toast_success".localized()).show()
             endTimer()
             bleSelf.bleModel.isBond = true
             WUBleModel.setModel(bleSelf.bleModel)
@@ -199,6 +226,7 @@ class BLEManager: NSObject {
     public func regNotification() {
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotify(_:)), name: WristbandNotifyKeys.search_Phone, object: nil )
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotify(_:)), name: WristbandNotifyKeys.readyToWrite, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleNotify(_:)), name: JLComplete, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotify(_:)), name: WristbandNotifyKeys.read_Sport, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotify(_:)), name: WristbandNotifyKeys.read_All_Sport, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotify(_:)), name: WristbandNotifyKeys.read_All_Sleep, object: nil)
@@ -297,14 +325,32 @@ class BLEManager: NSObject {
                 return
             }
             bleSelf.bindSetForWristband() // 第0步：先绑定设备
-            Async.main(after: 0.1) {
-                bleSelf.setTimeForWristband() // 第0步：设置时间
+            ///此通知非杰里设备在这里开始同步数据
+            if !bleSelf.isJLBlue{
+                Async.main(after: 0.1) {
+                    bleSelf.setTimeForWristband() // 第0步：设置时间
+                    bleSelf.getDeviceInfoForWristband() // 第1步：获取设备信息
+                }
+                currentReadProgress = 1
+                
+                Async.main(after: 0.2) {
+                    bleSelf.setLanguageForWristband() // 第0步：同步语言
+                }
+                NotificationCenter.default.post(name: Notification.Name("HealthVCLoading"), object: 2) // 加载loading动效
             }
+        }
+        
+        //杰里配对成功后同步
+        if notify.name == JLComplete {
+            wuPrint("JL设备配对成功")
+            currentReadProgress = 1
+            bleSelf.setTimeForWristband() // 第0步：设置时间
+            bleSelf.getDeviceInfoForWristband() // 第1步：获取设备信息
             
-            Async.main(after: 0.3) {
+            Async.main(after: 0.2) {
                 bleSelf.setLanguageForWristband() // 第0步：同步语言
             }
-            NotificationCenter.default.post(name: Notification.Name("HealthVCLoading"), object: 2)
+            NotificationCenter.default.post(name: Notification.Name("HealthVCLoading"), object: 2) // 加载loading动效
         }
         
         if notify.name == WristbandNotifyKeys.bindSet {
@@ -316,8 +362,10 @@ class BLEManager: NSObject {
             NotificationCenter.default.post(name: Notification.Name("HealthViewController"), object: "step")
             print("开始读取心跳：\(currentFunctionStep)")
             currentFunctionStep = 5
+            currentReadProgress = 4
             bleSelf.aloneGetMeasure(.heart) // 第5步：获取心跳历史数据
             startReadDataTimer() //启动服务器
+            perform(#selector(handleHideLoading), with: nil, afterDelay: 1) // 隐藏loading
         }
                 
         if notify.name == WristbandNotifyKeys.read_All_Sport {
@@ -333,11 +381,11 @@ class BLEManager: NSObject {
             let date = WUDate.dateFromTimeStamp(model.timeStamp)
             let dateStr = date.stringFromYmdHms()
             wuPrint(model.step, dateStr)
-            if model.day >= 6 {
+            if model.day >= 3 {
                 return
             }
             stepArray[model.day] += [model]
-            let day = min(6, distanceDays)
+            let day = min(3, distanceDays)
             if model.day == day {
                 if model.totalCount == model.indexOfTotal {
                     print("detail step sync complete", model.day)
@@ -395,6 +443,7 @@ class BLEManager: NSObject {
                     print("开始读取血压: \(currentFunctionStep)")
                     NotificationCenter.default.post(name: Notification.Name("HealthViewController"), object: "sleep")
                     currentFunctionStep = 7
+                    currentReadProgress = 6
                     bleSelf.aloneGetMeasure(.blood) // 第7步：获取血压历史数据
                     startReadDataTimer()
                 }
@@ -422,8 +471,8 @@ class BLEManager: NSObject {
                 }
                 NotificationCenter.default.post(name: Notification.Name("HealthViewController"), object: "heart")
             }
-            perform(#selector(handleHideLoading), with: nil, afterDelay: 5)
             currentFunctionStep = 6
+            currentReadProgress = 5
             print("开始读取睡眠: \(currentFunctionStep)")
             bleSelf.aloneGetSleep(with: 0) // 第6步：获取历史睡眠信息
             startReadDataTimer()
@@ -455,6 +504,7 @@ class BLEManager: NSObject {
             }
             DispatchQueue.main.async {
                 [weak self] in
+                self?.currentReadProgress = 7
                 bleSelf.aloneGetMeasure(.oxygen) // 第8步：获取血氧历史数据
                 self?.perform(#selector(BLEManager.readStepHistory), with: nil, afterDelay: 2)
             }
@@ -578,15 +628,19 @@ class BLEManager: NSObject {
                 bleSelf.getBatteryForWristband()
             }
             Async.main(after: 1.5) {
-                bleSelf.getDeviceInfoForWristband() // 第1步：获取设备信息
-            }
-            Async.main(after: 2.5) {
                 NotificationCenter.default.post(name: Notification.Name("DevicesViewController"), object: "1")
             }
         }
          
         if notify.name == WristbandNotifyKeys.syncEle { // 电量同步结束后
-            print("电量设置成功")
+            if bleSelf.isJLBlue {
+                var deviceModel = DeviceManager.shared.deviceInfo[bleSelf.bleModel.mac]
+                deviceModel?.battery = bleSelf.batteryLevel
+            } else {
+                var deviceModel = DeviceManager.shared.deviceInfo[bleSelf.bleModel.mac]
+                deviceModel?.battery = bleSelf.batteryLevel
+            }
+            print("电量读取成功: \(bleSelf.batteryLevel)")
             DispatchQueue.main.async {
                 NotificationCenter.default.post(name: Notification.Name("DevicesViewController"), object: "1")
                 NotificationCenter.default.post(name: Notification.Name("DeviceList"), object: "1")
@@ -612,7 +666,7 @@ class BLEManager: NSObject {
                 log.info("更新设备的信息")
             }
             bleSelf.getUserinfoForWristband() // 第2步：获取用户信息
-            
+            currentReadProgress = 2
             Async.main(after: 1) {
                 bleSelf.getBatteryForWristband()
             }
@@ -631,7 +685,7 @@ class BLEManager: NSObject {
             deviceModel.mac = bleSelf.bleModel.mac
             deviceModel.name = bleSelf.bleModel.name
             DeviceManager.shared.deviceInfo[bleSelf.bleModel.mac] = deviceModel
-            
+            currentReadProgress = 3
             DispatchQueue.main.async {
                 NotificationCenter.default.post(name: Notification.Name("DevicesViewController"), object: "1")
             }
@@ -664,7 +718,7 @@ class BLEManager: NSObject {
                     let s = String(format: "%.02f%%", d)
                     NotificationCenter.default.post(name: Notification.Name("ClockUseViewController"), object: 1, userInfo: ["p": s])
                     bleSelf.setDialPush(binData, dataIndex: i)
-                    usleep(30 * 1000);
+                    Thread.sleep(forTimeInterval: 0.03)
                 }
                 NotificationCenter.default.post(name: Notification.Name("ClockUseViewController"), object: 2)
             } else {
@@ -788,6 +842,39 @@ extension BLEManager {
         total = Int(ceil(Double(value.count)/16))
         binData = value
         bleSelf.startDialPush(value)
+        NotificationCenter.default.post(name: Notification.Name("ClockUseViewController"), object: 1)
+    }
+    
+    private func jlPushClock(_ value: Data) {
+        ///表盘推送 需要设备支持
+        ///正式请从服务器获取  以下是测试用本地数据
+        let temp = value
+        //必须去掉data前6个字节
+        let sub = temp.dropFirst(6)
+
+        wuPrint("subData:\(sub) ---- tempData:\(temp)")
+        
+        if bleSelf.isJLBlue && !bleSelf.funcCategoryModel.hasJLPush{
+            
+            if bleSelf.batteryLevel <= 15 {
+                self.showHud(NSLocalizedString("设备电量低，请先给设备充电", comment: ""))
+                return
+            }
+            
+            JLSelf.JLtotal = Int(ceil(Double(sub.count)/16))
+            JLSelf.JLbinData = sub
+            
+            //请注意 这里杰里表盘是根据做好表盘的固定表盘文件名字 不能随便写  已推过的会变成设置成功不会再推数据
+//                    let stringName = daiName.uppercased()  //转大写
+            JLSelf.JLdialName = "WH211"
+            wuPrint("打印图片大小",JLSelf.JLdialName)
+            wuPrint(self.binData.count)
+        
+            JLSelf.btn_list()
+            NotificationCenter.default.post(name: Notification.Name("ClockUseViewController"), object: 1)
+        } else {
+            sendDialWithLocalBin(value)
+        }
     }
 }
 
@@ -818,7 +905,9 @@ extension BLEManager {
             }
         })
         mTimer?.fire()
-        RunLoop.current.add(mTimer!, forMode: .common)
+        if mTimer != nil {
+            RunLoop.current.add(mTimer!, forMode: .common)
+        }
     }
     
     // 结束
@@ -830,6 +919,7 @@ extension BLEManager {
     @objc func readStepHistory() {
         print("开始读取步数: \(currentFunctionStep)")
         currentFunctionStep = 9
+        currentReadProgress = 8
         bleSelf.aloneGetStep(with: 0) // 第9步：获取历史步行信息
         startReadDataTimer()
     }

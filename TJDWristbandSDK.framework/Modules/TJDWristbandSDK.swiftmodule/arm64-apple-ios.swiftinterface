@@ -1,11 +1,12 @@
 // swift-interface-format-version: 1.0
-// swift-compiler-version: Apple Swift version 5.4 (swiftlang-1205.0.26.9 clang-1205.0.19.55)
-// swift-module-flags: -target arm64-apple-ios9.0 -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -module-name TJDWristbandSDK
+// swift-compiler-version: Apple Swift version 5.6 (swiftlang-5.6.0.323.62 clang-1316.0.20.8)
+// swift-module-flags: -target arm64-apple-ios9.0 -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -Onone -module-name TJDWristbandSDK
 import CoreBluetooth
 import Foundation
 import Swift
 @_exported import TJDWristbandSDK
 import UIKit
+import _Concurrency
 @objc @_inheritsConvenienceInitializers @objcMembers open class HeartModel : TJDWristbandSDK.DataModel {
   @objc open var totalCount: Swift.Int
   @objc open var indexOfTotal: Swift.Int
@@ -86,7 +87,7 @@ public struct AsyncGroup {
   @discardableResult
   public func wait(seconds: Swift.Double? = nil) -> Dispatch.DispatchTimeoutResult
 }
-@objc extension NSObject {
+@objc extension ObjectiveC.NSObject {
   @objc dynamic public class func getPropertiesType() -> [Swift.String]
   @objc dynamic public func getPropertiesType() -> [Swift.String]
   @objc dynamic public class func getPropertiesName() -> [Swift.String]
@@ -120,7 +121,7 @@ public struct AsyncGroup {
     get
   }
 }
-extension WristbandNotifyKeys {
+extension TJDWristbandSDK.WristbandNotifyKeys {
   @objc public static let motorShake: Foundation.Notification.Name
   @objc public static let gSensor: Foundation.Notification.Name
   @objc public static let screenBrightness: Foundation.Notification.Name
@@ -133,7 +134,7 @@ extension WristbandNotifyKeys {
   @objc public static let restoreFactorySettings: Foundation.Notification.Name
   @objc public static let turnoffBluetooth: Foundation.Notification.Name
 }
-extension WUBleManager {
+extension TJDWristbandSDK.WUBleManager {
   @objc dynamic open func setMotorShake(_ type: TJDWristbandSDK.TestActionType, isRespond: Swift.Bool)
   @objc dynamic open func setGSensor(_ type: TJDWristbandSDK.TestActionType, isRespond: Swift.Bool)
   @objc dynamic open func setScreenBrightness(_ type: TJDWristbandSDK.TestActionType, isRespond: Swift.Bool)
@@ -168,14 +169,29 @@ extension WUBleManager {
   @objc override dynamic public init()
   @objc deinit
 }
-extension WUCentralManager {
+extension TJDWristbandSDK.WUCentralManager {
   @objc override dynamic public func observeValue(forKeyPath keyPath: Swift.String?, of object: Any?, change: [Foundation.NSKeyValueChangeKey : Any]?, context: Swift.UnsafeMutableRawPointer?)
 }
 @objc @_inheritsConvenienceInitializers @objcMembers open class FunctionCategoryModel : ObjectiveC.NSObject {
+  @objc open var hasQRCode: Swift.Bool
+  @objc open var hasNewmusic: Swift.Bool
+  @objc open var hasDouble: Swift.Bool
+  @objc open var hasClosePhone: Swift.Bool
+  @objc open var hasEmpty: Swift.Bool
+  @objc open var hasJLPush: Swift.Bool
+  @objc open var hasEditBlueName: Swift.Bool
+  @objc open var hasJLImagePush: Swift.Bool
+  @objc open var hasAddressBook: Swift.Bool
+  @objc open var hasNewWeather: Swift.Bool
+  @objc open var hasblue3: Swift.Bool
+  @objc open var hasCallReminder: Swift.Bool
+  @objc open var hasMonitorHeart: Swift.Bool
   @objc override dynamic public init()
   @objc deinit
 }
 public let bleSelf: TJDWristbandSDK.WUBleManager
+public let sysJLOTAComplete: Foundation.Notification.Name
+public let JLComplete: Foundation.Notification.Name
 @objc public enum WUBleState : Swift.Int {
   case disconnected
   case connecting
@@ -187,6 +203,7 @@ public let bleSelf: TJDWristbandSDK.WUBleManager
     get
   }
 }
+public func getKeyWindow() -> UIKit.UIWindow?
 public typealias WUDidSetUserinfo = (Swift.Bool) -> ()
 public typealias WUDidSetCamera = (Swift.Bool, Swift.Bool) -> ()
 public typealias WUDidSetStartMeasure = (Swift.Bool, Swift.UInt8) -> ()
@@ -221,6 +238,8 @@ public typealias WUDidSetStartMeasure = (Swift.Bool, Swift.UInt8) -> ()
   @objc open var distance: Swift.Int
   @objc open var sleep: Swift.Int
   @objc open var batteryLevel: Swift.Int
+  @objc open var isJLBlue: Swift.Bool
+  @objc open var JLPair: Swift.Bool
   @objc open var isEnterCamera: Swift.Bool
   @objc open var userInfo: TJDWristbandSDK.WUUserInfo
   @objc open var displayUiModel: TJDWristbandSDK.DisplayUiModel
@@ -256,14 +275,14 @@ public typealias WUDidSetStartMeasure = (Swift.Bool, Swift.UInt8) -> ()
   @objc override dynamic public init()
   @objc deinit
 }
-extension WUBleManager {
+extension TJDWristbandSDK.WUBleManager {
   @objc dynamic open func stringFromState() -> Swift.String
 }
-@objc extension NSObject {
+@objc extension ObjectiveC.NSObject {
   @objc dynamic public class func wuClassName() -> Swift.String
   @objc dynamic public func wuClassName() -> Swift.String
 }
-@objc extension NSObject {
+@objc extension ObjectiveC.NSObject {
   @objc dynamic public class func setModel(_ model: Swift.AnyObject)
   @objc dynamic public class func getModel() -> Swift.AnyObject
 }
@@ -322,14 +341,15 @@ extension WUBleManager {
   @objc public static let nfc_current: Foundation.Notification.Name
   @objc public static let write_NFC: Foundation.Notification.Name
   @objc public static let write_NFC_complete: Foundation.Notification.Name
-  @objc public static let write_QRCode: Foundation.Notification.Name
-  @objc public static let otherFunction: Foundation.Notification.Name
   @objc public static let JL_BlueClose: Foundation.Notification.Name
   @objc public static let JL_didDisconnectPeripheral: Foundation.Notification.Name
   @objc public static let JL_didConnect: Foundation.Notification.Name
   @objc public static let JL_didDiscoverChar: Foundation.Notification.Name
   @objc public static let JL_didUpdateNoti: Foundation.Notification.Name
   @objc public static let JL_didUpdateValueFor: Foundation.Notification.Name
+  @objc public static let sendQRcodeData: Foundation.Notification.Name
+  @objc public static let readFuncCategory: Foundation.Notification.Name
+  @objc public static let setOrRead_MonitorHeart: Foundation.Notification.Name
   @objc override dynamic public init()
   @objc deinit
 }
@@ -370,12 +390,18 @@ public func wuPrint(_ names: Any...)
   @objc open var hasAntiLost: Swift.Bool
   @objc open var hasFindPhone: Swift.Bool
   @objc open var hasANCSSwitch: Swift.Bool
+  @objc open var hasECG: Swift.Bool
+  @objc open var hasBinding: Swift.Bool
+  @objc open var hasBright: Swift.Bool
+  @objc open var hasDial: Swift.Bool
   @objc open var hasOxygen: Swift.Bool
   @objc open var hasWeather: Swift.Bool
   @objc open var hasANCSSwitch1: Swift.Bool
   @objc open var hasImage: Swift.Bool
   @objc open var hasP70: Swift.Bool
   @objc open var hasAddressBook: Swift.Bool
+  @objc open var hasF43vImage: Swift.Bool
+  @objc open var hasNewCamera: Swift.Bool
   @objc override dynamic public init()
   @objc deinit
 }
@@ -422,8 +448,10 @@ public func wuPrint(_ names: Any...)
   @objc override dynamic public init()
   @objc deinit
 }
-extension WUBleManager {
+extension TJDWristbandSDK.WUBleManager {
   @objc dynamic open func setWeather(temper: Swift.Int, type: Swift.Int, max: Swift.Int, min: Swift.Int)
+  @objc dynamic open func setWeatherForThirdDays(temper: Swift.Array<Swift.Int>, type: Swift.Int, max: Swift.Array<Swift.Int>, min: Swift.Array<Swift.Int>)
+  @objc dynamic open func setWeatherForSevenDays(temper: Swift.Int, type: Swift.UInt8, max: Swift.Int, min: Swift.Int, day: Swift.Int, pressure: Swift.Int, altitude: Swift.Int)
   @objc dynamic open func setTimeForWristband(_ date: Foundation.Date = Date())
   @objc dynamic open func bindSetForWristband()
   @objc dynamic open func getBatteryForWristband()
@@ -467,10 +495,14 @@ extension WUBleManager {
   @objc dynamic open func calibrationTemperature(_ mode: Swift.Int, temper: Swift.Int)
   @objc dynamic open func ruiYuDialSet()
   @objc dynamic open func setQRCodeData(_ data: Foundation.Data, dataCount: Swift.Int, type: Swift.Int, dataIndex: Swift.Int)
-  @objc dynamic open func getQRSet()
+  @objc dynamic open func getFuncCategory()
   @objc dynamic open func getCRC(_ data: [Swift.UInt8]) -> Swift.UInt8
+  @objc dynamic open func getMonitorHeartForWristband()
+  @objc dynamic open func setMonitorHeartForWristband(_ model: TJDWristbandSDK.monitorHeartModel)
   @objc dynamic open func getRGBData565FromImage(image: UIKit.UIImage) -> Foundation.Data?
   @objc dynamic open func tjdScale(image: UIKit.UIImage, toSize: CoreGraphics.CGSize) -> UIKit.UIImage?
+  @objc dynamic open func getWeaterType(type: Swift.Int) -> Swift.UInt8
+  @objc dynamic open func getWeaterTypeTest(type: Swift.Int) -> Swift.UInt8
 }
 @objc @_inheritsConvenienceInitializers @objcMembers open class LongSitModel : ObjectiveC.NSObject {
   @objc open var interval: Swift.Int
@@ -527,6 +559,8 @@ extension WUBleManager {
   @objc open var screenWidth: Swift.Int
   @objc open var screenHeight: Swift.Int
   @objc open var maxSize: Swift.Int
+  @objc open var isJLBlue: Swift.Bool
+  @objc open var JLPair: Swift.Bool
   @objc override dynamic public init()
   @objc deinit
 }
@@ -548,6 +582,16 @@ extension WUBleManager {
   @objc open var endHour: Swift.Int
   @objc open var endMinute: Swift.Int
   @objc open var repeatInterval: Swift.Int
+  @objc override dynamic public init()
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers @objcMembers open class monitorHeartModel : ObjectiveC.NSObject {
+  @objc open var isOn: Swift.Bool
+  @objc open var startHour: Swift.Int
+  @objc open var startMinute: Swift.Int
+  @objc open var endHour: Swift.Int
+  @objc open var endMinute: Swift.Int
+  @objc open var frequencyTime: Swift.Int
   @objc override dynamic public init()
   @objc deinit
 }
@@ -584,6 +628,11 @@ extension WUBleManager {
   @objc open var belowTheTime: Swift.Int
   @objc open var textColor: Swift.Int
   @objc open var isDefault: Swift.Int
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers @objcMembers open class DialModel : ObjectiveC.NSObject {
+  @objc open var jlArray: Foundation.NSMutableArray
+  @objc override dynamic public init()
   @objc deinit
 }
 extension TJDWristbandSDK.TestActionType : Swift.Equatable {}

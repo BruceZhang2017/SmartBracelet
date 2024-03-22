@@ -110,40 +110,11 @@ class ModifyHeadViewController: UIViewController {
         navigationController?.popViewController(animated: true)
     }
     
-    private func uploadImage(data: Data) {
-        let image = UIImage(data: data)
-        OSS.sharedInstance.setupOSSClient()
-        let key = "head.jpg"
-        OSS.sharedInstance.putObject(image: image!, key: key) {
-            (result) in
-            DispatchQueue.main.async {
-                [weak self] in 
-                if result {
-                    Toast(text: "图片上传成功").show()
-                    self?.uploadData(name: key)
-                    self?.navigationController?.popViewController(animated: true)
-                } else {
-                    Toast(text: "图片上传失败").show()
-                }
-            }
-        }
-    }
-    
     private func uploadData(name: String) {
         //ProgressHUD.show()
         var parameters = ["id": "\(UserManager.sharedInstall.user?.id ?? 0)"]
         parameters["headUrl"] = name
         AF.request("\(UrlPrefix)api/User/userinfo.php", method: .post, parameters: parameters, encoder: URLEncodedFormParameterEncoder.default).response { (response) in
-            //debugPrint("Response: \(response.debugDescription)")
-            //ProgressHUD.dismiss()
-//            guard let data = response.value as? Data else {
-//                return
-//            }
-//            let model = try? JSONDecoder().decode(BaseResponse.self, from: data)
-//            if model == nil {
-//                Toast(text: model?.message ?? "注册失败").show()
-//                return
-//            }
             
         }
     }

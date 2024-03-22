@@ -86,7 +86,6 @@ class ClockManageViewController: BaseViewController {
     
     @objc private func handleStop() {
         needStop = true
-        print("壁纸推送暂停")
     }
     
     private func setupUI() {

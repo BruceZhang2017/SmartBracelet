@@ -87,7 +87,7 @@
 "mine_device_ota_fail" = "OTA nadogradnja nije uspjela";
 "mine_about" = "oko";
 "mine_version" = "Verzija";
-"mine_about_desc" = "Sva prava na tumačenje pripadaju tumačenju FitDAY";
+"mine_about_desc" = "Sva prava na tumačenje pripadaju tumačenju u-watch";
 "mine_account_info" = "Informacije o računu";
 "mine_userinfo" = "osobne informacije";
 "mine_head_image" = "Avatar";
@@ -166,3 +166,14 @@
 "local_ota_file" = "Koristite lokalnu OTA datoteku";
 "confirm" = "potvrditi";
 "found_success" = "Mobile phone found successfully";
+"help_center_submit_success"="Submitted successfully";
+"Help_center_text_tip"="Please enter content";
+"Help_center_data_parse_fail"="Parsing failed";
+"help_center_submit_fail"="Submission failed";
+"Cancel" = "Cancel";
+"Close" = "Close";
+"Log In" = "Log In";
+"Log in to" = "Log in to %@";
+"OK" = "OK";
+"Password" = "Password";
+"User Name" = "User Name";
