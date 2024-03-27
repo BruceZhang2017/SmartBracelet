@@ -84,19 +84,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 }
 
 extension AppDelegate: UNUserNotificationCenterDelegate {
+    
     func userNotificationCenter(_ center: UNUserNotificationCenter, openSettingsFor notification: UNNotification?) {
-        
+        UIApplication.shared.applicationIconBadgeNumber = 0
     }
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         guard let trigger = notification.request.trigger else { return; }
         if trigger.isKind(of: UNTimeIntervalNotificationTrigger.classForCoder()) {
             print("Notification did receive, Is class UNTimeIntervalNotificationTrigger")
+            UIApplication.shared.applicationIconBadgeNumber = 0
         } else if trigger.isKind(of: UNCalendarNotificationTrigger.classForCoder()) {
             print("Notification did receive, Is class UNCalendarNotificationTrigger")
+            UIApplication.shared.applicationIconBadgeNumber = 0
         }
         // show alert while app is running in foreground
-        return completionHandler(UNNotificationPresentationOptions.alert)
+        return completionHandler([.alert, .badge, .sound])
     }
     
 func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
@@ -104,16 +107,20 @@ func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive respo
     // 如果触发器是 UNTimeIntervalNotificationTrigger 类型
     if let trigger = response.notification.request.trigger as? UNTimeIntervalNotificationTrigger {
         print("Notification did receive, Is class UNTimeIntervalNotificationTrigger")
+        UIApplication.shared.applicationIconBadgeNumber = 0
     }
     // 如果触发器是 UNCalendarNotificationTrigger 类型
     else if let trigger = response.notification.request.trigger as? UNCalendarNotificationTrigger {
         print("Notification did receive, Is class UNCalendarNotificationTrigger")
+        UIApplication.shared.applicationIconBadgeNumber = 0
     }
     // 调用 completionHandler 表示处理完成
     return completionHandler()
 }
 
 //这段代码是一个实现 UNUserNotificationCenterDelegate 协议的方法，用于处理用户对通知的响应。在方法中，首先获取通知的触发器类型，然后根据触发器类型打印相应的日志。最后调用 completionHandler 表示处理完成。
+    
+
 }
 
 extension String {

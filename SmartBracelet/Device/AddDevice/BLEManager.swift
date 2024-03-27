@@ -287,27 +287,42 @@ class BLEManager: NSObject {
         }
         #endif
         if notify.name == WristbandNotifyKeys.search_Phone {
+            // 创建通知内容
             let content = UNMutableNotificationContent()
-            content.title = "device_tip".localized()
-            content.body = "found_success".localized()
+            content.title = NSLocalizedString("device_tip", comment: "")
+            content.body = NSLocalizedString("found_success", comment: "")
             content.badge = 1
-            content.sound = UNNotificationSound.default
+            content.sound = .default
+
+            // 设置触发器
             let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 5, repeats: false)
-            let request = UNNotificationRequest(identifier: "Notification", content: content, trigger: trigger)
-            UNUserNotificationCenter.current().add(request) { err in
-                err != nil ? print("添加本地通知错误", err!.localizedDescription) : print("添加本地通知成功")
+
+            // 创建通知请求
+            let request = UNNotificationRequest(identifier: "notification.id.01", content: content, trigger: trigger)
+
+            // 添加通知请求到UNUserNotificationCenter
+            UNUserNotificationCenter.current().add(request) { error in
+                if let error = error {
+                    print("添加本地通知错误: \(error.localizedDescription)")
+                } else {
+                    print("添加本地通知成功")
+                }
             }
-            
-            let path = Bundle.main.path(forResource: "Alarm", ofType: "mp3")!
-            let url = URL(fileURLWithPath: path)
-            do {
-              audioPlayer =  try AVAudioPlayer(contentsOf: url)
-            } catch {
-              // can't load file
-            }
-            audioPlayer.play()
             
             DispatchQueue.main.async {
+                [weak self] in
+                if UIApplication.shared.applicationState == .active {
+                    let path = Bundle.main.path(forResource: "Alarm", ofType: "mp3")!
+                    let url = URL(fileURLWithPath: path)
+                    do {
+                        self?.audioPlayer =  try AVAudioPlayer(contentsOf: url)
+                    } catch {
+                      // can't load file
+                    }
+                    self?.audioPlayer.play()
+                }
+                
+                
                 let alert = UIAlertController(title: "device_tip".localized(), message: "found_success".localized(), preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "mine_confirm".localized(), style: .cancel, handler: { [weak self] action in
                     self?.audioPlayer.stop()
