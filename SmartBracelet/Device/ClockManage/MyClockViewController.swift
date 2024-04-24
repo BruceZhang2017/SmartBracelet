@@ -21,11 +21,6 @@ typealias imgBlock = () ->()
 
 class MyClockViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
-    //@IBOutlet weak var collctionView: UICollectionView!
-//    var rightButton: UIButton!
-//    var bShowDetail = false
-//    var nullLabel: UILabel!
-//    var ClockArray: [String] = []
     var imagePickerVc: TZImagePickerController?
     var imageUploadVc: UploadImageViewController?
     var index = 0
@@ -44,7 +39,8 @@ class MyClockViewController: UIViewController {
                              UIColor(red: 154/255.0, green: 227/255.0, blue: 224/255.0, alpha: 1),
                              UIColor(red: 155/255.0, green: 226/255.0, blue: 163/255.0, alpha: 1)]
     var itemVC: SelectItemViewController?
-    
+    var width: CGFloat = 164
+    var height: CGFloat = 0
     var binData = Data()
     var current = 0
     var total = 0
@@ -65,12 +61,6 @@ class MyClockViewController: UIViewController {
         //去掉没有数据显示部分多余的分隔线
         tableView.tableFooterView =  UIView.init(frame: CGRect.zero)
         
-        //将分隔线offset设为零，即将分割线拉满屏幕
-        tableView.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-
-        //设置分隔线颜色
-        tableView.separatorColor = UIColor.gray
-        
         //壁纸推送
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotify(_:)), name: WristbandNotifyKeys.startImagePush, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotify(_:)), name: WristbandNotifyKeys.imagePush, object: nil)
@@ -83,6 +73,14 @@ class MyClockViewController: UIViewController {
         footView?.isHidden = !(w == 80 && h == 160)
         footView?.delegate = self
         bleSelf.getFuncCategory()
+        
+        if bleSelf.bleModel.screenType == 1 { // 方形
+            let w = bleSelf.bleModel.screenWidth
+            let h = bleSelf.bleModel.screenHeight
+            height = CGFloat(width) * CGFloat(h) / CGFloat(w)
+        } else { // 圆形
+            height =  width
+        }
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -297,12 +295,12 @@ class MyClockViewController: UIViewController {
 extension MyClockViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.row == 0 {
-            return 160
+            return height + 80
         } else if indexPath.row == 4 {
-            return 100
+            return 112
         }
         
-        return 50
+        return 60
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -357,6 +355,8 @@ extension MyClockViewController: UITableViewDataSource {
         if indexPath.row == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "Cell1", for: indexPath) as! EidtClockHeadTableViewCell
             cell.delegate = self
+            cell.clockView.layer.cornerRadius = 30
+            cell.clockView.clipsToBounds = true
             cell.dateTimeLabel.text = "time".localized()
             cell.dateTimeTopLabel.text = datetimeTopLocation > 0 ? tops[datetimeTopLocation] : ""
             cell.dateTimeBottomLabel.text = datetimeBottomLocation > 0 ? tops[datetimeBottomLocation] : ""
@@ -365,9 +365,12 @@ extension MyClockViewController: UITableViewDataSource {
             cell.dateTimeBottomLabel.textColor = colors[colorIndex]
             cell.topLC.constant = datetimeLocation == 0 ? 10 : 74
             cell.itemImageView.contentMode = .scaleAspectFit
-            cell.selectButton.setTitle(" ", for: .normal)
-//            cell.selectButton.titleLabel?.adjustsFontSizeToFitWidth = true
-//            cell.selectButton.titleLabel?.numberOfLines = 1
+            cell.itemImageView.backgroundColor = UIColor.gray
+            cell.itemImageView.layer.cornerRadius = 30
+            cell.itemImageView.clipsToBounds = true
+            cell.selectButton.setTitle("select_image".localized(), for: .normal)
+            cell.selectButton.setTitleColor(UIColor.brand, for: .normal)
+            cell.selectButton.titleLabel?.font = UIFont.subtitle1()
             let w  = bleSelf.bleModel.screenWidth
             let h = bleSelf.bleModel.screenHeight
             let lastestDeviceMac = UserDefaults.standard.string(forKey: "LastestDeviceMac") ?? "00:00:00:00:00:00"
@@ -377,14 +380,12 @@ extension MyClockViewController: UITableViewDataSource {
             if let savedImage = UIImage(contentsOfFile: fullPath) {
                 cell.itemImageView?.image = savedImage
             }
-            let width = bleSelf.bleModel.screenWidth
-            let height = bleSelf.bleModel.screenHeight
-            if width == 80 && height == 160 {
-                cell.leadingLC.constant = 50
-                cell.ivWidthLC.constant = 80
-                cell.ivHeightLC.constant = 160
-            }
-        
+            cell.ivWidthLC.constant = width
+            cell.ivHeightLC.constant = height
+            // 隐藏分隔符
+            cell.layoutMargins = UIEdgeInsets.zero
+            cell.separatorInset = UIEdgeInsets.zero
+            cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
             return cell
         }
         if indexPath.row == 4 {
@@ -408,6 +409,7 @@ extension MyClockViewController: UITableViewDataSource {
         }
         return cell
     }
+    
 }
 
 extension MyClockViewController: SelectItemVCDelegate {

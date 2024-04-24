@@ -80,7 +80,7 @@ class LoginViewController: BaseViewController {
         let delegate = UIApplication.shared.delegate as! AppDelegate
         delegate.pushToTab()
         
-//        ProgressHUD.show()
+//        ProgressHUD.animate(nil, .activityIndicator, interaction: false)
 //        let parameters = ["username": phone, "password": pwd, "country": "CN"]
 //        AF.request("\(UrlPrefix)api/User/login.php", method: .get, parameters: parameters).response { (response) in
 //            debugPrint("Response: \(response.debugDescription)")

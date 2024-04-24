@@ -54,18 +54,6 @@ class GradeViewController: BaseViewController {
         headerView.layer.insertSublayer(mLayer, at: 1)
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        preColor = navigationController?.navigationBar.tintColor
-        navigationController?.navigationBar.tintColor = UIColor.white
-        navigationController?.navigationBar.isTranslucent = true
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        navigationController?.navigationBar.tintColor = preColor
-        navigationController?.navigationBar.isTranslucent = false
-    }
 
     /*
     // MARK: - Navigation

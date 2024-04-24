@@ -18,10 +18,6 @@ class APNSViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "device_push_settings".localized()
-        let footImageView = UIImageView(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: 0.5))
-        footImageView.backgroundColor = UIColor.kDEDEDE
-        tableView.tableFooterView = footImageView
-        tableView.separatorColor = UIColor.kDEDEDE
     }
 
     @objc private func valueChanged(_ sender: Any) {
@@ -64,6 +60,7 @@ extension APNSViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: .kCellIdentifier, for: indexPath) as! DeviceSettingsTableViewCell
+        cell.selectionStyle = .none
         cell.textLabel?.text = titles[indexPath.section][indexPath.row]
         var mSwitch: UISwitch
         if let s = cell.accessoryView as? UISwitch {

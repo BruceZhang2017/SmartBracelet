@@ -21,14 +21,14 @@ class UploadImageViewController: UIViewController {
             guard let imageData = NSUIImageJPEGRepresentation(image!, 0.3) else {
                 return
             }
-            sizeLabel.text = imageData.count.sizeToStr()
+            sizeLabel.text = "device_ota_file_size".localized() + imageData.count.sizeToStr()
         }
     }
     
     lazy var conView: UIView = {
         let view = UIView().then {
             $0.backgroundColor = UIColor.white
-            $0.layer.cornerRadius = 5
+            $0.layer.cornerRadius = 16
             $0.clipsToBounds = true
         }
         self.view.addSubview(view)
@@ -41,42 +41,45 @@ class UploadImageViewController: UIViewController {
         return view
     }()
     
+    lazy var imgView: UIImageView = {
+        let imageView = UIImageView()
+        conView.addSubview(imageView)
+        imageView.snp.makeConstraints {
+            $0.top.equalTo(32)
+            $0.centerX.equalToSuperview()
+            $0.width.height.equalTo(150)
+        }
+        return imageView
+    }()
+    
     lazy var sizeLabel: UILabel = {
         let label = UILabel()
-        label.textColor = UIColor.black
-        label.font = UIFont.systemFont(ofSize: 16)
+        label.textColor = UIColor.text_third
+        label.font = UIFont.body1()
         conView.addSubview(label)
         label.snp.makeConstraints {
-            $0.top.equalTo(10)
+            $0.top.equalTo(imgView.snp.bottom).offset(12)
             $0.centerX.equalToSuperview()
         }
         return label
     }()
     
-    lazy var imgView: UIImageView = {
-        let imageView = UIImageView()
-        conView.addSubview(imageView)
-        imageView.snp.makeConstraints {
-            $0.top.equalTo(70)
-            $0.centerX.equalToSuperview()
-            $0.width.height.equalTo(140)
-        }
-        return imageView
-    }()
-    
     lazy var uploadButton: UIButton = {
         let button = UIButton(type: .custom).then {
-            $0.backgroundColor = UIColor.blue
+            $0.backgroundColor = UIColor.brand
             $0.setTitleColor(UIColor.white, for: .normal)
             $0.titleLabel?.font = UIFont.systemFont(ofSize: 16)
             $0.setTitle("start_uploading".localized(), for: .normal)
             $0.addTarget(self, action: #selector(handleUpload), for: .touchUpInside)
+            $0.clipsToBounds = true
+            $0.layer.cornerRadius = 22
         }
         conView.addSubview(button)
         button.snp.makeConstraints {
-            $0.left.right.equalToSuperview()
-            $0.height.equalTo(40)
-            $0.bottom.equalToSuperview()
+            $0.leading.equalTo(20)
+            $0.right.equalTo(-20)
+            $0.height.equalTo(44)
+            $0.bottom.equalToSuperview().offset(-20)
         }
         return button
     }()
@@ -100,15 +103,6 @@ class UploadImageViewController: UIViewController {
         conView.isHidden = false
         uploadButton.isHidden = false
         cancelButton.isHidden = false
-        
-        let lineImageView = UIImageView()
-        lineImageView.backgroundColor = UIColor.black.withAlphaComponent(0.5)
-        conView.addSubview(lineImageView)
-        lineImageView.snp.makeConstraints {
-            $0.left.right.equalToSuperview()
-            $0.top.equalTo(40)
-            $0.height.equalTo(0.5)
-        }
         
         NotificationCenter.default.addObserver(self, selector: #selector(handleStop), name: Notification.Name("UploadImageViewController"), object: nil)
         needStop = false
@@ -163,7 +157,7 @@ class UploadImageViewController: UIViewController {
     }
     
     public func refreshProgress(p : String) {
-        uploadButton.setTitle(p, for: .normal)
+        uploadButton.setTitle("start_uploading".localized() + "..." + p, for: .normal)
     }
 }
 

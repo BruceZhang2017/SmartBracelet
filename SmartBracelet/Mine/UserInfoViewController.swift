@@ -22,8 +22,12 @@ class UserInfoViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = UIColor.clear
         title = "mine_userinfo".localized()
         registerNotification()
+        tableView.backgroundColor = UIColor.clear
+        tableView.separatorStyle = .none
+        tableView.separatorColor = UIColor.red
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -55,10 +59,16 @@ extension UserInfoViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: .kCellIdentifier, for: indexPath) as! UserInfoTableViewCell
+        cell.backgroundColor = UIColor.clear
+        cell.lineImageView.backgroundColor = UIColor(hex: 0x000000, alpha: 0.06)
         cell.titleLabel.text = titles[indexPath.row]
+        cell.titleLabel.textColor = UIColor.text_primary
+        cell.titleLabel.font = UIFont.body1()
         cell.iconImageView.isHidden = indexPath.row != 0
         cell.valueLabel.isHidden = indexPath.row == 0
         cell.valueLabel.text = values[indexPath.row]
+        cell.valueLabel.textColor = UIColor.brand
+        cell.valueLabel.font = UIFont.body1()
         if indexPath.row == 0 {
             let fileName = "head.jpg"
             let b = FileCache().fileIfExist(name: fileName)
@@ -69,8 +79,6 @@ extension UserInfoViewController: UITableViewDataSource {
                 let url = UserManager.sharedInstall.user?.headUrl ?? ""
                 if url.count > 0 && url.hasPrefix("http") {
                     cell.iconImageView.kf.setImage(with: URL(string: url)!)
-                } else {
-                    cell.iconImageView.image = UIImage(named: "image_portrait")
                 }
             }
         } else if indexPath.row == 1 {
@@ -82,16 +90,8 @@ extension UserInfoViewController: UITableViewDataSource {
                     cell.valueLabel.text = bleSelf.userInfo.name
                 }
             } else {
-                cell.valueLabel.text = UserManager.sharedInstall.user?.nickname ?? "未设置"
+                cell.valueLabel.text = UserManager.sharedInstall.user?.nickname ?? ""
             }
-            
-//        } else if indexPath.row == 2 {
-//            if UserManager.sharedInstall.user?.token == nil {
-//                cell.valueLabel.text = bleSelf.userInfo.name
-//            } else {
-//                cell.valueLabel.text = UserManager.sharedInstall.user?.username ?? ""
-//            }
-            
         } else if indexPath.row == 2 {
             if UserManager.sharedInstall.user?.token == nil {
                 cell.valueLabel.text = bleSelf.userInfo.sex == 1 ? "mine_male".localized() : "mine_female".localized()
@@ -123,8 +123,6 @@ extension UserInfoViewController: UITableViewDataSource {
             } else {
                 cell.valueLabel.text = "\(UserManager.sharedInstall.user?.weight ?? 0)KG"
             }
-//        } else if indexPath.row == 7 {
-//            cell.valueLabel.text = UserManager.sharedInstall.user?.area ?? ""
         } else if indexPath.row == 6 {
             cell.valueLabel.text = bleSelf.userInfo.timeUnit == 0 ? "24\("health_hour".localized())" : "12\("health_hour".localized())"
         } else if indexPath.row == 7 {
@@ -134,7 +132,7 @@ extension UserInfoViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return indexPath.row == 0 ? 78 : 48
+        return indexPath.row == 0 ? 88 : 60
     }
 }
 
@@ -255,7 +253,7 @@ extension UserInfoViewController: SelectSexVCDelegate {
 
 extension UserInfoViewController {
     func uploadData(type: Int, value: String) {
-        //ProgressHUD.show()
+        //ProgressHUD.animate(nil, .activityIndicator, interaction: false)
         var parameters = ["id": "\(UserManager.sharedInstall.user?.id ?? 0)"]
         if type == 0 {
             let sex = value == "mine_male".localized() ? 0 : 1
@@ -306,7 +304,7 @@ extension UserInfoViewController: InputHeightVCDelegate {
 
 extension UserInfoViewController {
     func uploadData(type: Int, value: Int) {
-        //ProgressHUD.show()
+        //ProgressHUD.animate(nil, .activityIndicator, interaction: false)
         var parameters = ["id": "\(UserManager.sharedInstall.user?.id ?? 0)"]
         if type == 0 {
             parameters["height"] = "\(value)"
@@ -350,7 +348,7 @@ extension UserInfoViewController: CitySelectorVCDelegate {
 
 extension UserInfoViewController {
     func uploadData(city: String) {
-        //ProgressHUD.show()
+        //ProgressHUD.animate(nil, .activityIndicator, interaction: false)
         var parameters = ["id": "\(UserManager.sharedInstall.user?.id ?? 0)"]
         parameters["area"] = city
 //        AF.request("\(UrlPrefix)api/User/userinfo.php", method: .post, parameters: parameters, encoder: URLEncodedFormParameterEncoder.default).response { (response) in

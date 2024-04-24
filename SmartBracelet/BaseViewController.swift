@@ -13,14 +13,22 @@
 import UIKit
 
 class BaseViewController: UIViewController {
+    
+    var bStyle = 2 // 1为base1；2为base2
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.backBarButtonItem = UIBarButtonItem(
-            image: UIImage(),
-            style: .plain,
-            target: nil,
-            action: nil)
+        if bStyle == 2 {
+            self.view.bg_base2()
+        } else if bStyle == 1 {
+            self.view.bg_base1()
+        }
+        self.edgesForExtendedLayout = .all
+        
+        // 创建一个没有文字的返回按钮
+        let backItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        // 设置当前视图控制器的返回按钮
+        navigationItem.backBarButtonItem = backItem
     }
     
 

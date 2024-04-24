@@ -13,12 +13,8 @@
 import UIKit
 
 class ClockCCollectionViewCell: UICollectionViewCell {
-    @IBOutlet weak var loadingWidth: NSLayoutConstraint!
     @IBOutlet weak var clockImageView: UIImageView!
     @IBOutlet weak var opaqueView: UIView!
-    @IBOutlet weak var clockNameLabel: UILabel!
-    @IBOutlet weak var loadingView: UIView!
-    @IBOutlet weak var successButton: UIButton!
-    
     @IBOutlet weak var width: NSLayoutConstraint!
+    @IBOutlet weak var height: NSLayoutConstraint!
 }

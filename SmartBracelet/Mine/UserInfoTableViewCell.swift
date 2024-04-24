@@ -16,6 +16,7 @@ class UserInfoTableViewCell: UITableViewCell {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var valueLabel: UILabel!
     @IBOutlet weak var iconImageView: UIImageView!
+    @IBOutlet weak var lineImageView: UIImageView!
     
     override func awakeFromNib() {
         super.awakeFromNib()

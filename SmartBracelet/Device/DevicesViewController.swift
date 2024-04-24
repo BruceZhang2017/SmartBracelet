@@ -12,32 +12,80 @@
 
 import UIKit
 import TJDWristbandSDK
+import Toaster
 
 class DevicesViewController: BaseViewController {
     @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var topView: UIView!
     @IBOutlet weak var contentView: UIView!
     @IBOutlet weak var dialManagmentLabel: UILabel!
     @IBOutlet weak var bottomLConstraint: NSLayoutConstraint!
     @IBOutlet weak var dialView: UIView!
-    @IBOutlet weak var exchangeBarButtonItem: UIBarButtonItem!
+    @IBOutlet weak var deviceBGImageView: UIImageView!
+    let changeButton = UIButton(type: .system)
+    let dialButton = VerticalButton(type: .system)
     var deviceSettingView: UIView? // 设备设置的视图
     var deviceView: DevicesView!
     var clockArray: [String] = []
+    var width: CGFloat = 90
+    var height: CGFloat = 150
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        deviceView = DevicesView(frame: CGRect(x: 0, y: 5, width: ScreenWidth, height: 200))
-        deviceView.delegate = self
-        contentView.addSubview(deviceView)
+        title = "device".localized()
+        deviceView = DevicesView().then {
+            $0.backgroundColor = UIColor.white
+            $0.layer.cornerRadius = 16
+            $0.clipsToBounds = true 
+        }
+        topView.addSubview(deviceView)
+        deviceView.snp.makeConstraints { make in
+            make.top.equalToSuperview()
+            make.bottom.equalToSuperview()
+            make.leading.equalTo(16)
+            make.trailing.equalTo(-16)
+        }
+        deviceView.setupUI()
+        deviceView.refreshData()
+        
+        contentView.backgroundColor = UIColor.clear
+        
         bleSelf.getSwitchForWristband()
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: Notification.Name("DevicesViewController"), object: nil)
         dialManagmentLabel.text = "dial_management".localized()
         initializeDeviceSettings()
-        exchangeBarButtonItem.title = "switch_device".localized()
+        
+        let randomBool = Bool.random()
+        deviceBGImageView.image = UIImage(named: randomBool ? "device_bg1" : "device_bg2")
+        deviceBGImageView.layer.cornerRadius = 16
+        deviceBGImageView.clipsToBounds = true
+        
+        dialView.layer.cornerRadius = 16
+        dialView.clipsToBounds = true
+        
+        addChangeButton() // 切换设备
+        addDialButton() // 添加表盘
+        changeButtonAttr() // 切换设备入口
+        
+        width = (ScreenWidth - 60) / 3
+        if bleSelf.bleModel.screenType == 1 { // 方形
+            let w = bleSelf.bleModel.screenWidth
+            let h = bleSelf.bleModel.screenHeight
+            height = CGFloat(width) * CGFloat(h) / CGFloat(w)
+        } else { // 圆形
+            height =  width
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        deviceView?.refreshData()
+        changeButtonAttr()
+        refreshDevices()
     }
     
     private func refreshDevices() {
@@ -50,27 +98,60 @@ class DevicesViewController: BaseViewController {
             clockArray.removeAll()
         }
         collectionView?.reloadData()
+        if checkIsNullForDial() {
+            collectionView?.isHidden = true
+            dialButton.isHidden = false
+        } else {
+            collectionView?.isHidden = false
+            dialButton.isHidden = true
+        }
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        deviceView?.refreshData()
-        refreshDevices()
+    private func checkIsNullForDial() -> Bool {
+        if clockArray.count == 0 {
+            return true
+        }
+        for item in clockArray {
+            let array = item.components(separatedBy: "&&")
+            if array[0] == "_" {
+                return true
+            } else {
+                return false
+            }
+        }
+        return false
     }
     
     deinit {
         NotificationCenter.default.removeObserver(self)
     }
     
+    func callbackTap(model: BLEModel?, bConnected: Bool) {
+        let count = DeviceManager.shared.devices.count
+        if count == 0 {
+            let storyboard = UIStoryboard(name: "Device", bundle: nil)
+            let vc = storyboard.instantiateViewController(withIdentifier: "DeviceSearchViewController")
+            vc.title = "device_add".localized()
+            vc.hidesBottomBarWhenPushed = true
+            navigationController?.pushViewController(vc, animated: true)
+            return
+        }
+        deleteDevice(model: model)
+        // 当设备已经连接后，并且连接成功后，则跳转至设备设置页面。删除该部分逻辑
+    }
+    
     // 设备设置
     private func initializeDeviceSettings() {
         deviceSettingView = UIView().then {
             $0.backgroundColor = UIColor.white
+            $0.clipsToBounds = true
+            $0.layer.cornerRadius = 16
             
         }
         contentView.addSubview(deviceSettingView!)
         deviceSettingView?.snp.makeConstraints {
-            $0.left.right.equalToSuperview()
+            $0.left.equalTo(15)
+            $0.right.equalTo(-15)
             $0.top.equalTo(dialView.snp.bottom).offset(15)
         }
         let lblTitle = UILabel().then {
@@ -93,16 +174,90 @@ class DevicesViewController: BaseViewController {
             $0.left.equalTo(0)
             $0.top.equalTo(lblTitle.snp.bottom).offset(10)
             $0.right.equalTo(0)
-            $0.height.equalTo(484)
+            $0.height.equalTo(52 * 11)
             $0.bottom.equalToSuperview()
         }
-        bottomLConstraint.constant = 460 + 44
+        bottomLConstraint.constant = 52 * 11 + 30 + 40
+    }
+    
+    public func addChangeButton() {
+        changeButton.setTitle("switch_device".localized(), for: .normal)
+        if let image = UIImage(named: "icon_change_device") {
+            changeButton.setImage(image, for: .normal)
+        }
+        changeButton.tintColor = UIColor.brand
+        changeButton.layer.borderColor = UIColor.brand.cgColor
+        changeButton.layer.borderWidth = 1.0
+        changeButton.backgroundColor = .white
+        changeButton.layer.cornerRadius = 22
+        // 设置图标的内边距
+        changeButton.imageEdgeInsets = UIEdgeInsets(
+            top: 0,
+            left: -2,
+            bottom: 0,
+            right: 2
+        )
+
+        // 设置标题的内边距
+        changeButton.titleEdgeInsets = UIEdgeInsets(
+            top: 0,
+            left: 2,
+            bottom: 0,
+            right: -2
+        )
+        // 添加按钮到视图中
+        topView.addSubview(changeButton)
+        changeButton.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.width.equalTo(150)
+            make.height.equalTo(44)
+            make.bottom.equalTo(-20)
+        }
+        changeButton.addTarget(self, action: #selector(addDevice), for: .touchUpInside)
+    }
+    
+    private func changeButtonAttr() {
+        if deviceView.isHidden == true {
+            changeButton.tintColor = UIColor.white
+            changeButton.backgroundColor = .brand
+            changeButton.setTitle("device_add".localized(), for: .normal)
+            if let image = UIImage(named: "icon_add_device") {
+                changeButton.setImage(image, for: .normal)
+            }
+        } else {
+            changeButton.tintColor = UIColor.brand
+            changeButton.backgroundColor = .white
+            changeButton.setTitle("switch_device".localized(), for: .normal)
+            if let image = UIImage(named: "icon_change_device") {
+                changeButton.setImage(image, for: .normal)
+            }
+        }
+    }
+    
+    // 添加表盘按钮
+    public func addDialButton() {
+        dialButton.setTitle("添加表盘", for: .normal)
+        if let image = UIImage(named: "icon_add2") {
+            dialButton.setImage(image, for: .normal)
+        }
+        dialButton.tintColor = UIColor.brand
+        dialButton.backgroundColor = UIColor.fill
+        dialButton.layer.cornerRadius = 16
+        dialView.addSubview(dialButton)
+        dialButton.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.width.equalTo(screenWidth - 64)
+            make.height.equalTo(130)
+            make.top.equalTo(44)
+        }
+        dialButton.addTarget(self, action: #selector(pushToDial), for: .touchUpInside)
     }
     
     @objc private func handleNotification(_ notification: Notification) {
         if let obj = notification.object as? String, obj.count > 0 {
             print("刷新设备列表数据")
             deviceView?.refreshData()
+            changeButtonAttr()
             refreshDevices()
             return
         }
@@ -143,7 +298,7 @@ class DevicesViewController: BaseViewController {
         " "
     }
     
-    @IBAction func addDevice(_ sender: Any) {
+    @objc public func addDevice() {
         let count = DeviceManager.shared.devices.count
         let storyboard = UIStoryboard(name: "Device", bundle: nil)
         if count == 0 {
@@ -157,6 +312,14 @@ class DevicesViewController: BaseViewController {
             vc.hidesBottomBarWhenPushed = true
             navigationController?.pushViewController(vc, animated: true)
         }
+    }
+    
+    @objc public func pushToDial() {
+        if bleSelf.isConnected == false {
+            Toast(text: "mine_unconnect".localized()).show()
+            return
+        }
+        pushToClockManage(index: 0)
     }
     
     private func deleteDevice(model: BLEModel?) {
@@ -182,6 +345,7 @@ class DevicesViewController: BaseViewController {
                 }
             }
             self?.deviceView?.refreshData()
+            self?.changeButtonAttr()
         }))
         present(alert, animated: true) {
             
@@ -196,14 +360,18 @@ extension DevicesViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: .kCellIdentifier, for: indexPath) as! ClockBCollectionViewCell
+        cell.addImageView.image = UIImage(named: "icon_add2")
         if indexPath.row < clockArray.count  {
             let item = clockArray[indexPath.item]
             let array = item.components(separatedBy: "&&")
             if array[0] == "_" {
-                cell.clockImageView.image = UIImage(named: "jiahao")
-                cell.clockNameLabel.text = "more_dial".localized()
+                cell.clockImageView.isHidden = true
+                cell.addImageView.isHidden = false
+                cell.clockBGView.backgroundColor = UIColor.fill
             } else {
-                cell.clockImageView.image = UIImage(named: "jiahao")
+                cell.clockImageView.isHidden = false
+                cell.addImageView.isHidden = true
+                cell.clockBGView.backgroundColor = UIColor.clear
                 if array[1].contains(".png") || array[1].contains(".jpg") || array[1].contains(".jpeg") {
                     print("保存的图片路径：\(array[1])")
                     if array[1].contains("Documents") {
@@ -215,22 +383,19 @@ extension DevicesViewController: UICollectionViewDataSource {
                             let fullPath = NSHomeDirectory().appending("/Documents/").appending(array[1])
                             cell.clockImageView.image = UIImage(contentsOfFile: fullPath)
                         }
-                        
                     }
-                    
                 }
-                
-                cell.clockNameLabel.text = array[0]
             }
             
         } else {
-            cell.clockImageView.image = UIImage(named: "jiahao")
-            cell.clockNameLabel.text = "more_dial".localized()
+            cell.clockImageView.isHidden = true
+            cell.addImageView.isHidden = false
+            cell.clockBGView.backgroundColor = UIColor.fill
         }
+        cell.width.constant = width
+        cell.height.constant = height
         return cell
     }
-    
-    
 }
 
 extension DevicesViewController: UICollectionViewDelegateFlowLayout {
@@ -240,11 +405,11 @@ extension DevicesViewController: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: (ScreenWidth - 24) / 3, height: 170)
+        return CGSize(width: width, height: height)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 0, left: 12, bottom: 0, right: 12)
+        return UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
@@ -256,22 +421,47 @@ extension DevicesViewController: UICollectionViewDelegateFlowLayout {
     }
 }
 
-extension DevicesViewController: DevicesViewDelegate {
-    func callbackTap(model: BLEModel?, bConnected: Bool) {
-        let count = DeviceManager.shared.devices.count
-        if count == 0 {
-            let storyboard = UIStoryboard(name: "Device", bundle: nil)
-            let vc = storyboard.instantiateViewController(withIdentifier: "DeviceSearchViewController")
-            vc.title = "device_add".localized()
-            vc.hidesBottomBarWhenPushed = true
-            navigationController?.pushViewController(vc, animated: true)
-            return
-        }
-        deleteDevice(model: model)
-        // 当设备已经连接后，并且连接成功后，则跳转至设备设置页面。删除该部分逻辑
-    }
-}
-
 extension String {
     static let kDevice = "Device"
+}
+
+
+class VerticalButton: UIButton {
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        guard let imageViewSize = self.imageView?.frame.size,
+              let titleLabelSize = self.titleLabel?.frame.size else {
+            return
+        }
+        
+        let totalHeight = imageViewSize.height + titleLabelSize.height
+        
+        self.imageEdgeInsets = UIEdgeInsets(
+            top: -(totalHeight - imageViewSize.height),
+            left: 0,
+            bottom: 0,
+            right: -titleLabelSize.width
+        )
+        
+        self.titleEdgeInsets = UIEdgeInsets(
+            top: 0,
+            left: -imageViewSize.width,
+            bottom: -(totalHeight - titleLabelSize.height),
+            right: 0
+        )
+    }
+    
+    override var intrinsicContentSize: CGSize {
+        guard let imageViewSize = self.imageView?.frame.size,
+              let titleLabelSize = self.titleLabel?.frame.size else {
+            return super.intrinsicContentSize
+        }
+        
+        let width = max(imageViewSize.width, titleLabelSize.width)
+        let height = imageViewSize.height + titleLabelSize.height + self.titleEdgeInsets.top
+        
+        return CGSize(width: width, height: height)
+    }
 }

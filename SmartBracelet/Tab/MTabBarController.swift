@@ -12,6 +12,7 @@
 
 import UIKit
 import TJDWristbandSDK
+import Toaster
 
 var lastestDeviceMac: String = ""
 
@@ -20,16 +21,53 @@ class MTabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         BLEManager.shared.regNotification()
+        setupLastestDeviceMac()
+        setupViewControllersTitles()
+        
+        // 设置未选中状态下的字体颜色
+        let unselectedAttributes: [NSAttributedString.Key: Any] = [
+            .foregroundColor: UIColor.gray // 你可以替换为你想要的颜色
+        ]
+
+        // 设置选中状态下的字体颜色
+        let selectedAttributes: [NSAttributedString.Key: Any] = [
+            .foregroundColor: UIColor.brand // 你可以替换为你想要的颜色
+        ]
+
+        // 设置UITabBarItem的字体颜色
+        UITabBarItem.appearance().setTitleTextAttributes(unselectedAttributes, for: .normal)
+        UITabBarItem.appearance().setTitleTextAttributes(selectedAttributes, for: .selected)
+        
+        
+        ToastView.appearance().backgroundColor = .black.withAlphaComponent(0.8)
+        ToastView.appearance().bottomOffsetPortrait = screenHeight / 2 - 20
+        ToastView.appearance().maxWidthRatio = 0.8
+        ToastView.appearance().cornerRadius = 16
+        ToastView.appearance().font = UIFont.body()
+        ToastView.appearance().textColor = UIColor.white
+        ToastView.appearance().textInsets = UIEdgeInsets(top: 12, left: 20, bottom: 12, right: 20)
+        
+    }
+    
+    // 设置最后连接的设备MAC地址
+    private func setupLastestDeviceMac() {
         lastestDeviceMac = UserDefaults.standard.string(forKey: "LastestDeviceMac") ?? ""
         print("最后连接的设备MAC地址为：\(lastestDeviceMac)")
-        if lastestDeviceMac.count > 0 {
+        if !lastestDeviceMac.isEmpty {
             perform(#selector(checkIfNeedScanDevice), with: nil, afterDelay: 1)
         }
-        print("数据库里面：\(DeviceManager.shared.devices.count)")
-        viewControllers?[0].title = "health_head".localized()
-        viewControllers?[1].title = "device".localized()
-        viewControllers?[2].title = "mine".localized()
     }
+    
+    // 设置视图控制器的标题
+    private func setupViewControllersTitles() {
+        print("数据库里面：\(DeviceManager.shared.devices.count)")
+        let titles = ["health_head", "device", "mine"].map { $0.localized() }
+        for (index, title) in titles.enumerated() {
+            viewControllers?[index].title = title
+            
+        }
+    }
+    
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)

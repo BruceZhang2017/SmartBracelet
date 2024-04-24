@@ -17,6 +17,8 @@ import Alamofire
 import ProgressHUD
 
 class ClockUseViewController: BaseViewController {
+    @IBOutlet weak var ivWidthLC: NSLayoutConstraint!
+    @IBOutlet weak var ivHeightLC: NSLayoutConstraint!
     @IBOutlet weak var clockImageView: UIImageView!
     @IBOutlet weak var clockNameLabel: UILabel!
     @IBOutlet weak var sizeLabel: UILabel!
@@ -37,14 +39,39 @@ class ClockUseViewController: BaseViewController {
         title = "dial_management".localized()
        
         clockName = "\(bleSelf.bleModel.name)-\(index)"
-        clockImageView.kf.setImage(with: URL(string: currentClock?.previewPic ?? ""))
+        clockImageView.backgroundColor = UIColor.white
+        if bleSelf.bleModel.screenType == 1 { // 方形
+            let w = bleSelf.bleModel.screenWidth
+            let h = bleSelf.bleModel.screenHeight
+            ivWidthLC.constant = 165
+            ivHeightLC.constant = CGFloat(165) * CGFloat(h) / CGFloat(w)
+            clockImageView.layer.cornerRadius = 36
+            clockImageView.clipsToBounds = true
+        } else { // 圆形
+            ivWidthLC.constant = 165
+            ivHeightLC.constant = 165
+            clockImageView.layer.cornerRadius = 82.5
+            clockImageView.clipsToBounds = true
+        }
+        
+        let childImageView = UIImageView(frame: CGRect(x: 6, y: 6, width: ivWidthLC.constant - 12, height: ivHeightLC.constant - 12))
+        childImageView.contentMode = .scaleAspectFit // 或者使用.center
+        childImageView.kf.setImage(with: URL(string: currentClock?.previewPic ?? ""))
+        clockImageView.addSubview(childImageView)
+        
         clockNameLabel.text = clockName
+        clockNameLabel.textColor = UIColor.text_primary
+        clockNameLabel.font = UIFont.body1()
+        
         let url = currentClock?.resourcesUrl ?? ""
         let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
         let fileURL = documentsURL.appendingPathComponent(NSString(string: url).lastPathComponent)
         path = fileURL.absoluteString
 
         binData = try? Data(contentsOf: URL(fileURLWithPath: path))
+        
+        sizeLabel.textColor = UIColor.text_third
+        sizeLabel.font = UIFont.body1()
         sizeLabel.text = "device_ota_file_size".localized() + (binData?.count ?? 0).sizeToStr()
         
         var bHave = false
@@ -56,11 +83,21 @@ class ClockUseViewController: BaseViewController {
         }
         if !bHave {
             rightButton = UIButton(type: .custom).then {
-                $0.initializeRightNavigationItem()
                 $0.setTitle(index > 0 ? "device_download_add_use".localized() : "device_use".localized(), for: .normal)
                 $0.addTarget(self, action: #selector(handleOTA(_:)), for: .touchUpInside)
             }
-            navigationItem.rightBarButtonItem = UIBarButtonItem(customView: rightButton)
+            view.addSubview(rightButton)
+            rightButton.snp.makeConstraints { make in
+                make.leading.equalTo(16)
+                make.trailing.equalTo(-16)
+                make.bottom.equalToSuperview().offset(-50)
+                make.height.equalTo(44)
+            }
+            rightButton.backgroundColor = UIColor.brand
+            rightButton.layer.cornerRadius = 22
+            rightButton.clipsToBounds = true
+            rightButton.setTitleColor(UIColor.white, for: .normal)
+            
         }
         
         registerNotification()
@@ -100,7 +137,7 @@ class ClockUseViewController: BaseViewController {
         let destination: DownloadRequest.Destination = { _, _ in
             return (fileURL, [.removePreviousFile, .createIntermediateDirectories])
         }
-        ProgressHUD.show()
+        ProgressHUD.animate(nil, .activityIndicator, interaction: false)
         AF.download(url, to: destination).response { [weak self] response in
             ProgressHUD.dismiss()
             if response.error == nil, let imagePath = response.fileURL?.path {

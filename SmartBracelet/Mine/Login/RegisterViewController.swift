@@ -62,7 +62,7 @@ class RegisterViewController: BaseViewController {
             Toast(text: "二次密码不一致").show()
             return
         }
-        ProgressHUD.show()
+        ProgressHUD.animate(nil, .activityIndicator, interaction: false)
         let parameters = ["username": username, "password": password, "country": "CN"]
         AF.request("\(UrlPrefix)api/User/signup.php", method: .post, parameters: parameters, encoder: URLEncodedFormParameterEncoder.default).response { [weak self] (response) in
             debugPrint("Response: \(response.debugDescription)")

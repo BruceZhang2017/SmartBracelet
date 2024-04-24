@@ -22,6 +22,8 @@ class MarketClockViewController: UIViewController {
     var current = 0
     var marketModel: MarketClockResponse? // 从后台读取到的数据
     var clockArray: [ClockResponse] = [] // 指定分辨率的数组
+    var width: CGFloat = 0
+    var height: CGFloat = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,24 +40,20 @@ class MarketClockViewController: UIViewController {
         collectionView.dataSource = self
         collectionView.delegate = self
         downloadClock() // 下载资源
+        
+        width = (ScreenWidth - 60) / 2
+        if bleSelf.bleModel.screenType == 1 { // 方形
+            let w = bleSelf.bleModel.screenWidth
+            let h = bleSelf.bleModel.screenHeight
+            height = CGFloat(width) * CGFloat(h) / CGFloat(w)
+        } else { // 圆形
+            height =  width
+        }
+        print("width: \(width) height: \(height)")
     }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        collectionView.reloadData()
-    }
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
     
     private func downloadClock() {
-        ProgressHUD.show()
+        ProgressHUD.animate(nil, .activityIndicator, interaction: false)
         let w = bleSelf.bleModel.screenWidth
         let h = bleSelf.bleModel.screenHeight
         let firmNo = bleSelf.isJLBlue ? "JieLi" : "FengJiaWei"
@@ -94,28 +92,11 @@ extension MarketClockViewController: UICollectionViewDataSource {
             type = bleSelf.bleModel.screenType
         }
         log.info("当前连接设备为：\(type == 1 ? "方形" : "圆形")")
-        let w = bleSelf.bleModel.screenWidth
-        let h = bleSelf.bleModel.screenHeight
-        let imagename = "\(indexPath.row + 1)\(type == 1 ? "" : "_c")_\(w)_\(h)"
         cell.clockImageView.kf.setImage(with: URL(string: item.previewPic ?? ""))
-        cell.clockNameLabel.text = "\(bleSelf.bleModel.name)-\(indexPath.row + 1)"
-        cell.width.constant = (ScreenWidth - 60) / 2
-        cell.successButton.isHidden = true
-        cell.loadingWidth.constant = 0
-        let clockDir = UserDefaults.standard.dictionary(forKey: "LoadingClock") ?? [:]
-        let loadingStr = clockDir[bleSelf.bleModel.mac] as? String ?? ""
-        if loadingStr.count > 0 {
-            let ClockArray = loadingStr.components(separatedBy: "&&&")
-            if ClockArray.count > 0 {
-                for item in ClockArray {
-                    let array = item.components(separatedBy: "&&")
-                    if imagename == array[1] {
-                        cell.successButton.isHidden = false
-                        cell.loadingWidth.constant = (ScreenWidth - 60) / 2
-                    }
-                }
-            }
-        }
+        cell.opaqueView.layer.cornerRadius = 30
+        cell.opaqueView.clipsToBounds = true
+        cell.width.constant = width
+        cell.height.constant = height
         return cell
     }
     
@@ -135,7 +116,7 @@ extension MarketClockViewController: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: (ScreenWidth - 60) / 2, height: ((ScreenWidth - 60) / 2) / 165 * 220)
+        return CGSize(width: width, height: height)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {

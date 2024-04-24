@@ -38,23 +38,6 @@ class WeatherViewController: UIViewController, AMapSearchDelegate {
         self.searchForcastWeather()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        barColor = navigationController?.navigationBar.barTintColor
-        navigationController?.navigationBar.barTintColor = UIColor(red: 84/255.0, green: 142/255.0, blue: 212/255.0, alpha: 1)
-        tintColor = navigationController?.navigationBar.tintColor
-        navigationController?.navigationBar.tintColor = UIColor.white
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        navigationController?.navigationBar.barTintColor = barColor
-        navigationController?.navigationBar.tintColor = tintColor
-    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

@@ -29,6 +29,7 @@ class SelectSexViewController: UIViewController {
         cancelButton.setTitle("mine_cancel".localized(), for: .normal)
         chooseSexLabel.text = "mine_select_sex".localized()
         okButton.setTitle("mine_confirm".localized(), for: .normal)
+        okButton.setTitleColor(UIColor.brand, for: .normal)
     }
     
     override func viewWillAppear(_ animated: Bool) {

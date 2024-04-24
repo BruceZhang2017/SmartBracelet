@@ -29,26 +29,26 @@ class ClockManageViewController: BaseViewController {
         let market = SegmentioItem(title: "device_dial_mall".localized(), image: nil)
         let state = SegmentioStates(
                     defaultState: SegmentioState(
-                        backgroundColor: .white,
+                        backgroundColor: .clear,
                         titleFont: UIFont.systemFont(ofSize: 13),
-                        titleTextColor: .colorWithRGB(rgbValue: 0x333333)
+                        titleTextColor: UIColor(hex: 0x333333)
                     ),
                     selectedState: SegmentioState(
-                        backgroundColor: .white,
+                        backgroundColor: .clear,
                         titleFont: UIFont.systemFont(ofSize: 13),
-                        titleTextColor: .colorWithRGB(rgbValue: 0x333333)
+                        titleTextColor: UIColor(hex: 0x333333)
                     ),
                     highlightedState: SegmentioState(
-                        backgroundColor: .white,
+                        backgroundColor: .clear,
                         titleFont: UIFont.boldSystemFont(ofSize: 13),
-                        titleTextColor: .colorWithRGB(rgbValue: 0x333333)
+                        titleTextColor: UIColor(hex: 0x333333)
                     )
         )
         let options = SegmentioOptions(
-                    backgroundColor: .white,
+                    backgroundColor: .clear,
                     segmentPosition: SegmentioPosition.fixed(maxVisibleItems: 4),
                     scrollEnabled: true,
-                    indicatorOptions: SegmentioIndicatorOptions(type: .bottom, ratio: 0.3, height: 2, color: .k3ACF95),
+                    indicatorOptions: SegmentioIndicatorOptions(type: .bottom, ratio: 0.1, height: 2, color: .brand),
                     horizontalSeparatorOptions: SegmentioHorizontalSeparatorOptions(type: .none, height: 0, color: .clear),
                     verticalSeparatorOptions: SegmentioVerticalSeparatorOptions(ratio: 0, color: .clear),
                     imageContentMode: .center,
@@ -67,11 +67,8 @@ class ClockManageViewController: BaseViewController {
             self?.scrollView.contentOffset = CGPoint(x: Int(ScreenWidth) * segmentIndex, y: 0)
         }
         automaticallyAdjustsScrollViewInsets = false
-        if #available(iOS 11.0, *) {
-            scrollView.contentInsetAdjustmentBehavior = .never
-        } else {
-            // Fallback on earlier versions
-        }
+        scrollView.contentInsetAdjustmentBehavior = .never
+  
         scrollView.bounces = false
         scrollView.delegate = self
         setupUI()

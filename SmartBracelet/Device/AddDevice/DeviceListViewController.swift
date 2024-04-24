@@ -39,9 +39,9 @@ class DeviceListViewController: BaseViewController {
         let footView = UIView(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: 80))
         let button = UIButton(type: .custom).then {
             $0.setTitle("add_new_device".localized(), for: .normal)
-            $0.setTitleColor(UIColor.color(hex: "14C8C6"), for: .normal)
-            $0.setImage(UIImage(named: "content_icon_add"), for: .normal)
-            $0.titleLabel?.font = UIFont.systemFont(ofSize: 18)
+            $0.setTitleColor(UIColor.brand, for: .normal)
+            $0.setImage(UIImage(named: "icon_add2"), for: .normal)
+            $0.titleLabel?.font = UIFont.subtitle()
             $0.addTarget(self, action: #selector(pushToSearchDevice(_:)), for: .touchUpInside)
             $0.titleEdgeInsets = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: -5)
         }
@@ -82,36 +82,36 @@ extension DeviceListViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: .kCellIdentifier, for: indexPath) as! DeviceTableViewCell
+        cell.selectionStyle = .none
         let model = DeviceManager.shared.devices[indexPath.row]
         cell.deviceNameLabel.text = model.name + ""
-        cell.deviceImageView.image = UIImage(named: "produce_image_no.2")
+        cell.deviceNameLabel.textColor = UIColor.text_primary
+        cell.deviceNameLabel.font = UIFont.subtitle1()
+        cell.deviceImageView.image = UIImage(named: "icon_ewatch")
+        cell.bleConnectButton.titleLabel?.textColor = UIColor.text_third
+        cell.bleConnectButton.titleLabel?.font = UIFont.body1()
         if model.mac == lastestDeviceMac && bleSelf.isConnected {
             cell.selectImageView.isHidden = false
-            cell.bgView.layer.borderWidth = 1
-            cell.bgView.layer.borderColor = UIColor.color(hex: "14C8C6").cgColor
-            cell.bleConnectButton.setImage(UIImage(named: "content_blueteeth_link"), for: .normal)
             cell.bleConnectButton.setTitle("mine_bluetooth_connect".localized(), for: .normal)
         } else {
             cell.selectImageView.isHidden = true
-            cell.bgView.layer.borderWidth = 0
-            cell.bgView.layer.borderColor = UIColor.clear.cgColor
-            cell.bleConnectButton.setImage(UIImage(named: "content_blueteeth_unlink"), for: .normal)
-            cell.bleConnectButton.setTitle("请连接蓝牙", for: .normal)
+            cell.bleConnectButton.setTitle("mine_bluetooth_unconnect".localized(), for: .normal)
         }
         let deviceInfo = DeviceManager.shared.deviceInfo[model.mac]
         if deviceInfo != nil {
             if deviceInfo?.battery ?? 0 < 5 {
                 cell.batteryButton.setImage(UIImage(named: "conten_battery_runout"), for: .normal)
-                cell.batteryButton.setTitle(" ", for: .normal)
             } else {
                 cell.batteryButton.setImage(UIImage(named: "conten_battery_full"), for: .normal)
-                cell.batteryButton.setTitle(" ", for: .normal)
             }
         } else {
             cell.batteryButton.setImage(UIImage(named: "conten_battery_null"), for: .normal)
-            cell.batteryButton.setTitle("mine_battery_level_unknown".localized(), for: .normal)
         }
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 94
     }
 }
 

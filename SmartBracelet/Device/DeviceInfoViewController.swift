@@ -14,14 +14,18 @@ import UIKit
 
 class DeviceInfoViewController: BaseViewController {
     @IBOutlet weak var deviceIconImageView: UIImageView!
-    @IBOutlet weak var deviceNameLabel: UILabel!
     @IBOutlet weak var tableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "device_device_info".localized()
-        tableView.tableHeaderView?.frame = CGRect(x: 0, y: 0, width: ScreenWidth, height: 150)
+        tableView.tableHeaderView?.frame = CGRect(x: 0, y: 0, width: ScreenWidth, height: 200)
         tableView.tableFooterView = UIView()
+        deviceIconImageView.backgroundColor = UIColor.brand.withAlphaComponent(0.4)
+        let childImageView = UIImageView(frame: CGRect(x: 31, y: 31, width: 88, height: 88)) // 150-88=62，62/2=31
+        childImageView.contentMode = .scaleAspectFit // 或者使用.center
+        childImageView.image = UIImage(named: "icon_ewatch")
+        deviceIconImageView.addSubview(childImageView)
     }
 
 }
@@ -34,23 +38,33 @@ extension DeviceInfoViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: .kCellIdentifier, for: indexPath) as! DeviceInfoTableViewCell
-        cell.titleLabel.text = titles[indexPath.row]
+        cell.selectionStyle = .none
+        cell.textLabel?.textColor = UIColor.text_primary
+        cell.textLabel?.font = UIFont.body1()
+        cell.detailTextLabel?.textColor = UIColor.text_third
+        cell.detailTextLabel?.font = UIFont.body1()
+        cell.textLabel?.text = titles[indexPath.row]
         if indexPath.row == 0 {
-            cell.valueLabel.text = bleSelf.bleModel.name
+            cell.detailTextLabel?.text = bleSelf.bleModel.name
         } else if indexPath.row == 1 {
-            cell.valueLabel.text = bleSelf.bleModel.mac
+            cell.detailTextLabel?.text = bleSelf.bleModel.mac
         } else if indexPath.row == 2 {
-            cell.valueLabel.text = "V" + bleSelf.bleModel.firmwareVersion
+            cell.detailTextLabel?.text = "V" + bleSelf.bleModel.firmwareVersion
         } else {
-            cell.valueLabel.text = "V" + bleSelf.bleModel.hardwareVersion
+            cell.detailTextLabel?.text = "V" + bleSelf.bleModel.hardwareVersion
         }
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 52
     }
 }
 
 extension DeviceInfoViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        
     }
 }
 

@@ -102,6 +102,11 @@ extension AlarmViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: .kCellIdentifier, for: indexPath) as! AlarmTableViewCell
+        cell.textLabel?.textColor = UIColor.text_primary
+        cell.textLabel?.font = UIFont.body()
+        cell.detailTextLabel?.textColor = UIColor.text_third
+        cell.detailTextLabel?.font = UIFont.body2()
+        
         let model = BLEManager.shared.alarmArray[indexPath.row]
         cell.textLabel?.text = "\(String(format: "%02d", model.hour)):\(String(format: "%02d", model.minute))"
         var mSwitch = cell.viewWithTag(999 + indexPath.row) as? UISwitch

@@ -14,7 +14,7 @@ import Kingfisher
 import Toaster
 import Alamofire
 
-class ModifyHeadViewController: UIViewController {
+class ModifyHeadViewController: BaseViewController {
     @IBOutlet weak var headImageView: UIImageView!
     @IBOutlet weak var headView: UIView!
     @IBOutlet weak var cancelButton: UIButton!
@@ -26,7 +26,7 @@ class ModifyHeadViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        headView.addVGradientLayer(at: CGRect(x: 0, y: 0, width: ScreenWidth, height: ScreenWidth), colors: [UIColor.k64F2B4, UIColor.k08CCCC])
+        
         headImageView.clipsToBounds = true
         let fileName = "head.jpg"
         let b = FileCache().fileIfExist(name: fileName)
@@ -38,7 +38,7 @@ class ModifyHeadViewController: UIViewController {
             if url.count > 0 && url.hasPrefix("http") {
                 headImageView.kf.setImage(with: URL(string: url)!)
             } else {
-                headImageView.image = UIImage(named: "image_portrait")
+                headImageView.image = UIImage(named: "mine_header")
             }
         }
         
@@ -111,7 +111,7 @@ class ModifyHeadViewController: UIViewController {
     }
     
     private func uploadData(name: String) {
-        //ProgressHUD.show()
+        //ProgressHUD.animate(nil, .activityIndicator, interaction: false)
         var parameters = ["id": "\(UserManager.sharedInstall.user?.id ?? 0)"]
         parameters["headUrl"] = name
         AF.request("\(UrlPrefix)api/User/userinfo.php", method: .post, parameters: parameters, encoder: URLEncodedFormParameterEncoder.default).response { (response) in

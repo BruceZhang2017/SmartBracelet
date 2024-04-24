@@ -18,9 +18,6 @@
 		9A037E4225BDACFE0006FB94 /* 8267_module_tOTA.bin in Resources */ = {isa = PBXBuildFile; fileRef = 9A037E4125BDACFE0006FB94 /* 8267_module_tOTA.bin */; };
 		9A037E4525BDB1CD0006FB94 /* OTACMD.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A037E4425BDB1CD0006FB94 /* OTACMD.m */; };
 		9A037E4825BDB1EC0006FB94 /* OTA.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A037E4725BDB1EC0006FB94 /* OTA.m */; };
-		9A037E4A25BDB9E00006FB94 /* OTAViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A037E4925BDB9E00006FB94 /* OTAViewController.swift */; };
-		9A037E4C25BDBA5A0006FB94 /* SGCirleProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A037E4B25BDBA5A0006FB94 /* SGCirleProgress.swift */; };
-		9A037E4E25BDBC180006FB94 /* SGCirle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A037E4D25BDBC170006FB94 /* SGCirle.swift */; };
 		9A08C671262C71DA00E178DA /* SmartBand_PHY_ota.hex in Resources */ = {isa = PBXBuildFile; fileRef = 9A08C670262C71DA00E178DA /* SmartBand_PHY_ota.hex */; };
 		9A08C673262C757A00E178DA /* WeatherTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A08C672262C757A00E178DA /* WeatherTestViewController.swift */; };
 		9A08C6EB262F17D500E178DA /* OTAUpgradeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A08C6EA262F17D500E178DA /* OTAUpgradeViewController.m */; };
@@ -30,6 +27,7 @@
 		9A08C701262F19EC00E178DA /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A08C6FF262F19EC00E178DA /* MBProgressHUD.m */; };
 		9A0C34952B341D6600E798F1 /* DFUnits.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A0C34932B341D6100E798F1 /* DFUnits.framework */; };
 		9A0C34962B341D6600E798F1 /* JL_BLEKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A0C34942B341D6600E798F1 /* JL_BLEKit.framework */; };
+		9A127EAE2BC2ACE300126836 /* UIFont+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A127EAD2BC2ACE200126836 /* UIFont+Extension.swift */; };
 		9A2181652557EDBE000330E5 /* apple.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 9A2181622557EDBE000330E5 /* apple.jpeg */; };
 		9A2181662557EDBE000330E5 /* walk.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 9A2181632557EDBE000330E5 /* walk.jpeg */; };
 		9A2181672557EDBE000330E5 /* water.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9A2181642557EDBE000330E5 /* water.jpg */; };
@@ -50,7 +48,6 @@
 		9A2185C7255BE42D000330E5 /* GuideCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2185C6255BE42D000330E5 /* GuideCollectionViewCell.swift */; };
 		9A218627255CEA1D000330E5 /* LoginResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A218626255CEA1D000330E5 /* LoginResponse.swift */; };
 		9A2676AC26B1969B0096BC61 /* Alarm.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 9A2676AB26B1969B0096BC61 /* Alarm.mp3 */; };
-		9A2676AE26B239D40096BC61 /* ClockCollectionViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2676AD26B239D40096BC61 /* ClockCollectionViewFlowLayout.swift */; };
 		9A28DA5D2518D4EA00F7B260 /* DotView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A28DA5A2518D4E900F7B260 /* DotView.swift */; };
 		9A28DA5E2518D4EA00F7B260 /* UIColor+hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A28DA5B2518D4E900F7B260 /* UIColor+hex.swift */; };
 		9A28DA5F2518D4EA00F7B260 /* DotsLoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A28DA5C2518D4EA00F7B260 /* DotsLoadingView.swift */; };
@@ -93,6 +90,12 @@
 		9A367B7E25BD208100BFB4C3 /* EasyRealmList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A367B7525BD208100BFB4C3 /* EasyRealmList.swift */; };
 		9A367B9525BD235A00BFB4C3 /* RealmManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A367B9425BD235A00BFB4C3 /* RealmManager.swift */; };
 		9A367B9925BD425300BFB4C3 /* DeviceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A367B9825BD425300BFB4C3 /* DeviceManager.swift */; };
+		9A3C55C52BD35EE6007737A2 /* HealthValueView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3C55C42BD35EE6007737A2 /* HealthValueView.swift */; };
+		9A3C55C92BD36981007737A2 /* SCBreathAnimationView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9A3C55C82BD36981007737A2 /* SCBreathAnimationView.xib */; };
+		9A3C55CB2BD36A19007737A2 /* SCBreathAnimationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3C55CA2BD36A18007737A2 /* SCBreathAnimationView.swift */; };
+		9A3C55CD2BD39A5E007737A2 /* FanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3C55CC2BD39A5E007737A2 /* FanView.swift */; };
+		9A3C55CF2BD3ECA3007737A2 /* RoundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3C55CE2BD3ECA3007737A2 /* RoundView.swift */; };
+		9A3C55D12BD3F41B007737A2 /* TestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3C55D02BD3F41B007737A2 /* TestView.swift */; };
 		9A40E02C25D37477001879B3 /* DStepModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A40E02B25D37477001879B3 /* DStepModel.swift */; };
 		9A491EEF2BA07C43000CF726 /* AliIotConnectKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A491EED2BA07A8C000CF726 /* AliIotConnectKit.framework */; };
 		9A491EF02BA07C43000CF726 /* AliIotConnectKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9A491EED2BA07A8C000CF726 /* AliIotConnectKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -317,8 +320,6 @@
 		9A820B7224CE5BC700A62C6F /* UILabel+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A820B7124CE5BC700A62C6F /* UILabel+Extension.swift */; };
 		9A820B7424CEA1CC00A62C6F /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A820B7324CEA1CC00A62C6F /* BaseViewController.swift */; };
 		9A820B7624CEA2A500A62C6F /* HealthDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A820B7524CEA2A500A62C6F /* HealthDetailViewController.swift */; };
-		9A820B7824CEA2C600A62C6F /* Health.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9A820B7724CEA2C600A62C6F /* Health.storyboard */; };
-		9A820B7A24CECB1700A62C6F /* HealthDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A820B7924CECB1700A62C6F /* HealthDetailTableViewCell.swift */; };
 		9A820B7C24CECFBC00A62C6F /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A820B7B24CECFBC00A62C6F /* String+Extension.swift */; };
 		9A820B7E24CED47700A62C6F /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A820B7D24CED47700A62C6F /* UIView+Extension.swift */; };
 		9A820B8024CEDCDA00A62C6F /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A820B7F24CEDCDA00A62C6F /* UIColor+Extension.swift */; };
@@ -401,7 +402,6 @@
 		9AAF85CC25C6D42000960BDD /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AAF85CB25C6D42000960BDD /* MapKit.framework */; };
 		9AAF861C25C83E5000960BDD /* IdleResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 9AAF861B25C83E5000960BDD /* IdleResources.bundle */; };
 		9AB563FD26F6186000D16869 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9AB563FF26F6186000D16869 /* Localizable.strings */; };
-		9AB5BDFB2A065D6F00680757 /* 50281683286157.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9AB5BDFA2A065D6F00680757 /* 50281683286157.jpg */; };
 		9AB5BE142A06644500680757 /* JLBlueManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB5BDFD2A06644500680757 /* JLBlueManager.swift */; };
 		9AB5BE152A06644500680757 /* JL_BLEKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AB5BDFE2A06644500680757 /* JL_BLEKit.framework */; };
 		9AB5BE162A06644500680757 /* ContactsTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AB5BE042A06644500680757 /* ContactsTool.m */; };
@@ -421,8 +421,6 @@
 		9AB5BE292A06649700680757 /* RTKOTASDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AB5BE222A06645B00680757 /* RTKOTASDK.framework */; };
 		9AB5BE2A2A06649700680757 /* RTKOTASDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9AB5BE222A06645B00680757 /* RTKOTASDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9AB5BE302A0665F500680757 /* NSObject+MBProgressHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB5BE2E2A0665F500680757 /* NSObject+MBProgressHUD.swift */; };
-		9AB5BE322A1261EC00680757 /* 1660730147353_wh211.bin in Resources */ = {isa = PBXBuildFile; fileRef = 9AB5BE312A1261EC00680757 /* 1660730147353_wh211.bin */; };
-		9AB5BE342A1261FC00680757 /* WechatIMG360.png in Resources */ = {isa = PBXBuildFile; fileRef = 9AB5BE332A1261FC00680757 /* WechatIMG360.png */; };
 		9AB5BE432A164CFA00680757 /* SCImageReviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB5BE3E2A164CF900680757 /* SCImageReviewView.swift */; };
 		9AB5BE442A164CFA00680757 /* SCReviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB5BE3F2A164CF900680757 /* SCReviewView.swift */; };
 		9AB5BE472A164CFA00680757 /* SCFloatingWindowReviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB5BE422A164CFA00680757 /* SCFloatingWindowReviewView.swift */; };
@@ -437,10 +435,6 @@
 		9AB910282501322C006E0FC4 /* EMAlertAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB910242501322B006E0FC4 /* EMAlertAction.swift */; };
 		9AB910292501322C006E0FC4 /* EMAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB910252501322B006E0FC4 /* EMAlertController.swift */; };
 		9AC58A1528C37A3800992836 /* ClockResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AC58A1428C37A3800992836 /* ClockResponse.swift */; };
-		9ADB7EFC275EFB5C009689FE /* blood.gif in Resources */ = {isa = PBXBuildFile; fileRef = 9ADB7EF8275EFB5B009689FE /* blood.gif */; };
-		9ADB7EFD275EFB5C009689FE /* sleep.gif in Resources */ = {isa = PBXBuildFile; fileRef = 9ADB7EF9275EFB5C009689FE /* sleep.gif */; };
-		9ADB7EFE275EFB5C009689FE /* pressure.gif in Resources */ = {isa = PBXBuildFile; fileRef = 9ADB7EFA275EFB5C009689FE /* pressure.gif */; };
-		9ADB7EFF275EFB5C009689FE /* heart.gif in Resources */ = {isa = PBXBuildFile; fileRef = 9ADB7EFB275EFB5C009689FE /* heart.gif */; };
 		9AE1A16B2629465F00B8B10D /* ErrorCode.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AE1A1552629465F00B8B10D /* ErrorCode.m */; };
 		9AE1A16C2629465F00B8B10D /* JCBlutoothInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AE1A1582629465F00B8B10D /* JCBlutoothInfoModel.m */; };
 		9AE1A16D2629465F00B8B10D /* OTAManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AE1A1592629465F00B8B10D /* OTAManager.m */; };
@@ -468,6 +462,9 @@
 		9AEC22CD25B707C000DE899A /* BLEModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AEC22CC25B707C000DE899A /* BLEModel.swift */; };
 		9AEC230025B7114500DE899A /* Data+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AEC22FF25B7114500DE899A /* Data+Extension.swift */; };
 		9AF0AA2025AAF1CE000BDAED /* CMDData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF0AA1F25AAF1CE000BDAED /* CMDData.swift */; };
+		9AF3F2D72BCBFA6500AFBC55 /* HealthTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF3F2D62BCBFA6500AFBC55 /* HealthTableViewCell.swift */; };
+		9AF3F2DB2BCBFF2600AFBC55 /* icon_default.png in Resources */ = {isa = PBXBuildFile; fileRef = 9AF3F2DA2BCBFF2600AFBC55 /* icon_default.png */; };
+		9AF3F2DD2BCC229B00AFBC55 /* HNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF3F2DC2BCC229B00AFBC55 /* HNavigationController.swift */; };
 		9AFAE8712A8F21F7005EF8F8 /* JGProgressHUDIndeterminateIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AFAE85A2A8F21F7005EF8F8 /* JGProgressHUDIndeterminateIndicatorView.m */; };
 		9AFAE8722A8F21F7005EF8F8 /* JGProgressHUDErrorIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AFAE85B2A8F21F7005EF8F8 /* JGProgressHUDErrorIndicatorView.m */; };
 		9AFAE8732A8F21F7005EF8F8 /* JGProgressHUDAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AFAE85D2A8F21F7005EF8F8 /* JGProgressHUDAnimation.m */; };
@@ -519,9 +516,6 @@
 		9A037E4425BDB1CD0006FB94 /* OTACMD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTACMD.m; sourceTree = "<group>"; };
 		9A037E4625BDB1EC0006FB94 /* OTA.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTA.h; sourceTree = "<group>"; };
 		9A037E4725BDB1EC0006FB94 /* OTA.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTA.m; sourceTree = "<group>"; };
-		9A037E4925BDB9E00006FB94 /* OTAViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OTAViewController.swift; sourceTree = "<group>"; };
-		9A037E4B25BDBA5A0006FB94 /* SGCirleProgress.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SGCirleProgress.swift; sourceTree = "<group>"; };
-		9A037E4D25BDBC170006FB94 /* SGCirle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SGCirle.swift; sourceTree = "<group>"; };
 		9A08C670262C71DA00E178DA /* SmartBand_PHY_ota.hex */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SmartBand_PHY_ota.hex; sourceTree = "<group>"; };
 		9A08C672262C757A00E178DA /* WeatherTestViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeatherTestViewController.swift; sourceTree = "<group>"; };
 		9A08C6E9262F17D500E178DA /* OTAUpgradeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTAUpgradeViewController.h; sourceTree = "<group>"; };
@@ -537,6 +531,7 @@
 		9A08C700262F19EC00E178DA /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
 		9A0C34932B341D6100E798F1 /* DFUnits.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = DFUnits.framework; sourceTree = "<group>"; };
 		9A0C34942B341D6600E798F1 /* JL_BLEKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = JL_BLEKit.framework; sourceTree = "<group>"; };
+		9A127EAD2BC2ACE200126836 /* UIFont+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Extension.swift"; sourceTree = "<group>"; };
 		9A2181622557EDBE000330E5 /* apple.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = apple.jpeg; sourceTree = "<group>"; };
 		9A2181632557EDBE000330E5 /* walk.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = walk.jpeg; sourceTree = "<group>"; };
 		9A2181642557EDBE000330E5 /* water.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = water.jpg; sourceTree = "<group>"; };
@@ -558,7 +553,6 @@
 		9A2185C6255BE42D000330E5 /* GuideCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuideCollectionViewCell.swift; sourceTree = "<group>"; };
 		9A218626255CEA1D000330E5 /* LoginResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginResponse.swift; sourceTree = "<group>"; };
 		9A2676AB26B1969B0096BC61 /* Alarm.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Alarm.mp3; sourceTree = "<group>"; };
-		9A2676AD26B239D40096BC61 /* ClockCollectionViewFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClockCollectionViewFlowLayout.swift; sourceTree = "<group>"; };
 		9A28DA5A2518D4E900F7B260 /* DotView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DotView.swift; sourceTree = "<group>"; };
 		9A28DA5B2518D4E900F7B260 /* UIColor+hex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+hex.swift"; sourceTree = "<group>"; };
 		9A28DA5C2518D4EA00F7B260 /* DotsLoadingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DotsLoadingView.swift; sourceTree = "<group>"; };
@@ -601,6 +595,12 @@
 		9A367B7525BD208100BFB4C3 /* EasyRealmList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EasyRealmList.swift; sourceTree = "<group>"; };
 		9A367B9425BD235A00BFB4C3 /* RealmManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmManager.swift; sourceTree = "<group>"; };
 		9A367B9825BD425300BFB4C3 /* DeviceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceManager.swift; sourceTree = "<group>"; };
+		9A3C55C42BD35EE6007737A2 /* HealthValueView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthValueView.swift; sourceTree = "<group>"; };
+		9A3C55C82BD36981007737A2 /* SCBreathAnimationView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SCBreathAnimationView.xib; sourceTree = "<group>"; };
+		9A3C55CA2BD36A18007737A2 /* SCBreathAnimationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SCBreathAnimationView.swift; sourceTree = "<group>"; };
+		9A3C55CC2BD39A5E007737A2 /* FanView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FanView.swift; sourceTree = "<group>"; };
+		9A3C55CE2BD3ECA3007737A2 /* RoundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundView.swift; sourceTree = "<group>"; };
+		9A3C55D02BD3F41B007737A2 /* TestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestView.swift; sourceTree = "<group>"; };
 		9A40E02B25D37477001879B3 /* DStepModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DStepModel.swift; sourceTree = "<group>"; };
 		9A491EED2BA07A8C000CF726 /* AliIotConnectKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AliIotConnectKit.framework; path = ../Downloads/AliIotConnectKit.framework; sourceTree = "<group>"; };
 		9A4CADED294032F100B0BDF8 /* CommonResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonResponse.swift; sourceTree = "<group>"; };
@@ -829,8 +829,6 @@
 		9A820B7124CE5BC700A62C6F /* UILabel+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Extension.swift"; sourceTree = "<group>"; };
 		9A820B7324CEA1CC00A62C6F /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		9A820B7524CEA2A500A62C6F /* HealthDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthDetailViewController.swift; sourceTree = "<group>"; };
-		9A820B7724CEA2C600A62C6F /* Health.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Health.storyboard; sourceTree = "<group>"; };
-		9A820B7924CECB1700A62C6F /* HealthDetailTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthDetailTableViewCell.swift; sourceTree = "<group>"; };
 		9A820B7B24CECFBC00A62C6F /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		9A820B7D24CED47700A62C6F /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		9A820B7F24CEDCDA00A62C6F /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
@@ -920,7 +918,6 @@
 		9AB563FC26F6185500D16869 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
 		9AB563FE26F6186000D16869 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		9AB5640026F6186400D16869 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
-		9AB5BDFA2A065D6F00680757 /* 50281683286157.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 50281683286157.jpg; sourceTree = "<group>"; };
 		9AB5BDFD2A06644500680757 /* JLBlueManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JLBlueManager.swift; sourceTree = "<group>"; };
 		9AB5BDFE2A06644500680757 /* JL_BLEKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = JL_BLEKit.framework; sourceTree = "<group>"; };
 		9AB5BE002A06644500680757 /* JLHeadFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JLHeadFile.h; sourceTree = "<group>"; };
@@ -946,8 +943,6 @@
 		9AB5BE212A06645A00680757 /* RTKLEFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RTKLEFoundation.framework; path = SmartBracelet/RTKLEFoundation.framework; sourceTree = "<group>"; };
 		9AB5BE222A06645B00680757 /* RTKOTASDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RTKOTASDK.framework; path = SmartBracelet/RTKOTASDK.framework; sourceTree = "<group>"; };
 		9AB5BE2E2A0665F500680757 /* NSObject+MBProgressHUD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSObject+MBProgressHUD.swift"; sourceTree = "<group>"; };
-		9AB5BE312A1261EC00680757 /* 1660730147353_wh211.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = 1660730147353_wh211.bin; sourceTree = "<group>"; };
-		9AB5BE332A1261FC00680757 /* WechatIMG360.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = WechatIMG360.png; sourceTree = "<group>"; };
 		9AB5BE3E2A164CF900680757 /* SCImageReviewView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SCImageReviewView.swift; sourceTree = "<group>"; };
 		9AB5BE3F2A164CF900680757 /* SCReviewView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SCReviewView.swift; sourceTree = "<group>"; };
 		9AB5BE422A164CFA00680757 /* SCFloatingWindowReviewView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SCFloatingWindowReviewView.swift; sourceTree = "<group>"; };
@@ -998,10 +993,6 @@
 		9AD43219271B2B33001A6E8F /* zh-HK */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-HK"; path = "zh-HK.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		9AD4321A271B2B52001A6E8F /* ms */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ms; path = ms.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		9AD4321B271B2B52001A6E8F /* ms */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ms; path = ms.lproj/Localizable.strings; sourceTree = "<group>"; };
-		9ADB7EF8275EFB5B009689FE /* blood.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = blood.gif; sourceTree = "<group>"; };
-		9ADB7EF9275EFB5C009689FE /* sleep.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = sleep.gif; sourceTree = "<group>"; };
-		9ADB7EFA275EFB5C009689FE /* pressure.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = pressure.gif; sourceTree = "<group>"; };
-		9ADB7EFB275EFB5C009689FE /* heart.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = heart.gif; sourceTree = "<group>"; };
 		9AE1A1542629465F00B8B10D /* ErrorCode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ErrorCode.h; sourceTree = "<group>"; };
 		9AE1A1552629465F00B8B10D /* ErrorCode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ErrorCode.m; sourceTree = "<group>"; };
 		9AE1A1582629465F00B8B10D /* JCBlutoothInfoModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCBlutoothInfoModel.m; sourceTree = "<group>"; };
@@ -1046,6 +1037,9 @@
 		9AEC22CC25B707C000DE899A /* BLEModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BLEModel.swift; sourceTree = "<group>"; };
 		9AEC22FF25B7114500DE899A /* Data+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+Extension.swift"; sourceTree = "<group>"; };
 		9AF0AA1F25AAF1CE000BDAED /* CMDData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CMDData.swift; sourceTree = "<group>"; };
+		9AF3F2D62BCBFA6500AFBC55 /* HealthTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthTableViewCell.swift; sourceTree = "<group>"; };
+		9AF3F2DA2BCBFF2600AFBC55 /* icon_default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_default.png; sourceTree = "<group>"; };
+		9AF3F2DC2BCC229B00AFBC55 /* HNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HNavigationController.swift; sourceTree = "<group>"; };
 		9AFAE8582A8F21F7005EF8F8 /* JGProgressHUDSuccessIndicatorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JGProgressHUDSuccessIndicatorView.h; sourceTree = "<group>"; };
 		9AFAE8592A8F21F7005EF8F8 /* JGProgressHUDImageIndicatorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JGProgressHUDImageIndicatorView.h; sourceTree = "<group>"; };
 		9AFAE85A2A8F21F7005EF8F8 /* JGProgressHUDIndeterminateIndicatorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JGProgressHUDIndeterminateIndicatorView.m; sourceTree = "<group>"; };
@@ -1139,7 +1133,6 @@
 				9A4E624324F7E94E00A0E878 /* Device.storyboard */,
 				18385F12245181D900EA380A /* Main.storyboard */,
 				9A350BE424EA6476004CEE6A /* Mine.storyboard */,
-				9A820B7724CEA2C600A62C6F /* Health.storyboard */,
 				9A820B8124D0522300A62C6F /* Sport.storyboard */,
 				18385EA624517F1A00EA380A /* Assets.xcassets */,
 				18385EA824517F1A00EA380A /* LaunchScreen.storyboard */,
@@ -1171,11 +1164,8 @@
 		9A037E4025BDACDB0006FB94 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				9AF3F2DA2BCBFF2600AFBC55 /* icon_default.png */,
 				9A7F13812A8C8099006C0F61 /* loading.gif */,
-				9AB5BE332A1261FC00680757 /* WechatIMG360.png */,
-				9AB5BE312A1261EC00680757 /* 1660730147353_wh211.bin */,
-				9AB5BDFA2A065D6F00680757 /* 50281683286157.jpg */,
-				9ADB7EF7275EFB48009689FE /* Gif */,
 				9A2676AB26B1969B0096BC61 /* Alarm.mp3 */,
 				9A08C653262C5A1100E178DA /* lefun */,
 				9A037E4125BDACFE0006FB94 /* 8267_module_tOTA.bin */,
@@ -1406,9 +1396,6 @@
 				9A5210722504937500F64A7A /* DeviceSettingsViewController.swift */,
 				9A58D8B526ABC4A0006C09A1 /* LongsitSettingsViewController.swift */,
 				9A52107425049FD900F64A7A /* DeviceSettingsTableViewCell.swift */,
-				9A037E4925BDB9E00006FB94 /* OTAViewController.swift */,
-				9A037E4B25BDBA5A0006FB94 /* SGCirleProgress.swift */,
-				9A037E4D25BDBC170006FB94 /* SGCirle.swift */,
 				9A60DEE6252F175600E0D849 /* APNSViewController.swift */,
 				9A60DEE8252F1E8200E0D849 /* DeviceInfoViewController.swift */,
 				9A60DEEA252F34B700E0D849 /* DeviceInfoTableViewCell.swift */,
@@ -1723,6 +1710,7 @@
 				9A2185B1255BC7E8000330E5 /* GuideViewController.swift */,
 				9A2185C6255BE42D000330E5 /* GuideCollectionViewCell.swift */,
 				9A2185B3255BCDA0000330E5 /* MNavigationController.swift */,
+				9AF3F2DC2BCC229B00AFBC55 /* HNavigationController.swift */,
 			);
 			path = Tab;
 			sourceTree = "<group>";
@@ -1787,7 +1775,6 @@
 				9AB7AC492766551300D51DBC /* EditClockCollectionViewCell.swift */,
 				9A9E4E182782F7BD0084CCFF /* CustomImageFooterView.swift */,
 				9A7C31A3276EFFAD00BC1BFB /* UploadImageViewController.swift */,
-				9A2676AD26B239D40096BC61 /* ClockCollectionViewFlowLayout.swift */,
 				9A52106E2503A62F00F64A7A /* MarketClockViewController.swift */,
 				9A5210702503DB2E00F64A7A /* ClockCCollectionViewCell.swift */,
 				9A64F08125DD50D70073E679 /* ClockUseViewController.swift */,
@@ -1826,13 +1813,19 @@
 		9A820B6C24CD066E00A62C6F /* Health */ = {
 			isa = PBXGroup;
 			children = (
+				9A3C55CA2BD36A18007737A2 /* SCBreathAnimationView.swift */,
+				9A3C55C82BD36981007737A2 /* SCBreathAnimationView.xib */,
 				9AEBEC4126DE5B03008D13AA /* TTADataPickerTitleBarButtonItem.swift */,
 				9AEBEC4026DE5B03008D13AA /* TTADataPickerToolBar.swift */,
 				9AEBEC3E26DE5AFC008D13AA /* TTADataPickerViewController.swift */,
 				9AEBEC3C26DE5AD0008D13AA /* TTADataPickerView.swift */,
 				9A820B6D24CD06AC00A62C6F /* HealthViewController.swift */,
+				9AF3F2D62BCBFA6500AFBC55 /* HealthTableViewCell.swift */,
 				9A820B7524CEA2A500A62C6F /* HealthDetailViewController.swift */,
-				9A820B7924CECB1700A62C6F /* HealthDetailTableViewCell.swift */,
+				9A3C55C42BD35EE6007737A2 /* HealthValueView.swift */,
+				9A3C55CC2BD39A5E007737A2 /* FanView.swift */,
+				9A3C55CE2BD3ECA3007737A2 /* RoundView.swift */,
+				9A3C55D02BD3F41B007737A2 /* TestView.swift */,
 				9A5613F02524875400C43C6A /* CommonCalendarView.swift */,
 				9A5613F22524879600C43C6A /* CommonCalendarView.xib */,
 				9A5613F425248BFC00C43C6A /* AudioButtonView.swift */,
@@ -1878,6 +1871,7 @@
 				9A820B8624D061E000A62C6F /* UIDevice+Extension.swift */,
 				9A820B8E24D1B15B00A62C6F /* UIButton+Extension.swift */,
 				9AEC22FF25B7114500DE899A /* Data+Extension.swift */,
+				9A127EAD2BC2ACE200126836 /* UIFont+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -2118,17 +2112,6 @@
 			path = AlertController;
 			sourceTree = "<group>";
 		};
-		9ADB7EF7275EFB48009689FE /* Gif */ = {
-			isa = PBXGroup;
-			children = (
-				9ADB7EF9275EFB5C009689FE /* sleep.gif */,
-				9ADB7EFB275EFB5C009689FE /* heart.gif */,
-				9ADB7EFA275EFB5C009689FE /* pressure.gif */,
-				9ADB7EF8275EFB5B009689FE /* blood.gif */,
-			);
-			path = Gif;
-			sourceTree = "<group>";
-		};
 		9AE1A1522629465F00B8B10D /* OTASDK */ = {
 			isa = PBXGroup;
 			children = (
@@ -2334,14 +2317,11 @@
 				9A33D31426AD9A4F00DF9618 /* CameraView.strings in Resources */,
 				9A2181652557EDBE000330E5 /* apple.jpeg in Resources */,
 				9A60DEE3252F003800E0D849 /* hotCities.plist in Resources */,
+				9A3C55C92BD36981007737A2 /* SCBreathAnimationView.xib in Resources */,
 				9A2185B0255BC6AA000330E5 /* new5.jpg in Resources */,
 				9A4E624424F7E94E00A0E878 /* Device.storyboard in Resources */,
 				9AA2E0582B343C9C0008CA56 /* Media.xcassets in Resources */,
-				9ADB7EFD275EFB5C009689FE /* sleep.gif in Resources */,
-				9AB5BDFB2A065D6F00680757 /* 50281683286157.jpg in Resources */,
 				9A9E4E13278136E70084CCFF /* 1_80_160.png in Resources */,
-				9ADB7EFF275EFB5C009689FE /* heart.gif in Resources */,
-				9ADB7EFE275EFB5C009689FE /* pressure.gif in Resources */,
 				9A9E4E12278136E70084CCFF /* 3_80_160.png in Resources */,
 				9AAF861C25C83E5000960BDD /* IdleResources.bundle in Resources */,
 				18385EAA24517F1A00EA380A /* LaunchScreen.storyboard in Resources */,
@@ -2351,8 +2331,6 @@
 				9AB563FD26F6186000D16869 /* Localizable.strings in Resources */,
 				9A2676AC26B1969B0096BC61 /* Alarm.mp3 in Resources */,
 				9A9E4E15278136E70084CCFF /* 2_80_160.png in Resources */,
-				9AB5BE322A1261EC00680757 /* 1660730147353_wh211.bin in Resources */,
-				9ADB7EFC275EFB5C009689FE /* blood.gif in Resources */,
 				9A9E4E14278136E70084CCFF /* 4_80_160.png in Resources */,
 				9A2185AE255BC6AA000330E5 /* new1.jpg in Resources */,
 				9A2181672557EDBE000330E5 /* water.jpg in Resources */,
@@ -2362,9 +2340,8 @@
 				9A33D30826AD9A4F00DF9618 /* CameraViewAssets.xcassets in Resources */,
 				9A08C671262C71DA00E178DA /* SmartBand_PHY_ota.hex in Resources */,
 				9A5613F32524879600C43C6A /* CommonCalendarView.xib in Resources */,
-				9A820B7824CEA2C600A62C6F /* Health.storyboard in Resources */,
 				18385EA724517F1A00EA380A /* Assets.xcassets in Resources */,
-				9AB5BE342A1261FC00680757 /* WechatIMG360.png in Resources */,
+				9AF3F2DB2BCBFF2600AFBC55 /* icon_default.png in Resources */,
 				9A21859E255BBDD9000330E5 /* root.jpg in Resources */,
 				9A037E4225BDACFE0006FB94 /* 8267_module_tOTA.bin in Resources */,
 			);
@@ -2491,6 +2468,7 @@
 				9A56D29125216FC70082CC08 /* MoveViewJob.swift in Sources */,
 				9A52106D2503A5D400F64A7A /* MyClockViewController.swift in Sources */,
 				9A56D27325216FC60082CC08 /* DefaultValueFormatter.swift in Sources */,
+				9A3C55C52BD35EE6007737A2 /* HealthValueView.swift in Sources */,
 				9A56D25825216FC60082CC08 /* LineScatterCandleRadarRenderer.swift in Sources */,
 				9A367B7C25BD208100BFB4C3 /* Delete.swift in Sources */,
 				9A60DEC8252D8E8300E0D849 /* ModifyPWDViewController.swift in Sources */,
@@ -2515,6 +2493,7 @@
 				9A4E624E24F8DF6B00A0E878 /* CyclicCardFlowLayout.swift in Sources */,
 				9AFAE87B2A8F21F7005EF8F8 /* JGProgressHUDPieIndicatorView.m in Sources */,
 				9A56D27025216FC60082CC08 /* Animator.swift in Sources */,
+				9A3C55CB2BD36A19007737A2 /* SCBreathAnimationView.swift in Sources */,
 				9A56D23F25216FC60082CC08 /* LineChartRenderer.swift in Sources */,
 				9A56D25D25216FC60082CC08 /* HorizontalBarHighlighter.swift in Sources */,
 				9A56D2BC25216FC70082CC08 /* IBarLineScatterCandleBubbleChartDataSet.swift in Sources */,
@@ -2567,6 +2546,7 @@
 				9A56D28825216FC60082CC08 /* LegendEntry.swift in Sources */,
 				9A56D23E25216FC60082CC08 /* BubbleChartRenderer.swift in Sources */,
 				9A60DED9252F002400E0D849 /* CurrentCityTableViewCell.swift in Sources */,
+				9AF3F2D72BCBFA6500AFBC55 /* HealthTableViewCell.swift in Sources */,
 				9A8CA52525272C5200EC01A7 /* CVPresent.swift in Sources */,
 				9A56D26D25216FC60082CC08 /* ScatterChartView.swift in Sources */,
 				9A56D27A25216FC60082CC08 /* Platform+Touch Handling.swift in Sources */,
@@ -2578,7 +2558,6 @@
 				9AE1A1702629465F00B8B10D /* DDFileReader.m in Sources */,
 				9AFAE8762A8F21F7005EF8F8 /* JGProgressHUDSuccessIndicatorView.m in Sources */,
 				9AFAE8712A8F21F7005EF8F8 /* JGProgressHUDIndeterminateIndicatorView.m in Sources */,
-				9A2676AE26B239D40096BC61 /* ClockCollectionViewFlowLayout.swift in Sources */,
 				9A218627255CEA1D000330E5 /* LoginResponse.swift in Sources */,
 				9A56D2B425216FC70082CC08 /* ILineChartDataSet.swift in Sources */,
 				9A56D23D25216FC60082CC08 /* YAxisRendererHorizontalBarChart.swift in Sources */,
@@ -2619,7 +2598,6 @@
 				9AEBEC4226DE5B03008D13AA /* TTADataPickerToolBar.swift in Sources */,
 				9A56D2BB25216FC70082CC08 /* IBubbleChartDataSet.swift in Sources */,
 				9A08C6EB262F17D500E178DA /* OTAUpgradeViewController.m in Sources */,
-				9A037E4A25BDB9E00006FB94 /* OTAViewController.swift in Sources */,
 				9AB5BE442A164CFA00680757 /* SCReviewView.swift in Sources */,
 				9A367B9925BD425300BFB4C3 /* DeviceManager.swift in Sources */,
 				9A33D31C26AD9A4F00DF9618 /* PermissionsView.swift in Sources */,
@@ -2628,6 +2606,7 @@
 				9A839C5A2560F3FA00714CBE /* SGSportTrackingLine.m in Sources */,
 				9A52106B2503349A00F64A7A /* ClockBCollectionViewCell.swift in Sources */,
 				9A08C6EF262F17FE00E178DA /* OTCModel.m in Sources */,
+				9A3C55CF2BD3ECA3007737A2 /* RoundView.swift in Sources */,
 				9A33D30C26AD9A4F00DF9618 /* SingleImageFetcher.swift in Sources */,
 				9A64F08025DCDEB00073E679 /* SportRecordMonthView.swift in Sources */,
 				9A64F08225DD50D70073E679 /* ClockUseViewController.swift in Sources */,
@@ -2715,6 +2694,7 @@
 				9A56D24025216FC60082CC08 /* AxisRendererBase.swift in Sources */,
 				9A33D30A26AD9A4F00DF9618 /* Utilities.swift in Sources */,
 				9A56D2AA25216FC70082CC08 /* PieChartData.swift in Sources */,
+				9A127EAE2BC2ACE300126836 /* UIFont+Extension.swift in Sources */,
 				9A56D28C25216FC60082CC08 /* ChartLimitLine.swift in Sources */,
 				9AB5BE1B2A06644500680757 /* QCY_BLEApple.m in Sources */,
 				9A56D2AD25216FC70082CC08 /* BubbleChartDataSet.swift in Sources */,
@@ -2729,7 +2709,6 @@
 				9AB5BE172A06644500680757 /* JL_RunSDK.m in Sources */,
 				9A56D28E25216FC60082CC08 /* ComponentBase.swift in Sources */,
 				9A56D24A25216FC60082CC08 /* XShapeRenderer.swift in Sources */,
-				9A820B7A24CECB1700A62C6F /* HealthDetailTableViewCell.swift in Sources */,
 				9A56D2A725216FC70082CC08 /* ChartDataSet.swift in Sources */,
 				9A56D28A25216FC60082CC08 /* AxisBase.swift in Sources */,
 				9AFAE8722A8F21F7005EF8F8 /* JGProgressHUDErrorIndicatorView.m in Sources */,
@@ -2758,7 +2737,6 @@
 				9A08C673262C757A00E178DA /* WeatherTestViewController.swift in Sources */,
 				9A60DEC2252D5BF600E0D849 /* AccountSafeViewController.swift in Sources */,
 				9A5613F12524875400C43C6A /* CommonCalendarView.swift in Sources */,
-				9A037E4E25BDBC180006FB94 /* SGCirle.swift in Sources */,
 				9AEBEC3F26DE5AFC008D13AA /* TTADataPickerViewController.swift in Sources */,
 				9A61685A25DAB5B200918EFC /* GradeTableViewCell.swift in Sources */,
 				9AB910282501322C006E0FC4 /* EMAlertAction.swift in Sources */,
@@ -2775,7 +2753,6 @@
 				9A56D25025216FC60082CC08 /* TriangleShapeRenderer.swift in Sources */,
 				9A33D31A26AD9A4F00DF9618 /* CameraView.swift in Sources */,
 				9AE1A16D2629465F00B8B10D /* OTAManager.m in Sources */,
-				9A037E4C25BDBA5A0006FB94 /* SGCirleProgress.swift in Sources */,
 				9AE6688D267F8B2A00A8584A /* MAWeatherForecastView.m in Sources */,
 				9A56D2AE25216FC70082CC08 /* RadarChartDataSet.swift in Sources */,
 				9A8CA51E25272C5200EC01A7 /* CVCalendarViewAnimatorDelegate.swift in Sources */,
@@ -2817,6 +2794,7 @@
 				9A56D26F25216FC60082CC08 /* ChartAnimationEasing.swift in Sources */,
 				9A56D2A225216FC70082CC08 /* BubbleChartDataEntry.swift in Sources */,
 				9A56D25225216FC60082CC08 /* XAxisRendererHorizontalBarChart.swift in Sources */,
+				9AF3F2DD2BCC229B00AFBC55 /* HNavigationController.swift in Sources */,
 				9A60DEC6252D896400E0D849 /* BindEmailViewController.swift in Sources */,
 				9A56D28225216FC60082CC08 /* Platform+Color.swift in Sources */,
 				9A61689825DCA64300918EFC /* SportRecordViewController.swift in Sources */,
@@ -2824,6 +2802,7 @@
 				9AA2E05B2B343C9C0008CA56 /* ScanAnimation.swift in Sources */,
 				9A33D30F26AD9A4F00DF9618 /* VolumeControl.swift in Sources */,
 				9A367B9525BD235A00BFB4C3 /* RealmManager.swift in Sources */,
+				9A3C55D12BD3F41B007737A2 /* TestView.swift in Sources */,
 				9A56D2B625216FC70082CC08 /* IBarChartDataSet.swift in Sources */,
 				9A56D2A125216FC70082CC08 /* BarLineScatterCandleBubbleChartData.swift in Sources */,
 				9A64F0BA25DE19B30073E679 /* DHeartRateModel.swift in Sources */,
@@ -2857,6 +2836,7 @@
 				9A56D28B25216FC60082CC08 /* XAxis.swift in Sources */,
 				9A56D25A25216FC60082CC08 /* RadarHighlighter.swift in Sources */,
 				9A56D26825216FC60082CC08 /* HorizontalBarChartView.swift in Sources */,
+				9A3C55CD2BD39A5E007737A2 /* FanView.swift in Sources */,
 				9A33D31026AD9A4F00DF9618 /* PhotoLibraryAuthorizer.swift in Sources */,
 				9A5E932D2515C9710060AB13 /* UserManager.swift in Sources */,
 				9A7315C22871B0BA00D378A7 /* NetworkManager.swift in Sources */,
@@ -2977,7 +2957,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -3033,7 +3013,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -3053,7 +3033,7 @@
 				CODE_SIGN_ENTITLEMENTS = "";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 4;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_ASSET_PATHS = TJDWristbandSDK.framework;
 				DEVELOPMENT_TEAM = 6BTCM549U7;
@@ -3068,7 +3048,7 @@
 					"$(PROJECT_DIR)/SmartBracelet",
 				);
 				INFOPLIST_FILE = SmartBracelet/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -3077,7 +3057,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/SmartBracelet/JL/BLEUsage",
 				);
-				MARKETING_VERSION = 1.1.8;
+				MARKETING_VERSION = 1.2.1;
 				OTHER_SWIFT_FLAGS = "$(inherited) -D WeiZhongYun -D DisplayPrint -D TestMode";
 				PRODUCT_BUNDLE_IDENTIFIER = com.sinophy.uwatch;
 				PRODUCT_NAME = FitDAY;
@@ -3102,7 +3082,7 @@
 				CODE_SIGN_ENTITLEMENTS = "";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_ASSET_PATHS = TJDWristbandSDK.framework;
 				DEVELOPMENT_TEAM = 6BTCM549U7;
 				ENABLE_BITCODE = NO;
@@ -3116,7 +3096,7 @@
 					"$(PROJECT_DIR)/SmartBracelet",
 				);
 				INFOPLIST_FILE = SmartBracelet/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -3125,7 +3105,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/SmartBracelet/JL/BLEUsage",
 				);
-				MARKETING_VERSION = 1.1.8;
+				MARKETING_VERSION = 1.2.1;
 				OTHER_SWIFT_FLAGS = "$(inherited) -D WeiZhongYun -D DisplayPrint -D TestMode";
 				PRODUCT_BUNDLE_IDENTIFIER = com.sinophy.uwatch;
 				PRODUCT_NAME = FitDAY;

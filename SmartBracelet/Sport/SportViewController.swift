@@ -52,17 +52,17 @@ class SportViewController: BaseViewController {
                     defaultState: SegmentioState(
                         backgroundColor: .white,
                         titleFont: UIFont.systemFont(ofSize: 13),
-                        titleTextColor: .colorWithRGB(rgbValue: 0x333333)
+                        titleTextColor: UIColor(hex: 0x333333)
                     ),
                     selectedState: SegmentioState(
                         backgroundColor: .white,
                         titleFont: UIFont.systemFont(ofSize: 13),
-                        titleTextColor: .colorWithRGB(rgbValue: 0x333333)
+                        titleTextColor: UIColor(hex: 0x333333)
                     ),
                     highlightedState: SegmentioState(
                         backgroundColor: .white,
                         titleFont: UIFont.boldSystemFont(ofSize: 13),
-                        titleTextColor: .colorWithRGB(rgbValue: 0x333333)
+                        titleTextColor: UIColor(hex: 0x333333)
                     )
         )
         let options = SegmentioOptions(

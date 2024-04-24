@@ -39,7 +39,7 @@ class BindEmailViewController: BaseViewController {
         }
         UserManager.sharedInstall.user?.email = email
         UserManager.sharedInstall.saveUser()
-        //ProgressHUD.show()
+        //ProgressHUD.animate(nil, .activityIndicator, interaction: false)
         var parameters = ["id": "\(UserManager.sharedInstall.user?.id ?? 0)"]
         parameters["email"] = email
         AF.request("\(UrlPrefix)api/User/userinfo.php", method: .post, parameters: parameters, encoder: URLEncodedFormParameterEncoder.default).response { (response) in

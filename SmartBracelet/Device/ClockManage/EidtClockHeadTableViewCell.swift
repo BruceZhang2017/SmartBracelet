@@ -9,7 +9,6 @@
 import UIKit
 
 class EidtClockHeadTableViewCell: UITableViewCell {
-    @IBOutlet weak var leadingLC: NSLayoutConstraint!
     @IBOutlet weak var ivHeightLC: NSLayoutConstraint!
     @IBOutlet weak var ivWidthLC: NSLayoutConstraint!
     @IBOutlet weak var itemImageView: UIImageView!

@@ -343,8 +343,8 @@
 "rescan" = "掃描";
 "content_below_time" = "時間下方內容";
 "scan_device" = "掃描設備";
-"privacy_protection" = "《隱私保護》";
-"user_agreement" = "《用戶協議》";
+"privacy_protection" = "隱私保護";
+"user_agreement" = "用戶協議";
 "service_and_privacy" = "服務協議和隱私條款";
 "and" = "和";
 "agree" = "同意";

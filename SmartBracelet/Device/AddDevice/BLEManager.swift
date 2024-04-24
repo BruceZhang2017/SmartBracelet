@@ -157,7 +157,8 @@ class BLEManager: NSObject {
         
         if notify.name == WUBleManagerNotifyKeys.connected {
             // 将蓝牙对象设置为已绑定，保存蓝牙对象
-            Toast(text: "toast_success".localized()).show()
+            //Toast(text: "toast_success".localized()).show()
+            print("设备连接成功")
             endTimer()
             bleSelf.bleModel.isBond = true
             WUBleModel.setModel(bleSelf.bleModel)

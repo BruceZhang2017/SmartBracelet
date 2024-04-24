@@ -28,8 +28,16 @@ class InputHeightViewController: UIViewController {
         setupValue()
         mTextField.keyboardType = .numberPad
         cancelButton.setTitle("mine_cancel".localized(), for: .normal)
+        cancelButton.layer.cornerRadius = 22
+        cancelButton.clipsToBounds = true
+        
         titleLabel.text = "mine_height".localized()
         okButton.setTitle("mine_confirm".localized(), for: .normal)
+        okButton.backgroundColor = UIColor.brand
+        okButton.layer.cornerRadius = 22
+        okButton.clipsToBounds = true
+        
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {

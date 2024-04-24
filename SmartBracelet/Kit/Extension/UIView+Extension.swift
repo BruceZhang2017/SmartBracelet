@@ -38,6 +38,25 @@ extension UIView {
         layer.shadowOffset = offset
         layer.shadowOpacity = opacity
     }
+    
+    /// bg_base1 方法用于设置背景的渐变色
+    /// - 使用了自定义的 UIColor 扩展来通过十六进制颜色值创建 UIColor 对象
+    /// - 在当前视图的 bounds 范围内添加了一个垂直渐变层
+    func bg_base1() {
+        let topColor = UIColor(hex: 0x3990F9)
+        let bottomColor = UIColor(hex: 0xFFFFFF)
+        addVGradientLayer(at: self.bounds, colors: [topColor, bottomColor])
+    }
+    
+    /// bg_base2 方法用于设置背景的渐变色
+    /// - 使用了自定义的 UIColor 扩展来通过十六进制颜色值创建 UIColor 对象
+    /// - 在当前视图的 bounds 范围内添加了一个垂直渐变层
+    func bg_base2() {
+        let topColor = UIColor(hex: 0xAED3FF)
+        let bottomColor = UIColor(hex: 0xEFF5FC)
+        addVGradientLayer(at: self.bounds, colors: [topColor, bottomColor])
+    }
+    
 }
 
 extension UIView {
@@ -92,5 +111,62 @@ extension UIViewController {
         }
         alertView.addAction(ok)
         present(alertView, animated: true, completion: nil)
+    }
+}
+
+extension UITextView: UITextViewDelegate {
+    
+    // Placeholder text
+    @IBInspectable var placeholder: String? {
+        get {
+            var placeholderText: String?
+            
+            if let placeholderLabel = self.viewWithTag(100) as? UILabel {
+                placeholderText = placeholderLabel.text
+            }
+            return placeholderText
+        }
+        set {
+            if let placeholderLabel = self.viewWithTag(100) as! UILabel? {
+                placeholderLabel.text = newValue
+                placeholderLabel.sizeToFit()
+            } else {
+                self.addPlaceholder(newValue!)
+            }
+        }
+    }
+    
+    // Add a placeholder to the UITextView
+    func addPlaceholder(_ placeholderText: String) {
+        let placeholderLabel = UILabel()
+        placeholderLabel.text = placeholderText
+        placeholderLabel.sizeToFit()
+        placeholderLabel.font = self.font
+        placeholderLabel.textColor = UIColor.text_third
+        placeholderLabel.tag = 100
+        
+        placeholderLabel.isHidden = self.text.count > 0
+        
+        self.addSubview(placeholderLabel)
+        self.delegate = self
+        self.resizePlaceholder()
+        self.sendSubviewToBack(placeholderLabel)
+    }
+    
+    public func textViewDidChange(_ textView: UITextView) {
+        if let placeholderLabel = self.viewWithTag(100) as? UILabel {
+            placeholderLabel.isHidden = self.text.count > 0
+        }
+    }
+    
+    private func resizePlaceholder() {
+        if let placeholderLabel = self.viewWithTag(100) as? UILabel {
+            let labelX = self.textContainer.lineFragmentPadding
+            let labelY = self.textContainerInset.top - 2
+            let labelWidth = self.frame.width - (labelX * 2)
+            let labelHeight = placeholderLabel.frame.height
+            
+            placeholderLabel.frame = CGRect(x: labelX, y: labelY, width: labelWidth, height: labelHeight)
+        }
     }
 }

@@ -40,7 +40,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         Bugly.start(withAppId: "0c6ba8bb6a")
         
-        var openCount = UserDefaults.standard.integer(forKey: "APPOPEN") ?? 0
+        var openCount = UserDefaults.standard.integer(forKey: "APPOPEN") 
         openCount += 1
         UserDefaults.standard.set(openCount, forKey: "APPOPEN")
         
@@ -65,9 +65,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     private func setupConfig() {
         UINavigationBar.appearance().shadowImage = UIImage()
         UINavigationBar.appearance().setBackgroundImage(UIImage(), for: .default)
-        UINavigationBar.appearance().tintColor = UIColor.colorWithRGB(rgbValue: 0x898989)
-        UITabBarItem.appearance().setTitleTextAttributes([.foregroundColor: UIColor.colorWithRGB(rgbValue: 0x0FC08D)], for: .selected)
-        UITabBarItem.appearance().setTitleTextAttributes([.foregroundColor: UIColor.colorWithRGB(rgbValue: 0x818181)], for: .normal)
+        UINavigationBar.appearance().tintColor = UIColor.text_primary
+        UITabBarItem.appearance().setTitleTextAttributes([.foregroundColor: UIColor(hex: 0x0FC08D)], for: .selected)
+        UITabBarItem.appearance().setTitleTextAttributes([.foregroundColor: UIColor(hex: 0x818181)], for: .normal)
     }
     
     /// 配置数据库

@@ -14,6 +14,7 @@ class LongsitSettingsViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "reminder_interval".localized()
+        tableView.backgroundColor = UIColor.clear
         // Do any additional setup after loading the view.
     }
     
@@ -39,6 +40,8 @@ extension LongsitSettingsViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
         if let timeLabel = cell.viewWithTag(1) as? UILabel {
             timeLabel.text = "\(times[indexPath.row])\("minute".localized())"
+            timeLabel.textColor = UIColor.text_secondary
+            timeLabel.font = UIFont.body1()
         }
         if let iv = cell.viewWithTag(2) as? UIImageView {
             let inter = bleSelf.longSitModel.interval

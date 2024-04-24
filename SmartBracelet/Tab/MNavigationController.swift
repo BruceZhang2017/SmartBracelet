@@ -17,7 +17,21 @@ class MNavigationController: UINavigationController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        let textAttributes = [
+            NSAttributedString.Key.foregroundColor: UIColor.text_primary, // 设置颜色
+            NSAttributedString.Key.font: UIFont.title() // 设置字体大小
+        ]
+        if #available(iOS 15, *) {
+            let appearance = UINavigationBarAppearance()
+            appearance.titleTextAttributes = textAttributes
+            appearance.configureWithTransparentBackground()
+            navigationBar.standardAppearance = appearance
+            navigationBar.scrollEdgeAppearance = appearance
+        } else {
+            navigationController?.navigationBar.titleTextAttributes = textAttributes
+            navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
+            navigationController?.navigationBar.shadowImage = UIImage()
+        }
     }
     
 

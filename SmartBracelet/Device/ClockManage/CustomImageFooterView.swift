@@ -22,6 +22,7 @@ class CustomImageFooterView: UIView {
     }
     
     private func setup() {
+        backgroundColor = UIColor.clear
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.headerReferenceSize = .zero
         flowLayout.footerReferenceSize = .zero
@@ -32,7 +33,7 @@ class CustomImageFooterView: UIView {
         collectionView = UICollectionView(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: 160), collectionViewLayout: flowLayout)
         collectionView.dataSource = self
         collectionView.delegate = self
-        collectionView.backgroundColor = UIColor.white
+        collectionView.backgroundColor = UIColor.clear
         addSubview(collectionView)
         collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "Cell")
         collectionView.snp.makeConstraints {
@@ -71,6 +72,7 @@ extension CustomImageFooterView: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath)
+        cell.backgroundColor = UIColor.clear
         var iv = cell.viewWithTag(1) as? UIImageView
         if iv == nil {
             iv = UIImageView()

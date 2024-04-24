@@ -13,68 +13,65 @@
 import UIKit
 
 class DevicesView: UIView {
-    var collectionView : UICollectionView!
-    weak var delegate: DevicesViewDelegate?
     weak var currentModel: BLEModel?
+    var index = Int() // 下标
+    var bConnected = false
+    let cardImgView = UIImageView()
+    let cardNameLabel = UILabel()
+    let batteryButton = UIButton(type: .custom)
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setupCollection()
+        
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setupCollection() {
-        let padding: CGFloat = 20
-        let layout = CyclicCardFlowLayout()
-        layout.scrollDirection = .horizontal
-        layout.minimumLineSpacing = padding
-        layout.minimumInteritemSpacing = padding
-        layout.sectionInset = UIEdgeInsets(top: padding, left: 0, bottom: padding, right: 0)
-        let itemW = ScreenWidth - padding * 2
-        layout.itemSize = CGSize(width: itemW, height: 110)
-        collectionView = UICollectionView(frame: CGRect(x: 20, y: 0, width: itemW + 1, height: 200), collectionViewLayout: layout)
-        collectionView.isScrollEnabled = false
-        collectionView.backgroundColor = UIColor.clear
-        collectionView.collectionViewLayout = layout
-        collectionView.showsHorizontalScrollIndicator = false
-        collectionView.delegate = self
-        collectionView.dataSource = self
-        collectionView.register(CyclicCardCell.self, forCellWithReuseIdentifier: NSStringFromClass(CyclicCardCell.self))
-        addSubview(self.collectionView)
+    public func setupUI() {
+        self.addSubview(cardImgView)
+        cardImgView.snp.makeConstraints { make in
+            make.width.equalTo(88)
+            make.height.equalTo(88)
+            make.centerX.equalToSuperview()
+            make.top.equalTo(20)
+        }
+        
+    
+        cardNameLabel.textColor = UIColor.text_primary
+        cardNameLabel.font = UIFont.body1()
+        cardNameLabel.textAlignment = .left
+        cardNameLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        batteryButton.setImage(UIImage(named: "conten_battery_full"), for: .normal)
+        batteryButton.translatesAutoresizingMaskIntoConstraints = false
+        
+        let stackView = UIStackView(arrangedSubviews: [cardNameLabel, batteryButton])
+        stackView.axis = .horizontal
+        stackView.distribution = .equalSpacing
+        stackView.alignment = .center
+        stackView.spacing = 4
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        
+        addSubview(stackView)
+        
+        // 设置 stackView 的约束
+        NSLayoutConstraint.activate([
+            stackView.topAnchor.constraint(equalTo: cardImgView.bottomAnchor, constant: 10),
+            stackView.centerXAnchor.constraint(equalTo: self.centerXAnchor)
+        ])
+        
     }
 
     public func refreshData() {
         DeviceManager.shared.initializeDevices()
-        collectionView.reloadData()
-    }
-}
-
-extension DevicesView: UICollectionViewDataSource, UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 1
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NSStringFromClass(CyclicCardCell.self), for: indexPath) as! CyclicCardCell
-        cell.bConnected = false
-        cell.backgroundColor = UIColor.white.withAlphaComponent(0.8)
-        cell.layer.cornerRadius = 10
+        
         let count = DeviceManager.shared.devices.count
         if count == 0 {
-            cell.cardImgView.isHidden = true
-            cell.cardNameLabel.isHidden = true
-            cell.batteryButton.isHidden = true
-            cell.btButton.isHidden = true
-            cell.addLabel.isHidden = false
+            self.isHidden = true
         } else {
-            cell.cardImgView.isHidden = false
-            cell.cardNameLabel.isHidden = false
-            cell.batteryButton.isHidden = false
-            cell.btButton.isHidden = false
-            cell.addLabel.isHidden = true
+            self.isHidden = false
             currentModel = nil
             if count > 0 {
                 for item in DeviceManager.shared.devices {
@@ -86,62 +83,27 @@ extension DevicesView: UICollectionViewDataSource, UICollectionViewDelegate {
                 }
             }
             if currentModel == nil {
-                cell.cardImgView.isHidden = true
-                cell.cardNameLabel.isHidden = true
-                cell.batteryButton.isHidden = true
-                cell.btButton.isHidden = true
-                cell.addLabel.isHidden = false
-                cell.addLabel.text = "请先连接设备"
+                self.isHidden = true
             } else {
-                cell.cardImgView.image = UIImage(named: "produce_image_no.2")
-                cell.cardNameLabel.text = (currentModel?.name ?? "") + " - \(bleSelf.bleModel.screenWidth)*\(bleSelf.bleModel.screenHeight)"
+                self.isHidden = false
+                cardImgView.image = UIImage(named: "icon_ewatch")
+                cardNameLabel.text = "ewatch" //(currentModel?.name ?? "") + " - \(bleSelf.bleModel.screenWidth)*\(bleSelf.bleModel.screenHeight)"
                 if currentModel!.mac == lastestDeviceMac && bleSelf.isConnected {
-                    cell.btButton.setImage(UIImage(named: "content_blueteeth_link"), for: .normal)
-                    cell.btButton.setTitle("mine_bluetooth_connect".localized(), for: .normal)
-                    cell.bConnected = true
-                } else {
-                    cell.btButton.setImage(UIImage(named: "content_blueteeth_unlink"), for: .normal)
-                    cell.btButton.setTitle("请连接蓝牙", for: .normal)
+                    bConnected = true
                 }
                 let deviceInfo = DeviceManager.shared.deviceInfo[currentModel!.mac]
                 if deviceInfo != nil {
                     if deviceInfo?.battery ?? 0 < 5 {
-                        cell.batteryButton.setImage(UIImage(named: "conten_battery_runout"), for: .normal)
-                        cell.batteryButton.setTitle(" ", for: .normal)
+                        batteryButton.setImage(UIImage(named: "conten_battery_runout"), for: .normal)
                     } else {
-                        cell.batteryButton.setImage(UIImage(named: "conten_battery_full"), for: .normal)
-                        cell.batteryButton.setTitle(" ", for: .normal)
+                        batteryButton.setImage(UIImage(named: "conten_battery_full"), for: .normal)
                     }
                 } else {
-                    cell.batteryButton.setImage(UIImage(named: "conten_battery_null"), for: .normal)
-                    cell.batteryButton.setTitle("mine_battery_level_unknown".localized(), for: .normal)
+                    batteryButton.setImage(UIImage(named: "conten_battery_null"), for: .normal)
                 }
             }
-            
         }
-        
-        return cell
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let cell = collectionView.cellForItem(at: indexPath) as! CyclicCardCell
-        delegate?.callbackTap(model:currentModel, bConnected: cell.bConnected)
-    }
-    
-    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        
-//        let pointInView = view.convert(collectionView.center, to: collectionView)
-//        let indexPathNow = collectionView.indexPathForItem(at: pointInView)
-//        let index = (indexPathNow?.row ?? 0) % imageArr.count
-//        let curIndexStr = String(format: "滚动至第%d张", index + 1)
-//        print(curIndexStr)
-//        showLabel.text = curIndexStr
-//
-//        // 动画停止, 重新定位到 第50组(中间那组) 模型
-//        collectionView.scrollToItem(at: NSIndexPath.init(item: groupCount / 2 * imageArr.count + index, section: 0) as IndexPath, at: UICollectionViewScrollPosition.centeredHorizontally, animated: false)
     }
 }
 
-protocol DevicesViewDelegate: NSObjectProtocol {
-    func callbackTap(model: BLEModel?, bConnected: Bool)
-}
+

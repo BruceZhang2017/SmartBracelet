@@ -14,7 +14,7 @@ import UIKit
 import TJDWristbandSDK
 import Toaster
 
-class DeviceSettingsViewController: BaseViewController {
+class DeviceSettingsViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     //var footerView: UIView!
     var cameraViewController: CameraViewController?
@@ -133,6 +133,8 @@ extension DeviceSettingsViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: .kCellIdentifier, for: indexPath) as! DeviceSettingsTableViewCell
         cell.textLabel?.text = titles[indexPath.row]
+        cell.textLabel?.textColor = UIColor.text_secondary
+        cell.textLabel?.font = UIFont.body1()
         if indexPath.row >= 1 && indexPath.row <= 3 {
             let mSwitch = UISwitch()
             mSwitch.tag = 999 + indexPath.row
@@ -208,7 +210,7 @@ extension DeviceSettingsViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 44
+        return 52
     }
 }
 

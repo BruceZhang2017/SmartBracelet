@@ -15,12 +15,12 @@ import UIKit
 class ClockBCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var clockBGView: UIView!
     @IBOutlet weak var clockImageView: UIImageView!
-    @IBOutlet weak var clockNameLabel: UILabel!
+    @IBOutlet weak var addImageView: UIImageView!
+    @IBOutlet weak var width: NSLayoutConstraint!
+    @IBOutlet weak var height: NSLayoutConstraint!
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        clockBGView.layer.borderColor = UIColor.colorWithRGB(rgbValue: 0xDDDDDD).cgColor
-        clockBGView.layer.borderWidth = 0.5
     }
     
     required init?(coder: NSCoder) {

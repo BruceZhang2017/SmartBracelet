@@ -20,17 +20,15 @@ class DeviceSearchViewController: BaseViewController {
     @IBOutlet weak var scanLabel: UILabel!
     @IBOutlet weak var scanButton: UIButton!
     @IBOutlet weak var btScanTipLabel: UILabel!
-    @IBOutlet weak var loadingView: UIView!
-    var dotLoadingView: DotsLoadingView!
     @IBOutlet weak var tableView: UITableView!
     private var currentModel: BLEModel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        dotLoadingView = DotsLoadingView(colors: nil)
-        loadingView.addSubview(dotLoadingView)
-        dotLoadingView.show()
+        
         tableView.isHidden = true
+        tableView.separatorStyle = .none
+        
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: Notification.Name.SearchDevice, object: nil)
         BLEManager.shared.startScan()
         btScanTipLabel.text = "device_search".localized()
@@ -51,7 +49,6 @@ class DeviceSearchViewController: BaseViewController {
     }
     
     deinit {
-        dotLoadingView.stop()
         bleSelf.stopFindBleDevices()
         NotificationCenter.default.removeObserver(self)
     }
@@ -152,19 +149,31 @@ extension DeviceSearchViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: .kCellIdentifier, for: indexPath) as! DeviceSearchTableViewCell
+        cell.deviceMacLabel.textColor = UIColor.text_primary
+        cell.deviceMacLabel.font = UIFont.subtitle1()
+        cell.deviceMacLabel.textColor = UIColor.text_third
+        cell.deviceMacLabel.font = UIFont.subtitle()
+        cell.bindLabel.textColor = UIColor.brand
+        cell.bindLabel.font = UIFont.body1()
+        
         if indexPath.row < bleSelf.bleModels.count {
             let model = bleSelf.bleModels[indexPath.row]
             cell.deviceNameLabel.text = model.name + ""
             cell.deviceMacLabel.text = model.mac
         }
+        cell.selectionStyle = .none
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 94
     }
 }
 
 extension DeviceSearchViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        ProgressHUD.show()
+        ProgressHUD.animate(nil, .activityIndicator, interaction: false)
         bleSelf.stopFindBleDevices()
         let model = bleSelf.bleModels[indexPath.row]
         bleSelf.connectBleDevice(model: model)

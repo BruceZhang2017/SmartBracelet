@@ -24,13 +24,16 @@ class NickNameViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         rightButton = UIButton(type: .custom).then {
-            $0.setTitleColor(.k64F2B4, for: .normal)
+            $0.setTitleColor(UIColor.brand, for: .normal)
             $0.titleLabel?.font = UIFont.systemFont(ofSize: 15)
             $0.setTitle("mine_save".localized(), for: .normal)
             $0.addTarget(self, action: #selector(save), for: .touchUpInside)
         }
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: rightButton)
         setupValue()
+        
+        textView.layer.cornerRadius = 12
+        textView.clipsToBounds = true
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -84,7 +87,7 @@ class NickNameViewController: BaseViewController {
     }
     
     private func uploadData(name: String) {
-        //ProgressHUD.show()
+        //ProgressHUD.animate(nil, .activityIndicator, interaction: false)
         var parameters = ["id": "\(UserManager.sharedInstall.user?.id ?? 0)"]
         if type == 0 {
             parameters["nickname"] = name

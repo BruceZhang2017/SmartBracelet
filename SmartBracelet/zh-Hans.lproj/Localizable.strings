@@ -350,8 +350,8 @@
 "rescan" = "扫描";
 "content_below_time" = "时间下方内容";
 "scan_device" = "扫描设备";
-"privacy_protection" = "《隐私保护》";
-"user_agreement" = "《用户协议》";
+"privacy_protection" = "隐私保护";
+"user_agreement" = "用户协议";
 "service_and_privacy" = "服务协议和隐私条款";
 "and" = "和";
 "agree" = "同意";

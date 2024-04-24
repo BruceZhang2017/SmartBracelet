@@ -44,43 +44,43 @@ extension AlarmRepeatViewController: UITableViewDataSource {
         cell.textLabel?.text = titles[indexPath.row]
         if indexPath.row == 0 {
             if ((weekday >> 1) & 0x01) > 0 {
-                cell.accessoryView = UIImageView(image: UIImage(named: "content_icon_selecte"))
+                cell.accessoryView = UIImageView(image: UIImage(named: "content_icon_select"))
             } else {
                 cell.accessoryView = nil
             }
         } else if indexPath.row == 1 {
             if ((weekday >> 2) & 0x01) > 0 {
-                cell.accessoryView = UIImageView(image: UIImage(named: "content_icon_selecte"))
+                cell.accessoryView = UIImageView(image: UIImage(named: "content_icon_select"))
             } else {
                 cell.accessoryView = nil
             }
         } else if indexPath.row == 2 {
             if ((weekday >> 3) & 0x01) > 0 {
-                cell.accessoryView = UIImageView(image: UIImage(named: "content_icon_selecte"))
+                cell.accessoryView = UIImageView(image: UIImage(named: "content_icon_select"))
             } else {
                 cell.accessoryView = nil
             }
         } else if indexPath.row == 3 {
             if ((weekday >> 4) & 0x01) > 0 {
-                cell.accessoryView = UIImageView(image: UIImage(named: "content_icon_selecte"))
+                cell.accessoryView = UIImageView(image: UIImage(named: "content_icon_select"))
             } else {
                 cell.accessoryView = nil
             }
         } else if indexPath.row == 4 {
             if ((weekday >> 5) & 0x01) > 0 {
-                cell.accessoryView = UIImageView(image: UIImage(named: "content_icon_selecte"))
+                cell.accessoryView = UIImageView(image: UIImage(named: "content_icon_select"))
             } else {
                 cell.accessoryView = nil
             }
         } else if indexPath.row == 5 {
             if ((weekday >> 6) & 0x01) > 0 {
-                cell.accessoryView = UIImageView(image: UIImage(named: "content_icon_selecte"))
+                cell.accessoryView = UIImageView(image: UIImage(named: "content_icon_select"))
             } else {
                 cell.accessoryView = nil
             }
         } else {
             if (weekday & 0x01) > 0 {
-                cell.accessoryView = UIImageView(image: UIImage(named: "content_icon_selecte"))
+                cell.accessoryView = UIImageView(image: UIImage(named: "content_icon_select"))
             } else {
                 cell.accessoryView = nil
             }

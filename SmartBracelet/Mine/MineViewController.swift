@@ -14,31 +14,71 @@ import UIKit
 import Toaster
 
 class MineViewController: BaseViewController {
-    @IBOutlet weak var headImageView: UIImageView!
-    @IBOutlet weak var userNameLabel: UILabel!
-    @IBOutlet weak var recordLabel: UILabel!
-    @IBOutlet weak var deviceButton: UIButton!
-    @IBOutlet weak var btButton: UIButton!
-    @IBOutlet weak var batteryButton: UIButton!
-    @IBOutlet weak var deviceInfoLabel: UILabel!
-    @IBOutlet weak var helpCenterLabel: UILabel!
-    @IBOutlet weak var aboutUsLabel: UILabel!
-    @IBOutlet weak var accountInfoLabel: UILabel!
-    @IBOutlet weak var userinfoLabel: UILabel!
-    @IBOutlet weak var otaLabel: UILabel!
-    var originalMacAddress = ""
-    var originalUUID = ""
+    
+    let tableView = UITableView(frame: .zero, style: .plain)
+    let headerView = UIView()
+    let profileImageView = UIImageView()
+    let nicknameButton = UIButton()
+    var bOnce = false
+    let titles = ["mine_userinfo".localized(), "mine_help_center".localized(), "mine_about".localized()]
+    let icons = [UIImage(named: "mine_account_info"), UIImage(named: "mine_help"), UIImage(named: "mine_account_about")]
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: Notification.Name("BluetoothGetMacAddress"), object: nil)
-        deviceInfoLabel.text = "device_device_info".localized()
-        navigationItem.rightBarButtonItem?.title = "mine".localized()
-        helpCenterLabel.text = "mine_help_center".localized()
-        aboutUsLabel.text = "mine_about".localized()
-        accountInfoLabel.text = "mine_account_info".localized()
-        userinfoLabel.text = "mine_userinfo".localized()
-        otaLabel.text = "mine_device_ota".localized()
+        title = "mine".localized()
+        
+        // 设置tableView
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        view.addSubview(tableView)
+               
+        // 设置headerView
+        headerView.bounds = CGRect(x: 0, y: 0, width: view.frame.width, height: 170)
+               
+        // 计算profileImageView的位置和大小
+        let profileImageSize: CGFloat = 94
+        let profileImageViewX = (headerView.bounds.width - profileImageSize) / 2 // 水平居中
+        let profileImageViewY: CGFloat = 15 // 顶部间隔
+        profileImageView.frame = CGRect(x: profileImageViewX, y: profileImageViewY, width: profileImageSize, height: profileImageSize)
+        profileImageView.layer.cornerRadius = profileImageView.frame.height / 2
+        profileImageView.clipsToBounds = true
+        profileImageView.image = UIImage(named: "mine_header")
+        headerView.addSubview(profileImageView)
+
+        // 计算nicknameButton的位置和大小
+        let nicknameButtonHeight: CGFloat = 30
+        let nicknameButtonWidth: CGFloat = 200 // 或者可以使用sizeToFit()来根据内容调整宽度
+        let nicknameButtonX = (headerView.bounds.width - nicknameButtonWidth) / 2 // 水平居中
+        let nicknameButtonY = profileImageView.frame.maxY + 10 // 在profileImageView下方间隔10
+        nicknameButton.frame = CGRect(x: nicknameButtonX, y: nicknameButtonY, width: nicknameButtonWidth, height: nicknameButtonHeight)
+        nicknameButton.setTitle("person_info".localized(), for: .normal)
+        nicknameButton.setTitleColor(.brand, for: .normal)
+        nicknameButton.titleLabel?.font = UIFont.body1()
+        headerView.addSubview(nicknameButton)
+        headerView.backgroundColor = UIColor.clear
+        view.addSubview(headerView)
+        
+        headerView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            headerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            headerView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor),
+            headerView.heightAnchor.constraint(equalToConstant: 170),
+            headerView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor)
+        ])
+        
+        // 将headerView设置为tableView的header
+        tableView.separatorStyle = .none
+        tableView.backgroundColor = UIColor.white
+        // 设置tableView的布局约束
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            tableView.topAnchor.constraint(equalTo: headerView.safeAreaLayoutGuide.bottomAnchor),
+            tableView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor),
+            tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            tableView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor)
+        ])
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -47,105 +87,29 @@ class MineViewController: BaseViewController {
         let b = FileCache().fileIfExist(name: fileName)
         if b {
             let data = FileCache().readData(name: fileName)
-            headImageView.image = UIImage(data: data)
+            profileImageView.image = UIImage(data: data)
         } else {
             
         }
         let name = UserDefaults.standard.string(forKey: "NickName")
         if name?.count ?? 0 > 0 {
-            userNameLabel.text = name
-        } else {
-            userNameLabel.text = bleSelf.userInfo.name
-        }
-        if userNameLabel.text?.count ?? 0 == 0 {
-            userNameLabel.text = "person_info".localized()
+            nicknameButton.setTitle(name!, for: .normal)
+        } else if bleSelf.userInfo.name.count > 0 {
+            nicknameButton.setTitle(bleSelf.userInfo.name, for: .normal)
         }
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        if bleSelf.isConnected == false {
-            deviceButton.setTitle("mine_unconnect".localized(), for: .normal)
-            btButton.setImage(UIImage(named: "content_blueteeth_unlink"), for: .normal)
-            btButton.setTitle("mine_bluetooth_unconnect".localized(), for: .normal)
-            batteryButton.setImage(UIImage(named: "conten_battery_null"), for: .normal)
-            batteryButton.setTitle("mine_battery_level_unknown".localized(), for: .normal)
-            return
+        if bOnce {
+           return
         }
-        let deviceCount = DeviceManager.shared.devices.count
-        if deviceCount > 0 {
-            for item in DeviceManager.shared.devices {
-                if item.mac == lastestDeviceMac {
-                    deviceButton.setTitle(item.name, for: .normal)
-                    btButton.setImage(UIImage(named: "content_blueteeth_link"), for: .normal)
-                    btButton.setTitle("mine_bluetooth_connect".localized(), for: .normal)
-                    let deviceInfo = DeviceManager.shared.deviceInfo[item.mac]
-                    if deviceInfo != nil {
-                        if deviceInfo?.battery ?? 0 < 5 {
-                            batteryButton.setImage(UIImage(named: "conten_battery_runout"), for: .normal)
-                            batteryButton.setTitle(" ", for: .normal)
-                        } else {
-                            batteryButton.setImage(UIImage(named: "conten_battery_full"), for: .normal)
-                            batteryButton.setTitle(" ", for: .normal)
-                        }
-                    } else {
-                        batteryButton.setImage(UIImage(named: "conten_battery_null"), for: .normal)
-                        batteryButton.setTitle("mine_battery_level_unknown".localized(), for: .normal)
-                    }
-                    break
-                }
-            }
-        }
-    }
-    
-    @objc private func handleNotification(_ notificaiton: Notification) {
-        let userinfo = notificaiton.userInfo as? [String : String]
-        originalMacAddress = userinfo?["originalMacAddress"] ?? ""
-        originalUUID = userinfo?["originalUUID"] ?? ""
-        perform(#selector(startLefunOTA), with: nil, afterDelay: 3)
-    }
-    
-    @IBAction func handleEvent(_ sender: Any) {
-        guard let recognizer = sender as? UITapGestureRecognizer else {
-            return
-        }
-        guard let view = recognizer.view else {
-            return
-        }
-        let tag = view.tag
-        if tag == 6 { // 数据记录
-            let storyboard = UIStoryboard(name: .kMine, bundle: nil)
-            let vc = storyboard.instantiateViewController(withIdentifier: "DataRecordViewController")
-            navigationController?.pushViewController(vc, animated: true)
-        } else if tag == 7 { // 帮助中心
-            let storyboard = UIStoryboard(name: .kMine, bundle: nil)
-            let vc = storyboard.instantiateViewController(withIdentifier: "HelpCenterViewController")
-            navigationController?.pushViewController(vc, animated: true)
-        } else if tag == 8 { // 软件升级
-            startOTA()
-        } else if tag == 9 { // 关于
-            let storyboard = UIStoryboard(name: .kMine, bundle: nil)
-            let vc = storyboard.instantiateViewController(withIdentifier: "AboutUSViewController")
-            navigationController?.pushViewController(vc, animated: true)
-        } else if tag == 10 { // 个人信息
-            let storyboard = UIStoryboard(name: .kMine, bundle: nil)
-            let vc = storyboard.instantiateViewController(withIdentifier: "UserInfoViewController")
-            navigationController?.pushViewController(vc, animated: true)
-        } else if tag == 11 { // 账号与安全
-            let storyboard = UIStoryboard(name: .kMine, bundle: nil)
-            let vc = storyboard.instantiateViewController(withIdentifier: "AccountSafeViewController")
-            navigationController?.pushViewController(vc, animated: true)
-        } else if tag == 12 { // 付款与账单
-            Toast(text: "敬请期待").show()
-        } else if tag == 13 {
-            Toast(text: "敬请期待").show()
-        } else if tag == 14 { // 退出登录
-            logout()
-        } else if tag == 15 {
-            
-        } else if tag == 16 {
-                                 
-        }
+        bOnce = true
+        // 设置tableView的顶部两个角为圆角
+        let path = UIBezierPath(roundedRect: tableView.bounds, byRoundingCorners: [.topLeft, .topRight], cornerRadii: CGSize(width: 20.0, height: 20.0))
+        let maskLayer = CAShapeLayer()
+        maskLayer.path = path.cgPath
+        tableView.layer.mask = maskLayer
     }
     
     private func logout() {
@@ -162,64 +126,6 @@ class MineViewController: BaseViewController {
         present(alert, animated: true) {
             
         }
-    }
-    
-    private func startOTA() {
-        if lastestDeviceMac.count == 0 {
-            Toast(text: "mine_unconnect".localized()).show()
-            return
-        }
-        let count = DeviceManager.shared.devices.count
-        if count > 0 {
-            for item in DeviceManager.shared.devices {
-                if item.mac == lastestDeviceMac {
-                    showOTAView(false)
-                    break
-                }
-            }
-        } else {
-            if bleSelf.bleModel.mac == lastestDeviceMac {
-                showOTAView(true)
-            }
-        }
-        
-    }
-    
-    private func showOTAView(_ value: Bool) {
-        let alert = UIAlertController(title: "OTA", message: "\("local_ota_file".localized())：\(value ? "SmartBand_PHY_ota.hex" : "8267_module_tOTA.bin")", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "mine_cancel".localized(), style: .cancel, handler: nil))
-        alert.addAction(UIAlertAction(title: "confirm".localized(), style: .default, handler: { [weak self] (action) in
-            self?.pushToOTA(value)
-        }))
-        present(alert, animated: true) {
-            
-        }
-    }
-    
-    private func pushToOTA(_ value: Bool) {
-        if value { // 如果是Lefun项目
-            let uuid = bleSelf.bleModel.uuidString
-            if let per = JCBluetoothManager.shareCBCentral()?.retrievePeripherals(withIdentifiers: uuid) {
-                bleSelf.disconnectBleDevice() // 断开连接
-                perform(#selector(handleOTABLEConnected(per:)), with: per, afterDelay: 3)
-            }
-            return
-        }
-        let otaVC = OTAViewController()
-        otaVC.hidesBottomBarWhenPushed = true
-        navigationController?.pushViewController(otaVC, animated: true)
-    }
-    
-    @objc private func handleOTABLEConnected(per: CBPeripheral) {
-        JCBluetoothManager.shareCBCentral()?.connect(to: per)
-    }
-    
-    @objc private func startLefunOTA() {
-        let otaVC = OTAUpgradeViewController()
-        otaVC.mscAddress = originalMacAddress
-        otaVC.originalUUID = originalUUID
-        otaVC.hidesBottomBarWhenPushed = true
-        navigationController?.pushViewController(otaVC, animated: true)
     }
     
     @IBAction func pushToAddDevice(_ sender: Any) {
@@ -243,6 +149,61 @@ class MineViewController: BaseViewController {
         let vc = sb.instantiateViewController(withIdentifier: "GradeViewController")
         vc.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(vc, animated: true)
+    }
+}
+
+extension MineViewController: UITableViewDelegate {
+    // MARK: - UITableViewDelegate
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        // 处理cell点击事件
+        tableView.deselectRow(at: indexPath, animated: true)
+        
+        switch indexPath.row {
+        case 0:
+            // 跳转到个人信息页面
+            let storyboard = UIStoryboard(name: .kMine, bundle: nil)
+            let vc = storyboard.instantiateViewController(withIdentifier: "UserInfoViewController")
+            navigationController?.pushViewController(vc, animated: true)
+            break
+        case 1:
+            // 跳转到帮助中心页面
+            let storyboard = UIStoryboard(name: .kMine, bundle: nil)
+            let vc = storyboard.instantiateViewController(withIdentifier: "HelpCenterViewController")
+            navigationController?.pushViewController(vc, animated: true)
+            break
+        case 2:
+            // 跳转到关于页面
+            let storyboard = UIStoryboard(name: .kMine, bundle: nil)
+            let vc = storyboard.instantiateViewController(withIdentifier: "AboutUSViewController")
+            navigationController?.pushViewController(vc, animated: true)
+            break
+        default:
+            break
+        }
+    }
+}
+
+extension MineViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return titles.count
+    }
+        
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+        
+        // 设置cell
+        cell.textLabel?.text = titles[indexPath.row]
+        cell.textLabel?.font = UIFont.subtitle()
+        cell.textLabel?.textColor = UIColor.text_primary
+        cell.imageView?.image = icons[indexPath.row]
+        cell.accessoryType = .disclosureIndicator
+        
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 64
     }
 }
 

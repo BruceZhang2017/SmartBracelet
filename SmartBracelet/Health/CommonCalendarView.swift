@@ -92,7 +92,7 @@ extension CommonCalendarView: CVCalendarViewDelegate, CVCalendarMenuViewDelegate
     }
     
     func dayOfWeekTextColor(by weekday: Weekday) -> UIColor { // 当前周字颜色
-        return UIColor.colorWithRGB(rgbValue: 0x8EA9E0)
+        return UIColor(hex: 0x8EA9E0)
     }
     
     func shouldShowWeekdaysOut() -> Bool { return true }
@@ -172,7 +172,7 @@ extension CommonCalendarView: CVCalendarViewDelegate, CVCalendarMenuViewDelegate
         return shouldDisplay
     }
     
-    func dayOfWeekTextColor() -> UIColor { return UIColor.colorWithRGB(rgbValue: 0x8EA9E0) }
+    func dayOfWeekTextColor() -> UIColor { return UIColor(hex: 0x8EA9E0) }
     
     func dayOfWeekBackGroundColor() -> UIColor { return .clear }
     

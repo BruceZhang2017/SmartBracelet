@@ -1,4 +1,4 @@
-platform:ios,'10.0'
+platform:ios,'13.0'
 
 use_frameworks!
 
@@ -11,8 +11,8 @@ pod 'AMapLocation'
 pod 'SnapKit','5.0.1'
 pod 'Segmentio'
 pod 'Then'
-pod 'ProgressHUD'
-pod 'Toaster', :git => 'https://github.com/devxoul/Toaster.git', :branch => 'master'
+pod 'ProgressHUD' #,'14.1.1'
+pod 'Toaster'
 pod 'CountryPickerView'
 pod 'IQKeyboardManagerSwift', '6.3.0'
 #pod 'NVActivityIndicatorView'
@@ -42,7 +42,7 @@ pod 'RxBluetoothKit'
 
   post_install do |installer|
     #调用移除函数
-    remove_swift_ui()
+#    remove_swift_ui()
     installer.pods_project.targets.each do |target|
       target.build_configurations.each do |config|
         config.build_settings['ENABLE_BITCODE'] ='NO'
@@ -57,13 +57,13 @@ end
 
 
 # 添加以下函数
-def remove_swift_ui
-  system("rm -rf ./Pods/Kingfisher/Sources/SwiftUI")
-  code_file = "./Pods/Kingfisher/Sources/General/KFOptionsSetter.swift"
-  code_text = File.read(code_file)
-  code_text.gsub!(/#if canImport\(SwiftUI\) \&\& canImport\(Combine\)(.|\n)+#endif/,'')
-  system("rm -rf " + code_file)
-  aFile = File.new(code_file, 'w+')
-  aFile.syswrite(code_text)
-  aFile.close()
-end
+#def remove_swift_ui
+#  system("rm -rf ./Pods/Kingfisher/Sources/SwiftUI")
+#  code_file = "./Pods/Kingfisher/Sources/General/KFOptionsSetter.swift"
+#  code_text = File.read(code_file)
+#  code_text.gsub!(/#if canImport\(SwiftUI\) \&\& canImport\(Combine\)(.|\n)+#endif/,'')
+#  system("rm -rf " + code_file)
+#  aFile = File.new(code_file, 'w+')
+#  aFile.syswrite(code_text)
+#  aFile.close()
+#end
