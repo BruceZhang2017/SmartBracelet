@@ -86,7 +86,7 @@ class DevicesView: UIView {
                 self.isHidden = true
             } else {
                 self.isHidden = false
-                cardImgView.image = UIImage(named: "icon_ewatch")
+                cardImgView.image = UIImage(named: AppDelegate.IsDeviceNotRound() ? "icon_ewatch" : "icon_ewatch_2")
                 cardNameLabel.text = "ewatch" //(currentModel?.name ?? "") + " - \(bleSelf.bleModel.screenWidth)*\(bleSelf.bleModel.screenHeight)"
                 if currentModel!.mac == lastestDeviceMac && bleSelf.isConnected {
                     bConnected = true

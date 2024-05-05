@@ -40,7 +40,7 @@ class ClockUseViewController: BaseViewController {
        
         clockName = "\(bleSelf.bleModel.name)-\(index)"
         clockImageView.backgroundColor = UIColor.white
-        if bleSelf.bleModel.screenType == 1 { // 方形
+        if AppDelegate.IsDeviceNotRound() { // 方形
             let w = bleSelf.bleModel.screenWidth
             let h = bleSelf.bleModel.screenHeight
             ivWidthLC.constant = 165

@@ -441,7 +441,6 @@ class HealthViewController: BaseViewController {
     // MARK: - Action
     
     @objc func handleFootCount() {
-        UINavigationBar.appearance().tintColor = UIColor.white
         flag = 0
         let vc = HealthDetailViewController()
         vc.type = 0
@@ -453,15 +452,18 @@ class HealthViewController: BaseViewController {
         let count = DeviceManager.shared.devices.count
         let storyboard = UIStoryboard(name: "Device", bundle: nil)
         if count == 0 {
-            let vc = storyboard.instantiateViewController(withIdentifier: "DeviceSearchViewController")
-            vc.title = "device_add".localized()
-            vc.hidesBottomBarWhenPushed = true
-            navigationController?.pushViewController(vc, animated: true)
+            let vc = storyboard.instantiateViewController(withIdentifier: "DeviceSearchViewController") as? DeviceSearchViewController
+            vc?.title = "device_add".localized()
+            vc?.refreshBackButton()
+            vc?.hidesBottomBarWhenPushed = true
+            navigationController?.pushViewController(vc!, animated: true)
         } else {
-            let vc = storyboard.instantiateViewController(withIdentifier: "DeviceListViewController")
-            vc.title = "device_change".localized()
-            vc.hidesBottomBarWhenPushed = true
-            navigationController?.pushViewController(vc, animated: true)
+            let vc = storyboard.instantiateViewController(withIdentifier: "DeviceListViewController") as? DeviceListViewController
+            vc?.title = "device_change".localized()
+            vc?.refreshBackButton()
+            vc?.style = 1
+            vc?.hidesBottomBarWhenPushed = true
+            navigationController?.pushViewController(vc!, animated: true)
         }
     }
     
@@ -819,7 +821,6 @@ extension HealthViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // 然后取消选中效果
         tableView.deselectRow(at: indexPath, animated: false)
-        UINavigationBar.appearance().tintColor = UIColor.white
         flag = 2 + indexPath.item
         let vc = HealthDetailViewController()
         vc.type = flag
@@ -842,11 +843,11 @@ extension HealthViewController: UITableViewDataSource {
         if indexPath.item == 0 {
             cell.configureCell(icon: UIImage(named: "health_heart"), leftTitle: "health_heart_rate".localized(), rightTitle: arrayValue[indexPath.item])
             cell.temImageView.image = UIImage(named: "health_heart_t")
-            cell.temImageView.isHidden = false
+            cell.temImageView.isHidden = true
         } else if indexPath.item == 1 {
             cell.configureCell(icon: UIImage(named: "health_sleep"), leftTitle: "health_sleep".localized(), rightTitle: arrayValue[indexPath.item])
             cell.temImageView.image = UIImage(named: "health_sleep_t")
-            cell.temImageView.isHidden = false
+            cell.temImageView.isHidden = true
         } else if indexPath.item == 2 {
             cell.configureCell(icon: UIImage(named: "health_bloodpressure"), leftTitle: "health_blood_pressure".localized(), rightTitle: arrayValue[indexPath.item])
             cell.temImageView.isHidden = true
@@ -858,7 +859,7 @@ extension HealthViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return indexPath.item < 2 ? 192 : 96
+        return 96 //indexPath.item < 2 ? 192 : 96
     }
 }
 

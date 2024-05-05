@@ -53,6 +53,22 @@ class DeviceSearchViewController: BaseViewController {
         NotificationCenter.default.removeObserver(self)
     }
     
+    public func refreshBackButton() {
+        // 创建一个自定义的返回按钮
+        let backButton = UIBarButtonItem(image: UIImage(named: "health_back_white"), style: .plain, target: self, action: #selector(backButtonTapped))
+        
+        // 将自定义的返回按钮设置为左侧按钮
+        self.navigationItem.leftBarButtonItem = backButton
+        
+        // 如果你不希望保留原有的返回按钮文本，可以将其设置为空字符串
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+    }
+    
+    @objc func backButtonTapped() {
+        // 在这里处理返回按钮的点击事件
+        self.navigationController?.popViewController(animated: true)
+    }
+    
     @objc private func handleNotification(_ notification: Notification) {
         let objc = notification.object as! String
         if objc == "scan" { // 搜索设备

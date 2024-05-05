@@ -15,13 +15,6 @@ PODS:
   - AFNetworking/UIKit (4.0.1):
     - AFNetworking/NSURLSession
   - Alamofire (5.4.4)
-  - AMap2DMap (5.6.1):
-    - AMapFoundation (~> 1.4)
-  - AMapFoundation (1.8.2)
-  - AMapLocation (2.10.0):
-    - AMapFoundation (>= 1.8.0)
-  - AMapSearch (9.7.0):
-    - AMapFoundation (>= 1.8.0)
   - Bugly (2.6.1)
   - CountryPickerView (3.3.0)
   - CryptoSwift (1.8.2)
@@ -30,15 +23,15 @@ PODS:
   - IotLinkKit (1.2.1):
     - IMSLog
   - IQKeyboardManagerSwift (6.3.0)
-  - Kingfisher (6.3.1)
+  - Kingfisher (7.11.0)
   - MJRefresh (3.7.9)
   - Moya (15.0.0):
     - Moya/Core (= 15.0.0)
   - Moya/Core (15.0.0):
     - Alamofire (~> 5.0)
-  - ObjcExceptionBridging (1.0.1):
-    - ObjcExceptionBridging/ObjcExceptionBridging (= 1.0.1)
-  - ObjcExceptionBridging/ObjcExceptionBridging (1.0.1)
+  - ObjcExceptionBridging (7.1.3):
+    - ObjcExceptionBridging/ObjcExceptionBridging (= 7.1.3)
+  - ObjcExceptionBridging/ObjcExceptionBridging (7.1.3)
   - ProgressHUD (14.1.1)
   - Realm (10.13.0):
     - Realm/Headers (= 10.13.0)
@@ -56,16 +49,16 @@ PODS:
   - SwiftyBeaver (1.9.5)
   - SwiftyJSON (5.0.2)
   - Then (3.0.0)
-  - Toast (4.1.1)
+  - Toast (4.1.0)
   - Toaster (2.3.0)
   - TZImagePickerController (3.8.5):
     - TZImagePickerController/Basic (= 3.8.5)
     - TZImagePickerController/Location (= 3.8.5)
   - TZImagePickerController/Basic (3.8.5)
   - TZImagePickerController/Location (3.8.5)
-  - XCGLogger (7.0.1):
-    - XCGLogger/Core (= 7.0.1)
-  - XCGLogger/Core (7.0.1):
+  - XCGLogger (7.1.3):
+    - XCGLogger/Core (= 7.1.3)
+  - XCGLogger/Core (7.1.3):
     - ObjcExceptionBridging
   - YYImage (1.0.4):
     - YYImage/Core (= 1.0.4)
@@ -74,9 +67,6 @@ PODS:
 DEPENDENCIES:
   - AFNetworking
   - Alamofire (~> 5.4.4)
-  - AMap2DMap
-  - AMapLocation
-  - AMapSearch
   - Bugly
   - CountryPickerView
   - CryptoSwift
@@ -97,7 +87,7 @@ DEPENDENCIES:
   - SwiftyBeaver
   - SwiftyJSON
   - Then
-  - Toast
+  - Toast (= 4.1.0)
   - Toaster
   - TZImagePickerController
   - XCGLogger
@@ -110,10 +100,6 @@ SPEC REPOS:
   https://github.com/CocoaPods/Specs.git:
     - AFNetworking
     - Alamofire
-    - AMap2DMap
-    - AMapFoundation
-    - AMapLocation
-    - AMapSearch
     - Bugly
     - CountryPickerView
     - CryptoSwift
@@ -143,10 +129,6 @@ SPEC REPOS:
 SPEC CHECKSUMS:
   AFNetworking: 3bd23d814e976cd148d7d44c3ab78017b744cd58
   Alamofire: f3b09a368f1582ab751b3fff5460276e0d2cf5c9
-  AMap2DMap: cac76bc057de18a1641f34df6b50bf5bc6b23571
-  AMapFoundation: 9885c48fc3a78fdfb84a0299a2293e56ea3c9fec
-  AMapLocation: 5248aec2455ebb5d104b367813c946430a2ee033
-  AMapSearch: 1f24a4acee521d993a8190348d27f5765841e32a
   Bugly: 217ac2ce5f0f2626d43dbaa4f70764c953a26a31
   CountryPickerView: 6322ada32a80b0cd721b0267282a5c24f406f263
   CryptoSwift: c63a805d8bb5e5538e88af4e44bb537776af11ea
@@ -154,10 +136,10 @@ SPEC CHECKSUMS:
   IMSLog: d17ae9fa27c5a31ef5a76ed4e233fd4c89404508
   IotLinkKit: 509ab45c59359880b6b80124687e670d723c6a8c
   IQKeyboardManagerSwift: a8228c257614af98743b4cd8584637025f36358f
-  Kingfisher: 016c8b653a35add51dd34a3aba36b580041acc74
+  Kingfisher: b9c985d864d43515f404f1ef4a8ce7d802ace3ac
   MJRefresh: ff9e531227924c84ce459338414550a05d2aea78
   Moya: 138f0573e53411fb3dc17016add0b748dfbd78ee
-  ObjcExceptionBridging: c30e00eb3700467e695faeea30e26e18bd445001
+  ObjcExceptionBridging: e93979cf8f71ac5eda79aafd995ebc6f6639d0ac
   ProgressHUD: abb9136ae23c85204236828562cb9a8ec98efb44
   Realm: e3a1225aafa7cec96a020dc199201b9d1f9cd59c
   RealmSwift: 62585b4a934754a9d9117331689f4e8a5b1f6113
@@ -169,12 +151,12 @@ SPEC CHECKSUMS:
   SwiftyBeaver: 84069991dd5dca07d7069100985badaca7f0ce82
   SwiftyJSON: f5b1bf1cd8dd53cd25887ac0eabcfd92301c6a5a
   Then: 844265ae87834bbe1147d91d5d41a404da2ec27d
-  Toast: 1f5ea13423a1e6674c4abdac5be53587ae481c4e
+  Toast: ec33c32b8688982cecc6348adeae667c1b9938da
   Toaster: c3473963c78e8cabbf6ea6f11ad0fdaae6f54987
   TZImagePickerController: c0f8e83c27cb08f7d812b1d066a5934d30ff78ad
-  XCGLogger: 1943831ef907df55108b0b18657953f868de973b
+  XCGLogger: 6ce1b6e90442a5ec34d6eac94d7357756137c406
   YYImage: 1e1b62a9997399593e4b9c4ecfbbabbf1d3f3b54
 
-PODFILE CHECKSUM: 686ffee3d946cd00b56cab22455128fdc5bdf84f
+PODFILE CHECKSUM: df5083fefcfa11d19f7f211b4948c1fbd3506381
 
 COCOAPODS: 1.13.0

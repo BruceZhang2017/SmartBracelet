@@ -15,7 +15,7 @@ import TJDWristbandSDK
 
 class HealthDetailViewController: BaseViewController {
     let lineChartView: LineChartView = LineChartView()
-    let pieChartView: PieChartView = PieChartView()
+    let barChartView: BarChartView = BarChartView()
     let dateLabel: UILabel = UILabel() // 日期
     let prevDayButton: UIButton = UIButton(type: .custom) // 前一个
     let nextDayButton: UIButton = UIButton(type: .custom) // 后一个
@@ -32,6 +32,7 @@ class HealthDetailViewController: BaseViewController {
     var measureAsync: Async?
     var mTimer: Timer?
     var alpha: CGFloat = 0.3
+    var maxValue = 0
     
     override func viewDidLoad() {
         bStyle = 1
@@ -127,10 +128,13 @@ class HealthDetailViewController: BaseViewController {
             fanView.isHidden = true
             roundView.isHidden = false
             testView.isHidden = true
+            testView.setupView()
             let b = NSMutableAttributedString()
-            b.append(NSAttributedString(string: "0", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 40, weight: .black)]))
-            b.append(NSAttributedString(string: "次/分", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 14, weight: .medium)]))
+            b.append(NSAttributedString(string: "--", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 40, weight: .black)]))
+            b.append(NSAttributedString(string: " ", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 14, weight: .medium)]))
             roundView.setupView(value: b)
+            valueView.refreshLabel(text: "人体正常心率60-100次/每分钟")
+            addTest()
         }
         if type == 3 {
             title = "health_sleep".localized()
@@ -138,59 +142,95 @@ class HealthDetailViewController: BaseViewController {
             roundView.isHidden = true
             testView.isHidden = true
             let qing = NSMutableAttributedString()
-            qing.append(NSAttributedString(string: "0", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 20, weight: .black)]))
-            qing.append(NSAttributedString(string: "m", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 14, weight: .semibold)]))
+            qing.append(NSAttributedString(string: "--", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 20, weight: .black)]))
+            qing.append(NSAttributedString(string: " ", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 14, weight: .semibold)]))
             let qian = NSMutableAttributedString()
-            qian.append(NSAttributedString(string: "0", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 20, weight: .black)]))
-            qian.append(NSAttributedString(string: "m", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 14, weight: .semibold)]))
+            qian.append(NSAttributedString(string: "--", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 20, weight: .black)]))
+            qian.append(NSAttributedString(string: " ", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 14, weight: .semibold)]))
             let shen = NSMutableAttributedString()
-            shen.append(NSAttributedString(string: "0", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 20, weight: .black)]))
-            shen.append(NSAttributedString(string: "m", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 14, weight: .semibold)]))
+            shen.append(NSAttributedString(string: "--", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 20, weight: .black)]))
+            shen.append(NSAttributedString(string: " ", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 14, weight: .semibold)]))
             let b = NSMutableAttributedString()
-            b.append(NSAttributedString(string: "0", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 40, weight: .black)]))
-            b.append(NSAttributedString(string: "H", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 10, weight: .medium)]))
-            b.append(NSAttributedString(string: "0", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 40, weight: .black)]))
-            b.append(NSAttributedString(string: "M", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 10, weight: .medium)]))
+            b.append(NSAttributedString(string: "--", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 40, weight: .black)]))
+            b.append(NSAttributedString(string: " ", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 10, weight: .medium)]))
+            b.append(NSAttributedString(string: "", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 40, weight: .black)]))
+            b.append(NSAttributedString(string: "", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 10, weight: .medium)]))
             fanView.setupView(titles: ["清醒", "浅睡", "深睡"], values: [qing, qian, shen], title: "今日睡眠", value: b)
         }
         if type == 4 {
             title = "health_blood_pressure".localized()
             fanView.isHidden = true
-            roundView.isHidden = true
-            testView.isHidden = false
+            roundView.isHidden = false
+            testView.isHidden = true
             testView.setupView()
+            valueView.refreshLabel(text: "人体正常血压：<130/85mmgh")
+            let b = NSMutableAttributedString()
+            b.append(NSAttributedString(string: "--", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 40, weight: .black)]))
+            b.append(NSAttributedString(string: " ", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 14, weight: .medium)]))
+            roundView.setupView(value: b)
+            addTest()
         }
         if type == 5 {
             title = "health_blood_oxygen".localized()
             fanView.isHidden = true
-            roundView.isHidden = true
-            testView.isHidden = false
+            roundView.isHidden = false
+            testView.isHidden = true
             testView.setupView()
+            let b = NSMutableAttributedString()
+            b.append(NSAttributedString(string: "--", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 40, weight: .black)]))
+            b.append(NSAttributedString(string: " ", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 14, weight: .medium)]))
+            roundView.setupView(value: b)
+            addTest()
+            
         }
         
         if type == 3 {
-            //lineChartView.isHidden = true
-            setupPieChart()
-            setDataCount()
+            setBarChartView()
+            setBarData()
         } else {
-            //pieChartView.isHidden = true
             setupChart()
-            setData()
+            setChartViewData()
         }
         dateLabel.text = mDate.stringFromYmd()
+        
+        // 创建一个自定义的返回按钮
+        let backButton = UIBarButtonItem(image: UIImage(named: "health_back_white"), style: .plain, target: self, action: #selector(backButtonTapped))
+        
+        // 将自定义的返回按钮设置为左侧按钮
+        self.navigationItem.leftBarButtonItem = backButton
+        
+        // 如果你不希望保留原有的返回按钮文本，可以将其设置为空字符串
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+    }
+    
+    private func addTest() {
+        // 创建一个UIBarButtonItem
+        let rightButton = UIBarButtonItem(title: "测量", style: .plain, target: self, action: #selector(self.rightBarButtonAction))
+        // 设置字体颜色
+        rightButton.tintColor = UIColor.white
+        // 将UIBarButtonItem设置为navigationItem的右侧按钮
+        self.navigationItem.rightBarButtonItem = rightButton
+    }
+    
+    // UIBarButtonItem的点击事件处理器
+    @objc func rightBarButtonAction() {
+        // 隐藏按钮
+        self.navigationItem.rightBarButtonItem = nil
+        
+        // 或者，如果你想保持按钮但仅仅是禁用它，可以这样做：
+        self.navigationItem.rightBarButtonItem?.isEnabled = false
+        roundView.isHidden = true
+        fanView.isHidden = true
+        testView.isHidden = false
+    }
+    
+    @objc func backButtonTapped() {
+        // 在这里处理返回按钮的点击事件
+        self.navigationController?.popViewController(animated: true)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
-        if type == 0 {
-            
-        } else if type == 2 {
-            //goalLabel.isHidden = true
-        }
-//        unitBLabel.text = type == 0 ? "health_step_noun".localized() : "health_kilo_calorie".localized()
-//        tipLabel.text = type == 0 ? "every_day_goal".localized() : "每日热量目标"
-//        goalView.isHidden = type > 0
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -212,17 +252,31 @@ class HealthDetailViewController: BaseViewController {
     @objc func prevDayTapped() {
         mDate = Calendar.current.date(byAdding: .day, value: -1, to: mDate)!
         dateLabel.text = mDate.stringFromYmd()
+        if type == 3 {
+            setBarData()
+        } else {
+            setChartViewData() // 刷新数据
+        }
     }
 
     // 后一天按钮点击事件
     @objc func nextDayTapped() {
         mDate = Calendar.current.date(byAdding: .day, value: 1, to: mDate)!
         dateLabel.text = mDate.stringFromYmd()
+        if type == 3 {
+            setBarData()
+        } else {
+            setChartViewData() // 刷新数据
+        }
     }
     
     @objc private func handleNotification(_ notification: Notification) {
         testView.stop()
-        setData() // 刷新数据
+        if type == 3 {
+            setBarData()
+        } else {
+            setChartViewData() // 刷新数据
+        }
     }
     
     /// 设置图表
@@ -264,8 +318,6 @@ class HealthDetailViewController: BaseViewController {
         lineChartView.rightAxis.axisMinimum = 0
         if type == 0 {
             lineChartView.rightAxis.axisMaximum = 5000
-        } else if type == 1 {
-            lineChartView.rightAxis.axisMaximum = 50000
         } else if type == 2 {
             lineChartView.rightAxis.axisMaximum = 200
         } else if type == 4 {
@@ -280,7 +332,7 @@ class HealthDetailViewController: BaseViewController {
         lineChartView.legend.form = .none
     }
     
-    func setData() {
+    func setChartViewData() {
         var values: [ChartDataEntry] = []
         values += initializeData()
         let set1 = LineChartDataSet(entries: values, label: "")
@@ -292,15 +344,15 @@ class HealthDetailViewController: BaseViewController {
         set1.formLineWidth = 0.5
         set1.mode = .horizontalBezier
         set1.drawValuesEnabled = false // 不要绘制值
-        set1.drawCirclesEnabled = true
-        set1.circleRadius = 3
-        set1.circleHoleRadius = 3
+        set1.drawCirclesEnabled = false
+        set1.circleHoleRadius = 2
+        set1.circleRadius = 4
         
-        let gradientColors = [ChartColorTemplates.colorFromString("#FFFFFFFF").cgColor,
-                              ChartColorTemplates.colorFromString("#88FFFFFF").cgColor]
+        let gradientColors = [ChartColorTemplates.colorFromString("#1A80FCFF").cgColor,
+                              ChartColorTemplates.colorFromString("#1A80FC11").cgColor]
         let gradient = CGGradient(colorsSpace: nil, colors: gradientColors as CFArray, locations: nil)!
 
-        set1.fillAlpha = 0.25
+        set1.fillAlpha = 1
         set1.fill = Fill(linearGradient: gradient, angle: 90)
         set1.drawFilledEnabled = true
         
@@ -312,58 +364,84 @@ class HealthDetailViewController: BaseViewController {
         lineChartView.isHidden = values.count == 0
     }
     
-    private func setupPieChart() {
-        pieChartView.delegate = self
-        pieChartView.drawHoleEnabled = false
-        let l = pieChartView.legend
-        l.horizontalAlignment = .right
-        l.verticalAlignment = .top
-        l.orientation = .vertical
-        l.xEntrySpace = 7
-        l.yEntrySpace = 0
-        l.yOffset = 0
-        //pieChartView.legend = l
-
-        // entry label styling
-        pieChartView.entryLabelColor = .white
-        pieChartView.entryLabelFont = .systemFont(ofSize: 12, weight: .light)
+    func setBarChartView() {
+        valueView.addSubview(barChartView)
+        barChartView.snp.makeConstraints { make in
+            make.leading.equalTo(15)
+            make.trailing.equalTo(-15)
+            make.top.equalTo(50)
+            make.bottom.equalTo(-10)
+        }
+        barChartView.delegate = self
         
-        pieChartView.animate(xAxisDuration: 0.4, easingOption: .easeOutBack)
+        barChartView.chartDescription?.enabled = false
+        barChartView.dragEnabled = false
+        barChartView.setScaleEnabled(false)
+        barChartView.pinchZoomEnabled = false
+        
+        barChartView.xAxis.labelTextColor = UIColor(hex: 0x9097A0, alpha: 1)
+        barChartView.xAxis.avoidFirstLastClippingEnabled = true
+        barChartView.xAxis.axisMinimum = Double(0)
+        barChartView.xAxis.axisMaximum = Double(4)
+        barChartView.xAxis.setLabelCount(5, force: true)
+        barChartView.xAxis.gridColor = UIColor.clear
+        barChartView.xAxis.drawGridLinesEnabled = true
+        barChartView.xAxis.drawAxisLineEnabled = false
+        barChartView.xAxis.labelPosition = .bottom
+        let xAxisFormatter = CustomXAxisFormatter()
+        xAxisFormatter.labels = [" ", "清醒", "浅睡", "深睡", " "]
+        barChartView.xAxis.valueFormatter = xAxisFormatter
+        barChartView.xAxis.granularity = 1 // 设置粒度以避免重复值
+        
+        barChartView.leftAxis.labelTextColor = UIColor.clear
+        barChartView.leftAxis.axisMinimum = 0
+        barChartView.leftAxis.axisMaximum = 5
+        barChartView.leftAxis.setLabelCount(6, force: true)
+        barChartView.leftAxis.gridColor = UIColor.clear
+        barChartView.leftAxis.drawGridLinesEnabled = false
+        barChartView.leftAxis.drawAxisLineEnabled = false
+        
+        barChartView.rightAxis.labelTextColor = UIColor(hex: 0x9097A0, alpha: 1)
+        barChartView.rightAxis.axisMinimum = 0
+ 
+        barChartView.rightAxis.axisMaximum = 500 // 12小时
+        
+        barChartView.rightAxis.setLabelCount(6, force: true)
+        barChartView.rightAxis.gridColor = UIColor(hex: 0x9097A0, alpha: 1)
+        barChartView.rightAxis.drawGridLinesEnabled = true
+        barChartView.rightAxis.drawAxisLineEnabled = false
+        barChartView.legend.form = .none
     }
     
-    func setDataCount() {
-        var models: [PieChartDataEntry] = []
-        let array = ["health_detail_sleep_awake".localized(), "health_detail_sleep_light".localized(), "health_detail_sleep_deep".localized()]
-        let entries = initializePreData()
-        for (index, item) in entries.enumerated() {
-            models.append(PieChartDataEntry(value: item, label: array[index]))
-        }
+    func setBarData() {
+        var values: [BarChartDataEntry] = []
+        values += initializeBarData()
+        let set1 = BarChartDataSet(entries: values, label: "")
+        set1.drawIconsEnabled = false
         
-        let set = PieChartDataSet(entries: models, label: "")
-        set.drawIconsEnabled = false
-        set.sliceSpace = 2
+        let data = BarChartData(dataSet: set1)
+        data.barWidth = 0.5
+        barChartView.data = data
         
-        set.colors = ChartColorTemplates.vordiplom()
-            + ChartColorTemplates.joyful()
-            + ChartColorTemplates.colorful()
-            + ChartColorTemplates.liberty()
-            + ChartColorTemplates.pastel()
-            + [UIColor(red: 51/255, green: 181/255, blue: 229/255, alpha: 1)]
+        valueView.refreshView(isHideNull: values.count != 0)
+        barChartView.isHidden = values.count == 0
         
-        let data = PieChartData(dataSet: set)
+        set1.drawValuesEnabled = false // 不要绘制值
+        // 设置柱状图的颜色
+        set1.colors = [NSUIColor.kDC98FF] // 你可以使用数组来设置多个颜色
         
-        let pFormatter = NumberFormatter()
-        pFormatter.numberStyle = .percent
-        pFormatter.maximumFractionDigits = 1
-        pFormatter.multiplier = 1
-        pFormatter.percentSymbol = " %"
-        data.setValueFormatter(DefaultValueFormatter(formatter: pFormatter))
+//        let pFormatter = NumberFormatter()
+//        pFormatter.numberStyle = .percent
+//        pFormatter.maximumFractionDigits = 1
+//        pFormatter.multiplier = 1
+//        pFormatter.percentSymbol = " %"
+//        data.setValueFormatter(DefaultValueFormatter(formatter: pFormatter))
+//        
+//        data.setValueFont(UIFont.systemFont(ofSize: 11))
+//        data.setValueTextColor(.black)
         
-        data.setValueFont(UIFont.systemFont(ofSize: 11))
-        data.setValueTextColor(.black)
-        
-        pieChartView.data = data
-        pieChartView.highlightValues(nil)
+//        pieChartView.data = data
+//        pieChartView.highlightValues(nil)
     }
     
     private func initializeData() -> [ChartDataEntry] {
@@ -384,19 +462,22 @@ class HealthDetailViewController: BaseViewController {
                     let x = (array[i].timeStamp - Int(zero)) / 3660
                     let item = values[x]
                     values[x] = ChartDataEntry(x: Double(x), y: Double(value) / Double(1000) + item.y)
+                    if value > maxValue {
+                        maxValue = value
+                    }
                 }
             }
 
             var totalValue1 = 0
             let array1 = readDBStep()
             if array1.count > 0 {
-                let zero = mDate.zeroTimeStamp()
+                //let zero = mDate.zeroTimeStamp()
                 for i in 0..<array1.count {
                     let value = array1[i].cal // 热量
                     totalValue1 += value
-                    let x = (array1[i].timeStamp - Int(zero)) / 3660
-                    let item = values[x]
-                    values[x] = ChartDataEntry(x: Double(x), y: Double(value) / Double(10000) + item.y)
+                    //let x = (array1[i].timeStamp - Int(zero)) / 3660
+                    //let item = values[x]
+                    //values[x] = ChartDataEntry(x: Double(x), y: Double(value) / Double(10000) + item.y)
                 }
             }
             
@@ -430,15 +511,17 @@ class HealthDetailViewController: BaseViewController {
                 print("获取到数据的数量为：\(values.count)")
             }
             if count > 0 {
-                let arrStr = NSMutableAttributedString()
-                arrStr.append(NSAttributedString(string: "\(array.last!.heartRate)", attributes: [.font: UIFont.systemFont(ofSize: 25), .foregroundColor: UIColor.white]))
-                arrStr.append(NSAttributedString(string: "health_value_p_minute".localized(), attributes: [.font: UIFont.systemFont(ofSize: 11), .foregroundColor: UIColor.white]))
-                //valueLabel.attributedText = arrStr
+                let b = NSMutableAttributedString()
+                b.append(NSAttributedString(string: "\(array.last?.heartRate ?? 0)", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 40, weight: .black)]))
+                b.append(NSAttributedString(string: "health_value_p_minute".localized(), attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 14, weight: .medium)]))
+                roundView.refreshView(value: b)
+                roundView.setProgress(CGFloat(array.last?.heartRate ?? 0) / 200)
             } else {
-                let arrStr = NSMutableAttributedString()
-                arrStr.append(NSAttributedString(string: "0", attributes: [.font: UIFont.systemFont(ofSize: 25), .foregroundColor: UIColor.white]))
-                arrStr.append(NSAttributedString(string: "health_value_p_minute".localized(), attributes: [.font: UIFont.systemFont(ofSize: 11), .foregroundColor: UIColor.white]))
-                //valueLabel.attributedText = arrStr
+                let b = NSMutableAttributedString()
+                b.append(NSAttributedString(string: "0", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 40, weight: .black)]))
+                b.append(NSAttributedString(string: "health_value_p_minute".localized(), attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 14, weight: .medium)]))
+                roundView.refreshView(value: b)
+                roundView.setProgress(0)
             }
         } else if type == 4 { // 血压
             var count = 0
@@ -454,15 +537,17 @@ class HealthDetailViewController: BaseViewController {
                 print("获取到数据的数量为：\(values.count)")
             }
             if count > 0 {
-                let arrStr = NSMutableAttributedString()
-                arrStr.append(NSAttributedString(string: "\(array.last!.max)", attributes: [.font: UIFont.systemFont(ofSize: 25), .foregroundColor: UIColor.white]))
-                arrStr.append(NSAttributedString(string: "health_value_p_minute".localized(), attributes: [.font: UIFont.systemFont(ofSize: 11), .foregroundColor: UIColor.white]))
-                //valueLabel.attributedText = arrStr
+                let b = NSMutableAttributedString()
+                b.append(NSAttributedString(string: "\(array.last?.max ?? 0)", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 40, weight: .black)]))
+                b.append(NSAttributedString(string: "health_value_p_minute".localized(), attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 14, weight: .medium)]))
+                roundView.refreshView(value: b)
+                roundView.setProgress(CGFloat(array.last?.max ?? 0) / 200)
             } else {
-                let arrStr = NSMutableAttributedString()
-                arrStr.append(NSAttributedString(string: "0", attributes: [.font: UIFont.systemFont(ofSize: 25), .foregroundColor: UIColor.white]))
-                arrStr.append(NSAttributedString(string: "health_value_p_minute".localized(), attributes: [.font: UIFont.systemFont(ofSize: 11), .foregroundColor: UIColor.white]))
-                //valueLabel.attributedText = arrStr
+                let b = NSMutableAttributedString()
+                b.append(NSAttributedString(string: "0", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 40, weight: .black)]))
+                b.append(NSAttributedString(string: "health_value_p_minute".localized(), attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 14, weight: .medium)]))
+                roundView.refreshView(value: b)
+                roundView.setProgress(0)
             }
         } else if type == 5 { // 血氧
             var count = 0
@@ -479,21 +564,27 @@ class HealthDetailViewController: BaseViewController {
                 print("获取到数据的数量为：\(values.count)")
             }
             if count > 0 {
-                let arrStr = NSMutableAttributedString()
-                arrStr.append(NSAttributedString(string: "\(array.last!.oxygen)", attributes: [.font: UIFont.systemFont(ofSize: 25), .foregroundColor: UIColor.white]))
-                arrStr.append(NSAttributedString(string: "health_value_p_minute".localized(), attributes: [.font: UIFont.systemFont(ofSize: 11), .foregroundColor: UIColor.white]))
-                //valueLabel.attributedText = arrStr
+                let b = NSMutableAttributedString()
+                b.append(NSAttributedString(string: "\(array.last?.oxygen ?? 0)", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 40, weight: .black)]))
+                b.append(NSAttributedString(string: "health_value_p_minute".localized(), attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 14, weight: .medium)]))
+                roundView.refreshView(value: b)
+                roundView.setProgress(0)
             } else {
-                let arrStr = NSMutableAttributedString()
-                arrStr.append(NSAttributedString(string: "0", attributes: [.font: UIFont.systemFont(ofSize: 25), .foregroundColor: UIColor.white]))
-                arrStr.append(NSAttributedString(string: "health_value_p_minute".localized(), attributes: [.font: UIFont.systemFont(ofSize: 11), .foregroundColor: UIColor.white]))
-                //valueLabel.attributedText = arrStr
+                let b = NSMutableAttributedString()
+                b.append(NSAttributedString(string: "0", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 40, weight: .black)]))
+                b.append(NSAttributedString(string: "health_value_p_minute".localized(), attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 14, weight: .medium)]))
+                roundView.refreshView(value: b)
+                roundView.setProgress(0)
             }
         }
         return values
     }
     
-    private func initializePreData() -> [Double] {
+    private func initializeBarData() -> [BarChartDataEntry] {
+        var values: [BarChartDataEntry] = []
+        for i in 0...4 {
+            values.append(BarChartDataEntry(x: Double(i), y: Double(0)))
+        }
         if type == 3 { // 睡眠
             let array = readDBSleep()
             if array.count > 0 {
@@ -512,34 +603,51 @@ class HealthDetailViewController: BaseViewController {
                 let total = arr[1] + arr[2]
                 let h = total / 60
                 let m = total % 60
-                let arrStr = NSMutableAttributedString()
-                arrStr.append(NSAttributedString(string: "\(h)", attributes: [.font: UIFont.systemFont(ofSize: 25), .foregroundColor: UIColor.white]))
-                arrStr.append(NSAttributedString(string: "health_hour".localized(), attributes: [.font: UIFont.systemFont(ofSize: 11), .foregroundColor: UIColor.white]))
-                arrStr.append(NSAttributedString(string: "\(m)", attributes: [.font: UIFont.systemFont(ofSize: 25), .foregroundColor: UIColor.white]))
-                arrStr.append(NSAttributedString(string: "health_minute".localized(), attributes: [.font: UIFont.systemFont(ofSize: 11), .foregroundColor: UIColor.white]))
-                //valueLabel.attributedText = arrStr
+                let b = NSMutableAttributedString()
+                b.append(NSAttributedString(string: "\(h)", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 40, weight: .black)]))
+                b.append(NSAttributedString(string: "health_hour".localized(), attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 14, weight: .medium)]))
+                b.append(NSAttributedString(string: "\(m)", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 40, weight: .black)]))
+                b.append(NSAttributedString(string: "health_minute".localized(), attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 14, weight: .medium)]))
                 if arr.count == 3 {
-                    let h1 = arr[2] / 60
-                    let m1 = arr[2] % 60
-                    let h2 = arr[1] / 60
-                    let m2 = arr[1] % 60
-                    let h3 = arr[0] / 60
-                    let m3 = arr[0] % 60
-                    //goalLabel.text = "\("health_detail_sleep_deep".localized())\(h1)\("health_hour".localized())\(m1)\("health_minute".localized()) \("health_detail_sleep_light".localized())\(h2)\("health_hour".localized())\(m2)\("health_minute".localized()) \("health_detail_sleep_awake".localized())\(h3)\("health_hour".localized())\(m3)\("health_minute".localized())"
-                    let total = h1 * 60 + m1 + h2 * 60 + m2 + h3 * 60 + m3
-                    return [Double(h3 * 60 + m3) * 100 / Double(total), Double(h2 * 60 + m2) * 100 / Double(total), Double(h1 * 60 + m1) * 100 / Double(total)]
+                    let m1 = arr[2]
+                    let m2 = arr[1]
+                    let m3 = arr[0]
+                    let qing = NSMutableAttributedString()
+                    qing.append(NSAttributedString(string: "\(m1)", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 20, weight: .black)]))
+                    qing.append(NSAttributedString(string: "health_minute".localized(), attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 14, weight: .semibold)]))
+                    let qian = NSMutableAttributedString()
+                    qian.append(NSAttributedString(string: "\(m2)", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 20, weight: .black)]))
+                    qian.append(NSAttributedString(string: "health_minute".localized(), attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 14, weight: .semibold)]))
+                    let shen = NSMutableAttributedString()
+                    shen.append(NSAttributedString(string: "\(m3)", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 20, weight: .black)]))
+                    shen.append(NSAttributedString(string: "health_minute".localized(), attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 14, weight: .semibold)]))
+                    fanView.refreshValue(values: [qing, qian, shen], value: b)
+                    fanView.setProgress(CGFloat(total) / (60*12))
+                    values[1] = BarChartDataEntry(x: Double(1), y: Double(m1) / 100)
+                    values[2] = BarChartDataEntry(x: Double(2), y: Double(m2) / 100)
+                    values[3] = BarChartDataEntry(x: Double(3), y: Double(m3) / 100)
+                    return values
                 }
             } else {
-                let arrStr = NSMutableAttributedString()
-                arrStr.append(NSAttributedString(string: "0", attributes: [.font: UIFont.systemFont(ofSize: 25), .foregroundColor: UIColor.white]))
-                arrStr.append(NSAttributedString(string: "health_minute".localized(), attributes: [.font: UIFont.systemFont(ofSize: 11), .foregroundColor: UIColor.white]))
-                arrStr.append(NSAttributedString(string: "0", attributes: [.font: UIFont.systemFont(ofSize: 25), .foregroundColor: UIColor.white]))
-                arrStr.append(NSAttributedString(string: "health_minute".localized(), attributes: [.font: UIFont.systemFont(ofSize: 11), .foregroundColor: UIColor.white]))
-                //valueLabel.attributedText = arrStr
-                //goalLabel.text = "\("health_detail_sleep_deep".localized())0\("health_hour".localized())0\("health_minute".localized()) \("health_detail_sleep_light".localized())0\("health_hour".localized())0\("health_minute".localized()) \("health_detail_sleep_awake".localized())0\("health_hour".localized())0\("health_minute".localized())"
+                let qing = NSMutableAttributedString()
+                qing.append(NSAttributedString(string: "--", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 20, weight: .black)]))
+                qing.append(NSAttributedString(string: " ", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 14, weight: .semibold)]))
+                let qian = NSMutableAttributedString()
+                qian.append(NSAttributedString(string: "--", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 20, weight: .black)]))
+                qian.append(NSAttributedString(string: " ", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 14, weight: .semibold)]))
+                let shen = NSMutableAttributedString()
+                shen.append(NSAttributedString(string: "--", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 20, weight: .black)]))
+                shen.append(NSAttributedString(string: " ", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 14, weight: .semibold)]))
+                let b = NSMutableAttributedString()
+                b.append(NSAttributedString(string: "--", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 40, weight: .black)]))
+                b.append(NSAttributedString(string: " ", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 10, weight: .medium)]))
+                b.append(NSAttributedString(string: "", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 40, weight: .black)]))
+                b.append(NSAttributedString(string: "", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 10, weight: .medium)]))
+                fanView.refreshValue(values: [qing, qian, shen], value: b)
+                fanView.setProgress(0)
             }
         }
-        return [100, 0, 0]
+        return values
     }
     
     /// 选择日期
@@ -562,14 +670,38 @@ class HealthDetailViewController: BaseViewController {
 }
 
 extension HealthDetailViewController: ChartViewDelegate {
-    
+    // ChartViewDelegate 方法
+    func chartValueSelected(_ chartView: ChartViewBase, entry: ChartDataEntry, highlight: Highlight) {
+        // 重置所有数据点的圆圈显示
+//        if let dataSet = lineChartView.data?.dataSets[highlight.dataSetIndex] as? LineChartDataSet {
+//            dataSet.setCircleColor(.clear) // 设置为透明色，隐藏所有圆圈
+//            dataSet.circleHoleColor = .clear // 如果你使用的是带有空心的圆圈，也设置为空心颜色
+//
+//            // 设置选中的数据点的圆圈颜色
+//            dataSet.setCircleColors(NSUIColor.brand, NSUIColor.white, NSUIColor.black)
+//            dataSet.circleHoleColor = .red // 如果你使用的是带有空心的圆圈，也设置空心颜色
+//        }
+//
+//        // 刷新图表
+//        lineChartView.notifyDataSetChanged()
+    }
+
+    func chartValueNothingSelected(_ chartView: ChartViewBase) {
+        // 当没有选中值时，隐藏圆圈
+//        if let dataSets = chartView.data?.dataSets {
+//            for case let dataSet as LineChartDataSet in dataSets {
+//                dataSet.drawCirclesEnabled = false // 禁用圆圈的显示
+//            }
+//            chartView.notifyDataSetChanged() // 通知图表数据已更改，需要重绘
+//        }
+    }
 }
 
 extension HealthDetailViewController: CommonCalendarViewProtocol {
     func callbackForHide(_ date: Date) {
         commonCalendarView?.isHidden = true
         mDate = date
-        setData()
+        setChartViewData()
         dateLabel.text = mDate.stringFromYmd()
     }
 }
@@ -638,7 +770,7 @@ extension HealthDetailViewController: TTADataPickerViewDelegate {
     // when the pickerView type is NOT `.text`, you clicked the done button, you will get the date you selected just now from the `date` parameters
     func dataPickerView(_ pickerView: TTADataPickerView, didSelectDate date: Date) {
         mDate = date
-        setData()
+        setChartViewData()
         dateLabel.text = mDate.stringFromYmd()
     }
     // when the pickerView  has been changed, this function will be called, and you will get the row and component which changed just now
@@ -683,4 +815,15 @@ extension HealthDetailViewController: TestViewDelegate {
     }
 }
 
+class CustomXAxisFormatter: NSObject, IAxisValueFormatter {
+    var labels: [String] = []
+
+    func stringForValue(_ value: Double, axis: AxisBase?) -> String {
+        let index = Int(value)
+        guard labels.indices.contains(index) else {
+            return ""
+        }
+        return labels[index]
+    }
+}
 

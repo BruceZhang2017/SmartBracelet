@@ -42,7 +42,7 @@ class MarketClockViewController: UIViewController {
         downloadClock() // 下载资源
         
         width = (ScreenWidth - 60) / 2
-        if bleSelf.bleModel.screenType == 1 { // 方形
+        if AppDelegate.IsDeviceNotRound() { // 方形
             let w = bleSelf.bleModel.screenWidth
             let h = bleSelf.bleModel.screenHeight
             height = CGFloat(width) * CGFloat(h) / CGFloat(w)
@@ -87,13 +87,8 @@ extension MarketClockViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: .kCellIdentifier, for: indexPath) as! ClockCCollectionViewCell
         let item = clockArray[indexPath.row]
-        var type = BLEDeviceNameHandler().handleName()
-        if type == 0 {
-            type = bleSelf.bleModel.screenType
-        }
-        log.info("当前连接设备为：\(type == 1 ? "方形" : "圆形")")
         cell.clockImageView.kf.setImage(with: URL(string: item.previewPic ?? ""))
-        cell.opaqueView.layer.cornerRadius = 30
+        cell.opaqueView.layer.cornerRadius = AppDelegate.IsDeviceNotRound() ? 30 : width / 2
         cell.opaqueView.clipsToBounds = true
         cell.width.constant = width
         cell.height.constant = height

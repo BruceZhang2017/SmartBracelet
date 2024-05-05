@@ -19,6 +19,9 @@ class DeviceTableViewCell: UITableViewCell {
     @IBOutlet weak var bleConnectButton: UIButton!
     @IBOutlet weak var batteryButton: UIButton!
     @IBOutlet weak var selectImageView: UIImageView!
+    @IBOutlet weak var deleteButton: UIButton!
+    
+    weak var delegate: DeviceTableViewCellDelegate?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -31,4 +34,11 @@ class DeviceTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
 
+    @IBAction func handleDeleteDevice(_ sender: Any) {
+        delegate?.buttonTapped(cell: self)
+    }
+}
+
+protocol DeviceTableViewCellDelegate: AnyObject {
+    func buttonTapped(cell: DeviceTableViewCell)
 }

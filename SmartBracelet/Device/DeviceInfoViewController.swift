@@ -24,7 +24,7 @@ class DeviceInfoViewController: BaseViewController {
         deviceIconImageView.backgroundColor = UIColor.brand.withAlphaComponent(0.4)
         let childImageView = UIImageView(frame: CGRect(x: 31, y: 31, width: 88, height: 88)) // 150-88=62，62/2=31
         childImageView.contentMode = .scaleAspectFit // 或者使用.center
-        childImageView.image = UIImage(named: "icon_ewatch")
+        childImageView.image = UIImage(named: AppDelegate.IsDeviceNotRound() ? "icon_ewatch" : "icon_ewatch_2")
         deviceIconImageView.addSubview(childImageView)
     }
 

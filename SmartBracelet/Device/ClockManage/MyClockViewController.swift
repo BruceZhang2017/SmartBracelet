@@ -74,7 +74,7 @@ class MyClockViewController: UIViewController {
         footView?.delegate = self
         bleSelf.getFuncCategory()
         
-        if bleSelf.bleModel.screenType == 1 { // 方形
+        if AppDelegate.IsDeviceNotRound() { // 方形
             let w = bleSelf.bleModel.screenWidth
             let h = bleSelf.bleModel.screenHeight
             height = CGFloat(width) * CGFloat(h) / CGFloat(w)
@@ -243,7 +243,7 @@ class MyClockViewController: UIViewController {
             }
             
             var newImage = image
-            if bleSelf.bleModel.screenType == 2 {
+            if !AppDelegate.IsDeviceNotRound() {
                 newImage = maskRoundedImage(image: image, radius: (CGFloat(bleSelf.bleModel.screenHeight))/2)
             }
             
@@ -355,7 +355,7 @@ extension MyClockViewController: UITableViewDataSource {
         if indexPath.row == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "Cell1", for: indexPath) as! EidtClockHeadTableViewCell
             cell.delegate = self
-            cell.clockView.layer.cornerRadius = 30
+            cell.clockView.layer.cornerRadius = AppDelegate.IsDeviceNotRound() ? 30 : width / 2
             cell.clockView.clipsToBounds = true
             cell.dateTimeLabel.text = "time".localized()
             cell.dateTimeTopLabel.text = datetimeTopLocation > 0 ? tops[datetimeTopLocation] : ""

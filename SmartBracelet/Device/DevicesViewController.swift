@@ -68,7 +68,7 @@ class DevicesViewController: BaseViewController {
         changeButtonAttr() // 切换设备入口
         
         width = (ScreenWidth - 60) / 3
-        if bleSelf.bleModel.screenType == 1 { // 方形
+        if AppDelegate.IsDeviceNotRound() { // 方形
             let w = bleSelf.bleModel.screenWidth
             let h = bleSelf.bleModel.screenHeight
             height = CGFloat(width) * CGFloat(h) / CGFloat(w)
@@ -124,20 +124,6 @@ class DevicesViewController: BaseViewController {
     
     deinit {
         NotificationCenter.default.removeObserver(self)
-    }
-    
-    func callbackTap(model: BLEModel?, bConnected: Bool) {
-        let count = DeviceManager.shared.devices.count
-        if count == 0 {
-            let storyboard = UIStoryboard(name: "Device", bundle: nil)
-            let vc = storyboard.instantiateViewController(withIdentifier: "DeviceSearchViewController")
-            vc.title = "device_add".localized()
-            vc.hidesBottomBarWhenPushed = true
-            navigationController?.pushViewController(vc, animated: true)
-            return
-        }
-        deleteDevice(model: model)
-        // 当设备已经连接后，并且连接成功后，则跳转至设备设置页面。删除该部分逻辑
     }
     
     // 设备设置
@@ -320,36 +306,6 @@ class DevicesViewController: BaseViewController {
             return
         }
         pushToClockManage(index: 0)
-    }
-    
-    private func deleteDevice(model: BLEModel?) {
-        let alert = UIAlertController(title: "device_tip".localized(), message: "unbind_device_desc".localized(), preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "mine_cancel".localized(), style: .cancel, handler: { (action) in
-            
-        }))
-        alert.addAction(UIAlertAction(title: "mine_confirm".localized(), style: .default, handler: { [weak self] (action) in
-            let count = DeviceManager.shared.devices.count
-            if count <= 1 {
-                NotificationCenter.default.post(name: Notification.Name("HealthViewController"), object: "delete", userInfo: ["mac": DeviceManager.shared.devices[0].mac])
-                BLEManager.shared.unbind()
-                UserDefaults.standard.removeObject(forKey: "LastestDeviceMac")
-            } else {
-                guard let mac = model?.mac else {
-                    return
-                }
-                NotificationCenter.default.post(name: Notification.Name("HealthViewController"), object: "delete", userInfo: ["mac": mac])
-                let lastestDeviceMac = UserDefaults.standard.string(forKey: "LastestDeviceMac") ?? ""
-                if lastestDeviceMac == mac {
-                    BLEManager.shared.unbind()
-                    UserDefaults.standard.removeObject(forKey: "LastestDeviceMac")
-                }
-            }
-            self?.deviceView?.refreshData()
-            self?.changeButtonAttr()
-        }))
-        present(alert, animated: true) {
-            
-        }
     }
 }
 

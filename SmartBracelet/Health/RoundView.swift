@@ -66,4 +66,8 @@ class RoundView: UIView {
         progress = newProgress
         progressLayer.strokeEnd = progress
     }
+    
+    func refreshView(value: NSMutableAttributedString) {
+        mLabel.attributedText = value
+    }
 }

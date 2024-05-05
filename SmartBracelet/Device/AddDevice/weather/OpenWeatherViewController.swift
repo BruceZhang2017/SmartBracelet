@@ -65,7 +65,7 @@ class OpenWeatherViewController: UIViewController {
             guard let self = self else { return }
             //self.weatherIconImageView.image = UIImage(systemName: weather.systemIconNameString)
             self.temperatureLabel.text = "\(Int(self.tempratureKToC(temp: weather.list.first?.temp.day ?? 0)))°C"
-            self.feelsLikeLabel.text = "min:\(Int(self.tempratureKToC(temp: weather.list.first?.temp.min ?? 0)))°C - max:\(Int(self.tempratureKToC(temp: weather.list.first?.temp.max ?? 0)))°C"
+            self.feelsLikeLabel.text = "\("min_temp".localized()):\(Int(self.tempratureKToC(temp: weather.list.first?.temp.min ?? 0)))°C - \("max_temp".localized()):\(Int(self.tempratureKToC(temp: weather.list.first?.temp.max ?? 0)))°C"
         }
     }
     

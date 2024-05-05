@@ -13,6 +13,7 @@ class HealthValueView: UIView {
     let topLabel = UILabel()
     let imageView = UIImageView()
     let bottomLabel = UILabel()
+    let descLabel = UILabel()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -49,12 +50,18 @@ class HealthValueView: UIView {
         bottomLabel.textColor = UIColor.text_secondary
         bottomLabel.font = UIFont.subtitle()
         addSubview(bottomLabel)
+        
+        descLabel.text = ""
+        descLabel.textColor = UIColor.text_third
+        descLabel.font = UIFont.body2()
+        addSubview(descLabel)
     }
     
     private func setupConstraints() {
         topLabel.translatesAutoresizingMaskIntoConstraints = false
         imageView.translatesAutoresizingMaskIntoConstraints = false
         bottomLabel.translatesAutoresizingMaskIntoConstraints = false
+        descLabel.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             // 顶部标签约束
@@ -71,10 +78,19 @@ class HealthValueView: UIView {
             bottomLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 10),
             bottomLabel.centerXAnchor.constraint(equalTo: centerXAnchor)
         ])
+        
+        descLabel.snp.makeConstraints { make in
+            make.right.equalTo(-20)
+            make.centerY.equalTo(topLabel)
+        }
     }
     
     public func refreshView(isHideNull: Bool) {
         imageView.isHidden = isHideNull
         bottomLabel.isHidden = isHideNull
+    }
+    
+    public func refreshLabel(text: String) {
+        descLabel.text = text
     }
 }

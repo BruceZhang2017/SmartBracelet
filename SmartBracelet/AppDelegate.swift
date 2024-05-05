@@ -129,3 +129,14 @@ extension String {
     }
 }
 
+extension AppDelegate {
+    public static func IsDeviceNotRound() -> Bool {
+        var type = BLEDeviceNameHandler().handleName()
+        if type == 0 {
+            type = bleSelf.bleModel.screenType
+        }
+        log.info("当前连接设备为：\(type == 1 ? "方形" : "圆形")")
+        return type == 1
+    }
+}
+

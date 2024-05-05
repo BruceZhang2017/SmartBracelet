@@ -1067,6 +1067,14 @@
                                                                 <color key="titleColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
                                                             </state>
                                                         </button>
+                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="L12-IN-2Ll">
+                                                            <rect key="frame" x="243.5" y="24.5" width="93.5" height="35"/>
+                                                            <state key="normal" title="Button"/>
+                                                            <buttonConfiguration key="configuration" style="plain" title="解绑删除"/>
+                                                            <connections>
+                                                                <action selector="handleDeleteDevice:" destination="sEL-d6-i6o" eventType="touchUpInside" id="Qle-4B-zla"/>
+                                                            </connections>
+                                                        </button>
                                                     </subviews>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <constraints>
@@ -1076,7 +1084,9 @@
                                                         <constraint firstItem="nIS-VQ-Kiu" firstAttribute="leading" secondItem="Fis-Dr-dp1" secondAttribute="trailing" constant="8" id="FYX-jz-2eF"/>
                                                         <constraint firstItem="Dnh-99-9sn" firstAttribute="top" secondItem="Fis-Dr-dp1" secondAttribute="top" id="GA5-eJ-02Z"/>
                                                         <constraint firstAttribute="trailing" secondItem="mtX-hZ-ewp" secondAttribute="trailing" constant="15" id="KWm-Yn-cxD"/>
+                                                        <constraint firstItem="mtX-hZ-ewp" firstAttribute="leading" secondItem="L12-IN-2Ll" secondAttribute="trailing" constant="8" symbolic="YES" id="N5X-Tu-gFP"/>
                                                         <constraint firstItem="N0e-3w-KdP" firstAttribute="leading" secondItem="Dnh-99-9sn" secondAttribute="trailing" constant="4" id="Q81-hl-DoF"/>
+                                                        <constraint firstItem="L12-IN-2Ll" firstAttribute="centerY" secondItem="evD-Tv-2Qi" secondAttribute="centerY" id="cLH-J6-CsP"/>
                                                         <constraint firstItem="N0e-3w-KdP" firstAttribute="centerY" secondItem="Dnh-99-9sn" secondAttribute="centerY" id="qF8-0h-wd6"/>
                                                         <constraint firstItem="mtX-hZ-ewp" firstAttribute="centerY" secondItem="evD-Tv-2Qi" secondAttribute="centerY" id="uqP-5L-hwU"/>
                                                         <constraint firstItem="Fis-Dr-dp1" firstAttribute="leading" secondItem="evD-Tv-2Qi" secondAttribute="leading" constant="25" id="woR-wZ-MRi"/>
@@ -1101,6 +1111,7 @@
                                             <outlet property="batteryButton" destination="N0e-3w-KdP" id="2Kn-gf-Hdl"/>
                                             <outlet property="bgView" destination="evD-Tv-2Qi" id="eXv-Wv-Gmk"/>
                                             <outlet property="bleConnectButton" destination="nIS-VQ-Kiu" id="z7N-Hl-LhZ"/>
+                                            <outlet property="deleteButton" destination="L12-IN-2Ll" id="9JW-Rh-B6v"/>
                                             <outlet property="deviceImageView" destination="Fis-Dr-dp1" id="2fP-Me-V80"/>
                                             <outlet property="deviceNameLabel" destination="Dnh-99-9sn" id="wIV-WD-fCS"/>
                                             <outlet property="selectImageView" destination="mtX-hZ-ewp" id="lqU-Hu-2uw"/>
