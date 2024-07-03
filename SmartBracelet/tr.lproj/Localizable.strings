@@ -376,3 +376,14 @@
 "start_uploading" = "Yüklemeye başla";
 "agree_download_upload" = "İndirip yüklemek istediğinizden emin misiniz?";
 "agree_log_out" = "Bu hesaptan çıkış yapmak istediğinizden emin misiniz?";
+
+"today_sleep" = "Bugünün uykusu";
+"push_to_bt_settings" = "Lütfen Ayarlar - Bluetooth'a gidin ve Bluetooth'a manuel olarak bağlanın.";
+"today_step" = "Bugünkü adım sayısı";
+"consumption" = "Tüketim";
+"heart_desc" = "İnsanlarda normal kalp atış hızı dakikada 60-100 atış";
+"blood_pressure_desc" = "Normal insan kan basıncı: <130/85 mmHg";
+"null_data" = "Veri yok";
+"add_dial" = "Saat kadranı ekle";
+"mine_manage" = "Yönetim";
+"mine_finish" = "Tamamlama";

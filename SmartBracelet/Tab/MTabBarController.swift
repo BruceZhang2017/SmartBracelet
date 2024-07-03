@@ -89,33 +89,44 @@ class MTabBarController: UITabBarController {
     }
     
     private func showLinkedAlert() {
+        // 优化字符串拼接和属性设置
         let pp = "privacy_protection".localized()
         let up = "user_agreement".localized()
         let and = "and".localized()
-        let attributedString = NSMutableAttributedString(string:"\(pp) \(and) \(up)")
-        attributedString.SetAsLink(textToFind: pp, linkURL: "http://www.sinophy.com/Arc_See.aspx?aid=185#")
-        attributedString.SetAsLink(textToFind: up, linkURL: "http://www.sinophy.com/Arc_See.aspx?aid=188")
+        let fullText = "\(pp) \(and) \(up)"
+        let attributedString = NSMutableAttributedString(string: fullText)
+        attributedString.SetAsLink(textToFind: pp, linkURL: "http://www.sinophy.com/arc_syzc.html")
+        attributedString.SetAsLink(textToFind: up, linkURL: "http://www.sinophy.com/arc_yhxy.html")
+        
+        // 优化段落样式和字体属性的设置
         let paragraph = NSMutableParagraphStyle()
         paragraph.alignment = .center
-        attributedString.addAttribute(.paragraphStyle, value: paragraph, range: NSMakeRange(0, attributedString.length))
-        attributedString.addAttribute(.font, value: UIFont.systemFont(ofSize: 20), range:  NSMakeRange(0, attributedString.length))
-        let alert: UIAlertView = UIAlertView(title: "\(pp) \(and) \(up)", message: "read_carefully".localized(),
-                                             delegate: self, cancelButtonTitle: "reject_and_exit".localized(), otherButtonTitles: "agree".localized())
+        let fullRange = NSRange(location: 0, length: attributedString.length)
+        attributedString.addAttributes([.paragraphStyle: paragraph, .font: UIFont.systemFont(ofSize: 20)], range: fullRange)
         
-        let Txt:UITextView = UITextView(frame:CGRect(x: 0, y: 0, width: 100, height: 80))
-        Txt.font = UIFont.systemFont(ofSize: 25)
-        Txt.textAlignment = .center
-        Txt.backgroundColor = UIColor.clear
-        Txt.attributedText = attributedString
-        Txt.isEditable = false
-        Txt.dataDetectorTypes = UIDataDetectorTypes.link
+        // 优化UIAlertView的创建和使用
+        let alert = UIAlertView(title: fullText, message: "read_carefully".localized(),
+                                delegate: self, cancelButtonTitle: "reject_and_exit".localized(), otherButtonTitles: "agree".localized())
         
-        alert.setValue(Txt, forKey: "accessoryView")
+        // 优化UITextView的创建和属性设置
+        let txt = UITextView(frame: CGRect(x: 0, y: 0, width: 100, height: 80))
+        txt.font = UIFont.systemFont(ofSize: 25)
+        txt.textAlignment = .center
+        txt.backgroundColor = .clear
+        txt.attributedText = attributedString
+        txt.isEditable = false
+        txt.dataDetectorTypes = .link
+        
+        // 设置UIAlertView的accessoryView并显示
+        alert.setValue(txt, forKey: "accessoryView")
         alert.show()
+        
     }
 
     @objc func handleDeviceConnected(_ notification: Notification) {
+        // start_ai_generated
         let obj = notification.object as? String ?? ""
+        // end_ai_generated
         if obj == "disconnect" {
             (selectedViewController as? UINavigationController)?.popToRootViewController(animated: true)
         }

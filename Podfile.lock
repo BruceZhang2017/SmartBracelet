@@ -15,6 +15,13 @@ PODS:
   - AFNetworking/UIKit (4.0.1):
     - AFNetworking/NSURLSession
   - Alamofire (5.4.4)
+  - AMap2DMap (5.6.1):
+    - AMapFoundation (~> 1.4)
+  - AMapFoundation (1.8.2)
+  - AMapLocation (2.10.0):
+    - AMapFoundation (>= 1.8.0)
+  - AMapSearch (9.7.0):
+    - AMapFoundation (>= 1.8.0)
   - Bugly (2.6.1)
   - CountryPickerView (3.3.0)
   - CryptoSwift (1.8.2)
@@ -67,6 +74,9 @@ PODS:
 DEPENDENCIES:
   - AFNetworking
   - Alamofire (~> 5.4.4)
+  - AMap2DMap
+  - AMapLocation
+  - AMapSearch
   - Bugly
   - CountryPickerView
   - CryptoSwift
@@ -100,6 +110,10 @@ SPEC REPOS:
   https://github.com/CocoaPods/Specs.git:
     - AFNetworking
     - Alamofire
+    - AMap2DMap
+    - AMapFoundation
+    - AMapLocation
+    - AMapSearch
     - Bugly
     - CountryPickerView
     - CryptoSwift
@@ -129,6 +143,10 @@ SPEC REPOS:
 SPEC CHECKSUMS:
   AFNetworking: 3bd23d814e976cd148d7d44c3ab78017b744cd58
   Alamofire: f3b09a368f1582ab751b3fff5460276e0d2cf5c9
+  AMap2DMap: cac76bc057de18a1641f34df6b50bf5bc6b23571
+  AMapFoundation: 9885c48fc3a78fdfb84a0299a2293e56ea3c9fec
+  AMapLocation: 5248aec2455ebb5d104b367813c946430a2ee033
+  AMapSearch: 1f24a4acee521d993a8190348d27f5765841e32a
   Bugly: 217ac2ce5f0f2626d43dbaa4f70764c953a26a31
   CountryPickerView: 6322ada32a80b0cd721b0267282a5c24f406f263
   CryptoSwift: c63a805d8bb5e5538e88af4e44bb537776af11ea
@@ -157,6 +175,6 @@ SPEC CHECKSUMS:
   XCGLogger: 6ce1b6e90442a5ec34d6eac94d7357756137c406
   YYImage: 1e1b62a9997399593e4b9c4ecfbbabbf1d3f3b54
 
-PODFILE CHECKSUM: df5083fefcfa11d19f7f211b4948c1fbd3506381
+PODFILE CHECKSUM: 4e807d40fb5f275d169a051cffa540b7e019c841
 
 COCOAPODS: 1.13.0

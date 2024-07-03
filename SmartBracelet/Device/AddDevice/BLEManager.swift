@@ -41,6 +41,7 @@ class BLEManager: NSObject {
     }
     var isReconnect = false // 当前操作是否为回连
     var isFirstConnected = true // 第一次连接
+    var dayFlag = 0 // 天的标识
     
     override init() {
         super.init()
@@ -70,6 +71,8 @@ class BLEManager: NSObject {
             let s = String(format: "%.02f%%", result*100.0)
             NotificationCenter.default.post(name: Notification.Name("ClockUseViewController"), object: 1, userInfo: ["p": s])
         }
+        
+        
     }
     
     deinit {
@@ -110,7 +113,7 @@ class BLEManager: NSObject {
         //解绑
         let model = WUBleModel()
         bleSelf.bleModel = model
-        WUBleModel.setModel(bleSelf.bleModel)
+        WUBleModel.setModel(bleSelf.bleModel) // 设置一个全新的设备
         Toast(text: "unbind_device_desc".localized()).show()
         wuPrint("解绑成功 - 设置 - 手动忽略该设备后可重新扫描蓝牙进行重连")
     }
@@ -217,6 +220,12 @@ class BLEManager: NSObject {
             }
         }
         
+        bleSelf.didSetDrink = { isSuccess in
+            print("回调设置喝水提醒功能: \(isSuccess)")
+            if isSuccess {
+            }
+        }
+        
         bleSelf.didSetSwitch = { isSuccess in
             print("回调设置开关功能: \(isSuccess)")
             if isSuccess {
@@ -249,6 +258,8 @@ class BLEManager: NSObject {
         
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotify(_:)), name: WristbandNotifyKeys.setOrRead_Switch, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotify(_:)), name: WristbandNotifyKeys.setOrRead_SitParam, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleNotify(_:)), name: WristbandNotifyKeys.setOrRead_DrinkParam, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleNotify(_:)), name: WristbandNotifyKeys.ancsSwitch, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotify(_:)), name: WristbandNotifyKeys.syncEle, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotify(_:)), name: WristbandNotifyKeys.setOrRead_Alarm, object: nil) // 闹钟读取和设置
         
@@ -342,7 +353,7 @@ class BLEManager: NSObject {
             }
             bleSelf.bindSetForWristband() // 第0步：先绑定设备
             ///此通知非杰里设备在这里开始同步数据
-            if !bleSelf.isJLBlue{
+            if !(bleSelf.isJLBlue){
                 Async.main(after: 0.1) {
                     bleSelf.setTimeForWristband() // 第0步：设置时间
                     bleSelf.getDeviceInfoForWristband() // 第1步：获取设备信息
@@ -396,8 +407,8 @@ class BLEManager: NSObject {
             }
             let date = WUDate.dateFromTimeStamp(model.timeStamp)
             let dateStr = date.stringFromYmdHms()
-            wuPrint(model.step, dateStr)
-            if model.day >= 3 {
+            wuPrint(model.step, dateStr, model.day)
+            if model.day >= 3 || dayFlag >= 3 {
                 return
             }
             stepArray[model.day] += [model]
@@ -405,12 +416,19 @@ class BLEManager: NSObject {
             if model.day == day {
                 if model.totalCount == model.indexOfTotal {
                     print("detail step sync complete", model.day)
-                    bleSelf.aloneGetSleep(with: 1) // 第10步：从前一天开始获取
+                    bleSelf.aloneGetSleep(with: 1) // 第10步：从前一天开始获取睡眠睡觉
+                    dayFlag = 0
                 }
             } else {
                 if model.totalCount == model.indexOfTotal {
                     print("detail step sync complete", model.day)
-                    bleSelf.aloneGetStep(with: model.day + 1)
+                    var day = model.day + 1
+                    let bk = bleSelf.bleModel.internalNumber.hasPrefix("5A4B") // 是否为中科
+                    if bk == true {
+                        dayFlag += 1
+                        day = dayFlag
+                    }
+                    bleSelf.aloneGetStep(with: day)
                 }
             }
             if model.step == 0 {
@@ -544,7 +562,7 @@ class BLEManager: NSObject {
             } else {
                 heartArray.append(model)
             }
-            DispatchQueue.main.async {
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.1) {
                 NotificationCenter.default.post(name: Notification.Name("healthDetail"), object: nil)
             }
         }
@@ -564,7 +582,7 @@ class BLEManager: NSObject {
                 try? bloodModel.er.save(update: true)
             }
             wuPrint("血压结束")
-            DispatchQueue.main.async {
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.1) {
                 NotificationCenter.default.post(name: Notification.Name("healthDetail"), object: nil)
             }
             if bloodArray.count > 0 {
@@ -626,7 +644,7 @@ class BLEManager: NSObject {
                 try? oxygenModel.er.save(update: true)
             }
             print("血氧结束")
-            DispatchQueue.main.async {
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.1) {
                 NotificationCenter.default.post(name: Notification.Name("healthDetail"), object: nil)
             }
             if oxygenArray.count > 0 {
@@ -717,9 +735,20 @@ class BLEManager: NSObject {
             print("setOrRead_SitParam成功")
         }
         
+        if notify.name == WristbandNotifyKeys.setOrRead_DrinkParam {
+            dump(bleSelf.drinkModel)
+            print("setOrRead_DrinkParam成功")
+            NotificationCenter.default.post(name: Notification.Name("DeviceSettings"), object: 1)
+        }
+        
         if notify.name == WristbandNotifyKeys.setOrRead_Switch {
             dump(bleSelf.functionSwitchModel)
             print("setOrRead_Switch成功")
+        }
+        
+        if notify.name == WristbandNotifyKeys.ancsSwitch {
+            dump(bleSelf.notifyModel)
+            print("ancsSwitch成功")
         }
         
         //MARK: 表盘推送监听
@@ -728,13 +757,23 @@ class BLEManager: NSObject {
             if any == 1 {
                 print("支持表盘推送可以开始推送")
                 NotificationCenter.default.post(name: Notification.Name("ClockUseViewController"), object: 1)
+                let bk = bleSelf.bleModel.internalNumber.hasPrefix("5A4B") // 是否为中科
+                var mtuSize = 16
+                if bk {
+                    mtuSize = bleSelf.manager.myPeripheral?.maximumWriteValueLength(for: .withoutResponse) ?? 16
+                    mtuSize -= 4
+                }
                 for i in 0..<self.total {
                     print("循环推送数据:"+String(i))
                     let d = Float(i * 100) / Float(self.total)
                     let s = String(format: "%.02f%%", d)
                     NotificationCenter.default.post(name: Notification.Name("ClockUseViewController"), object: 1, userInfo: ["p": s])
-                    bleSelf.setDialPush(binData, dataIndex: i)
-                    Thread.sleep(forTimeInterval: 0.03)
+                    bleSelf.setDialPush(binData, dataIndex: i, MUT: mtuSize)
+                    if bk {
+                        Thread.sleep(forTimeInterval: 0.1)
+                    } else {
+                        Thread.sleep(forTimeInterval: 0.03)
+                    }
                 }
                 NotificationCenter.default.post(name: Notification.Name("ClockUseViewController"), object: 2)
             } else {
@@ -745,6 +784,7 @@ class BLEManager: NSObject {
         }
         
         if notify.name == WristbandNotifyKeys.dialPush {
+            print("表盘推送失败")
             if let any = notify.object, any is [Int] {
                 let array = any as! [Int]
                 if array[1] == 0 {
@@ -855,9 +895,15 @@ extension BLEManager {
     }
     
     public func sendDialWithLocalBin(_ value: Data) {
-        total = Int(ceil(Double(value.count)/16))
+        let bk = bleSelf.bleModel.internalNumber.hasPrefix("5A4B") // 是否为中科
+        var mtuSize = 16
+        if bk {
+            mtuSize = bleSelf.manager.myPeripheral?.maximumWriteValueLength(for: .withoutResponse) ?? 16
+            mtuSize -= 4
+        }
+        total = Int(ceil(Double(value.count)/Double(mtuSize)))
         binData = value
-        bleSelf.startDialPush(value)
+        bleSelf.startDialPush(value, MTU: mtuSize)
         NotificationCenter.default.post(name: Notification.Name("ClockUseViewController"), object: 1)
     }
     

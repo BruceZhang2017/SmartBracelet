@@ -376,3 +376,14 @@
 "start_uploading" = "Mula memuat naik";
 "agree_download_upload" = "Adakah anda pasti ingin memuat turun dan memuat naik?";
 "agree_log_out" = "Adakah anda pasti ingin keluar dari akaun ini?";
+
+"today_sleep" = "Tidur hari ini";
+"push_to_bt_settings" = "Sila pergi ke Tetapan - Bluetooth dan sambungkan Bluetooth secara manual.";
+"today_step" = "Bilangan langkah hari ini";
+"consumption" = "Penggunaan";
+"heart_desc" = "Kadar denyutan jantung normal manusia 60-100 degupan setiap minit";
+"blood_pressure_desc" = "Tekanan darah normal manusia: <130/85 mmHg";
+"null_data" = "Tiada data";
+"add_dial" = "Tambah muka jam";
+"mine_manage" = "Pengurusan";
+"mine_finish" = "Penyelesaian";

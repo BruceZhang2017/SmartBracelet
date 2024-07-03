@@ -58,7 +58,7 @@ class HealthViewController: BaseViewController {
         // 设置导航栏标题颜色
         title = "health_head".localized()
         for _ in 0..<4 {
-            arrayValue.append(NSMutableAttributedString(string: "暂无数据", attributes: [.font: UIFont.body2(), .foregroundColor: UIColor.text_secondary]))
+            arrayValue.append(NSMutableAttributedString(string: "null_data".localized(), attributes: [.font: UIFont.body2(), .foregroundColor: UIColor.text_secondary]))
         }
         let openCount = UserDefaults.standard.integer(forKey: "APPOPEN") // 如果app打开次数
         if openCount >= 20 { //当打开次数>20次后，就打开邀请评论app的弹窗
@@ -277,8 +277,10 @@ class HealthViewController: BaseViewController {
                 let v = NSMutableAttributedString()
                 v.append(NSAttributedString(string: "\(heart)", attributes: [.font: UIFont.systemFont(ofSize: 20, weight: .black), .foregroundColor: UIColor.black]))
                 v.append(NSAttributedString(string: "health_value_p_minute".localized(), attributes: [.font: UIFont.systemFont(ofSize: 10, weight: .semibold), .foregroundColor: UIColor.text_secondary]))
-                self?.arrayValue[0] = v
-                self?.tableView.reloadData()
+                if heart > 0 {
+                    self?.arrayValue[0] = v
+                    self?.tableView.reloadData()
+                }
             }
         } else if objc == "blood" {
             DispatchQueue.main.async {
@@ -290,10 +292,12 @@ class HealthViewController: BaseViewController {
                 let v = NSMutableAttributedString()
                 v.append(NSAttributedString(string: "\(max)/\(min)", attributes: [.font: UIFont.systemFont(ofSize: 20, weight: .black), .foregroundColor: UIColor.black]))
                 v.append(NSAttributedString(string: "MMHG", attributes: [.font: UIFont.systemFont(ofSize: 10, weight: .semibold), .foregroundColor: UIColor.text_secondary]))
-                self?.arrayValue[2] = v
-                self?.tableView.reloadData()
-                UserDefaults.standard.setValue("\(max)/\(min)", forKey: "blood")
-                UserDefaults.standard.synchronize()
+                if min > 0 {
+                    self?.arrayValue[2] = v
+                    self?.tableView.reloadData()
+                    UserDefaults.standard.setValue("\(max)/\(min)", forKey: "blood")
+                    UserDefaults.standard.synchronize()
+                }
             }
         } else if objc == "oxygen" {
             DispatchQueue.main.async {
@@ -307,34 +311,49 @@ class HealthViewController: BaseViewController {
                 let v = NSMutableAttributedString()
                 v.append(NSAttributedString(string: "\(value)", attributes: [.font: UIFont.systemFont(ofSize: 20, weight: .black), .foregroundColor: UIColor.black]))
                 v.append(NSAttributedString(string: "%  \("health_head".localized())", attributes: [.font: UIFont.systemFont(ofSize: 10, weight: .semibold), .foregroundColor: UIColor.text_secondary]))
-                self?.arrayValue[3] = v
-                self?.tableView.reloadData()
-                UserDefaults.standard.setValue("\(value)", forKey: "oxygen")
-                UserDefaults.standard.synchronize()
+                if value > 0 {
+                    self?.arrayValue[3] = v
+                    self?.tableView.reloadData()
+                    UserDefaults.standard.setValue("\(value)", forKey: "oxygen")
+                    UserDefaults.standard.synchronize()
+                }
             }
         } else if objc == "delete" {
+            print("执行删除设备的动作")
             let userinfo = notification.userInfo as? [String : String]
             var mac = userinfo?["mac"] ?? ""
             if mac.count == 0 {
                 mac = UserDefaults.standard.string(forKey: "LastestDeviceMac") ?? ""
             }
             if mac.count > 0 {
+                print("执行删除设备的动作: \(mac)")
                 for device in DeviceManager.shared.devices {
                     if device.mac == mac {
                         if let model = try? BLEModel.er.array("mac = '\(mac)'").first {
                             try? model.er.delete()
+                            print("执行删除设备的动作标志成功")
                         }
                         break
                     }
                 }
             }
-            DeviceManager.shared.initializeDevices()
+            if mac.count == 0 && DeviceManager.shared.devices.count == 1 {
+                try? BLEModel.er.deleteAll() // 删除所有设备
+            }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                [weak self] in
+                DeviceManager.shared.initializeDevices()
 
-            refreshDBStep()
-            refreshDBHeart()
-            refreshDBSleep()
-            refreshDBBlood()
-            refreshDBOxygen()
+                self?.refreshDBStep()
+                self?.refreshDBHeart()
+                self?.refreshDBSleep()
+                self?.refreshDBBlood()
+                self?.refreshDBOxygen()
+                
+                if DeviceManager.shared.devices.count == 0 {
+                    self?.readDBStep(null: true)
+                }
+            }
         }
     }
     
@@ -353,8 +372,8 @@ class HealthViewController: BaseViewController {
             tabBarController?.present(popup!, animated: false, completion: nil)
             popup?.iconImageView?.image = UIImage(named: "bt_close")
             let attStr = NSMutableAttributedString()
-            attStr.append(NSAttributedString(string: "\("mine_bluetooth_unconnect".localized())\n请到", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 13)]))
-            attStr.append(NSAttributedString(string: "设置-打开蓝牙", attributes: [.foregroundColor: UIColor.k14C8C6, .font: UIFont.systemFont(ofSize: 13), .underlineStyle: NSUnderlineStyle.single.rawValue]))
+            attStr.append(NSAttributedString(string: "\("mine_bluetooth_unconnect".localized())\n", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 13)]))
+            attStr.append(NSAttributedString(string: "push_to_bt_settings".localized(), attributes: [.foregroundColor: UIColor.k14C8C6, .font: UIFont.systemFont(ofSize: 13), .underlineStyle: NSUnderlineStyle.single.rawValue]))
             let style = NSMutableParagraphStyle()
             style.alignment = .center
             style.lineSpacing = 10
@@ -504,7 +523,12 @@ class HealthViewController: BaseViewController {
     }
     
     // 读取数据库内缓存数据
-    private func readDBStep() {
+    private func readDBStep(null: Bool = false) {
+        if null {
+            refreshValue(label: footValueLabel, value: "\(0)", unit: "health_step_noun".localized(), size1: 40, size2: 14)
+            refreshStepValue(unit: 0, v: 0)
+            return
+        }
         let time = Int(Date().zeroTimeStamp())
         let models = try? DStepModel.er.array("timeStamp > \(time) AND mac = '\(lastestDeviceMac)'")
         print("数据库里\(lastestDeviceMac)步数晚于\(time)的数据总条数：\(models?.count ?? 0)")
@@ -616,14 +640,6 @@ class HealthViewController: BaseViewController {
     }
     
     private func readDBBlood() {
-        if let value = UserDefaults.standard.string(forKey: "blood"), value.count > 0 {
-            let v = NSMutableAttributedString()
-            v.append(NSAttributedString(string: "\(value)", attributes: [.font: UIFont.systemFont(ofSize: 20, weight: .black), .foregroundColor: UIColor.black]))
-            v.append(NSAttributedString(string: "MMHG", attributes: [.font: UIFont.systemFont(ofSize: 10, weight: .semibold), .foregroundColor: UIColor.text_secondary]))
-            arrayValue[2] = v
-            tableView.reloadData()
-            return
-        }
         let models = try? DBloodModel.er.array("mac = '\(lastestDeviceMac)'").sorted(byKeyPath: "timeStamp", ascending: false)
         print("数据库里血压的数据总条数：\(models?.count ?? 0)")
         var min = 0

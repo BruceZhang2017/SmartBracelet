@@ -377,3 +377,14 @@
 "start_uploading" = "Hochladen starten";
 "agree_download_upload" = "Sind Sie sicher, dass Sie herunterladen und hochladen möchten?";
 "agree_log_out" = "Sind Sie sicher, dass Sie sich von diesem Konto abmelden möchten?";
+
+"today_sleep" = "Der heutige Schlaf";
+"push_to_bt_settings" = "Bitte gehen Sie zu Einstellungen - Bluetooth und verbinden Sie manuell mit Bluetooth.";
+"today_step" = "Schrittzahl von heute";
+"consumption" = "Verbrauch";
+"heart_desc" = "Normale Herzfrequenz beim Menschen 60-100 Schläge pro Minute";
+"blood_pressure_desc" = "Normaler Blutdruck beim Menschen: <130/85 mmHg";
+"null_data" = "Keine Daten verfügbar";
+"add_dial" = "Zifferblatt hinzufügen";
+"mine_manage" = "Verwaltung";
+"mine_finish" = "Abgeschlossen";

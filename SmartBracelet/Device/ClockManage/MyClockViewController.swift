@@ -50,6 +50,13 @@ class MyClockViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        let w: CGFloat = CGFloat(bleSelf.bleModel.screenWidth)
+        let h: CGFloat = CGFloat(bleSelf.bleModel.screenHeight)
+        if w == 80 {
+            self.view.bg_base1()
+            self.edgesForExtendedLayout = .all
+        }
+        
         title = "custom_watch_face".localized()
         print("瑞昱设备表盘宽%@高%@,可推空间",bleSelf.bleModel.screenWidth, bleSelf.bleModel.screenHeight)
         
@@ -68,8 +75,7 @@ class MyClockViewController: UIViewController {
         footView = CustomImageFooterView(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: 160))
         tableView.tableFooterView = footView
         
-        let w: CGFloat = CGFloat(bleSelf.bleModel.screenWidth)
-        let h: CGFloat = CGFloat(bleSelf.bleModel.screenHeight)
+        
         footView?.isHidden = !(w == 80 && h == 160)
         footView?.delegate = self
         bleSelf.getFuncCategory()
@@ -81,6 +87,7 @@ class MyClockViewController: UIViewController {
         } else { // 圆形
             height =  width
         }
+        
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -123,6 +130,12 @@ class MyClockViewController: UIViewController {
             let any = notify.object as! Int
             print("收到壁纸推送通知: \(any)")
             if any == 1 {
+                let bk = bleSelf.bleModel.internalNumber.hasPrefix("5A4B") // 是否为中科
+                var mtuSize = 16
+                if bk {
+                    mtuSize = bleSelf.manager.myPeripheral?.maximumWriteValueLength(for: .withoutResponse) ?? 16
+                    mtuSize -= 4
+                }
                 for i in 0..<self.total {
                     if needStop == true {
                         Async.main {
@@ -142,9 +155,13 @@ class MyClockViewController: UIViewController {
                         let d = Float(i * 100) / Float(sSelf.total)
                         self?.imageUploadVc?.refreshProgress(p: String(format: "%.02f%%", d))
                     }
-                    print("for循环推送: \(i) \(self.total)")
-                    bleSelf.setImagePush(binData, dataIndex: i)
-                    usleep(30 * 1000)
+                    print("for循环推送[\(mtuSize)]: \(i) \(self.total)")
+                    bleSelf.setImagePush(binData, dataIndex: i, MTU: mtuSize)
+                    if bk {
+                        usleep(100 * 1000)
+                    } else {
+                        usleep(30 * 1000)
+                    }
                     if i + 1 == self.total {
                         let timestamp = Int(Date().timeIntervalSince1970)
                         DispatchQueue.main.async {
@@ -202,7 +219,6 @@ class MyClockViewController: UIViewController {
                     wuPrint("更新失败")
                     return
                 }
-                wuPrint("更新成功")
                 DispatchQueue.main.async {
                     [weak self] in
                     self?.imageUploadVc?.dismiss(animated: false, completion: {
@@ -266,12 +282,7 @@ class MyClockViewController: UIViewController {
                     i += 2
                 }
             }
-            
-            
             wuPrint(data.count)
-            self.total = Int(ceil(Double(data.count)/16))
-            self.binData = data
-            
             bleSelf.startImagePush(data)
             
         }
@@ -345,8 +356,12 @@ extension MyClockViewController: UITableViewDelegate {
 
 extension MyClockViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        let bk = bleSelf.bleModel.internalNumber.hasPrefix("5A4B") // 是否为中科
         if bleSelf.isJLBlue {
             return 1
+        }
+        if bk {
+            return 4
         }
         return 5
     }
@@ -495,13 +510,26 @@ extension MyClockViewController: EditClcokBottomTableViewCellDelegate {
 extension MyClockViewController: UploadImageDelegate {
     func startUpload(image: UIImage) {
         currentImage = image
-        let data = bleSelf.getRGBData565FromImage(image: image)!
-        self.total = Int(ceil(Double(data.count)/16))
-        self.binData = data
         if bleSelf.isJLBlue {
             jlPushInitialize(image: image)
         } else {
-            bleSelf.startImagePush(data)
+            let bk = bleSelf.bleModel.internalNumber.hasPrefix("5A4B") // 是否为中科
+            if bk {
+                var mtuSize = 16
+                if bk {
+                    mtuSize = bleSelf.manager.myPeripheral?.maximumWriteValueLength(for: .withoutResponse) ?? 16
+                    mtuSize -= 4
+                }
+                let data = image.toBMPRGB565()!
+                self.total = Int(ceil(Double(data.count)/Double(mtuSize)))
+                self.binData = data
+                bleSelf.startImagePush(data, MTU: mtuSize)
+            } else {
+                let data = bleSelf.getRGBData565FromImage(image: image)!
+                self.total = Int(ceil(Double(data.count)/16))
+                self.binData = data
+                bleSelf.startImagePush(data)
+            }
         }
     }
 }

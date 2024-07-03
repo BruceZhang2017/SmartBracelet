@@ -22,8 +22,10 @@ class DevicesViewController: BaseViewController {
     @IBOutlet weak var bottomLConstraint: NSLayoutConstraint!
     @IBOutlet weak var dialView: UIView!
     @IBOutlet weak var deviceBGImageView: UIImageView!
+    @IBOutlet weak var btView: UIView!
     let changeButton = UIButton(type: .system)
     let dialButton = VerticalButton(type: .system)
+    let btButton = UIButton(type: .system)
     var deviceSettingView: UIView? // 设备设置的视图
     var deviceView: DevicesView!
     var clockArray: [String] = []
@@ -62,6 +64,31 @@ class DevicesViewController: BaseViewController {
         
         dialView.layer.cornerRadius = 16
         dialView.clipsToBounds = true
+        
+        btView.layer.cornerRadius = 16
+        btView.clipsToBounds = true 
+        btView.addSubview(btButton)
+        btButton.snp.makeConstraints { make in
+            make.leading.equalToSuperview().offset(15)
+            make.trailing.equalToSuperview().offset(-30)
+            make.top.bottom.equalToSuperview()
+        }
+        btButton.setTitleColor(UIColor.black, for: .normal)
+        btButton.titleLabel?.font = UIFont.body2()
+        btButton.setTitle("push_to_bt_settings".localized(), for: .normal)
+        btButton.contentHorizontalAlignment = .left
+        btButton.titleLabel?.numberOfLines = 0
+        btButton.addTarget(self, action: #selector(pushToMobileSettings), for: .touchUpInside)
+        
+        let ivRight = UIImageView(image: UIImage(named: "content_icon_nextgray_normal"))
+        btView.addSubview(ivRight)
+        ivRight.snp.makeConstraints { make in
+            make.centerY.equalToSuperview()
+            make.trailing.equalToSuperview().offset(-10)
+            make.width.equalTo(10)
+            make.height.equalTo(17)
+        }
+        
         
         addChangeButton() // 切换设备
         addDialButton() // 添加表盘
@@ -160,10 +187,10 @@ class DevicesViewController: BaseViewController {
             $0.left.equalTo(0)
             $0.top.equalTo(lblTitle.snp.bottom).offset(10)
             $0.right.equalTo(0)
-            $0.height.equalTo(52 * 11)
+            $0.height.equalTo(52 * 13)
             $0.bottom.equalToSuperview()
         }
-        bottomLConstraint.constant = 52 * 11 + 30 + 40
+        bottomLConstraint.constant = 52 * 13 + 30 + 40
     }
     
     public func addChangeButton() {
@@ -222,7 +249,7 @@ class DevicesViewController: BaseViewController {
     
     // 添加表盘按钮
     public func addDialButton() {
-        dialButton.setTitle("添加表盘", for: .normal)
+        dialButton.setTitle("add_dial".localized(), for: .normal)
         if let image = UIImage(named: "icon_add2") {
             dialButton.setImage(image, for: .normal)
         }

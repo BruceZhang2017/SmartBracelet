@@ -138,7 +138,7 @@
 "health_detail_sleep_awake" = "清醒";
 "health_detail_sleep_light" = "浅睡";
 "health_detail_sleep_deep" = "深睡";
-"health_start_test" = "开始测试";
+"health_start_test" = "开始测量";
 "health_select_time" = "选择时间";
 "health_testing" = "测试中...";
 "add_new_device" = "添加新设备";
@@ -315,7 +315,7 @@
 "health_detail_sleep_awake" = "清醒";
 "health_detail_sleep_light" = "浅睡";
 "health_detail_sleep_deep" = "深睡";
-"health_start_test" = "开始测试";
+"health_start_test" = "开始测量";
 "health_select_time" = "选择时间";
 "health_testing" = "测试中…";
 "add_new_device" = "添加新设备";
@@ -384,3 +384,14 @@
 "start_uploading" = "开始上传";
 "agree_download_upload" = "您确定要下载并上传吗？";
 "agree_log_out" = "您确定退出该账号？";
+
+"today_sleep" = "今日睡眠";
+"push_to_bt_settings" = "请前往设置-蓝牙，手动连接蓝牙";
+"today_step" = "今日步数";
+"consumption" = "消耗";
+"heart_desc" = "人体正常心率60-100次/每分钟";
+"blood_pressure_desc" = "人体正常血压：<130/85mmHg";
+"null_data" = "暂无数据";
+"add_dial" = "添加表盘";
+"mine_manage" = "管理";
+"mine_finish" = "完成";

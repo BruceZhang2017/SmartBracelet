@@ -288,7 +288,7 @@
                                 <rect key="frame" x="0.0" y="92" width="414" height="721"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NJp-PX-3qd">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="695.5"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="740.5"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="V3N-BV-Ics">
                                                 <rect key="frame" x="0.0" y="0.0" width="414" height="280.5"/>
@@ -310,7 +310,7 @@
                                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hGf-C6-QJn">
                                                 <rect key="frame" x="0.0" y="280.5" width="414" height="0.0"/>
                                                 <subviews>
-                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="title_image_notice" translatesAutoresizingMaskIntoConstraints="NO" id="7Gh-Cg-MI2">
+                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="7Gh-Cg-MI2">
                                                         <rect key="frame" x="16" y="-7.5" width="32" height="15"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="15" id="3Gb-pM-hqk"/>
@@ -333,8 +333,15 @@
                                                     <constraint firstItem="7Gh-Cg-MI2" firstAttribute="leading" secondItem="hGf-C6-QJn" secondAttribute="leading" constant="16" id="vAM-q7-ojh"/>
                                                 </constraints>
                                             </view>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LVj-M9-6ql">
+                                                <rect key="frame" x="15" y="290.5" width="384" height="40"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="40" id="YGX-8l-wth"/>
+                                                </constraints>
+                                            </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="29Q-vy-Wz1">
-                                                <rect key="frame" x="15" y="295.5" width="384" height="218"/>
+                                                <rect key="frame" x="15" y="340.5" width="384" height="218"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="表盘管理" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bw4-Os-NVl">
                                                         <rect key="frame" x="25" y="10" width="61.5" height="18"/>
@@ -429,16 +436,19 @@
                                         </subviews>
                                         <color key="backgroundColor" red="0.96078431372549022" green="0.96078431372549022" blue="0.96078431372549022" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
-                                            <constraint firstItem="29Q-vy-Wz1" firstAttribute="top" secondItem="hGf-C6-QJn" secondAttribute="bottom" constant="15" id="Aa9-nf-ETN"/>
+                                            <constraint firstItem="29Q-vy-Wz1" firstAttribute="top" secondItem="hGf-C6-QJn" secondAttribute="bottom" constant="60" id="Aa9-nf-ETN"/>
+                                            <constraint firstItem="LVj-M9-6ql" firstAttribute="leading" secondItem="NJp-PX-3qd" secondAttribute="leading" constant="15" id="DbM-G2-vYA"/>
                                             <constraint firstItem="hGf-C6-QJn" firstAttribute="leading" secondItem="NJp-PX-3qd" secondAttribute="leading" id="NB2-LN-lRW"/>
                                             <constraint firstAttribute="trailing" secondItem="29Q-vy-Wz1" secondAttribute="trailing" constant="15" id="Y7B-hM-4p2"/>
                                             <constraint firstAttribute="bottom" secondItem="29Q-vy-Wz1" secondAttribute="bottom" constant="182" id="bmd-KI-kbm"/>
                                             <constraint firstItem="V3N-BV-Ics" firstAttribute="top" secondItem="NJp-PX-3qd" secondAttribute="top" id="eO7-1Y-1L5"/>
                                             <constraint firstAttribute="trailing" secondItem="hGf-C6-QJn" secondAttribute="trailing" id="fCi-eL-O73"/>
+                                            <constraint firstItem="LVj-M9-6ql" firstAttribute="top" secondItem="V3N-BV-Ics" secondAttribute="bottom" constant="10" id="hjY-dD-7RI"/>
                                             <constraint firstItem="V3N-BV-Ics" firstAttribute="leading" secondItem="NJp-PX-3qd" secondAttribute="leading" id="lnn-X9-3fS"/>
                                             <constraint firstItem="29Q-vy-Wz1" firstAttribute="leading" secondItem="NJp-PX-3qd" secondAttribute="leading" constant="15" id="nJF-EI-GTg"/>
                                             <constraint firstItem="hGf-C6-QJn" firstAttribute="top" secondItem="V3N-BV-Ics" secondAttribute="bottom" id="sWq-Rt-Hax"/>
                                             <constraint firstAttribute="trailing" secondItem="V3N-BV-Ics" secondAttribute="trailing" id="vqf-cP-bip"/>
+                                            <constraint firstAttribute="trailing" secondItem="LVj-M9-6ql" secondAttribute="trailing" constant="15" id="zeH-7Z-FTJ"/>
                                         </constraints>
                                     </view>
                                 </subviews>
@@ -463,6 +473,7 @@
                     <navigationItem key="navigationItem" id="fpJ-bW-Td0"/>
                     <connections>
                         <outlet property="bottomLConstraint" destination="bmd-KI-kbm" id="ggJ-Hh-ch9"/>
+                        <outlet property="btView" destination="LVj-M9-6ql" id="TIi-Dc-mGr"/>
                         <outlet property="collectionView" destination="XML-AF-UbS" id="sTN-YC-qa4"/>
                         <outlet property="contentView" destination="NJp-PX-3qd" id="1DX-3z-1a1"/>
                         <outlet property="deviceBGImageView" destination="b68-7K-jo0" id="B5s-t6-EId"/>
@@ -683,7 +694,6 @@
         <image name="tabbar_health_unsel" width="28" height="28"/>
         <image name="tabbar_user_sel" width="28" height="28"/>
         <image name="tabbar_user_unsel" width="28" height="28"/>
-        <image name="title_image_notice" width="32" height="16"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

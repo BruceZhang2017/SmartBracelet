@@ -22,22 +22,18 @@ class DeviceSettingsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        bleSelf.getLongSitForWristband()
-       // title = "设备设置"
-        tableView.backgroundColor = UIColor.kF5F5F5
-        tableView.isScrollEnabled = false 
-//        footerView = UIView(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: 104))
-//        footerView.backgroundColor = UIColor.clear
-//        let deleteButton = UIButton(type: .custom)
-//        deleteButton.frame = CGRect(x: 15, y: 30, width: ScreenWidth - 30, height: 44)
-//        deleteButton.backgroundColor = UIColor.kEEEEEE
-//        deleteButton.setTitleColor(UIColor.kFF3276, for: .normal)
-//        deleteButton.setTitle("deivce_unbind".localized(), for: .normal)
-//        deleteButton.addTarget(self, action: #selector(deleteDevice(_:)), for: .touchUpInside)
-//        footerView.addSubview(deleteButton)
-//        tableView.tableFooterView = footerView
-        
         bleSelf.getAncsSwitchForWristband() // 苹果推送消息
+        let delay = DispatchTime.now() + 0.05
+        DispatchQueue.main.asyncAfter(deadline: delay) {
+            bleSelf.getLongSitForWristband()
+        }
+        let delay2 = DispatchTime.now() + 0.1
+        DispatchQueue.main.asyncAfter(deadline: delay2) {
+            bleSelf.getDrinkForWristband()
+        }
+       
+        tableView.backgroundColor = UIColor.kF5F5F5
+        tableView.isScrollEnabled = false
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: Notification.Name("DeviceSettings"), object: nil)
     }
     
@@ -51,6 +47,16 @@ class DeviceSettingsViewController: UIViewController {
     }
     
     @objc private func handleNotification(_ notification: Notification) {
+        if let obj = notification.object as? Int {
+            if obj == 1 {
+                DispatchQueue.main.async {
+                    [weak self] in
+                    self?.tableView.reloadData()
+                }
+                return
+            }
+        }
+        
         let current = Date().timeIntervalSince1970
         if currentTime > 0 {
             if abs(current - currentTime) < 4 {
@@ -67,23 +73,6 @@ class DeviceSettingsViewController: UIViewController {
         
     }
     
-    @objc private func deleteDevice(_ sender: Any) {
-        let alert = UIAlertController(title: "device_tip".localized(), message: "unbind_device_desc".localized(), preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "mine_cancel".localized(), style: .cancel, handler: { (action) in
-            
-        }))
-        alert.addAction(UIAlertAction(title: "mine_confirm".localized(), style: .default, handler: { [weak self] (action) in
-            NotificationCenter.default.post(name: Notification.Name("HealthViewController"), object: "delete")
-            BLEManager.shared.unbind()
-            UserDefaults.standard.removeObject(forKey: "LastestDeviceMac")
-            NotificationCenter.default.post(name: Notification.Name("DevicesViewController"), object: nil)
-            self?.navigationController?.popViewController(animated: true)
-        }))
-        present(alert, animated: true) {
-            
-        }
-    }
-    
     @objc private func valueChanged(_ sender: Any) {
         let mSwitch = sender as? UISwitch
         let tag = mSwitch?.tag ?? 0
@@ -96,6 +85,9 @@ class DeviceSettingsViewController: UIViewController {
         } else if tag == 1000 { // 来电提醒
             bleSelf.notifyModel.isCall = mSwitch?.isOn ?? false
             bleSelf.setAncsSwitchForWristband(bleSelf.notifyModel)
+        } else { // 喝水提醒
+            bleSelf.functionSwitchModel.isDrink = mSwitch?.isOn ?? false
+            bleSelf.setSwitchForWristband(bleSelf.functionSwitchModel)
         }
     }
     
@@ -135,7 +127,7 @@ extension DeviceSettingsViewController: UITableViewDataSource {
         cell.textLabel?.text = titles[indexPath.row]
         cell.textLabel?.textColor = UIColor.text_secondary
         cell.textLabel?.font = UIFont.body1()
-        if indexPath.row >= 1 && indexPath.row <= 3 {
+        if (indexPath.row >= 1 && indexPath.row <= 3) || indexPath.row == 5 {
             let mSwitch = UISwitch()
             mSwitch.tag = 999 + indexPath.row
             mSwitch.addTarget(self, action: #selector(valueChanged(_:)), for: .valueChanged)
@@ -146,6 +138,8 @@ extension DeviceSettingsViewController: UITableViewDataSource {
                 mSwitch.isOn = bleSelf.functionSwitchModel.isLightScreen
             } else if indexPath.row == 1 {
                 mSwitch.isOn = bleSelf.notifyModel.isCall
+            } else if indexPath.row == 5 {
+                mSwitch.isOn = bleSelf.functionSwitchModel.isDrink
             }
 
         } else {
@@ -154,6 +148,8 @@ extension DeviceSettingsViewController: UITableViewDataSource {
         }
         if indexPath.row == 4 {
             cell.detailTextLabel?.text = "\(bleSelf.longSitModel.interval)\("minute".localized())"
+        } else if indexPath.row == 6 {
+            cell.detailTextLabel?.text = "\(bleSelf.drinkModel.interval)\("minute".localized())"
         } else {
             cell.detailTextLabel?.text = ""
         }
@@ -179,29 +175,34 @@ extension DeviceSettingsViewController: UITableViewDelegate {
                 let vc = storyboard?.instantiateViewController(withIdentifier: "LongsitSettingsViewController")
                 vc?.hidesBottomBarWhenPushed = true
                 parent?.navigationController?.pushViewController(vc!, animated: true)
-            } else if indexPath.row == 5 {
+            } else if indexPath.row == 7 {
                 let vc = OpenWeatherViewController()
                 vc.hidesBottomBarWhenPushed = true
                 parent?.navigationController?.pushViewController(vc, animated: true)
+            }  else if indexPath.row == 6 {
+                let vc = storyboard?.instantiateViewController(withIdentifier: "LongsitSettingsViewController") as? LongsitSettingsViewController
+                vc?.flag = 1
+                vc?.hidesBottomBarWhenPushed = true
+                parent?.navigationController?.pushViewController(vc!, animated: true)
             }
         }
-        if indexPath.row == 9 {
+        if indexPath.row == 11 {
             bleSelf.setCameraForWristband(true)
             takePhoto()
-        } else if indexPath.row == 8 { // 设置信息
+        } else if indexPath.row == 10 { // 设置信息
             let storyboard = UIStoryboard(name: .kDevice, bundle: nil)
             let vc = storyboard.instantiateViewController(withIdentifier: "DeviceInfoViewController")
             vc.hidesBottomBarWhenPushed = true
             parent?.navigationController?.pushViewController(vc, animated: true)
-        } else if indexPath.row == 7 { // 查找设备
+        } else if indexPath.row == 9 { // 查找设备
             let storyboard = UIStoryboard(name: .kDevice, bundle: nil)
             let vc = storyboard.instantiateViewController(withIdentifier: "DeviceFoundViewController")
             vc.hidesBottomBarWhenPushed = true
             parent?.navigationController?.pushViewController(vc, animated: true)
-        } else if indexPath.row == 6 { // 闹钟设置
+        } else if indexPath.row == 8 { // 闹钟设置
             bleSelf.getAlarmForWristband() // 获取闹钟信息
             perform(#selector(readAlarm), with: nil, afterDelay: 0.3)
-        } else if indexPath.row == 10 { // 同步数据
+        } else if indexPath.row == 12 { // 同步数据
             if bleSelf.isConnected {
                 bleSelf.getStep()
                 NotificationCenter.default.post(name: Notification.Name("HealthVCLoading"), object: 2)
@@ -216,7 +217,7 @@ extension DeviceSettingsViewController: UITableViewDelegate {
 
 extension DeviceSettingsViewController {
     var titles: [String] {
-        return ["device_push_settings".localized(), "device_call_amind".localized(), "device_hand_up_screen".localized(), "device_longsit_amind".localized(), "device_longsit_amind_time".localized(), "device_weather_push".localized(), "device_alarm_settings".localized(), "device_search_settings".localized(), "device_device_info".localized(),"device_shark_photo".localized(), "synchronize_data".localized()]
+        return ["device_push_settings".localized(), "device_call_amind".localized(), "device_hand_up_screen".localized(), "device_longsit_amind".localized(), "device_longsit_amind_time".localized(),"drink_water_reminder".localized(), "drink_water_reminder_time".localized(), "device_weather_push".localized(), "device_alarm_settings".localized(), "device_search_settings".localized(), "device_device_info".localized(),"device_shark_photo".localized(), "synchronize_data".localized()]
     }
 }
 

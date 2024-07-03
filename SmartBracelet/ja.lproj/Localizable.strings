@@ -376,3 +376,14 @@
 "start_uploading" = "アップロードを開始する";
 "agree_download_upload" = "ダウンロードしてアップロードしますか？";
 "agree_log_out" = "このアカウントからログアウトしますか？";
+
+"today_sleep" = "今日の睡眠";
+"push_to_bt_settings" = "設定 - Bluetoothに移動し、Bluetoothを手動で接続してください。";
+"today_step" = "今日の歩数";
+"consumption" = "消費";
+"heart_desc" = "人の正常な心拍数 60-100回/分";
+"blood_pressure_desc" = "人の正常な血圧：<130/85mmHg";
+"null_data" = "データなし";
+"add_dial" = "文字盤を追加する";
+"mine_manage" = "管理";
+"mine_finish" = "完了";

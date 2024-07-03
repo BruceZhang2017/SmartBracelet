@@ -133,7 +133,8 @@ class UploadImageViewController: UIViewController {
             let w: CGFloat = CGFloat(bleSelf.bleModel.screenWidth)
             let h: CGFloat = CGFloat(bleSelf.bleModel.screenHeight)
             let newImage = i.scaled(to: CGSize(width: w, height: h))
-            if bleSelf.isJLBlue {
+            let bk = bleSelf.bleModel.internalNumber.hasPrefix("5A4B") // 是否为中科
+            if bleSelf.isJLBlue || bk {
                 delegate?.startUpload(image: newImage)
             } else {
                 let imageData = newImage.compressImageOnlength(maxLength: (w <= 80 || h <= 160) ? 28 : 100)

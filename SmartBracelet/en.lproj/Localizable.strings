@@ -376,3 +376,14 @@
 "start_uploading" = "Start uploading";
 "agree_download_upload" = "Are you sure you want to download and upload?";
 "agree_log_out" = "Are you sure you want to log out of this account?";
+
+"today_sleep" = "Today's Sleep";
+"push_to_bt_settings" = "Please go to Settings - Bluetooth and manually connect to Bluetooth.";
+"today_step" = "Today's step";
+"consumption" = "Consumption";
+"heart_desc" = "Normal human heart rate 60-100 beats per minute";
+"blood_pressure_desc" = "Normal human blood pressure: <130/85 mmHg";
+"null_data" = "No data";
+"add_dial" = "Add watch face";
+"mine_manage" = "Management";
+"mine_finish" = "Completed";

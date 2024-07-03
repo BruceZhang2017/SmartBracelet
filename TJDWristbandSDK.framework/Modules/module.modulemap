@@ -1,11 +1,11 @@
 framework module TJDWristbandSDK {
   umbrella header "TJDWristbandSDK.h"
-
   export *
+
   module * { export * }
 }
 
 module TJDWristbandSDK.Swift {
-    header "TJDWristbandSDK-Swift.h"
-    requires objc
+  header "TJDWristbandSDK-Swift.h"
+  requires objc
 }

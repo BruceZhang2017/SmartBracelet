@@ -121,7 +121,7 @@ class HealthDetailViewController: BaseViewController {
             let b = NSMutableAttributedString()
             b.append(NSAttributedString(string: "--", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 40, weight: .black)]))
             b.append(NSAttributedString(string: " ", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 14, weight: .medium)]))
-            fanView.setupView(titles: ["health_distance".localized(), "消耗"], values: [m, c], title: "今日步数", value: b)
+            fanView.setupView(titles: ["health_distance".localized(), "consumption".localized()], values: [m, c], title: "today_step".localized(), value: b)
         }
         if type == 2 {
             title = "health_heart_rate".localized()
@@ -133,7 +133,7 @@ class HealthDetailViewController: BaseViewController {
             b.append(NSAttributedString(string: "--", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 40, weight: .black)]))
             b.append(NSAttributedString(string: " ", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 14, weight: .medium)]))
             roundView.setupView(value: b)
-            valueView.refreshLabel(text: "人体正常心率60-100次/每分钟")
+            valueView.refreshLabel(text: "heart_desc".localized())
             addTest()
         }
         if type == 3 {
@@ -155,7 +155,7 @@ class HealthDetailViewController: BaseViewController {
             b.append(NSAttributedString(string: " ", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 10, weight: .medium)]))
             b.append(NSAttributedString(string: "", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 40, weight: .black)]))
             b.append(NSAttributedString(string: "", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 10, weight: .medium)]))
-            fanView.setupView(titles: ["清醒", "浅睡", "深睡"], values: [qing, qian, shen], title: "今日睡眠", value: b)
+            fanView.setupView(titles: ["health_detail_sleep_awake".localized(), "health_detail_sleep_light".localized(), "health_detail_sleep_deep".localized()], values: [qing, qian, shen], title: "today_sleep".localized(), value: b)
         }
         if type == 4 {
             title = "health_blood_pressure".localized()
@@ -163,10 +163,10 @@ class HealthDetailViewController: BaseViewController {
             roundView.isHidden = false
             testView.isHidden = true
             testView.setupView()
-            valueView.refreshLabel(text: "人体正常血压：<130/85mmgh")
+            valueView.refreshLabel(text: "blood_pressure_desc".localized())
             let b = NSMutableAttributedString()
-            b.append(NSAttributedString(string: "--", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 40, weight: .black)]))
-            b.append(NSAttributedString(string: " ", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 14, weight: .medium)]))
+            b.append(NSAttributedString(string: "--", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 30, weight: .black)]))
+            b.append(NSAttributedString(string: " ", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 12, weight: .medium)]))
             roundView.setupView(value: b)
             addTest()
         }
@@ -204,24 +204,63 @@ class HealthDetailViewController: BaseViewController {
     }
     
     private func addTest() {
-        // 创建一个UIBarButtonItem
-        let rightButton = UIBarButtonItem(title: "测量", style: .plain, target: self, action: #selector(self.rightBarButtonAction))
-        // 设置字体颜色
-        rightButton.tintColor = UIColor.white
-        // 将UIBarButtonItem设置为navigationItem的右侧按钮
-        self.navigationItem.rightBarButtonItem = rightButton
+        let bk = bleSelf.bleModel.internalNumber.hasPrefix("5A4B") // 是否为中科
+        if bk {
+            return
+        }
+        
+        if bleSelf.isConnected == false {
+            return
+        }
+        
+        if screenHeight <= 667 {
+            // 创建一个UIBarButtonItem
+            let rightButton = UIBarButtonItem(title: "health_start_test".localized(), style: .plain, target: self, action: #selector(self.rightBarButtonAction))
+            // 设置字体颜色
+            rightButton.tintColor = UIColor.white
+            // 将UIBarButtonItem设置为navigationItem的右侧按钮
+            self.navigationItem.rightBarButtonItem = rightButton
+        } else {
+            let testButton = UIButton(type: .custom)
+            testButton.tag = 8888
+            testButton.setTitle("health_start_test".localized(), for: .normal)
+            testButton.setTitleColor(UIColor.brand, for: .normal)
+            testButton.layer.borderColor = UIColor.brand.cgColor
+            testButton.layer.borderWidth = 1.0
+            testButton.backgroundColor = .white
+            testButton.layer.cornerRadius = 22
+            // 添加按钮到视图中
+            view.addSubview(testButton)
+            testButton.snp.makeConstraints { make in
+                make.centerX.equalToSuperview()
+                make.width.equalTo(150)
+                make.height.equalTo(44)
+                make.bottom.equalTo(valueView.snp.top).offset(-10)
+            }
+            testButton.addTarget(self, action: #selector(rightBarButtonAction), for: .touchUpInside)
+        }
+        
     }
     
     // UIBarButtonItem的点击事件处理器
     @objc func rightBarButtonAction() {
-        // 隐藏按钮
-        self.navigationItem.rightBarButtonItem = nil
+        if screenHeight <= 667 {
+            // 隐藏按钮
+            self.navigationItem.rightBarButtonItem = nil
+            // 或者，如果你想保持按钮但仅仅是禁用它，可以这样做：
+            self.navigationItem.rightBarButtonItem?.isEnabled = false
+        } else {
+            if let btn = view.viewWithTag(8888) as? UIButton {
+                btn.isHidden = true
+            }
+        }
         
-        // 或者，如果你想保持按钮但仅仅是禁用它，可以这样做：
-        self.navigationItem.rightBarButtonItem?.isEnabled = false
         roundView.isHidden = true
         fanView.isHidden = true
         testView.isHidden = false
+        handleStartTest() // 启动测试
+        
+        
     }
     
     @objc func backButtonTapped() {
@@ -271,7 +310,44 @@ class HealthDetailViewController: BaseViewController {
     }
     
     @objc private func handleNotification(_ notification: Notification) {
-        testView.stop()
+        if testView.isHidden == false {
+            testView.stop()
+            if type == 0 {
+                fanView.isHidden = false
+                roundView.isHidden = true
+                testView.isHidden = true
+            }
+            if type == 2 {
+                fanView.isHidden = true
+                roundView.isHidden = false
+                testView.isHidden = true
+            }
+            if type == 3 {
+                fanView.isHidden = false
+                roundView.isHidden = true
+                testView.isHidden = true
+            }
+            if type == 4 {
+                fanView.isHidden = true
+                roundView.isHidden = false
+                testView.isHidden = true
+            }
+            if type == 5 {
+                fanView.isHidden = true
+                roundView.isHidden = false
+                testView.isHidden = true
+                
+            }
+            if type == 2 || type == 4 || type == 5 {
+                if screenHeight <= 667 {
+                    addTest()
+                } else {
+                    if let btn = view.viewWithTag(8888) as? UIButton {
+                        btn.isHidden = false
+                    }
+                }
+            }
+        }
         if type == 3 {
             setBarData()
         } else {
@@ -389,7 +465,7 @@ class HealthDetailViewController: BaseViewController {
         barChartView.xAxis.drawAxisLineEnabled = false
         barChartView.xAxis.labelPosition = .bottom
         let xAxisFormatter = CustomXAxisFormatter()
-        xAxisFormatter.labels = [" ", "清醒", "浅睡", "深睡", " "]
+        xAxisFormatter.labels = [" ", "health_detail_sleep_awake".localized(), "health_detail_sleep_light".localized(), "health_detail_sleep_deep".localized(), " "]
         barChartView.xAxis.valueFormatter = xAxisFormatter
         barChartView.xAxis.granularity = 1 // 设置粒度以避免重复值
         
@@ -538,14 +614,14 @@ class HealthDetailViewController: BaseViewController {
             }
             if count > 0 {
                 let b = NSMutableAttributedString()
-                b.append(NSAttributedString(string: "\(array.last?.max ?? 0)", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 40, weight: .black)]))
-                b.append(NSAttributedString(string: "health_value_p_minute".localized(), attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 14, weight: .medium)]))
+                b.append(NSAttributedString(string: "\(array.last?.max ?? 0)/\(array.last?.min ?? 0)", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 30, weight: .black)]))
+                b.append(NSAttributedString(string: "MMHG", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 12, weight: .medium)]))
                 roundView.refreshView(value: b)
                 roundView.setProgress(CGFloat(array.last?.max ?? 0) / 200)
             } else {
                 let b = NSMutableAttributedString()
-                b.append(NSAttributedString(string: "0", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 40, weight: .black)]))
-                b.append(NSAttributedString(string: "health_value_p_minute".localized(), attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 14, weight: .medium)]))
+                b.append(NSAttributedString(string: "0", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 30, weight: .black)]))
+                b.append(NSAttributedString(string: "MMHG", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 12, weight: .medium)]))
                 roundView.refreshView(value: b)
                 roundView.setProgress(0)
             }

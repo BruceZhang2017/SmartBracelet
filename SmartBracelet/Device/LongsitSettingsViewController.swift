@@ -10,6 +10,7 @@ import UIKit
 
 class LongsitSettingsViewController: BaseViewController {
     @IBOutlet weak var tableView: UITableView!
+    var flag = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,8 +45,13 @@ extension LongsitSettingsViewController: UITableViewDataSource {
             timeLabel.font = UIFont.body1()
         }
         if let iv = cell.viewWithTag(2) as? UIImageView {
-            let inter = bleSelf.longSitModel.interval
-            iv.isHidden = !(inter == times[indexPath.row])
+            if flag == 1 {
+                let inter = bleSelf.drinkModel.interval
+                iv.isHidden = !(inter == times[indexPath.row])
+            } else {
+                let inter = bleSelf.longSitModel.interval
+                iv.isHidden = !(inter == times[indexPath.row])
+            }
         }
         return cell
     }
@@ -56,14 +62,19 @@ extension LongsitSettingsViewController: UITableViewDataSource {
 extension LongsitSettingsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        bleSelf.longSitModel.interval = times[indexPath.row]
-        bleSelf.setLongSitForWristband(bleSelf.longSitModel)
+        if flag == 1 {
+            bleSelf.drinkModel.interval = times[indexPath.row]
+            bleSelf.setDrinkForWristband(bleSelf.drinkModel)
+        } else {
+            bleSelf.longSitModel.interval = times[indexPath.row]
+            bleSelf.setLongSitForWristband(bleSelf.longSitModel)
+        }
         navigationController?.popViewController(animated: true)
     }
 }
 
 extension LongsitSettingsViewController {
     var times: [Int] {
-        return [30, 60, 120, 180]
+        return [10, 30, 60, 120, 180]
     }
 }

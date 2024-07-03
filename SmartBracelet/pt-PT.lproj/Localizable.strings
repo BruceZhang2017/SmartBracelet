@@ -376,3 +376,14 @@
 "start_uploading" = "Iniciar upload";
 "agree_download_upload" = "Tem certeza de que deseja baixar e fazer upload?";
 "agree_log_out" = "Tem certeza de que deseja sair desta conta?";
+
+"today_sleep" = "O sono de hoje";
+"push_to_bt_settings" = "Por favor, vá para Configurações - Bluetooth e conecte manualmente ao Bluetooth.";
+"today_step" = "Contagem de passos de hoje";
+"consumption" = "Consumo";
+"heart_desc" = "Frequência cardíaca normal humana 60-100 batimentos por minuto";
+"blood_pressure_desc" = "Pressão arterial normal humana: <130/85 mmHg";
+"null_data" = "Sem dados disponíveis";
+"add_dial" = "Adicionar mostrador do relógio";
+"mine_manage" = "Gestão";
+"mine_finish" = "Concluído";

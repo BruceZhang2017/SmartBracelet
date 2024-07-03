@@ -17,8 +17,10 @@ class DevicesView: UIView {
     var index = Int() // 下标
     var bConnected = false
     let cardImgView = UIImageView()
+    let btImgView = UIImageView()
     let cardNameLabel = UILabel()
     let batteryButton = UIButton(type: .custom)
+    let macLabel = UILabel() // 蓝牙地址
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -62,6 +64,25 @@ class DevicesView: UIView {
             stackView.centerXAnchor.constraint(equalTo: self.centerXAnchor)
         ])
         
+        macLabel.textColor = UIColor.text_primary
+        macLabel.font = UIFont.body1()
+        macLabel.textAlignment = .left
+        macLabel.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(macLabel)
+        
+        macLabel.snp.makeConstraints { make in
+            make.top.equalTo(stackView.snp.bottom).offset(10)
+            make.centerX.equalTo(stackView)
+        }
+        
+        addSubview(btImgView)
+        btImgView.image = UIImage(named: "content_blueteeth_unlink")
+        btImgView.snp.makeConstraints { make in
+            make.width.equalTo(10)
+            make.height.equalTo(15)
+            make.centerY.equalTo(stackView)
+            make.leading.equalTo(stackView.snp.trailing).offset(5)
+        }
     }
 
     public func refreshData() {
@@ -87,9 +108,10 @@ class DevicesView: UIView {
             } else {
                 self.isHidden = false
                 cardImgView.image = UIImage(named: AppDelegate.IsDeviceNotRound() ? "icon_ewatch" : "icon_ewatch_2")
-                cardNameLabel.text = "ewatch" //(currentModel?.name ?? "") + " - \(bleSelf.bleModel.screenWidth)*\(bleSelf.bleModel.screenHeight)"
+                cardNameLabel.text = (currentModel?.name ?? "") + " - \(bleSelf.bleModel.screenWidth)*\(bleSelf.bleModel.screenHeight)"
                 if currentModel!.mac == lastestDeviceMac && bleSelf.isConnected {
                     bConnected = true
+                    btImgView.image = UIImage(named: "content_blueteeth_link")
                 }
                 let deviceInfo = DeviceManager.shared.deviceInfo[currentModel!.mac]
                 if deviceInfo != nil {
@@ -101,6 +123,7 @@ class DevicesView: UIView {
                 } else {
                     batteryButton.setImage(UIImage(named: "conten_battery_null"), for: .normal)
                 }
+                macLabel.text = currentModel?.mac ?? ""
             }
         }
     }

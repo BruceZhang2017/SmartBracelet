@@ -376,3 +376,14 @@
 "start_uploading" = "開始上傳";
 "agree_download_upload" = "您確定要下載並上傳嗎？";
 "agree_log_out" = "您確定要退出該帳號嗎？";
+
+"today_sleep" = "今日睡眠";
+"push_to_bt_settings" = "請前往設定 - 藍牙，手動連接藍牙。";
+"today_step" = "今日步數";
+"consumption" = "消耗";
+"heart_desc" = "人體正常心率60-100次/每分鐘";
+"blood_pressure_desc" = "人體正常血壓：<130/85 mmHg";
+"null_data" = "暫無數據";
+"add_dial" = "添加錶盤";
+"mine_manage" = "管理";
+"mine_finish" = "完成";

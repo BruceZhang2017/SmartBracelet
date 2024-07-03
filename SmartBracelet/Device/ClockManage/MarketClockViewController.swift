@@ -30,9 +30,9 @@ class MarketClockViewController: UIViewController {
         if bShowDetail == false {
             rightButton = UIButton(type: .custom).then {
                 $0.initializeRightNavigationItem()
-                $0.setTitle("管理", for: .normal)
+                $0.setTitle("mine_manage".localized(), for: .normal)
                 $0.setTitle("mine_delete".localized(), for: .selected)
-                $0.setTitle("完成", for: .disabled)
+                $0.setTitle("mine_finish".localized(), for: .disabled)
             }
             navigationItem.rightBarButtonItem = UIBarButtonItem(customView: rightButton)
         }
@@ -56,7 +56,11 @@ class MarketClockViewController: UIViewController {
         ProgressHUD.animate(nil, .activityIndicator, interaction: false)
         let w = bleSelf.bleModel.screenWidth
         let h = bleSelf.bleModel.screenHeight
-        let firmNo = bleSelf.isJLBlue ? "JieLi" : "FengJiaWei"
+        var firmNo = bleSelf.isJLBlue ? "JieLi" : "FengJiaWei"
+        let bk = bleSelf.bleModel.internalNumber.hasPrefix("5A4B") // 是否为中科
+        if bk {
+            firmNo = "ZhongKe"
+        }
         let parameters = ["pageSize": "100", "pageNum": "1", "isPublish": "Y", "resolutionRatio": "\(w)*\(h)", "firmNo": firmNo]
         AF.request("https://u-watch.com.cn/api/app/dial/list?pageSize=100&pageNum=1", method: .post, parameters: parameters, encoder: JSONParameterEncoder.default).response { [weak self] (response) in
             debugPrint("Request: \((String(data:response.request?.httpBody ?? Data(),encoding:.utf8) ?? "")) Response: \(response.debugDescription)")

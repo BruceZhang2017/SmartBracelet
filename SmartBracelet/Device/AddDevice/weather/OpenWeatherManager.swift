@@ -30,7 +30,8 @@ public class OpenWeatherManager: NSObject {
     }
     
     func syncTemprature(weather: CurrentWeatherData) {
-        if bleSelf.isJLBlue {
+        let bk = bleSelf.bleModel.internalNumber.hasPrefix("5A4B") // 是否为中科
+        if bleSelf.isJLBlue || bk {
             let count = min(3, weather.list.count)
             for i in 0..<count {
                 let temp = Int(tempratureKToC(temp: weather.list[i].temp.day ))

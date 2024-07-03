@@ -376,3 +376,14 @@
 "start_uploading" = "Start met uploaden";
 "agree_download_upload" = "Weet u zeker dat u wilt downloaden en uploaden?";
 "agree_log_out" = "Weet u zeker dat u dit account wilt verlaten?";
+
+"today_sleep" = "De slaap van vandaag";
+"push_to_bt_settings" = "Ga naar Instellingen - Bluetooth en maak handmatig verbinding met Bluetooth.";
+"today_step" = "Aantal stappen vandaag";
+"consumption" = "Verbruik";
+"heart_desc" = "Normale hartslag bij mensen 60-100 slagen per minuut";
+"blood_pressure_desc" = "Normale bloeddruk bij mensen: <130/85 mmHg";
+"null_data" = "Geen gegevens beschikbaar";
+"add_dial" = "Wijzerplaat toevoegen";
+"mine_manage" = "Beheer";
+"mine_finish" = "Voltooiing";

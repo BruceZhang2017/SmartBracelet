@@ -376,3 +376,15 @@
 "start_uploading" = "Aloita lataaminen";
 "agree_download_upload" = "Oletko varma, että haluat ladata ja lähettää tiedostoja?";
 "agree_log_out" = "Oletko varma, että haluat kirjautua ulos tästä tilistä?";
+
+
+"today_sleep" = "Tämänpäiväinen uni";
+"push_to_bt_settings" = "Siirry Asetuksiin - Bluetooth ja yhdistä Bluetoothiin manuaalisesti.";
+"today_step" = "Askelmäärä tänään";
+"consumption" = "Kulutus";
+"heart_desc" = "Ihmisen normaali sydämen syke 60-100 lyöntiä minuutissa";
+"blood_pressure_desc" = "Normaali ihmisen verenpaine: <130/85 mmHg";
+"null_data" = "Ei tietoja saatavilla";
+"add_dial" = "Lisää kellotaulu";
+"mine_manage" = "Hallinta";
+"mine_finish" = "Valmistuminen";

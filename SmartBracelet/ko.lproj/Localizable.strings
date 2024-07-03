@@ -376,3 +376,14 @@
 "start_uploading" = "업로드 시작하기";
 "agree_download_upload" = "다운로드하고 업로드하시겠습니까?";
 "agree_log_out" = "이 계정에서 로그아웃하시겠습니까?";
+
+"today_sleep" = "오늘의 수면";
+"push_to_bt_settings" = "설정 - 블루투스로 이동하여 블루투스를 수동으로 연결하세요.";
+"today_step" = "오늘의 걸음 수";
+"consumption" = "소비";
+"heart_desc" = "정상적인 인간 심박수 분당 60-100회";
+"blood_pressure_desc" = "정상적인 인체 혈압: <130/85mmHg";
+"null_data" = "데이터 없음";
+"add_dial" = "시계 면 추가";
+"mine_manage" = "관리";
+"mine_finish" = "완료";
