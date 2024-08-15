@@ -2,8 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSAppleMusicUsageDescription</key>
-	<string>Since the watch has classic bluetooth and the ability to play music</string>
 	<key>BGTaskSchedulerPermittedIdentifiers</key>
 	<array>
 		<string>com.sinophy.uwatch</string>
@@ -40,6 +38,8 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
+	<key>NSAppleMusicUsageDescription</key>
+	<string>Since the watch has classic bluetooth and the ability to play music</string>
 	<key>NSBluetoothAlwaysUsageDescription</key>
 	<string>App may use Bluetooth connection bracelet to receive notification messages</string>
 	<key>NSBluetoothPeripheralUsageDescription</key>
@@ -62,6 +62,7 @@
 	<string>App may use your camera and save pictures via Bluetooth</string>
 	<key>UIBackgroundModes</key>
 	<array>
+		<string>audio</string>
 		<string>bluetooth-central</string>
 		<string>bluetooth-peripheral</string>
 		<string>fetch</string>

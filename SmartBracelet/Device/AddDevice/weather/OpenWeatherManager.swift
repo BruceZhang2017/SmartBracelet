@@ -24,9 +24,44 @@ public class OpenWeatherManager: NSObject {
     }()
     
     public func syncTemprature() {
+        checkLocationAuthorization()
+    }
+    
+    func checkLocationAuthorization() {
         if CLLocationManager.locationServicesEnabled() {
-            locationManager.requestLocation()
+            if #available(iOS 14.0, *) {
+                switch locationManager.authorizationStatus {
+                case .notDetermined:
+                    locationManager.requestWhenInUseAuthorization()
+                case .restricted, .denied:
+                    // Handle the case where location services are restricted or denied
+                    showLocationServicesDeniedAlert()
+                case .authorizedWhenInUse, .authorizedAlways:
+                    requestLocation()
+                @unknown default:
+                    fatalError("Unknown authorization status")
+                }
+            } else {
+                // Fallback on earlier versions
+            }
+        } else {
+            // Handle the case where location services are not enabled
+            showLocationServicesDisabledAlert()
         }
+    }
+    
+    func requestLocation() {
+        DispatchQueue.global().async {
+            self.locationManager.requestLocation()
+        }
+    }
+    
+    func showLocationServicesDeniedAlert() {
+        // Show an alert to the user indicating that location services are denied
+    }
+    
+    func showLocationServicesDisabledAlert() {
+        // Show an alert to the user indicating that location services are disabled
     }
     
     func syncTemprature(weather: CurrentWeatherData) {
@@ -113,9 +148,7 @@ extension OpenWeatherManager: CLLocationManagerDelegate {
                 }
             
         } else if (status == CLAuthorizationStatus.authorizedWhenInUse) {
-                if CLLocationManager.locationServicesEnabled() {
-                    locationManager.requestLocation()
-                }
+            checkLocationAuthorization()
         }
     }
 }

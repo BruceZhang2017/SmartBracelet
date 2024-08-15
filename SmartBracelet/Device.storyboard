@@ -1056,17 +1056,6 @@
                                                                 <constraint firstAttribute="width" constant="24" id="iro-19-UnS"/>
                                                             </constraints>
                                                         </imageView>
-                                                        <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="1000" contentHorizontalAlignment="leading" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="N0e-3w-KdP">
-                                                            <rect key="frame" x="194" y="19" width="16" height="22"/>
-                                                            <constraints>
-                                                                <constraint firstAttribute="height" constant="22" id="3Bg-tg-UTe"/>
-                                                            </constraints>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                                            <inset key="titleEdgeInsets" minX="5" minY="0.0" maxX="-5" maxY="0.0"/>
-                                                            <state key="normal" image="conten_battery_full">
-                                                                <color key="titleColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
-                                                            </state>
-                                                        </button>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="L12-IN-2Ll">
                                                             <rect key="frame" x="243.5" y="24.5" width="93.5" height="35"/>
                                                             <state key="normal" title="Button"/>
@@ -1085,9 +1074,7 @@
                                                         <constraint firstItem="Dnh-99-9sn" firstAttribute="top" secondItem="Fis-Dr-dp1" secondAttribute="top" id="GA5-eJ-02Z"/>
                                                         <constraint firstAttribute="trailing" secondItem="mtX-hZ-ewp" secondAttribute="trailing" constant="15" id="KWm-Yn-cxD"/>
                                                         <constraint firstItem="mtX-hZ-ewp" firstAttribute="leading" secondItem="L12-IN-2Ll" secondAttribute="trailing" constant="8" symbolic="YES" id="N5X-Tu-gFP"/>
-                                                        <constraint firstItem="N0e-3w-KdP" firstAttribute="leading" secondItem="Dnh-99-9sn" secondAttribute="trailing" constant="4" id="Q81-hl-DoF"/>
                                                         <constraint firstItem="L12-IN-2Ll" firstAttribute="centerY" secondItem="evD-Tv-2Qi" secondAttribute="centerY" id="cLH-J6-CsP"/>
-                                                        <constraint firstItem="N0e-3w-KdP" firstAttribute="centerY" secondItem="Dnh-99-9sn" secondAttribute="centerY" id="qF8-0h-wd6"/>
                                                         <constraint firstItem="mtX-hZ-ewp" firstAttribute="centerY" secondItem="evD-Tv-2Qi" secondAttribute="centerY" id="uqP-5L-hwU"/>
                                                         <constraint firstItem="Fis-Dr-dp1" firstAttribute="leading" secondItem="evD-Tv-2Qi" secondAttribute="leading" constant="25" id="woR-wZ-MRi"/>
                                                         <constraint firstAttribute="height" constant="84" id="xRp-9f-BDp"/>
@@ -1108,7 +1095,6 @@
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <connections>
-                                            <outlet property="batteryButton" destination="N0e-3w-KdP" id="2Kn-gf-Hdl"/>
                                             <outlet property="bgView" destination="evD-Tv-2Qi" id="eXv-Wv-Gmk"/>
                                             <outlet property="bleConnectButton" destination="nIS-VQ-Kiu" id="z7N-Hl-LhZ"/>
                                             <outlet property="deleteButton" destination="L12-IN-2Ll" id="9JW-Rh-B6v"/>
@@ -1410,7 +1396,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="conten_battery_full" width="16" height="9"/>
         <image name="content_icon_nextgray_normal" width="10" height="17"/>
         <image name="content_icon_select" width="24" height="24"/>
         <image name="scanBG" width="83" height="83"/>

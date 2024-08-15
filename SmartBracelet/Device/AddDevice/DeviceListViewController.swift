@@ -157,8 +157,6 @@ extension DeviceListViewController: UITableViewDataSource {
         cell.deviceNameLabel.font = UIFont.subtitle1()
         cell.deleteButton.titleLabel?.textColor = UIColor.brand
         cell.deviceImageView.image = UIImage(named: AppDelegate.IsDeviceNotRound() ? "icon_ewatch" : "icon_ewatch_2")
-        cell.bleConnectButton.titleLabel?.textColor = UIColor.text_third
-        cell.bleConnectButton.titleLabel?.font = UIFont.body1()
         if model.mac == lastestDeviceMac && bleSelf.isConnected {
             cell.selectImageView.isHidden = false
             cell.bleConnectButton.setTitle("mine_bluetooth_connect".localized(), for: .normal)
@@ -166,16 +164,7 @@ extension DeviceListViewController: UITableViewDataSource {
             cell.selectImageView.isHidden = true
             cell.bleConnectButton.setTitle("mine_bluetooth_unconnect".localized(), for: .normal)
         }
-        let deviceInfo = DeviceManager.shared.deviceInfo[model.mac]
-        if deviceInfo != nil {
-            if deviceInfo?.battery ?? 0 < 5 {
-                cell.batteryButton.setImage(UIImage(named: "conten_battery_runout"), for: .normal)
-            } else {
-                cell.batteryButton.setImage(UIImage(named: "conten_battery_full"), for: .normal)
-            }
-        } else {
-            cell.batteryButton.setImage(UIImage(named: "conten_battery_null"), for: .normal)
-        }
+
         return cell
     }
     

@@ -17,7 +17,6 @@ class DeviceTableViewCell: UITableViewCell {
     @IBOutlet weak var deviceImageView: UIImageView!
     @IBOutlet weak var deviceNameLabel: UILabel!
     @IBOutlet weak var bleConnectButton: UIButton!
-    @IBOutlet weak var batteryButton: UIButton!
     @IBOutlet weak var selectImageView: UIImageView!
     @IBOutlet weak var deleteButton: UIButton!
     

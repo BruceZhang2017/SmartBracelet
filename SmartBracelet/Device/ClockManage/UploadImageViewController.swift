@@ -134,7 +134,11 @@ class UploadImageViewController: UIViewController {
             let h: CGFloat = CGFloat(bleSelf.bleModel.screenHeight)
             let newImage = i.scaled(to: CGSize(width: w, height: h))
             let bk = bleSelf.bleModel.internalNumber.hasPrefix("5A4B") // 是否为中科
-            if bleSelf.isJLBlue || bk {
+            if bleSelf.isJLBlue {
+                let imageData = newImage.compressImageOnlength(maxLength: 50)
+                delegate?.startUpload(image: UIImage(data: imageData!)!)
+            } else if bk {
+                print("中科设备开始推送表盘数据")
                 delegate?.startUpload(image: newImage)
             } else {
                 let imageData = newImage.compressImageOnlength(maxLength: (w <= 80 || h <= 160) ? 28 : 100)

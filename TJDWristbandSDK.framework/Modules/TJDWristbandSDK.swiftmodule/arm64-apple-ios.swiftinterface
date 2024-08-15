@@ -2,6 +2,7 @@
 // swift-compiler-version: Apple Swift version 5.9.2 (swiftlang-5.9.2.2.56 clang-1500.1.0.2.5)
 // swift-module-flags: -target arm64-apple-ios9.0 -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -module-name TJDWristbandSDK
 // swift-module-flags-ignorable: -enable-bare-slash-regex
+import AB_FOTA
 import CoreBluetooth
 import Foundation
 import Swift
@@ -10,6 +11,8 @@ import UIKit
 import _Concurrency
 import _StringProcessing
 import _SwiftConcurrencyShims
+import os.log
+import os
 @objc @_inheritsConvenienceInitializers @objcMembers open class HeartModel : TJDWristbandSDK.DataModel {
   @objc open var totalCount: Swift.Int
   @objc open var indexOfTotal: Swift.Int
@@ -30,6 +33,31 @@ import _SwiftConcurrencyShims
   @objc open var indexOfTotal: Swift.Int
   @objc open var oxygen: Swift.Int
   @objc required dynamic public init()
+  @objc deinit
+}
+public enum TJDFuncInstallStatus : Swift.Int {
+  case start
+  case wait
+  case timeout
+  case install
+  case success
+  case error
+  public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+public typealias DialInstallCallback = ((_ status: TJDWristbandSDK.TJDFuncInstallStatus, _ progress: Swift.Double, _ text: Swift.String) -> Swift.Void)
+public class ZKOTAManager : AB_FOTA.ABOtaSendDelegate, AB_FOTA.ABOtaEventListener {
+  public var installCallBack: TJDWristbandSDK.DialInstallCallback?
+  public init(filePath: Swift.String)
+  open func install()
+  public func onStatusChanged(_ status: AB_FOTA.OtaStatus)
+  public func onReceiveVersion(_ version: Swift.UInt16)
+  public func onReceiveTWSInfo(isTWS: Swift.Bool, isTWSConnected: Swift.Bool)
+  public func onReceiveChannel(_ isLeftChannel: Swift.Bool)
+  public func sendData(_ data: Foundation.Data)
   @objc deinit
 }
 @objc @_inheritsConvenienceInitializers @objcMembers open class WUDate : ObjectiveC.NSObject {
@@ -235,6 +263,9 @@ public typealias WUDidSetStartMeasure = (Swift.Bool, Swift.UInt8) -> ()
   @objc open var isScanning: Swift.Bool {
     @objc get
   }
+  @objc open var isZKOTAing: Swift.Bool {
+    @objc get
+  }
   @objc open var dialSelectModel: TJDWristbandSDK.DialSelectModel
   @objc open var step: Swift.Int
   @objc open var cal: Swift.Int
@@ -353,6 +384,7 @@ extension TJDWristbandSDK.WUBleManager {
   @objc public static let sendQRcodeData: Foundation.Notification.Name
   @objc public static let readFuncCategory: Foundation.Notification.Name
   @objc public static let setOrRead_MonitorHeart: Foundation.Notification.Name
+  @objc public static let ZK_OTAData: Foundation.Notification.Name
   @objc override dynamic public init()
   @objc deinit
 }
@@ -502,9 +534,11 @@ extension TJDWristbandSDK.WUBleManager {
   @objc dynamic open func ruiYuDialSet()
   @objc dynamic open func setQRCodeData(_ data: Foundation.Data, dataCount: Swift.Int, type: Swift.Int, dataIndex: Swift.Int)
   @objc dynamic open func getFuncCategory()
+  @objc dynamic open func write(_ data: Foundation.Data, uuidString: Swift.String = "", type: CoreBluetooth.CBCharacteristicWriteType = .withoutResponse)
   @objc dynamic open func getCRC(_ data: [Swift.UInt8]) -> Swift.UInt8
   @objc dynamic open func getMonitorHeartForWristband()
   @objc dynamic open func setMonitorHeartForWristband(_ model: TJDWristbandSDK.monitorHeartModel)
+  @objc dynamic open func send_ZKEnterOTA()
   @objc dynamic open func getRGBData565FromImage(image: UIKit.UIImage) -> Foundation.Data?
   @objc dynamic open func tjdScale(image: UIKit.UIImage, toSize: CoreFoundation.CGSize) -> UIKit.UIImage?
   @objc dynamic open func getWeaterType(type: Swift.Int) -> Swift.UInt8
@@ -566,6 +600,8 @@ extension TJDWristbandSDK.WUBleManager {
   @objc open var maxSize: Swift.Int
   @objc open var isJLBlue: Swift.Bool
   @objc open var JLPair: Swift.Bool
+  @objc open var advertisementData: Foundation.Data?
+  @objc open var MTU: Swift.Int
   @objc override dynamic public init()
   @objc deinit
 }
@@ -640,6 +676,9 @@ extension TJDWristbandSDK.WUBleManager {
   @objc override dynamic public init()
   @objc deinit
 }
+extension TJDWristbandSDK.TJDFuncInstallStatus : Swift.Equatable {}
+extension TJDWristbandSDK.TJDFuncInstallStatus : Swift.Hashable {}
+extension TJDWristbandSDK.TJDFuncInstallStatus : Swift.RawRepresentable {}
 extension TJDWristbandSDK.TestActionType : Swift.Equatable {}
 extension TJDWristbandSDK.TestActionType : Swift.Hashable {}
 extension TJDWristbandSDK.TestActionType : Swift.RawRepresentable {}

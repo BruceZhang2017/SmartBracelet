@@ -33,7 +33,7 @@ class HealthViewController: BaseViewController {
     
     var flag = 0 // 属性的作用
     var popup: PopupBViewController?
-    var hud: JGProgressHUD? // loading图标
+    private var hud: JGProgressHUD? // loading图标
     private var loadingViewCheckTimer: Timer?
     var header: MJRefreshNormalHeader?
     var isFirst = false
@@ -51,6 +51,7 @@ class HealthViewController: BaseViewController {
     var isSupportAlipay = false // 是否支持支付宝支付
     
     private var manager = OpenWeatherManager()
+    var currentProgress = 0
      
     override func viewDidLoad() {
         bStyle = 1
@@ -308,14 +309,15 @@ class HealthViewController: BaseViewController {
                 } else {
                     value = 0
                 }
+                if value > 100 {
+                    value = 0
+                }
                 let v = NSMutableAttributedString()
                 v.append(NSAttributedString(string: "\(value)", attributes: [.font: UIFont.systemFont(ofSize: 20, weight: .black), .foregroundColor: UIColor.black]))
                 v.append(NSAttributedString(string: "%  \("health_head".localized())", attributes: [.font: UIFont.systemFont(ofSize: 10, weight: .semibold), .foregroundColor: UIColor.text_secondary]))
                 if value > 0 {
                     self?.arrayValue[3] = v
                     self?.tableView.reloadData()
-                    UserDefaults.standard.setValue("\(value)", forKey: "oxygen")
-                    UserDefaults.standard.synchronize()
                 }
             }
         } else if objc == "delete" {
@@ -413,8 +415,22 @@ class HealthViewController: BaseViewController {
             endLoadingViewCheckTimer()
             DispatchQueue.main.async {
                 [weak self] in
-                self?.hud?.textLabel.text = "\("sync_data".localized())9/9"
-                
+                if self?.currentProgress ?? 0 > 1 {
+                    self?.hud?.textLabel.text = "\("sync_data".localized())9/9"
+                } else {
+                    var i = 2
+                    self?.hud?.textLabel.text = "\("sync_data".localized())\(i)/9"
+                    // 创建一个计时器，每秒增加i直到i达到9
+                    Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
+                        if i < 9 {
+                            i += 1
+                            self?.hud?.textLabel.text = "\("sync_data".localized())\(i)/9"
+                        } else {
+                            timer.invalidate() // 停止计时器
+                        }
+                    }
+                }
+                self?.currentProgress = 0
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                     self?.hud?.dismiss(animated: false)
                 }
@@ -424,7 +440,8 @@ class HealthViewController: BaseViewController {
         }
         if obj == 100 {
             let userinfo = notification.userInfo as? [String : String]
-            let msg = userinfo?["msg"] ?? "\("sync_data".localized())9/9"
+            currentProgress = Int(userinfo?["msg"] ?? "0") ?? 0
+            let msg = "\("sync_data".localized())\(currentProgress)/9"
             DispatchQueue.main.async {
                 [weak self] in
                 self?.hud?.textLabel.text = msg
@@ -668,14 +685,6 @@ class HealthViewController: BaseViewController {
     }
     
     private func readDBOxygen() {
-        if let value = UserDefaults.standard.string(forKey: "oxygen"), value.count > 0 {
-            let v = NSMutableAttributedString()
-            v.append(NSAttributedString(string: "\(value)", attributes: [.font: UIFont.systemFont(ofSize: 20, weight: .black), .foregroundColor: UIColor.black]))
-            v.append(NSAttributedString(string: "%  \("health_head".localized())", attributes: [.font: UIFont.systemFont(ofSize: 10, weight: .semibold), .foregroundColor: UIColor.text_secondary]))
-            arrayValue[3] = v
-            tableView.reloadData()
-            return
-        }
         let models = try? DOxygenModel.er.array("mac = '\(lastestDeviceMac)'").sorted(byKeyPath: "timeStamp", ascending: false)
         print("数据库里血氧的数据总条数：\(models?.count ?? 0)")
         let value = models?.first?.oxygen ?? 0

@@ -18,6 +18,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        application.applicationIconBadgeNumber = 0
         configRealm()
         AMapServices.shared().apiKey = "0ed08fc41dc5bd1adc43b9189af816f7"
         window?.backgroundColor = UIColor.white
@@ -35,7 +36,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 return
             }
         }
-        application.applicationIconBadgeNumber = 0
         UNUserNotificationCenter.current().delegate = self
         
         Bugly.start(withAppId: "0c6ba8bb6a")
@@ -44,7 +44,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         openCount += 1
         UserDefaults.standard.set(openCount, forKey: "APPOPEN")
         
+        // 配置音频会话
+        let audioSession = AVAudioSession.sharedInstance()
+        do {
+            try audioSession.setCategory(.playback)
+            try audioSession.setActive(true)
+        } catch {
+            print("Failed to set up audio session: \(error)")
+        }
+        
         return true
+    }
+    
+    func applicationDidBecomeActive(_ application: UIApplication) {
+        application.applicationIconBadgeNumber = 0
     }
     
     public func pushToTab() {

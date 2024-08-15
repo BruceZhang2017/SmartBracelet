@@ -45,7 +45,6 @@ class DeviceSearchViewController: BaseViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        tableView.reloadData()
     }
     
     deinit {
@@ -72,6 +71,7 @@ class DeviceSearchViewController: BaseViewController {
     @objc private func handleNotification(_ notification: Notification) {
         let objc = notification.object as! String
         if objc == "scan" { // 搜索设备
+            didUpdateBLEModels(models: bleSelf.bleModels)
             tableView.isHidden = bleSelf.bleModels.count == 0
             tableView.reloadData()
         }
@@ -155,6 +155,12 @@ class DeviceSearchViewController: BaseViewController {
         let macValue = string[range.upperBound...]
         return String(macValue)
     }
+    
+    // 假设这是你的数据获取回调
+    func didUpdateBLEModels(models: [TJDWristbandSDK.WUBleModel]) {
+        // 过滤掉 mac 为空或者长度为 0 的设备
+        bleSelf.bleModels = models.filter { $0.mac.count > 0 }
+    }
 }
 
 extension DeviceSearchViewController: UITableViewDataSource {
@@ -175,7 +181,11 @@ extension DeviceSearchViewController: UITableViewDataSource {
         if indexPath.row < bleSelf.bleModels.count {
             let model = bleSelf.bleModels[indexPath.row]
             cell.deviceNameLabel.text = model.name + ""
-            cell.deviceMacLabel.text = model.mac
+            if model.mac.count > 0 {
+                cell.deviceMacLabel.text = model.mac
+            } else {
+                cell.deviceMacLabel.text = "00:00:00:00:00:00"
+            }
         }
         cell.selectionStyle = .none
         return cell

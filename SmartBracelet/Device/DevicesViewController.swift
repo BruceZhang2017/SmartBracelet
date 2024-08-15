@@ -274,7 +274,7 @@ class DevicesViewController: BaseViewController {
             refreshDevices()
             return
         }
-        self.perform(#selector(pushToMobileSettings), with: nil, afterDelay: 0.3)
+        //self.perform(#selector(pushToMobileSettings), with: nil, afterDelay: 0.3)
     }
     
     @objc private func pushToMobileSettings() {

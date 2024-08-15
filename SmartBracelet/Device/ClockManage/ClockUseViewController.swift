@@ -65,10 +65,10 @@ class ClockUseViewController: BaseViewController {
         
         let url = currentClock?.resourcesUrl ?? ""
         let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-        let fileURL = documentsURL.appendingPathComponent(NSString(string: url).lastPathComponent)
-        path = fileURL.absoluteString
-
-        binData = try? Data(contentsOf: URL(fileURLWithPath: path))
+        let fpath = documentsURL.appendingPathComponent((url as NSString).lastPathComponent)
+        path = fpath.absoluteString
+        // 尝试读取数据并处理可能的错误
+        binData = try? Data(contentsOf: fpath)
         
         sizeLabel.textColor = UIColor.text_third
         sizeLabel.font = UIFont.body1()
@@ -106,34 +106,11 @@ class ClockUseViewController: BaseViewController {
     deinit {
         unregisterNotification()
     }
-    
-    private func checkFile(name: String) -> Bool {
-        let path = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as String
-            let url = NSURL(fileURLWithPath: path)
-            if let pathComponent = url.appendingPathComponent(name) {
-                let filePath = pathComponent.path
-                let fileManager = FileManager.default
-                if fileManager.fileExists(atPath: filePath) {
-                    return true
-                } else {
-                    return false
-                }
-            } else {
-                return false
-            }
-    }
 
     private func downloadFile(url: String) {
         let picname = NSString(string: url).lastPathComponent
         let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
         let fileURL = documentsURL.appendingPathComponent(picname)
-        if checkFile(name: picname) {
-            let fileData : Data = try! Data(contentsOf: fileURL, options: .alwaysMapped)
-            rightButton.isEnabled = false
-            BLEManager.shared.sendDialWithLocalBin(fileData)
-            return
-        }
-        
         let destination: DownloadRequest.Destination = { _, _ in
             return (fileURL, [.removePreviousFile, .createIntermediateDirectories])
         }
@@ -144,6 +121,7 @@ class ClockUseViewController: BaseViewController {
                 let fileData : Data = FileManager.default.contents(atPath: imagePath)!
 
                 self?.rightButton.isEnabled = false
+                // 获取文件路径
                 BLEManager.shared.sendDialWithLocalBin(fileData)
                 
             }
@@ -216,7 +194,7 @@ class ClockUseViewController: BaseViewController {
         let p = userinfo?["p"] ?? ""
         if obj == 1 {
             if p.count > 0 {
-                print("代码执行到这里，上传进度：\(p) \(imageUploadVc == nil)")
+                print("代码执行到这里，上传进度：\(p)")
                 if Thread.isMainThread {
                     imageUploadVc?.refreshProgress(p: p)
                 } else {

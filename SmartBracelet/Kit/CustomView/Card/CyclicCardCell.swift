@@ -15,7 +15,6 @@ class CyclicCardCell: UICollectionViewCell {
     let cardImgView = UIImageView()
     let cardNameLabel = UILabel()
     let btButton = UIButton(type: .custom)
-    let batteryButton = UIButton(type: .custom)
     let addLabel = UILabel()
     
     override  init(frame: CGRect) {
@@ -43,16 +42,6 @@ class CyclicCardCell: UICollectionViewCell {
         btButton.contentEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 6)
         btButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: 3, bottom: 0, right: -3)
         btButton.frame = CGRect(x: 106, y: 60, width: itemW - 80, height: 16)
-        
-        addSubview(batteryButton)
-        batteryButton.setImage(UIImage(named: "conten_battery_full"), for: .normal)
-        batteryButton.setTitle(" ", for: .normal)
-        batteryButton.titleLabel?.font = UIFont.systemFont(ofSize: 8)
-        batteryButton.setTitleColor(.k999999, for: .normal)
-        batteryButton.contentHorizontalAlignment = .left
-        batteryButton.contentEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 6)
-        batteryButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: 3, bottom: 0, right: -3)
-        batteryButton.frame = CGRect(x: 106, y: 80, width: itemW - 80, height: 16)
         
         addSubview(addLabel)
         addLabel.text = "add_device".localized()

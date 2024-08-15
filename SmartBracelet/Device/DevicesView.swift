@@ -19,7 +19,6 @@ class DevicesView: UIView {
     let cardImgView = UIImageView()
     let btImgView = UIImageView()
     let cardNameLabel = UILabel()
-    let batteryButton = UIButton(type: .custom)
     let macLabel = UILabel() // 蓝牙地址
     
     override init(frame: CGRect) {
@@ -46,10 +45,7 @@ class DevicesView: UIView {
         cardNameLabel.textAlignment = .left
         cardNameLabel.translatesAutoresizingMaskIntoConstraints = false
         
-        batteryButton.setImage(UIImage(named: "conten_battery_full"), for: .normal)
-        batteryButton.translatesAutoresizingMaskIntoConstraints = false
-        
-        let stackView = UIStackView(arrangedSubviews: [cardNameLabel, batteryButton])
+        let stackView = UIStackView(arrangedSubviews: [cardNameLabel])
         stackView.axis = .horizontal
         stackView.distribution = .equalSpacing
         stackView.alignment = .center
@@ -112,16 +108,6 @@ class DevicesView: UIView {
                 if currentModel!.mac == lastestDeviceMac && bleSelf.isConnected {
                     bConnected = true
                     btImgView.image = UIImage(named: "content_blueteeth_link")
-                }
-                let deviceInfo = DeviceManager.shared.deviceInfo[currentModel!.mac]
-                if deviceInfo != nil {
-                    if deviceInfo?.battery ?? 0 < 5 {
-                        batteryButton.setImage(UIImage(named: "conten_battery_runout"), for: .normal)
-                    } else {
-                        batteryButton.setImage(UIImage(named: "conten_battery_full"), for: .normal)
-                    }
-                } else {
-                    batteryButton.setImage(UIImage(named: "conten_battery_null"), for: .normal)
                 }
                 macLabel.text = currentModel?.mac ?? ""
             }

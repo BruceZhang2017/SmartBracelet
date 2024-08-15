@@ -822,6 +822,8 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) WUBleManager
 @property (nonatomic, readonly) BOOL isConnected;
 @property (nonatomic) enum WUBleState state;
 @property (nonatomic, readonly) BOOL isScanning;
+/// 是否在中科OTA中
+@property (nonatomic, readonly) BOOL isZKOTAing;
 @property (nonatomic, strong) DialSelectModel * _Nonnull dialSelectModel;
 /// 计步数据 实时数据
 /// Step count data
@@ -1026,11 +1028,15 @@ enum WristbandMeasureType : uint8_t;
 /// 发送二维码数据
 - (void)setQRCodeData:(NSData * _Nonnull)data dataCount:(NSInteger)dataCount type:(NSInteger)type dataIndex:(NSInteger)dataIndex;
 - (void)getFuncCategory;
+/// 写数据
+- (void)write:(NSData * _Nonnull)data uuidString:(NSString * _Nonnull)uuidString type:(CBCharacteristicWriteType)type;
 - (uint8_t)getCRC:(NSArray<NSNumber *> * _Nonnull)data SWIFT_WARN_UNUSED_RESULT;
 /// 读取心率监测
 - (void)getMonitorHeartForWristband;
 /// 设置心率监测
 - (void)setMonitorHeartForWristband:(monitorHeartModel * _Nonnull)model;
+/// 中科进入OTA
+- (void)send_ZKEnterOTA;
 /// 图片转化
 - (NSData * _Nullable)getRGBData565FromImageWithImage:(UIImage * _Nonnull)image SWIFT_WARN_UNUSED_RESULT;
 /// 裁剪图片
@@ -1116,6 +1122,10 @@ SWIFT_CLASS("_TtC15TJDWristbandSDK10WUBleModel")
 @property (nonatomic) BOOL isJLBlue;
 /// 是否杰里配对成功
 @property (nonatomic) BOOL JLPair;
+/// 广播信息
+@property (nonatomic, copy) NSData * _Nullable advertisementData;
+/// MTU
+@property (nonatomic) NSInteger MTU;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
@@ -1441,6 +1451,9 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) NSNotificationName _
 /// 心率监测通知
 SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) NSNotificationName _Nonnull setOrRead_MonitorHeart;)
 + (NSNotificationName _Nonnull)setOrRead_MonitorHeart SWIFT_WARN_UNUSED_RESULT;
+/// 中科的ota数据
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) NSNotificationName _Nonnull ZK_OTAData;)
++ (NSNotificationName _Nonnull)ZK_OTAData SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 

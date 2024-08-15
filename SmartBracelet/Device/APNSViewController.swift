@@ -67,6 +67,7 @@ extension APNSViewController: UITableViewDataSource {
             mSwitch = s
         } else {
             mSwitch = UISwitch()
+            mSwitch.isOn = true 
             cell.accessoryView = mSwitch
         }
         mSwitch.tag = indexPath.section * 10 + indexPath.row

@@ -45,7 +45,7 @@ class MyClockViewController: UIViewController {
     var current = 0
     var total = 0
     var currentImage: UIImage?
-    
+    var currentPackage = 0
     var footView: CustomImageFooterView?
 
     override func viewDidLoad() {
@@ -131,10 +131,11 @@ class MyClockViewController: UIViewController {
             print("收到壁纸推送通知: \(any)")
             if any == 1 {
                 let bk = bleSelf.bleModel.internalNumber.hasPrefix("5A4B") // 是否为中科
-                var mtuSize = 16
+                let mtuSize = bleSelf.bleModel.MTU > 16 ? bleSelf.bleModel.MTU - 4 : 16
                 if bk {
-                    mtuSize = bleSelf.manager.myPeripheral?.maximumWriteValueLength(for: .withoutResponse) ?? 16
-                    mtuSize -= 4
+                    currentPackage = 0
+                    bleSelf.setImagePush(binData, dataIndex: 0, MTU: mtuSize)
+                    return
                 }
                 for i in 0..<self.total {
                     if needStop == true {
@@ -157,45 +158,10 @@ class MyClockViewController: UIViewController {
                     }
                     print("for循环推送[\(mtuSize)]: \(i) \(self.total)")
                     bleSelf.setImagePush(binData, dataIndex: i, MTU: mtuSize)
-                    if bk {
-                        usleep(100 * 1000)
-                    } else {
-                        usleep(30 * 1000)
-                    }
+                    usleep(30 * 1000)
                     if i + 1 == self.total {
-                        let timestamp = Int(Date().timeIntervalSince1970)
-                        DispatchQueue.main.async {
-                            [weak self] in
-                            if self?.currentImage == nil {
-                                return
-                            }
-                            let w  = bleSelf.bleModel.screenWidth
-                            let h = bleSelf.bleModel.screenHeight
-                            let lastestDeviceMac = UserDefaults.standard.string(forKey: "LastestDeviceMac") ?? "00:00:00:00:00:00"
-                            self?.saveImage(currentImage: self!.currentImage!, imageName: "\(lastestDeviceMac)_\(w)_\(h)_\(timestamp).png")
-                            var lastStamp = UserDefaults.standard.dictionary(forKey: "lastStamp") ?? [:]
-                            lastStamp[lastestDeviceMac] = timestamp
-                            UserDefaults.standard.set(lastStamp, forKey: "lastStamp")
-                            UserDefaults.standard.synchronize()
-                            self?.imageUploadVc?.dismiss(animated: false, completion: {
-                                [weak self] in
-                                self?.imageUploadVc = nil
-                            })
-                            self?.tableView?.reloadData()
-                        }
-                        let lastestDeviceMac = UserDefaults.standard.string(forKey: "LastestDeviceMac") ?? "00:00:00:00:00:00"
-                        var clockDir = UserDefaults.standard.dictionary(forKey: "MyClock") ?? [:]
-                        var clockStr = clockDir[lastestDeviceMac] as? [String] ?? ["_&&_&&_", "_&&_&&_", "_&&_&&_"]
-                        let w  = bleSelf.bleModel.screenWidth
-                        let h = bleSelf.bleModel.screenHeight
-                        let imageN = "\(lastestDeviceMac)_\(w)_\(h)_\(timestamp).png"
-                        let fullPath = NSHomeDirectory().appending("/Documents/").appending(imageN)
-                        clockStr[index] = "\("custom_watch_face".localized())&&\(imageN)&&\(fullPath)"
-                        clockDir[lastestDeviceMac] = clockStr
-                        UserDefaults.standard.setValue(clockDir, forKey: "MyClock")
-                        UserDefaults.standard.synchronize()
-                        
-                        
+                        print("执行完成操作")
+                        notif()
                     }
                 }
                 
@@ -217,16 +183,61 @@ class MyClockViewController: UIViewController {
                 let array = any as! [Int]
                 if array[1] == 0 {
                     wuPrint("更新失败")
+                    DispatchQueue.main.async {
+                        [weak self] in
+                        self?.imageUploadVc?.dismiss(animated: false, completion: {
+                            
+                        })
+                    }
                     return
-                }
-                DispatchQueue.main.async {
-                    [weak self] in
-                    self?.imageUploadVc?.dismiss(animated: false, completion: {
-                        
-                    })
+                } else {
+                    let bk = bleSelf.bleModel.internalNumber.hasPrefix("5A4B") // 是否为中科
+                    if bk {
+                        currentPackage += 1
+                        let mtuSize = bleSelf.bleModel.MTU > 16 ? bleSelf.bleModel.MTU - 4 : 16
+                        print("for循环推送[\(mtuSize)]: \(currentPackage) \(self.total)")
+                        bleSelf.setImagePush(binData, dataIndex: currentPackage, MTU: mtuSize)
+                        if currentPackage >= self.total {
+                            notif()
+                        }
+                    }
                 }
             }
         }
+    }
+    
+    private func notif() {
+        let timestamp = Int(Date().timeIntervalSince1970)
+        DispatchQueue.main.async {
+            [weak self] in
+            if self?.currentImage == nil {
+                return
+            }
+            let w  = bleSelf.bleModel.screenWidth
+            let h = bleSelf.bleModel.screenHeight
+            let lastestDeviceMac = UserDefaults.standard.string(forKey: "LastestDeviceMac") ?? "00:00:00:00:00:00"
+            self?.saveImage(currentImage: self!.currentImage!, imageName: "\(lastestDeviceMac)_\(w)_\(h)_\(timestamp).png")
+            var lastStamp = UserDefaults.standard.dictionary(forKey: "lastStamp") ?? [:]
+            lastStamp[lastestDeviceMac] = timestamp
+            UserDefaults.standard.set(lastStamp, forKey: "lastStamp")
+            UserDefaults.standard.synchronize()
+            self?.imageUploadVc?.dismiss(animated: false, completion: {
+                [weak self] in
+                self?.imageUploadVc = nil
+            })
+            self?.tableView?.reloadData()
+        }
+        let lastestDeviceMac = UserDefaults.standard.string(forKey: "LastestDeviceMac") ?? "00:00:00:00:00:00"
+        var clockDir = UserDefaults.standard.dictionary(forKey: "MyClock") ?? [:]
+        var clockStr = clockDir[lastestDeviceMac] as? [String] ?? ["_&&_&&_", "_&&_&&_", "_&&_&&_"]
+        let w  = bleSelf.bleModel.screenWidth
+        let h = bleSelf.bleModel.screenHeight
+        let imageN = "\(lastestDeviceMac)_\(w)_\(h)_\(timestamp).png"
+        let fullPath = NSHomeDirectory().appending("/Documents/").appending(imageN)
+        clockStr[index] = "\("custom_watch_face".localized())&&\(imageN)&&\(fullPath)"
+        clockDir[lastestDeviceMac] = clockStr
+        UserDefaults.standard.setValue(clockDir, forKey: "MyClock")
+        UserDefaults.standard.synchronize()
     }
     
     //保存图片至沙盒
@@ -266,11 +277,12 @@ class MyClockViewController: UIViewController {
             JLSelf.getJLDataFromImage(image: newImage)
             
             JLSelf.getInfoList()
-            
+           print("执行杰里的壁纸推送逻辑")
         }else{
             var data = bleSelf.getRGBData565FromImage(image: image)!
-            
+            print("执行杰里的壁纸推送逻辑1")
             if bleSelf.funcCategoryModel.hasJLImagePush {
+                print("执行杰里的壁纸推送逻辑2")
                 //两个字节互调
                 var i = 0
                 while i < data.count - 1 {
@@ -283,6 +295,8 @@ class MyClockViewController: UIViewController {
                 }
             }
             wuPrint(data.count)
+            self.total = Int(ceil(Double(data.count)/16))
+            self.binData = data
             bleSelf.startImagePush(data)
             
         }
@@ -511,16 +525,16 @@ extension MyClockViewController: UploadImageDelegate {
     func startUpload(image: UIImage) {
         currentImage = image
         if bleSelf.isJLBlue {
+            let data = bleSelf.getRGBData565FromImage(image: image)!
+            self.total = Int(ceil(Double(data.count)/16))
+            self.binData = data
             jlPushInitialize(image: image)
         } else {
+            print("中科设备开始推送数据")
             let bk = bleSelf.bleModel.internalNumber.hasPrefix("5A4B") // 是否为中科
             if bk {
-                var mtuSize = 16
-                if bk {
-                    mtuSize = bleSelf.manager.myPeripheral?.maximumWriteValueLength(for: .withoutResponse) ?? 16
-                    mtuSize -= 4
-                }
-                let data = image.toBMPRGB565()!
+                let mtuSize = bleSelf.bleModel.MTU > 16 ? bleSelf.bleModel.MTU - 4 : 16
+                var data = image.toBMPRGB565()!
                 self.total = Int(ceil(Double(data.count)/Double(mtuSize)))
                 self.binData = data
                 bleSelf.startImagePush(data, MTU: mtuSize)
