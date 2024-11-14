@@ -130,8 +130,11 @@ class MyClockViewController: UIViewController {
             let any = notify.object as! Int
             print("收到壁纸推送通知: \(any)")
             if any == 1 {
-                let bk = bleSelf.bleModel.internalNumber.hasPrefix("5A4B") // 是否为中科
-                let mtuSize = bleSelf.bleModel.MTU > 16 ? bleSelf.bleModel.MTU - 4 : 16
+                var mtuSize = 16
+                let bk = bleSelf.bleModel.internalNumber.hasPrefix("5A4B")
+                if bk {
+                    mtuSize = bleSelf.bleModel.MTU > 16 ? bleSelf.bleModel.MTU - 4 : 16
+                }
                 if bk {
                     currentPackage = 0
                     bleSelf.setImagePush(binData, dataIndex: 0, MTU: mtuSize)
@@ -465,6 +468,9 @@ extension MyClockViewController: EidtClockHeadTableViewCellDelegate {
         imagePickerVc?.modalPresentationStyle = .fullScreen
         imagePickerVc?.allowCrop = true
         imagePickerVc?.showSelectBtn = false
+        if !AppDelegate.IsDeviceNotRound() {
+            imagePickerVc?.needCircleCrop = true
+        }
         let w: CGFloat = CGFloat(bleSelf.bleModel.screenWidth)
         let h: CGFloat = CGFloat(bleSelf.bleModel.screenHeight)
         var w1: CGFloat = 0

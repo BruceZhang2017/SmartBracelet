@@ -113,6 +113,21 @@ class DevicesViewController: BaseViewController {
         deviceView?.refreshData()
         changeButtonAttr()
         refreshDevices()
+        Async.main(after: 1) {
+            if bleSelf.isConnected { // 连接成功
+                bleSelf.notifyModel.isWechat = true
+                bleSelf.notifyModel.isQQ = true
+                bleSelf.notifyModel.isLinkedin = true
+                bleSelf.notifyModel.isFacebook = true
+                bleSelf.notifyModel.isTwitter = true
+                bleSelf.notifyModel.isWhatapp = true
+                bleSelf.notifyModel.isLine = true
+                bleSelf.notifyModel.isKakaoTalk = true
+                bleSelf.notifyModel.isFacebookMessage = true
+                bleSelf.notifyModel.isInstagram = true
+                bleSelf.setAncsSwitchForWristband(bleSelf.notifyModel)
+            }
+        }
     }
     
     private func refreshDevices() {
@@ -347,7 +362,7 @@ extension DevicesViewController: UICollectionViewDataSource {
         if indexPath.row < clockArray.count  {
             let item = clockArray[indexPath.item]
             let array = item.components(separatedBy: "&&")
-            if array[0] == "_" {
+            if array[0] == "_" || DeviceManager.shared.devices.count == 0 {
                 cell.clockImageView.isHidden = true
                 cell.addImageView.isHidden = false
                 cell.clockBGView.backgroundColor = UIColor.fill

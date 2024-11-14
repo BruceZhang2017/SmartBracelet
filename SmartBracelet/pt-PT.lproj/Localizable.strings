@@ -387,3 +387,12 @@
 "add_dial" = "Adicionar mostrador do relógio";
 "mine_manage" = "Gestão";
 "mine_finish" = "Concluído";
+
+"Check for Updates" = "Verificar atualizações";
+"Update Available" = "Atualização disponível";
+"A new version (%@) is available on the App Store." = "Uma nova versão (%@) está disponível na App Store.";
+"Update" = "Atualizar";
+"Cancel" = "Cancelar";
+"No Update Available" = "Nenhuma atualização disponível";
+"You are using the latest version." = "Você está usando a versão mais recente.";
+"qushi" = "tendência";

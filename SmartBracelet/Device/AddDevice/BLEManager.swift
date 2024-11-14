@@ -33,16 +33,15 @@ class BLEManager: NSObject {
     var distanceDays = 0 // 相隔多少天
     var bleFlag = -1
     var mTimer: Timer?
-    var currentFunctionStep = 0 // 当前读取数据的阶段
-    var currentReadProgress = 0 {
+    public var currentReadProgress = 0 {
         didSet {
             NotificationCenter.default.post(name: Notification.Name("HealthVCLoading"), object: 100, userInfo: ["msg": "\(currentReadProgress)"])
         }
     }
     var isReconnect = false // 当前操作是否为回连
     var isFirstConnected = true // 第一次连接
-    var dayFlag = 0 // 天的标识
     private var packageFlag = 0 // 包标签
+    private var bReadHistoryStep = 0
     
     override init() {
         super.init()
@@ -144,7 +143,7 @@ class BLEManager: NSObject {
             NotificationCenter.default.post(name: Notification.Name("HealthVCLoading"), object: 0)
             if bleFlag == 1 {
                 bleFlag = -1
-                startScanAndConnect()
+                startScanAndConnect() // 开始扫描和连接
             }
         }
         
@@ -168,6 +167,9 @@ class BLEManager: NSObject {
             WUBleModel.setModel(bleSelf.bleModel)
             NotificationCenter.default.post(name: Notification.Name.SearchDevice, object: "connected") // 通知搜索页面
             NotificationCenter.default.post(name: Notification.Name("MTabBarController"), object: nil) // 通知主控页面
+            Async.main(after: 0.5) {
+                NotificationCenter.default.post(name: Notification.Name("DevicesViewController"), object: "1")
+            }
             let deviceMac = lastestDeviceMac
             lastestDeviceMac = bleSelf.bleModel.mac
             if lastestDeviceMac.count > 0 {
@@ -187,12 +189,15 @@ class BLEManager: NSObject {
             mTimer?.invalidate()
             mTimer = nil
             isReconnect = false
-            if bleSelf.bleModel.isBond == true && lastestDeviceMac.count > 0 {
+            if lastestDeviceMac.count > 0 {
                 isReconnect = true
                 bleSelf.reConnectDevice() // 执行重新连接
             }
             NotificationCenter.default.post(name: Notification.Name("MTabBarController"), object: "disconnect")
             NotificationCenter.default.post(name: Notification.Name("UploadImageViewController"), object: nil)
+            Async.main(after: 0.5) {
+                NotificationCenter.default.post(name: Notification.Name("DevicesViewController"), object: "1")
+            }
         }
         
         if notify.name == WUBleManagerNotifyKeys.stateChanged {
@@ -353,13 +358,15 @@ class BLEManager: NSObject {
             ///此通知非杰里设备在这里开始同步数据
             if !bleSelf.isJLBlue {
                 Async.main(after: 0.1) {
-                    bleSelf.setTimeForWristband() // 第0步：设置时间
+                    bleSelf.setTimeForWristband() // 第0.5步：设置时间
+                }
+                Async.main(after: 0.15) {
                     bleSelf.getDeviceInfoForWristband() // 第1步：获取设备信息
                 }
                 currentReadProgress = 1
                 
                 Async.main(after: 0.2) {
-                    bleSelf.setLanguageForWristband() // 第0步：同步语言
+                    bleSelf.setLanguageForWristband() // 第1.5步：同步语言
                 }
                 NotificationCenter.default.post(name: Notification.Name("HealthVCLoading"), object: 2) // 加载loading动效
             }
@@ -369,9 +376,10 @@ class BLEManager: NSObject {
         if notify.name == JLComplete {
             wuPrint("JL设备配对成功")
             currentReadProgress = 1
-            bleSelf.setTimeForWristband() // 第0步：设置时间
-            bleSelf.getDeviceInfoForWristband() // 第1步：获取设备信息
-            
+            bleSelf.setTimeForWristband() // 第0.5步：设置时间
+            Async.main(after: 0.1) {
+                bleSelf.getDeviceInfoForWristband() // 第1步：获取设备信息
+            }
             Async.main(after: 0.2) {
                 bleSelf.setLanguageForWristband() // 第0步：同步语言
             }
@@ -385,15 +393,13 @@ class BLEManager: NSObject {
         if notify.name == WristbandNotifyKeys.read_Sport {
             wuPrint("current step：%d", bleSelf.step)
             NotificationCenter.default.post(name: Notification.Name("HealthViewController"), object: "step")
-            print("开始读取心跳：\(currentFunctionStep)")
-            currentFunctionStep = 5
-            currentReadProgress = 4
-            bleSelf.aloneGetMeasure(.heart) // 第5步：获取心跳历史数据
-            perform(#selector(handleHideLoading), with: nil, afterDelay: 1) // 隐藏loading
+            if currentReadProgress == 3 {
+                currentReadProgress = 4
+                bleSelf.aloneGetMeasure(.heart) // 第5步：获取心跳历史数据
+            }
         }
                 
-        if notify.name == WristbandNotifyKeys.read_All_Sport {
-            endReadDataTimer()
+        if notify.name == WristbandNotifyKeys.read_All_Sport { // 获取历史步行数据
             guard let  model = notify.object as? StepModel else {
                 return
             }
@@ -404,30 +410,45 @@ class BLEManager: NSObject {
             let date = WUDate.dateFromTimeStamp(model.timeStamp)
             let dateStr = date.stringFromYmdHms()
             wuPrint(model.step, dateStr, model.day)
-            if model.day >= 3 || dayFlag >= 3 {
+            if model.day >= 3 {
+                print("3天以外的数据不保存")
                 return
             }
             stepArray[model.day] += [model]
             let day = min(3, distanceDays)
             if model.day == day {
                 if model.totalCount == model.indexOfTotal {
-                    print("detail step sync complete", model.day)
-                    bleSelf.aloneGetSleep(with: 1) // 第10步：从前一天开始获取睡眠睡觉
-                    dayFlag = 0
+                    print("[0]detail step sync complete", model.day)
+                    currentReadProgress = 9 // 读取数据结束
+                    Async.main(after: 0.5) {
+                        [weak self] in
+                        self?.handleHideLoading()
+                    }
                 }
             } else {
                 if model.totalCount == model.indexOfTotal {
-                    print("detail step sync complete", model.day)
+                    print("[1]detail step sync complete", model.day)
                     var day = model.day + 1
                     let bk = bleSelf.bleModel.internalNumber.hasPrefix("5A4B") // 是否为中科
                     if bk == true {
-                        dayFlag += 1
-                        day = dayFlag
+                        currentReadProgress = 9 // 读取数据结束
+                        Async.main(after: 0.5) {
+                            [weak self] in
+                            self?.handleHideLoading()
+                        }
+                    } else {
+                        if bReadHistoryStep > 1 && model.day == 0 { // 不做任何处理
+                            
+                        } else {
+                            bReadHistoryStep += 1
+                            bleSelf.aloneGetStep(with: day)
+                        }
+                        
                     }
-                    bleSelf.aloneGetStep(with: day)
                 }
             }
             if model.step == 0 {
+                print("获取历史步数的值为0")
                 return
             }
             let stepModel = DStepModel()
@@ -459,22 +480,24 @@ class BLEManager: NSObject {
             print("将睡眠信息保存到数据库中: \(sleepModel.timeStamp)")
             if model.day == 2 {
                 if model.totalCount == model.indexOfTotal {
-                    print("detail sleep sync complete", model.day) // 第11步：数据已经全部读完
-                    
+                    print("detail sleep sync complete", model.day)
                 }
             } else {
-                if model.totalCount == model.indexOfTotal {
+                if model.totalCount > 0 && model.totalCount == model.indexOfTotal {
                     print("detail sleep sync complete", model.day)
                     bleSelf.aloneGetSleep(with: model.day + 1)
                 }
             }
             if model.day == 0 {
                 if model.totalCount == model.indexOfTotal {
-                    print("开始读取血压: \(currentFunctionStep)")
+                    print("开始读取血压")
                     NotificationCenter.default.post(name: Notification.Name("HealthViewController"), object: "sleep")
-                    currentFunctionStep = 7
-                    currentReadProgress = 6
-                    bleSelf.aloneGetMeasure(.blood) // 第7步：获取血压历史数据
+                    if currentReadProgress == 5 {
+                        currentReadProgress = 6
+                        Async.main(after: 1) {
+                            bleSelf.aloneGetMeasure(.blood) // 第7步：获取血压历史数据
+                        }
+                    }
                 }
             }
         }
@@ -500,10 +523,10 @@ class BLEManager: NSObject {
                 }
                 NotificationCenter.default.post(name: Notification.Name("HealthViewController"), object: "heart")
             }
-            currentFunctionStep = 6
-            currentReadProgress = 5
-            print("开始读取睡眠: \(currentFunctionStep)")
-            bleSelf.aloneGetSleep(with: 0) // 第6步：获取历史睡眠信息
+            if currentReadProgress == 4 {
+                currentReadProgress = 5
+                bleSelf.aloneGetSleep(with: 0) // 第6步：获取历史睡眠信息
+            }
         }
                 
         if notify.name == WristbandNotifyKeys.sysCeLiang_blood {
@@ -532,6 +555,9 @@ class BLEManager: NSObject {
             }
             DispatchQueue.main.async {
                 [weak self] in
+                if (self?.currentReadProgress ?? 0) != 6 {
+                    return
+                }
                 self?.currentReadProgress = 7
                 bleSelf.aloneGetMeasure(.oxygen) // 第8步：获取血氧历史数据
                 self?.perform(#selector(BLEManager.readStepHistory), with: nil, afterDelay: 2)
@@ -652,12 +678,9 @@ class BLEManager: NSObject {
         if notify.name == WristbandNotifyKeys.setOrRead_Time { // 时间设置成功
             bleSelf.ruiYuDialSet()
             print("时间同步成功")
-            Async.main(after: 0.3) {
-                bleSelf.getBatteryForWristband()
-            }
-            Async.main(after: 1.5) {
-                NotificationCenter.default.post(name: Notification.Name("DevicesViewController"), object: "1")
-            }
+//            Async.main(after: 0.1) {
+//                bleSelf.getBatteryForWristband() // 读取电量
+//            }
         }
          
         if notify.name == WristbandNotifyKeys.syncEle { // 电量同步结束后
@@ -669,17 +692,13 @@ class BLEManager: NSObject {
                 deviceModel?.battery = bleSelf.batteryLevel
             }
             print("电量读取成功: \(bleSelf.batteryLevel)")
-            DispatchQueue.main.async {
-                NotificationCenter.default.post(name: Notification.Name("DevicesViewController"), object: "1")
-                NotificationCenter.default.post(name: Notification.Name("DeviceList"), object: "1")
-            }
         }
                 
         if notify.name == WristbandNotifyKeys.syncLanguage {
             print("语言设置成功")
         }
                 
-        if notify.name == WristbandNotifyKeys.getDevInfo {
+        if notify.name == WristbandNotifyKeys.getDevInfo { // 手环信息/电量/时间/制式/语音/屏幕尺寸
             dump(bleSelf.bleModel)
             dump(bleSelf.funcListModel)
             print("设备信息获取成功")
@@ -693,27 +712,27 @@ class BLEManager: NSObject {
                 bleSelf.bleModel.screenHeight = 160
                 log.info("更新设备的信息")
             }
-            bleSelf.getUserinfoForWristband() // 第2步：获取用户信息
-            currentReadProgress = 2
-            Async.main(after: 1) {
-                bleSelf.getBatteryForWristband()
+            if currentReadProgress != 1 {
+                return
             }
+            currentReadProgress = 2
+            bleSelf.getUserinfoForWristband() // 第2步：获取用户信息
         }
                 
         if notify.name == WristbandNotifyKeys.search_Dev {
             print("查找手环成功")
         }
                 
-        if notify.name == WristbandNotifyKeys.setOrRead_UserInfo {
+        if notify.name == WristbandNotifyKeys.setOrRead_UserInfo { // 获取用户信息
             dump(bleSelf.userInfo)
             print("用户信息获取成功")
+            currentReadProgress = 3
             bleSelf.getStep() // 第3步：获取步数
             let deviceModel = DeviceModel()
             deviceModel.battery = bleSelf.batteryLevel
             deviceModel.mac = bleSelf.bleModel.mac
             deviceModel.name = bleSelf.bleModel.name
             DeviceManager.shared.deviceInfo[bleSelf.bleModel.mac] = deviceModel
-            currentReadProgress = 3
             DispatchQueue.main.async {
                 NotificationCenter.default.post(name: Notification.Name("DevicesViewController"), object: "1")
             }
@@ -750,7 +769,11 @@ class BLEManager: NSObject {
             let any = notify.object as! Int
             if any == 1 {
                 NotificationCenter.default.post(name: Notification.Name("ClockUseViewController"), object: 1)
-                let mtuSize = bleSelf.bleModel.MTU > 16 ? bleSelf.bleModel.MTU - 4 : 16
+                var mtuSize = 16
+                let bk = bleSelf.bleModel.internalNumber.hasPrefix("5A4B")
+                if bk {
+                    mtuSize = bleSelf.bleModel.MTU > 16 ? bleSelf.bleModel.MTU - 4 : 16
+                }
                 if mtuSize == 16 {
                     for i in 0..<self.otaTotal {
                         print("循环推送数据:"+String(i+1))
@@ -780,7 +803,11 @@ class BLEManager: NSObject {
                     wuPrint("更新失败")
                     NotificationCenter.default.post(name: Notification.Name("ClockUseViewController"), object: 3)
                 } else {
-                    let mtuSize = bleSelf.bleModel.MTU > 16 ? bleSelf.bleModel.MTU - 4 : 16
+                    var mtuSize = 16
+                    let bk = bleSelf.bleModel.internalNumber.hasPrefix("5A4B")
+                    if bk {
+                        mtuSize = bleSelf.bleModel.MTU > 16 ? bleSelf.bleModel.MTU - 4 : 16
+                    }
                     if mtuSize == 16 {
                         return
                     }
@@ -850,7 +877,11 @@ class BLEManager: NSObject {
     }
     
     private func pushNextPackage(i: Int) {
-        let mtuSize = bleSelf.bleModel.MTU > 16 ? bleSelf.bleModel.MTU - 4 : 16
+        var mtuSize = 16
+        let bk = bleSelf.bleModel.internalNumber.hasPrefix("5A4B")
+        if bk {
+            mtuSize = bleSelf.bleModel.MTU > 16 ? bleSelf.bleModel.MTU - 4 : 16
+        }
         print("循环推送数据\(mtuSize):"+String(i+1))
         let d = Float((i+1) * 100) / Float(self.otaTotal)
         let s = String(format: "%.02f%%", d)
@@ -889,7 +920,12 @@ extension BLEManager {
     }
     
     public func sendDialWithLocalBin(_ value: Data) {
-        let mtuSize = bleSelf.bleModel.MTU > 16 ? bleSelf.bleModel.MTU - 4 : 16
+        var mtuSize = 16
+        let bk = bleSelf.bleModel.internalNumber.hasPrefix("5A4B")
+        if bk {
+            mtuSize = bleSelf.bleModel.MTU > 16 ? bleSelf.bleModel.MTU - 4 : 16
+        }
+        
         otaTotal = Int(ceil(Double(value.count)/Double(mtuSize)))
         binData = value
         print("总共\(value.count)推送\(mtuSize)的包数为：\(otaTotal)")
@@ -931,39 +967,13 @@ extension BLEManager {
 }
 
 extension BLEManager {
-    // 初始化获取数据定时器判断
-    func startReadDataTimer() {
-        print("当前为主线程: \(Thread.current.isMainThread)")
-        endReadDataTimer()
-        mTimer = Timer.scheduledTimer(withTimeInterval: 10, repeats: false, block: { [weak self] t in
-            log.info("开始执行定时器")
-            let step = self?.currentFunctionStep ?? 0
-            if step == 0 {
-                print("开始读取心跳2: \(step)")
-                self?.currentFunctionStep = 5
-                bleSelf.aloneGetMeasure(.heart) // 第5步：获取心跳历史数据
-            } else if step == 7 {
-                print("开始读取步行2 : \(step)")
-                self?.currentFunctionStep = 9
-                bleSelf.aloneGetStep(with: 0) // 第9步：获取历史步行信息
-            }
-        })
-        mTimer?.fire()
-        if mTimer != nil {
-            RunLoop.current.add(mTimer!, forMode: .common)
+    
+    @objc private func readStepHistory() {
+        print("开始读取步数")
+        if currentReadProgress == 7 {
+            bReadHistoryStep = 0
+            currentReadProgress = 8
+            bleSelf.aloneGetStep(with: 0) // 第9步：获取历史步行信息
         }
-    }
-    
-    // 结束
-    func endReadDataTimer() {
-        mTimer?.invalidate()
-        mTimer = nil
-    }
-    
-    @objc func readStepHistory() {
-        print("开始读取步数: \(currentFunctionStep)")
-        currentFunctionStep = 9
-        currentReadProgress = 8
-        bleSelf.aloneGetStep(with: 0) // 第9步：获取历史步行信息
     }
 }

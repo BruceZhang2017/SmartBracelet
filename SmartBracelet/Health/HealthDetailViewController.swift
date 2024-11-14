@@ -506,18 +506,6 @@ class HealthDetailViewController: BaseViewController {
         // 设置柱状图的颜色
         set1.colors = [NSUIColor.kDC98FF] // 你可以使用数组来设置多个颜色
         
-//        let pFormatter = NumberFormatter()
-//        pFormatter.numberStyle = .percent
-//        pFormatter.maximumFractionDigits = 1
-//        pFormatter.multiplier = 1
-//        pFormatter.percentSymbol = " %"
-//        data.setValueFormatter(DefaultValueFormatter(formatter: pFormatter))
-//        
-//        data.setValueFont(UIFont.systemFont(ofSize: 11))
-//        data.setValueTextColor(.black)
-        
-//        pieChartView.data = data
-//        pieChartView.highlightValues(nil)
     }
     
     private func initializeData() -> [ChartDataEntry] {
@@ -529,32 +517,56 @@ class HealthDetailViewController: BaseViewController {
             totalValue = 0
             totalKM = 0
             let array = readDBStep()
+            var scale = 1000
             if array.count > 0 {
                 let zero = mDate.zeroTimeStamp()
                 for i in 0..<array.count {
                     let value = array[i].step
                     totalValue += value
                     totalKM += array[i].distance
-                    let x = (array[i].timeStamp - Int(zero)) / 3660
+                    let x = (array[i].timeStamp - Int(zero)) / 3600
                     let item = values[x]
-                    values[x] = ChartDataEntry(x: Double(x), y: Double(value) / Double(1000) + item.y)
+                    values[x] = ChartDataEntry(x: Double(x), y: Double(value) / Double(scale) + item.y)
                     if value > maxValue {
                         maxValue = value
                     }
                 }
+                if maxValue <= 50 {
+                    lineChartView.rightAxis.axisMaximum = 50
+                    for i in 0..<values.count {
+                        values[i].y *= 100
+                    }
+                    scale = 100
+                } else if maxValue <= 500 {
+                    lineChartView.rightAxis.axisMaximum = 500
+                    for i in 0..<values.count {
+                        values[i].y *= 10
+                    }
+                    scale = 10
+                } else {
+                    lineChartView.rightAxis.axisMaximum = 5000
+                    scale = 1000
+                }
+                lineChartView.notifyDataSetChanged()
             }
 
             var totalValue1 = 0
             let array1 = readDBStep()
             if array1.count > 0 {
-                //let zero = mDate.zeroTimeStamp()
                 for i in 0..<array1.count {
                     let value = array1[i].cal // 热量
                     totalValue1 += value
-                    //let x = (array1[i].timeStamp - Int(zero)) / 3660
-                    //let item = values[x]
-                    //values[x] = ChartDataEntry(x: Double(x), y: Double(value) / Double(10000) + item.y)
                 }
+            }
+            
+            if array1.count > 0 && bleSelf.step > totalValue && mDate.isToday() {
+                let zero = mDate.zeroTimeStamp()
+                let x = (Int(Date().timeIntervalSince1970) - Int(zero)) / 3600
+                values[x].y += Double((bleSelf.step - totalValue)) / Double(scale)
+                totalValue = bleSelf.step
+                totalKM = bleSelf.distance
+                totalValue1 = bleSelf.cal
+                lineChartView.notifyDataSetChanged()
             }
             
             let m = NSMutableAttributedString()
@@ -642,13 +654,13 @@ class HealthDetailViewController: BaseViewController {
             if count > 0 {
                 let b = NSMutableAttributedString()
                 b.append(NSAttributedString(string: "\(array.last?.oxygen ?? 0)", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 40, weight: .black)]))
-                b.append(NSAttributedString(string: "health_value_p_minute".localized(), attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 14, weight: .medium)]))
+                b.append(NSAttributedString(string: "SPO2", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 14, weight: .medium)]))
                 roundView.refreshView(value: b)
                 roundView.setProgress(0)
             } else {
                 let b = NSMutableAttributedString()
                 b.append(NSAttributedString(string: "0", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 40, weight: .black)]))
-                b.append(NSAttributedString(string: "health_value_p_minute".localized(), attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 14, weight: .medium)]))
+                b.append(NSAttributedString(string: "SPO2", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 14, weight: .medium)]))
                 roundView.refreshView(value: b)
                 roundView.setProgress(0)
             }
@@ -748,28 +760,11 @@ class HealthDetailViewController: BaseViewController {
 extension HealthDetailViewController: ChartViewDelegate {
     // ChartViewDelegate 方法
     func chartValueSelected(_ chartView: ChartViewBase, entry: ChartDataEntry, highlight: Highlight) {
-        // 重置所有数据点的圆圈显示
-//        if let dataSet = lineChartView.data?.dataSets[highlight.dataSetIndex] as? LineChartDataSet {
-//            dataSet.setCircleColor(.clear) // 设置为透明色，隐藏所有圆圈
-//            dataSet.circleHoleColor = .clear // 如果你使用的是带有空心的圆圈，也设置为空心颜色
-//
-//            // 设置选中的数据点的圆圈颜色
-//            dataSet.setCircleColors(NSUIColor.brand, NSUIColor.white, NSUIColor.black)
-//            dataSet.circleHoleColor = .red // 如果你使用的是带有空心的圆圈，也设置空心颜色
-//        }
-//
-//        // 刷新图表
-//        lineChartView.notifyDataSetChanged()
+
     }
 
     func chartValueNothingSelected(_ chartView: ChartViewBase) {
-        // 当没有选中值时，隐藏圆圈
-//        if let dataSets = chartView.data?.dataSets {
-//            for case let dataSet as LineChartDataSet in dataSets {
-//                dataSet.drawCirclesEnabled = false // 禁用圆圈的显示
-//            }
-//            chartView.notifyDataSetChanged() // 通知图表数据已更改，需要重绘
-//        }
+
     }
 }
 

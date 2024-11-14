@@ -67,15 +67,6 @@ class HealthViewController: BaseViewController {
             UserDefaults.standard.set(0, forKey: "APPOPEN")
         }
         registerNotification()
-//        header = MJRefreshNormalHeader {
-//            [weak self] in
-//            print("start")
-//            if bleSelf.isConnected {
-//                bleSelf.getStep()
-//                NotificationCenter.default.post(name: Notification.Name("HealthVCLoading"), object: 2)
-//            }
-//            self?.header?.endRefreshing()
-//        }.autoChangeTransparency(true).link(to: mScrollView)
         WUBleManager.shared.didSetUserinfo = {
             result in
             print("设置用户信息是否成功: \(result)")
@@ -314,7 +305,7 @@ class HealthViewController: BaseViewController {
                 }
                 let v = NSMutableAttributedString()
                 v.append(NSAttributedString(string: "\(value)", attributes: [.font: UIFont.systemFont(ofSize: 20, weight: .black), .foregroundColor: UIColor.black]))
-                v.append(NSAttributedString(string: "%  \("health_head".localized())", attributes: [.font: UIFont.systemFont(ofSize: 10, weight: .semibold), .foregroundColor: UIColor.text_secondary]))
+                v.append(NSAttributedString(string: "SPO2", attributes: [.font: UIFont.systemFont(ofSize: 10, weight: .semibold), .foregroundColor: UIColor.text_secondary]))
                 if value > 0 {
                     self?.arrayValue[3] = v
                     self?.tableView.reloadData()
@@ -690,7 +681,7 @@ class HealthViewController: BaseViewController {
         let value = models?.first?.oxygen ?? 0
         let v = NSMutableAttributedString()
         v.append(NSAttributedString(string: "\(value)", attributes: [.font: UIFont.systemFont(ofSize: 20, weight: .black), .foregroundColor: UIColor.black]))
-        v.append(NSAttributedString(string: "%  \("health_head".localized())", attributes: [.font: UIFont.systemFont(ofSize: 10, weight: .semibold), .foregroundColor: UIColor.text_secondary]))
+        v.append(NSAttributedString(string: "SPO2", attributes: [.font: UIFont.systemFont(ofSize: 10, weight: .semibold), .foregroundColor: UIColor.text_secondary]))
         arrayValue[3] = v
         tableView.reloadData()
     }
@@ -857,6 +848,9 @@ extension HealthViewController: UITableViewDelegate {
 extension HealthViewController: UITableViewDataSource {
     // UITableViewDataSource
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if lastestDeviceMac.count <= 0 {
+            return 0
+        }
         return 4 // 你有4个cells
     }
     

@@ -376,9 +376,6 @@
 		9A8CA529252CA8BA00EC01A7 /* DataRecordTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8CA528252CA8BA00EC01A7 /* DataRecordTableViewCell.swift */; };
 		9A8CA52B252CB6E000EC01A7 /* HelpCenterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8CA52A252CB6E000EC01A7 /* HelpCenterViewController.swift */; };
 		9A8D431D250F411800E8D6F7 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8D431C250F411800E8D6F7 /* RegisterViewController.swift */; };
-		9A94A1542C6B6924008E38F9 /* AB_FOTA.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A94A1522C6B6919008E38F9 /* AB_FOTA.framework */; };
-		9A94A1552C6B6924008E38F9 /* AB_FOTA.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9A94A1522C6B6919008E38F9 /* AB_FOTA.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		9A967EA82C662D1F00511262 /* test.bin in Resources */ = {isa = PBXBuildFile; fileRef = 9A967EA72C662D1E00511262 /* test.bin */; };
 		9A99CCEA26CB57DE00D6972A /* TJDWristbandSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18C2820C246A8D13009A60C0 /* TJDWristbandSDK.framework */; };
 		9A99CCEB26CB57DE00D6972A /* TJDWristbandSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 18C2820C246A8D13009A60C0 /* TJDWristbandSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9A9E4E12278136E70084CCFF /* 3_80_160.png in Resources */ = {isa = PBXBuildFile; fileRef = 9A9E4E0E278136E60084CCFF /* 3_80_160.png */; };
@@ -494,7 +491,6 @@
 				9AB5BE2A2A06649700680757 /* RTKOTASDK.framework in Embed Frameworks */,
 				9AB5BE282A06649300680757 /* RTKLEFoundation.framework in Embed Frameworks */,
 				9A491EF02BA07C43000CF726 /* AliIotConnectKit.framework in Embed Frameworks */,
-				9A94A1552C6B6924008E38F9 /* AB_FOTA.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -895,8 +891,6 @@
 		9A8CA528252CA8BA00EC01A7 /* DataRecordTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataRecordTableViewCell.swift; sourceTree = "<group>"; };
 		9A8CA52A252CB6E000EC01A7 /* HelpCenterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpCenterViewController.swift; sourceTree = "<group>"; };
 		9A8D431C250F411800E8D6F7 /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
-		9A94A1522C6B6919008E38F9 /* AB_FOTA.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AB_FOTA.framework; sourceTree = "<group>"; };
-		9A967EA72C662D1E00511262 /* test.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = test.bin; sourceTree = "<group>"; };
 		9A9E4E0E278136E60084CCFF /* 3_80_160.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 3_80_160.png; sourceTree = "<group>"; };
 		9A9E4E0F278136E60084CCFF /* 1_80_160.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 1_80_160.png; sourceTree = "<group>"; };
 		9A9E4E10278136E70084CCFF /* 4_80_160.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 4_80_160.png; sourceTree = "<group>"; };
@@ -1092,7 +1086,6 @@
 				9AB5BE1F2A06644500680757 /* JLDialUnit.framework in Frameworks */,
 				9A491EEF2BA07C43000CF726 /* AliIotConnectKit.framework in Frameworks */,
 				9AB5BE272A06649300680757 /* RTKLEFoundation.framework in Frameworks */,
-				9A94A1542C6B6924008E38F9 /* AB_FOTA.framework in Frameworks */,
 				9AAF85CC25C6D42000960BDD /* MapKit.framework in Frameworks */,
 				9AB5BE292A06649700680757 /* RTKOTASDK.framework in Frameworks */,
 				6358A1BC7537C0FAECF400E2 /* Pods_SmartBracelet.framework in Frameworks */,
@@ -1153,7 +1146,6 @@
 		18385EB124517F7700EA380A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				9A94A1522C6B6919008E38F9 /* AB_FOTA.framework */,
 				9A491EED2BA07A8C000CF726 /* AliIotConnectKit.framework */,
 				9A0C34932B341D6100E798F1 /* DFUnits.framework */,
 				9A0C34942B341D6600E798F1 /* JL_BLEKit.framework */,
@@ -1172,7 +1164,6 @@
 		9A037E4025BDACDB0006FB94 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
-				9A967EA72C662D1E00511262 /* test.bin */,
 				9AF3F2DA2BCBFF2600AFBC55 /* icon_default.png */,
 				9A7F13812A8C8099006C0F61 /* loading.gif */,
 				9A2676AB26B1969B0096BC61 /* Alarm.mp3 */,
@@ -2325,7 +2316,6 @@
 				9A2185AD255BC6AA000330E5 /* new3.jpg in Resources */,
 				9A33D31426AD9A4F00DF9618 /* CameraView.strings in Resources */,
 				9A2181652557EDBE000330E5 /* apple.jpeg in Resources */,
-				9A967EA82C662D1F00511262 /* test.bin in Resources */,
 				9A60DEE3252F003800E0D849 /* hotCities.plist in Resources */,
 				9A3C55C92BD36981007737A2 /* SCBreathAnimationView.xib in Resources */,
 				9A2185B0255BC6AA000330E5 /* new5.jpg in Resources */,
@@ -3067,7 +3057,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/SmartBracelet/JL/BLEUsage",
 				);
-				MARKETING_VERSION = 1.3.2;
+				MARKETING_VERSION = 2.3.9;
 				OTHER_SWIFT_FLAGS = "$(inherited) -D WeiZhongYun -D DisplayPrint -D TestMode";
 				PRODUCT_BUNDLE_IDENTIFIER = com.sinophy.uwatch;
 				PRODUCT_NAME = FitDAY;
@@ -3115,7 +3105,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/SmartBracelet/JL/BLEUsage",
 				);
-				MARKETING_VERSION = 1.3.2;
+				MARKETING_VERSION = 2.3.9;
 				OTHER_SWIFT_FLAGS = "$(inherited) -D WeiZhongYun -D DisplayPrint -D TestMode";
 				PRODUCT_BUNDLE_IDENTIFIER = com.sinophy.uwatch;
 				PRODUCT_NAME = FitDAY;

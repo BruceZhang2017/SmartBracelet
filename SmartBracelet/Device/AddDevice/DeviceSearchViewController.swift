@@ -177,6 +177,7 @@ extension DeviceSearchViewController: UITableViewDataSource {
         cell.deviceMacLabel.font = UIFont.subtitle()
         cell.bindLabel.textColor = UIColor.brand
         cell.bindLabel.font = UIFont.body1()
+        cell.bindLabel.text = "bind_device".localized()
         
         if indexPath.row < bleSelf.bleModels.count {
             let model = bleSelf.bleModels[indexPath.row]

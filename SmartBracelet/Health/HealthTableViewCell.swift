@@ -36,7 +36,7 @@ class HealthTableViewCell: UITableViewCell {
         // 将子视图添加到容器视图中
         containerView.addSubview(iconImageView)
         containerView.addSubview(leftTitleLabel)
-        leftTitleLabel.font = UIFont.title()
+        leftTitleLabel.font = UIFont.body()
         leftTitleLabel.textColor = UIColor.text_primary
         containerView.addSubview(rightTitleLabel)
         

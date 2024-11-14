@@ -388,3 +388,12 @@
 "add_dial" = "Zifferblatt hinzufügen";
 "mine_manage" = "Verwaltung";
 "mine_finish" = "Abgeschlossen";
+
+"Check for Updates" = "Nach Updates suchen";
+"Update Available" = "Update verfügbar";
+"A new version (%@) is available on the App Store." = "Eine neue Version (%@) ist im App Store verfügbar.";
+"Update" = "Aktualisieren";
+"Cancel" = "Abbrechen";
+"No Update Available" = "Kein Update verfügbar";
+"You are using the latest version." = "Sie verwenden die neueste Version.";
+"qushi" = "Trend";

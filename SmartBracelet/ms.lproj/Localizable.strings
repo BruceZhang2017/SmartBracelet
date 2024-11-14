@@ -387,3 +387,12 @@
 "add_dial" = "Tambah muka jam";
 "mine_manage" = "Pengurusan";
 "mine_finish" = "Penyelesaian";
+
+"Check for Updates" = "Periksa Pembaruan";
+"Update Available" = "Pembaruan Tersedia";
+"A new version (%@) is available on the App Store." = "Versi baru (%@) tersedia di App Store.";
+"Update" = "Perbarui";
+"Cancel" = "Batal";
+"No Update Available" = "Tidak Ada Pembaruan Tersedia";
+"You are using the latest version." = "Anda menggunakan versi terbaru.";
+"qushi" = "tren";

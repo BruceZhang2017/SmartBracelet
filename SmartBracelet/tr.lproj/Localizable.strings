@@ -387,3 +387,12 @@
 "add_dial" = "Saat kadranı ekle";
 "mine_manage" = "Yönetim";
 "mine_finish" = "Tamamlama";
+
+"Check for Updates" = "Güncellemeleri kontrol et";
+"Update Available" = "Güncelleme Mevcut";
+"A new version (%@) is available on the App Store." = "Yeni bir sürüm (%@) App Store'da mevcut.";
+"Update" = "Güncelle";
+"Cancel" = "İptal";
+"No Update Available" = "Güncelleme Yok";
+"You are using the latest version." = "En son sürümü kullanıyorsunuz.";
+"qushi" = "trend";

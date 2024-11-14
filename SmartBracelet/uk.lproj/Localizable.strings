@@ -387,3 +387,12 @@
 "add_dial" = "Додати циферблат";
 "mine_manage" = "Управління";
 "mine_finish" = "Завершення";
+
+"Check for Updates" = "Перевірити оновлення";
+"Update Available" = "Доступне оновлення";
+"A new version (%@) is available on the App Store." = "Нова версія (%@) доступна в App Store.";
+"Update" = "Оновити";
+"Cancel" = "Скасувати";
+"No Update Available" = "Оновлення недоступне";
+"You are using the latest version." = "Ви використовуєте останню версію.";
+"qushi" = "тренд";

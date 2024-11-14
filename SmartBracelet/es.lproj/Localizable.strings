@@ -388,3 +388,12 @@
 "add_dial" = "Añadir esfera del reloj";
 "mine_manage" = "Gestión";
 "mine_finish" = "Completado";
+
+"Check for Updates" = "Buscar actualizaciones";
+"Update Available" = "Actualización disponible";
+"A new version (%@) is available on the App Store." = "Una nueva versión (%@) está disponible en la App Store.";
+"Update" = "Actualizar";
+"Cancel" = "Cancelar";
+"No Update Available" = "No hay actualizaciones disponibles";
+"You are using the latest version." = "Estás usando la última versión.";
+"qushi" = "tendencia";

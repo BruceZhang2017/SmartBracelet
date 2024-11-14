@@ -387,3 +387,12 @@
 "add_dial" = "Ajouter un cadran";
 "mine_manage" = "Gestion";
 "mine_finish" = "Terminé";
+
+"Check for Updates" = "Vérifier les mises à jour";
+"Update Available" = "Mise à jour disponible";
+"A new version (%@) is available on the App Store." = "Une nouvelle version (%@) est disponible sur l'App Store.";
+"Update" = "Mettre à jour";
+"Cancel" = "Annuler";
+"No Update Available" = "Aucune mise à jour disponible";
+"You are using the latest version." = "Vous utilisez la dernière version.";
+"qushi" = "tendance";

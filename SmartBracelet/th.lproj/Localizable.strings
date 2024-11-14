@@ -387,3 +387,12 @@
 "add_dial" = "เพิ่มหน้าปัดนาฬิกา";
 "mine_manage" = "การจัดการ";
 "mine_finish" = "เสร็จสิ้น";
+
+"Check for Updates" = "ตรวจสอบการอัปเดต";
+"Update Available" = "มีการอัปเดต";
+"A new version (%@) is available on the App Store." = "มีเวอร์ชันใหม่ (%@) ใน App Store";
+"Update" = "อัปเดต";
+"Cancel" = "ยกเลิก";
+"No Update Available" = "ไม่มีการอัปเดต";
+"You are using the latest version." = "คุณกำลังใช้เวอร์ชันล่าสุด";
+"qushi" = "แนวโน้ม";

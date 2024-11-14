@@ -30,14 +30,14 @@ public class OpenWeatherManager: NSObject {
     func checkLocationAuthorization() {
         if CLLocationManager.locationServicesEnabled() {
             if #available(iOS 14.0, *) {
-                switch locationManager.authorizationStatus {
+                switch self.locationManager.authorizationStatus {
                 case .notDetermined:
-                    locationManager.requestWhenInUseAuthorization()
+                    self.locationManager.requestWhenInUseAuthorization()
                 case .restricted, .denied:
                     // Handle the case where location services are restricted or denied
-                    showLocationServicesDeniedAlert()
+                    self.showLocationServicesDeniedAlert()
                 case .authorizedWhenInUse, .authorizedAlways:
-                    requestLocation()
+                    self.requestLocation()
                 @unknown default:
                     fatalError("Unknown authorization status")
                 }
@@ -46,7 +46,7 @@ public class OpenWeatherManager: NSObject {
             }
         } else {
             // Handle the case where location services are not enabled
-            showLocationServicesDisabledAlert()
+            self.showLocationServicesDisabledAlert()
         }
     }
     

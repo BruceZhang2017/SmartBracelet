@@ -4,21 +4,9 @@
 <dict>
 	<key>files</key>
 	<dict>
-		<key>Frameworks/AB_FOTA.framework/AB_FOTA</key>
-		<data>
-		wteuyILNo4M0p5GAepARryPStM0=
-		</data>
-		<key>Frameworks/AB_FOTA.framework/Info.plist</key>
-		<data>
-		P5+Mi9OWK7PzhEwrNiMF29tfQug=
-		</data>
-		<key>Frameworks/AB_FOTA.framework/_CodeSignature/CodeResources</key>
-		<data>
-		Gl4uACbDt5P73Sbsb9VTxI/FcXQ=
-		</data>
 		<key>Headers/TJDWristbandSDK-Swift.h</key>
 		<data>
-		cLXvJL/DSyxiQadzrU4ynFrjPT8=
+		AMbfJbErXAd36kTSn/Xsoym8Ss0=
 		</data>
 		<key>Headers/TJDWristbandSDK.h</key>
 		<data>
@@ -26,93 +14,48 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		hVea1J3D5TzJjzGO+tpCiY3y9yo=
+		gA+m86JnPrB1h6aRwvZFxq5DlIQ=
 		</data>
 		<key>Modules/TJDWristbandSDK.swiftmodule/Project/arm64-apple-ios.swiftsourceinfo</key>
 		<data>
-		lxSezElYNvDAHZq/ARsZmsIa9fw=
+		9yhy41Y2KRtscDNxcx0B+WbjwCo=
 		</data>
 		<key>Modules/TJDWristbandSDK.swiftmodule/arm64-apple-ios.abi.json</key>
 		<data>
-		pC2XXp59Jr6rtnjKnsfBKHrQJ40=
+		P/O+37UILNA0xZKKKmQdadJlOb4=
 		</data>
 		<key>Modules/TJDWristbandSDK.swiftmodule/arm64-apple-ios.private.swiftinterface</key>
 		<data>
-		LUm3XrlS56Pdxl+PrftaHrHF86U=
+		Z9iU1/xAFy5VD1StFj/KzQ82vV8=
 		</data>
 		<key>Modules/TJDWristbandSDK.swiftmodule/arm64-apple-ios.swiftdoc</key>
 		<data>
-		eQXC8ZDBouNTbSzSog9eknMM3A0=
+		zrVbw7jwwdgfBNdGryPVnJP9New=
 		</data>
 		<key>Modules/TJDWristbandSDK.swiftmodule/arm64-apple-ios.swiftinterface</key>
 		<data>
-		LUm3XrlS56Pdxl+PrftaHrHF86U=
+		Z9iU1/xAFy5VD1StFj/KzQ82vV8=
 		</data>
 		<key>Modules/TJDWristbandSDK.swiftmodule/arm64-apple-ios.swiftmodule</key>
 		<data>
-		wQQZjI5uMbaVi0Xj6b0cHRzIR9g=
+		532CoLm1hGrL7j+vipRP7PZVKXI=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
 		TmE4cXHau8UY9E0m8x+MRGc+wSk=
 		</data>
-		<key>test.bin</key>
-		<data>
-		bXTD2g87vY4KlTG5ZTpcOvBKuAY=
-		</data>
 	</dict>
 	<key>files2</key>
 	<dict>
-		<key>Frameworks/AB_FOTA.framework/AB_FOTA</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			wteuyILNo4M0p5GAepARryPStM0=
-			</data>
-			<key>hash2</key>
-			<data>
-			pxwFHoFey6cQc5i1hh6k6mS3+4Lr4I3eZkI1/5ighjU=
-			</data>
-		</dict>
-		<key>Frameworks/AB_FOTA.framework/Info.plist</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			P5+Mi9OWK7PzhEwrNiMF29tfQug=
-			</data>
-			<key>hash2</key>
-			<data>
-			LYJN4ZQmamXHXavE+POQ9q++94uBmUBRYiitKpV10J8=
-			</data>
-		</dict>
-		<key>Frameworks/AB_FOTA.framework/_CodeSignature/CodeResources</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			Gl4uACbDt5P73Sbsb9VTxI/FcXQ=
-			</data>
-			<key>hash2</key>
-			<data>
-			Q4V4Y2zsDKdc7KxffTMiy8m/8vKGlHghJ0WDO4LxURE=
-			</data>
-		</dict>
 		<key>Headers/TJDWristbandSDK-Swift.h</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			cLXvJL/DSyxiQadzrU4ynFrjPT8=
-			</data>
 			<key>hash2</key>
 			<data>
-			iwFba65zhAJECpmHLyyYEbAwc3bQ8yATG+b8JMKkQr0=
+			e3jDLX48bkTY+bHMCHUwjfnW72t/Nci4sfoTwxtzoAU=
 			</data>
 		</dict>
 		<key>Headers/TJDWristbandSDK.h</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			zOhbPbUQMTupdlDv1tGdeJSeTDs=
-			</data>
 			<key>hash2</key>
 			<data>
 			Vfli9EjIWe4f+oSV8sTjEa4+i2E9m8X9Flr73QFbSg4=
@@ -120,90 +63,51 @@
 		</dict>
 		<key>Modules/TJDWristbandSDK.swiftmodule/Project/arm64-apple-ios.swiftsourceinfo</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			lxSezElYNvDAHZq/ARsZmsIa9fw=
-			</data>
 			<key>hash2</key>
 			<data>
-			GIKzqyT42b14w5BV0QUDnSSfsbRFtlfmivnCOROClzk=
+			24qtq0lFM9+MU5RIDjnU8s+S5Llerams08IXzbwe1fk=
 			</data>
 		</dict>
 		<key>Modules/TJDWristbandSDK.swiftmodule/arm64-apple-ios.abi.json</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			pC2XXp59Jr6rtnjKnsfBKHrQJ40=
-			</data>
 			<key>hash2</key>
 			<data>
-			I4/Fe4OwU1LTFqSrx56cdphl8ZHn8pFPs17SyI0ueJk=
+			8DAksMp2mf8UmqEtmZmKH3TJkvEcdrKhkYOIZv/jRs4=
 			</data>
 		</dict>
 		<key>Modules/TJDWristbandSDK.swiftmodule/arm64-apple-ios.private.swiftinterface</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			LUm3XrlS56Pdxl+PrftaHrHF86U=
-			</data>
 			<key>hash2</key>
 			<data>
-			WWU3gPg9586bZV1oKMVP31SXUgDf9Gz6yfEtpinSj3c=
+			7QsPLNHIdtlZ6vgGyKN13jCOX9sTpsgaMHxt3FJmsqI=
 			</data>
 		</dict>
 		<key>Modules/TJDWristbandSDK.swiftmodule/arm64-apple-ios.swiftdoc</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			eQXC8ZDBouNTbSzSog9eknMM3A0=
-			</data>
 			<key>hash2</key>
 			<data>
-			VRlEuQKXl1q4Qaei2lEgyJNbIXFqzFomjQGA1onQOwQ=
+			auz5fV8L+jLKKhsxQ/gx3/Z3YULy5vv7aJs/tlbQy9g=
 			</data>
 		</dict>
 		<key>Modules/TJDWristbandSDK.swiftmodule/arm64-apple-ios.swiftinterface</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			LUm3XrlS56Pdxl+PrftaHrHF86U=
-			</data>
 			<key>hash2</key>
 			<data>
-			WWU3gPg9586bZV1oKMVP31SXUgDf9Gz6yfEtpinSj3c=
+			7QsPLNHIdtlZ6vgGyKN13jCOX9sTpsgaMHxt3FJmsqI=
 			</data>
 		</dict>
 		<key>Modules/TJDWristbandSDK.swiftmodule/arm64-apple-ios.swiftmodule</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			wQQZjI5uMbaVi0Xj6b0cHRzIR9g=
-			</data>
 			<key>hash2</key>
 			<data>
-			HJ8y+ijXCjahjEBXxW+hMrECXRTUH4F4v1TyvMzKmEo=
+			ZmsOwntAWIafzZU9c+mxvTLjot3DlS43UAGUy+0YvLI=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>
 		<dict>
-			<key>hash</key>
-			<data>
-			TmE4cXHau8UY9E0m8x+MRGc+wSk=
-			</data>
 			<key>hash2</key>
 			<data>
 			xuAR0q3jOtFVY0fSr0NvWy7pvEQ0U9xRKlJh9ON+bTM=
-			</data>
-		</dict>
-		<key>test.bin</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			bXTD2g87vY4KlTG5ZTpcOvBKuAY=
-			</data>
-			<key>hash2</key>
-			<data>
-			IlmoxJED2F8LB6aTTOateV8/LsPaGo1fspQkacmy+GQ=
 			</data>
 		</dict>
 	</dict>

@@ -387,3 +387,12 @@
 "add_dial" = "Add watch face";
 "mine_manage" = "Management";
 "mine_finish" = "Completed";
+
+"Check for Updates" = "Check for Updates";
+"Update Available" = "Update Available";
+"A new version (%@) is available on the App Store." = "A new version (%@) is available on the App Store.";
+"Update" = "Update";
+"Cancel" = "Cancel";
+"No Update Available" = "No Update Available";
+"You are using the latest version." = "You are using the latest version.";
+"qushi" = "trend";

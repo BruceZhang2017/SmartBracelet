@@ -34,7 +34,7 @@ class HealthValueView: UIView {
         clipsToBounds = true
         
         // 配置顶部标签
-        topLabel.text = "趋势"
+        topLabel.text = "qushi".localized()
         topLabel.textColor = UIColor.text_primary
         topLabel.font = UIFont.subtitle()
         addSubview(topLabel)
@@ -53,6 +53,8 @@ class HealthValueView: UIView {
         
         descLabel.text = ""
         descLabel.textColor = UIColor.text_third
+        descLabel.numberOfLines = 0
+        descLabel.textAlignment = .right
         descLabel.font = UIFont.body2()
         addSubview(descLabel)
     }
@@ -81,6 +83,7 @@ class HealthValueView: UIView {
         
         descLabel.snp.makeConstraints { make in
             make.right.equalTo(-20)
+            make.left.equalTo(100)
             make.centerY.equalTo(topLabel)
         }
     }

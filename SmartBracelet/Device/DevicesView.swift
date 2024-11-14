@@ -108,6 +108,8 @@ class DevicesView: UIView {
                 if currentModel!.mac == lastestDeviceMac && bleSelf.isConnected {
                     bConnected = true
                     btImgView.image = UIImage(named: "content_blueteeth_link")
+                } else {
+                    btImgView.image = UIImage(named: "content_blueteeth_unlink")
                 }
                 macLabel.text = currentModel?.mac ?? ""
             }

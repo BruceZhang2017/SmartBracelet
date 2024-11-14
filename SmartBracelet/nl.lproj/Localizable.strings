@@ -387,3 +387,12 @@
 "add_dial" = "Wijzerplaat toevoegen";
 "mine_manage" = "Beheer";
 "mine_finish" = "Voltooiing";
+
+"Check for Updates" = "Controleer op updates";
+"Update Available" = "Update beschikbaar";
+"A new version (%@) is available on the App Store." = "Een nieuwe versie (%@) is beschikbaar in de App Store.";
+"Update" = "Bijwerken";
+"Cancel" = "Annuleren";
+"No Update Available" = "Geen update beschikbaar";
+"You are using the latest version." = "U gebruikt de nieuwste versie.";
+"qushi" = "trend";

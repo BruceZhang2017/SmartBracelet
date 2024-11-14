@@ -28,6 +28,15 @@ class AlarmViewController: BaseViewController {
         tableView.reloadData()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        Async.main(after: 1) {
+            if BLEManager.shared.alarmArray.count == 0 {
+                bleSelf.getAlarmForWristband() // 获取闹钟信息
+            }
+        }
+    }
+    
     deinit {
         unregisterNotification()
     }

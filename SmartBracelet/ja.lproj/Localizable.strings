@@ -387,3 +387,12 @@
 "add_dial" = "文字盤を追加する";
 "mine_manage" = "管理";
 "mine_finish" = "完了";
+
+"Check for Updates" = "アップデートを確認";
+"Update Available" = "アップデートがあります";
+"A new version (%@) is available on the App Store." = "新しいバージョン (%@) が App Store で利用可能です。";
+"Update" = "アップデート";
+"Cancel" = "キャンセル";
+"No Update Available" = "アップデートはありません";
+"You are using the latest version." = "最新バージョンを使用しています。";
+"qushi" = "トレンド";

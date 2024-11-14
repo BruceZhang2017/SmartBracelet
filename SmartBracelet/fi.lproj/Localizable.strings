@@ -388,3 +388,12 @@
 "add_dial" = "Lisää kellotaulu";
 "mine_manage" = "Hallinta";
 "mine_finish" = "Valmistuminen";
+
+"Check for Updates" = "Tarkista päivitykset";
+"Update Available" = "Päivitys saatavilla";
+"A new version (%@) is available on the App Store." = "Uusi versio (%@) on saatavilla App Storessa.";
+"Update" = "Päivitä";
+"Cancel" = "Peruuta";
+"No Update Available" = "Ei päivityksiä saatavilla";
+"You are using the latest version." = "Käytät uusinta versiota.";
+"qushi" = "trendi";

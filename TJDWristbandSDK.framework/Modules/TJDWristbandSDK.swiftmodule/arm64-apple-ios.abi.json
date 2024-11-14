@@ -1315,822 +1315,6 @@
         ]
       },
       {
-        "kind": "Import",
-        "name": "AB_FOTA",
-        "printedName": "AB_FOTA",
-        "declKind": "Import",
-        "moduleName": "TJDWristbandSDK"
-      },
-      {
-        "kind": "Import",
-        "name": "os.log",
-        "printedName": "os.log",
-        "declKind": "Import",
-        "moduleName": "TJDWristbandSDK"
-      },
-      {
-        "kind": "Import",
-        "name": "TJDWristbandSDK",
-        "printedName": "TJDWristbandSDK",
-        "declKind": "Import",
-        "moduleName": "TJDWristbandSDK"
-      },
-      {
-        "kind": "TypeDecl",
-        "name": "TJDFuncInstallStatus",
-        "printedName": "TJDFuncInstallStatus",
-        "children": [
-          {
-            "kind": "Var",
-            "name": "start",
-            "printedName": "start",
-            "children": [
-              {
-                "kind": "TypeFunc",
-                "name": "Function",
-                "printedName": "(TJDWristbandSDK.TJDFuncInstallStatus.Type) -> TJDWristbandSDK.TJDFuncInstallStatus",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "TJDFuncInstallStatus",
-                    "printedName": "TJDWristbandSDK.TJDFuncInstallStatus",
-                    "usr": "s:15TJDWristbandSDK20TJDFuncInstallStatusO"
-                  },
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Metatype",
-                    "printedName": "TJDWristbandSDK.TJDFuncInstallStatus.Type",
-                    "children": [
-                      {
-                        "kind": "TypeNominal",
-                        "name": "TJDFuncInstallStatus",
-                        "printedName": "TJDWristbandSDK.TJDFuncInstallStatus",
-                        "usr": "s:15TJDWristbandSDK20TJDFuncInstallStatusO"
-                      }
-                    ]
-                  }
-                ]
-              }
-            ],
-            "declKind": "EnumElement",
-            "usr": "s:15TJDWristbandSDK20TJDFuncInstallStatusO5startyA2CmF",
-            "mangledName": "$s15TJDWristbandSDK20TJDFuncInstallStatusO5startyA2CmF",
-            "moduleName": "TJDWristbandSDK",
-            "declAttributes": [
-              "RawDocComment"
-            ]
-          },
-          {
-            "kind": "Var",
-            "name": "wait",
-            "printedName": "wait",
-            "children": [
-              {
-                "kind": "TypeFunc",
-                "name": "Function",
-                "printedName": "(TJDWristbandSDK.TJDFuncInstallStatus.Type) -> TJDWristbandSDK.TJDFuncInstallStatus",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "TJDFuncInstallStatus",
-                    "printedName": "TJDWristbandSDK.TJDFuncInstallStatus",
-                    "usr": "s:15TJDWristbandSDK20TJDFuncInstallStatusO"
-                  },
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Metatype",
-                    "printedName": "TJDWristbandSDK.TJDFuncInstallStatus.Type",
-                    "children": [
-                      {
-                        "kind": "TypeNominal",
-                        "name": "TJDFuncInstallStatus",
-                        "printedName": "TJDWristbandSDK.TJDFuncInstallStatus",
-                        "usr": "s:15TJDWristbandSDK20TJDFuncInstallStatusO"
-                      }
-                    ]
-                  }
-                ]
-              }
-            ],
-            "declKind": "EnumElement",
-            "usr": "s:15TJDWristbandSDK20TJDFuncInstallStatusO4waityA2CmF",
-            "mangledName": "$s15TJDWristbandSDK20TJDFuncInstallStatusO4waityA2CmF",
-            "moduleName": "TJDWristbandSDK",
-            "declAttributes": [
-              "RawDocComment"
-            ]
-          },
-          {
-            "kind": "Var",
-            "name": "timeout",
-            "printedName": "timeout",
-            "children": [
-              {
-                "kind": "TypeFunc",
-                "name": "Function",
-                "printedName": "(TJDWristbandSDK.TJDFuncInstallStatus.Type) -> TJDWristbandSDK.TJDFuncInstallStatus",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "TJDFuncInstallStatus",
-                    "printedName": "TJDWristbandSDK.TJDFuncInstallStatus",
-                    "usr": "s:15TJDWristbandSDK20TJDFuncInstallStatusO"
-                  },
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Metatype",
-                    "printedName": "TJDWristbandSDK.TJDFuncInstallStatus.Type",
-                    "children": [
-                      {
-                        "kind": "TypeNominal",
-                        "name": "TJDFuncInstallStatus",
-                        "printedName": "TJDWristbandSDK.TJDFuncInstallStatus",
-                        "usr": "s:15TJDWristbandSDK20TJDFuncInstallStatusO"
-                      }
-                    ]
-                  }
-                ]
-              }
-            ],
-            "declKind": "EnumElement",
-            "usr": "s:15TJDWristbandSDK20TJDFuncInstallStatusO7timeoutyA2CmF",
-            "mangledName": "$s15TJDWristbandSDK20TJDFuncInstallStatusO7timeoutyA2CmF",
-            "moduleName": "TJDWristbandSDK",
-            "declAttributes": [
-              "RawDocComment"
-            ]
-          },
-          {
-            "kind": "Var",
-            "name": "install",
-            "printedName": "install",
-            "children": [
-              {
-                "kind": "TypeFunc",
-                "name": "Function",
-                "printedName": "(TJDWristbandSDK.TJDFuncInstallStatus.Type) -> TJDWristbandSDK.TJDFuncInstallStatus",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "TJDFuncInstallStatus",
-                    "printedName": "TJDWristbandSDK.TJDFuncInstallStatus",
-                    "usr": "s:15TJDWristbandSDK20TJDFuncInstallStatusO"
-                  },
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Metatype",
-                    "printedName": "TJDWristbandSDK.TJDFuncInstallStatus.Type",
-                    "children": [
-                      {
-                        "kind": "TypeNominal",
-                        "name": "TJDFuncInstallStatus",
-                        "printedName": "TJDWristbandSDK.TJDFuncInstallStatus",
-                        "usr": "s:15TJDWristbandSDK20TJDFuncInstallStatusO"
-                      }
-                    ]
-                  }
-                ]
-              }
-            ],
-            "declKind": "EnumElement",
-            "usr": "s:15TJDWristbandSDK20TJDFuncInstallStatusO7installyA2CmF",
-            "mangledName": "$s15TJDWristbandSDK20TJDFuncInstallStatusO7installyA2CmF",
-            "moduleName": "TJDWristbandSDK",
-            "declAttributes": [
-              "RawDocComment"
-            ]
-          },
-          {
-            "kind": "Var",
-            "name": "success",
-            "printedName": "success",
-            "children": [
-              {
-                "kind": "TypeFunc",
-                "name": "Function",
-                "printedName": "(TJDWristbandSDK.TJDFuncInstallStatus.Type) -> TJDWristbandSDK.TJDFuncInstallStatus",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "TJDFuncInstallStatus",
-                    "printedName": "TJDWristbandSDK.TJDFuncInstallStatus",
-                    "usr": "s:15TJDWristbandSDK20TJDFuncInstallStatusO"
-                  },
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Metatype",
-                    "printedName": "TJDWristbandSDK.TJDFuncInstallStatus.Type",
-                    "children": [
-                      {
-                        "kind": "TypeNominal",
-                        "name": "TJDFuncInstallStatus",
-                        "printedName": "TJDWristbandSDK.TJDFuncInstallStatus",
-                        "usr": "s:15TJDWristbandSDK20TJDFuncInstallStatusO"
-                      }
-                    ]
-                  }
-                ]
-              }
-            ],
-            "declKind": "EnumElement",
-            "usr": "s:15TJDWristbandSDK20TJDFuncInstallStatusO7successyA2CmF",
-            "mangledName": "$s15TJDWristbandSDK20TJDFuncInstallStatusO7successyA2CmF",
-            "moduleName": "TJDWristbandSDK",
-            "declAttributes": [
-              "RawDocComment"
-            ]
-          },
-          {
-            "kind": "Var",
-            "name": "error",
-            "printedName": "error",
-            "children": [
-              {
-                "kind": "TypeFunc",
-                "name": "Function",
-                "printedName": "(TJDWristbandSDK.TJDFuncInstallStatus.Type) -> TJDWristbandSDK.TJDFuncInstallStatus",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "TJDFuncInstallStatus",
-                    "printedName": "TJDWristbandSDK.TJDFuncInstallStatus",
-                    "usr": "s:15TJDWristbandSDK20TJDFuncInstallStatusO"
-                  },
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Metatype",
-                    "printedName": "TJDWristbandSDK.TJDFuncInstallStatus.Type",
-                    "children": [
-                      {
-                        "kind": "TypeNominal",
-                        "name": "TJDFuncInstallStatus",
-                        "printedName": "TJDWristbandSDK.TJDFuncInstallStatus",
-                        "usr": "s:15TJDWristbandSDK20TJDFuncInstallStatusO"
-                      }
-                    ]
-                  }
-                ]
-              }
-            ],
-            "declKind": "EnumElement",
-            "usr": "s:15TJDWristbandSDK20TJDFuncInstallStatusO5erroryA2CmF",
-            "mangledName": "$s15TJDWristbandSDK20TJDFuncInstallStatusO5erroryA2CmF",
-            "moduleName": "TJDWristbandSDK",
-            "declAttributes": [
-              "RawDocComment"
-            ]
-          },
-          {
-            "kind": "Constructor",
-            "name": "init",
-            "printedName": "init(rawValue:)",
-            "children": [
-              {
-                "kind": "TypeNominal",
-                "name": "Optional",
-                "printedName": "TJDWristbandSDK.TJDFuncInstallStatus?",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "TJDFuncInstallStatus",
-                    "printedName": "TJDWristbandSDK.TJDFuncInstallStatus",
-                    "usr": "s:15TJDWristbandSDK20TJDFuncInstallStatusO"
-                  }
-                ],
-                "usr": "s:Sq"
-              },
-              {
-                "kind": "TypeNominal",
-                "name": "Int",
-                "printedName": "Swift.Int",
-                "usr": "s:Si"
-              }
-            ],
-            "declKind": "Constructor",
-            "usr": "s:15TJDWristbandSDK20TJDFuncInstallStatusO8rawValueACSgSi_tcfc",
-            "mangledName": "$s15TJDWristbandSDK20TJDFuncInstallStatusO8rawValueACSgSi_tcfc",
-            "moduleName": "TJDWristbandSDK",
-            "implicit": true,
-            "init_kind": "Designated"
-          },
-          {
-            "kind": "Var",
-            "name": "rawValue",
-            "printedName": "rawValue",
-            "children": [
-              {
-                "kind": "TypeNominal",
-                "name": "Int",
-                "printedName": "Swift.Int",
-                "usr": "s:Si"
-              }
-            ],
-            "declKind": "Var",
-            "usr": "s:15TJDWristbandSDK20TJDFuncInstallStatusO8rawValueSivp",
-            "mangledName": "$s15TJDWristbandSDK20TJDFuncInstallStatusO8rawValueSivp",
-            "moduleName": "TJDWristbandSDK",
-            "implicit": true,
-            "accessors": [
-              {
-                "kind": "Accessor",
-                "name": "Get",
-                "printedName": "Get()",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Int",
-                    "printedName": "Swift.Int",
-                    "usr": "s:Si"
-                  }
-                ],
-                "declKind": "Accessor",
-                "usr": "s:15TJDWristbandSDK20TJDFuncInstallStatusO8rawValueSivg",
-                "mangledName": "$s15TJDWristbandSDK20TJDFuncInstallStatusO8rawValueSivg",
-                "moduleName": "TJDWristbandSDK",
-                "implicit": true,
-                "accessorKind": "get"
-              }
-            ]
-          }
-        ],
-        "declKind": "Enum",
-        "usr": "s:15TJDWristbandSDK20TJDFuncInstallStatusO",
-        "mangledName": "$s15TJDWristbandSDK20TJDFuncInstallStatusO",
-        "moduleName": "TJDWristbandSDK",
-        "declAttributes": [
-          "AccessControl"
-        ],
-        "enumRawTypeName": "Int",
-        "conformances": [
-          {
-            "kind": "Conformance",
-            "name": "Equatable",
-            "printedName": "Equatable",
-            "usr": "s:SQ",
-            "mangledName": "$sSQ"
-          },
-          {
-            "kind": "Conformance",
-            "name": "Hashable",
-            "printedName": "Hashable",
-            "usr": "s:SH",
-            "mangledName": "$sSH"
-          },
-          {
-            "kind": "Conformance",
-            "name": "RawRepresentable",
-            "printedName": "RawRepresentable",
-            "children": [
-              {
-                "kind": "TypeWitness",
-                "name": "RawValue",
-                "printedName": "RawValue",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Int",
-                    "printedName": "Swift.Int",
-                    "usr": "s:Si"
-                  }
-                ]
-              }
-            ],
-            "usr": "s:SY",
-            "mangledName": "$sSY"
-          }
-        ]
-      },
-      {
-        "kind": "TypeDecl",
-        "name": "ZKOTAManager",
-        "printedName": "ZKOTAManager",
-        "children": [
-          {
-            "kind": "Var",
-            "name": "installCallBack",
-            "printedName": "installCallBack",
-            "children": [
-              {
-                "kind": "TypeNominal",
-                "name": "Optional",
-                "printedName": "((TJDWristbandSDK.TJDFuncInstallStatus, Swift.Double, Swift.String) -> ())?",
-                "children": [
-                  {
-                    "kind": "TypeFunc",
-                    "name": "Function",
-                    "printedName": "(TJDWristbandSDK.TJDFuncInstallStatus, Swift.Double, Swift.String) -> ()",
-                    "children": [
-                      {
-                        "kind": "TypeNominal",
-                        "name": "Void",
-                        "printedName": "()"
-                      },
-                      {
-                        "kind": "TypeNominal",
-                        "name": "Tuple",
-                        "printedName": "(TJDWristbandSDK.TJDFuncInstallStatus, Swift.Double, Swift.String)",
-                        "children": [
-                          {
-                            "kind": "TypeNominal",
-                            "name": "TJDFuncInstallStatus",
-                            "printedName": "TJDWristbandSDK.TJDFuncInstallStatus",
-                            "usr": "s:15TJDWristbandSDK20TJDFuncInstallStatusO"
-                          },
-                          {
-                            "kind": "TypeNominal",
-                            "name": "Double",
-                            "printedName": "Swift.Double",
-                            "usr": "s:Sd"
-                          },
-                          {
-                            "kind": "TypeNominal",
-                            "name": "String",
-                            "printedName": "Swift.String",
-                            "usr": "s:SS"
-                          }
-                        ]
-                      }
-                    ]
-                  }
-                ],
-                "usr": "s:Sq"
-              }
-            ],
-            "declKind": "Var",
-            "usr": "s:15TJDWristbandSDK12ZKOTAManagerC15installCallBackyAA20TJDFuncInstallStatusO_SdSStcSgvp",
-            "mangledName": "$s15TJDWristbandSDK12ZKOTAManagerC15installCallBackyAA20TJDFuncInstallStatusO_SdSStcSgvp",
-            "moduleName": "TJDWristbandSDK",
-            "declAttributes": [
-              "HasInitialValue",
-              "HasStorage",
-              "AccessControl",
-              "RawDocComment"
-            ],
-            "hasStorage": true,
-            "accessors": [
-              {
-                "kind": "Accessor",
-                "name": "Get",
-                "printedName": "Get()",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Optional",
-                    "printedName": "((TJDWristbandSDK.TJDFuncInstallStatus, Swift.Double, Swift.String) -> ())?",
-                    "children": [
-                      {
-                        "kind": "TypeFunc",
-                        "name": "Function",
-                        "printedName": "(TJDWristbandSDK.TJDFuncInstallStatus, Swift.Double, Swift.String) -> ()",
-                        "children": [
-                          {
-                            "kind": "TypeNominal",
-                            "name": "Void",
-                            "printedName": "()"
-                          },
-                          {
-                            "kind": "TypeNominal",
-                            "name": "Tuple",
-                            "printedName": "(TJDWristbandSDK.TJDFuncInstallStatus, Swift.Double, Swift.String)",
-                            "children": [
-                              {
-                                "kind": "TypeNominal",
-                                "name": "TJDFuncInstallStatus",
-                                "printedName": "TJDWristbandSDK.TJDFuncInstallStatus",
-                                "usr": "s:15TJDWristbandSDK20TJDFuncInstallStatusO"
-                              },
-                              {
-                                "kind": "TypeNominal",
-                                "name": "Double",
-                                "printedName": "Swift.Double",
-                                "usr": "s:Sd"
-                              },
-                              {
-                                "kind": "TypeNominal",
-                                "name": "String",
-                                "printedName": "Swift.String",
-                                "usr": "s:SS"
-                              }
-                            ]
-                          }
-                        ]
-                      }
-                    ],
-                    "usr": "s:Sq"
-                  }
-                ],
-                "declKind": "Accessor",
-                "usr": "s:15TJDWristbandSDK12ZKOTAManagerC15installCallBackyAA20TJDFuncInstallStatusO_SdSStcSgvg",
-                "mangledName": "$s15TJDWristbandSDK12ZKOTAManagerC15installCallBackyAA20TJDFuncInstallStatusO_SdSStcSgvg",
-                "moduleName": "TJDWristbandSDK",
-                "implicit": true,
-                "accessorKind": "get"
-              },
-              {
-                "kind": "Accessor",
-                "name": "Set",
-                "printedName": "Set()",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Void",
-                    "printedName": "()"
-                  },
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Optional",
-                    "printedName": "((TJDWristbandSDK.TJDFuncInstallStatus, Swift.Double, Swift.String) -> ())?",
-                    "children": [
-                      {
-                        "kind": "TypeFunc",
-                        "name": "Function",
-                        "printedName": "(TJDWristbandSDK.TJDFuncInstallStatus, Swift.Double, Swift.String) -> ()",
-                        "children": [
-                          {
-                            "kind": "TypeNominal",
-                            "name": "Void",
-                            "printedName": "()"
-                          },
-                          {
-                            "kind": "TypeNominal",
-                            "name": "Tuple",
-                            "printedName": "(TJDWristbandSDK.TJDFuncInstallStatus, Swift.Double, Swift.String)",
-                            "children": [
-                              {
-                                "kind": "TypeNominal",
-                                "name": "TJDFuncInstallStatus",
-                                "printedName": "TJDWristbandSDK.TJDFuncInstallStatus",
-                                "usr": "s:15TJDWristbandSDK20TJDFuncInstallStatusO"
-                              },
-                              {
-                                "kind": "TypeNominal",
-                                "name": "Double",
-                                "printedName": "Swift.Double",
-                                "usr": "s:Sd"
-                              },
-                              {
-                                "kind": "TypeNominal",
-                                "name": "String",
-                                "printedName": "Swift.String",
-                                "usr": "s:SS"
-                              }
-                            ]
-                          }
-                        ]
-                      }
-                    ],
-                    "usr": "s:Sq"
-                  }
-                ],
-                "declKind": "Accessor",
-                "usr": "s:15TJDWristbandSDK12ZKOTAManagerC15installCallBackyAA20TJDFuncInstallStatusO_SdSStcSgvs",
-                "mangledName": "$s15TJDWristbandSDK12ZKOTAManagerC15installCallBackyAA20TJDFuncInstallStatusO_SdSStcSgvs",
-                "moduleName": "TJDWristbandSDK",
-                "implicit": true,
-                "accessorKind": "set"
-              },
-              {
-                "kind": "Accessor",
-                "name": "Modify",
-                "printedName": "Modify()",
-                "children": [
-                  {
-                    "kind": "TypeNominal",
-                    "name": "Void",
-                    "printedName": "()"
-                  }
-                ],
-                "declKind": "Accessor",
-                "usr": "s:15TJDWristbandSDK12ZKOTAManagerC15installCallBackyAA20TJDFuncInstallStatusO_SdSStcSgvM",
-                "mangledName": "$s15TJDWristbandSDK12ZKOTAManagerC15installCallBackyAA20TJDFuncInstallStatusO_SdSStcSgvM",
-                "moduleName": "TJDWristbandSDK",
-                "implicit": true,
-                "accessorKind": "_modify"
-              }
-            ]
-          },
-          {
-            "kind": "Constructor",
-            "name": "init",
-            "printedName": "init(filePath:)",
-            "children": [
-              {
-                "kind": "TypeNominal",
-                "name": "ZKOTAManager",
-                "printedName": "TJDWristbandSDK.ZKOTAManager",
-                "usr": "s:15TJDWristbandSDK12ZKOTAManagerC"
-              },
-              {
-                "kind": "TypeNominal",
-                "name": "String",
-                "printedName": "Swift.String",
-                "usr": "s:SS"
-              }
-            ],
-            "declKind": "Constructor",
-            "usr": "s:15TJDWristbandSDK12ZKOTAManagerC8filePathACSS_tcfc",
-            "mangledName": "$s15TJDWristbandSDK12ZKOTAManagerC8filePathACSS_tcfc",
-            "moduleName": "TJDWristbandSDK",
-            "declAttributes": [
-              "AccessControl",
-              "RawDocComment"
-            ],
-            "init_kind": "Designated"
-          },
-          {
-            "kind": "Function",
-            "name": "install",
-            "printedName": "install()",
-            "children": [
-              {
-                "kind": "TypeNominal",
-                "name": "Void",
-                "printedName": "()"
-              }
-            ],
-            "declKind": "Func",
-            "usr": "s:15TJDWristbandSDK12ZKOTAManagerC7installyyF",
-            "mangledName": "$s15TJDWristbandSDK12ZKOTAManagerC7installyyF",
-            "moduleName": "TJDWristbandSDK",
-            "declAttributes": [
-              "AccessControl",
-              "RawDocComment"
-            ],
-            "funcSelfKind": "NonMutating"
-          },
-          {
-            "kind": "Function",
-            "name": "onStatusChanged",
-            "printedName": "onStatusChanged(_:)",
-            "children": [
-              {
-                "kind": "TypeNominal",
-                "name": "Void",
-                "printedName": "()"
-              },
-              {
-                "kind": "TypeNominal",
-                "name": "OtaStatus",
-                "printedName": "AB_FOTA.OtaStatus",
-                "usr": "s:7AB_FOTA9OtaStatusO"
-              }
-            ],
-            "declKind": "Func",
-            "usr": "s:15TJDWristbandSDK12ZKOTAManagerC15onStatusChangedyy7AB_FOTA03OtaE0OF",
-            "mangledName": "$s15TJDWristbandSDK12ZKOTAManagerC15onStatusChangedyy7AB_FOTA03OtaE0OF",
-            "moduleName": "TJDWristbandSDK",
-            "declAttributes": [
-              "AccessControl",
-              "RawDocComment"
-            ],
-            "funcSelfKind": "NonMutating"
-          },
-          {
-            "kind": "Function",
-            "name": "onReceiveVersion",
-            "printedName": "onReceiveVersion(_:)",
-            "children": [
-              {
-                "kind": "TypeNominal",
-                "name": "Void",
-                "printedName": "()"
-              },
-              {
-                "kind": "TypeNominal",
-                "name": "UInt16",
-                "printedName": "Swift.UInt16",
-                "usr": "s:s6UInt16V"
-              }
-            ],
-            "declKind": "Func",
-            "usr": "s:15TJDWristbandSDK12ZKOTAManagerC16onReceiveVersionyys6UInt16VF",
-            "mangledName": "$s15TJDWristbandSDK12ZKOTAManagerC16onReceiveVersionyys6UInt16VF",
-            "moduleName": "TJDWristbandSDK",
-            "declAttributes": [
-              "AccessControl"
-            ],
-            "funcSelfKind": "NonMutating"
-          },
-          {
-            "kind": "Function",
-            "name": "onReceiveTWSInfo",
-            "printedName": "onReceiveTWSInfo(isTWS:isTWSConnected:)",
-            "children": [
-              {
-                "kind": "TypeNominal",
-                "name": "Void",
-                "printedName": "()"
-              },
-              {
-                "kind": "TypeNominal",
-                "name": "Bool",
-                "printedName": "Swift.Bool",
-                "usr": "s:Sb"
-              },
-              {
-                "kind": "TypeNominal",
-                "name": "Bool",
-                "printedName": "Swift.Bool",
-                "usr": "s:Sb"
-              }
-            ],
-            "declKind": "Func",
-            "usr": "s:15TJDWristbandSDK12ZKOTAManagerC16onReceiveTWSInfo5isTWS0G12TWSConnectedySb_SbtF",
-            "mangledName": "$s15TJDWristbandSDK12ZKOTAManagerC16onReceiveTWSInfo5isTWS0G12TWSConnectedySb_SbtF",
-            "moduleName": "TJDWristbandSDK",
-            "declAttributes": [
-              "AccessControl"
-            ],
-            "funcSelfKind": "NonMutating"
-          },
-          {
-            "kind": "Function",
-            "name": "onReceiveChannel",
-            "printedName": "onReceiveChannel(_:)",
-            "children": [
-              {
-                "kind": "TypeNominal",
-                "name": "Void",
-                "printedName": "()"
-              },
-              {
-                "kind": "TypeNominal",
-                "name": "Bool",
-                "printedName": "Swift.Bool",
-                "usr": "s:Sb"
-              }
-            ],
-            "declKind": "Func",
-            "usr": "s:15TJDWristbandSDK12ZKOTAManagerC16onReceiveChannelyySbF",
-            "mangledName": "$s15TJDWristbandSDK12ZKOTAManagerC16onReceiveChannelyySbF",
-            "moduleName": "TJDWristbandSDK",
-            "declAttributes": [
-              "AccessControl"
-            ],
-            "funcSelfKind": "NonMutating"
-          },
-          {
-            "kind": "Function",
-            "name": "sendData",
-            "printedName": "sendData(_:)",
-            "children": [
-              {
-                "kind": "TypeNominal",
-                "name": "Void",
-                "printedName": "()"
-              },
-              {
-                "kind": "TypeNominal",
-                "name": "Data",
-                "printedName": "Foundation.Data",
-                "usr": "s:10Foundation4DataV"
-              }
-            ],
-            "declKind": "Func",
-            "usr": "s:15TJDWristbandSDK12ZKOTAManagerC8sendDatayy10Foundation0E0VF",
-            "mangledName": "$s15TJDWristbandSDK12ZKOTAManagerC8sendDatayy10Foundation0E0VF",
-            "moduleName": "TJDWristbandSDK",
-            "declAttributes": [
-              "AccessControl"
-            ],
-            "funcSelfKind": "NonMutating"
-          }
-        ],
-        "declKind": "Class",
-        "usr": "s:15TJDWristbandSDK12ZKOTAManagerC",
-        "mangledName": "$s15TJDWristbandSDK12ZKOTAManagerC",
-        "moduleName": "TJDWristbandSDK",
-        "declAttributes": [
-          "AccessControl"
-        ],
-        "conformances": [
-          {
-            "kind": "Conformance",
-            "name": "ABOtaSendDelegate",
-            "printedName": "ABOtaSendDelegate",
-            "usr": "s:7AB_FOTA17ABOtaSendDelegateP",
-            "mangledName": "$s7AB_FOTA17ABOtaSendDelegateP"
-          },
-          {
-            "kind": "Conformance",
-            "name": "ABOtaEventListener",
-            "printedName": "ABOtaEventListener",
-            "usr": "s:7AB_FOTA18ABOtaEventListenerP",
-            "mangledName": "$s7AB_FOTA18ABOtaEventListenerP"
-          }
-        ]
-      },
-      {
-        "kind": "Import",
-        "name": "UIKit",
-        "printedName": "UIKit",
-        "declKind": "Import",
-        "moduleName": "TJDWristbandSDK",
-        "declAttributes": [
-          "RawDocComment"
-        ]
-      },
-      {
         "kind": "TypeDecl",
         "name": "WUDate",
         "printedName": "WUDate",
@@ -15880,6 +15064,31 @@
           },
           {
             "kind": "Function",
+            "name": "send_iOSDevice",
+            "printedName": "send_iOSDevice()",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "c:@CM@TJDWristbandSDK@objc(cs)WUBleManager(im)send_iOSDevice",
+            "mangledName": "$s15TJDWristbandSDK12WUBleManagerC14send_iOSDeviceyyF",
+            "moduleName": "TJDWristbandSDK",
+            "isOpen": true,
+            "declAttributes": [
+              "Dynamic",
+              "AccessControl",
+              "RawDocComment",
+              "ObjC"
+            ],
+            "isFromExtension": true,
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
             "name": "getRGBData565FromImage",
             "printedName": "getRGBData565FromImage(image:)",
             "children": [
@@ -19195,6 +18404,60 @@
                 "declKind": "Accessor",
                 "usr": "c:@M@TJDWristbandSDK@objc(cs)WristbandNotifyKeys(cm)setOrRead_MonitorHeart",
                 "mangledName": "$s15TJDWristbandSDK19WristbandNotifyKeysC22setOrRead_MonitorHeartSo18NSNotificationNameavgZ",
+                "moduleName": "TJDWristbandSDK",
+                "static": true,
+                "implicit": true,
+                "declAttributes": [
+                  "Final",
+                  "ObjC"
+                ],
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "MTU",
+            "printedName": "MTU",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Name",
+                "printedName": "Foundation.NSNotification.Name",
+                "usr": "c:@T@NSNotificationName"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "c:@M@TJDWristbandSDK@objc(cs)WristbandNotifyKeys(cpy)MTU",
+            "mangledName": "$s15TJDWristbandSDK19WristbandNotifyKeysC3MTUSo18NSNotificationNameavpZ",
+            "moduleName": "TJDWristbandSDK",
+            "static": true,
+            "declAttributes": [
+              "HasInitialValue",
+              "Final",
+              "HasStorage",
+              "AccessControl",
+              "RawDocComment",
+              "ObjC"
+            ],
+            "isLet": true,
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Name",
+                    "printedName": "Foundation.NSNotification.Name",
+                    "usr": "c:@T@NSNotificationName"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "c:@M@TJDWristbandSDK@objc(cs)WristbandNotifyKeys(cm)MTU",
+                "mangledName": "$s15TJDWristbandSDK19WristbandNotifyKeysC3MTUSo18NSNotificationNameavgZ",
                 "moduleName": "TJDWristbandSDK",
                 "static": true,
                 "implicit": true,
@@ -36053,517 +35316,6 @@
       "value": "0"
     },
     {
-      "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/ZKOTAManager.swift",
-      "kind": "IntegerLiteral",
-      "offset": 305,
-      "length": 4,
-      "value": "1"
-    },
-    {
-      "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/ZKOTAManager.swift",
-      "kind": "IntegerLiteral",
-      "offset": 334,
-      "length": 7,
-      "value": "2"
-    },
-    {
-      "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/ZKOTAManager.swift",
-      "kind": "IntegerLiteral",
-      "offset": 369,
-      "length": 7,
-      "value": "3"
-    },
-    {
-      "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/ZKOTAManager.swift",
-      "kind": "IntegerLiteral",
-      "offset": 407,
-      "length": 7,
-      "value": "4"
-    },
-    {
-      "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/ZKOTAManager.swift",
-      "kind": "IntegerLiteral",
-      "offset": 445,
-      "length": 5,
-      "value": "5"
-    },
-    {
-      "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/ZKOTAManager.swift",
-      "kind": "IntegerLiteral",
-      "offset": 305,
-      "length": 4,
-      "value": "1"
-    },
-    {
-      "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/ZKOTAManager.swift",
-      "kind": "IntegerLiteral",
-      "offset": 334,
-      "length": 7,
-      "value": "2"
-    },
-    {
-      "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/ZKOTAManager.swift",
-      "kind": "IntegerLiteral",
-      "offset": 369,
-      "length": 7,
-      "value": "3"
-    },
-    {
-      "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/ZKOTAManager.swift",
-      "kind": "IntegerLiteral",
-      "offset": 407,
-      "length": 7,
-      "value": "4"
-    },
-    {
-      "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/ZKOTAManager.swift",
-      "kind": "IntegerLiteral",
-      "offset": 445,
-      "length": 5,
-      "value": "5"
-    },
-    {
-      "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/ZKOTAManager.swift",
-      "kind": "IntegerLiteral",
-      "offset": 305,
-      "length": 4,
-      "value": "1"
-    },
-    {
-      "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/ZKOTAManager.swift",
-      "kind": "IntegerLiteral",
-      "offset": 334,
-      "length": 7,
-      "value": "2"
-    },
-    {
-      "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/ZKOTAManager.swift",
-      "kind": "IntegerLiteral",
-      "offset": 369,
-      "length": 7,
-      "value": "3"
-    },
-    {
-      "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/ZKOTAManager.swift",
-      "kind": "IntegerLiteral",
-      "offset": 407,
-      "length": 7,
-      "value": "4"
-    },
-    {
-      "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/ZKOTAManager.swift",
-      "kind": "IntegerLiteral",
-      "offset": 445,
-      "length": 5,
-      "value": "5"
-    },
-    {
-      "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/ZKOTAManager.swift",
-      "kind": "BooleanLiteral",
-      "offset": 803,
-      "length": 5,
-      "value": "false"
-    },
-    {
-      "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/ZKOTAManager.swift",
-      "kind": "StringLiteral",
-      "offset": 841,
-      "length": 2,
-      "value": "\"\""
-    },
-    {
-      "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/ZKOTAManager.swift",
-      "kind": "BooleanLiteral",
-      "offset": 902,
-      "length": 5,
-      "value": "false"
-    },
-    {
-      "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/ZKOTAManager.swift",
-      "kind": "StringLiteral",
-      "offset": 1263,
-      "length": 21,
-      "value": "\"ZK OTA 点击开始\""
-    },
-    {
-      "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/ZKOTAManager.swift",
-      "kind": "IntegerLiteral",
-      "offset": 1433,
-      "length": 1,
-      "value": "1"
-    },
-    {
-      "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/ZKOTAManager.swift",
-      "kind": "FloatLiteral",
-      "offset": 1731,
-      "length": 3,
-      "value": "2.0"
-    },
-    {
-      "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/ZKOTAManager.swift",
-      "kind": "BooleanLiteral",
-      "offset": 1785,
-      "length": 4,
-      "value": "true"
-    },
-    {
-      "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/ZKOTAManager.swift",
-      "kind": "StringLiteral",
-      "offset": 1922,
-      "length": 27,
-      "value": "\"ZK OTA 文件解析错误\""
-    },
-    {
-      "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/ZKOTAManager.swift",
-      "kind": "StringLiteral",
-      "offset": 2974,
-      "length": 18,
-      "value": "\"ZK OTA onReady()\""
-    },
-    {
-      "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/ZKOTAManager.swift",
-      "kind": "StringLiteral",
-      "offset": 3055,
-      "length": 18,
-      "value": "\"ZK OTA onStart()\""
-    },
-    {
-      "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/ZKOTAManager.swift",
-      "kind": "FloatLiteral",
-      "offset": 3116,
-      "length": 3,
-      "value": "0.0"
-    },
-    {
-      "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/ZKOTAManager.swift",
-      "kind": "StringLiteral",
-      "offset": 3121,
-      "length": 14,
-      "value": "\"开始安装\""
-    },
-    {
-      "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/ZKOTAManager.swift",
-      "kind": "StringLiteral",
-      "offset": 3203,
-      "length": 39,
-      "value": "\"ZK OTA onProgress(\""
-    },
-    {
-      "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/ZKOTAManager.swift",
-      "kind": "StringLiteral",
-      "offset": 3240,
-      "length": 1,
-      "value": "\")\""
-    },
-    {
-      "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/ZKOTAManager.swift",
-      "kind": "FloatLiteral",
-      "offset": 3306,
-      "length": 5,
-      "value": "100.0"
-    },
-    {
-      "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/ZKOTAManager.swift",
-      "kind": "StringLiteral",
-      "offset": 3313,
-      "length": 11,
-      "value": "\"安装中\""
-    },
-    {
-      "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/ZKOTAManager.swift",
-      "kind": "StringLiteral",
-      "offset": 3375,
-      "length": 18,
-      "value": "\"ZK OTA onPause()\""
-    },
-    {
-      "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/ZKOTAManager.swift",
-      "kind": "StringLiteral",
-      "offset": 3447,
-      "length": 21,
-      "value": "\"ZK OTA onContinue()\""
-    },
-    {
-      "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/ZKOTAManager.swift",
-      "kind": "StringLiteral",
-      "offset": 3520,
-      "length": 19,
-      "value": "\"ZK OTA onFinish()\""
-    },
-    {
-      "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/ZKOTAManager.swift",
-      "kind": "FloatLiteral",
-      "offset": 3584,
-      "length": 3,
-      "value": "1.0"
-    },
-    {
-      "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/ZKOTAManager.swift",
-      "kind": "StringLiteral",
-      "offset": 3589,
-      "length": 14,
-      "value": "\"安装成功\""
-    },
-    {
-      "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/ZKOTAManager.swift",
-      "kind": "StringLiteral",
-      "offset": 3659,
-      "length": 23,
-      "value": "\"ZK OTA onWaitFinish()\""
-    },
-    {
-      "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/ZKOTAManager.swift",
-      "kind": "StringLiteral",
-      "offset": 3784,
-      "length": 24,
-      "value": "\"ZK OTA onError(\""
-    },
-    {
-      "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/ZKOTAManager.swift",
-      "kind": "StringLiteral",
-      "offset": 3807,
-      "length": 2,
-      "value": "\"\""
-    },
-    {
-      "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/ZKOTAManager.swift",
-      "kind": "FloatLiteral",
-      "offset": 3851,
-      "length": 3,
-      "value": "0.0"
-    },
-    {
-      "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/ZKOTAManager.swift",
-      "kind": "StringLiteral",
-      "offset": 3856,
-      "length": 14,
-      "value": "\"安装失败\""
-    },
-    {
-      "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/ZKOTAManager.swift",
-      "kind": "StringLiteral",
-      "offset": 3972,
-      "length": 15,
-      "value": "\"Unknown Error\""
-    },
-    {
-      "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/ZKOTAManager.swift",
-      "kind": "StringLiteral",
-      "offset": 4087,
-      "length": 20,
-      "value": "\"设备拒绝更新\""
-    },
-    {
-      "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/ZKOTAManager.swift",
-      "kind": "StringLiteral",
-      "offset": 4177,
-      "length": 13,
-      "value": "\"No OTA data\""
-    },
-    {
-      "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/ZKOTAManager.swift",
-      "kind": "StringLiteral",
-      "offset": 4256,
-      "length": 9,
-      "value": "\"Timeout\""
-    },
-    {
-      "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/ZKOTAManager.swift",
-      "kind": "StringLiteral",
-      "offset": 4340,
-      "length": 35,
-      "value": "\"TWS已断开连接，停止更新\""
-    },
-    {
-      "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/ZKOTAManager.swift",
-      "kind": "StringLiteral",
-      "offset": 4472,
-      "length": 14,
-      "value": "\"相同固件\""
-    },
-    {
-      "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/ZKOTAManager.swift",
-      "kind": "StringLiteral",
-      "offset": 4557,
-      "length": 14,
-      "value": "\"键不匹配\""
-    },
-    {
-      "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/ZKOTAManager.swift",
-      "kind": "StringLiteral",
-      "offset": 4639,
-      "length": 11,
-      "value": "\"CRC error\""
-    },
-    {
-      "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/ZKOTAManager.swift",
-      "kind": "StringLiteral",
-      "offset": 4710,
-      "length": 29,
-      "value": "\"ZK OTA error \""
-    },
-    {
-      "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/ZKOTAManager.swift",
-      "kind": "StringLiteral",
-      "offset": 4738,
-      "length": 2,
-      "value": "\"\""
-    },
-    {
-      "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/ZKOTAManager.swift",
-      "kind": "IntegerLiteral",
-      "offset": 4835,
-      "length": 2,
-      "value": "12"
-    },
-    {
-      "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/ZKOTAManager.swift",
-      "kind": "IntegerLiteral",
-      "offset": 4841,
-      "length": 4,
-      "value": "0x0F"
-    },
-    {
-      "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/ZKOTAManager.swift",
-      "kind": "IntegerLiteral",
-      "offset": 4875,
-      "length": 1,
-      "value": "8"
-    },
-    {
-      "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/ZKOTAManager.swift",
-      "kind": "IntegerLiteral",
-      "offset": 4881,
-      "length": 4,
-      "value": "0x0F"
-    },
-    {
-      "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/ZKOTAManager.swift",
-      "kind": "IntegerLiteral",
-      "offset": 4915,
-      "length": 1,
-      "value": "4"
-    },
-    {
-      "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/ZKOTAManager.swift",
-      "kind": "IntegerLiteral",
-      "offset": 4921,
-      "length": 4,
-      "value": "0x0F"
-    },
-    {
-      "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/ZKOTAManager.swift",
-      "kind": "IntegerLiteral",
-      "offset": 4955,
-      "length": 1,
-      "value": "0"
-    },
-    {
-      "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/ZKOTAManager.swift",
-      "kind": "IntegerLiteral",
-      "offset": 4961,
-      "length": 4,
-      "value": "0x0F"
-    },
-    {
-      "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/ZKOTAManager.swift",
-      "kind": "StringLiteral",
-      "offset": 4994,
-      "length": 25,
-      "value": "\"\""
-    },
-    {
-      "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/ZKOTAManager.swift",
-      "kind": "StringLiteral",
-      "offset": 5000,
-      "length": 1,
-      "value": "\".\""
-    },
-    {
-      "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/ZKOTAManager.swift",
-      "kind": "StringLiteral",
-      "offset": 5006,
-      "length": 1,
-      "value": "\".\""
-    },
-    {
-      "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/ZKOTAManager.swift",
-      "kind": "StringLiteral",
-      "offset": 5012,
-      "length": 1,
-      "value": "\".\""
-    },
-    {
-      "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/ZKOTAManager.swift",
-      "kind": "StringLiteral",
-      "offset": 5018,
-      "length": 1,
-      "value": "\"\""
-    },
-    {
-      "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/ZKOTAManager.swift",
-      "kind": "StringLiteral",
-      "offset": 5034,
-      "length": 49,
-      "value": "\"ZK OTA Device firmware version \""
-    },
-    {
-      "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/ZKOTAManager.swift",
-      "kind": "StringLiteral",
-      "offset": 5082,
-      "length": 2,
-      "value": "\"\""
-    },
-    {
-      "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/ZKOTAManager.swift",
-      "kind": "StringLiteral",
-      "offset": 5180,
-      "length": 75,
-      "value": "\"ZK OTA onReceiveTWSInfo isTWS :\""
-    },
-    {
-      "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/ZKOTAManager.swift",
-      "kind": "StringLiteral",
-      "offset": 5220,
-      "length": 14,
-      "value": "\" isTWSConnected :\""
-    },
-    {
-      "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/ZKOTAManager.swift",
-      "kind": "StringLiteral",
-      "offset": 5254,
-      "length": 2,
-      "value": "\"\""
-    },
-    {
-      "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/ZKOTAManager.swift",
-      "kind": "StringLiteral",
-      "offset": 5340,
-      "length": 57,
-      "value": "\"ZK OTA onReceiveChannel isLeftChannel :\""
-    },
-    {
-      "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/ZKOTAManager.swift",
-      "kind": "StringLiteral",
-      "offset": 5396,
-      "length": 2,
-      "value": "\"\""
-    },
-    {
-      "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/ZKOTAManager.swift",
-      "kind": "StringLiteral",
-      "offset": 5491,
-      "length": 6,
-      "value": "\"FF15\""
-    },
-    {
-      "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/ZKOTAManager.swift",
-      "kind": "FloatLiteral",
-      "offset": 5556,
-      "length": 4,
-      "value": "0.05"
-    },
-    {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Calendar\/WUDate.swift",
       "kind": "IntegerLiteral",
       "offset": 315,
@@ -37986,493 +36738,416 @@
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUCentralManager.swift",
+      "kind": "BooleanLiteral",
+      "offset": 838,
+      "length": 4,
+      "value": "true"
+    },
+    {
+      "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUCentralManager.swift",
       "kind": "StringLiteral",
-      "offset": 721,
+      "offset": 888,
       "length": 20,
       "value": "\"myPeripheral.state\""
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUCentralManager.swift",
       "kind": "BooleanLiteral",
-      "offset": 895,
+      "offset": 1062,
+      "length": 4,
+      "value": "true"
+    },
+    {
+      "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUCentralManager.swift",
+      "kind": "BooleanLiteral",
+      "offset": 1554,
+      "length": 4,
+      "value": "true"
+    },
+    {
+      "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUCentralManager.swift",
+      "kind": "BooleanLiteral",
+      "offset": 1668,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUCentralManager.swift",
       "kind": "IntegerLiteral",
-      "offset": 2905,
+      "offset": 3381,
       "length": 3,
       "value": "127"
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUCentralManager.swift",
       "kind": "StringLiteral",
-      "offset": 4337,
+      "offset": 4813,
       "length": 47,
       "value": "\"搜索到设备: \""
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUCentralManager.swift",
       "kind": "StringLiteral",
-      "offset": 4368,
+      "offset": 4844,
       "length": 3,
       "value": "\"：\""
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUCentralManager.swift",
       "kind": "StringLiteral",
-      "offset": 4383,
+      "offset": 4859,
       "length": 2,
       "value": "\"\""
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUCentralManager.swift",
       "kind": "BooleanLiteral",
-      "offset": 4854,
+      "offset": 5330,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUCentralManager.swift",
       "kind": "StringLiteral",
-      "offset": 6391,
+      "offset": 6867,
       "length": 6,
       "value": "\"AE00\""
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUCentralManager.swift",
       "kind": "BooleanLiteral",
-      "offset": 6430,
+      "offset": 6906,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUCentralManager.swift",
       "kind": "StringLiteral",
-      "offset": 6460,
+      "offset": 6936,
       "length": 9,
       "value": "\"service\""
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUCentralManager.swift",
       "kind": "StringLiteral",
-      "offset": 6479,
+      "offset": 6955,
       "length": 12,
       "value": "\"peripheral\""
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUCentralManager.swift",
       "kind": "StringLiteral",
-      "offset": 6726,
+      "offset": 7202,
       "length": 8,
       "value": "\"特征\""
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUCentralManager.swift",
       "kind": "StringLiteral",
-      "offset": 7161,
+      "offset": 7637,
       "length": 6,
       "value": "\"AE01\""
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUCentralManager.swift",
       "kind": "StringLiteral",
-      "offset": 7215,
+      "offset": 7691,
       "length": 6,
       "value": "\"AE02\""
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUCentralManager.swift",
       "kind": "BooleanLiteral",
-      "offset": 7400,
+      "offset": 7876,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUCentralManager.swift",
       "kind": "StringLiteral",
-      "offset": 7752,
+      "offset": 8215,
       "length": 6,
       "value": "\"AE00\""
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUCentralManager.swift",
       "kind": "StringLiteral",
-      "offset": 7840,
+      "offset": 8303,
       "length": 6,
       "value": "\"AE02\""
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUCentralManager.swift",
       "kind": "StringLiteral",
-      "offset": 7894,
+      "offset": 8357,
       "length": 16,
       "value": "\"characteristic\""
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUCentralManager.swift",
       "kind": "StringLiteral",
-      "offset": 7927,
+      "offset": 8390,
       "length": 12,
       "value": "\"peripheral\""
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUCentralManager.swift",
       "kind": "IntegerLiteral",
-      "offset": 8390,
+      "offset": 8853,
       "length": 1,
       "value": "1"
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUCentralManager.swift",
       "kind": "IntegerLiteral",
-      "offset": 8698,
+      "offset": 9202,
       "length": 1,
       "value": "1"
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUCentralManager.swift",
       "kind": "IntegerLiteral",
-      "offset": 9506,
+      "offset": 10051,
       "length": 1,
       "value": "3"
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUCentralManager.swift",
       "kind": "IntegerLiteral",
-      "offset": 9541,
+      "offset": 10086,
       "length": 1,
       "value": "3"
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUCentralManager.swift",
       "kind": "StringLiteral",
-      "offset": 9577,
+      "offset": 10122,
       "length": 26,
       "value": "\"recieve data **********2\""
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUCentralManager.swift",
       "kind": "StringLiteral",
-      "offset": 9678,
+      "offset": 10223,
       "length": 26,
       "value": "\"recieve data **********3\""
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUCentralManager.swift",
       "kind": "StringLiteral",
-      "offset": 10938,
+      "offset": 11483,
       "length": 6,
       "value": "\"AE00\""
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUCentralManager.swift",
       "kind": "StringLiteral",
-      "offset": 11005,
+      "offset": 11550,
       "length": 6,
       "value": "\"AE02\""
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUCentralManager.swift",
       "kind": "StringLiteral",
-      "offset": 12800,
+      "offset": 13345,
       "length": 10,
       "value": "\"544a4452\""
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUCentralManager.swift",
       "kind": "StringLiteral",
-      "offset": 12866,
+      "offset": 13411,
       "length": 10,
       "value": "\"544a4452\""
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUCentralManager.swift",
       "kind": "IntegerLiteral",
-      "offset": 12907,
+      "offset": 13452,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUCentralManager.swift",
       "kind": "IntegerLiteral",
-      "offset": 13025,
+      "offset": 13570,
       "length": 2,
       "value": "12"
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUCentralManager.swift",
       "kind": "IntegerLiteral",
-      "offset": 13087,
+      "offset": 13632,
       "length": 2,
       "value": "12"
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUCentralManager.swift",
       "kind": "StringLiteral",
-      "offset": 13222,
+      "offset": 13767,
       "length": 2,
       "value": "\"\""
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUCentralManager.swift",
       "kind": "IntegerLiteral",
-      "offset": 13745,
+      "offset": 14290,
       "length": 1,
       "value": "3"
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUCentralManager.swift",
       "kind": "IntegerLiteral",
-      "offset": 13780,
+      "offset": 14325,
       "length": 1,
       "value": "3"
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUCentralManager.swift",
       "kind": "StringLiteral",
-      "offset": 13816,
+      "offset": 14361,
       "length": 22,
       "value": "\"send data---------->\""
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUCentralManager.swift",
       "kind": "StringLiteral",
-      "offset": 13913,
+      "offset": 14458,
       "length": 22,
       "value": "\"send data---------->\""
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUCentralManager.swift",
       "kind": "IntegerLiteral",
-      "offset": 14464,
+      "offset": 15009,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUCentralManager.swift",
       "kind": "IntegerLiteral",
-      "offset": 15313,
+      "offset": 15858,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUCentralManager.swift",
       "kind": "IntegerLiteral",
-      "offset": 15324,
+      "offset": 15869,
       "length": 1,
       "value": "2"
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUCentralManager.swift",
       "kind": "IntegerLiteral",
-      "offset": 15340,
+      "offset": 15885,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUCentralManager.swift",
       "kind": "IntegerLiteral",
-      "offset": 15345,
+      "offset": 15890,
       "length": 4,
       "value": "0x01"
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUCentralManager.swift",
       "kind": "IntegerLiteral",
-      "offset": 15363,
+      "offset": 15908,
       "length": 1,
       "value": "1"
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUCentralManager.swift",
       "kind": "IntegerLiteral",
-      "offset": 15368,
+      "offset": 15913,
       "length": 4,
       "value": "0xff"
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUCentralManager.swift",
       "kind": "IntegerLiteral",
-      "offset": 15512,
+      "offset": 16057,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUCentralManager.swift",
       "kind": "IntegerLiteral",
-      "offset": 15523,
+      "offset": 16068,
       "length": 1,
       "value": "2"
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUCentralManager.swift",
       "kind": "IntegerLiteral",
-      "offset": 15539,
+      "offset": 16084,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUCentralManager.swift",
       "kind": "IntegerLiteral",
-      "offset": 15544,
+      "offset": 16089,
       "length": 4,
       "value": "0x02"
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUCentralManager.swift",
       "kind": "IntegerLiteral",
-      "offset": 15562,
+      "offset": 16107,
       "length": 1,
       "value": "1"
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUCentralManager.swift",
       "kind": "IntegerLiteral",
-      "offset": 15567,
+      "offset": 16112,
       "length": 4,
       "value": "0xff"
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUCentralManager.swift",
       "kind": "IntegerLiteral",
-      "offset": 15868,
+      "offset": 16413,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUCentralManager.swift",
       "kind": "IntegerLiteral",
-      "offset": 15879,
+      "offset": 16424,
       "length": 1,
       "value": "2"
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUCentralManager.swift",
       "kind": "IntegerLiteral",
-      "offset": 15900,
+      "offset": 16445,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUCentralManager.swift",
       "kind": "IntegerLiteral",
-      "offset": 15926,
+      "offset": 16471,
       "length": 4,
       "value": "0xff"
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUCentralManager.swift",
       "kind": "IntegerLiteral",
-      "offset": 15950,
+      "offset": 16495,
       "length": 1,
       "value": "1"
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUCentralManager.swift",
       "kind": "IntegerLiteral",
-      "offset": 15978,
+      "offset": 16523,
       "length": 1,
       "value": "8"
-    },
-    {
-      "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUCentralManager.swift",
-      "kind": "IntegerLiteral",
-      "offset": 15983,
-      "length": 4,
-      "value": "0xff"
-    },
-    {
-      "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUCentralManager.swift",
-      "kind": "IntegerLiteral",
-      "offset": 16054,
-      "length": 2,
-      "value": "16"
-    },
-    {
-      "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUCentralManager.swift",
-      "kind": "IntegerLiteral",
-      "offset": 16071,
-      "length": 1,
-      "value": "0"
-    },
-    {
-      "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUCentralManager.swift",
-      "kind": "IntegerLiteral",
-      "offset": 16096,
-      "length": 2,
-      "value": "16"
-    },
-    {
-      "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUCentralManager.swift",
-      "kind": "IntegerLiteral",
-      "offset": 16161,
-      "length": 1,
-      "value": "0"
-    },
-    {
-      "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUCentralManager.swift",
-      "kind": "IntegerLiteral",
-      "offset": 16181,
-      "length": 1,
-      "value": "4"
-    },
-    {
-      "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUCentralManager.swift",
-      "kind": "IntegerLiteral",
-      "offset": 16233,
-      "length": 1,
-      "value": "0"
-    },
-    {
-      "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUCentralManager.swift",
-      "kind": "IntegerLiteral",
-      "offset": 16253,
-      "length": 1,
-      "value": "2"
-    },
-    {
-      "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUCentralManager.swift",
-      "kind": "IntegerLiteral",
-      "offset": 16282,
-      "length": 1,
-      "value": "0"
-    },
-    {
-      "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUCentralManager.swift",
-      "kind": "IntegerLiteral",
-      "offset": 16286,
-      "length": 1,
-      "value": "2"
-    },
-    {
-      "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUCentralManager.swift",
-      "kind": "IntegerLiteral",
-      "offset": 16366,
-      "length": 1,
-      "value": "2"
-    },
-    {
-      "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUCentralManager.swift",
-      "kind": "IntegerLiteral",
-      "offset": 16380,
-      "length": 1,
-      "value": "2"
-    },
-    {
-      "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUCentralManager.swift",
-      "kind": "IntegerLiteral",
-      "offset": 16417,
-      "length": 1,
-      "value": "2"
-    },
-    {
-      "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUCentralManager.swift",
-      "kind": "IntegerLiteral",
-      "offset": 16461,
-      "length": 1,
-      "value": "2"
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUCentralManager.swift",
@@ -38484,217 +37159,315 @@
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUCentralManager.swift",
       "kind": "IntegerLiteral",
-      "offset": 16583,
+      "offset": 16599,
+      "length": 2,
+      "value": "16"
+    },
+    {
+      "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUCentralManager.swift",
+      "kind": "IntegerLiteral",
+      "offset": 16616,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUCentralManager.swift",
       "kind": "IntegerLiteral",
-      "offset": 16597,
-      "length": 1,
-      "value": "2"
+      "offset": 16641,
+      "length": 2,
+      "value": "16"
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUCentralManager.swift",
       "kind": "IntegerLiteral",
-      "offset": 16738,
+      "offset": 16706,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUCentralManager.swift",
       "kind": "IntegerLiteral",
-      "offset": 16749,
+      "offset": 16726,
+      "length": 1,
+      "value": "4"
+    },
+    {
+      "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUCentralManager.swift",
+      "kind": "IntegerLiteral",
+      "offset": 16778,
+      "length": 1,
+      "value": "0"
+    },
+    {
+      "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUCentralManager.swift",
+      "kind": "IntegerLiteral",
+      "offset": 16798,
       "length": 1,
       "value": "2"
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUCentralManager.swift",
       "kind": "IntegerLiteral",
-      "offset": 16764,
+      "offset": 16827,
+      "length": 1,
+      "value": "0"
+    },
+    {
+      "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUCentralManager.swift",
+      "kind": "IntegerLiteral",
+      "offset": 16831,
+      "length": 1,
+      "value": "2"
+    },
+    {
+      "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUCentralManager.swift",
+      "kind": "IntegerLiteral",
+      "offset": 16911,
+      "length": 1,
+      "value": "2"
+    },
+    {
+      "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUCentralManager.swift",
+      "kind": "IntegerLiteral",
+      "offset": 16925,
+      "length": 1,
+      "value": "2"
+    },
+    {
+      "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUCentralManager.swift",
+      "kind": "IntegerLiteral",
+      "offset": 16962,
+      "length": 1,
+      "value": "2"
+    },
+    {
+      "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUCentralManager.swift",
+      "kind": "IntegerLiteral",
+      "offset": 17006,
+      "length": 1,
+      "value": "2"
+    },
+    {
+      "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUCentralManager.swift",
+      "kind": "IntegerLiteral",
+      "offset": 17073,
+      "length": 4,
+      "value": "0xff"
+    },
+    {
+      "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUCentralManager.swift",
+      "kind": "IntegerLiteral",
+      "offset": 17128,
+      "length": 1,
+      "value": "0"
+    },
+    {
+      "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUCentralManager.swift",
+      "kind": "IntegerLiteral",
+      "offset": 17142,
+      "length": 1,
+      "value": "2"
+    },
+    {
+      "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUCentralManager.swift",
+      "kind": "IntegerLiteral",
+      "offset": 17283,
+      "length": 1,
+      "value": "0"
+    },
+    {
+      "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUCentralManager.swift",
+      "kind": "IntegerLiteral",
+      "offset": 17294,
+      "length": 1,
+      "value": "2"
+    },
+    {
+      "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUCentralManager.swift",
+      "kind": "IntegerLiteral",
+      "offset": 17309,
       "length": 1,
       "value": "1"
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUCentralManager.swift",
       "kind": "IntegerLiteral",
-      "offset": 16784,
+      "offset": 17329,
       "length": 1,
       "value": "8"
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUCentralManager.swift",
       "kind": "IntegerLiteral",
-      "offset": 16789,
+      "offset": 17334,
       "length": 4,
       "value": "0xff"
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUCentralManager.swift",
       "kind": "IntegerLiteral",
-      "offset": 16806,
+      "offset": 17351,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUCentralManager.swift",
       "kind": "IntegerLiteral",
-      "offset": 16825,
+      "offset": 17370,
       "length": 4,
       "value": "0xff"
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUCentralManager.swift",
       "kind": "IntegerLiteral",
-      "offset": 16848,
+      "offset": 17393,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUCentralManager.swift",
       "kind": "IntegerLiteral",
-      "offset": 16852,
+      "offset": 17397,
       "length": 1,
       "value": "2"
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUCentralManager.swift",
       "kind": "IntegerLiteral",
-      "offset": 16887,
+      "offset": 17432,
       "length": 1,
       "value": "2"
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUCentralManager.swift",
       "kind": "IntegerLiteral",
-      "offset": 17077,
+      "offset": 17622,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUCentralManager.swift",
       "kind": "IntegerLiteral",
-      "offset": 17088,
+      "offset": 17633,
       "length": 1,
       "value": "2"
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUCentralManager.swift",
       "kind": "IntegerLiteral",
-      "offset": 17105,
+      "offset": 17650,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUCentralManager.swift",
       "kind": "IntegerLiteral",
-      "offset": 17110,
+      "offset": 17655,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUCentralManager.swift",
       "kind": "IntegerLiteral",
-      "offset": 17126,
+      "offset": 17671,
       "length": 1,
       "value": "1"
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUCentralManager.swift",
       "kind": "IntegerLiteral",
-      "offset": 17131,
+      "offset": 17676,
       "length": 6,
       "value": "0xa001"
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUCentralManager.swift",
       "kind": "IntegerLiteral",
-      "offset": 17182,
+      "offset": 17727,
       "length": 6,
       "value": "0xffff"
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUCentralManager.swift",
       "kind": "IntegerLiteral",
-      "offset": 17207,
+      "offset": 17752,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUCentralManager.swift",
       "kind": "IntegerLiteral",
-      "offset": 17275,
+      "offset": 17820,
       "length": 1,
       "value": "1"
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUCentralManager.swift",
       "kind": "IntegerLiteral",
-      "offset": 17303,
+      "offset": 17848,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUCentralManager.swift",
       "kind": "IntegerLiteral",
-      "offset": 17307,
+      "offset": 17852,
       "length": 1,
       "value": "8"
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUCentralManager.swift",
       "kind": "IntegerLiteral",
-      "offset": 17385,
+      "offset": 17930,
       "length": 1,
       "value": "1"
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUCentralManager.swift",
       "kind": "IntegerLiteral",
-      "offset": 17407,
+      "offset": 17952,
       "length": 1,
       "value": "1"
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUCentralManager.swift",
       "kind": "IntegerLiteral",
-      "offset": 17438,
+      "offset": 17983,
       "length": 1,
       "value": "1"
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUCentralManager.swift",
       "kind": "StringLiteral",
-      "offset": 17712,
+      "offset": 18257,
       "length": 20,
       "value": "\"myPeripheral.state\""
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUCentralManager.swift",
       "kind": "IntegerLiteral",
-      "offset": 17874,
+      "offset": 18419,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUCentralManager.swift",
       "kind": "IntegerLiteral",
-      "offset": 17973,
+      "offset": 18518,
       "length": 1,
       "value": "1"
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUCentralManager.swift",
       "kind": "IntegerLiteral",
-      "offset": 18070,
+      "offset": 18615,
       "length": 1,
       "value": "2"
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUCentralManager.swift",
       "kind": "IntegerLiteral",
-      "offset": 18166,
+      "offset": 18711,
       "length": 1,
       "value": "3"
     },
@@ -39841,470 +38614,484 @@
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WristbandDefine.swift",
+      "kind": "IntegerLiteral",
+      "offset": 4158,
+      "length": 4,
+      "value": "0x68"
+    },
+    {
+      "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WristbandDefine.swift",
       "kind": "StringLiteral",
-      "offset": 4207,
+      "offset": 4295,
       "length": 38,
       "value": "\"000018D0-0000-1000-8000-00805f9b34fb\""
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WristbandDefine.swift",
       "kind": "StringLiteral",
-      "offset": 4274,
+      "offset": 4362,
       "length": 38,
       "value": "\"00002D01-0000-1000-8000-00805f9b34fb\""
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WristbandDefine.swift",
       "kind": "StringLiteral",
-      "offset": 4342,
+      "offset": 4430,
       "length": 38,
       "value": "\"00002D00-0000-1000-8000-00805f9b34fb\""
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WristbandDefine.swift",
       "kind": "StringLiteral",
-      "offset": 4411,
+      "offset": 4499,
       "length": 38,
       "value": "\"000018F0-0000-1000-8000-00805f9b34fb\""
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WristbandDefine.swift",
       "kind": "StringLiteral",
-      "offset": 4477,
+      "offset": 4565,
       "length": 38,
       "value": "\"00002F01-0000-1000-8000-00805f9b34fb\""
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WristbandDefine.swift",
       "kind": "StringLiteral",
-      "offset": 4544,
+      "offset": 4632,
       "length": 38,
       "value": "\"00002F00-0000-1000-8000-00805f9b34fb\""
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WristbandDefine.swift",
       "kind": "StringLiteral",
-      "offset": 4612,
+      "offset": 4700,
       "length": 38,
       "value": "\"00010203-0405-0607-0809-0A0B0C0D1912\""
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WristbandDefine.swift",
       "kind": "StringLiteral",
-      "offset": 4677,
+      "offset": 4765,
       "length": 38,
       "value": "\"00010203-0405-0607-0809-0a0b0c0d2b12\""
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WristbandDefine.swift",
       "kind": "StringLiteral",
-      "offset": 4747,
+      "offset": 4835,
       "length": 6,
       "value": "\"FF14\""
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WristbandDefine.swift",
       "kind": "StringLiteral",
-      "offset": 4779,
+      "offset": 4867,
       "length": 6,
       "value": "\"FF15\""
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WristbandDefine.swift",
       "kind": "StringLiteral",
-      "offset": 5059,
+      "offset": 5147,
       "length": 14,
       "value": "\"readyToWrite\""
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WristbandDefine.swift",
       "kind": "StringLiteral",
-      "offset": 5214,
+      "offset": 5302,
       "length": 12,
       "value": "\"getDevInfo\""
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WristbandDefine.swift",
       "kind": "StringLiteral",
-      "offset": 5360,
+      "offset": 5448,
       "length": 9,
       "value": "\"bindSet\""
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WristbandDefine.swift",
       "kind": "StringLiteral",
-      "offset": 5590,
+      "offset": 5678,
       "length": 18,
       "value": "\"setOrRead_ZhiShi\""
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WristbandDefine.swift",
       "kind": "StringLiteral",
-      "offset": 5715,
+      "offset": 5803,
       "length": 9,
       "value": "\"syncEle\""
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WristbandDefine.swift",
       "kind": "StringLiteral",
-      "offset": 5855,
+      "offset": 5943,
       "length": 16,
       "value": "\"setOrRead_Time\""
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WristbandDefine.swift",
       "kind": "StringLiteral",
-      "offset": 6010,
+      "offset": 6098,
       "length": 17,
       "value": "\"setOrRead_Alarm\""
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WristbandDefine.swift",
       "kind": "StringLiteral",
-      "offset": 6172,
+      "offset": 6260,
       "length": 20,
       "value": "\"setOrRead_UserInfo\""
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WristbandDefine.swift",
       "kind": "StringLiteral",
-      "offset": 6364,
+      "offset": 6452,
       "length": 22,
       "value": "\"setOrRead_Display_UI\""
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WristbandDefine.swift",
       "kind": "StringLiteral",
-      "offset": 6529,
+      "offset": 6617,
       "length": 18,
       "value": "\"setOrRead_Switch\""
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WristbandDefine.swift",
       "kind": "StringLiteral",
-      "offset": 6658,
+      "offset": 6746,
       "length": 12,
       "value": "\"search_Dev\""
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WristbandDefine.swift",
       "kind": "StringLiteral",
-      "offset": 6784,
+      "offset": 6872,
       "length": 14,
       "value": "\"search_Phone\""
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WristbandDefine.swift",
       "kind": "StringLiteral",
-      "offset": 6963,
+      "offset": 7051,
       "length": 20,
       "value": "\"setOrRead_SitParam\""
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WristbandDefine.swift",
       "kind": "StringLiteral",
-      "offset": 7155,
+      "offset": 7243,
       "length": 22,
       "value": "\"setOrRead_DrinkParam\""
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WristbandDefine.swift",
       "kind": "StringLiteral",
-      "offset": 7319,
+      "offset": 7407,
       "length": 20,
       "value": "\"inOrExit_TakePhoto\""
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WristbandDefine.swift",
       "kind": "StringLiteral",
-      "offset": 7472,
+      "offset": 7560,
       "length": 11,
       "value": "\"takePhoto\""
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WristbandDefine.swift",
       "kind": "StringLiteral",
-      "offset": 7613,
+      "offset": 7701,
       "length": 14,
       "value": "\"startCeLiang\""
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WristbandDefine.swift",
       "kind": "StringLiteral",
-      "offset": 7802,
+      "offset": 7890,
       "length": 22,
       "value": "\"devSendCeLiang_heart\""
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WristbandDefine.swift",
       "kind": "StringLiteral",
-      "offset": 8003,
+      "offset": 8091,
       "length": 22,
       "value": "\"devSendCeLiang_blood\""
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WristbandDefine.swift",
       "kind": "StringLiteral",
-      "offset": 8197,
+      "offset": 8285,
       "length": 23,
       "value": "\"devSendCeLiang_oxygen\""
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WristbandDefine.swift",
       "kind": "StringLiteral",
-      "offset": 8369,
+      "offset": 8457,
       "length": 18,
       "value": "\"sysCeLiang_heart\""
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WristbandDefine.swift",
       "kind": "StringLiteral",
-      "offset": 8540,
+      "offset": 8628,
       "length": 18,
       "value": "\"sysCeLiang_blood\""
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WristbandDefine.swift",
       "kind": "StringLiteral",
-      "offset": 8712,
+      "offset": 8800,
       "length": 19,
       "value": "\"sysCeLiang_oxygen\""
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WristbandDefine.swift",
       "kind": "StringLiteral",
-      "offset": 8871,
+      "offset": 8959,
       "length": 12,
       "value": "\"read_Sport\""
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WristbandDefine.swift",
       "kind": "StringLiteral",
-      "offset": 9026,
+      "offset": 9114,
       "length": 16,
       "value": "\"read_All_Sport\""
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WristbandDefine.swift",
       "kind": "StringLiteral",
-      "offset": 9172,
+      "offset": 9260,
       "length": 12,
       "value": "\"read_Sleep\""
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WristbandDefine.swift",
       "kind": "StringLiteral",
-      "offset": 9326,
+      "offset": 9414,
       "length": 16,
       "value": "\"read_All_Sleep\""
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WristbandDefine.swift",
       "kind": "StringLiteral",
-      "offset": 9532,
+      "offset": 9620,
       "length": 14,
       "value": "\"syncLanguage\""
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WristbandDefine.swift",
       "kind": "StringLiteral",
-      "offset": 9641,
+      "offset": 9729,
       "length": 12,
       "value": "\"ancsSwitch\""
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WristbandDefine.swift",
       "kind": "StringLiteral",
-      "offset": 9921,
+      "offset": 10009,
       "length": 15,
       "value": "\"startDialPush\""
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WristbandDefine.swift",
       "kind": "StringLiteral",
-      "offset": 10024,
+      "offset": 10112,
       "length": 10,
       "value": "\"dialPush\""
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WristbandDefine.swift",
       "kind": "StringLiteral",
-      "offset": 10118,
+      "offset": 10206,
       "length": 12,
       "value": "\"setWeather\""
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WristbandDefine.swift",
       "kind": "StringLiteral",
-      "offset": 10238,
+      "offset": 10326,
       "length": 16,
       "value": "\"startImagePush\""
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WristbandDefine.swift",
       "kind": "StringLiteral",
-      "offset": 10343,
+      "offset": 10431,
       "length": 11,
       "value": "\"imagePush\""
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WristbandDefine.swift",
       "kind": "StringLiteral",
-      "offset": 10456,
+      "offset": 10544,
       "length": 18,
       "value": "\"imagePushSetting\""
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WristbandDefine.swift",
       "kind": "StringLiteral",
-      "offset": 10555,
+      "offset": 10643,
       "length": 18,
       "value": "\"startAddressPush\""
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WristbandDefine.swift",
       "kind": "StringLiteral",
-      "offset": 10661,
+      "offset": 10749,
       "length": 13,
       "value": "\"addressPush\""
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WristbandDefine.swift",
       "kind": "StringLiteral",
-      "offset": 11115,
+      "offset": 11203,
       "length": 13,
       "value": "\"temperature\""
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WristbandDefine.swift",
       "kind": "StringLiteral",
-      "offset": 11220,
+      "offset": 11308,
       "length": 24,
       "value": "\"temperatureCalibration\""
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WristbandDefine.swift",
       "kind": "StringLiteral",
-      "offset": 11335,
+      "offset": 11423,
       "length": 18,
       "value": "\"read_Temperature\""
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WristbandDefine.swift",
       "kind": "StringLiteral",
-      "offset": 11471,
+      "offset": 11559,
       "length": 15,
       "value": "\"ruiyu_DialSet\""
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WristbandDefine.swift",
       "kind": "StringLiteral",
-      "offset": 11562,
+      "offset": 11650,
       "length": 13,
       "value": "\"nfc_history\""
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WristbandDefine.swift",
       "kind": "StringLiteral",
-      "offset": 11646,
+      "offset": 11734,
       "length": 13,
       "value": "\"nfc_current\""
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WristbandDefine.swift",
       "kind": "StringLiteral",
-      "offset": 11728,
+      "offset": 11816,
       "length": 11,
       "value": "\"write_NFC\""
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WristbandDefine.swift",
       "kind": "StringLiteral",
-      "offset": 11817,
+      "offset": 11905,
       "length": 20,
       "value": "\"write_NFC_complete\""
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WristbandDefine.swift",
       "kind": "StringLiteral",
-      "offset": 11975,
+      "offset": 12063,
       "length": 14,
       "value": "\"JL_BlueClose\""
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WristbandDefine.swift",
       "kind": "StringLiteral",
-      "offset": 12095,
+      "offset": 12183,
       "length": 28,
       "value": "\"JL_didDisconnectPeripheral\""
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WristbandDefine.swift",
       "kind": "StringLiteral",
-      "offset": 12210,
+      "offset": 12298,
       "length": 15,
       "value": "\"JL_didConnect\""
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WristbandDefine.swift",
       "kind": "StringLiteral",
-      "offset": 12323,
+      "offset": 12411,
       "length": 20,
       "value": "\"JL_didDiscoverChar\""
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WristbandDefine.swift",
       "kind": "StringLiteral",
-      "offset": 12439,
+      "offset": 12527,
       "length": 18,
       "value": "\"JL_didUpdateNoti\""
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WristbandDefine.swift",
       "kind": "StringLiteral",
-      "offset": 12566,
+      "offset": 12654,
       "length": 22,
       "value": "\"JL_didUpdateValueFor\""
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WristbandDefine.swift",
       "kind": "StringLiteral",
-      "offset": 12696,
+      "offset": 12784,
       "length": 16,
       "value": "\"sendQRcodeData\""
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WristbandDefine.swift",
       "kind": "StringLiteral",
-      "offset": 12817,
+      "offset": 12905,
       "length": 18,
       "value": "\"readFuncCategory\""
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WristbandDefine.swift",
       "kind": "StringLiteral",
-      "offset": 12910,
+      "offset": 12998,
       "length": 19,
       "value": "\"setCollectSuccess\""
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WristbandDefine.swift",
       "kind": "StringLiteral",
-      "offset": 13034,
+      "offset": 13122,
       "length": 19,
       "value": "\"SyncWeatherNotice\""
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WristbandDefine.swift",
       "kind": "StringLiteral",
-      "offset": 13170,
+      "offset": 13258,
       "length": 24,
       "value": "\"setOrRead_MonitorHeart\""
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WristbandDefine.swift",
       "kind": "StringLiteral",
-      "offset": 13496,
+      "offset": 13362,
+      "length": 5,
+      "value": "\"MTU\""
+    },
+    {
+      "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WristbandDefine.swift",
+      "kind": "StringLiteral",
+      "offset": 13674,
       "length": 12,
       "value": "\"ZK_OTAData\""
     },
@@ -49264,427 +48051,483 @@
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUBleManager+Wristband.swift",
       "kind": "IntegerLiteral",
-      "offset": 66228,
-      "length": 1,
-      "value": "4"
-    },
-    {
-      "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUBleManager+Wristband.swift",
-      "kind": "IntegerLiteral",
-      "offset": 66432,
+      "offset": 65519,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUBleManager+Wristband.swift",
       "kind": "IntegerLiteral",
-      "offset": 66515,
+      "offset": 65530,
+      "length": 1,
+      "value": "4"
+    },
+    {
+      "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUBleManager+Wristband.swift",
+      "kind": "IntegerLiteral",
+      "offset": 65547,
+      "length": 1,
+      "value": "0"
+    },
+    {
+      "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUBleManager+Wristband.swift",
+      "kind": "IntegerLiteral",
+      "offset": 65552,
+      "length": 4,
+      "value": "0xab"
+    },
+    {
+      "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUBleManager+Wristband.swift",
+      "kind": "IntegerLiteral",
+      "offset": 65571,
+      "length": 1,
+      "value": "1"
+    },
+    {
+      "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUBleManager+Wristband.swift",
+      "kind": "IntegerLiteral",
+      "offset": 65609,
+      "length": 1,
+      "value": "2"
+    },
+    {
+      "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUBleManager+Wristband.swift",
+      "kind": "IntegerLiteral",
+      "offset": 65667,
+      "length": 1,
+      "value": "4"
+    },
+    {
+      "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUBleManager+Wristband.swift",
+      "kind": "IntegerLiteral",
+      "offset": 65669,
+      "length": 1,
+      "value": "1"
+    },
+    {
+      "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUBleManager+Wristband.swift",
+      "kind": "IntegerLiteral",
+      "offset": 66612,
+      "length": 1,
+      "value": "4"
+    },
+    {
+      "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUBleManager+Wristband.swift",
+      "kind": "IntegerLiteral",
+      "offset": 66816,
+      "length": 1,
+      "value": "0"
+    },
+    {
+      "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUBleManager+Wristband.swift",
+      "kind": "IntegerLiteral",
+      "offset": 66899,
       "length": 1,
       "value": "8"
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUBleManager+Wristband.swift",
       "kind": "IntegerLiteral",
-      "offset": 66942,
+      "offset": 67326,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUBleManager+Wristband.swift",
       "kind": "IntegerLiteral",
-      "offset": 66948,
+      "offset": 67332,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUBleManager+Wristband.swift",
       "kind": "IntegerLiteral",
-      "offset": 67054,
+      "offset": 67438,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUBleManager+Wristband.swift",
       "kind": "IntegerLiteral",
-      "offset": 67082,
+      "offset": 67466,
       "length": 1,
       "value": "2"
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUBleManager+Wristband.swift",
       "kind": "IntegerLiteral",
-      "offset": 67155,
+      "offset": 67539,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUBleManager+Wristband.swift",
       "kind": "IntegerLiteral",
-      "offset": 67208,
+      "offset": 67592,
       "length": 1,
       "value": "4"
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUBleManager+Wristband.swift",
       "kind": "IntegerLiteral",
-      "offset": 67306,
+      "offset": 67690,
       "length": 1,
       "value": "1"
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUBleManager+Wristband.swift",
       "kind": "IntegerLiteral",
-      "offset": 67357,
+      "offset": 67741,
       "length": 1,
       "value": "2"
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUBleManager+Wristband.swift",
       "kind": "IntegerLiteral",
-      "offset": 67452,
+      "offset": 67836,
       "length": 3,
       "value": "256"
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUBleManager+Wristband.swift",
       "kind": "IntegerLiteral",
-      "offset": 67482,
+      "offset": 67866,
       "length": 3,
       "value": "256"
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUBleManager+Wristband.swift",
       "kind": "IntegerLiteral",
-      "offset": 67508,
+      "offset": 67892,
       "length": 1,
       "value": "2"
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUBleManager+Wristband.swift",
       "kind": "IntegerLiteral",
-      "offset": 67550,
+      "offset": 67934,
       "length": 1,
       "value": "2"
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUBleManager+Wristband.swift",
       "kind": "IntegerLiteral",
-      "offset": 67558,
+      "offset": 67942,
       "length": 1,
       "value": "1"
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUBleManager+Wristband.swift",
       "kind": "IntegerLiteral",
-      "offset": 68203,
+      "offset": 68587,
       "length": 1,
       "value": "3"
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUBleManager+Wristband.swift",
       "kind": "IntegerLiteral",
-      "offset": 68209,
+      "offset": 68593,
       "length": 2,
       "value": "11"
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUBleManager+Wristband.swift",
       "kind": "IntegerLiteral",
-      "offset": 68215,
+      "offset": 68599,
       "length": 6,
       "value": "0xF800"
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUBleManager+Wristband.swift",
       "kind": "IntegerLiteral",
-      "offset": 68249,
+      "offset": 68633,
       "length": 1,
       "value": "2"
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUBleManager+Wristband.swift",
       "kind": "IntegerLiteral",
-      "offset": 68255,
+      "offset": 68639,
       "length": 1,
       "value": "5"
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUBleManager+Wristband.swift",
       "kind": "IntegerLiteral",
-      "offset": 68260,
+      "offset": 68644,
       "length": 6,
       "value": "0x07E0"
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUBleManager+Wristband.swift",
       "kind": "IntegerLiteral",
-      "offset": 68292,
+      "offset": 68676,
       "length": 1,
       "value": "3"
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUBleManager+Wristband.swift",
       "kind": "IntegerLiteral",
-      "offset": 68297,
+      "offset": 68681,
       "length": 6,
       "value": "0x001F"
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUBleManager+Wristband.swift",
       "kind": "BooleanLiteral",
-      "offset": 68490,
+      "offset": 68874,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUBleManager+Wristband.swift",
       "kind": "IntegerLiteral",
-      "offset": 68497,
+      "offset": 68881,
       "length": 1,
       "value": "1"
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUBleManager+Wristband.swift",
       "kind": "IntegerLiteral",
-      "offset": 68809,
+      "offset": 69193,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUBleManager+Wristband.swift",
       "kind": "IntegerLiteral",
-      "offset": 68830,
+      "offset": 69214,
       "length": 3,
       "value": "800"
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUBleManager+Wristband.swift",
       "kind": "IntegerLiteral",
-      "offset": 68857,
+      "offset": 69241,
       "length": 4,
       "value": "0x01"
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUBleManager+Wristband.swift",
       "kind": "IntegerLiteral",
-      "offset": 68887,
+      "offset": 69271,
       "length": 3,
       "value": "801"
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUBleManager+Wristband.swift",
       "kind": "IntegerLiteral",
-      "offset": 68914,
+      "offset": 69298,
       "length": 4,
       "value": "0x02"
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUBleManager+Wristband.swift",
       "kind": "IntegerLiteral",
-      "offset": 68944,
+      "offset": 69328,
       "length": 3,
       "value": "802"
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUBleManager+Wristband.swift",
       "kind": "IntegerLiteral",
-      "offset": 68959,
+      "offset": 69343,
       "length": 3,
       "value": "804"
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUBleManager+Wristband.swift",
       "kind": "IntegerLiteral",
-      "offset": 68986,
+      "offset": 69370,
       "length": 4,
       "value": "0x03"
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUBleManager+Wristband.swift",
       "kind": "IntegerLiteral",
-      "offset": 69016,
+      "offset": 69400,
       "length": 3,
       "value": "300"
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUBleManager+Wristband.swift",
       "kind": "IntegerLiteral",
-      "offset": 69031,
+      "offset": 69415,
       "length": 3,
       "value": "321"
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUBleManager+Wristband.swift",
       "kind": "IntegerLiteral",
-      "offset": 69058,
+      "offset": 69442,
       "length": 4,
       "value": "0x04"
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUBleManager+Wristband.swift",
       "kind": "IntegerLiteral",
-      "offset": 69088,
+      "offset": 69472,
       "length": 3,
       "value": "500"
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUBleManager+Wristband.swift",
       "kind": "IntegerLiteral",
-      "offset": 69115,
+      "offset": 69499,
       "length": 4,
       "value": "0x04"
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUBleManager+Wristband.swift",
       "kind": "IntegerLiteral",
-      "offset": 69145,
+      "offset": 69529,
       "length": 3,
       "value": "501"
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUBleManager+Wristband.swift",
       "kind": "IntegerLiteral",
-      "offset": 69172,
+      "offset": 69556,
       "length": 4,
       "value": "0x05"
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUBleManager+Wristband.swift",
       "kind": "IntegerLiteral",
-      "offset": 69202,
+      "offset": 69586,
       "length": 3,
       "value": "502"
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUBleManager+Wristband.swift",
       "kind": "IntegerLiteral",
-      "offset": 69217,
+      "offset": 69601,
       "length": 3,
       "value": "504"
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUBleManager+Wristband.swift",
       "kind": "IntegerLiteral",
-      "offset": 69244,
+      "offset": 69628,
       "length": 4,
       "value": "0x06"
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUBleManager+Wristband.swift",
       "kind": "IntegerLiteral",
-      "offset": 69274,
+      "offset": 69658,
       "length": 3,
       "value": "520"
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUBleManager+Wristband.swift",
       "kind": "IntegerLiteral",
-      "offset": 69289,
+      "offset": 69673,
       "length": 3,
       "value": "531"
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUBleManager+Wristband.swift",
       "kind": "IntegerLiteral",
-      "offset": 69316,
+      "offset": 69700,
       "length": 4,
       "value": "0x07"
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUBleManager+Wristband.swift",
       "kind": "IntegerLiteral",
-      "offset": 69346,
+      "offset": 69730,
       "length": 3,
       "value": "200"
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUBleManager+Wristband.swift",
       "kind": "IntegerLiteral",
-      "offset": 69361,
+      "offset": 69745,
       "length": 3,
       "value": "232"
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUBleManager+Wristband.swift",
       "kind": "IntegerLiteral",
-      "offset": 69388,
+      "offset": 69772,
       "length": 4,
       "value": "0x08"
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUBleManager+Wristband.swift",
       "kind": "IntegerLiteral",
-      "offset": 69418,
+      "offset": 69802,
       "length": 3,
       "value": "600"
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUBleManager+Wristband.swift",
       "kind": "IntegerLiteral",
-      "offset": 69433,
+      "offset": 69817,
       "length": 3,
       "value": "622"
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUBleManager+Wristband.swift",
       "kind": "IntegerLiteral",
-      "offset": 69460,
+      "offset": 69844,
       "length": 4,
       "value": "0x09"
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUBleManager+Wristband.swift",
       "kind": "IntegerLiteral",
-      "offset": 69490,
+      "offset": 69874,
       "length": 3,
       "value": "701"
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUBleManager+Wristband.swift",
       "kind": "IntegerLiteral",
-      "offset": 69505,
+      "offset": 69889,
       "length": 3,
       "value": "741"
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUBleManager+Wristband.swift",
       "kind": "IntegerLiteral",
-      "offset": 69532,
+      "offset": 69916,
       "length": 4,
       "value": "0x0A"
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUBleManager+Wristband.swift",
       "kind": "IntegerLiteral",
-      "offset": 69562,
+      "offset": 69946,
       "length": 3,
       "value": "751"
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUBleManager+Wristband.swift",
       "kind": "IntegerLiteral",
-      "offset": 69577,
+      "offset": 69961,
       "length": 3,
       "value": "771"
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUBleManager+Wristband.swift",
       "kind": "IntegerLiteral",
-      "offset": 69604,
+      "offset": 69988,
       "length": 4,
       "value": "0x0B"
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUBleManager+Wristband.swift",
       "kind": "IntegerLiteral",
-      "offset": 69634,
+      "offset": 70018,
       "length": 3,
       "value": "781"
     },
     {
       "filePath": "\/Users\/nong\/Desktop\/Code\/TJDSDK&JL\/TJDWristbandSDK\/TJDWristbandSDK\/Blue\/WUBleManager+Wristband.swift",
       "kind": "IntegerLiteral",
-      "offset": 69661,
+      "offset": 70045,
       "length": 4,
       "value": "0x0C"
     },

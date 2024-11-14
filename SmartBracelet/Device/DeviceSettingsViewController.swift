@@ -204,8 +204,9 @@ extension DeviceSettingsViewController: UITableViewDelegate {
             perform(#selector(readAlarm), with: nil, afterDelay: 0.3)
         } else if indexPath.row == 12 { // 同步数据
             if bleSelf.isConnected {
-                bleSelf.getStep()
                 NotificationCenter.default.post(name: Notification.Name("HealthVCLoading"), object: 2)
+                BLEManager.shared.currentReadProgress = 3
+                bleSelf.getStep()
             }
         }
     }

@@ -1037,6 +1037,8 @@ enum WristbandMeasureType : uint8_t;
 - (void)setMonitorHeartForWristband:(monitorHeartModel * _Nonnull)model;
 /// 中科进入OTA
 - (void)send_ZKEnterOTA;
+/// 中科进入OTA
+- (void)send_iOSDevice;
 /// 图片转化
 - (NSData * _Nullable)getRGBData565FromImageWithImage:(UIImage * _Nonnull)image SWIFT_WARN_UNUSED_RESULT;
 /// 裁剪图片
@@ -1451,6 +1453,9 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) NSNotificationName _
 /// 心率监测通知
 SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) NSNotificationName _Nonnull setOrRead_MonitorHeart;)
 + (NSNotificationName _Nonnull)setOrRead_MonitorHeart SWIFT_WARN_UNUSED_RESULT;
+/// MTU
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) NSNotificationName _Nonnull MTU;)
++ (NSNotificationName _Nonnull)MTU SWIFT_WARN_UNUSED_RESULT;
 /// 中科的ota数据
 SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly) NSNotificationName _Nonnull ZK_OTAData;)
 + (NSNotificationName _Nonnull)ZK_OTAData SWIFT_WARN_UNUSED_RESULT;

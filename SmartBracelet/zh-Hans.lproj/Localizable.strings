@@ -395,3 +395,12 @@
 "add_dial" = "添加表盘";
 "mine_manage" = "管理";
 "mine_finish" = "完成";
+
+"Check for Updates" = "检查更新";
+"Update Available" = "有可用更新";
+"A new version (%@) is available on the App Store." = "App Store 上有新版本 (%@) 可用。";
+"Update" = "更新";
+"Cancel" = "取消";
+"No Update Available" = "没有可用更新";
+"You are using the latest version." = "您正在使用最新版本。";
+"qushi" = "趋势";
