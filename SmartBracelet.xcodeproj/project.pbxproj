@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 54;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -1069,6 +1069,10 @@
 		D0967DDE3410784139DF5B20 /* Pods-TJDWristbandSDKDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TJDWristbandSDKDemo.release.xcconfig"; path = "Target Support Files/Pods-TJDWristbandSDKDemo/Pods-TJDWristbandSDKDemo.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		9A31E6522CE71CCB00C74D97 /* huaxin */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = huaxin; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
+
 /* Begin PBXFrameworksBuildPhase section */
 		18385E9724517F1600EA380A /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
@@ -1117,6 +1121,7 @@
 		18385E9C24517F1600EA380A /* SmartBracelet */ = {
 			isa = PBXGroup;
 			children = (
+				9A31E6522CE71CCB00C74D97 /* huaxin */,
 				9A5E932E2515CC500060AB13 /* Tab */,
 				9A4E624224F7E91F00A0E878 /* Device */,
 				9A350BE124EA3266004CEE6A /* Mine */,
@@ -2246,6 +2251,9 @@
 			buildRules = (
 			);
 			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				9A31E6522CE71CCB00C74D97 /* huaxin */,
 			);
 			name = SmartBracelet;
 			productName = TJDWristbandSDKDemo;

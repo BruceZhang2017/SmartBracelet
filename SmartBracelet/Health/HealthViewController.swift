@@ -476,22 +476,26 @@ class HealthViewController: BaseViewController {
     }
     
     @IBAction func addDevice(_ sender: Any) {
-        let count = DeviceManager.shared.devices.count
-        let storyboard = UIStoryboard(name: "Device", bundle: nil)
-        if count == 0 {
-            let vc = storyboard.instantiateViewController(withIdentifier: "DeviceSearchViewController") as? DeviceSearchViewController
-            vc?.title = "device_add".localized()
-            vc?.refreshBackButton()
-            vc?.hidesBottomBarWhenPushed = true
-            navigationController?.pushViewController(vc!, animated: true)
-        } else {
-            let vc = storyboard.instantiateViewController(withIdentifier: "DeviceListViewController") as? DeviceListViewController
-            vc?.title = "device_change".localized()
-            vc?.refreshBackButton()
-            vc?.style = 1
-            vc?.hidesBottomBarWhenPushed = true
-            navigationController?.pushViewController(vc!, animated: true)
-        }
+//        let count = DeviceManager.shared.devices.count
+//        let storyboard = UIStoryboard(name: "Device", bundle: nil)
+//        if count == 0 {
+//            let vc = storyboard.instantiateViewController(withIdentifier: "DeviceSearchViewController") as? DeviceSearchViewController
+//            vc?.title = "device_add".localized()
+//            vc?.refreshBackButton()
+//            vc?.hidesBottomBarWhenPushed = true
+//            navigationController?.pushViewController(vc!, animated: true)
+//        } else {
+//            let vc = storyboard.instantiateViewController(withIdentifier: "DeviceListViewController") as? DeviceListViewController
+//            vc?.title = "device_change".localized()
+//            vc?.refreshBackButton()
+//            vc?.style = 1
+//            vc?.hidesBottomBarWhenPushed = true
+//            navigationController?.pushViewController(vc!, animated: true)
+//        }
+        let vc = BluetoothTestViewController()
+        vc.title = "测试"
+        vc.hidesBottomBarWhenPushed = true
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     private func refreshValue(label: UILabel?, value: String, unit: String, size1: CGFloat, size2: CGFloat) {

@@ -124,9 +124,7 @@ class MTabBarController: UITabBarController {
     }
 
     @objc func handleDeviceConnected(_ notification: Notification) {
-        // start_ai_generated
         let obj = notification.object as? String ?? ""
-        // end_ai_generated
         if obj == "disconnect" {
             (selectedViewController as? UINavigationController)?.popToRootViewController(animated: true)
         }

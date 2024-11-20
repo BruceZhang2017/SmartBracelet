@@ -61,18 +61,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     public func pushToTab() {
-//        if !CacheHelper().getCacheBool(name: "first") {
-//            let sb = UIStoryboard(name: "Main", bundle: nil)
-//            let vc = sb.instantiateViewController(withIdentifier: "GuideViewController")
-//            window?.rootViewController = vc
-//            return
-//        }
-//        if UserManager.sharedInstall.user == nil {
-//            return
-//        }
+        if !CacheHelper().getCacheBool(name: "first") {
+            let sb = UIStoryboard(name: "Main", bundle: nil)
+            let vc = sb.instantiateViewController(withIdentifier: "GuideViewController")
+            window?.rootViewController = vc
+            return
+        }
         let sb = UIStoryboard(name: "Main", bundle: nil)
         let vc = sb.instantiateViewController(withIdentifier: "MTabBarController")
         window?.rootViewController = vc
+        //window?.rootViewController = UINavigationController(rootViewController: BluetoothTestViewController())
     }
     
     private func setupConfig() {
