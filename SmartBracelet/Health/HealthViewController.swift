@@ -76,11 +76,6 @@ class HealthViewController: BaseViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(handleDidEnterBackgroundNotification), name: UIApplication.didEnterBackgroundNotification, object: nil)
         
         
-        if lastestDeviceMac.count == 0 {
-//            pressureView.isHidden = true
-//            bleedView.isHidden = true
-        }
-        
         if isSupportAlipay {
             AliConnectMananger_C.shared.bleSendDataDelegate = self // 阿里云相关逻辑
             
@@ -181,10 +176,7 @@ class HealthViewController: BaseViewController {
     }
     
     private func refreshUIForBleed() {
-        if lastestDeviceMac.count > 0 {
-//            pressureView.isHidden = false
-//            bleedView.isHidden = false
-        }
+        
     }
     
     deinit {
@@ -837,7 +829,11 @@ extension HealthViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // 然后取消选中效果
         tableView.deselectRow(at: indexPath, animated: false)
-        flag = 2 + indexPath.item
+        if indexPath.item == 2 {
+            flag = 2 + 3
+        } else {
+            flag = 2 + indexPath.item
+        }
         let vc = HealthDetailViewController()
         vc.type = flag
         vc.hidesBottomBarWhenPushed = true
@@ -851,7 +847,7 @@ extension HealthViewController: UITableViewDataSource {
         if lastestDeviceMac.count <= 0 {
             return 0
         }
-        return 4 // 你有4个cells
+        return 3 // 你有4个cells
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -867,10 +863,12 @@ extension HealthViewController: UITableViewDataSource {
             cell.configureCell(icon: UIImage(named: "health_sleep"), leftTitle: "health_sleep".localized(), rightTitle: arrayValue[indexPath.item])
             cell.temImageView.image = UIImage(named: "health_sleep_t")
             cell.temImageView.isHidden = true
-        } else if indexPath.item == 2 {
-            cell.configureCell(icon: UIImage(named: "health_bloodpressure"), leftTitle: "health_blood_pressure".localized(), rightTitle: arrayValue[indexPath.item])
-            cell.temImageView.isHidden = true
-        } else {
+        }
+//        else if indexPath.item == 2 {
+//            cell.configureCell(icon: UIImage(named: "health_bloodpressure"), leftTitle: "health_blood_pressure".localized(), rightTitle: arrayValue[indexPath.item])
+//            cell.temImageView.isHidden = true
+//        }
+        else {
             cell.configureCell(icon: UIImage(named: "health_bloodoxygen"), leftTitle: "health_blood_oxygen".localized(), rightTitle: arrayValue[indexPath.item])
             cell.temImageView.isHidden = true
         }
