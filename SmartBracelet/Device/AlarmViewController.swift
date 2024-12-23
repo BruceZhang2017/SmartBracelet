@@ -30,11 +30,36 @@ class AlarmViewController: BaseViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        Async.main(after: 1) {
-            if BLEManager.shared.alarmArray.count == 0 {
-                bleSelf.getAlarmForWristband() // 获取闹钟信息
+        if isXGZT {
+            if XGZTBlueToothManager.shared.device?.alarmcount ?? 0 == 0 {
+                setupNavigationBar()
+            }
+        } else {
+            Async.main(after: 1) {
+                if BLEManager.shared.alarmArray.count == 0 {
+                    bleSelf.getAlarmForWristband() // 获取闹钟信息
+                }
             }
         }
+        
+    }
+    
+    private func setupNavigationBar() {
+        // 创建一个图片按钮
+        if let image = UIImage(named: "icon_add3")?.withRenderingMode(.alwaysTemplate) {
+            let rightButton = UIBarButtonItem(image: image, style: .plain, target: self, action: #selector(rightButtonTapped))
+            
+            // 设置按钮图片颜色为黑色
+            rightButton.tintColor = .black
+            
+            // 将按钮添加到导航栏的右侧
+            navigationItem.rightBarButtonItem = rightButton
+        }
+    }
+
+    @objc private func rightButtonTapped() {
+        let vc = storyboard?.instantiateViewController(withIdentifier: "AlarmAddViewController") as! AlarmAddViewController
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     deinit {
@@ -101,12 +126,48 @@ class AlarmViewController: BaseViewController {
             return value
         }
     }
+    
+    private func refreshWeekValue(alarm: AlarmData?) -> String {
+        let weekday = alarm?.alarmCycle ?? 0
+        var value = ""
+        if ((weekday >> 1) & 0x01) > 0 {
+            value += "\("mine_monday".localized())、"
+        }
+        if ((weekday >> 2) & 0x01) > 0  {
+            value += "\("mine_satuday".localized())、"
+        }
+        if ((weekday >> 3) & 0x01) > 0  {
+            value += "\("mine_wednesday".localized())、"
+        }
+        if ((weekday >> 4) & 0x01) > 0  {
+            value += "\("mine_thursday".localized())、"
+        }
+        if ((weekday >> 5) & 0x01) > 0  {
+            value += "\("mine_friday".localized())、"
+        }
+        if ((weekday >> 6) & 0x01) > 0  {
+            value += "\("mine_saturday".localized())、"
+        }
+        if (weekday & 0x01) > 0 {
+            value += "\("mine_sunday".localized())、"
+        }
+        if value.count == 0 {
+            return "mine_null".localized()
+        } else {
+            let _ = value.removeLast()
+            return value
+        }
+    }
 }
 
 extension AlarmViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return BLEManager.shared.alarmArray.count
+        if isXGZT {
+            return XGZTBlueToothManager.shared.device?.alarms.count ?? 0
+        } else {
+            return BLEManager.shared.alarmArray.count
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -116,8 +177,6 @@ extension AlarmViewController: UITableViewDataSource {
         cell.detailTextLabel?.textColor = UIColor.text_third
         cell.detailTextLabel?.font = UIFont.body2()
         
-        let model = BLEManager.shared.alarmArray[indexPath.row]
-        cell.textLabel?.text = "\(String(format: "%02d", model.hour)):\(String(format: "%02d", model.minute))"
         var mSwitch = cell.viewWithTag(999 + indexPath.row) as? UISwitch
         if mSwitch == nil {
             mSwitch = UISwitch()
@@ -125,8 +184,19 @@ extension AlarmViewController: UITableViewDataSource {
         }
         mSwitch?.addTarget(self, action: #selector(valueChanged(_:)), for: .valueChanged)
         cell.accessoryView = mSwitch!
-        mSwitch?.isOn = model.isOn
-        cell.detailTextLabel?.text = "\("mine_repeat_mode".localized()) \(refreshWeekValue(model: model))"
+        
+        if isXGZT {
+            let alarm = XGZTBlueToothManager.shared.device?.alarms[indexPath.row]
+            cell.textLabel?.text = "\(String(format: "%02d", alarm?.alarmHour ?? 0)):\(String(format: "%02d", alarm?.alarmMinute ?? 0))"
+            cell.detailTextLabel?.text = "\("mine_repeat_mode".localized()) \(refreshWeekValue(alarm: alarm))"
+            mSwitch?.isOn = (alarm?.mswitch ?? 0) > 0
+        } else {
+            let model = BLEManager.shared.alarmArray[indexPath.row]
+            cell.textLabel?.text = "\(String(format: "%02d", model.hour)):\(String(format: "%02d", model.minute))"
+            cell.detailTextLabel?.text = "\("mine_repeat_mode".localized()) \(refreshWeekValue(model: model))"
+            mSwitch?.isOn = model.isOn
+        }
+        
         return cell
     }
 }
@@ -134,10 +204,16 @@ extension AlarmViewController: UITableViewDataSource {
 extension AlarmViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        let model = BLEManager.shared.alarmArray[indexPath.row]
+        
         let vc = storyboard?.instantiateViewController(withIdentifier: "AlarmAddViewController") as! AlarmAddViewController
-        vc.weekday = model.weekday
-        vc.alarm = model
+        if isXGZT {
+            let alarm = XGZTBlueToothManager.shared.device?.alarms[indexPath.row]
+            vc.alarmData = alarm
+        } else {
+            let model = BLEManager.shared.alarmArray[indexPath.row]
+            vc.weekday = model.weekday
+            vc.alarm = model
+        }
         navigationController?.pushViewController(vc, animated: true)
     }
 }

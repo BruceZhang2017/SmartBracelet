@@ -54,15 +54,20 @@ class MarketClockViewController: UIViewController {
     
     private func downloadClock() {
         ProgressHUD.animate(nil, .activityIndicator, interaction: false)
-        let w = bleSelf.bleModel.screenWidth
-        let h = bleSelf.bleModel.screenHeight
+        var w = bleSelf.bleModel.screenWidth
+        var h = bleSelf.bleModel.screenHeight
         var firmNo = bleSelf.isJLBlue ? "JieLi" : "FengJiaWei"
         let bk = bleSelf.bleModel.internalNumber.hasPrefix("5A4B") // 是否为中科
         if bk {
             firmNo = "ZhongKe"
         }
+        if isXGZT {
+            firmNo = "ZhongKe_S"
+            w = 240
+            h = 296
+        }
         let parameters = ["pageSize": "100", "pageNum": "1", "isPublish": "Y", "resolutionRatio": "\(w)*\(h)", "firmNo": firmNo]
-        AF.request("https://u-watch.com.cn/api/app/dial/list?pageSize=100&pageNum=1", method: .post, parameters: parameters, encoder: JSONParameterEncoder.default).response { [weak self] (response) in
+        AF.request("https://u-watch.com.cn/api/app/dial/list?pageSize=100&pageNum=1&firmNo=ZhongKe_S", method: .post, parameters: parameters, encoder: JSONParameterEncoder.default).response { [weak self] (response) in
             debugPrint("Request: \((String(data:response.request?.httpBody ?? Data(),encoding:.utf8) ?? "")) Response: \(response.debugDescription)")
             ProgressHUD.dismiss()
             guard let data = response.value as? Data else {
@@ -103,7 +108,7 @@ extension MarketClockViewController: UICollectionViewDataSource {
 
 extension MarketClockViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if !bleSelf.isConnected {
+        if !bleSelf.isConnected && XGZTBlueToothManager.shared.device == nil {
             Toast(text: "mine_unconnect".localized()).show()
             return
         }

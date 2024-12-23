@@ -21,25 +21,36 @@ class AlarmAddViewController: BaseViewController {
     @IBOutlet weak var laterTipLabel: UILabel!
     var alarm: WUAlarmClock!
     var weekday = 0
+    var alarmData: AlarmData?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "device_alarm_settings".localized()
-        if weekday >= 0 {
-            refreshWeekValue()
-        }
-        let dateFormatter = DateFormatter();
-        dateFormatter.dateFormat = "HH:mm";
-        let date = dateFormatter.date(from: "\(String(format: "%02d", alarm.hour)):\(String(format: "%02d", alarm.minute))")
-        if date != nil {
-            datePicker.setDate(date!, animated: true)
+        if isXGZT {
+            if alarmData != nil {
+                let dateFormatter = DateFormatter()
+                dateFormatter.dateFormat = "HH:mm"
+                let date = dateFormatter.date(from: "\(String(format: "%02d", alarmData?.alarmHour ?? 0)):\(String(format: "%02d", alarmData?.alarmMinute ?? 0))")
+                if date != nil {
+                    datePicker.setDate(date!, animated: true)
+                }
+            }
+        } else {
+            if weekday >= 0 {
+                refreshWeekValue()
+            }
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "HH:mm"
+            let date = dateFormatter.date(from: "\(String(format: "%02d", alarm.hour)):\(String(format: "%02d", alarm.minute))")
+            if date != nil {
+                datePicker.setDate(date!, animated: true)
+            }
         }
         if #available(iOS 13.4, *) {
             datePicker.preferredDatePickerStyle = .wheels
         } else {
             // Fallback on earlier versions
         }
-        
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "mine_save".localized(), style: .plain, target: self, action: #selector(save))
         laterTipLabel.text = "mine_alarm_late_amind".localized()
@@ -48,7 +59,15 @@ class AlarmAddViewController: BaseViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        lateLabel.text = "\(alarm.repeatInterval)\("minute".localized())"
+        if isXGZT {
+            if alarmData != nil {
+                lateLabel.text = "\(alarmData?.remindLater ?? 0)\("minute".localized())"
+            } else {
+                alarmData = AlarmData(alarmIndex: 0, mswitch: 0, alarmCycle: 0, alarmHour: 0, alarmMinute: 0, vibrationMode: 0, remindLater: 0)
+            }
+        } else {
+            lateLabel.text = "\(alarm.repeatInterval)\("minute".localized())"
+        }
     }
     
     @objc private func save() {
@@ -56,31 +75,59 @@ class AlarmAddViewController: BaseViewController {
         formatter.dateFormat = "HH:mm"
         let value = formatter.string(from: datePicker.date)
         let array = value.split(separator: ":")
-        if array.count == 2 {
-            alarm.hour = Int(array[0]) ?? 0
-            alarm.minute = Int(array[1]) ?? 0
+        if isXGZT {
+            if array.count == 2 {
+                alarmData?.alarmHour = Int(array[0]) ?? 0
+                alarmData?.alarmMinute = Int(array[1]) ?? 0
+            }
+            alarmData?.mswitch = 1
+            alarmData?.vibrationMode = 1
+            XGZTCommand.setAlarmInfo(setCmd: 0, alarm: alarmData!)
+        } else {
+            if array.count == 2 {
+                alarm.hour = Int(array[0]) ?? 0
+                alarm.minute = Int(array[1]) ?? 0
+            }
+            alarm.isOn = true
+            bleSelf.setAlarmForWristband(alarm)
         }
-        alarm.isOn = true
-        bleSelf.setAlarmForWristband(alarm)
         navigationController?.popViewController(animated: true)
     }
     
     @IBAction func setLateTime(_ sender: Any) {
         let vc = storyboard?.instantiateViewController(withIdentifier: "AlarmIntervalViewController") as? AlarmIntervalViewController
-        vc?.alarm = alarm
+        if isXGZT {
+            vc?.alarmData = alarmData
+        } else {
+            vc?.alarm = alarm
+        }
         navigationController?.pushViewController(vc!, animated: true)
     }
     
     @IBAction func repeatDate(_ sender: Any) {
         let vc = storyboard?.instantiateViewController(withIdentifier: "AlarmRepeatViewController") as? AlarmRepeatViewController
-        vc?.weekday = weekday
+        if isXGZT {
+            vc?.alarmCycle = alarmData?.alarmCycle ?? 0
+        }else {
+            vc?.weekday = weekday
+        }
         navigationController?.pushViewController(vc!, animated: true)
-        vc?.callbackBlock = {
-            [weak self] (value) in
-            self?.weekday = value
-            self?.alarm.weekday = value
-            if value >= 0 {
-                self?.refreshWeekValue()
+        if isXGZT {
+            vc?.callbackBlock = {
+                [weak self] (value) in
+                self?.alarmData?.alarmCycle = value
+                if value >= 0 {
+                    self?.refreshWeekValue()
+                }
+            }
+        } else {
+            vc?.callbackBlock = {
+                [weak self] (value) in
+                self?.weekday = value
+                self?.alarm.weekday = value
+                if value >= 0 {
+                    self?.refreshWeekValue()
+                }
             }
         }
     }

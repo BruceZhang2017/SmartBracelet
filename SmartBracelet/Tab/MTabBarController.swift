@@ -14,12 +14,14 @@ import UIKit
 import TJDWristbandSDK
 import Toaster
 
-var lastestDeviceMac: String = ""
+var lastestDeviceMac: String = "" // 最后连接的设备mac地址
+var isXGZT = false // 自研手表
 
 class MTabBarController: UITabBarController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        XGZTBlueToothManager.shared.initCentral() // 自定义协议初始化
         BLEManager.shared.regNotification()
         setupLastestDeviceMac()
         setupViewControllersTitles()

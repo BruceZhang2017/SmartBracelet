@@ -38,7 +38,7 @@ pod 'RxSwift'
 
 pod 'CryptoSwift'
 pod 'IotLinkKit', '1.2.1'
-pod 'RxBluetoothKit'
+#pod 'RxBluetoothKit'
 
   post_install do |installer|
     #调用移除函数
@@ -48,7 +48,7 @@ pod 'RxBluetoothKit'
         config.build_settings['ENABLE_BITCODE'] ='NO'
         config.build_settings['ENABLE_STRICT_OBJC_MSGSEND'] = 'NO'
         config.build_settings['APPLICATION_EXTENSION_API_ONLY'] = 'NO'
-        config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '12.0'
+        config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '13.0'
       end
     end
   end

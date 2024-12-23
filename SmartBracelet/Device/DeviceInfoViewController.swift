@@ -45,13 +45,13 @@ extension DeviceInfoViewController: UITableViewDataSource {
         cell.detailTextLabel?.font = UIFont.body1()
         cell.textLabel?.text = titles[indexPath.row]
         if indexPath.row == 0 {
-            cell.detailTextLabel?.text = bleSelf.bleModel.name
+            cell.detailTextLabel?.text = isXGZT ? XGZTBlueToothManager.shared.device?.deviceName ?? "" : bleSelf.bleModel.name
         } else if indexPath.row == 1 {
-            cell.detailTextLabel?.text = bleSelf.bleModel.mac
+            cell.detailTextLabel?.text =  isXGZT ? XGZTBlueToothManager.shared.device?.max ?? "" : bleSelf.bleModel.mac
         } else if indexPath.row == 2 {
-            cell.detailTextLabel?.text = "V" + bleSelf.bleModel.firmwareVersion
+            cell.detailTextLabel?.text = "V" + (isXGZT ? XGZTBlueToothManager.shared.device?.firmwareVersion ?? "" : bleSelf.bleModel.firmwareVersion)
         } else {
-            cell.detailTextLabel?.text = "V" + bleSelf.bleModel.hardwareVersion
+            cell.detailTextLabel?.text = "V" + (isXGZT ? "\(XGZTBlueToothManager.shared.device?.hardwareVersion ?? 0).0" : bleSelf.bleModel.hardwareVersion)
         }
         return cell
     }

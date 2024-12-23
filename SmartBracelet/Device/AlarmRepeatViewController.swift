@@ -15,6 +15,7 @@ import UIKit
 class AlarmRepeatViewController: BaseViewController {
     @IBOutlet weak var tableView: UITableView!
     var weekday: Int = 0
+    var alarmCycle: Int = 0
     var callbackBlock: ((Int) -> ())?
     
     override func viewDidLoad() {
@@ -25,7 +26,11 @@ class AlarmRepeatViewController: BaseViewController {
     }
     
     @objc private func submit(_ sender: Any) {
-        callbackBlock?(weekday)
+        if isXGZT {
+            callbackBlock?(alarmCycle)
+        } else {
+            callbackBlock?(weekday)
+        }
         navigationController?.popViewController(animated: true)
     }
 
@@ -42,47 +47,93 @@ extension AlarmRepeatViewController: UITableViewDataSource {
         cell.textLabel?.textColor = UIColor.k343434
         cell.textLabel?.font = UIFont.systemFont(ofSize: 15)
         cell.textLabel?.text = titles[indexPath.row]
-        if indexPath.row == 0 {
-            if ((weekday >> 1) & 0x01) > 0 {
-                cell.accessoryView = UIImageView(image: UIImage(named: "content_icon_select"))
+        if isXGZT {
+            if indexPath.row == 0 {
+                if ((alarmCycle >> 1) & 0x01) > 0 {
+                    cell.accessoryView = UIImageView(image: UIImage(named: "content_icon_select"))
+                } else {
+                    cell.accessoryView = nil
+                }
+            } else if indexPath.row == 1 {
+                if ((alarmCycle >> 2) & 0x01) > 0 {
+                    cell.accessoryView = UIImageView(image: UIImage(named: "content_icon_select"))
+                } else {
+                    cell.accessoryView = nil
+                }
+            } else if indexPath.row == 2 {
+                if ((alarmCycle >> 3) & 0x01) > 0 {
+                    cell.accessoryView = UIImageView(image: UIImage(named: "content_icon_select"))
+                } else {
+                    cell.accessoryView = nil
+                }
+            } else if indexPath.row == 3 {
+                if ((alarmCycle >> 4) & 0x01) > 0 {
+                    cell.accessoryView = UIImageView(image: UIImage(named: "content_icon_select"))
+                } else {
+                    cell.accessoryView = nil
+                }
+            } else if indexPath.row == 4 {
+                if ((alarmCycle >> 5) & 0x01) > 0 {
+                    cell.accessoryView = UIImageView(image: UIImage(named: "content_icon_select"))
+                } else {
+                    cell.accessoryView = nil
+                }
+            } else if indexPath.row == 5 {
+                if ((alarmCycle >> 6) & 0x01) > 0 {
+                    cell.accessoryView = UIImageView(image: UIImage(named: "content_icon_select"))
+                } else {
+                    cell.accessoryView = nil
+                }
             } else {
-                cell.accessoryView = nil
-            }
-        } else if indexPath.row == 1 {
-            if ((weekday >> 2) & 0x01) > 0 {
-                cell.accessoryView = UIImageView(image: UIImage(named: "content_icon_select"))
-            } else {
-                cell.accessoryView = nil
-            }
-        } else if indexPath.row == 2 {
-            if ((weekday >> 3) & 0x01) > 0 {
-                cell.accessoryView = UIImageView(image: UIImage(named: "content_icon_select"))
-            } else {
-                cell.accessoryView = nil
-            }
-        } else if indexPath.row == 3 {
-            if ((weekday >> 4) & 0x01) > 0 {
-                cell.accessoryView = UIImageView(image: UIImage(named: "content_icon_select"))
-            } else {
-                cell.accessoryView = nil
-            }
-        } else if indexPath.row == 4 {
-            if ((weekday >> 5) & 0x01) > 0 {
-                cell.accessoryView = UIImageView(image: UIImage(named: "content_icon_select"))
-            } else {
-                cell.accessoryView = nil
-            }
-        } else if indexPath.row == 5 {
-            if ((weekday >> 6) & 0x01) > 0 {
-                cell.accessoryView = UIImageView(image: UIImage(named: "content_icon_select"))
-            } else {
-                cell.accessoryView = nil
+                if (alarmCycle & 0x01) > 0 {
+                    cell.accessoryView = UIImageView(image: UIImage(named: "content_icon_select"))
+                } else {
+                    cell.accessoryView = nil
+                }
             }
         } else {
-            if (weekday & 0x01) > 0 {
-                cell.accessoryView = UIImageView(image: UIImage(named: "content_icon_select"))
+            if indexPath.row == 0 {
+                if ((weekday >> 1) & 0x01) > 0 {
+                    cell.accessoryView = UIImageView(image: UIImage(named: "content_icon_select"))
+                } else {
+                    cell.accessoryView = nil
+                }
+            } else if indexPath.row == 1 {
+                if ((weekday >> 2) & 0x01) > 0 {
+                    cell.accessoryView = UIImageView(image: UIImage(named: "content_icon_select"))
+                } else {
+                    cell.accessoryView = nil
+                }
+            } else if indexPath.row == 2 {
+                if ((weekday >> 3) & 0x01) > 0 {
+                    cell.accessoryView = UIImageView(image: UIImage(named: "content_icon_select"))
+                } else {
+                    cell.accessoryView = nil
+                }
+            } else if indexPath.row == 3 {
+                if ((weekday >> 4) & 0x01) > 0 {
+                    cell.accessoryView = UIImageView(image: UIImage(named: "content_icon_select"))
+                } else {
+                    cell.accessoryView = nil
+                }
+            } else if indexPath.row == 4 {
+                if ((weekday >> 5) & 0x01) > 0 {
+                    cell.accessoryView = UIImageView(image: UIImage(named: "content_icon_select"))
+                } else {
+                    cell.accessoryView = nil
+                }
+            } else if indexPath.row == 5 {
+                if ((weekday >> 6) & 0x01) > 0 {
+                    cell.accessoryView = UIImageView(image: UIImage(named: "content_icon_select"))
+                } else {
+                    cell.accessoryView = nil
+                }
             } else {
-                cell.accessoryView = nil
+                if (weekday & 0x01) > 0 {
+                    cell.accessoryView = UIImageView(image: UIImage(named: "content_icon_select"))
+                } else {
+                    cell.accessoryView = nil
+                }
             }
         }
         return cell
@@ -92,47 +143,93 @@ extension AlarmRepeatViewController: UITableViewDataSource {
 extension AlarmRepeatViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        if indexPath.row == 0 {
-            if ((weekday >> 1) & 0x01) > 0 {
-                weekday = weekday - 2
+        if isXGZT {
+            if indexPath.row == 0 {
+                if ((alarmCycle >> 1) & 0x01) > 0 {
+                    alarmCycle = alarmCycle - 2
+                } else {
+                    alarmCycle = alarmCycle + 2
+                }
+            } else if indexPath.row == 1 {
+                if ((alarmCycle >> 2) & 0x01) > 0 {
+                    alarmCycle = alarmCycle - 4
+                } else {
+                    alarmCycle = alarmCycle + 4
+                }
+            } else if indexPath.row == 2 {
+                if ((alarmCycle >> 3) & 0x01) > 0 {
+                    alarmCycle = alarmCycle - 8
+                } else {
+                    alarmCycle = alarmCycle + 8
+                }
+            } else if indexPath.row == 3 {
+                if ((alarmCycle >> 4) & 0x01) > 0 {
+                    alarmCycle = alarmCycle - 16
+                } else {
+                    alarmCycle = alarmCycle + 16
+                }
+            } else if indexPath.row == 4 {
+                if ((alarmCycle >> 5) & 0x01) > 0 {
+                    alarmCycle = alarmCycle - 32
+                } else {
+                    alarmCycle = alarmCycle + 32
+                }
+            } else if indexPath.row == 5 {
+                if ((alarmCycle >> 6) & 0x01) > 0 {
+                    alarmCycle = alarmCycle - 64
+                } else {
+                    alarmCycle = alarmCycle + 64
+                }
             } else {
-                weekday = weekday + 2
-            }
-        } else if indexPath.row == 1 {
-            if ((weekday >> 2) & 0x01) > 0 {
-                weekday = weekday - 4
-            } else {
-                weekday = weekday + 4
-            }
-        } else if indexPath.row == 2 {
-            if ((weekday >> 3) & 0x01) > 0 {
-                weekday = weekday - 8
-            } else {
-                weekday = weekday + 8
-            }
-        } else if indexPath.row == 3 {
-            if ((weekday >> 4) & 0x01) > 0 {
-                weekday = weekday - 16
-            } else {
-                weekday = weekday + 16
-            }
-        } else if indexPath.row == 4 {
-            if ((weekday >> 5) & 0x01) > 0 {
-                weekday = weekday - 32
-            } else {
-                weekday = weekday + 32
-            }
-        } else if indexPath.row == 5 {
-            if ((weekday >> 6) & 0x01) > 0 {
-                weekday = weekday - 64
-            } else {
-                weekday = weekday + 64
+                if (alarmCycle & 0x01) > 0 {
+                    alarmCycle = alarmCycle - 1
+                } else {
+                    alarmCycle = alarmCycle + 1
+                }
             }
         } else {
-            if (weekday & 0x01) > 0 {
-                weekday = weekday - 1
+            if indexPath.row == 0 {
+                if ((weekday >> 1) & 0x01) > 0 {
+                    weekday = weekday - 2
+                } else {
+                    weekday = weekday + 2
+                }
+            } else if indexPath.row == 1 {
+                if ((weekday >> 2) & 0x01) > 0 {
+                    weekday = weekday - 4
+                } else {
+                    weekday = weekday + 4
+                }
+            } else if indexPath.row == 2 {
+                if ((weekday >> 3) & 0x01) > 0 {
+                    weekday = weekday - 8
+                } else {
+                    weekday = weekday + 8
+                }
+            } else if indexPath.row == 3 {
+                if ((weekday >> 4) & 0x01) > 0 {
+                    weekday = weekday - 16
+                } else {
+                    weekday = weekday + 16
+                }
+            } else if indexPath.row == 4 {
+                if ((weekday >> 5) & 0x01) > 0 {
+                    weekday = weekday - 32
+                } else {
+                    weekday = weekday + 32
+                }
+            } else if indexPath.row == 5 {
+                if ((weekday >> 6) & 0x01) > 0 {
+                    weekday = weekday - 64
+                } else {
+                    weekday = weekday + 64
+                }
             } else {
-                weekday = weekday + 1
+                if (weekday & 0x01) > 0 {
+                    weekday = weekday - 1
+                } else {
+                    weekday = weekday + 1
+                }
             }
         }
         tableView.reloadData()

@@ -13,7 +13,7 @@ import UIKit
 import Then
 import Toaster
 import TJDWristbandSDK
-
+import ABParTool
 
 var needStop = false
 
@@ -47,6 +47,7 @@ class MyClockViewController: UIViewController {
     var currentImage: UIImage?
     var currentPackage = 0
     var footView: CustomImageFooterView?
+    var packageNum = 0
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -71,6 +72,7 @@ class MyClockViewController: UIViewController {
         //壁纸推送
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotify(_:)), name: WristbandNotifyKeys.startImagePush, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotify(_:)), name: WristbandNotifyKeys.imagePush, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleNotifyXGZT(_:)), name: NSNotification.Name("MyClockViewController"), object: nil)
         
         footView = CustomImageFooterView(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: 160))
         tableView.tableFooterView = footView
@@ -123,6 +125,86 @@ class MyClockViewController: UIViewController {
         
         bleSelf.setImagePushSettings(bleSelf.dialSelectModel)
         DialSelectModel.setModel(bleSelf.dialSelectModel)
+    }
+    
+    private func startupdateCustomImage() {
+        guard let image = currentImage else {
+            return
+        }
+        // 从UIImage获取原始图像数据
+        guard let rawImageData = image.rawImageData else {
+            return
+        }
+        
+        let width = Int32(image.size.width)
+        let height = Int32(image.size.height)
+    
+        
+        // 转换原始图像数据到PAR格式
+        let parData = ParTool.par(fromRaw: rawImageData,
+                                  width: width,
+                                  height: height,
+                                  runAlpha: false,
+                                  useFilter: false,
+                                  supportRotate: false)
+        
+        // 最终展示的结果
+        if let parData {
+            binData = parData
+            XGZTCommand.dialMarketQuery(dataType: 0) // 查询mtu
+        }
+    }
+    
+    @objc func handleNotifyXGZT(_ notification: Notification) {
+        let obj = notification.object as? Int ?? 0 // 1.开始 2.成功 3.失败   自定义 4.配置，5.开始，6，成功，7.失败
+        let userinfo = notification.userInfo as? [String: String]
+        if obj == 4 {
+            let binsize = binData.count
+            let mtu = XGZTBlueToothManager.shared.device?.mtu ?? 0
+            var packageTotal = 0
+            guard mtu > 0 else {
+                fatalError("MTU should be greater than 0")
+            }
+
+            if binsize % (mtu / 8) == 0 {
+                packageTotal = binsize / (mtu / 8)
+            } else {
+                packageTotal = binsize / (mtu / 8) + 1
+            }
+            XGZTCommand.dialMarketSetTransferConfig(packageTotal: packageTotal, binSize: binsize, mtu: mtu, dialType: 1, dialNum: 1, local: 1, typeValue: 0 ,dialTypeValue: 0)
+        } else if obj == 5 {
+            packageNum += 1
+            let mtu = XGZTBlueToothManager.shared.device?.mtu ?? 0
+            let maxDataLength = mtu / 8
+            let bin = (packageNum - 1) * maxDataLength
+            let progress = bin * 100 / binData.count
+
+            // 计算子数据的范围
+            let range = bin..<min(bin + maxDataLength, binData.count)
+            let subData = binData.subdata(in: range)
+            var control = 0
+            if bin + maxDataLength >= binData.count {
+                control = 1
+            }
+            XGZTCommand.dialMarketTransferData(packageNum: packageNum, binNum: bin, progressBar: progress, control: control, data: subData)
+            
+            let d = Float(bin * 100) / Float(binData.count)
+            let s = String(format: "%.02f%%", d)
+            DispatchQueue.main.async {
+                [weak self] in
+                self?.imageUploadVc?.refreshProgress(p: s)
+            }
+            
+        } else if obj == 6 {
+            notif()
+        } else if obj == 7 {
+            DispatchQueue.main.async {
+                [weak self] in
+                self?.imageUploadVc?.dismiss(animated: false, completion: {
+                    
+                })
+            }
+        }
     }
     
     @objc func handleNotify(_ notify: Notification) {
@@ -216,8 +298,8 @@ class MyClockViewController: UIViewController {
             if self?.currentImage == nil {
                 return
             }
-            let w  = bleSelf.bleModel.screenWidth
-            let h = bleSelf.bleModel.screenHeight
+            let w  = isXGZT ? (XGZTBlueToothManager.shared.device?.screenWidth ?? 0) : bleSelf.bleModel.screenWidth
+            let h = isXGZT ? (XGZTBlueToothManager.shared.device?.screenHeight ?? 0) : bleSelf.bleModel.screenHeight
             let lastestDeviceMac = UserDefaults.standard.string(forKey: "LastestDeviceMac") ?? "00:00:00:00:00:00"
             self?.saveImage(currentImage: self!.currentImage!, imageName: "\(lastestDeviceMac)_\(w)_\(h)_\(timestamp).png")
             var lastStamp = UserDefaults.standard.dictionary(forKey: "lastStamp") ?? [:]
@@ -233,8 +315,8 @@ class MyClockViewController: UIViewController {
         let lastestDeviceMac = UserDefaults.standard.string(forKey: "LastestDeviceMac") ?? "00:00:00:00:00:00"
         var clockDir = UserDefaults.standard.dictionary(forKey: "MyClock") ?? [:]
         var clockStr = clockDir[lastestDeviceMac] as? [String] ?? ["_&&_&&_", "_&&_&&_", "_&&_&&_"]
-        let w  = bleSelf.bleModel.screenWidth
-        let h = bleSelf.bleModel.screenHeight
+        let w  = isXGZT ? (XGZTBlueToothManager.shared.device?.screenWidth ?? 0) : bleSelf.bleModel.screenWidth
+        let h = isXGZT ? (XGZTBlueToothManager.shared.device?.screenHeight ?? 0) : bleSelf.bleModel.screenHeight
         let imageN = "\(lastestDeviceMac)_\(w)_\(h)_\(timestamp).png"
         let fullPath = NSHomeDirectory().appending("/Documents/").appending(imageN)
         clockStr[index] = "\("custom_watch_face".localized())&&\(imageN)&&\(fullPath)"
@@ -530,6 +612,11 @@ extension MyClockViewController: EditClcokBottomTableViewCellDelegate {
 extension MyClockViewController: UploadImageDelegate {
     func startUpload(image: UIImage) {
         currentImage = image
+        if isXGZT {
+            startupdateCustomImage()
+            return
+        }
+        
         if bleSelf.isJLBlue {
             let data = bleSelf.getRGBData565FromImage(image: image)!
             self.total = Int(ceil(Double(data.count)/16))

@@ -30,7 +30,11 @@ class DeviceSearchViewController: BaseViewController {
         tableView.separatorStyle = .none
         
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: Notification.Name.SearchDevice, object: nil)
+        
+        XGZTBlueToothManager.shared.startScanning() // 开始扫描
         BLEManager.shared.startScan()
+        
+        
         btScanTipLabel.text = "device_search".localized()
         scanLabel.text = "device_scan".localized()
         scanCodeTipLabel.text = "device_scan_add_device".localized()
@@ -114,6 +118,10 @@ class DeviceSearchViewController: BaseViewController {
             ProgressHUD.dismiss()
             Toast(text: "连接失败").show()
         }
+        if objc == "connected_xgzt" { // 自研连接成功逻辑处理
+            ProgressHUD.dismiss()
+            navigationController?.popViewController(animated: true)
+        }
     }
     
     @IBAction func scanQRCode(_ sender: Any) {
@@ -182,11 +190,20 @@ extension DeviceSearchViewController: UITableViewDataSource {
         if indexPath.row < bleSelf.bleModels.count {
             let model = bleSelf.bleModels[indexPath.row]
             cell.deviceNameLabel.text = model.name + ""
-            if model.mac.count > 0 {
-                cell.deviceMacLabel.text = model.mac
+            if let advertisementData = model.advertisementData,
+               advertisementData.count == 15,
+               advertisementData[1] == 0x06 { // 自研设备
+                let range = 5..<11 // Convert ClosedRange to Range by adding 1 to the upper bound
+                cell.deviceMacLabel.text = advertisementData.subdata(in: range).hexEncodedString()
             } else {
-                cell.deviceMacLabel.text = "00:00:00:00:00:00"
+                if model.mac.count > 0 {
+                    cell.deviceMacLabel.text = model.mac
+                } else {
+                    cell.deviceMacLabel.text = "00:00:00:00:00:00"
+                }
             }
+            
+            print("设备的名称：\(model.name) 设备的mac：\(model.mac) 广播数据: \(String(describing: model.advertisementData?.hexEncodedStringNoBlank()))")
         }
         cell.selectionStyle = .none
         return cell
@@ -203,7 +220,17 @@ extension DeviceSearchViewController: UITableViewDelegate {
         ProgressHUD.animate(nil, .activityIndicator, interaction: false)
         bleSelf.stopFindBleDevices()
         let model = bleSelf.bleModels[indexPath.row]
-        bleSelf.connectBleDevice(model: model)
+        if let advertisementData = model.advertisementData,
+           advertisementData.count == 15,
+           advertisementData[1] == 0x06 { // 自研设备
+            let range = 5..<11
+            let macAddress = advertisementData.subdata(in: range).hexEncodedString()
+            XGZTBlueToothManager.shared.connect(to: macAddress)
+            print("连接自研设备：\(macAddress)")
+        } else {
+            bleSelf.connectBleDevice(model: model)
+        }
+        
     }
 }
 

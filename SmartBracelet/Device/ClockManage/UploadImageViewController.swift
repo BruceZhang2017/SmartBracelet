@@ -123,7 +123,7 @@ class UploadImageViewController: UIViewController {
     }
     
     @objc func handleUpload() {
-        if !bleSelf.isConnected {
+        if !bleSelf.isConnected && XGZTBlueToothManager.shared.device == nil {
             Toast(text: "mine_unconnect".localized()).show()
             return
         }

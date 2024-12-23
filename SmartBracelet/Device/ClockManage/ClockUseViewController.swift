@@ -31,6 +31,7 @@ class ClockUseViewController: BaseViewController {
     var clockName: String = ""
     var path = ""
     var currentClock: ClockResponse?
+    var packageNum = 0
     
     var imageUploadVc: UploadImageViewController?
     
@@ -38,11 +39,20 @@ class ClockUseViewController: BaseViewController {
         super.viewDidLoad()
         title = "dial_management".localized()
        
-        clockName = "\(bleSelf.bleModel.name)-\(index)"
+        if isXGZT {
+            clockName = "\(XGZTBlueToothManager.shared.device?.deviceName ?? "e watch")-\(index)"
+        } else {
+            clockName = "\(bleSelf.bleModel.name)-\(index)"
+        }
+        
         clockImageView.backgroundColor = UIColor.white
         if AppDelegate.IsDeviceNotRound() { // 方形
-            let w = bleSelf.bleModel.screenWidth
-            let h = bleSelf.bleModel.screenHeight
+            var w = bleSelf.bleModel.screenWidth
+            var h = bleSelf.bleModel.screenHeight
+            if isXGZT {
+                w = XGZTBlueToothManager.shared.device?.screenWidth ?? 240
+                h = XGZTBlueToothManager.shared.device?.screenHeight ?? 296
+            }
             ivWidthLC.constant = 165
             ivHeightLC.constant = CGFloat(165) * CGFloat(h) / CGFloat(w)
             clockImageView.layer.cornerRadius = 36
@@ -122,19 +132,24 @@ class ClockUseViewController: BaseViewController {
 
                 self?.rightButton.isEnabled = false
                 // 获取文件路径
-                BLEManager.shared.sendDialWithLocalBin(fileData)
+                if isXGZT {
+                    self?.binData = fileData
+                    XGZTCommand.dialMarketQuery(dataType: 0) // 查询mtu 
+                } else {
+                    BLEManager.shared.sendDialWithLocalBin(fileData)
+                }
                 
             }
             
             var clockDir = UserDefaults.standard.dictionary(forKey: "LoadingClock") ?? [:]
-            var loadingStr = clockDir[bleSelf.bleModel.mac] as? String ?? ""
+            var loadingStr = clockDir[lastestDeviceMac] as? String ?? ""
             let pName = self?.currentClock?.previewPic ?? ""
             if loadingStr.count > 0 {
                 loadingStr.append("&&&\(self?.clockName ?? "")&&\(pName)&&\(self?.path ?? "")")
             } else {
                 loadingStr.append("\(self?.clockName ?? "")&&\(pName)&&\(self?.path ?? "")")
             }
-            clockDir[bleSelf.bleModel.mac] = loadingStr
+            clockDir[lastestDeviceMac] = loadingStr
             UserDefaults.standard.setValue(clockDir, forKey: "LoadingClock")
             UserDefaults.standard.synchronize()
             
@@ -142,7 +157,7 @@ class ClockUseViewController: BaseViewController {
     }
     
     @objc private func handleOTA(_ sender: Any) {
-        if !bleSelf.isConnected {
+        if !bleSelf.isConnected && XGZTBlueToothManager.shared.device == nil {
             Toast(text: "mine_unconnect".localized()).show()
             return
         }
@@ -164,7 +179,11 @@ class ClockUseViewController: BaseViewController {
             }
             self?.rightButton.isEnabled = false
             if self?.binData != nil {
-                BLEManager.shared.sendDialWithLocalBin(self!.binData!)
+                if isXGZT {
+                    
+                } else {
+                    BLEManager.shared.sendDialWithLocalBin(self!.binData!)
+                }
             }
             
         }
@@ -189,7 +208,7 @@ class ClockUseViewController: BaseViewController {
     }
     
     @objc private func handleNotification(_ notification: Notification) {
-        let obj = notification.object as? Int ?? 0 // 1.开始 2.成功 3.失败
+        let obj = notification.object as? Int ?? 0 // 1.开始 2.成功 3.失败   自定义 4.配置，5.开始，6，成功，7.失败
         let userinfo = notification.userInfo as? [String: String]
         let p = userinfo?["p"] ?? ""
         if obj == 1 {
@@ -220,6 +239,59 @@ class ClockUseViewController: BaseViewController {
                 self?.refreshDialogForResult(value: false)
             }
             
+        } else if obj == 4 {
+            let binsize = binData.count
+            let mtu = XGZTBlueToothManager.shared.device?.mtu ?? 0
+            var packageTotal = 0
+            guard mtu > 0 else {
+                fatalError("MTU should be greater than 0")
+            }
+
+            if binsize % (mtu / 8) == 0 {
+                packageTotal = binsize / (mtu / 8)
+            } else {
+                packageTotal = binsize / (mtu / 8) + 1
+            }
+            XGZTCommand.dialMarketSetTransferConfig(packageTotal: packageTotal, binSize: binsize, mtu: mtu, dialType: 0, dialNum: 1, local: 0, typeValue: 0 ,dialTypeValue: 0)
+        } else if obj == 5 {
+            packageNum += 1
+            let mtu = XGZTBlueToothManager.shared.device?.mtu ?? 0
+            let maxDataLength = mtu / 8
+            let bin = (packageNum - 1) * maxDataLength
+            let progress = bin * 100 / binData.count
+
+            // 计算子数据的范围
+            let range = bin..<min(bin + maxDataLength, binData.count)
+            let subData = binData.subdata(in: range)
+            var control = 0
+            if bin + maxDataLength >= binData.count {
+                control = 1
+            }
+            XGZTCommand.dialMarketTransferData(packageNum: packageNum, binNum: bin, progressBar: progress, control: control, data: subData)
+            
+            let d = Float(bin * 100) / Float(binData.count)
+            let s = String(format: "%.02f%%", d)
+            DispatchQueue.main.async {
+                [weak self] in
+                self?.imageUploadVc?.refreshProgress(p: s)
+            }
+            
+            if packageNum == 1 {
+                DispatchQueue.main.async {
+                    [weak self] in
+                    self?.showDialog()
+                }
+            }
+        } else if obj == 6 {
+            DispatchQueue.main.async {
+                [weak self] in
+                self?.refreshDialogForResult(value: true)
+            }
+        } else if obj == 7 {
+            DispatchQueue.main.async {
+                [weak self] in
+                self?.refreshDialogForResult(value: false)
+            }
         }
     }
     

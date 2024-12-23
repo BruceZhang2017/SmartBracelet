@@ -279,17 +279,9 @@ extension BluetoothTestViewController: UITableViewDelegate, UITableViewDataSourc
             case "syncTime":
                 let timeZone = TimeZone.current.secondsFromGMT() / 3600
                 let utc = Int(Date().timeIntervalSince1970)
-                XGZTCommand.syncTime(timeZone: timeZone, utc: UInt32(utc), completion: { success in
-                    if success {
-                        self.interactionTextView.text += "同步时间成功\n"
-                    } else {
-                        self.interactionTextView.text += "同步时间失败\n"
-                    }
-                })
+                XGZTCommand.syncTime(timeZone: timeZone, utc: UInt32(utc))
             case "getBatteryLevel":
-                XGZTCommand.getBatteryLevel(completion: { response in
-                    self.interactionTextView.text += "电池电量：\(response.batteryLevel)，是否充电：\(response.isCharging)\n"
-                })
+                XGZTCommand.getBatteryLevel()
             // 其他方法类似添加处理逻辑
 
             default:

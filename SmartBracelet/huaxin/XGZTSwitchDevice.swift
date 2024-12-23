@@ -9,15 +9,104 @@
 import Foundation
 
 
-class BluetoothWatchDevice {
-    
+import Foundation
+
+public class BluetoothWatchDevice {
     // 手表设备信息属性
     var deviceName: String?
-    var deviceID: String?
+    var deviceModel: Int?
+    var deviceID: Int?
     var max: String?
     var batteryLevel: Int?
     var isCharging: Bool?
     var deviceLanguage: Int?
     var deviceUnitFormat: Int?
+    /// 硬件版本
+    /// hardware version
+    var hardwareVersion: Int?
+    /// 固件版本
+    /// Firmware version
+    var firmwareVersion: String?
+    /// 1 方形， 2 圆形,  自定义：屏幕形状: 0x00: 正⽅形, 0x01: 圆形, 0x02: ⻓⽅形
+    var screenType: Int = 1
+    /// 表盘宽 默认240
+    var screenWidth: Int = 240
+    /// 表盘高 默认240
+    var screenHeight: Int = 240
+    var mtu: Int = 0
     
+    var sex: Int = 0
+    var year: Int = 0
+    var height: Int = 0
+    var weight: Int = 0
+    var alarmcount: Int = 0
+    var alarms: [AlarmData] = [] // 闹钟
+    var longsit: ReminderInfoResponse?
+    var drinkWater: ReminderInfoResponse?
+    
+    // 开关类
+    var isAntilostSwitch: Bool = false // 防丢开关
+    var isRaisehandtobrightenscreen: Bool = false // 抬⼿亮屏开关
+    var isAutoSyncSwitch: Bool = false // ⾃动同步开关
+    var isSleepmonitoringSwitch: Bool = false // Sleep monitoring Switch
+    var isMessageremindermainswitch: Bool = false // 消息提醒总开关
+    var isRegularexercisedatauploadswitch: Bool = false // 整点上传运动数据开关
+    var isGoalachievementswitch: Bool = false // ⽬标达成开关
+    var isMessagescreendisplayswitch: Bool = false // 消息提醒亮屏开关
+    var isSoundswitch: Bool = false // 声⾳开关
+    var isVibrationswitch: Bool = false // 震动总开关
+    var isRegularhealthdatauploadswitch: Bool = false // 整点上传健康数据开关
+    var isMessagevibrationswitch: Bool = false // 消息提醒震动开关
+    
+    // 通知类
+    var isNullMessage: Bool = false // 五消息
+    var isIncomingCall: Bool = false // 来电
+    var isMissedCall: Bool = false // 未接来电
+    var isMessages: Bool = false // 短信
+    var isEmail: Bool = false // 邮件
+    var isSchedule: Bool = false // ⽇程
+    var isFacetime: Bool = false // Facetime
+    var isQQ: Bool = false // qq
+    var isSkype: Bool = false // Skype
+    var isWechat: Bool = false // Wechat
+    var isWhatsapp: Bool = false // Whatsapp
+    var isGmail: Bool = false // Gmail
+    var isHangout: Bool = false // Hangout
+    var isInbox: Bool = false // Inbox
+    var isLine: Bool = false // Line
+    var isTwitter: Bool = false
+    var isFacebook: Bool = false
+    var isFacebookMessenger: Bool = false
+    var isInstagram: Bool = false
+    var isWeibo: Bool = false
+    var isKakaotalk: Bool = false
+    var isFacebookpagemanager: Bool = false
+    var isViber: Bool = false
+    var isVkclient: Bool = false
+    var isTelegram: Bool = false
+    var isSnapchat: Bool = false
+    var isDingTalk: Bool = false
+    var isAlipay: Bool = false
+    var isTiktok: Bool = false
+    var isLinkedIn: Bool = false
+    
+    
+    
+    
+    // 存储设备信息到沙盒
+    func saveToSandbox(mac: String) {
+        let defaults = UserDefaults.standard
+        let keyPrefix = "\(mac)-"
+        defaults.set(deviceName, forKey: keyPrefix + "deviceName")
+        defaults.set(max, forKey: keyPrefix + "max")
+        defaults.synchronize()
+    }
+    
+    // 从沙盒读取设备信息
+    func loadFromSandbox(mac: String) {
+        let defaults = UserDefaults.standard
+        let keyPrefix = "\(mac)-"
+        deviceName = defaults.string(forKey: keyPrefix + "deviceName")
+        max = defaults.string(forKey: keyPrefix + "max")
+    }
 }

@@ -6,6 +6,16 @@
 //  Copyright © 2024 tjd. All rights reserved.
 //
 
+import UIKit
+
+//
+//  XGZTCommand.swift
+//  SmartBracelet
+//
+//  Created by anker on 2024/11/16.
+//  Copyright © 2024 tjd. All rights reserved.
+//
+
 import Foundation
 
 // 指令集
@@ -80,23 +90,23 @@ struct AlarmInfoResponse {
 }
 
 struct AlarmData {
-    let alarmIndex: Int
-    let mswitch: Int
-    let alarmCycle: Int
-    let alarmHour: Int
-    let alarmMinute: Int
-    let vibrationMode: Int
-    let remindLater: Int
+    var alarmIndex: Int
+    var mswitch: Int
+    var alarmCycle: Int
+    var alarmHour: Int
+    var alarmMinute: Int
+    var vibrationMode: Int
+    var remindLater: Int
 }
-    
+
 struct ReminderInfoResponse {
-    let eventType: Int
-    let cycle: Int
-    let startHour: Int
-    let startMinute: Int
-    let endHour: Int
-    let endMinute: Int
-    let period: Int
+    var eventType: Int
+    var cycle: Int
+    var startHour: Int
+    var startMinute: Int
+    var endHour: Int
+    var endMinute: Int
+    var period: Int
 }
 
 struct ContactInfoResponse {
@@ -158,7 +168,7 @@ public class XGZTCommand {
     public static let methods: [String] = ["syncTime", "getBatteryLevel"]
     
     // 同步时间
-    static func syncTime(timeZone: Int, utc: UInt32, completion: @escaping (Bool) -> Void) {
+    static func syncTime(timeZone: Int, utc: UInt32) {
         let command = createCommand(with: [
             0x00,
             XGZTCommands.syncTime.rawValue,
@@ -167,23 +177,16 @@ public class XGZTCommand {
             0x06,
             0x01,
             UInt8(timeZone),
-            UInt8((utc >> 24) & 0xFF),
-            UInt8((utc >> 16) & 0xFF),
+            UInt8(utc & 0xFF),
             UInt8((utc >> 8) & 0xFF),
-            UInt8(utc & 0xFF)
+            UInt8((utc >> 16) & 0xFF),
+            UInt8((utc >> 24) & 0xFF)
         ])
-        
-        XGZTBlueToothManager.shared.writeCharacteristic(command: command) { response in
-            guard response.count >= 6 else {
-                completion(false)
-                return
-            }
-            completion(response[5] == 0x00)
-        }
+        XGZTBlueToothManager.shared.writeCharacteristic(command: command)
     }
     
     // 获取电池电量
-    static func getBatteryLevel(completion: @escaping (BatteryLevelResponse) -> Void) {
+    static func getBatteryLevel() {
         let command = createCommand(with: [
             0x00,
             XGZTCommands.getBatteryLevel.rawValue,
@@ -192,21 +195,11 @@ public class XGZTCommand {
             0x01,
             0x00
         ])
-        
-        XGZTBlueToothManager.shared.writeCharacteristic(command: command) { response in
-            guard response.count >= 7 else {
-                // 这里可以根据具体需求进行更详细的错误处理，比如返回一个特定的错误值给调用者
-                completion(BatteryLevelResponse(batteryLevel: -1, isCharging: false))
-                return
-            }
-            let batteryLevel = Int(response[6] & 0x7F)
-            let isCharging = (response[6] & 0x80) != 0
-            completion(BatteryLevelResponse(batteryLevel: batteryLevel, isCharging: isCharging))
-        }
+        XGZTBlueToothManager.shared.writeCharacteristic(command: command)
     }
     
     // 设置屏幕亮度
-    static func setScreenBrightness(brightnessValue: Int, completion: @escaping ( Bool) -> Void) {
+    static func setScreenBrightness(brightnessValue: Int){
         let command = createCommand(with: [
             0x00,
             XGZTCommands.setScreenBrightness.rawValue,
@@ -215,34 +208,25 @@ public class XGZTCommand {
             0x01,
             UInt8(brightnessValue)
         ])
-        
-        XGZTBlueToothManager.shared.writeCharacteristic(command: command) { response in
-            guard response.count >= 6 else {
-                completion(false)
-                return
-            }
-            completion(response[5] == 0x00)
-        }
+        XGZTBlueToothManager.shared.writeCharacteristic(command: command)
     }
     
     // 获取设备语言
-    static func getDeviceLanguage(completion: @escaping (DeviceLanguageResponse) -> Void) {
+    static func getDeviceLanguage(language: Int) {
         let command = createCommand(with: [
             0x00,
             XGZTCommands.getDeviceLanguage.rawValue,
             0x01,
             0x00,
+            0x02,
             0x01,
-            0x00
+            UInt8(language)
         ])
-        
-        XGZTBlueToothManager.shared.writeCharacteristic(command: command) { response in
-            completion(DeviceLanguageResponse(languageType: Int(response[6])))
-        }
+        XGZTBlueToothManager.shared.writeCharacteristic(command: command)
     }
     
     // 设置设备单位格式
-    static func setDeviceUnitFormat(unitType: Int, completion: @escaping ( Bool) -> Void) {
+    static func setDeviceUnitFormat(unitType: Int) {
         let command = createCommand(with: [
             0x00,
             XGZTCommands.setDeviceUnitFormat.rawValue,
@@ -252,14 +236,11 @@ public class XGZTCommand {
             0x01,
             UInt8(unitType)
         ])
-        
-        XGZTBlueToothManager.shared.writeCharacteristic(command: command) { response in
-            completion(response[5] == 0x00)
-        }
+        XGZTBlueToothManager.shared.writeCharacteristic(command: command)
     }
     
     // 重置设备为出厂设置
-    static func resetToFactorySettings(completion: @escaping ( Bool) -> Void) {
+    static func resetToFactorySettings() {
         let command = createCommand(with: [
             0x00,
             XGZTCommands.resetToFactorySettings.rawValue,
@@ -268,14 +249,11 @@ public class XGZTCommand {
             0x01,
             0x00
         ])
-        
-        XGZTBlueToothManager.shared.writeCharacteristic(command: command) { response in
-            completion(response[5] == 0x00)
-        }
+        XGZTBlueToothManager.shared.writeCharacteristic(command: command)
     }
     
     // 设置设备亮屏时间
-    static func setDeviceScreenTimeout(screenTimeout: Int, completion: @escaping ( Bool) -> Void) {
+    static func setDeviceScreenTimeout(screenTimeout: Int) {
         let command = createCommand(with: [
             0x00,
             XGZTCommands.setDeviceScreenTimeout.rawValue,
@@ -288,14 +266,11 @@ public class XGZTCommand {
             UInt8((screenTimeout >> 8) & 0xFF),
             UInt8(screenTimeout & 0xFF)
         ])
-        
-        XGZTBlueToothManager.shared.writeCharacteristic(command: command) { response in
-            completion(response[5] == 0x00)
-        }
+        XGZTBlueToothManager.shared.writeCharacteristic(command: command)
     }
     
     // 设置勿扰功能
-    static func setDoNotDisturb(startHour: Int, startMinute: Int, endHour: Int, endMinute: Int, completion: @escaping ( Bool) -> Void) {
+    static func setDoNotDisturb(startHour: Int, startMinute: Int, endHour: Int, endMinute: Int) {
         let command = createCommand(with: [
             0x00,
             XGZTCommands.setDoNotDisturb.rawValue,
@@ -308,30 +283,24 @@ public class XGZTCommand {
             UInt8(endHour),
             UInt8(endMinute)
         ])
-        
-        XGZTBlueToothManager.shared.writeCharacteristic(command: command) { response in
-            completion(response[5] == 0x00)
-        }
+        XGZTBlueToothManager.shared.writeCharacteristic(command: command)
     }
     
     // 查找手环
-    static func findBand(completion: @escaping ( Bool) -> Void) {
+    static func findBand(p0: Int){
         let command = createCommand(with: [
             0x00,
             XGZTCommands.findBand.rawValue,
             0x01,
             0x00,
             0x01,
-            0x00
+            UInt8(p0)
         ])
-        
-        XGZTBlueToothManager.shared.writeCharacteristic(command: command) { response in
-            completion(response[5] == 0x00)
-        }
+        XGZTBlueToothManager.shared.writeCharacteristic(command: command)
     }
     
     // 查找手机
-    static func findPhone(completion: @escaping ( Bool) -> Void) {
+    static func findPhone() {
         let command = createCommand(with: [
             0x00,
             XGZTCommands.findPhone.rawValue,
@@ -340,14 +309,11 @@ public class XGZTCommand {
             0x01,
             0x00
         ])
-        
-        XGZTBlueToothManager.shared.writeCharacteristic(command: command) { response in
-            completion(response[5] == 0x00)
-        }
+        XGZTBlueToothManager.shared.writeCharacteristic(command: command)
     }
     
     // 设置天气单位
-    static func setWeatherUnit(unit: Int, completion: @escaping ( Bool) -> Void) {
+    static func setWeatherUnit(unit: Int) {
         let command = createCommand(with: [
             0x00,
             XGZTCommands.setWeatherUnit.rawValue,
@@ -356,14 +322,11 @@ public class XGZTCommand {
             0x01,
             UInt8(unit)
         ])
-        
-        XGZTBlueToothManager.shared.writeCharacteristic(command: command) { response in
-            completion(response[5] == 0x00)
-        }
+        XGZTBlueToothManager.shared.writeCharacteristic(command: command)
     }
     
     // 设置12小时/24小时时间制
-    static func set12H24HTimeFormat(format: Int, completion: @escaping ( Bool) -> Void) {
+    static func set12H24HTimeFormat(format: Int) {
         let command = createCommand(with: [
             0x00,
             XGZTCommands.set12H24HTimeFormat.rawValue,
@@ -372,14 +335,11 @@ public class XGZTCommand {
             0x01,
             UInt8(format)
         ])
-        
-        XGZTBlueToothManager.shared.writeCharacteristic(command: command) { response in
-            completion(response[5] == 0x00)
-        }
+        XGZTBlueToothManager.shared.writeCharacteristic(command: command)
     }
     
     // 获取设备信息
-    static func getDeviceInfo(completion: @escaping (DeviceInfoResponse) -> Void) {
+    static func getDeviceInfo() {
         let command = createCommand(with: [
             0x00,
             XGZTCommands.getDeviceInfo.rawValue,
@@ -388,19 +348,11 @@ public class XGZTCommand {
             0x01,
             0x00
         ])
-        
-        XGZTBlueToothManager.shared.writeCharacteristic(command: command) { response in
-            let watchType = Int(response[7])
-            let supportLanguage = self.getIntFromBytes(response, 8)
-            let serialNumber = self.getStringFromBytes(response, 12, 32)
-            let firmwareMajorVersion = Int(response[44])
-            let firmwareMinorVersion = Int(response[45])
-            completion(DeviceInfoResponse(watchType: watchType, supportLanguage: supportLanguage, serialNumber: serialNumber, firmwareMajorVersion: firmwareMajorVersion, firmwareMinorVersion: firmwareMinorVersion))
-        }
+        XGZTBlueToothManager.shared.writeCharacteristic(command: command)
     }
     
     // 设置应用端信息
-    static func setAppInfo(phoneType: Int, completion: @escaping ( Bool) -> Void) {
+    static func setAppInfo(phoneType: Int) {
         let command = createCommand(with: [
             0x00,
             XGZTCommands.setAppInfo.rawValue,
@@ -410,14 +362,11 @@ public class XGZTCommand {
             0x01,
             UInt8(phoneType)
         ])
-        
-        XGZTBlueToothManager.shared.writeCharacteristic(command: command) { response in
-            completion(response[5] == 0x00)
-        }
+        XGZTBlueToothManager.shared.writeCharacteristic(command: command)
     }
     
     // 获取个人信息
-    static func getPersonalInfo(completion: @escaping (PersonalInfo) -> Void) {
+    static func getPersonalInfo() {
         let command = createCommand(with: [
             0x00,
             XGZTCommands.personalInfo.rawValue,
@@ -426,18 +375,11 @@ public class XGZTCommand {
             0x01,
             0x00
         ])
-        
-        XGZTBlueToothManager.shared.writeCharacteristic(command: command) { response in
-            let sex = Int(response[6])
-            let year = Int(response[7])
-            let height = Int(response[8])
-            let weight = Int(response[9])
-            completion(PersonalInfo(sex: sex, year: year, height: height, weight: weight))
-        }
+        XGZTBlueToothManager.shared.writeCharacteristic(command: command)
     }
     
     // 设置个人信息
-    static func setPersonalInfo(sex: Int, year: Int, height: Int, weight: Int, completion: @escaping (Bool) -> Void) {
+    static func setPersonalInfo(sex: Int, year: Int, height: Int, weight: Int) {
         let command = createCommand(with: [
             0x00,
             XGZTCommands.personalInfo.rawValue,
@@ -450,14 +392,11 @@ public class XGZTCommand {
             UInt8(height),
             UInt8(weight)
         ])
-        
-        XGZTBlueToothManager.shared.writeCharacteristic(command: command) { response in
-            completion(response[5] == 0x00)
-        }
+        XGZTBlueToothManager.shared.writeCharacteristic(command: command)
     }
     
     // 获取开关状态
-    static func getSwitchStatus(completion: @escaping (SwitchStatusResponse) -> Void) {
+    static func getSwitchStatus() {
         let command = createCommand(with: [
             0x00,
             XGZTCommands.switchStatus.rawValue,
@@ -466,15 +405,11 @@ public class XGZTCommand {
             0x01,
             0x00
         ])
-        
-        XGZTBlueToothManager.shared.writeCharacteristic(command: command) { response in
-            let switchSettings = self.getIntFromBytes(response, 6)
-            completion(SwitchStatusResponse(switchSettings: switchSettings))
-        }
+        XGZTBlueToothManager.shared.writeCharacteristic(command: command)
     }
     
     // 设置开关状态
-    static func setSwitchStatus(switchSettings: Int, completion: @escaping (Bool) -> Void) {
+    static func setSwitchStatus(p0: UInt8, p1: UInt8) {
         let command = createCommand(with: [
             0x00,
             XGZTCommands.switchStatus.rawValue,
@@ -482,19 +417,16 @@ public class XGZTCommand {
             0x00,
             0x05,
             0x01,
-            UInt8((switchSettings >> 24) & 0xFF),
-            UInt8((switchSettings >> 16) & 0xFF),
-            UInt8((switchSettings >> 8) & 0xFF),
-            UInt8(switchSettings & 0xFF)
+            p0,
+            p1,
+            0x00,
+            0x00
         ])
-        
-        XGZTBlueToothManager.shared.writeCharacteristic(command: command) { response in
-            completion(response[5] == 0x00)
-        }
+        XGZTBlueToothManager.shared.writeCharacteristic(command: command)
     }
     
     // 绑定设备
-    static func bindDevice(completion: @escaping (Bool) -> Void) {
+    static func bindDevice() {
         let command = createCommand(with: [
             0x00,
             XGZTCommands.bindDevice.rawValue,
@@ -504,149 +436,112 @@ public class XGZTCommand {
             0x01,
             0x00
         ])
-        
-        XGZTBlueToothManager.shared.writeCharacteristic(command: command) { response in
-            completion(response[5] == 0x00)
-        }
+        XGZTBlueToothManager.shared.writeCharacteristic(command: command)
     }
     
     // 获取闹钟信息
-    static func getAlarmInfo(completion: @escaping (AlarmInfoResponse) -> Void) {
+    static func getAlarmInfo() {
         let command = createCommand(with: [
             0x00,
             XGZTCommands.alarmInfo.rawValue,
             0x01,
             0x00,
             0x02,
-            0x00
+            0x00,
+            0x01
         ])
-        
-        XGZTBlueToothManager.shared.writeCharacteristic(command: command) { response in
-            let alarmNum = Int(response[6])
-            var alarms: [AlarmData]? = nil
-            if alarmNum > 0 {
-                alarms = []
-                for i in 0..<alarmNum {
-                    let index = Int(response[7 + i * 7])
-                    let switchValue = Int(response[8 + i * 7])
-                    let cycle = Int(response[9 + i * 7])
-                    let hour = Int(response[10 + i * 7])
-                    let minute = Int(response[11 + i * 7])
-                    let vibration = Int(response[12 + i * 7])
-                    let later = Int(response[13 + i * 7])
-                    alarms?.append(AlarmData(alarmIndex: index, mswitch: switchValue, alarmCycle: cycle, alarmHour: hour, alarmMinute: minute, vibrationMode: vibration, remindLater: later))
-                }
-            }
-            completion(AlarmInfoResponse(alarmNum: alarmNum, alarms: alarms))
-        }
+        XGZTBlueToothManager.shared.writeCharacteristic(command: command)
     }
     
     // 设置闹钟信息
-    static func setAlarmInfo(setCmd: Int, alarmIndex: Int, switchValue: Int, alarmCycle: Int, alarmHour: Int, alarmMinute: Int, vibrationMode: Int, remindLater: Int, completion: @escaping (Bool) -> Void) {
+    static func setAlarmInfo(setCmd: Int, alarm: AlarmData) {
         let command = createCommand(with: [
             0x00,
             XGZTCommands.alarmInfo.rawValue,
             0x01,
             0x00,
             0x09,
+            0x01,
             UInt8(setCmd),
-            UInt8(alarmIndex),
-            UInt8(switchValue),
-            UInt8(alarmCycle),
-            UInt8(alarmHour),
-            UInt8(alarmMinute),
-            UInt8(vibrationMode),
-            UInt8(remindLater)
+            UInt8(alarm.alarmIndex),
+            UInt8(alarm.mswitch),
+            UInt8(alarm.alarmCycle),
+            UInt8(alarm.alarmHour),
+            UInt8(alarm.alarmMinute),
+            UInt8(alarm.vibrationMode),
+            UInt8(alarm.remindLater)
         ])
-        
-        XGZTBlueToothManager.shared.writeCharacteristic(command: command) { response in
-            completion(response[5] == 0x00)
-        }
+        XGZTBlueToothManager.shared.writeCharacteristic(command: command)
     }
     
     // 获取提醒信息
-    static func getReminderInfo(eventType: Int, completion: @escaping (ReminderInfoResponse) -> Void) {
+    static func getReminderInfo(eventType: Int) {
         let command = createCommand(with: [
             0x00,
             XGZTCommands.reminderInfo.rawValue,
             0x01,
             0x00,
-            0x01,
+            0x02,
+            0x00,
             UInt8(eventType)
         ])
-        
-        XGZTBlueToothManager.shared.writeCharacteristic(command: command) { response in
-            let cycle = Int(response[6])
-            let startHour = Int(response[7])
-            let startMinute = Int(response[8])
-            let endHour = Int(response[9])
-            let endMinute = Int(response[10])
-            let period = Int(response[11])
-            completion(ReminderInfoResponse(eventType: eventType, cycle: cycle, startHour: startHour, startMinute: startMinute, endHour: endHour, endMinute: endMinute, period: period))
-        }
+        XGZTBlueToothManager.shared.writeCharacteristic(command: command)
     }
     
     // 设置提醒信息
-    static func setReminderInfo(eventType: Int, cycle: Int, startHour: Int, startMinute: Int, endHour: Int, endMinute: Int, period: Int, completion: @escaping (Bool) -> Void) {
+    static func setReminderInfo(response: ReminderInfoResponse) {
         let command = createCommand(with: [
             0x00,
             XGZTCommands.reminderInfo.rawValue,
             0x01,
             0x00,
             0x08,
-            UInt8(eventType),
-            UInt8(cycle),
-            UInt8(startHour),
-            UInt8(startMinute),
-            UInt8(endHour),
-            UInt8(endMinute),
-            UInt8(period)
+            0x01,
+            UInt8(response.eventType),
+            UInt8(response.cycle),
+            UInt8(response.startHour),
+            UInt8(response.startMinute),
+            UInt8(response.endHour),
+            UInt8(response.endMinute),
+            UInt8(response.period)
         ])
-        
-        XGZTBlueToothManager.shared.writeCharacteristic(command: command) { response in
-            completion(response[5] == 0x00)
-        }
+        XGZTBlueToothManager.shared.writeCharacteristic(command: command)
     }
     
     // 获取开关表扩展
-    static func getSwitchTableExtension(completion: @escaping (Int) -> Void) {
+    static func getSwitchTableExtension() {
         let command = createCommand(with: [
             0x00,
             XGZTCommands.switchTableExtension.rawValue,
             0x01,
             0x00,
             0x02,
+            0x00,
             0x00
         ])
-        
-        XGZTBlueToothManager.shared.writeCharacteristic(command: command) { response in
-            let switchSettings = self.getIntFromBytes(response, 6)
-            completion(switchSettings)
-        }
+        XGZTBlueToothManager.shared.writeCharacteristic(command: command)
     }
     
     // 设置开关表扩展
-    static func setSwitchTableExtension(switchSettings: Int, completion: @escaping (Bool) -> Void) {
+    static func setSwitchTableExtension(p0: UInt8, p1: UInt8, p2: UInt8, p3: UInt8) {
         let command = createCommand(with: [
             0x00,
             XGZTCommands.switchTableExtension.rawValue,
             0x01,
             0x00,
-            0x05,
+            0x06,
             0x01,
-            UInt8((switchSettings >> 24) & 0xFF),
-            UInt8((switchSettings >> 16) & 0xFF),
-            UInt8((switchSettings >> 8) & 0xFF),
-            UInt8(switchSettings & 0xFF)
+            0x00,
+            p0,
+            p1,
+            p2,
+            p3
         ])
-        
-        XGZTBlueToothManager.shared.writeCharacteristic(command: command) { response in
-            completion(response[5] == 0x00)
-        }
+        XGZTBlueToothManager.shared.writeCharacteristic(command: command)
     }
     
     // 音乐控制（此处仅为示例，根据实际需求完善）
-    static func musicControl(action: Int, dataType: Int, completion: @escaping (Bool) -> Void) {
+    static func musicControl(action: Int, dataType: Int) {
         let command = createCommand(with: [
             0x00,
             XGZTCommands.musicControl.rawValue,
@@ -656,14 +551,11 @@ public class XGZTCommand {
             UInt8(action),
             UInt8(dataType)
         ])
-        
-        XGZTBlueToothManager.shared.writeCharacteristic(command: command) { response in
-            completion(response[5] == 0x00)
-        }
+        XGZTBlueToothManager.shared.writeCharacteristic(command: command)
     }
     
     // 远程拍照
-    static func remotePhoto(action: Int, completion: @escaping (Bool) -> Void) {
+    static func remotePhoto(action: Int) {
         let command = createCommand(with: [
             0x00,
             XGZTCommands.remotePhoto.rawValue,
@@ -672,14 +564,11 @@ public class XGZTCommand {
             0x02,
             UInt8(action)
         ])
-        
-        XGZTBlueToothManager.shared.writeCharacteristic(command: command) { response in
-            completion(response[5] == 0x00)
-        }
+        XGZTBlueToothManager.shared.writeCharacteristic(command: command)
     }
     
     // 消息推送（此处仅为示例，根据实际需求完善）
-    static func messagePush(action: Int, control: Int, messageType: Int, messageContent: Data, completion: @escaping (Bool) -> Void) {
+    static func messagePush(action: Int, control: Int, messageType: Int, messageContent: Data) {
         var command = createCommand(with: [
             0x00,
             XGZTCommands.messagePush.rawValue,
@@ -691,32 +580,37 @@ public class XGZTCommand {
             UInt8(messageType)
         ])
         command.append(contentsOf: [UInt8](messageContent))
-        
-        XGZTBlueToothManager.shared.writeCharacteristic(command: command) { response in
-            completion(response[5] == 0x00)
-        }
+        XGZTBlueToothManager.shared.writeCharacteristic(command: command)
     }
     
     // 设置天气信息（此处仅为示例，根据实际需求完善）
-    static func setWeatherInfo(dateType: Int, cmdType: Int, value: Data, completion: @escaping (Bool) -> Void) {
-        var command = createCommand(with: [
+    static func setWeatherInfo(dateType: Int, weatherType: Int, currTemp: Int, lTemp: Int, hTemp: Int) {
+        let command = createCommand(with: [
             0x00,
             XGZTCommands.setWeatherInfo.rawValue,
             0x01,
             0x00,
-            UInt8(6 + value.count),
+            UInt8(14),
+            0x01,
             UInt8(dateType),
-            UInt8(cmdType)
+            0x00,
+            0x01,
+            UInt8(weatherType),
+            0x01,
+            0x01,
+            UInt8(currTemp),
+            0x02,
+            0x01,
+            UInt8(lTemp),
+            0x03,
+            0x01,
+            UInt8(hTemp)
         ])
-        command.append(contentsOf: [UInt8](value))
-        
-        XGZTBlueToothManager.shared.writeCharacteristic(command: command) { response in
-            completion(response[5] == 0x00)
-        }
+        XGZTBlueToothManager.shared.writeCharacteristic(command: command)
     }
     
     // 获取联系人信息
-    static func getContactInfo(completion: @escaping (ContactInfoResponse) -> Void) {
+    static func getContactInfo() {
         let command = createCommand(with: [
             0x00,
             XGZTCommands.contactInfo.rawValue,
@@ -725,33 +619,11 @@ public class XGZTCommand {
             0x02,
             0x00
         ])
-        
-        XGZTBlueToothManager.shared.writeCharacteristic(command: command) { response in
-            let contactNum = Int(response[6])
-            var contacts: [ContactData]? = nil
-            if contactNum > 0 {
-                contacts = []
-                var offset = 7
-                for _ in 0..<contactNum {
-                    let index = Int(response[offset])
-                    offset += 1
-                    let nameLength = Int(response[offset])
-                    offset += 1
-                    let name = String(bytes: response[offset..<(offset + nameLength)], encoding:.utf8)
-                    offset += nameLength
-                    let phoneNumberLength = Int(response[offset])
-                    offset += 1
-                    let phoneNumber = self.getPhoneNumberFromBytes(response, offset, phoneNumberLength)
-                    offset += phoneNumberLength
-                    contacts?.append(ContactData(index: index, name: name ?? "", phoneNumber: phoneNumber))
-                }
-            }
-            completion(ContactInfoResponse(contactNum: contactNum, contacts: contacts))
-        }
+        XGZTBlueToothManager.shared.writeCharacteristic(command: command)
     }
     
     // 设置联系人信息
-    static func setContactInfo(type: Int, index: Int, name: String, phoneNumber: String, completion: @escaping (Bool) -> Void) {
+    static func setContactInfo(type: Int, index: Int, name: String, phoneNumber: String) {
         let nameData = name.data(using:.utf8)!
         let phoneNumberData = phoneNumberToBytes(phoneNumber)
         var command = createCommand(with: [
@@ -767,14 +639,11 @@ public class XGZTCommand {
         command.append(contentsOf: [UInt8](nameData))
         command.append(UInt8(phoneNumberData.count))
         command.append(contentsOf: [UInt8](phoneNumberData))
-        
-        XGZTBlueToothManager.shared.writeCharacteristic(command: command) { response in
-            completion(response[5] == 0x00)
-        }
+        XGZTBlueToothManager.shared.writeCharacteristic(command: command)
     }
     
     // 来电静音
-    static func incomingCallMute(mute: Int, completion: @escaping (Bool) -> Void) {
+    static func incomingCallMute(mute: Int) {
         let command = createCommand(with: [
             0x00,
             XGZTCommands.incomingCallMute.rawValue,
@@ -783,14 +652,11 @@ public class XGZTCommand {
             0x02,
             UInt8(mute)
         ])
-        
-        XGZTBlueToothManager.shared.writeCharacteristic(command: command) { response in
-            completion(response[5] == 0x00)
-        }
+        XGZTBlueToothManager.shared.writeCharacteristic(command: command)
     }
     
     // 获取目标设置
-    static func getTargetSettings(completion: @escaping (TargetSettingsResponse) -> Void) {
+    static func getTargetSettings() {
         let command = createCommand(with: [
             0x00,
             XGZTCommands.targetSettings.rawValue,
@@ -799,20 +665,11 @@ public class XGZTCommand {
             0x01,
             0x00
         ])
-        
-        XGZTBlueToothManager.shared.writeCharacteristic(command: command) { response in
-            let targetSwitch = self.getShortFromBytes(response, 6)
-            let stepTargetValue = Int(response[8])
-            let distanceTargetValue = Int(response[9])
-            let calorieTargetValue = self.getShortFromBytes(response, 10)
-            let sleepTargetValue = self.getShortFromBytes(response, 12)
-            let exerciseDurationTargetValue = self.getShortFromBytes(response, 14)
-            completion(TargetSettingsResponse(targetSwitch: targetSwitch, stepTargetValue: stepTargetValue, distanceTargetValue: distanceTargetValue, calorieTargetValue: calorieTargetValue, sleepTargetValue: sleepTargetValue, exerciseDurationTargetValue: exerciseDurationTargetValue))
-        }
+        XGZTBlueToothManager.shared.writeCharacteristic(command: command)
     }
     
     // 设置目标设置
-    static func setTargetSettings(targetSwitch: Int, targetType: Int, targetLength: Int, completion: @escaping (Bool) -> Void) {
+    static func setTargetSettings(targetSwitch: Int, targetType: Int, targetLength: Int) {
         let command = createCommand(with: [
             0x00,
             XGZTCommands.targetSettings.rawValue,
@@ -823,14 +680,11 @@ public class XGZTCommand {
             UInt8(targetType),
             UInt8(targetLength)
         ])
-        
-        XGZTBlueToothManager.shared.writeCharacteristic(command: command) { response in
-            completion(response[5] == 0x00)
-        }
+        XGZTBlueToothManager.shared.writeCharacteristic(command: command)
     }
     
     // 获取多运动模式数据
-    static func getMultiSportModeData(completion: @escaping ([MultiSportModeData]) -> Void) {
+    static func getMultiSportModeData() {
         let command = createCommand(with: [
             0x00,
             XGZTCommands.multiSportModeData.rawValue,
@@ -839,36 +693,11 @@ public class XGZTCommand {
             0x01,
             0x00
         ])
-        
-        XGZTBlueToothManager.shared.writeCharacteristic(command: command) { response in
-            let numData = self.getShortFromBytes(response, 6)
-            var sportDataList: [MultiSportModeData] = []
-            var offset = 8
-            for _ in 0..<numData {
-                let sportType = Int(response[offset])
-                offset += 1
-                let timestamp = self.getUInt32FromBytes(response, offset)
-                offset += 4
-                let stepCount = self.getUInt32FromBytes(response, offset)
-                offset += 4
-                let calorie = self.getUInt32FromBytes(response, offset)
-                offset += 4
-                let distance = self.getUInt32FromBytes(response, offset)
-                offset += 4
-                let duration = self.getUInt32FromBytes(response, offset)
-                offset += 4
-                let avgHeartRate = Int(response[offset])
-                offset += 1
-                let staticCalorie = self.getUInt32FromBytes(response, offset)
-                offset += 4
-                sportDataList.append(MultiSportModeData(sportType: sportType, timestamp: timestamp, stepCount: stepCount, calorie: calorie, distance: distance, duration: duration, avgHeartRate: avgHeartRate, staticCalorie: staticCalorie))
-            }
-            completion(sportDataList)
-        }
+        XGZTBlueToothManager.shared.writeCharacteristic(command: command)
     }
     
     // 删除运动模式数据
-    static func deleteSportModeData(completion: @escaping (Bool) -> Void) {
+    static func deleteSportModeData() {
         let command = createCommand(with: [
             0x00,
             XGZTCommands.multiSportModeData.rawValue,
@@ -877,14 +706,11 @@ public class XGZTCommand {
             0x01,
             0x01
         ])
-        
-        XGZTBlueToothManager.shared.writeCharacteristic(command: command) { response in
-            completion(response[5] == 0x00)
-        }
+        XGZTBlueToothManager.shared.writeCharacteristic(command: command)
     }
     
     // 获取睡眠数据
-    static func getSleepData(dataType: Int, completion: @escaping (SleepDataResponse?) -> Void) {
+    static func getSleepData(dataType: Int) {
         let command = createCommand(with: [
             0x00,
             XGZTCommands.getSleepData.rawValue,
@@ -893,21 +719,11 @@ public class XGZTCommand {
             0x02,
             UInt8(dataType)
         ])
-        
-        XGZTBlueToothManager.shared.writeCharacteristic(command: command) { response in
-            if dataType == 0x00 {
-                let shallowSleepHour = self.getShortFromBytes(response, 6)
-                let deepSleepHour = self.getShortFromBytes(response, 8)
-                let wakeUpNumber = Int(response[10])
-                completion(SleepDataResponse(shallowSleepHour: shallowSleepHour, deepSleepHour: deepSleepHour, wakeUpNumber: wakeUpNumber))
-            } else {
-                completion(nil)
-            }
-        }
+        XGZTBlueToothManager.shared.writeCharacteristic(command: command)
     }
     
     // 设置自动睡眠监测
-    static func setAutoSleepMonitoring(startHour: Int, startMinute: Int, endHour: Int, endMinute: Int, alarmCycle: Int, completion: @escaping (AutoSleepMonitoringResponse) -> Void) {
+    static func setAutoSleepMonitoring(startHour: Int, startMinute: Int, endHour: Int, endMinute: Int, alarmCycle: Int) {
         let command = createCommand(with: [
             0x00,
             XGZTCommands.setAutoSleepMonitoring.rawValue,
@@ -920,90 +736,85 @@ public class XGZTCommand {
             UInt8(endMinute),
             UInt8(alarmCycle)
         ])
-        
-        XGZTBlueToothManager.shared.writeCharacteristic(command: command) { response in
-            let startHourResponse = Int(response[6])
-            let startMinuteResponse = Int(response[7])
-            let endHourResponse = Int(response[8])
-            let endMinuteResponse = Int(response[9])
-            let alarmCycleResponse = Int(response[10])
-            let responseCode = Int(response[11])
-            completion(AutoSleepMonitoringResponse(startHour: startHourResponse, startMinute: startMinuteResponse, endHour: endHourResponse, endMinute: endMinuteResponse, alarmCycle: alarmCycleResponse, response: responseCode))
-        }
+        XGZTBlueToothManager.shared.writeCharacteristic(command: command)
     }
     
     // 表盘市场相关操作（此处仅为示例，根据实际需求完善）
-    static func dialMarketQuery(dataType: Int, completion: @escaping (Data) -> Void) {
+    static func dialMarketQuery(dataType: Int) {
         let command = createCommand(with: [
             0x00,
             XGZTCommands.dialMarket.rawValue,
             0x01,
             0x00,
             0x02,
+            0x00,
             UInt8(dataType)
         ])
-        
-        XGZTBlueToothManager.shared.writeCharacteristic(command: command) { response in
-            completion(Data(response))
-        }
+        XGZTBlueToothManager.shared.writeCharacteristic(command: command)
     }
     
-    static func dialMarketSetTransferConfig(packageTotal: Int, binSize: Int, mtu: Int, dialType: Int, dialNum: Int, local: Int, dialTypeValue: Int, completion: @escaping (Bool) -> Void) {
+    static func dialMarketSetTransferConfig(packageTotal: Int, binSize: Int, mtu: Int, dialType: Int, dialNum: Int, local: Int, typeValue: Int,  dialTypeValue: Int) {
         let command = createCommand(with: [
             0x00,
             XGZTCommands.dialMarket.rawValue,
             0x01,
             0x00,
-            0x12,
+            0x10,
             0x01,
-            UInt8((packageTotal >> 8) & 0xFF),
             UInt8(packageTotal & 0xFF),
-            UInt8((binSize >> 24) & 0xFF),
-            UInt8((binSize >> 16) & 0xFF),
-            UInt8((binSize >> 8) & 0xFF),
+            UInt8((packageTotal >> 8) & 0xFF),
             UInt8(binSize & 0xFF),
-            UInt8((mtu >> 8) & 0xFF),
+            UInt8((binSize >> 8) & 0xFF),
+            UInt8((binSize >> 16) & 0xFF),
+            UInt8((binSize >> 24) & 0xFF),
             UInt8(mtu & 0xFF),
+            UInt8((mtu >> 8) & 0xFF),
             UInt8(dialType),
             UInt8(dialNum),
             UInt8(local),
-            UInt8((dialTypeValue >> 8) & 0xFF),
-            UInt8(dialTypeValue & 0xFF)
+            UInt8(typeValue & 0xFF),
+            UInt8((typeValue >> 8) & 0xFF),
+            UInt8(dialTypeValue & 0xFF),
+            UInt8((dialTypeValue >> 8) & 0xFF)
         ])
-        
-        XGZTBlueToothManager.shared.writeCharacteristic(command: command) { response in
-            completion(response[5] == 0x00)
-        }
+        XGZTBlueToothManager.shared.writeCharacteristic(command: command)
     }
     
-    static func dialMarketTransferData(packageNum: Int, binNum: Int, progressBar: Int, control: Int, checkCode: Int, data: Data, completion: @escaping (Bool) -> Void) {
-        var command = createCommand(with: [
+    static func dialMarketTransferData(packageNum: Int, binNum: Int, progressBar: Int, control: Int, data: Data) {
+        // Create an array to hold the command data
+        var commandData: [UInt8] = [
             0x00,
             XGZTCommands.dialMarket.rawValue,
             0x01,
             0x00,
-            UInt8(10 + data.count),
+            UInt8(11 + data.count),
             0x02,
-            UInt8((packageNum >> 8) & 0xFF),
             UInt8(packageNum & 0xFF),
-            UInt8((binNum >> 24) & 0xFF),
-            UInt8((binNum >> 16) & 0xFF),
-            UInt8((binNum >> 8) & 0xFF),
+            UInt8((packageNum >> 8) & 0xFF),
             UInt8(binNum & 0xFF),
+            UInt8((binNum >> 8) & 0xFF),
+            UInt8((binNum >> 16) & 0xFF),
+            UInt8((binNum >> 24) & 0xFF),
             UInt8(progressBar),
-            UInt8(control),
-            UInt8((checkCode >> 8) & 0xFF),
-            UInt8(checkCode & 0xFF)
-        ])
-        command.append(contentsOf: [UInt8](data))
+            UInt8(control)
+        ]
         
-        XGZTBlueToothManager.shared.writeCharacteristic(command: command) { response in
-            completion(response[5] == 0x00)
-        }
+        // Calculate the checkCode as the sum of all bytes in the command data
+        let checkCode = commandData.reduce(0, { $0 + Int($1) }) + data.reduce(0, { $0 + Int($1) })
+        
+        // Append the checkCode to the command data array
+        commandData.append(UInt8(checkCode & 0xFF))
+        commandData.append(UInt8((checkCode >> 8) & 0xFF))
+        
+        // Append the data to the command data array
+        commandData.append(contentsOf: [UInt8](data))
+        
+        // Write the command data to the Bluetooth characteristic
+        XGZTBlueToothManager.shared.writeCharacteristic(command: commandData)
     }
     
     // 资源升级相关操作（此处仅为示例，根据实际需求完善）
-    static func resourceUpgradeQuery(completion: @escaping (Data) -> Void) {
+    static func resourceUpgradeQuery() {
         let command = createCommand(with: [
             0x00,
             XGZTCommands.resourceUpgrade.rawValue,
@@ -1012,13 +823,10 @@ public class XGZTCommand {
             0x02,
             0x00
         ])
-        
-        XGZTBlueToothManager.shared.writeCharacteristic(command: command) { response in
-            completion(Data(response))
-        }
+        XGZTBlueToothManager.shared.writeCharacteristic(command: command)
     }
     
-    static func resourceUpgradeSetTransferConfig(packageTotal: Int, binSize: Int, mtu: Int, completion: @escaping (Bool) -> Void) {
+    static func resourceUpgradeSetTransferConfig(packageTotal: Int, binSize: Int, mtu: Int) {
         let command = createCommand(with: [
             0x00,
             XGZTCommands.resourceUpgrade.rawValue,
@@ -1035,13 +843,10 @@ public class XGZTCommand {
             UInt8((mtu >> 8) & 0xFF),
             UInt8(mtu & 0xFF)
         ])
-        
-        XGZTBlueToothManager.shared.writeCharacteristic(command: command) { response in
-            completion(response[5] == 0x00)
-        }
+        XGZTBlueToothManager.shared.writeCharacteristic(command: command)
     }
     
-    static func resourceUpgradeTransferData(data: Data, completion: @escaping (Bool) -> Void) {
+    static func resourceUpgradeTransferData(data: Data) {
         var command = createCommand(with: [
             0x00,
             XGZTCommands.resourceUpgrade.rawValue,
@@ -1051,10 +856,7 @@ public class XGZTCommand {
             0x02
         ])
         command.append(contentsOf: [UInt8](data))
-        
-        XGZTBlueToothManager.shared.writeCharacteristic(command: command) { response in
-            completion(response[5] == 0x00)
-        }
+        XGZTBlueToothManager.shared.writeCharacteristic(command: command)
     }
     
     // 辅助方法：从字节数组中获取整数
@@ -1062,10 +864,11 @@ public class XGZTCommand {
         return Int(bytes[offset]) << 24 | Int(bytes[offset + 1]) << 16 | Int(bytes[offset + 2]) << 8 | Int(bytes[offset + 3])
     }
     
+    // 辅助方法：从字节数组中获取字符串
     private static func getStringFromBytes(_ bytes: [UInt8], _ startIndex: Int, _ length: Int) -> String {
         let subArray = bytes[startIndex..<startIndex+length]
         let data = Data(subArray)
-        return String(data: data, encoding: .utf8) ?? ""
+        return String(data: data, encoding:.utf8) ?? ""
     }
     
     // 辅助方法：从字节数组中获取短整数
@@ -1084,7 +887,7 @@ public class XGZTCommand {
         if phoneNumber.count % 2 != 0 {
             phoneNumber = "0" + phoneNumber
         }
-
+        
         var result: [UInt8] = []
         let characters = Array(phoneNumber)
         for i in stride(from: 0, to: characters.count, by: 2) {
@@ -1112,5 +915,509 @@ public class XGZTCommand {
     // 辅助方法：创建指令字节数组
     private static func createCommand(with bytes: [UInt8]) -> [UInt8] {
         return bytes
+    }
+    
+    // 统一处理指令响应的方法，优化为从响应数据中解析指令标识来判断情况
+    public static func handleResponse(response: [UInt8]) {
+        if response.count < 2 {
+            return
+        }
+        let commandRawValue = response[1]
+        guard let command = XGZTCommands(rawValue: commandRawValue) else {
+            print("Unhandled command response")
+            return
+        }
+        switch command {
+        case.syncTime:
+            guard response.count >= 7 else {
+                print("syncTime command response error")
+                return
+            }
+            let success = response[6] == 0x00
+            if success {
+                print("时间同步成功")
+            } else {
+                print("时间同步失败")
+            }
+        case.getBatteryLevel:
+            guard response.count >= 7 else {
+                print("getBatteryLevel command response error")
+                return
+            }
+            let batteryLevel = Int(response[6] & 0x7F)
+            let isCharging = (response[6] & 0x80) != 0
+            print("Battery level: \(batteryLevel), Is charging: \(isCharging)")
+        case.setScreenBrightness:
+            guard response.count >= 6 else {
+                print("setScreenBrightness command response error")
+                return
+            }
+            let success = response[5] == 0x00
+            if success {
+                print("设置屏幕亮度命令执行成功")
+            } else {
+                print("设置屏幕亮度命令执行失败")
+            }
+        case.getDeviceLanguage:
+            guard response.count >= 7 else {
+                print("getDeviceLanguage command response error")
+                return
+            }
+            let languageType = Int(response[6])
+            print("设备语言类型: \(languageType)")
+        case.setDeviceUnitFormat:
+            guard response.count >= 6 else {
+                print("setDeviceUnitFormat command response error")
+                return
+            }
+            let success = response[5] == 0x00
+            if success {
+                print("设置设备单位格式命令执行成功")
+            } else {
+                print("设置设备单位格式命令执行失败")
+            }
+        case.resetToFactorySettings:
+            guard response.count >= 6 else {
+                print("resetToFactorySettings command response error")
+                return
+            }
+            let success = response[5] == 0x00
+            if success {
+                print("重置设备为出厂设置命令执行成功")
+            } else {
+                print("重置设备为出厂设置命令执行失败")
+            }
+        case.setDeviceScreenTimeout:
+            guard response.count >= 6 else {
+                print("setDeviceScreenTimeout command response error")
+                return
+            }
+            let success = response[5] == 0x00
+            if success {
+                print("设置设备亮屏时间命令执行成功")
+            } else {
+                print("设置设备亮屏时间命令执行失败")
+            }
+        case.setDoNotDisturb:
+            guard response.count >= 6 else {
+                print("setDoNotDisturb command response error")
+                return
+            }
+            let success = response[5] == 0x00
+            if success {
+                print("设置勿扰功能命令执行成功")
+            } else {
+                print("设置勿扰功能命令执行失败")
+            }
+        case.findBand:
+            guard response.count >= 7 else {
+            print("findBand command response error")
+            return
+            }
+            let success = response[6] == 0x00
+            if success {
+                print("查找手环命令执行成功")
+            } else {
+                print("查找手环命令执行失败")
+            }
+        case.findPhone:
+            guard response.count >= 7 else {
+                print("findPhone command response error")
+                return
+            }
+            let success = response[6] == 0x00
+            if success && response[5] == 0x00 {
+                print("查找手机命令执行成功")
+                (UIApplication.shared.delegate as? AppDelegate)?.foundphone()
+            } else {
+                print("查找手机命令执行失败")
+            }
+        case.setWeatherUnit:
+            guard response.count >= 6 else {
+                print("setWeatherUnit command response error")
+                return
+            }
+            let success = response[5] == 0x00
+            if success {
+                print("设置天气单位命令执行成功")
+            } else {
+                print("设置天气单位命令执行失败")
+            }
+        case.set12H24HTimeFormat:
+            guard response.count >= 6 else {
+                print("set12H24HTimeFormat command response error")
+                return
+            }
+            let success = response[5] == 0x00
+            if success {
+                print("设置12小时/24小时时间制命令执行成功")
+            } else {
+                print("设置12小时/24小时时间制命令执行失败")
+            }
+        case.getDeviceInfo:
+            guard response.count >= 46 else {
+                print("getDeviceInfo command response error")
+                return
+            }
+            XGZTBlueToothManager.shared.device?.screenType = Int(response[5])
+            XGZTBlueToothManager.shared.device?.hardwareVersion = Int(response[30])
+            XGZTBlueToothManager.shared.device?.firmwareVersion = "\(Int(response[31])).\(Int(response[32]))"
+            XGZTBlueToothManager.shared.device?.deviceID = (Int(response[34]) << 8) | Int(response[33])
+            XGZTBlueToothManager.shared.device?.deviceModel = (Int(response[36]) << 8) | Int(response[35])
+            XGZTBlueToothManager.shared.device?.screenWidth = (Int(response[38]) << 8) | Int(response[37])
+            XGZTBlueToothManager.shared.device?.screenHeight = (Int(response[40]) << 8) | Int(response[39])
+            
+        case.setAppInfo:
+            guard response.count >= 6 else {
+                print("setAppInfo command response error")
+                return
+            }
+            let success = response[5] == 0x00
+            if success {
+                print("设置应用端信息命令执行成功")
+            } else {
+                print("设置应用端信息命令执行失败")
+            }
+        case.personalInfo:
+            guard response.count >= 9 else {
+                print("personalInfo command response error")
+                return
+            }
+            if response[2] == 3 {
+                XGZTBlueToothManager.shared.device?.sex = Int(response[5])
+                XGZTBlueToothManager.shared.device?.year = Int(response[6])
+                XGZTBlueToothManager.shared.device?.height = Int(response[7])
+                XGZTBlueToothManager.shared.device?.weight = Int(response[8])
+            }
+        case.switchStatus:
+            guard response.count >= 7 else {
+                print("switchStatus command response error")
+                return
+            }
+            if response.count >= 10 {
+                XGZTBlueToothManager.shared.device?.isAntilostSwitch = (response[6] & 1) > 0
+                XGZTBlueToothManager.shared.device?.isRaisehandtobrightenscreen = ((response[6] >> 1) & 1) > 0
+                XGZTBlueToothManager.shared.device?.isAntilostSwitch = ((response[6] >> 2) & 1) > 0
+                
+                XGZTBlueToothManager.shared.device?.isSleepmonitoringSwitch = ((response[6] >> 4) & 1) > 0
+                XGZTBlueToothManager.shared.device?.isMessageremindermainswitch = ((response[6] >> 5) & 1) > 0
+                XGZTBlueToothManager.shared.device?.isRegularexercisedatauploadswitch = ((response[6] >> 6) & 1) > 0
+                XGZTBlueToothManager.shared.device?.isGoalachievementswitch = ((response[6] >> 7) & 1) > 0
+                
+                XGZTBlueToothManager.shared.device?.isMessagescreendisplayswitch = ((response[7] >> 1) & 1) > 0
+                XGZTBlueToothManager.shared.device?.isSoundswitch = ((response[7] >> 2) & 1) > 0
+                XGZTBlueToothManager.shared.device?.isVibrationswitch = ((response[7] >> 3) & 1) > 0
+                XGZTBlueToothManager.shared.device?.isRegularhealthdatauploadswitch = ((response[7] >> 4) & 1) > 0
+                XGZTBlueToothManager.shared.device?.isMessagevibrationswitch = ((response[7] >> 5) & 1) > 0
+            } else {
+                let success = response[6] == 0x00
+                if success {
+                    print("设置开关执行成功")
+                } else {
+                    print("设置开关执行失败")
+                }
+            }
+        case.bindDevice:
+            guard response.count >= 8 else {
+                print("bindDevice command response error")
+                return
+            }
+            let success = response[7] == 0x01
+            if success {
+                print("绑定设备命令执行成功")
+            } else {
+                print("绑定设备命令执行失败")
+            }
+        case.alarmInfo:
+            guard response.count >= 7 else {
+                print("alarmInfo command response error")
+                return
+            }
+            if response.count == 7 {
+                XGZTBlueToothManager.shared.device?.alarmcount = Int(response[6])
+                return
+            }
+            if response.count == 13 {
+                let index = Int(response[6])
+                let switchValue = Int(response[7])
+                let cycle = Int(response[8])
+                let hour = Int(response[9])
+                let minute = Int(response[10])
+                let vibration = Int(response[11])
+                let later = Int(response[12])
+                let alarm = AlarmData(alarmIndex: index, mswitch: switchValue, alarmCycle: cycle, alarmHour: hour, alarmMinute: minute, vibrationMode: vibration, remindLater: later)
+                XGZTBlueToothManager.shared.device?.alarms.append(alarm)
+            }
+        case.reminderInfo:
+            if response.count == 7 {
+                if response[6] == 0 {
+                    print("提醒协议设置成功")
+                }
+                return
+            }
+            guard response.count >= 12 else {
+                print("reminderInfo command response error")
+                return
+            }
+            let eventType = Int(response[6])
+            let cycle = Int(response[7])
+            let startHour = Int(response[8])
+            let startMinute = Int(response[9])
+            let endHour = Int(response[10])
+            let endMinute = Int(response[11])
+            let period = Int(response[12])
+            if eventType == 0 {
+                XGZTBlueToothManager.shared.device?.longsit = ReminderInfoResponse(eventType: eventType, cycle: cycle, startHour: startHour, startMinute: startMinute, endHour: endHour, endMinute: endMinute, period: period)
+            } else if eventType == 1 {
+                XGZTBlueToothManager.shared.device?.drinkWater = ReminderInfoResponse(eventType: eventType, cycle: cycle, startHour: startHour, startMinute: startMinute, endHour: endHour, endMinute: endMinute, period: period)
+                
+                NotificationCenter.default.post(name: Notification.Name("DeviceSettings"), object: 1)
+            }
+        case.switchTableExtension:
+            guard response.count >= 7 else {
+                print("switchTableExtension command response error")
+                return
+            }
+            if response.count >= 11 {
+                XGZTBlueToothManager.shared.device?.isNullMessage = (response[7] & 1) > 0
+                XGZTBlueToothManager.shared.device?.isIncomingCall = ((response[7] >> 1) & 1) > 0
+                XGZTBlueToothManager.shared.device?.isMissedCall = ((response[7] >> 2) & 1) > 0
+                XGZTBlueToothManager.shared.device?.isMessages = ((response[7] >> 3) & 1) > 0
+                XGZTBlueToothManager.shared.device?.isEmail = ((response[7] >> 4) & 1) > 0
+                XGZTBlueToothManager.shared.device?.isSchedule = ((response[7] >> 5) & 1) > 0
+                XGZTBlueToothManager.shared.device?.isFacetime = ((response[7] >> 6) & 1) > 0
+                XGZTBlueToothManager.shared.device?.isQQ = ((response[7] >> 7) & 1) > 0
+                XGZTBlueToothManager.shared.device?.isSkype = (response[8] & 1) > 0
+                XGZTBlueToothManager.shared.device?.isWechat = ((response[8] >> 1) & 1) > 0
+                XGZTBlueToothManager.shared.device?.isWhatsapp = ((response[8] >> 2) & 1) > 0
+                XGZTBlueToothManager.shared.device?.isGmail = ((response[8] >> 3) & 1) > 0
+                XGZTBlueToothManager.shared.device?.isHangout = ((response[8] >> 4) & 1) > 0
+                XGZTBlueToothManager.shared.device?.isInbox = ((response[8] >> 5) & 1) > 0
+                XGZTBlueToothManager.shared.device?.isLine = ((response[8] >> 6) & 1) > 0
+                XGZTBlueToothManager.shared.device?.isTwitter = ((response[8] >> 7) & 1) > 0
+                XGZTBlueToothManager.shared.device?.isFacebook = (response[9] & 1) > 0
+                XGZTBlueToothManager.shared.device?.isFacebookMessenger = ((response[9] >> 1) & 1) > 0
+                XGZTBlueToothManager.shared.device?.isInstagram = ((response[9] >> 2) & 1) > 0
+                XGZTBlueToothManager.shared.device?.isWeibo = ((response[9] >> 3) & 1) > 0
+                XGZTBlueToothManager.shared.device?.isKakaotalk = ((response[9] >> 4) & 1) > 0
+                XGZTBlueToothManager.shared.device?.isFacebookpagemanager = ((response[9] >> 5) & 1) > 0
+                XGZTBlueToothManager.shared.device?.isViber = ((response[9] >> 6) & 1) > 0
+                XGZTBlueToothManager.shared.device?.isVkclient = ((response[9] >> 7) & 1) > 0
+                
+                XGZTBlueToothManager.shared.device?.isTelegram = (response[10] & 1) > 0
+                XGZTBlueToothManager.shared.device?.isSnapchat = ((response[10] >> 2) & 1) > 0
+                XGZTBlueToothManager.shared.device?.isDingTalk = ((response[10] >> 3) & 1) > 0
+                XGZTBlueToothManager.shared.device?.isAlipay = ((response[10] >> 4) & 1) > 0
+                XGZTBlueToothManager.shared.device?.isTiktok = ((response[10] >> 5) & 1) > 0
+                XGZTBlueToothManager.shared.device?.isLinkedIn = ((response[10] >> 6) & 1) > 0
+                
+            } else {
+                let success = response[6] == 0x00
+                if success {
+                    print("设置开关执行成功")
+                } else {
+                    print("设置开关执行失败")
+                }
+            }
+            
+        case.musicControl:
+            guard response.count >= 6 else {
+                print("musicControl command response error")
+                return
+            }
+            let success = response[5] == 0x00
+            if success {
+                print("音乐控制命令执行成功")
+            } else {
+                print("音乐控制命令执行失败")
+            }
+        case.remotePhoto:
+            guard response.count >= 6 else {
+                print("remotePhoto command response error")
+                return
+            }
+            let success = response[5] == 0x00
+            if success {
+                print("远程拍照命令执行成功")
+            } else {
+                print("远程拍照命令执行失败")
+            }
+        case.messagePush:
+            guard response.count >= 6 else {
+                print("messagePush command response error")
+                return
+            }
+            let success = response[5] == 0x00
+            if success {
+                print("消息推送命令执行成功")
+            } else {
+                print("消息推送命令执行失败")
+            }
+        case.setWeatherInfo:
+            guard response.count >= 7 else {
+                print("setWeatherInfo command response error")
+                return
+            }
+            let success = response[6] == 0x00
+            if success {
+                print("设置天气信息命令执行成功")
+            } else {
+                print("设置天气信息命令执行失败")
+            }
+        case.contactInfo:
+            guard response.count >= 7 else {
+                print("contactInfo command response error")
+                return
+            }
+            let contactNum = Int(response[6])
+            var contacts: [ContactData]? = nil
+            if contactNum > 0 {
+                contacts = []
+                var offset = 7
+                for _ in 0..<contactNum {
+                    let index = Int(response[offset])
+                    offset += 1
+                    let nameLength = Int(response[offset])
+                    offset += 1
+                    let name = getStringFromBytes(response, offset, nameLength)
+                    offset += nameLength
+                    let phoneNumberLength = Int(response[offset])
+                    offset += 1
+                    let phoneNumber = getPhoneNumberFromBytes(response, offset, phoneNumberLength)
+                    offset += phoneNumberLength
+                    contacts?.append(ContactData(index: index, name: name, phoneNumber: phoneNumber))
+                }
+            }
+            print("联系人数量: \(contactNum), 联系人信息: \(contacts ?? [])")
+        case.incomingCallMute:
+            guard response.count >= 6 else {
+                print("incomingCallMute command response error")
+                return
+            }
+            let success = response[5] == 0x00
+            if success {
+                print("来电静音命令执行成功")
+            } else {
+                print("来电静音命令执行失败")
+            }
+        case.targetSettings:
+            guard response.count >= 16 else {
+                print("targetSettings command response error")
+                return
+            }
+            let targetSwitch = getShortFromBytes(response, 6)
+            let stepTargetValue = Int(response[8])
+            let distanceTargetValue = Int(response[9])
+            let calorieTargetValue = getShortFromBytes(response, 10)
+            let sleepTargetValue = getShortFromBytes(response, 12)
+            let exerciseDurationTargetValue = getShortFromBytes(response, 14)
+            print("目标设置开关: \(targetSwitch)")
+            print("步数目标值: \(stepTargetValue)")
+            print("距离目标值: \(distanceTargetValue)")
+            print("卡路里目标值: \(calorieTargetValue)")
+            print("睡眠目标值: \(sleepTargetValue)")
+            print("运动时长目标值: \(exerciseDurationTargetValue)")
+        case.multiSportModeData:
+            guard response.count >= 8 else {
+                print("multiSportModeData command response error")
+                return
+            }
+            let numData = getShortFromBytes(response, 6)
+            var sportDataList: [MultiSportModeData] = []
+            var offset = 8
+            for _ in 0..<numData {
+                let sportType = Int(response[offset])
+                offset += 1
+                let timestamp = getUInt32FromBytes(response, offset)
+                offset += 4
+                let stepCount = getUInt32FromBytes(response, offset)
+                offset += 4
+                let calorie = getUInt32FromBytes(response, offset)
+                offset += 4
+                let distance = getUInt32FromBytes(response, offset)
+                offset += 4
+                let duration = getUInt32FromBytes(response, offset)
+                offset += 4
+                let avgHeartRate = Int(response[offset])
+                offset += 1
+                let staticCalorie = getUInt32FromBytes(response, offset)
+                offset += 4
+                sportDataList.append(MultiSportModeData(sportType: sportType, timestamp: timestamp, stepCount: stepCount, calorie: calorie, distance: distance, duration: duration, avgHeartRate: avgHeartRate, staticCalorie: staticCalorie))
+            }
+            print("多运动模式数据数量: \(numData), 数据详情: \(sportDataList)")
+        case.getSleepData:
+            guard response.count >= 12 && response[6] == 0x00 else {
+                print("getSleepData command response error")
+                return
+            }
+            let shallowSleepHour = getShortFromBytes(response, 6)
+            let deepSleepHour = getShortFromBytes(response, 8)
+            let wakeUpNumber = Int(response[10])
+            print("浅睡眠小时数: \(shallowSleepHour)")
+            print("深睡眠小时数: \(deepSleepHour)")
+            print("醒来次数: \(wakeUpNumber)")
+        case.setAutoSleepMonitoring:
+            guard response.count >= 12 else {
+                print("setAutoSleepMonitoring command response error")
+                return
+            }
+            let startHour = Int(response[6])
+            let startMinute = Int(response[7])
+            let endHour = Int(response[8])
+            let endMinute = Int(response[9])
+            let alarmCycle = Int(response[10])
+            let responseCode = Int(response[11])
+            print("自动睡眠监测开始时间（小时）: \(startHour)")
+            print("自动睡眠监测开始时间（分钟）: \(startMinute)")
+            print("自动睡眠监测结束时间（小时）: \(endHour)")
+            print("自动睡眠监测结束时间（分钟）: \(endMinute)")
+            print("自动睡眠监测闹钟周期: \(alarmCycle)")
+            print("响应码: \(responseCode)")
+        case.dialMarket:
+            guard response.count >= 7 else {
+                print("dialMarket command response error")
+                return
+            }
+            let value = response[5]
+            if value == 0 {
+                if response.count >= 10 {
+                    XGZTBlueToothManager.shared.device?.mtu = (Int(response[7]) << 8) | Int(response[8])
+                    NotificationCenter.default.post(name: Notification.Name("ClockUseViewController"), object: 4)
+                    NotificationCenter.default.post(name: Notification.Name("MyClockViewController"), object: 4)
+                }
+                if response.count >= 12 {
+                    XGZTBlueToothManager.shared.device?.screenType = Int(response[7])
+                    XGZTBlueToothManager.shared.device?.screenWidth = (Int(response[8]) << 8) | Int(response[9])
+                    XGZTBlueToothManager.shared.device?.screenHeight = (Int(response[10]) << 8) | Int(response[11])
+                }
+            } else if value == 1 {
+                if response[6] == 0 {
+                    NotificationCenter.default.post(name: Notification.Name("ClockUseViewController"), object: 5)
+                    NotificationCenter.default.post(name: Notification.Name("MyClockViewController"), object: 5)
+                }
+            } else if value == 2 {
+                let control = response[8]
+                if control == 0 {
+                    NotificationCenter.default.post(name: Notification.Name("ClockUseViewController"), object: 5) // 继续
+                    NotificationCenter.default.post(name: Notification.Name("MyClockViewController"), object: 5)
+                } else if control == 1 {
+                    NotificationCenter.default.post(name: Notification.Name("ClockUseViewController"), object: 6)
+                    NotificationCenter.default.post(name: Notification.Name("MyClockViewController"), object: 6)
+                } else {
+                    
+                }
+            }
+        case.resourceUpgrade:
+            guard response.count >= 6 else {
+                print("resourceUpgrade command response error")
+                return
+            }
+            let success = response[5] == 0x00
+            if success {
+                print("资源升级相关命令执行成功")
+            } else {
+                print("资源升级相关命令执行失败")
+            }
+        }
     }
 }

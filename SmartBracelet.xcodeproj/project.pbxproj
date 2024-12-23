@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 70;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -15,10 +15,8 @@
 		18385F13245181D900EA380A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 18385F12245181D900EA380A /* Main.storyboard */; };
 		1898B72C2451969B00B9E5A5 /* Date+String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1898B72B2451969B00B9E5A5 /* Date+String.swift */; };
 		6358A1BC7537C0FAECF400E2 /* Pods_SmartBracelet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B1F15B2E89955DD6187F274A /* Pods_SmartBracelet.framework */; };
-		9A037E4225BDACFE0006FB94 /* 8267_module_tOTA.bin in Resources */ = {isa = PBXBuildFile; fileRef = 9A037E4125BDACFE0006FB94 /* 8267_module_tOTA.bin */; };
 		9A037E4525BDB1CD0006FB94 /* OTACMD.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A037E4425BDB1CD0006FB94 /* OTACMD.m */; };
 		9A037E4825BDB1EC0006FB94 /* OTA.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A037E4725BDB1EC0006FB94 /* OTA.m */; };
-		9A08C671262C71DA00E178DA /* SmartBand_PHY_ota.hex in Resources */ = {isa = PBXBuildFile; fileRef = 9A08C670262C71DA00E178DA /* SmartBand_PHY_ota.hex */; };
 		9A08C673262C757A00E178DA /* WeatherTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A08C672262C757A00E178DA /* WeatherTestViewController.swift */; };
 		9A08C6EB262F17D500E178DA /* OTAUpgradeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A08C6EA262F17D500E178DA /* OTAUpgradeViewController.m */; };
 		9A08C6EF262F17FE00E178DA /* OTCModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A08C6ED262F17FE00E178DA /* OTCModel.m */; };
@@ -47,6 +45,26 @@
 		9A2185B6255BD153000330E5 /* CacheHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2185B5255BD153000330E5 /* CacheHelper.swift */; };
 		9A2185C7255BE42D000330E5 /* GuideCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A2185C6255BE42D000330E5 /* GuideCollectionViewCell.swift */; };
 		9A218627255CEA1D000330E5 /* LoginResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A218626255CEA1D000330E5 /* LoginResponse.swift */; };
+		9A21BFD22D002FD40048CF53 /* ABOtaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A21BFD12D002FD30048CF53 /* ABOtaViewController.swift */; };
+		9A21BFD42D0030330048CF53 /* OTA.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9A21BFD32D0030330048CF53 /* OTA.storyboard */; };
+		9A21BFD62D0030F60048CF53 /* TimeRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A21BFD52D0030F60048CF53 /* TimeRecord.swift */; };
+		9A21BFD82D00339F0048CF53 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A21BFD72D00339F0048CF53 /* Utils.swift */; };
+		9A21BFDC2D00758E0048CF53 /* MyDataReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A21BFDB2D00758E0048CF53 /* MyDataReader.swift */; };
+		9A21BFF32D0082E00048CF53 /* OtaError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A21BFED2D0082E00048CF53 /* OtaError.swift */; };
+		9A21BFF42D0082E00048CF53 /* OtaDataDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A21BFE62D0082E00048CF53 /* OtaDataDefinition.swift */; };
+		9A21BFF52D0082E00048CF53 /* OtaDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A21BFE72D0082E00048CF53 /* OtaDataProvider.swift */; };
+		9A21BFF62D0082E00048CF53 /* ABOta.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A21BFE02D0082E00048CF53 /* ABOta.swift */; };
+		9A21BFF72D0082E00048CF53 /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A21BFF12D0082E00048CF53 /* Extension.swift */; };
+		9A21BFF82D0082E00048CF53 /* ByteBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A21BFF02D0082E00048CF53 /* ByteBuffer.swift */; };
+		9A21BFF92D0082E00048CF53 /* OtaConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A21BFE52D0082E00048CF53 /* OtaConstants.swift */; };
+		9A21BFFA2D0082E00048CF53 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A21BFEA2D0082E00048CF53 /* Logger.swift */; };
+		9A21BFFB2D0082E00048CF53 /* DataReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A21BFE32D0082E00048CF53 /* DataReader.swift */; };
+		9A21BFFC2D0082E00048CF53 /* LoggerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A21BFEB2D0082E00048CF53 /* LoggerDelegate.swift */; };
+		9A21BFFD2D0082E00048CF53 /* OtaCommandGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A21BFE42D0082E00048CF53 /* OtaCommandGenerator.swift */; };
+		9A21BFFE2D0082E00048CF53 /* ABOtaManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A21BFE12D0082E00048CF53 /* ABOtaManager.swift */; };
+		9A21BFFF2D0082E00048CF53 /* OtaDataReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A21BFE82D0082E00048CF53 /* OtaDataReader.swift */; };
+		9A21C0002D0082E00048CF53 /* OtaManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A21BFEE2D0082E00048CF53 /* OtaManager.swift */; };
+		9A21C0022D008CBC0048CF53 /* OtaService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A21C0012D008CBC0048CF53 /* OtaService.swift */; };
 		9A2676AC26B1969B0096BC61 /* Alarm.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 9A2676AB26B1969B0096BC61 /* Alarm.mp3 */; };
 		9A28DA5D2518D4EA00F7B260 /* DotView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A28DA5A2518D4E900F7B260 /* DotView.swift */; };
 		9A28DA5E2518D4EA00F7B260 /* UIColor+hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A28DA5B2518D4E900F7B260 /* UIColor+hex.swift */; };
@@ -342,6 +360,9 @@
 		9A839C672560F68B00714CBE /* SGSportingView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9A839C662560F68B00714CBE /* SGSportingView.storyboard */; };
 		9A839C6925610AB000714CBE /*  TargetModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A839C6825610AB000714CBE /*  TargetModel.swift */; };
 		9A839C6D25611FA900714CBE /* HHCountdowLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A839C6C25611FA900714CBE /* HHCountdowLabel.m */; };
+		9A869E0D2D12CCC200B78FDF /* OTAInfoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A869E0C2D12CCC200B78FDF /* OTAInfoManager.swift */; };
+		9A869E112D17DDFB00B78FDF /* ABParTool.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A869E0F2D17DDEB00B78FDF /* ABParTool.xcframework */; };
+		9A869E122D17DDFC00B78FDF /* ABParTool.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9A869E0F2D17DDEB00B78FDF /* ABParTool.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9A8CA50725272C5200EC01A7 /* CVCalendarDayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8CA4E725272C5200EC01A7 /* CVCalendarDayView.swift */; };
 		9A8CA50825272C5200EC01A7 /* CVWeekdaySymbolType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8CA4E825272C5200EC01A7 /* CVWeekdaySymbolType.swift */; };
 		9A8CA50925272C5200EC01A7 /* CVRange.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8CA4E925272C5200EC01A7 /* CVRange.swift */; };
@@ -376,6 +397,11 @@
 		9A8CA529252CA8BA00EC01A7 /* DataRecordTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8CA528252CA8BA00EC01A7 /* DataRecordTableViewCell.swift */; };
 		9A8CA52B252CB6E000EC01A7 /* HelpCenterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8CA52A252CB6E000EC01A7 /* HelpCenterViewController.swift */; };
 		9A8D431D250F411800E8D6F7 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8D431C250F411800E8D6F7 /* RegisterViewController.swift */; };
+		9A93EE552CFDE78C00C02370 /* XGZTSwitchDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A93EE532CFDE78C00C02370 /* XGZTSwitchDevice.swift */; };
+		9A93EE562CFDE78C00C02370 /* XGZTBusinessHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A93EE502CFDE78C00C02370 /* XGZTBusinessHandler.swift */; };
+		9A93EE572CFDE78C00C02370 /* XGZTBlueToothManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A93EE4F2CFDE78C00C02370 /* XGZTBlueToothManager.swift */; };
+		9A93EE582CFDE78C00C02370 /* BluetoothTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A93EE4E2CFDE78C00C02370 /* BluetoothTestViewController.swift */; };
+		9A93EE592CFDE78C00C02370 /* XGZTCommands.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A93EE512CFDE78C00C02370 /* XGZTCommands.swift */; };
 		9A99CCEA26CB57DE00D6972A /* TJDWristbandSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18C2820C246A8D13009A60C0 /* TJDWristbandSDK.framework */; };
 		9A99CCEB26CB57DE00D6972A /* TJDWristbandSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 18C2820C246A8D13009A60C0 /* TJDWristbandSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9A9E4E12278136E70084CCFF /* 3_80_160.png in Resources */ = {isa = PBXBuildFile; fileRef = 9A9E4E0E278136E60084CCFF /* 3_80_160.png */; };
@@ -488,6 +514,7 @@
 			files = (
 				9AB5BE262A06648E00680757 /* ZipZap.framework in Embed Frameworks */,
 				9A99CCEB26CB57DE00D6972A /* TJDWristbandSDK.framework in Embed Frameworks */,
+				9A869E122D17DDFC00B78FDF /* ABParTool.xcframework in Embed Frameworks */,
 				9AB5BE2A2A06649700680757 /* RTKOTASDK.framework in Embed Frameworks */,
 				9AB5BE282A06649300680757 /* RTKLEFoundation.framework in Embed Frameworks */,
 				9A491EF02BA07C43000CF726 /* AliIotConnectKit.framework in Embed Frameworks */,
@@ -511,12 +538,10 @@
 		6D913391FB0E57C59E39E74B /* Pods-SmartBracelet.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SmartBracelet.debug.xcconfig"; path = "Target Support Files/Pods-SmartBracelet/Pods-SmartBracelet.debug.xcconfig"; sourceTree = "<group>"; };
 		7908B378C1A13473537586D0 /* Pods-SmartBracelet.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SmartBracelet.release.xcconfig"; path = "Target Support Files/Pods-SmartBracelet/Pods-SmartBracelet.release.xcconfig"; sourceTree = "<group>"; };
 		7A71386927639819C83B8B2B /* Pods-TJDWristbandSDKDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TJDWristbandSDKDemo.debug.xcconfig"; path = "Target Support Files/Pods-TJDWristbandSDKDemo/Pods-TJDWristbandSDKDemo.debug.xcconfig"; sourceTree = "<group>"; };
-		9A037E4125BDACFE0006FB94 /* 8267_module_tOTA.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = 8267_module_tOTA.bin; sourceTree = "<group>"; };
 		9A037E4325BDB1CD0006FB94 /* OTACMD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTACMD.h; sourceTree = "<group>"; };
 		9A037E4425BDB1CD0006FB94 /* OTACMD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTACMD.m; sourceTree = "<group>"; };
 		9A037E4625BDB1EC0006FB94 /* OTA.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTA.h; sourceTree = "<group>"; };
 		9A037E4725BDB1EC0006FB94 /* OTA.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTA.m; sourceTree = "<group>"; };
-		9A08C670262C71DA00E178DA /* SmartBand_PHY_ota.hex */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SmartBand_PHY_ota.hex; sourceTree = "<group>"; };
 		9A08C672262C757A00E178DA /* WeatherTestViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeatherTestViewController.swift; sourceTree = "<group>"; };
 		9A08C6E9262F17D500E178DA /* OTAUpgradeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTAUpgradeViewController.h; sourceTree = "<group>"; };
 		9A08C6EA262F17D500E178DA /* OTAUpgradeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTAUpgradeViewController.m; sourceTree = "<group>"; };
@@ -552,6 +577,26 @@
 		9A2185B5255BD153000330E5 /* CacheHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheHelper.swift; sourceTree = "<group>"; };
 		9A2185C6255BE42D000330E5 /* GuideCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuideCollectionViewCell.swift; sourceTree = "<group>"; };
 		9A218626255CEA1D000330E5 /* LoginResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginResponse.swift; sourceTree = "<group>"; };
+		9A21BFD12D002FD30048CF53 /* ABOtaViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ABOtaViewController.swift; sourceTree = "<group>"; };
+		9A21BFD32D0030330048CF53 /* OTA.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = OTA.storyboard; sourceTree = "<group>"; };
+		9A21BFD52D0030F60048CF53 /* TimeRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeRecord.swift; sourceTree = "<group>"; };
+		9A21BFD72D00339F0048CF53 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
+		9A21BFDB2D00758E0048CF53 /* MyDataReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyDataReader.swift; sourceTree = "<group>"; };
+		9A21BFE02D0082E00048CF53 /* ABOta.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ABOta.swift; sourceTree = "<group>"; };
+		9A21BFE12D0082E00048CF53 /* ABOtaManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ABOtaManager.swift; sourceTree = "<group>"; };
+		9A21BFE32D0082E00048CF53 /* DataReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataReader.swift; sourceTree = "<group>"; };
+		9A21BFE42D0082E00048CF53 /* OtaCommandGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtaCommandGenerator.swift; sourceTree = "<group>"; };
+		9A21BFE52D0082E00048CF53 /* OtaConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtaConstants.swift; sourceTree = "<group>"; };
+		9A21BFE62D0082E00048CF53 /* OtaDataDefinition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtaDataDefinition.swift; sourceTree = "<group>"; };
+		9A21BFE72D0082E00048CF53 /* OtaDataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtaDataProvider.swift; sourceTree = "<group>"; };
+		9A21BFE82D0082E00048CF53 /* OtaDataReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtaDataReader.swift; sourceTree = "<group>"; };
+		9A21BFEA2D0082E00048CF53 /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
+		9A21BFEB2D0082E00048CF53 /* LoggerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggerDelegate.swift; sourceTree = "<group>"; };
+		9A21BFED2D0082E00048CF53 /* OtaError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtaError.swift; sourceTree = "<group>"; };
+		9A21BFEE2D0082E00048CF53 /* OtaManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtaManager.swift; sourceTree = "<group>"; };
+		9A21BFF02D0082E00048CF53 /* ByteBuffer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ByteBuffer.swift; sourceTree = "<group>"; };
+		9A21BFF12D0082E00048CF53 /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
+		9A21C0012D008CBC0048CF53 /* OtaService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtaService.swift; sourceTree = "<group>"; };
 		9A2676AB26B1969B0096BC61 /* Alarm.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Alarm.mp3; sourceTree = "<group>"; };
 		9A28DA5A2518D4E900F7B260 /* DotView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DotView.swift; sourceTree = "<group>"; };
 		9A28DA5B2518D4E900F7B260 /* UIColor+hex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+hex.swift"; sourceTree = "<group>"; };
@@ -857,6 +902,8 @@
 		9A839C6825610AB000714CBE /*  TargetModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = " TargetModel.swift"; sourceTree = "<group>"; };
 		9A839C6B25611FA900714CBE /* HHCountdowLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HHCountdowLabel.h; sourceTree = "<group>"; };
 		9A839C6C25611FA900714CBE /* HHCountdowLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHCountdowLabel.m; sourceTree = "<group>"; };
+		9A869E0C2D12CCC200B78FDF /* OTAInfoManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OTAInfoManager.swift; sourceTree = "<group>"; };
+		9A869E0F2D17DDEB00B78FDF /* ABParTool.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = ABParTool.xcframework; sourceTree = "<group>"; };
 		9A8CA4E725272C5200EC01A7 /* CVCalendarDayView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CVCalendarDayView.swift; sourceTree = "<group>"; };
 		9A8CA4E825272C5200EC01A7 /* CVWeekdaySymbolType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CVWeekdaySymbolType.swift; sourceTree = "<group>"; };
 		9A8CA4E925272C5200EC01A7 /* CVRange.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CVRange.swift; sourceTree = "<group>"; };
@@ -891,6 +938,11 @@
 		9A8CA528252CA8BA00EC01A7 /* DataRecordTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataRecordTableViewCell.swift; sourceTree = "<group>"; };
 		9A8CA52A252CB6E000EC01A7 /* HelpCenterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpCenterViewController.swift; sourceTree = "<group>"; };
 		9A8D431C250F411800E8D6F7 /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
+		9A93EE4E2CFDE78C00C02370 /* BluetoothTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothTestViewController.swift; sourceTree = "<group>"; };
+		9A93EE4F2CFDE78C00C02370 /* XGZTBlueToothManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XGZTBlueToothManager.swift; sourceTree = "<group>"; };
+		9A93EE502CFDE78C00C02370 /* XGZTBusinessHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XGZTBusinessHandler.swift; sourceTree = "<group>"; };
+		9A93EE512CFDE78C00C02370 /* XGZTCommands.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XGZTCommands.swift; sourceTree = "<group>"; };
+		9A93EE532CFDE78C00C02370 /* XGZTSwitchDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XGZTSwitchDevice.swift; sourceTree = "<group>"; };
 		9A9E4E0E278136E60084CCFF /* 3_80_160.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 3_80_160.png; sourceTree = "<group>"; };
 		9A9E4E0F278136E60084CCFF /* 1_80_160.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 1_80_160.png; sourceTree = "<group>"; };
 		9A9E4E10278136E70084CCFF /* 4_80_160.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 4_80_160.png; sourceTree = "<group>"; };
@@ -1069,10 +1121,6 @@
 		D0967DDE3410784139DF5B20 /* Pods-TJDWristbandSDKDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TJDWristbandSDKDemo.release.xcconfig"; path = "Target Support Files/Pods-TJDWristbandSDKDemo/Pods-TJDWristbandSDKDemo.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
-/* Begin PBXFileSystemSynchronizedRootGroup section */
-		9A31E6522CE71CCB00C74D97 /* huaxin */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = huaxin; sourceTree = "<group>"; };
-/* End PBXFileSystemSynchronizedRootGroup section */
-
 /* Begin PBXFrameworksBuildPhase section */
 		18385E9724517F1600EA380A /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
@@ -1089,6 +1137,7 @@
 				9AB5BE1C2A06644500680757 /* libJL_BmpConvert.a in Frameworks */,
 				9AB5BE1F2A06644500680757 /* JLDialUnit.framework in Frameworks */,
 				9A491EEF2BA07C43000CF726 /* AliIotConnectKit.framework in Frameworks */,
+				9A869E112D17DDFB00B78FDF /* ABParTool.xcframework in Frameworks */,
 				9AB5BE272A06649300680757 /* RTKLEFoundation.framework in Frameworks */,
 				9AAF85CC25C6D42000960BDD /* MapKit.framework in Frameworks */,
 				9AB5BE292A06649700680757 /* RTKOTASDK.framework in Frameworks */,
@@ -1121,7 +1170,7 @@
 		18385E9C24517F1600EA380A /* SmartBracelet */ = {
 			isa = PBXGroup;
 			children = (
-				9A31E6522CE71CCB00C74D97 /* huaxin */,
+				9A93EE542CFDE78C00C02370 /* huaxin */,
 				9A5E932E2515CC500060AB13 /* Tab */,
 				9A4E624224F7E91F00A0E878 /* Device */,
 				9A350BE124EA3266004CEE6A /* Mine */,
@@ -1135,6 +1184,7 @@
 				18385F092451819E00EA380A /* Async.swift */,
 				18385F042451819E00EA380A /* DetailViewController.swift */,
 				9A820B7324CEA1CC00A62C6F /* BaseViewController.swift */,
+				9A21BFD32D0030330048CF53 /* OTA.storyboard */,
 				9A4E624324F7E94E00A0E878 /* Device.storyboard */,
 				18385F12245181D900EA380A /* Main.storyboard */,
 				9A350BE424EA6476004CEE6A /* Mine.storyboard */,
@@ -1151,6 +1201,7 @@
 		18385EB124517F7700EA380A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				9A869E0F2D17DDEB00B78FDF /* ABParTool.xcframework */,
 				9A491EED2BA07A8C000CF726 /* AliIotConnectKit.framework */,
 				9A0C34932B341D6100E798F1 /* DFUnits.framework */,
 				9A0C34942B341D6600E798F1 /* JL_BLEKit.framework */,
@@ -1173,8 +1224,6 @@
 				9A7F13812A8C8099006C0F61 /* loading.gif */,
 				9A2676AB26B1969B0096BC61 /* Alarm.mp3 */,
 				9A08C653262C5A1100E178DA /* lefun */,
-				9A037E4125BDACFE0006FB94 /* 8267_module_tOTA.bin */,
-				9A08C670262C71DA00E178DA /* SmartBand_PHY_ota.hex */,
 				9AAF861B25C83E5000960BDD /* IdleResources.bundle */,
 			);
 			path = Resource;
@@ -1277,6 +1326,67 @@
 				9AC58A1428C37A3800992836 /* ClockResponse.swift */,
 			);
 			path = RequestAndResponse;
+			sourceTree = "<group>";
+		};
+		9A21BFDF2D0081BD0048CF53 /* FOTA */ = {
+			isa = PBXGroup;
+			children = (
+				9A21BFE22D0082E00048CF53 /* ABOta */,
+				9A21BFE92D0082E00048CF53 /* Data */,
+				9A21BFEC2D0082E00048CF53 /* Log */,
+				9A21BFEF2D0082E00048CF53 /* Manager */,
+				9A21BFF22D0082E00048CF53 /* Utils */,
+			);
+			path = FOTA;
+			sourceTree = "<group>";
+		};
+		9A21BFE22D0082E00048CF53 /* ABOta */ = {
+			isa = PBXGroup;
+			children = (
+				9A21BFE02D0082E00048CF53 /* ABOta.swift */,
+				9A21BFE12D0082E00048CF53 /* ABOtaManager.swift */,
+			);
+			path = ABOta;
+			sourceTree = "<group>";
+		};
+		9A21BFE92D0082E00048CF53 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				9A21BFE32D0082E00048CF53 /* DataReader.swift */,
+				9A21BFE42D0082E00048CF53 /* OtaCommandGenerator.swift */,
+				9A21BFE52D0082E00048CF53 /* OtaConstants.swift */,
+				9A21BFE62D0082E00048CF53 /* OtaDataDefinition.swift */,
+				9A21BFE72D0082E00048CF53 /* OtaDataProvider.swift */,
+				9A21BFE82D0082E00048CF53 /* OtaDataReader.swift */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		9A21BFEC2D0082E00048CF53 /* Log */ = {
+			isa = PBXGroup;
+			children = (
+				9A21BFEA2D0082E00048CF53 /* Logger.swift */,
+				9A21BFEB2D0082E00048CF53 /* LoggerDelegate.swift */,
+			);
+			path = Log;
+			sourceTree = "<group>";
+		};
+		9A21BFEF2D0082E00048CF53 /* Manager */ = {
+			isa = PBXGroup;
+			children = (
+				9A21BFED2D0082E00048CF53 /* OtaError.swift */,
+				9A21BFEE2D0082E00048CF53 /* OtaManager.swift */,
+			);
+			path = Manager;
+			sourceTree = "<group>";
+		};
+		9A21BFF22D0082E00048CF53 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				9A21BFF02D0082E00048CF53 /* ByteBuffer.swift */,
+				9A21BFF12D0082E00048CF53 /* Extension.swift */,
+			);
+			path = Utils;
 			sourceTree = "<group>";
 		};
 		9A28DA592518D4DC00F7B260 /* Dot */ = {
@@ -1415,6 +1525,7 @@
 				9A4CADEF29406E6E00B0BDF8 /* QuestionItemResponse.swift */,
 				9A4CADF12940941F00B0BDF8 /* JXWebViewController.swift */,
 				9A4CADF32940944300B0BDF8 /* JXLocalizedString.swift */,
+				9A869E0C2D12CCC200B78FDF /* OTAInfoManager.swift */,
 			);
 			path = Device;
 			sourceTree = "<group>";
@@ -1937,6 +2048,13 @@
 			path = Controllers;
 			sourceTree = "<group>";
 		};
+		9A869E0E2D16D66B00B78FDF /* CustomDeal */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = CustomDeal;
+			sourceTree = "<group>";
+		};
 		9A8CA4E625272C5200EC01A7 /* CVCalendar */ = {
 			isa = PBXGroup;
 			children = (
@@ -1986,6 +2104,33 @@
 				9A5E932B2515BBFC0060AB13 /* User.md */,
 			);
 			path = Login;
+			sourceTree = "<group>";
+		};
+		9A93EE4D2CFDE78C00C02370 /* OTA */ = {
+			isa = PBXGroup;
+			children = (
+				9A21BFDF2D0081BD0048CF53 /* FOTA */,
+				9A21BFDB2D00758E0048CF53 /* MyDataReader.swift */,
+				9A21BFD52D0030F60048CF53 /* TimeRecord.swift */,
+				9A21BFD12D002FD30048CF53 /* ABOtaViewController.swift */,
+				9A21BFD72D00339F0048CF53 /* Utils.swift */,
+				9A21C0012D008CBC0048CF53 /* OtaService.swift */,
+			);
+			path = OTA;
+			sourceTree = "<group>";
+		};
+		9A93EE542CFDE78C00C02370 /* huaxin */ = {
+			isa = PBXGroup;
+			children = (
+				9A869E0E2D16D66B00B78FDF /* CustomDeal */,
+				9A93EE4D2CFDE78C00C02370 /* OTA */,
+				9A93EE4E2CFDE78C00C02370 /* BluetoothTestViewController.swift */,
+				9A93EE4F2CFDE78C00C02370 /* XGZTBlueToothManager.swift */,
+				9A93EE502CFDE78C00C02370 /* XGZTBusinessHandler.swift */,
+				9A93EE512CFDE78C00C02370 /* XGZTCommands.swift */,
+				9A93EE532CFDE78C00C02370 /* XGZTSwitchDevice.swift */,
+			);
+			path = huaxin;
 			sourceTree = "<group>";
 		};
 		9AA2E0412B343C9B0008CA56 /* SwiftScanner */ = {
@@ -2252,9 +2397,6 @@
 			);
 			dependencies = (
 			);
-			fileSystemSynchronizedGroups = (
-				9A31E6522CE71CCB00C74D97 /* huaxin */,
-			);
 			name = SmartBracelet;
 			productName = TJDWristbandSDKDemo;
 			productReference = 18385E9A24517F1600EA380A /* FitDAY.app */;
@@ -2342,16 +2484,15 @@
 				9A9E4E14278136E70084CCFF /* 4_80_160.png in Resources */,
 				9A2185AE255BC6AA000330E5 /* new1.jpg in Resources */,
 				9A2181672557EDBE000330E5 /* water.jpg in Resources */,
+				9A21BFD42D0030330048CF53 /* OTA.storyboard in Resources */,
 				9A2185AF255BC6AA000330E5 /* new4.jpg in Resources */,
 				9AA2E0642B343C9C0008CA56 /* HeaderVC.xib in Resources */,
 				9A7F13822A8C8099006C0F61 /* loading.gif in Resources */,
 				9A33D30826AD9A4F00DF9618 /* CameraViewAssets.xcassets in Resources */,
-				9A08C671262C71DA00E178DA /* SmartBand_PHY_ota.hex in Resources */,
 				9A5613F32524879600C43C6A /* CommonCalendarView.xib in Resources */,
 				18385EA724517F1A00EA380A /* Assets.xcassets in Resources */,
 				9AF3F2DB2BCBFF2600AFBC55 /* icon_default.png in Resources */,
 				9A21859E255BBDD9000330E5 /* root.jpg in Resources */,
-				9A037E4225BDACFE0006FB94 /* 8267_module_tOTA.bin in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2556,12 +2697,18 @@
 				9A60DED9252F002400E0D849 /* CurrentCityTableViewCell.swift in Sources */,
 				9AF3F2D72BCBFA6500AFBC55 /* HealthTableViewCell.swift in Sources */,
 				9A8CA52525272C5200EC01A7 /* CVPresent.swift in Sources */,
+				9A93EE552CFDE78C00C02370 /* XGZTSwitchDevice.swift in Sources */,
+				9A93EE562CFDE78C00C02370 /* XGZTBusinessHandler.swift in Sources */,
+				9A93EE572CFDE78C00C02370 /* XGZTBlueToothManager.swift in Sources */,
+				9A93EE582CFDE78C00C02370 /* BluetoothTestViewController.swift in Sources */,
+				9A93EE592CFDE78C00C02370 /* XGZTCommands.swift in Sources */,
 				9A56D26D25216FC60082CC08 /* ScatterChartView.swift in Sources */,
 				9A56D27A25216FC60082CC08 /* Platform+Touch Handling.swift in Sources */,
 				9A839BEA255F72F000714CBE /* PopupBViewController.swift in Sources */,
 				9A350BE924EA765F004CEE6A /* UserInfoViewController.swift in Sources */,
 				9A56D26A25216FC60082CC08 /* BubbleChartView.swift in Sources */,
 				18385E9E24517F1600EA380A /* AppDelegate.swift in Sources */,
+				9A21BFDC2D00758E0048CF53 /* MyDataReader.swift in Sources */,
 				9AB7AC422765B96700D51DBC /* QACircleProgressView.m in Sources */,
 				9AE1A1702629465F00B8B10D /* DDFileReader.m in Sources */,
 				9AFAE8762A8F21F7005EF8F8 /* JGProgressHUDSuccessIndicatorView.m in Sources */,
@@ -2612,10 +2759,12 @@
 				9AFAE8792A8F21F7005EF8F8 /* JGProgressHUDFadeAnimation.m in Sources */,
 				9AA0BC94250F63B3003B9F64 /* LoginViewController.swift in Sources */,
 				9A839C5A2560F3FA00714CBE /* SGSportTrackingLine.m in Sources */,
+				9A21BFD22D002FD40048CF53 /* ABOtaViewController.swift in Sources */,
 				9A52106B2503349A00F64A7A /* ClockBCollectionViewCell.swift in Sources */,
 				9A08C6EF262F17FE00E178DA /* OTCModel.m in Sources */,
 				9A3C55CF2BD3ECA3007737A2 /* RoundView.swift in Sources */,
 				9A33D30C26AD9A4F00DF9618 /* SingleImageFetcher.swift in Sources */,
+				9A21C0022D008CBC0048CF53 /* OtaService.swift in Sources */,
 				9A64F08025DCDEB00073E679 /* SportRecordMonthView.swift in Sources */,
 				9A64F08225DD50D70073E679 /* ClockUseViewController.swift in Sources */,
 				9A350BED24EA8068004CEE6A /* BindPhoneNumViewController.swift in Sources */,
@@ -2642,6 +2791,7 @@
 				9AEC230025B7114500DE899A /* Data+Extension.swift in Sources */,
 				9A60DEC4252D5D5E00E0D849 /* AccountSafeTableViewCell.swift in Sources */,
 				9A64F0BC25DF50C30073E679 /* DAlarmModel.swift in Sources */,
+				9A869E0D2D12CCC200B78FDF /* OTAInfoManager.swift in Sources */,
 				9AE6687D267F8A4F00A8584A /* MAWeatherLiveView.m in Sources */,
 				9AE66889267F8AD700A8584A /* ALView+PureLayout.m in Sources */,
 				9AB7AC4C2767004C00D51DBC /* SelectItemViewController.swift in Sources */,
@@ -2766,6 +2916,20 @@
 				9A8CA51E25272C5200EC01A7 /* CVCalendarViewAnimatorDelegate.swift in Sources */,
 				9AA2E0652B343C9C0008CA56 /* ScannerVC.swift in Sources */,
 				9A8CA50725272C5200EC01A7 /* CVCalendarDayView.swift in Sources */,
+				9A21BFF32D0082E00048CF53 /* OtaError.swift in Sources */,
+				9A21BFF42D0082E00048CF53 /* OtaDataDefinition.swift in Sources */,
+				9A21BFF52D0082E00048CF53 /* OtaDataProvider.swift in Sources */,
+				9A21BFF62D0082E00048CF53 /* ABOta.swift in Sources */,
+				9A21BFF72D0082E00048CF53 /* Extension.swift in Sources */,
+				9A21BFF82D0082E00048CF53 /* ByteBuffer.swift in Sources */,
+				9A21BFF92D0082E00048CF53 /* OtaConstants.swift in Sources */,
+				9A21BFFA2D0082E00048CF53 /* Logger.swift in Sources */,
+				9A21BFFB2D0082E00048CF53 /* DataReader.swift in Sources */,
+				9A21BFFC2D0082E00048CF53 /* LoggerDelegate.swift in Sources */,
+				9A21BFFD2D0082E00048CF53 /* OtaCommandGenerator.swift in Sources */,
+				9A21BFFE2D0082E00048CF53 /* ABOtaManager.swift in Sources */,
+				9A21BFFF2D0082E00048CF53 /* OtaDataReader.swift in Sources */,
+				9A21C0002D0082E00048CF53 /* OtaManager.swift in Sources */,
 				9A56D28625216FC60082CC08 /* MarkerImage.swift in Sources */,
 				9A56D24325216FC60082CC08 /* ScatterChartRenderer.swift in Sources */,
 				9A820B8924D104AE00A62C6F /* SetTargetViewController.swift in Sources */,
@@ -2802,6 +2966,7 @@
 				9A56D26F25216FC60082CC08 /* ChartAnimationEasing.swift in Sources */,
 				9A56D2A225216FC70082CC08 /* BubbleChartDataEntry.swift in Sources */,
 				9A56D25225216FC60082CC08 /* XAxisRendererHorizontalBarChart.swift in Sources */,
+				9A21BFD82D00339F0048CF53 /* Utils.swift in Sources */,
 				9AF3F2DD2BCC229B00AFBC55 /* HNavigationController.swift in Sources */,
 				9A60DEC6252D896400E0D849 /* BindEmailViewController.swift in Sources */,
 				9A56D28225216FC60082CC08 /* Platform+Color.swift in Sources */,
@@ -2834,6 +2999,7 @@
 				9A367B7825BD208100BFB4C3 /* Query.swift in Sources */,
 				9A56D29625216FC70082CC08 /* BarChartDataEntry.swift in Sources */,
 				9A56D2BD25216FC70082CC08 /* BarChartDataProvider.swift in Sources */,
+				9A21BFD62D0030F60048CF53 /* TimeRecord.swift in Sources */,
 				9A56D26E25216FC60082CC08 /* PieChartView.swift in Sources */,
 				9AA2E05E2B343C9C0008CA56 /* Common.swift in Sources */,
 				9A820B8524D05B3A00A62C6F /* SportViewController.swift in Sources */,
@@ -3041,7 +3207,7 @@
 				CODE_SIGN_ENTITLEMENTS = "";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_ASSET_PATHS = TJDWristbandSDK.framework;
 				DEVELOPMENT_TEAM = 6BTCM549U7;
@@ -3065,7 +3231,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/SmartBracelet/JL/BLEUsage",
 				);
-				MARKETING_VERSION = 2.3.9;
+				MARKETING_VERSION = 2.4.0;
 				OTHER_SWIFT_FLAGS = "$(inherited) -D WeiZhongYun -D DisplayPrint -D TestMode";
 				PRODUCT_BUNDLE_IDENTIFIER = com.sinophy.uwatch;
 				PRODUCT_NAME = FitDAY;
@@ -3090,7 +3256,7 @@
 				CODE_SIGN_ENTITLEMENTS = "";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = TJDWristbandSDK.framework;
 				DEVELOPMENT_TEAM = 6BTCM549U7;
 				ENABLE_BITCODE = NO;
@@ -3113,7 +3279,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/SmartBracelet/JL/BLEUsage",
 				);
-				MARKETING_VERSION = 2.3.9;
+				MARKETING_VERSION = 2.4.0;
 				OTHER_SWIFT_FLAGS = "$(inherited) -D WeiZhongYun -D DisplayPrint -D TestMode";
 				PRODUCT_BUNDLE_IDENTIFIER = com.sinophy.uwatch;
 				PRODUCT_NAME = FitDAY;

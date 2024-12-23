@@ -13,14 +13,12 @@
 import UIKit
 import TJDWristbandSDK
 import Toaster
-import AudioToolbox
-import AVKit
 
 let bleSelf = WUBleManager.shared
 
 class BLEManager: NSObject {
     static let shared = BLEManager()
-    var soundID: SystemSoundID = 0
+    
     var sleepArray: [[SleepModel]] = Array(repeating: [], count: 6)
     var stepArray: [[StepModel]] = Array(repeating: [], count: 6)
     var heartArray: [HeartModel] = []
@@ -85,6 +83,10 @@ class BLEManager: NSObject {
             bleSelf.startFindBleDevices()
 
         }
+    }
+    
+    public func stopScan() {
+        bleSelf.stopFindBleDevices()
     }
     
     public func startScanAndConnect() {
@@ -307,45 +309,7 @@ class BLEManager: NSObject {
         }
         #endif
         if notify.name == WristbandNotifyKeys.search_Phone { // 搜索手机
-            // 创建通知内容
-            let content = UNMutableNotificationContent()
-            content.title = NSLocalizedString("device_tip", comment: "")
-            content.body = NSLocalizedString("found_success", comment: "")
-            content.badge = 1
-            content.sound = .default
-
-            // 设置触发器
-            let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 5, repeats: false)
-
-            // 创建通知请求
-            let request = UNNotificationRequest(identifier: "notification.id.01", content: content, trigger: trigger)
-
-            // 添加通知请求到UNUserNotificationCenter
-            UNUserNotificationCenter.current().add(request) { error in
-                if let error = error {
-                    print("添加本地通知错误: \(error.localizedDescription)")
-                } else {
-                    print("添加本地通知成功")
-                }
-            }
-            
-            DispatchQueue.main.async {
-                [weak self] in
-                
-                
-                let alert = UIAlertController(title: "device_tip".localized(), message: "found_success".localized(), preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "mine_confirm".localized(), style: .cancel, handler: { [weak self] action in
-                    // 停止播放声音
-                    AudioServicesDisposeSystemSoundID(self?.soundID ?? 0)
-                }))
-                UIApplication.shared.keyWindow?.rootViewController?.present(alert, animated: true, completion: {
-                    
-                })
-            }
-            
-            let soundURL = Bundle.main.url(forResource: "Alarm", withExtension: "mp3")
-            AudioServicesCreateSystemSoundID(soundURL as! CFURL, &soundID)
-            AudioServicesPlaySystemSound(soundID)
+            (UIApplication.shared.delegate as? AppDelegate)?.foundphone()
         }
         
         if notify.name == WristbandNotifyKeys.readyToWrite {

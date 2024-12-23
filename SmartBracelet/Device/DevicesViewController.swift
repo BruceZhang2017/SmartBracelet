@@ -202,10 +202,10 @@ class DevicesViewController: BaseViewController {
             $0.left.equalTo(0)
             $0.top.equalTo(lblTitle.snp.bottom).offset(10)
             $0.right.equalTo(0)
-            $0.height.equalTo(52 * 13)
+            $0.height.equalTo(52 * 14)
             $0.bottom.equalToSuperview()
         }
-        bottomLConstraint.constant = 52 * 13 + 30 + 40
+        bottomLConstraint.constant = 52 * 14 + 30 + 40
     }
     
     public func addChangeButton() {
@@ -343,7 +343,7 @@ class DevicesViewController: BaseViewController {
     }
     
     @objc public func pushToDial() {
-        if bleSelf.isConnected == false {
+        if !bleSelf.isConnected && XGZTBlueToothManager.shared.device == nil {
             Toast(text: "mine_unconnect".localized()).show()
             return
         }
@@ -399,6 +399,10 @@ extension DevicesViewController: UICollectionViewDataSource {
 extension DevicesViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
+        if !bleSelf.isConnected && XGZTBlueToothManager.shared.device == nil {
+            Toast(text: "mine_unconnect".localized()).show()
+            return
+        }
         pushToClockManage(index: indexPath.row)
     }
     

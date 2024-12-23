@@ -24,28 +24,115 @@ class APNSViewController: BaseViewController {
         let mSwitch = sender as? UISwitch
         let tag = mSwitch?.tag ?? 0
         if tag == 0 {
-            bleSelf.notifyModel.isWechat = mSwitch?.isOn ?? false
+            if isXGZT {
+                XGZTBlueToothManager.shared.device?.isWechat = mSwitch?.isOn ?? false
+            } else {
+                bleSelf.notifyModel.isWechat = mSwitch?.isOn ?? false
+            }
         } else if tag == 1 {
-            bleSelf.notifyModel.isQQ = mSwitch?.isOn ?? false
+            if isXGZT {
+                XGZTBlueToothManager.shared.device?.isQQ = mSwitch?.isOn ?? false
+            } else {
+                bleSelf.notifyModel.isQQ = mSwitch?.isOn ?? false
+            }
         } else if tag == 2 {
-            bleSelf.notifyModel.isLinkedin = mSwitch?.isOn ?? false
+            if isXGZT {
+                XGZTBlueToothManager.shared.device?.isLinkedIn = mSwitch?.isOn ?? false
+            } else {
+                bleSelf.notifyModel.isLinkedin = mSwitch?.isOn ?? false
+            }
         } else if tag == 3 {
-            bleSelf.notifyModel.isFacebook = mSwitch?.isOn ?? false
+            if isXGZT {
+                XGZTBlueToothManager.shared.device?.isFacebook = mSwitch?.isOn ?? false
+            } else {
+                bleSelf.notifyModel.isFacebook = mSwitch?.isOn ?? false
+            }
         } else if tag == 4 {
-            bleSelf.notifyModel.isTwitter = mSwitch?.isOn ?? false
+            if isXGZT {
+                XGZTBlueToothManager.shared.device?.isTwitter = mSwitch?.isOn ?? false
+            } else {
+                bleSelf.notifyModel.isTwitter = mSwitch?.isOn ?? false
+            }
         } else if tag == 10 {
-            bleSelf.notifyModel.isWhatapp = mSwitch?.isOn ?? false
+            if isXGZT {
+                XGZTBlueToothManager.shared.device?.isWhatsapp = mSwitch?.isOn ?? false
+            } else {
+                bleSelf.notifyModel.isWhatapp = mSwitch?.isOn ?? false
+            }
         } else if tag == 11 {
-            bleSelf.notifyModel.isLine = mSwitch?.isOn ?? false
+            if isXGZT {
+                XGZTBlueToothManager.shared.device?.isLine = mSwitch?.isOn ?? false
+            } else {
+                bleSelf.notifyModel.isLine = mSwitch?.isOn ?? false
+            }
         } else if tag == 12 {
-            bleSelf.notifyModel.isKakaoTalk = mSwitch?.isOn ?? false
+            if isXGZT {
+                XGZTBlueToothManager.shared.device?.isKakaotalk = mSwitch?.isOn ?? false
+            } else {
+                bleSelf.notifyModel.isKakaoTalk = mSwitch?.isOn ?? false
+            }
         } else if tag == 13 {
-            bleSelf.notifyModel.isFacebookMessage = mSwitch?.isOn ?? false
+            if isXGZT {
+                XGZTBlueToothManager.shared.device?.isFacebookMessenger = mSwitch?.isOn ?? false
+            } else {
+                bleSelf.notifyModel.isFacebookMessage = mSwitch?.isOn ?? false
+            }
         } else if tag == 14 {
-            bleSelf.notifyModel.isInstagram = mSwitch?.isOn ?? false
+            if isXGZT {
+                XGZTBlueToothManager.shared.device?.isInstagram = mSwitch?.isOn ?? false
+            } else {
+                bleSelf.notifyModel.isInstagram = mSwitch?.isOn ?? false
+            }
         }
-        
-        bleSelf.setAncsSwitchForWristband(bleSelf.notifyModel)
+        if isXGZT {
+            guard let device = XGZTBlueToothManager.shared.device else {
+                return
+            }
+            var p0: UInt8 = 0
+            var p1: UInt8 = 0
+            var p2: UInt8 = 0
+            var p3: UInt8 = 0
+            p0 |= device.isNullMessage ? 1 << 0 : 0
+            p0 |= device.isIncomingCall ? 1 << 1 : 0
+            p0 |= device.isMissedCall ? 1 << 2 : 0
+            p0 |= device.isMessages ? 1 << 3 : 0
+            p0 |= device.isEmail ? 1 << 4 : 0
+            p0 |= device.isSchedule ? 1 << 5 : 0
+            p0 |= device.isFacetime ? 1 << 6 : 0
+            p0 |= device.isQQ ? 1 << 7 : 0
+
+            // 处理 response[8]
+            p1 |= device.isSkype ? 1 << 0 : 0
+            p1 |= device.isWechat ? 1 << 1 : 0
+            p1 |= device.isWhatsapp ? 1 << 2 : 0
+            p1 |= device.isGmail ? 1 << 3 : 0
+            p1 |= device.isHangout ? 1 << 4 : 0
+            p1 |= device.isInbox ? 1 << 5 : 0
+            p1 |= device.isLine ? 1 << 6 : 0
+            p1 |= device.isTwitter ? 1 << 7 : 0
+            
+            // 处理 response[9]
+            p2 |= device.isFacebook ? 1 << 0 : 0
+            p2 |= device.isFacebookMessenger ? 1 << 1 : 0
+            p2 |= device.isInstagram ? 1 << 2 : 0
+            p2 |= device.isWeibo ? 1 << 3 : 0
+            p2 |= device.isKakaotalk ? 1 << 4 : 0
+            p2 |= device.isFacebookpagemanager ? 1 << 5 : 0
+            p2 |= device.isViber ? 1 << 6 : 0
+            p2 |= device.isVkclient ? 1 << 7 : 0
+            
+            // 处理 response[9]
+            p3 |= device.isTelegram ? 1 << 0 : 0
+            p3 |= device.isSnapchat ? 1 << 2 : 0
+            p3 |= device.isDingTalk ? 1 << 3 : 0
+            p3 |= device.isAlipay ? 1 << 4 : 0
+            p3 |= device.isTiktok ? 1 << 5 : 0
+            p3 |= device.isLinkedIn ? 1 << 6 : 0
+            
+            XGZTCommand.setSwitchTableExtension(p0: p0, p1: p1, p2: p2, p3: p3)
+        } else {
+            bleSelf.setAncsSwitchForWristband(bleSelf.notifyModel)
+        }
     }
 }
 
@@ -73,27 +160,68 @@ extension APNSViewController: UITableViewDataSource {
         mSwitch.tag = indexPath.section * 10 + indexPath.row
         if indexPath.section == 0 {
             if indexPath.row == 0 {
-                mSwitch.isOn = bleSelf.notifyModel.isWechat
+                if isXGZT {
+                    mSwitch.isOn = XGZTBlueToothManager.shared.device?.isWechat ?? false 
+                } else {
+                    mSwitch.isOn = bleSelf.notifyModel.isWechat
+                }
+                
             } else if indexPath.row == 1 {
-                mSwitch.isOn = bleSelf.notifyModel.isQQ
+                if isXGZT {
+                    mSwitch.isOn = XGZTBlueToothManager.shared.device?.isQQ ?? false
+                } else {
+                    mSwitch.isOn = bleSelf.notifyModel.isQQ
+                }
             } else if indexPath.row == 2 {
-                mSwitch.isOn = bleSelf.notifyModel.isLinkedin
+                if isXGZT {
+                    mSwitch.isOn = XGZTBlueToothManager.shared.device?.isLinkedIn ?? false
+                } else {
+                    mSwitch.isOn = bleSelf.notifyModel.isLinkedin
+                }
             } else if indexPath.row == 3 {
-                mSwitch.isOn = bleSelf.notifyModel.isFacebook
+                if isXGZT {
+                    mSwitch.isOn = XGZTBlueToothManager.shared.device?.isFacebook ?? false
+                } else {
+                    mSwitch.isOn = bleSelf.notifyModel.isFacebook
+                }
             } else {
-                mSwitch.isOn = bleSelf.notifyModel.isTwitter
+                if isXGZT {
+                    mSwitch.isOn = XGZTBlueToothManager.shared.device?.isTwitter ?? false
+                } else {
+                    mSwitch.isOn = bleSelf.notifyModel.isTwitter
+                }
             }
         } else if indexPath.section == 1 {
             if indexPath.row == 0 {
-                mSwitch.isOn = bleSelf.notifyModel.isWhatapp
+                if isXGZT {
+                    mSwitch.isOn = XGZTBlueToothManager.shared.device?.isWhatsapp ?? false
+                } else {
+                    mSwitch.isOn = bleSelf.notifyModel.isWhatapp
+                }
             } else if indexPath.row == 1 {
-                mSwitch.isOn = bleSelf.notifyModel.isLine
+                if isXGZT {
+                    mSwitch.isOn = XGZTBlueToothManager.shared.device?.isLine ?? false
+                } else {
+                    mSwitch.isOn = bleSelf.notifyModel.isLine
+                }
             } else if indexPath.row == 2 {
-                mSwitch.isOn = bleSelf.notifyModel.isKakaoTalk
+                if isXGZT {
+                    mSwitch.isOn = XGZTBlueToothManager.shared.device?.isKakaotalk ?? false
+                } else {
+                    mSwitch.isOn = bleSelf.notifyModel.isKakaoTalk
+                }
             } else if indexPath.row == 3 {
-                mSwitch.isOn = bleSelf.notifyModel.isFacebookMessage
+                if isXGZT {
+                    mSwitch.isOn = XGZTBlueToothManager.shared.device?.isFacebookMessenger ?? false
+                } else {
+                    mSwitch.isOn = bleSelf.notifyModel.isFacebookMessage
+                }
             } else if indexPath.row == 4 {
-                mSwitch.isOn = bleSelf.notifyModel.isInstagram
+                if isXGZT {
+                    mSwitch.isOn = XGZTBlueToothManager.shared.device?.isInstagram ?? false
+                } else {
+                    mSwitch.isOn = bleSelf.notifyModel.isInstagram
+                }
             }
         }
         mSwitch.addTarget(self, action: #selector(valueChanged(_:)), for: .valueChanged)

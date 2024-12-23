@@ -72,11 +72,18 @@ class DeviceFoundViewController: BaseViewController {
     }
     
     @IBAction func found(_ sender: Any) {
-        bleSelf.findDeviceForWristband()
+        if isXGZT {
+            XGZTCommand.findBand(p0: 0)
+        } else {
+            bleSelf.findDeviceForWristband()
+        }
         testing()
     }
     
     @IBAction func cancel(_ sender: Any) {
+        if isXGZT {
+            XGZTCommand.findBand(p0: 1)
+        }
         stop()
         navigationController?.popViewController(animated: true)
     }

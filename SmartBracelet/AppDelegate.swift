@@ -10,12 +10,15 @@ import UIKit
 import IQKeyboardManagerSwift
 import XCGLogger
 import RealmSwift
+import AudioToolbox
+import AVKit
 
 let log = XCGLogger()
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
+    var soundID: SystemSoundID = 0
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         application.applicationIconBadgeNumber = 0
@@ -61,16 +64,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     public func pushToTab() {
-        if !CacheHelper().getCacheBool(name: "first") {
-            let sb = UIStoryboard(name: "Main", bundle: nil)
-            let vc = sb.instantiateViewController(withIdentifier: "GuideViewController")
-            window?.rootViewController = vc
-            return
-        }
+//        if !CacheHelper().getCacheBool(name: "first") {
+//            let sb = UIStoryboard(name: "Main", bundle: nil)
+//            let vc = sb.instantiateViewController(withIdentifier: "GuideViewController")
+//            window?.rootViewController = vc
+//            return
+//        }
         let sb = UIStoryboard(name: "Main", bundle: nil)
         let vc = sb.instantiateViewController(withIdentifier: "MTabBarController")
         window?.rootViewController = vc
-        //window?.rootViewController = UINavigationController(rootViewController: BluetoothTestViewController())
     }
     
     private func setupConfig() {
@@ -91,6 +93,76 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
         }, deleteRealmIfMigrationNeeded: false, shouldCompactOnLaunch: nil, objectTypes: nil)
         Realm.Configuration.defaultConfiguration = config
+    }
+    
+    // 将文件复制到指定文件夹下
+    func copyFileToDocumentsDirectory(fileName: String) {
+        let fileManager = FileManager.default
+        guard let documentsDirectory = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first else {
+            print("无法获取文档目录路径")
+            return
+        }
+        
+        let destinationURL = documentsDirectory.appendingPathComponent(fileName)
+        
+        if fileManager.fileExists(atPath: destinationURL.path) {
+            print("文件已经存在于文档目录中")
+            return
+        }
+        
+        guard let sourceURL = Bundle.main.url(forResource: fileName, withExtension: nil) else {
+            print("无法找到资源包中的文件")
+            return
+        }
+        
+        do {
+            try fileManager.copyItem(at: sourceURL, to: destinationURL)
+            print("文件成功复制到文档目录")
+        } catch {
+            print("复制文件时发生错误: \(error)")
+        }
+    }
+    
+    public func foundphone() {
+        // 创建通知内容
+        let content = UNMutableNotificationContent()
+        content.title = NSLocalizedString("device_tip", comment: "")
+        content.body = NSLocalizedString("found_success", comment: "")
+        content.badge = 1
+        content.sound = .default
+
+        // 设置触发器
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 5, repeats: false)
+
+        // 创建通知请求
+        let request = UNNotificationRequest(identifier: "notification.id.01", content: content, trigger: trigger)
+
+        // 添加通知请求到UNUserNotificationCenter
+        UNUserNotificationCenter.current().add(request) { error in
+            if let error = error {
+                print("添加本地通知错误: \(error.localizedDescription)")
+            } else {
+                print("添加本地通知成功")
+            }
+        }
+        
+        DispatchQueue.main.async {
+            [weak self] in
+            
+            
+            let alert = UIAlertController(title: "device_tip".localized(), message: "found_success".localized(), preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "mine_confirm".localized(), style: .cancel, handler: { [weak self] action in
+                // 停止播放声音
+                AudioServicesDisposeSystemSoundID(self?.soundID ?? 0)
+            }))
+            UIApplication.shared.keyWindow?.rootViewController?.present(alert, animated: true, completion: {
+                
+            })
+        }
+        
+        let soundURL = Bundle.main.url(forResource: "Alarm", withExtension: "mp3")
+        AudioServicesCreateSystemSoundID(soundURL as! CFURL, &soundID)
+        AudioServicesPlaySystemSound(soundID)
     }
 }
 
@@ -113,23 +185,21 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         return completionHandler([.alert, .badge, .sound])
     }
     
-func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
-    // 判断通知的触发器类型
-    // 如果触发器是 UNTimeIntervalNotificationTrigger 类型
-    if let trigger = response.notification.request.trigger as? UNTimeIntervalNotificationTrigger {
-        print("Notification did receive, Is class UNTimeIntervalNotificationTrigger")
-        UIApplication.shared.applicationIconBadgeNumber = 0
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        // 判断通知的触发器类型
+        // 如果触发器是 UNTimeIntervalNotificationTrigger 类型
+        if let trigger = response.notification.request.trigger as? UNTimeIntervalNotificationTrigger {
+            print("Notification did receive, Is class UNTimeIntervalNotificationTrigger")
+            UIApplication.shared.applicationIconBadgeNumber = 0
+        }
+        // 如果触发器是 UNCalendarNotificationTrigger 类型
+        else if let trigger = response.notification.request.trigger as? UNCalendarNotificationTrigger {
+            print("Notification did receive, Is class UNCalendarNotificationTrigger")
+            UIApplication.shared.applicationIconBadgeNumber = 0
+        }
+        // 调用 completionHandler 表示处理完成
+        return completionHandler()
     }
-    // 如果触发器是 UNCalendarNotificationTrigger 类型
-    else if let trigger = response.notification.request.trigger as? UNCalendarNotificationTrigger {
-        print("Notification did receive, Is class UNCalendarNotificationTrigger")
-        UIApplication.shared.applicationIconBadgeNumber = 0
-    }
-    // 调用 completionHandler 表示处理完成
-    return completionHandler()
-}
-
-//这段代码是一个实现 UNUserNotificationCenterDelegate 协议的方法，用于处理用户对通知的响应。在方法中，首先获取通知的触发器类型，然后根据触发器类型打印相应的日志。最后调用 completionHandler 表示处理完成。
     
 
 }
@@ -142,6 +212,10 @@ extension String {
 
 extension AppDelegate {
     public static func IsDeviceNotRound() -> Bool {
+        if isXGZT {
+            return XGZTBlueToothManager.shared.device?.screenType != 1
+        }
+        
         var type = BLEDeviceNameHandler().handleName()
         if type == 0 {
             type = bleSelf.bleModel.screenType

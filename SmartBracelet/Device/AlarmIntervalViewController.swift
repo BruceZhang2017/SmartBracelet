@@ -12,6 +12,7 @@ import TJDWristbandSDK
 class AlarmIntervalViewController: BaseViewController {
     @IBOutlet weak var tableView: UITableView!
     var alarm: WUAlarmClock!
+    var alarmData: AlarmData?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,10 +35,18 @@ extension AlarmIntervalViewController: UITableViewDataSource {
         }
         
         if let iv = cell.viewWithTag(2) as? UIImageView {
-            if alarm.repeatInterval == (indexPath.row + 1) * 10 {
-                iv.isHidden = false
+            if isXGZT {
+                if alarmData?.remindLater ?? 0 == (indexPath.row + 1) * 10 {
+                    iv.isHidden = false
+                } else {
+                    iv.isHidden = true
+                }
             } else {
-                iv.isHidden = true
+                if alarm.repeatInterval == (indexPath.row + 1) * 10 {
+                    iv.isHidden = false
+                } else {
+                    iv.isHidden = true
+                }
             }
         }
         return cell
@@ -47,7 +56,11 @@ extension AlarmIntervalViewController: UITableViewDataSource {
 extension AlarmIntervalViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        alarm.repeatInterval = (indexPath.row + 1) * 10
+        if isXGZT {
+            alarmData?.remindLater = (indexPath.row + 1) * 10
+        } else {
+            alarm.repeatInterval = (indexPath.row + 1) * 10
+        }
         navigationController?.popViewController(animated: true)
     }
 }

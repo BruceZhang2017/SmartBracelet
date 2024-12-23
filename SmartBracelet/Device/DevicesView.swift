@@ -85,7 +85,7 @@ class DevicesView: UIView {
         DeviceManager.shared.initializeDevices()
         
         let count = DeviceManager.shared.devices.count
-        if count == 0 {
+        if count == 0 && UserDefaults.standard.array(forKey: "max")?.count == 0 {
             self.isHidden = true
         } else {
             self.isHidden = false
@@ -99,6 +99,32 @@ class DevicesView: UIView {
                     }
                 }
             }
+            // 自研产品
+            var array = UserDefaults.standard.array(forKey: "max") as? [String]
+
+            if array == nil {
+                array = [String]()
+            }
+
+            if let index = array?.firstIndex(of: lastestDeviceMac) {
+                print("Item already exists at index \(index)")
+                self.isHidden = false
+                cardImgView.image = UIImage(named: "icon_ewatch")
+                var device = BluetoothWatchDevice()
+                device.loadFromSandbox(mac: lastestDeviceMac)
+                cardNameLabel.text = device.deviceName ?? ""
+                if device.max == lastestDeviceMac && (device.max == XGZTBlueToothManager.shared.device?.max && XGZTBlueToothManager.shared.device != nil) {
+                    bConnected = true
+                    btImgView.image = UIImage(named: "content_blueteeth_link")
+                } else {
+                    btImgView.image = UIImage(named: "content_blueteeth_unlink")
+                }
+                macLabel.text = device.max ?? ""
+                
+                return
+            }
+            
+            
             if currentModel == nil {
                 self.isHidden = true
             } else {

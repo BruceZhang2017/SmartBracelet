@@ -75,12 +75,6 @@ class HealthViewController: BaseViewController {
         
         NotificationCenter.default.addObserver(self, selector: #selector(handleDidEnterBackgroundNotification), name: UIApplication.didEnterBackgroundNotification, object: nil)
         
-        
-        if lastestDeviceMac.count == 0 {
-//            pressureView.isHidden = true
-//            bleedView.isHidden = true
-        }
-        
         if isSupportAlipay {
             AliConnectMananger_C.shared.bleSendDataDelegate = self // 阿里云相关逻辑
             
@@ -164,6 +158,9 @@ class HealthViewController: BaseViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         sexImageView.image = UIImage(named: bleSelf.userInfo.sex == 1 ? "health_boy" : "health_girl")
+        if isXGZT {
+            return
+        }
         
         if !isFirst {
             readDBStep() // 从本地数据库中读取步数数据
@@ -177,14 +174,7 @@ class HealthViewController: BaseViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        refreshUIForBleed()
-    }
-    
-    private func refreshUIForBleed() {
-        if lastestDeviceMac.count > 0 {
-//            pressureView.isHidden = false
-//            bleedView.isHidden = false
-        }
+        tableView.reloadData()
     }
     
     deinit {
@@ -224,7 +214,6 @@ class HealthViewController: BaseViewController {
         if objc == "step" {
             DispatchQueue.main.async {
                 [weak self] in
-                self?.refreshUIForBleed()
                 let step = bleSelf.step
                 self?.refreshValue(label: self?.footValueLabel, value: "\(step)", unit: "health_step_noun".localized(), size1: 40, size2: 14)
                 let distance = bleSelf.distance
@@ -476,26 +465,22 @@ class HealthViewController: BaseViewController {
     }
     
     @IBAction func addDevice(_ sender: Any) {
-//        let count = DeviceManager.shared.devices.count
-//        let storyboard = UIStoryboard(name: "Device", bundle: nil)
-//        if count == 0 {
-//            let vc = storyboard.instantiateViewController(withIdentifier: "DeviceSearchViewController") as? DeviceSearchViewController
-//            vc?.title = "device_add".localized()
-//            vc?.refreshBackButton()
-//            vc?.hidesBottomBarWhenPushed = true
-//            navigationController?.pushViewController(vc!, animated: true)
-//        } else {
-//            let vc = storyboard.instantiateViewController(withIdentifier: "DeviceListViewController") as? DeviceListViewController
-//            vc?.title = "device_change".localized()
-//            vc?.refreshBackButton()
-//            vc?.style = 1
-//            vc?.hidesBottomBarWhenPushed = true
-//            navigationController?.pushViewController(vc!, animated: true)
-//        }
-        let vc = BluetoothTestViewController()
-        vc.title = "测试"
-        vc.hidesBottomBarWhenPushed = true
-        navigationController?.pushViewController(vc, animated: true)
+        let count = DeviceManager.shared.devices.count
+        let storyboard = UIStoryboard(name: "Device", bundle: nil)
+        if count == 0 {
+            let vc = storyboard.instantiateViewController(withIdentifier: "DeviceSearchViewController") as? DeviceSearchViewController
+            vc?.title = "device_add".localized()
+            vc?.refreshBackButton()
+            vc?.hidesBottomBarWhenPushed = true
+            navigationController?.pushViewController(vc!, animated: true)
+        } else {
+            let vc = storyboard.instantiateViewController(withIdentifier: "DeviceListViewController") as? DeviceListViewController
+            vc?.title = "device_change".localized()
+            vc?.refreshBackButton()
+            vc?.style = 1
+            vc?.hidesBottomBarWhenPushed = true
+            navigationController?.pushViewController(vc!, animated: true)
+        }
     }
     
     private func refreshValue(label: UILabel?, value: String, unit: String, size1: CGFloat, size2: CGFloat) {

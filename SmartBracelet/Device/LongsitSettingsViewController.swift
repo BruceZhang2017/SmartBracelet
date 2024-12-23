@@ -46,10 +46,10 @@ extension LongsitSettingsViewController: UITableViewDataSource {
         }
         if let iv = cell.viewWithTag(2) as? UIImageView {
             if flag == 1 {
-                let inter = bleSelf.drinkModel.interval
+                let inter = isXGZT ? (XGZTBlueToothManager.shared.device?.drinkWater?.period ?? 0) : bleSelf.drinkModel.interval
                 iv.isHidden = !(inter == times[indexPath.row])
             } else {
-                let inter = bleSelf.longSitModel.interval
+                let inter = isXGZT ? (XGZTBlueToothManager.shared.device?.longsit?.period ?? 0) : bleSelf.longSitModel.interval
                 iv.isHidden = !(inter == times[indexPath.row])
             }
         }
@@ -63,11 +63,28 @@ extension LongsitSettingsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         if flag == 1 {
-            bleSelf.drinkModel.interval = times[indexPath.row]
-            bleSelf.setDrinkForWristband(bleSelf.drinkModel)
+            if isXGZT {
+                guard let drinkWater = XGZTBlueToothManager.shared.device?.drinkWater else {
+                    return
+                }
+                XGZTBlueToothManager.shared.device?.drinkWater?.period = times[indexPath.row]
+                XGZTCommand.setReminderInfo(response: drinkWater)
+            } else {
+                bleSelf.drinkModel.interval = times[indexPath.row]
+                bleSelf.setDrinkForWristband(bleSelf.drinkModel)
+            }
+            
         } else {
-            bleSelf.longSitModel.interval = times[indexPath.row]
-            bleSelf.setLongSitForWristband(bleSelf.longSitModel)
+            if isXGZT {
+                guard let longsit = XGZTBlueToothManager.shared.device?.longsit else {
+                    return
+                }
+                XGZTBlueToothManager.shared.device?.longsit?.period = times[indexPath.row]
+                XGZTCommand.setReminderInfo(response: longsit)
+            } else {
+                bleSelf.longSitModel.interval = times[indexPath.row]
+                bleSelf.setLongSitForWristband(bleSelf.longSitModel)
+            }
         }
         navigationController?.popViewController(animated: true)
     }
