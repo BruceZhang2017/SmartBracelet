@@ -143,7 +143,8 @@ class DeviceListViewController: BaseViewController {
 extension DeviceListViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let count = DeviceManager.shared.devices.count
+        var count = DeviceManager.shared.devices.count
+        count += BluetoothWatchDevice.loadAll()?.count ?? 0
         return count
     }
     
@@ -151,19 +152,37 @@ extension DeviceListViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: .kCellIdentifier, for: indexPath) as! DeviceTableViewCell
         cell.delegate = self
         cell.selectionStyle = .none
-        let model = DeviceManager.shared.devices[indexPath.row]
-        cell.deviceNameLabel.text = model.name + ""
-        cell.deviceNameLabel.textColor = UIColor.text_primary
-        cell.deviceNameLabel.font = UIFont.subtitle1()
-        cell.deleteButton.titleLabel?.textColor = UIColor.brand
-        cell.deviceImageView.image = UIImage(named: AppDelegate.IsDeviceNotRound() ? "icon_ewatch" : "icon_ewatch_2")
-        if model.mac == lastestDeviceMac && bleSelf.isConnected {
-            cell.selectImageView.isHidden = false
-            cell.bleConnectButton.setTitle("mine_bluetooth_connect".localized(), for: .normal)
+        let count = DeviceManager.shared.devices.count
+        if indexPath.row < count {
+            let model = DeviceManager.shared.devices[indexPath.row]
+            cell.deviceNameLabel.text = model.name + ""
+            cell.deviceNameLabel.textColor = UIColor.text_primary
+            cell.deviceNameLabel.font = UIFont.subtitle1()
+            cell.deleteButton.titleLabel?.textColor = UIColor.brand
+            cell.deviceImageView.image = UIImage(named: AppDelegate.IsDeviceNotRound() ? "icon_ewatch" : "icon_ewatch_2")
+            if model.mac == lastestDeviceMac && bleSelf.isConnected {
+                cell.selectImageView.isHidden = false
+                cell.bleConnectButton.setTitle("mine_bluetooth_connect".localized(), for: .normal)
+            } else {
+                cell.selectImageView.isHidden = true
+                cell.bleConnectButton.setTitle("mine_bluetooth_unconnect".localized(), for: .normal)
+            }
         } else {
-            cell.selectImageView.isHidden = true
-            cell.bleConnectButton.setTitle("mine_bluetooth_unconnect".localized(), for: .normal)
+            let model = BluetoothWatchDevice.loadAll()?[indexPath.row - count]
+            cell.deviceNameLabel.text = model?.deviceName ?? ""
+            cell.deviceNameLabel.textColor = UIColor.text_primary
+            cell.deviceNameLabel.font = UIFont.subtitle1()
+            cell.deleteButton.titleLabel?.textColor = UIColor.brand
+            cell.deviceImageView.image = UIImage(named: AppDelegate.IsDeviceNotRound() ? "icon_ewatch" : "icon_ewatch_2")
+            if model?.max ?? "" == lastestDeviceMac && XGZTBlueToothManager.shared.device != nil {
+                cell.selectImageView.isHidden = false
+                cell.bleConnectButton.setTitle("mine_bluetooth_connect".localized(), for: .normal)
+            } else {
+                cell.selectImageView.isHidden = true
+                cell.bleConnectButton.setTitle("mine_bluetooth_unconnect".localized(), for: .normal)
+            }
         }
+        
 
         return cell
     }
@@ -176,37 +195,48 @@ extension DeviceListViewController: UITableViewDataSource {
 extension DeviceListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        let model = DeviceManager.shared.devices[indexPath.row]
-        if model.mac == lastestDeviceMac && bleSelf.isConnected  {
-            return
+        let count = DeviceManager.shared.devices.count
+        if indexPath.row < count {
+            let model = DeviceManager.shared.devices[indexPath.row]
+            if model.mac == lastestDeviceMac && bleSelf.isConnected  {
+                return
+            }
+            bleSelf.disconnectBleDevice()
+            bleSelf.bleModel.isBond = model.isBond
+            bleSelf.bleModel.uuidString = model.uuidString
+            bleSelf.bleModel.name = model.name
+            bleSelf.bleModel.rssi = model.rssi
+            bleSelf.bleModel.mac = model.mac
+            bleSelf.bleModel.hardwareVersion = model.hardwareVersion
+            bleSelf.bleModel.firmwareVersion = model.firmwareVersion
+            bleSelf.bleModel.vendorNumberASCII = model.vendorNumberASCII
+            bleSelf.bleModel.vendorNumberString = model.vendorNumberString
+            bleSelf.bleModel.internalNumber = model.internalNumber
+            bleSelf.bleModel.internalNumberString = model.internalNumberString
+            if bleSelf.bleModel.internalNumberString.hasPrefix("P1") || bleSelf.bleModel.internalNumberString.hasPrefix("S1") {
+                bleSelf.bleModel.screenWidth = 80
+                bleSelf.bleModel.screenHeight = 160
+            }
+            bleSelf.connectBleDevice(model: bleSelf.bleModel)
+        } else {
+            let model = BluetoothWatchDevice.loadAll()?[indexPath.row - count]
+            if model?.max ?? "" == lastestDeviceMac && XGZTBlueToothManager.shared.device != nil  {
+                return
+            }
+            bleSelf.disconnectBleDevice()
+            XGZTBlueToothManager.shared.connect(to: model?.max ?? "")
+            navigationController?.popViewController(animated: true)
         }
-        bleSelf.disconnectBleDevice()
-        bleSelf.bleModel.isBond = model.isBond
-        bleSelf.bleModel.uuidString = model.uuidString
-        bleSelf.bleModel.name = model.name
-        bleSelf.bleModel.rssi = model.rssi
-        bleSelf.bleModel.mac = model.mac
-        bleSelf.bleModel.hardwareVersion = model.hardwareVersion
-        bleSelf.bleModel.firmwareVersion = model.firmwareVersion
-        bleSelf.bleModel.vendorNumberASCII = model.vendorNumberASCII
-        bleSelf.bleModel.vendorNumberString = model.vendorNumberString
-        bleSelf.bleModel.internalNumber = model.internalNumber
-        bleSelf.bleModel.internalNumberString = model.internalNumberString
-        if bleSelf.bleModel.internalNumberString.hasPrefix("P1") || bleSelf.bleModel.internalNumberString.hasPrefix("S1") {
-            bleSelf.bleModel.screenWidth = 80
-            bleSelf.bleModel.screenHeight = 160
-        }
-        bleSelf.connectBleDevice(model: bleSelf.bleModel)
     }
 }
 
 extension DeviceListViewController: DeviceTableViewCellDelegate {
     func buttonTapped(cell: DeviceTableViewCell) {
-            if let indexPath = tableView.indexPath(for: cell) {
-                print("Button tapped on row \(indexPath.row)")
-                // 在这里处理按钮点击事件
-                let model = DeviceManager.shared.devices[indexPath.row]
-                callbackTap(model: model, bConnected: true)
-            }
+        if let indexPath = tableView.indexPath(for: cell) {
+            print("Button tapped on row \(indexPath.row)")
+            // 在这里处理按钮点击事件
+            let model = DeviceManager.shared.devices[indexPath.row]
+            callbackTap(model: model, bConnected: true)
         }
+    }
 }

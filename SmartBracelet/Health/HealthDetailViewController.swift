@@ -12,6 +12,7 @@
 
 import UIKit
 import TJDWristbandSDK
+import RealmSwift
 
 class HealthDetailViewController: BaseViewController {
     let lineChartView: LineChartView = LineChartView()
@@ -76,9 +77,6 @@ class HealthDetailViewController: BaseViewController {
             make.bottom.equalToSuperview()
             make.height.equalTo(valueView.snp.width).multipliedBy(h/375.0)
         }
-        
-//        unitBLabel.text = "health_step_noun".localized()
-//        dataDynamicLabel.text = "health_data_dynamic".localized()
         
         view.addSubview(roundView)
         roundView.backgroundColor = UIColor.clear
@@ -203,13 +201,27 @@ class HealthDetailViewController: BaseViewController {
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
     }
     
+    func getBitValue(of number: Int, at position: Int) -> Int {
+        // 使用位运算获取指定位置的位值
+        let bitValue = (number >> position) & 1
+        return bitValue
+    }
+    
     private func addTest() {
         let bk = bleSelf.bleModel.internalNumber.hasPrefix("5A4B") // 是否为中科
         if bk {
             return
         }
         
-        if bleSelf.isConnected == false {
+        if bleSelf.isConnected == false && XGZTBlueToothManager.shared.device == nil {
+            return
+        }
+        
+        if (type == 2 && isXGZT) && ((XGZTBlueToothManager.shared.device?.healthcontrolflags ?? 0) & 1 == 0) {
+            return
+        }
+        
+        if (type == 5 && isXGZT) && ( getBitValue(of: (XGZTBlueToothManager.shared.device?.healthcontrolflags ?? 0), at: 1) == 0) {
             return
         }
         
@@ -410,34 +422,38 @@ class HealthDetailViewController: BaseViewController {
     
     func setChartViewData() {
         var values: [ChartDataEntry] = []
-        values += initializeData()
-        let set1 = LineChartDataSet(entries: values, label: "")
-        set1.drawIconsEnabled = false
-        
-        set1.setColor(UIColor.brand)
-        set1.lineWidth = 1
-        set1.valueFont = .systemFont(ofSize: 9)
-        set1.formLineWidth = 0.5
-        set1.mode = .horizontalBezier
-        set1.drawValuesEnabled = false // 不要绘制值
-        set1.drawCirclesEnabled = false
-        set1.circleHoleRadius = 2
-        set1.circleRadius = 4
-        
-        let gradientColors = [ChartColorTemplates.colorFromString("#1A80FCFF").cgColor,
-                              ChartColorTemplates.colorFromString("#1A80FC11").cgColor]
-        let gradient = CGGradient(colorsSpace: nil, colors: gradientColors as CFArray, locations: nil)!
+        initializeData { [weak self] v in
+            // Handle the values array here
+            values += v
+            let set1 = LineChartDataSet(entries: values, label: "")
+            set1.drawIconsEnabled = false
+            
+            set1.setColor(UIColor.brand)
+            set1.lineWidth = 1
+            set1.valueFont = .systemFont(ofSize: 9)
+            set1.formLineWidth = 0.5
+            set1.mode = .horizontalBezier
+            set1.drawValuesEnabled = false // 不要绘制值
+            set1.drawCirclesEnabled = false
+            set1.circleHoleRadius = 2
+            set1.circleRadius = 4
+            
+            let gradientColors = [ChartColorTemplates.colorFromString("#1A80FCFF").cgColor,
+                                  ChartColorTemplates.colorFromString("#1A80FC11").cgColor]
+            let gradient = CGGradient(colorsSpace: nil, colors: gradientColors as CFArray, locations: nil)!
 
-        set1.fillAlpha = 1
-        set1.fill = Fill(linearGradient: gradient, angle: 90)
-        set1.drawFilledEnabled = true
-        
-        let data = LineChartData(dataSet: set1)
+            set1.fillAlpha = 1
+            set1.fill = Fill(linearGradient: gradient, angle: 90)
+            set1.drawFilledEnabled = true
+            
+            let data = LineChartData(dataSet: set1)
 
-        lineChartView.data = data
+            self?.lineChartView.data = data
+            
+            self?.valueView.refreshView(isHideNull: values.count != 0)
+            self?.lineChartView.isHidden = values.count == 0
+        }
         
-        valueView.refreshView(isHideNull: values.count != 0)
-        lineChartView.isHidden = values.count == 0
     }
     
     func setBarChartView() {
@@ -491,28 +507,33 @@ class HealthDetailViewController: BaseViewController {
     
     func setBarData() {
         var values: [BarChartDataEntry] = []
-        values += initializeBarData()
-        let set1 = BarChartDataSet(entries: values, label: "")
-        set1.drawIconsEnabled = false
+        initializeBarData { [weak self] updatedValues in
+            // 使用 updatedValues 进行后续操作
+            values += updatedValues
+            let set1 = BarChartDataSet(entries: values, label: "")
+            set1.drawIconsEnabled = false
+            
+            let data = BarChartData(dataSet: set1)
+            data.barWidth = 0.5
+            self?.barChartView.data = data
+            
+            self?.valueView.refreshView(isHideNull: values.count != 0)
+            self?.barChartView.isHidden = values.count == 0
+            
+            set1.drawValuesEnabled = false // 不要绘制值
+            // 设置柱状图的颜色
+            set1.colors = [NSUIColor.kDC98FF] // 你可以使用数组来设置多个颜色
+        }
         
-        let data = BarChartData(dataSet: set1)
-        data.barWidth = 0.5
-        barChartView.data = data
-        
-        valueView.refreshView(isHideNull: values.count != 0)
-        barChartView.isHidden = values.count == 0
-        
-        set1.drawValuesEnabled = false // 不要绘制值
-        // 设置柱状图的颜色
-        set1.colors = [NSUIColor.kDC98FF] // 你可以使用数组来设置多个颜色
         
     }
     
-    private func initializeData() -> [ChartDataEntry] {
+    private func initializeData(completion: @escaping ([ChartDataEntry]) -> Void) {
         var values: [ChartDataEntry] = []
         for i in 0..<24 {
             values.append(ChartDataEntry(x: Double(i), y: Double(0)))
         }
+        
         if type == 0 { // 步数
             totalValue = 0
             totalKM = 0
@@ -558,7 +579,7 @@ class HealthDetailViewController: BaseViewController {
                     totalValue1 += value
                 }
             }
-            
+
             if array1.count > 0 && bleSelf.step > totalValue && mDate.isToday() {
                 let zero = mDate.zeroTimeStamp()
                 let x = (Int(Date().timeIntervalSince1970) - Int(zero)) / 3600
@@ -568,7 +589,7 @@ class HealthDetailViewController: BaseViewController {
                 totalValue1 = bleSelf.cal
                 lineChartView.notifyDataSetChanged()
             }
-            
+
             let m = NSMutableAttributedString()
             m.append(NSAttributedString(string: String(format: "%.2f", Float(totalKM) / Float(1000)), attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 20, weight: .black)]))
             m.append(NSAttributedString(string: "health_walk_unit".localized(), attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 14, weight: .semibold)]))
@@ -578,38 +599,76 @@ class HealthDetailViewController: BaseViewController {
             let b = NSMutableAttributedString()
             b.append(NSAttributedString(string: "\(totalValue)", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 40, weight: .black)]))
             b.append(NSAttributedString(string: "health_step_noun".localized(), attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 14, weight: .medium)]))
-            
+
             fanView.refreshValue(values: [m, c], value: b)
             var goal = UserDefaults.standard.integer(forKey: "Goal")
             if goal == 0 {
                 goal = bleSelf.userInfo.stepGoal
             }
             fanView.setProgress(CGFloat(totalValue) / CGFloat(goal))
+            completion(values)
         } else if type == 2 { // 心率
-            var count = 0
-            let array = readDBHeart()
-            if array.count > 0 {
-                count = array.count
-                let zero = mDate.zeroTimeStamp()
-                for i in 0..<array.count {
-                    let value = array[i].heartRate
-                    let x = (array[i].timeStamp - Int(zero)) / 3660
-                    values[x] = ChartDataEntry(x: Double(x), y: Double(value) / Double(40))
+            if isXGZT {
+                var count = 0
+                let dispatchGroup = DispatchGroup()
+                dispatchGroup.enter()
+                readXGZTDBHeart { [weak self] heartObjs in
+                    let array = heartObjs
+                    if array.count > 0 {
+                        count = array.count
+                        let zero = self!.mDate.zeroTimeStamp()
+                        for i in 0..<array.count {
+                            let value = array[i].heart
+                            let x = (array[i].time - Int(zero)) / 3660
+                            values[x] = ChartDataEntry(x: Double(x), y: Double(value) / Double(40))
+                        }
+                        print("获取到数据的数量为：\(values.count)")
+                    }
+                    if count > 0 {
+                        let b = NSMutableAttributedString()
+                        b.append(NSAttributedString(string: "\(array.last?.heart ?? 0)", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 40, weight: .black)]))
+                        b.append(NSAttributedString(string: "health_value_p_minute".localized(), attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 14, weight: .medium)]))
+                        self?.roundView.refreshView(value: b)
+                        self?.roundView.setProgress(CGFloat(array.last?.heart ?? 0) / 200)
+                    } else {
+                        let b = NSMutableAttributedString()
+                        b.append(NSAttributedString(string: "0", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 40, weight: .black)]))
+                        b.append(NSAttributedString(string: "health_value_p_minute".localized(), attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 14, weight: .medium)]))
+                        self?.roundView.refreshView(value: b)
+                        self?.roundView.setProgress(0)
+                    }
+                    dispatchGroup.leave()
                 }
-                print("获取到数据的数量为：\(values.count)")
-            }
-            if count > 0 {
-                let b = NSMutableAttributedString()
-                b.append(NSAttributedString(string: "\(array.last?.heartRate ?? 0)", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 40, weight: .black)]))
-                b.append(NSAttributedString(string: "health_value_p_minute".localized(), attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 14, weight: .medium)]))
-                roundView.refreshView(value: b)
-                roundView.setProgress(CGFloat(array.last?.heartRate ?? 0) / 200)
+                dispatchGroup.notify(queue: .main) {
+                    completion(values)
+                }
             } else {
-                let b = NSMutableAttributedString()
-                b.append(NSAttributedString(string: "0", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 40, weight: .black)]))
-                b.append(NSAttributedString(string: "health_value_p_minute".localized(), attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 14, weight: .medium)]))
-                roundView.refreshView(value: b)
-                roundView.setProgress(0)
+                var count = 0
+                let array = readDBHeart()
+                if array.count > 0 {
+                    count = array.count
+                    let zero = mDate.zeroTimeStamp()
+                    for i in 0..<array.count {
+                        let value = array[i].heartRate
+                        let x = (array[i].timeStamp - Int(zero)) / 3660
+                        values[x] = ChartDataEntry(x: Double(x), y: Double(value) / Double(40))
+                    }
+                    print("获取到数据的数量为：\(values.count)")
+                }
+                if count > 0 {
+                    let b = NSMutableAttributedString()
+                    b.append(NSAttributedString(string: "\(array.last?.heartRate ?? 0)", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 40, weight: .black)]))
+                    b.append(NSAttributedString(string: "health_value_p_minute".localized(), attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 14, weight: .medium)]))
+                    roundView.refreshView(value: b)
+                    roundView.setProgress(CGFloat(array.last?.heartRate ?? 0) / 200)
+                } else {
+                    let b = NSMutableAttributedString()
+                    b.append(NSAttributedString(string: "0", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 40, weight: .black)]))
+                    b.append(NSAttributedString(string: "health_value_p_minute".localized(), attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 14, weight: .medium)]))
+                    roundView.refreshView(value: b)
+                    roundView.setProgress(0)
+                }
+                completion(values)
             }
         } else if type == 4 { // 血压
             var count = 0
@@ -637,105 +696,198 @@ class HealthDetailViewController: BaseViewController {
                 roundView.refreshView(value: b)
                 roundView.setProgress(0)
             }
+            completion(values)
         } else if type == 5 { // 血氧
-            var count = 0
-            let array = readBlood()
-            print("从数据库里读取到的血氧数据数量为：\(array.count)")
-            if array.count > 0 {
-                count = array.count
-                let zero = mDate.zeroTimeStamp()
-                for i in 0..<array.count {
-                    let value = array[i].oxygen
-                    let x = (array[i].timeStamp - Int(zero)) / 3660
-                    values[x] = ChartDataEntry(x: Double(x), y: Double(value) / Double(20))
+            if isXGZT {
+                var count = 0
+                let dispatchGroup = DispatchGroup()
+                dispatchGroup.enter()
+                readXGZTBlood { [weak self] oxgenObjs in
+                    let array = oxgenObjs
+                    print("从数据库里读取到的血氧数据数量为：\(array.count)")
+                    if array.count > 0 {
+                        count = array.count
+                        let zero = self!.mDate.zeroTimeStamp()
+                        for i in 0..<array.count {
+                            let value = array[i].oxgen
+                            let x = (array[i].time - Int(zero)) / 3660
+                            values[x] = ChartDataEntry(x: Double(x), y: Double(value) / Double(20))
+                        }
+                        print("获取到数据的数量为：\(values.count)")
+                    }
+                    if count > 0 {
+                        let b = NSMutableAttributedString()
+                        b.append(NSAttributedString(string: "\(array.last?.oxgen ?? 0)", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 40, weight: .black)]))
+                        b.append(NSAttributedString(string: "SPO2", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 14, weight: .medium)]))
+                        self?.roundView.refreshView(value: b)
+                        self?.roundView.setProgress(CGFloat(array.last?.oxgen ?? 0) / 200)
+                    } else {
+                        let b = NSMutableAttributedString()
+                        b.append(NSAttributedString(string: "0", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 40, weight: .black)]))
+                        b.append(NSAttributedString(string: "SPO2", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 14, weight: .medium)]))
+                        self?.roundView.refreshView(value: b)
+                        self?.roundView.setProgress(0)
+                    }
+                    dispatchGroup.leave()
                 }
-                print("获取到数据的数量为：\(values.count)")
-            }
-            if count > 0 {
-                let b = NSMutableAttributedString()
-                b.append(NSAttributedString(string: "\(array.last?.oxygen ?? 0)", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 40, weight: .black)]))
-                b.append(NSAttributedString(string: "SPO2", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 14, weight: .medium)]))
-                roundView.refreshView(value: b)
-                roundView.setProgress(0)
+                dispatchGroup.notify(queue: .main) {
+                    completion(values)
+                }
             } else {
-                let b = NSMutableAttributedString()
-                b.append(NSAttributedString(string: "0", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 40, weight: .black)]))
-                b.append(NSAttributedString(string: "SPO2", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 14, weight: .medium)]))
-                roundView.refreshView(value: b)
-                roundView.setProgress(0)
+                var count = 0
+                let array = readBlood()
+                print("从数据库里读取到的血氧数据数量为：\(array.count)")
+                if array.count > 0 {
+                    count = array.count
+                    let zero = mDate.zeroTimeStamp()
+                    for i in 0..<array.count {
+                        let value = array[i].oxygen
+                        let x = (array[i].timeStamp - Int(zero)) / 3660
+                        values[x] = ChartDataEntry(x: Double(x), y: Double(value) / Double(20))
+                    }
+                    print("获取到数据的数量为：\(values.count)")
+                }
+                if count > 0 {
+                    let b = NSMutableAttributedString()
+                    b.append(NSAttributedString(string: "\(array.last?.oxygen ?? 0)", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 40, weight: .black)]))
+                    b.append(NSAttributedString(string: "SPO2", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 14, weight: .medium)]))
+                    roundView.refreshView(value: b)
+                    roundView.setProgress(CGFloat(array.last?.oxygen ?? 0) / 200)
+                } else {
+                    let b = NSMutableAttributedString()
+                    b.append(NSAttributedString(string: "0", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 40, weight: .black)]))
+                    b.append(NSAttributedString(string: "SPO2", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 14, weight: .medium)]))
+                    roundView.refreshView(value: b)
+                    roundView.setProgress(0)
+                }
+                completion(values)
             }
         }
-        return values
     }
     
-    private func initializeBarData() -> [BarChartDataEntry] {
+    private func initializeBarData(completion: @escaping ([BarChartDataEntry]) -> Void) {
         var values: [BarChartDataEntry] = []
         for i in 0...4 {
             values.append(BarChartDataEntry(x: Double(i), y: Double(0)))
         }
         if type == 3 { // 睡眠
-            let array = readDBSleep()
-            if array.count > 0 {
-                let a = array.map { item -> SleepModel in
-                    let model = SleepModel()
-                    model.timeStamp = item.timeStamp
-                    model.totalCount = item.totalCount
-                    model.indexOfTotal = item.indexOfTotal
-                    model.mac = item.mac
-                    model.uuidString = item.uuidString
-                    model.state = item.state
-                    model.day = item.day
-                    return model
-                }
-                let arr = BLEManager.shared.readSleepData(array: a) // 获得睡眠时间
-                let total = arr[1] + arr[2]
-                let h = total / 60
-                let m = total % 60
-                let b = NSMutableAttributedString()
-                b.append(NSAttributedString(string: "\(h)", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 40, weight: .black)]))
-                b.append(NSAttributedString(string: "health_hour".localized(), attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 14, weight: .medium)]))
-                b.append(NSAttributedString(string: "\(m)", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 40, weight: .black)]))
-                b.append(NSAttributedString(string: "health_minute".localized(), attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 14, weight: .medium)]))
-                if arr.count == 3 {
-                    let m1 = arr[2]
-                    let m2 = arr[1]
-                    let m3 = arr[0]
-                    let qing = NSMutableAttributedString()
-                    qing.append(NSAttributedString(string: "\(m1)", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 20, weight: .black)]))
-                    qing.append(NSAttributedString(string: "health_minute".localized(), attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 14, weight: .semibold)]))
-                    let qian = NSMutableAttributedString()
-                    qian.append(NSAttributedString(string: "\(m2)", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 20, weight: .black)]))
-                    qian.append(NSAttributedString(string: "health_minute".localized(), attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 14, weight: .semibold)]))
-                    let shen = NSMutableAttributedString()
-                    shen.append(NSAttributedString(string: "\(m3)", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 20, weight: .black)]))
-                    shen.append(NSAttributedString(string: "health_minute".localized(), attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 14, weight: .semibold)]))
-                    fanView.refreshValue(values: [qing, qian, shen], value: b)
-                    fanView.setProgress(CGFloat(total) / (60*12))
-                    values[1] = BarChartDataEntry(x: Double(1), y: Double(m1) / 100)
-                    values[2] = BarChartDataEntry(x: Double(2), y: Double(m2) / 100)
-                    values[3] = BarChartDataEntry(x: Double(3), y: Double(m3) / 100)
-                    return values
+            if isXGZT {
+                readXGZTDBSleep { [weak self] v in
+                    guard let self = self else { return }
+                    let array = v
+                    if array.count > 0 {
+                        let total = array[0].light + array[0].deep
+                        let h = total / 60
+                        let m = total % 60
+                        let b = NSMutableAttributedString()
+                        b.append(NSAttributedString(string: "\(h)", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 40, weight: .black)]))
+                        b.append(NSAttributedString(string: "health_hour".localized(), attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 14, weight: .medium)]))
+                        b.append(NSAttributedString(string: "\(m)", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 40, weight: .black)]))
+                        b.append(NSAttributedString(string: "health_minute".localized(), attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 14, weight: .medium)]))
+                        if array.count > 0 {
+                            let m1 = array[0].awake
+                            let m2 = array[0].light
+                            let m3 = array[0].deep
+                            let qing = NSMutableAttributedString()
+                            qing.append(NSAttributedString(string: "\(m1)", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 20, weight: .black)]))
+                            qing.append(NSAttributedString(string: "health_minute".localized(), attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 14, weight: .semibold)]))
+                            let qian = NSMutableAttributedString()
+                            qian.append(NSAttributedString(string: "\(m2)", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 20, weight: .black)]))
+                            qian.append(NSAttributedString(string: "health_minute".localized(), attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 14, weight: .semibold)]))
+                            let shen = NSMutableAttributedString()
+                            shen.append(NSAttributedString(string: "\(m3)", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 20, weight: .black)]))
+                            shen.append(NSAttributedString(string: "health_minute".localized(), attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 14, weight: .semibold)]))
+                            self.fanView.refreshValue(values: [qing, qian, shen], value: b)
+                            self.fanView.setProgress(CGFloat(total) / (60*12))
+                            values[1] = BarChartDataEntry(x: Double(1), y: Double(m1) / 100)
+                            values[2] = BarChartDataEntry(x: Double(2), y: Double(m2) / 100)
+                            values[3] = BarChartDataEntry(x: Double(3), y: Double(m3) / 100)
+                        }
+                    } else {
+                        let qing = NSMutableAttributedString()
+                        qing.append(NSAttributedString(string: "--", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 20, weight: .black)]))
+                        qing.append(NSAttributedString(string: " ", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 14, weight: .semibold)]))
+                        let qian = NSMutableAttributedString()
+                        qian.append(NSAttributedString(string: "--", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 20, weight: .black)]))
+                        qian.append(NSAttributedString(string: " ", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 14, weight: .semibold)]))
+                        let shen = NSMutableAttributedString()
+                        shen.append(NSAttributedString(string: "--", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 20, weight: .black)]))
+                        shen.append(NSAttributedString(string: " ", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 14, weight: .semibold)]))
+                        let b = NSMutableAttributedString()
+                        b.append(NSAttributedString(string: "--", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 40, weight: .black)]))
+                        b.append(NSAttributedString(string: " ", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 10, weight: .medium)]))
+                        b.append(NSAttributedString(string: "", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 40, weight: .black)]))
+                        b.append(NSAttributedString(string: "", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 10, weight: .medium)]))
+                        self.fanView.refreshValue(values: [qing, qian, shen], value: b)
+                        self.fanView.setProgress(0)
+                    }
+                    completion(values)
                 }
             } else {
-                let qing = NSMutableAttributedString()
-                qing.append(NSAttributedString(string: "--", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 20, weight: .black)]))
-                qing.append(NSAttributedString(string: " ", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 14, weight: .semibold)]))
-                let qian = NSMutableAttributedString()
-                qian.append(NSAttributedString(string: "--", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 20, weight: .black)]))
-                qian.append(NSAttributedString(string: " ", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 14, weight: .semibold)]))
-                let shen = NSMutableAttributedString()
-                shen.append(NSAttributedString(string: "--", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 20, weight: .black)]))
-                shen.append(NSAttributedString(string: " ", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 14, weight: .semibold)]))
-                let b = NSMutableAttributedString()
-                b.append(NSAttributedString(string: "--", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 40, weight: .black)]))
-                b.append(NSAttributedString(string: " ", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 10, weight: .medium)]))
-                b.append(NSAttributedString(string: "", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 40, weight: .black)]))
-                b.append(NSAttributedString(string: "", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 10, weight: .medium)]))
-                fanView.refreshValue(values: [qing, qian, shen], value: b)
-                fanView.setProgress(0)
+                let array = readDBSleep()
+                if array.count > 0 {
+                    let a = array.map { item -> SleepModel in
+                        let model = SleepModel()
+                        model.timeStamp = item.timeStamp
+                        model.totalCount = item.totalCount
+                        model.indexOfTotal = item.indexOfTotal
+                        model.mac = item.mac
+                        model.uuidString = item.uuidString
+                        model.state = item.state
+                        model.day = item.day
+                        return model
+                    }
+                    let arr = BLEManager.shared.readSleepData(array: a) // 获得睡眠时间
+                    let total = arr[1] + arr[2]
+                    let h = total / 60
+                    let m = total % 60
+                    let b = NSMutableAttributedString()
+                    b.append(NSAttributedString(string: "\(h)", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 40, weight: .black)]))
+                    b.append(NSAttributedString(string: "health_hour".localized(), attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 14, weight: .medium)]))
+                    b.append(NSAttributedString(string: "\(m)", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 40, weight: .black)]))
+                    b.append(NSAttributedString(string: "health_minute".localized(), attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 14, weight: .medium)]))
+                    if arr.count == 3 {
+                        let m1 = arr[2]
+                        let m2 = arr[1]
+                        let m3 = arr[0]
+                        let qing = NSMutableAttributedString()
+                        qing.append(NSAttributedString(string: "\(m1)", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 20, weight: .black)]))
+                        qing.append(NSAttributedString(string: "health_minute".localized(), attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 14, weight: .semibold)]))
+                        let qian = NSMutableAttributedString()
+                        qian.append(NSAttributedString(string: "\(m2)", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 20, weight: .black)]))
+                        qian.append(NSAttributedString(string: "health_minute".localized(), attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 14, weight: .semibold)]))
+                        let shen = NSMutableAttributedString()
+                        shen.append(NSAttributedString(string: "\(m3)", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 20, weight: .black)]))
+                        shen.append(NSAttributedString(string: "health_minute".localized(), attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 14, weight: .semibold)]))
+                        fanView.refreshValue(values: [qing, qian, shen], value: b)
+                        fanView.setProgress(CGFloat(total) / (60*12))
+                        values[1] = BarChartDataEntry(x: Double(1), y: Double(m1) / 100)
+                        values[2] = BarChartDataEntry(x: Double(2), y: Double(m2) / 100)
+                        values[3] = BarChartDataEntry(x: Double(3), y: Double(m3) / 100)
+                    }
+                } else {
+                    let qing = NSMutableAttributedString()
+                    qing.append(NSAttributedString(string: "--", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 20, weight: .black)]))
+                    qing.append(NSAttributedString(string: " ", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 14, weight: .semibold)]))
+                    let qian = NSMutableAttributedString()
+                    qian.append(NSAttributedString(string: "--", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 20, weight: .black)]))
+                    qian.append(NSAttributedString(string: " ", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 14, weight: .semibold)]))
+                    let shen = NSMutableAttributedString()
+                    shen.append(NSAttributedString(string: "--", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 20, weight: .black)]))
+                    shen.append(NSAttributedString(string: " ", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 14, weight: .semibold)]))
+                    let b = NSMutableAttributedString()
+                    b.append(NSAttributedString(string: "--", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 40, weight: .black)]))
+                    b.append(NSAttributedString(string: " ", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 10, weight: .medium)]))
+                    b.append(NSAttributedString(string: "", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 40, weight: .black)]))
+                    b.append(NSAttributedString(string: "", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 10, weight: .medium)]))
+                    fanView.refreshValue(values: [qing, qian, shen], value: b)
+                    fanView.setProgress(0)
+                }
+                completion(values)
             }
+        } else {
+            completion(values)
         }
-        return values
     }
     
     /// 选择日期
@@ -813,10 +965,26 @@ extension HealthDetailViewController {
         return models?.sorted { $0.timeStamp < $1.timeStamp } ?? []
     }
     
+    func readXGZTDBHeart(completion: @escaping ([HeartObj]) -> Void) {
+        DatabaseManager.shared.getHeartObj(byDate: mDate.stringFromYmd()) { results in
+            let heartObjs = results?.map { $0 } ?? []
+            completion(heartObjs)
+        }
+    }
+    
+    
     func readDBSleep() -> [DSleepModel] {
         let stamp = Int(mDate.zeroTimeStamp())
         let models = try? DSleepModel.er.array("timeStamp>=\(stamp - 2 * 60 * 60) AND timeStamp<\(stamp + 10 * 60 * 60) AND mac='\(lastestDeviceMac)'")
         return models?.sorted { $0.timeStamp < $1.timeStamp } ?? []
+        
+    }
+    
+    func readXGZTDBSleep(completion: @escaping ([SleepObj]) -> Void) {
+        DatabaseManager.shared.getSleepObj(byDate: mDate.stringFromYmd()) { results in
+            let objs = results?.map { $0 } ?? []
+            completion(objs)
+        }
         
     }
     
@@ -830,6 +998,13 @@ extension HealthDetailViewController {
         let stamp = Int(mDate.zeroTimeStamp())
         let models = try? DOxygenModel.er.array("timeStamp>\(stamp) AND timeStamp<\(stamp + 24 * 60 * 60) AND mac='\(lastestDeviceMac)'")
         return models?.sorted { $0.timeStamp < $1.timeStamp } ?? []
+    }
+    
+    func readXGZTBlood(completion: @escaping ([OxgenObj]) -> Void) {
+        DatabaseManager.shared.getOxgenObj(byDate: mDate.stringFromYmd()) { results in
+            let oxgenObjs = results?.map { $0 } ?? []
+            completion(oxgenObjs)
+        }
     }
 }
 
@@ -860,6 +1035,32 @@ extension HealthDetailViewController: TTADataPickerViewDelegate {
 
 extension HealthDetailViewController: TestViewDelegate {
     func handleStartTest() {
+        if isXGZT{
+            if type == 2 {
+                XGZTCommand.startTest(cmdType: 0, control: 1)
+                testView.testing()
+                measureAsync = Async.main(after: 30) {
+                    // do something for update UI
+                    
+                }
+            }
+            if type == 4 {
+                XGZTCommand.startTest(cmdType: 2, control: 1)
+                testView.testing()
+                measureAsync = Async.main(after: 30) {
+                    // do something for update UI
+                }
+            }
+            
+            if type == 5 {
+                XGZTCommand.startTest(cmdType: 1, control: 1)
+                testView.testing()
+                measureAsync = Async.main(after: 30) {
+                    // do something for update UI
+                }
+            }
+            return
+        }
         if type == 2 {
             bleSelf.startMeasure(WristbandMeasureType.heart)
             testView.testing()

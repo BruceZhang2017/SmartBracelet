@@ -108,6 +108,7 @@
 		9A367B7E25BD208100BFB4C3 /* EasyRealmList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A367B7525BD208100BFB4C3 /* EasyRealmList.swift */; };
 		9A367B9525BD235A00BFB4C3 /* RealmManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A367B9425BD235A00BFB4C3 /* RealmManager.swift */; };
 		9A367B9925BD425300BFB4C3 /* DeviceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A367B9825BD425300BFB4C3 /* DeviceManager.swift */; };
+		9A3919D12D1E9547003B8646 /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3919D02D1E9547003B8646 /* DatabaseManager.swift */; };
 		9A3C55C52BD35EE6007737A2 /* HealthValueView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3C55C42BD35EE6007737A2 /* HealthValueView.swift */; };
 		9A3C55C92BD36981007737A2 /* SCBreathAnimationView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9A3C55C82BD36981007737A2 /* SCBreathAnimationView.xib */; };
 		9A3C55CB2BD36A19007737A2 /* SCBreathAnimationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3C55CA2BD36A18007737A2 /* SCBreathAnimationView.swift */; };
@@ -400,7 +401,6 @@
 		9A93EE552CFDE78C00C02370 /* XGZTSwitchDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A93EE532CFDE78C00C02370 /* XGZTSwitchDevice.swift */; };
 		9A93EE562CFDE78C00C02370 /* XGZTBusinessHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A93EE502CFDE78C00C02370 /* XGZTBusinessHandler.swift */; };
 		9A93EE572CFDE78C00C02370 /* XGZTBlueToothManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A93EE4F2CFDE78C00C02370 /* XGZTBlueToothManager.swift */; };
-		9A93EE582CFDE78C00C02370 /* BluetoothTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A93EE4E2CFDE78C00C02370 /* BluetoothTestViewController.swift */; };
 		9A93EE592CFDE78C00C02370 /* XGZTCommands.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A93EE512CFDE78C00C02370 /* XGZTCommands.swift */; };
 		9A99CCEA26CB57DE00D6972A /* TJDWristbandSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18C2820C246A8D13009A60C0 /* TJDWristbandSDK.framework */; };
 		9A99CCEB26CB57DE00D6972A /* TJDWristbandSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 18C2820C246A8D13009A60C0 /* TJDWristbandSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -640,6 +640,7 @@
 		9A367B7525BD208100BFB4C3 /* EasyRealmList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EasyRealmList.swift; sourceTree = "<group>"; };
 		9A367B9425BD235A00BFB4C3 /* RealmManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmManager.swift; sourceTree = "<group>"; };
 		9A367B9825BD425300BFB4C3 /* DeviceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceManager.swift; sourceTree = "<group>"; };
+		9A3919D02D1E9547003B8646 /* DatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
 		9A3C55C42BD35EE6007737A2 /* HealthValueView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthValueView.swift; sourceTree = "<group>"; };
 		9A3C55C82BD36981007737A2 /* SCBreathAnimationView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SCBreathAnimationView.xib; sourceTree = "<group>"; };
 		9A3C55CA2BD36A18007737A2 /* SCBreathAnimationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SCBreathAnimationView.swift; sourceTree = "<group>"; };
@@ -938,7 +939,6 @@
 		9A8CA528252CA8BA00EC01A7 /* DataRecordTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataRecordTableViewCell.swift; sourceTree = "<group>"; };
 		9A8CA52A252CB6E000EC01A7 /* HelpCenterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpCenterViewController.swift; sourceTree = "<group>"; };
 		9A8D431C250F411800E8D6F7 /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
-		9A93EE4E2CFDE78C00C02370 /* BluetoothTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothTestViewController.swift; sourceTree = "<group>"; };
 		9A93EE4F2CFDE78C00C02370 /* XGZTBlueToothManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XGZTBlueToothManager.swift; sourceTree = "<group>"; };
 		9A93EE502CFDE78C00C02370 /* XGZTBusinessHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XGZTBusinessHandler.swift; sourceTree = "<group>"; };
 		9A93EE512CFDE78C00C02370 /* XGZTCommands.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XGZTCommands.swift; sourceTree = "<group>"; };
@@ -2124,11 +2124,11 @@
 			children = (
 				9A869E0E2D16D66B00B78FDF /* CustomDeal */,
 				9A93EE4D2CFDE78C00C02370 /* OTA */,
-				9A93EE4E2CFDE78C00C02370 /* BluetoothTestViewController.swift */,
 				9A93EE4F2CFDE78C00C02370 /* XGZTBlueToothManager.swift */,
 				9A93EE502CFDE78C00C02370 /* XGZTBusinessHandler.swift */,
 				9A93EE512CFDE78C00C02370 /* XGZTCommands.swift */,
 				9A93EE532CFDE78C00C02370 /* XGZTSwitchDevice.swift */,
+				9A3919D02D1E9547003B8646 /* DatabaseManager.swift */,
 			);
 			path = huaxin;
 			sourceTree = "<group>";
@@ -2700,7 +2700,6 @@
 				9A93EE552CFDE78C00C02370 /* XGZTSwitchDevice.swift in Sources */,
 				9A93EE562CFDE78C00C02370 /* XGZTBusinessHandler.swift in Sources */,
 				9A93EE572CFDE78C00C02370 /* XGZTBlueToothManager.swift in Sources */,
-				9A93EE582CFDE78C00C02370 /* BluetoothTestViewController.swift in Sources */,
 				9A93EE592CFDE78C00C02370 /* XGZTCommands.swift in Sources */,
 				9A56D26D25216FC60082CC08 /* ScatterChartView.swift in Sources */,
 				9A56D27A25216FC60082CC08 /* Platform+Touch Handling.swift in Sources */,
@@ -2811,6 +2810,7 @@
 				9A56D29825216FC70082CC08 /* RadarChartDataEntry.swift in Sources */,
 				9A56D29D25216FC70082CC08 /* LineChartData.swift in Sources */,
 				9AFAE8772A8F21F7005EF8F8 /* JGProgressHUDIndicatorView.m in Sources */,
+				9A3919D12D1E9547003B8646 /* DatabaseManager.swift in Sources */,
 				9A56D29E25216FC70082CC08 /* RadarChartData.swift in Sources */,
 				9A60DEFD25301FEE00E0D849 /* DeviceSearchTableViewCell.swift in Sources */,
 				9A839C592560F3FA00714CBE /* SGSportTracking.m in Sources */,
@@ -3207,7 +3207,7 @@
 				CODE_SIGN_ENTITLEMENTS = "";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 7;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_ASSET_PATHS = TJDWristbandSDK.framework;
 				DEVELOPMENT_TEAM = 6BTCM549U7;
@@ -3231,7 +3231,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/SmartBracelet/JL/BLEUsage",
 				);
-				MARKETING_VERSION = 2.4.0;
+				MARKETING_VERSION = 2.4.1;
 				OTHER_SWIFT_FLAGS = "$(inherited) -D WeiZhongYun -D DisplayPrint -D TestMode";
 				PRODUCT_BUNDLE_IDENTIFIER = com.sinophy.uwatch;
 				PRODUCT_NAME = FitDAY;
@@ -3256,7 +3256,7 @@
 				CODE_SIGN_ENTITLEMENTS = "";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 7;
 				DEVELOPMENT_ASSET_PATHS = TJDWristbandSDK.framework;
 				DEVELOPMENT_TEAM = 6BTCM549U7;
 				ENABLE_BITCODE = NO;
@@ -3279,7 +3279,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/SmartBracelet/JL/BLEUsage",
 				);
-				MARKETING_VERSION = 2.4.0;
+				MARKETING_VERSION = 2.4.1;
 				OTHER_SWIFT_FLAGS = "$(inherited) -D WeiZhongYun -D DisplayPrint -D TestMode";
 				PRODUCT_BUNDLE_IDENTIFIER = com.sinophy.uwatch;
 				PRODUCT_NAME = FitDAY;

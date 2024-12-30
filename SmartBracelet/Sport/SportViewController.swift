@@ -206,7 +206,8 @@ class SportViewController: BaseViewController {
     }
     
     @IBAction func addDevice(_ sender: Any) {
-        let count = DeviceManager.shared.devices.count
+        var count = DeviceManager.shared.devices.count
+        count += BluetoothWatchDevice.loadAll()?.count ?? 0
         let storyboard = UIStoryboard(name: "Device", bundle: nil)
         if count == 0 {
             let vc = storyboard.instantiateViewController(withIdentifier: "DeviceSearchViewController")

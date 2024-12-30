@@ -31,7 +31,7 @@ class AlarmViewController: BaseViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         if isXGZT {
-            if XGZTBlueToothManager.shared.device?.alarmcount ?? 0 == 0 {
+            if (XGZTBlueToothManager.shared.device?.alarmcount ?? 0) < 5 {
                 setupNavigationBar()
             }
         } else {

@@ -131,13 +131,20 @@ class MyClockViewController: UIViewController {
         guard let image = currentImage else {
             return
         }
+        
+        guard let data = image.compressImageOnlength(maxLength: 10) else {
+            return
+        }
+        guard let nImage = UIImage(data: data) else {
+            return
+        }
         // 从UIImage获取原始图像数据
-        guard let rawImageData = image.rawImageData else {
+        guard let rawImageData = nImage.rawImageData else {
             return
         }
         
-        let width = Int32(image.size.width)
-        let height = Int32(image.size.height)
+        let width = Int32(nImage.size.width)
+        let height = Int32(nImage.size.height)
     
         
         // 转换原始图像数据到PAR格式

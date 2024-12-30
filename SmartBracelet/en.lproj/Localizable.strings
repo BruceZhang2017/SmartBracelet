@@ -396,3 +396,5 @@
 "No Update Available" = "No Update Available";
 "You are using the latest version." = "You are using the latest version.";
 "qushi" = "trend";
+"age" = "Age";
+"synchronize_data_finish" = "The data synchronization is complete.";

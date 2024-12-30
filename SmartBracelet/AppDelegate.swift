@@ -64,12 +64,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     public func pushToTab() {
-//        if !CacheHelper().getCacheBool(name: "first") {
-//            let sb = UIStoryboard(name: "Main", bundle: nil)
-//            let vc = sb.instantiateViewController(withIdentifier: "GuideViewController")
-//            window?.rootViewController = vc
-//            return
-//        }
         let sb = UIStoryboard(name: "Main", bundle: nil)
         let vc = sb.instantiateViewController(withIdentifier: "MTabBarController")
         window?.rootViewController = vc
@@ -93,34 +87,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
         }, deleteRealmIfMigrationNeeded: false, shouldCompactOnLaunch: nil, objectTypes: nil)
         Realm.Configuration.defaultConfiguration = config
-    }
-    
-    // 将文件复制到指定文件夹下
-    func copyFileToDocumentsDirectory(fileName: String) {
-        let fileManager = FileManager.default
-        guard let documentsDirectory = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first else {
-            print("无法获取文档目录路径")
-            return
-        }
-        
-        let destinationURL = documentsDirectory.appendingPathComponent(fileName)
-        
-        if fileManager.fileExists(atPath: destinationURL.path) {
-            print("文件已经存在于文档目录中")
-            return
-        }
-        
-        guard let sourceURL = Bundle.main.url(forResource: fileName, withExtension: nil) else {
-            print("无法找到资源包中的文件")
-            return
-        }
-        
-        do {
-            try fileManager.copyItem(at: sourceURL, to: destinationURL)
-            print("文件成功复制到文档目录")
-        } catch {
-            print("复制文件时发生错误: \(error)")
-        }
     }
     
     public func foundphone() {

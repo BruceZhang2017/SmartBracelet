@@ -21,6 +21,7 @@ class XGZTBusinessHandler {
             let delayTime = DispatchTime.now() + .milliseconds(300)
             DispatchQueue.main.asyncAfter(deadline: delayTime) {
                 // 这里是你想要延迟执行的代码
+                XGZTCommand.setAppInfo(phoneType: 1)
                 self.syncDevcieInfo()
             }
         }
@@ -40,7 +41,7 @@ class XGZTBusinessHandler {
     }
     
     // 设备同步信息
-    func syncDevcieInfo() {
+    public func syncDevcieInfo() {
         // 1.绑定设备
         XGZTCommand.bindDevice()
         // 2.设置时间
@@ -53,11 +54,35 @@ class XGZTBusinessHandler {
         let now = Date()
         let utcTimeInterval = now.timeIntervalSince1970
         let utc = UInt32(utcTimeInterval)
+        print("同步时间：\(utc) -- \(timeZoneOffsetInHours)")
         XGZTCommand.syncTime(timeZone: timeZoneOffsetInHours, utc: utc)
         // 3.同步语言
         XGZTCommand.getDeviceLanguage(language: 1)
         // 4. 获取步数
+        XGZTCommand.getNewestHealthData(type: 0)
+        // 5. 获取心率
+        XGZTCommand.getNewestHeartData(type: 0)
         
-        // 7. 
+        var delayTime = DispatchTime.now() + .milliseconds(100)
+        DispatchQueue.main.asyncAfter(deadline: delayTime) {
+            XGZTCommand.getNewestHeartData(type: 1)
+        }
+        
+        delayTime = DispatchTime.now() + .milliseconds(200)
+        DispatchQueue.main.asyncAfter(deadline: delayTime) {
+            XGZTCommand.getNewestHeartData(type: 2)
+        }
+        
+        // 6. 获取历史步数
+        delayTime = DispatchTime.now() + .milliseconds(300)
+        DispatchQueue.main.asyncAfter(deadline: delayTime) {
+            XGZTCommand.getStepData()
+        }
+        // 7. 获取历史睡眠
+        delayTime = DispatchTime.now() + .milliseconds(400)
+        DispatchQueue.main.asyncAfter(deadline: delayTime) {
+            XGZTCommand.getHistorySleepData()
+        }
+        
     }
 }

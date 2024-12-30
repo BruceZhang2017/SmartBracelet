@@ -13,6 +13,7 @@ class AlarmIntervalViewController: BaseViewController {
     @IBOutlet weak var tableView: UITableView!
     var alarm: WUAlarmClock!
     var alarmData: AlarmData?
+    var callbackBlock: ((Int) -> ())?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -61,6 +62,7 @@ extension AlarmIntervalViewController: UITableViewDelegate {
         } else {
             alarm.repeatInterval = (indexPath.row + 1) * 10
         }
+        callbackBlock?((indexPath.row + 1) * 10)
         navigationController?.popViewController(animated: true)
     }
 }

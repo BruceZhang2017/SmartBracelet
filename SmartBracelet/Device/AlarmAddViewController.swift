@@ -22,12 +22,14 @@ class AlarmAddViewController: BaseViewController {
     var alarm: WUAlarmClock!
     var weekday = 0
     var alarmData: AlarmData?
+    var isNew: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "device_alarm_settings".localized()
         if isXGZT {
             if alarmData != nil {
+                refreshRepeatValue()
                 let dateFormatter = DateFormatter()
                 dateFormatter.dateFormat = "HH:mm"
                 let date = dateFormatter.date(from: "\(String(format: "%02d", alarmData?.alarmHour ?? 0)):\(String(format: "%02d", alarmData?.alarmMinute ?? 0))")
@@ -64,6 +66,7 @@ class AlarmAddViewController: BaseViewController {
                 lateLabel.text = "\(alarmData?.remindLater ?? 0)\("minute".localized())"
             } else {
                 alarmData = AlarmData(alarmIndex: 0, mswitch: 0, alarmCycle: 0, alarmHour: 0, alarmMinute: 0, vibrationMode: 0, remindLater: 0)
+                isNew = true
             }
         } else {
             lateLabel.text = "\(alarm.repeatInterval)\("minute".localized())"
@@ -82,7 +85,10 @@ class AlarmAddViewController: BaseViewController {
             }
             alarmData?.mswitch = 1
             alarmData?.vibrationMode = 1
-            XGZTCommand.setAlarmInfo(setCmd: 0, alarm: alarmData!)
+            if isNew {
+                alarmData?.alarmIndex = XGZTBlueToothManager.shared.device?.alarms.count ?? 0
+            }
+            XGZTCommand.setAlarmInfo(setCmd: isNew ? 0 : 1, alarm: alarmData!)
         } else {
             if array.count == 2 {
                 alarm.hour = Int(array[0]) ?? 0
@@ -102,6 +108,12 @@ class AlarmAddViewController: BaseViewController {
             vc?.alarm = alarm
         }
         navigationController?.pushViewController(vc!, animated: true)
+        if isXGZT {
+            vc?.callbackBlock = {
+                [weak self] (value) in
+                self?.alarmData?.remindLater = value
+            }
+        }
     }
     
     @IBAction func repeatDate(_ sender: Any) {
@@ -117,7 +129,7 @@ class AlarmAddViewController: BaseViewController {
                 [weak self] (value) in
                 self?.alarmData?.alarmCycle = value
                 if value >= 0 {
-                    self?.refreshWeekValue()
+                    self?.refreshRepeatValue()
                 }
             }
         } else {
@@ -141,6 +153,40 @@ class AlarmAddViewController: BaseViewController {
     }
     
     private func refreshWeekValue() {
+        var value = ""
+        if ((weekday >> 1) & 0x01) > 0 {
+            value += "\("mine_monday".localized())、"
+        }
+        if ((weekday >> 2) & 0x01) > 0 {
+            value += "\("mine_satuday".localized())、"
+        }
+        if ((weekday >> 3) & 0x01) > 0 {
+            value += "\("mine_wednesday".localized())、"
+        }
+        if ((weekday >> 4) & 0x01) > 0 {
+            value += "\("mine_thursday".localized())、"
+        }
+        if ((weekday >> 5) & 0x01) > 0 {
+            value += "\("mine_friday".localized())、"
+        }
+        if ((weekday >> 6) & 0x01) > 0 {
+            value += "\("mine_saturday".localized())、"
+        }
+        if (weekday & 0x01) > 0  {
+            value += "\("mine_sunday".localized())、"
+        }
+        if value.count == 0 {
+            weekLabel.text = "mine_null".localized()
+            return
+        }
+        let _ = value.removeLast()
+        weekLabel.text = value
+    }
+    
+    private func refreshRepeatValue() {
+        guard let weekday = alarmData?.alarmCycle else {
+            return 
+        }
         var value = ""
         if ((weekday >> 1) & 0x01) > 0 {
             value += "\("mine_monday".localized())、"

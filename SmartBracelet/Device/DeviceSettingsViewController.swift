@@ -61,6 +61,21 @@ class DeviceSettingsViewController: UIViewController {
                     self?.tableView.reloadData()
                 }
                 return
+            } else if obj == 2 {
+                if isXGZT {
+                    XGZTCommand.remotePhoto(action: 1)
+                }
+                takePhoto()
+            } else if obj == 3 {
+                DispatchQueue.main.async {
+                    [weak self] in
+                    self?.cameraViewController?.dismiss(animated: true, completion: nil)
+                    self?.cameraViewController = nil
+                }
+                
+                if isXGZT {
+                    XGZTCommand.remotePhoto(action: 0)
+                }
             }
         }
         
@@ -248,8 +263,12 @@ class DeviceSettingsViewController: UIViewController {
         cameraViewController = CameraViewController(croppingParameters: croppingParameters, allowsLibraryAccess: true) { [weak self] image, asset in
             self?.dismiss(animated: true, completion: nil)
             self?.cameraViewController = nil
-            bleSelf.setCameraForWristband(false)
-            bleSelf.responseCameraForWristband()
+            if isXGZT {
+                XGZTCommand.remotePhoto(action: 0)
+            } else {
+                bleSelf.setCameraForWristband(false)
+                bleSelf.responseCameraForWristband()
+            }
         }
         cameraViewController?.modalPresentationStyle = .fullScreen
         parent?.present(cameraViewController!, animated: true, completion: nil)
@@ -361,7 +380,11 @@ extension DeviceSettingsViewController: UITableViewDelegate {
             }
         }
         if indexPath.row == 11 {
-            bleSelf.setCameraForWristband(true)
+            if isXGZT {
+                XGZTCommand.remotePhoto(action: 1)
+            } else {
+                bleSelf.setCameraForWristband(true)
+            }
             takePhoto()
         } else if indexPath.row == 10 { // 设置信息
             let storyboard = UIStoryboard(name: .kDevice, bundle: nil)
@@ -382,7 +405,8 @@ extension DeviceSettingsViewController: UITableViewDelegate {
             perform(#selector(readAlarm), with: nil, afterDelay: 0.3)
         } else if indexPath.row == 12 { // 同步数据
             if isXGZT {
-                
+                XGZTBlueToothManager.shared.handler.syncDevcieInfo()
+                Toast(text: "synchronize_data_finish".localized()).show()
             } else {
                 if bleSelf.isConnected {
                     NotificationCenter.default.post(name: Notification.Name("HealthVCLoading"), object: 2)

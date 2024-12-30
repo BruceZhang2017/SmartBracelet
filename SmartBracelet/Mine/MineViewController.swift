@@ -27,6 +27,11 @@ class MineViewController: BaseViewController {
         super.viewDidLoad()
         title = "mine".localized()
         
+        if isXGZT {
+            XGZTCommand.get12H24HTimeFormat()
+            XGZTCommand.getDeviceUnitFormat()
+        }
+        
         // 设置tableView
         tableView.dataSource = self
         tableView.delegate = self
@@ -129,7 +134,8 @@ class MineViewController: BaseViewController {
     }
     
     @IBAction func pushToAddDevice(_ sender: Any) {
-        let count = DeviceManager.shared.devices.count + (bleSelf.bleModel.mac.count > 0 ? 1 : 0)
+        var count = DeviceManager.shared.devices.count
+        count += BluetoothWatchDevice.loadAll()?.count ?? 0
         let storyboard = UIStoryboard(name: "Device", bundle: nil)
         if count == 0 {
             let vc = storyboard.instantiateViewController(withIdentifier: "DeviceSearchViewController")
@@ -162,6 +168,10 @@ extension MineViewController: UITableViewDelegate {
         switch indexPath.row {
         case 0:
             // 跳转到个人信息页面
+            if !bleSelf.isConnected && XGZTBlueToothManager.shared.device == nil {
+                Toast(text: "mine_unconnect".localized()).show()
+                return
+            }
             let storyboard = UIStoryboard(name: .kMine, bundle: nil)
             let vc = storyboard.instantiateViewController(withIdentifier: "UserInfoViewController")
             navigationController?.pushViewController(vc, animated: true)

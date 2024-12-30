@@ -52,8 +52,13 @@ enum XGZTCommands: UInt8 {
 
     case targetSettings = 0xB0
     case multiSportModeData = 0xB3
-    case getSleepData = 0xB5
     case setAutoSleepMonitoring = 0xB6
+    
+    case startTest = 0xC5
+    case getNewestHealthData = 0xC7
+    case getStepData = 0xC8
+    case getHistorySleepData = 0xC9
+    case getNewestHeartData = 0xCA
 
     case dialMarket = 0xE0
     case resourceUpgrade = 0xE2
@@ -71,13 +76,6 @@ struct DeviceLanguageResponse {
 
 struct DeviceUnitFormatResponse {
     let unitFormat: Int
-}
-
-struct PersonalInfo {
-    let sex: Int
-    let year: Int
-    let height: Int
-    let weight: Int
 }
 
 struct SwitchStatusResponse {
@@ -225,6 +223,18 @@ public class XGZTCommand {
         XGZTBlueToothManager.shared.writeCharacteristic(command: command)
     }
     
+    static func getDeviceUnitFormat() {
+        let command = createCommand(with: [
+            0x00,
+            XGZTCommands.setDeviceUnitFormat.rawValue,
+            0x01,
+            0x00,
+            0x01,
+            0x00
+        ])
+        XGZTBlueToothManager.shared.writeCharacteristic(command: command)
+    }
+    
     // 设置设备单位格式
     static func setDeviceUnitFormat(unitType: Int) {
         let command = createCommand(with: [
@@ -232,7 +242,7 @@ public class XGZTCommand {
             XGZTCommands.setDeviceUnitFormat.rawValue,
             0x01,
             0x00,
-            0x01,
+            0x02,
             0x01,
             UInt8(unitType)
         ])
@@ -325,6 +335,19 @@ public class XGZTCommand {
         XGZTBlueToothManager.shared.writeCharacteristic(command: command)
     }
     
+    // 12小时/24小时时间制
+    static func get12H24HTimeFormat() {
+        let command = createCommand(with: [
+            0x00,
+            XGZTCommands.set12H24HTimeFormat.rawValue,
+            0x01,
+            0x00,
+            0x01,
+            0x00
+        ])
+        XGZTBlueToothManager.shared.writeCharacteristic(command: command)
+    }
+    
     // 设置12小时/24小时时间制
     static func set12H24HTimeFormat(format: Int) {
         let command = createCommand(with: [
@@ -332,7 +355,8 @@ public class XGZTCommand {
             XGZTCommands.set12H24HTimeFormat.rawValue,
             0x01,
             0x00,
-            0x01,
+            0x02,
+            0x00,
             UInt8(format)
         ])
         XGZTBlueToothManager.shared.writeCharacteristic(command: command)
@@ -360,6 +384,7 @@ public class XGZTCommand {
             0x00,
             0x03,
             0x01,
+            0x00,
             UInt8(phoneType)
         ])
         XGZTBlueToothManager.shared.writeCharacteristic(command: command)
@@ -379,16 +404,16 @@ public class XGZTCommand {
     }
     
     // 设置个人信息
-    static func setPersonalInfo(sex: Int, year: Int, height: Int, weight: Int) {
+    static func setPersonalInfo(sex: Int, age: Int, height: Int, weight: Int) {
         let command = createCommand(with: [
             0x00,
             XGZTCommands.personalInfo.rawValue,
             0x01,
             0x00,
-            0x04,
+            0x05,
             0x01,
             UInt8(sex),
-            UInt8(year),
+            UInt8(age),
             UInt8(height),
             UInt8(weight)
         ])
@@ -562,6 +587,7 @@ public class XGZTCommand {
             0x01,
             0x00,
             0x02,
+            0x01,
             UInt8(action)
         ])
         XGZTBlueToothManager.shared.writeCharacteristic(command: command)
@@ -668,6 +694,31 @@ public class XGZTCommand {
         XGZTBlueToothManager.shared.writeCharacteristic(command: command)
     }
     
+    static func getNewestHealthData(type: Int) {
+        let command = createCommand(with: [
+            0x00,
+            XGZTCommands.getNewestHealthData.rawValue,
+            0x01,
+            0x00,
+            0x02,
+            0x00,
+            UInt8(type)
+        ])
+        XGZTBlueToothManager.shared.writeCharacteristic(command: command)
+    }
+    
+    static func getStepData() {
+        let command = createCommand(with: [
+            0x00,
+            XGZTCommands.getStepData.rawValue,
+            0x01,
+            0x00,
+            0x01,
+            0x01
+        ])
+        XGZTBlueToothManager.shared.writeCharacteristic(command: command)
+    }
+    
     // 设置目标设置
     static func setTargetSettings(targetSwitch: Int, targetType: Int, targetLength: Int) {
         let command = createCommand(with: [
@@ -710,14 +761,14 @@ public class XGZTCommand {
     }
     
     // 获取睡眠数据
-    static func getSleepData(dataType: Int) {
+    static func getHistorySleepData() {
         let command = createCommand(with: [
             0x00,
-            XGZTCommands.getSleepData.rawValue,
+            XGZTCommands.getHistorySleepData.rawValue,
             0x01,
             0x00,
-            0x02,
-            UInt8(dataType)
+            0x01,
+            0x01
         ])
         XGZTBlueToothManager.shared.writeCharacteristic(command: command)
     }
@@ -859,9 +910,35 @@ public class XGZTCommand {
         XGZTBlueToothManager.shared.writeCharacteristic(command: command)
     }
     
+    static func startTest(cmdType: Int, control: Int) {
+        let command = createCommand(with: [
+            0x00,
+            XGZTCommands.startTest.rawValue,
+            0x01,
+            0x00,
+            0x03,
+            0x01,
+            UInt8(cmdType),
+            UInt8(control)
+        ])
+        XGZTBlueToothManager.shared.writeCharacteristic(command: command)
+    }
+    
+    static func getNewestHeartData(type: Int) {
+        let command = createCommand(with: [
+            0x00,
+            XGZTCommands.getNewestHeartData.rawValue,
+            0x01,
+            0x00,
+            0x01,
+            UInt8(type)
+        ])
+        XGZTBlueToothManager.shared.writeCharacteristic(command: command)
+    }
+    
     // 辅助方法：从字节数组中获取整数
     private static func getIntFromBytes(_ bytes: [UInt8], _ offset: Int = 0) -> Int {
-        return Int(bytes[offset]) << 24 | Int(bytes[offset + 1]) << 16 | Int(bytes[offset + 2]) << 8 | Int(bytes[offset + 3])
+        return Int(bytes[offset + 3]) << 24 | Int(bytes[offset + 2]) << 16 | Int(bytes[offset + 1]) << 8 | Int(bytes[offset])
     }
     
     // 辅助方法：从字节数组中获取字符串
@@ -873,12 +950,12 @@ public class XGZTCommand {
     
     // 辅助方法：从字节数组中获取短整数
     private static func getShortFromBytes(_ bytes: [UInt8], _ offset: Int = 0) -> Int {
-        return Int(bytes[offset]) << 8 | Int(bytes[offset + 1])
+        return Int(bytes[offset + 1]) << 8 | Int(bytes[offset])
     }
     
     // 辅助方法：从字节数组中获取无符号 32 位整数
     private static func getUInt32FromBytes(_ bytes: [UInt8], _ offset: Int = 0) -> UInt32 {
-        return UInt32(bytes[offset]) << 24 | UInt32(bytes[offset + 1]) << 16 | UInt32(bytes[offset + 2]) << 8 | UInt32(bytes[offset + 3])
+        return UInt32(bytes[offset + 3]) << 24 | UInt32(bytes[offset + 2]) << 16 | UInt32(bytes[offset + 1]) << 8 | UInt32(bytes[offset])
     }
     
     // 辅助方法：将电话号码转换为字节数组（根据协议规则）
@@ -966,16 +1043,21 @@ public class XGZTCommand {
             let languageType = Int(response[6])
             print("设备语言类型: \(languageType)")
         case.setDeviceUnitFormat:
-            guard response.count >= 6 else {
+            guard response.count >= 7 else {
                 print("setDeviceUnitFormat command response error")
                 return
             }
-            let success = response[5] == 0x00
-            if success {
-                print("设置设备单位格式命令执行成功")
+            if response[5] == 0x00 {
+                XGZTBlueToothManager.shared.device?.baseUnit = Int(response[6])
             } else {
-                print("设置设备单位格式命令执行失败")
+                let success = response[6] == 0x00
+                if success {
+                    print("设置设备单位格式命令执行成功")
+                } else {
+                    print("设置设备单位格式命令执行失败")
+                }
             }
+            
         case.resetToFactorySettings:
             guard response.count >= 6 else {
                 print("resetToFactorySettings command response error")
@@ -1044,15 +1126,19 @@ public class XGZTCommand {
                 print("设置天气单位命令执行失败")
             }
         case.set12H24HTimeFormat:
-            guard response.count >= 6 else {
+            guard response.count >= 7 else {
                 print("set12H24HTimeFormat command response error")
                 return
             }
-            let success = response[5] == 0x00
-            if success {
-                print("设置12小时/24小时时间制命令执行成功")
+            if response[5] == 0 {
+                XGZTBlueToothManager.shared.device?.timeUnit = Int(response[6])
             } else {
-                print("设置12小时/24小时时间制命令执行失败")
+                let success = response[6] == 0x00
+                if success {
+                    print("设置12小时/24小时时间制命令执行成功")
+                } else {
+                    print("设置12小时/24小时时间制命令执行失败")
+                }
             }
         case.getDeviceInfo:
             guard response.count >= 46 else {
@@ -1066,26 +1152,37 @@ public class XGZTCommand {
             XGZTBlueToothManager.shared.device?.deviceModel = (Int(response[36]) << 8) | Int(response[35])
             XGZTBlueToothManager.shared.device?.screenWidth = (Int(response[38]) << 8) | Int(response[37])
             XGZTBlueToothManager.shared.device?.screenHeight = (Int(response[40]) << 8) | Int(response[39])
+            XGZTBlueToothManager.shared.device?.functioncontrolflags = getIntFromBytes(response, 10)
+            XGZTBlueToothManager.shared.device?.healthcontrolflags = getIntFromBytes(response, 14)
             
         case.setAppInfo:
-            guard response.count >= 6 else {
+            guard response.count >= 7 else {
                 print("setAppInfo command response error")
                 return
             }
-            let success = response[5] == 0x00
+            let success = response[6] == 0x00
             if success {
                 print("设置应用端信息命令执行成功")
             } else {
                 print("设置应用端信息命令执行失败")
             }
         case.personalInfo:
+            if response.count == 7 {
+                let success = response[6] == 0x00
+                if success {
+                    print("设置用户信息执行成功")
+                } else {
+                    print("设置用户信息执行失败")
+                }
+                return
+            }
             guard response.count >= 9 else {
                 print("personalInfo command response error")
                 return
             }
             if response[2] == 3 {
                 XGZTBlueToothManager.shared.device?.sex = Int(response[5])
-                XGZTBlueToothManager.shared.device?.year = Int(response[6])
+                XGZTBlueToothManager.shared.device?.age = Int(response[6])
                 XGZTBlueToothManager.shared.device?.height = Int(response[7])
                 XGZTBlueToothManager.shared.device?.weight = Int(response[8])
             }
@@ -1146,7 +1243,24 @@ public class XGZTCommand {
                 let vibration = Int(response[11])
                 let later = Int(response[12])
                 let alarm = AlarmData(alarmIndex: index, mswitch: switchValue, alarmCycle: cycle, alarmHour: hour, alarmMinute: minute, vibrationMode: vibration, remindLater: later)
-                XGZTBlueToothManager.shared.device?.alarms.append(alarm)
+                if XGZTBlueToothManager.shared.device?.alarms.count ?? 0 > 0 {
+                    var b = false
+                    for (key, item) in XGZTBlueToothManager.shared.device!.alarms.enumerated() {
+                        if item.alarmIndex == index {
+                            b = true
+                            XGZTBlueToothManager.shared.device?.alarms[key] = alarm
+                            break
+                        }
+                    }
+                    if b == false {
+                        XGZTBlueToothManager.shared.device?.alarms.append(alarm)
+                    }
+                } else {
+                    XGZTBlueToothManager.shared.device?.alarms.append(alarm)
+                }
+                DispatchQueue.main.async { // 返回主线程刷新
+                    NotificationCenter.default.post(name: Notification.Name.Alarm, object: nil)
+                }
             }
         case.reminderInfo:
             if response.count == 7 {
@@ -1232,11 +1346,21 @@ public class XGZTCommand {
                 print("音乐控制命令执行失败")
             }
         case.remotePhoto:
-            guard response.count >= 6 else {
+            if response.count == 6 {
+                if response[5] == 0 {
+                    
+                } else if response[5] == 1 {
+                    NotificationCenter.default.post(name: Notification.Name("DeviceSettings"), object: 3)
+                } else if response[5] == 2 {
+                    NotificationCenter.default.post(name: Notification.Name("DeviceSettings"), object: 2)
+                }
+                return
+            }
+            guard response.count >= 7 else {
                 print("remotePhoto command response error")
                 return
             }
-            let success = response[5] == 0x00
+            let success = response[6] == 0x00
             if success {
                 print("远程拍照命令执行成功")
             } else {
@@ -1345,17 +1469,6 @@ public class XGZTCommand {
                 sportDataList.append(MultiSportModeData(sportType: sportType, timestamp: timestamp, stepCount: stepCount, calorie: calorie, distance: distance, duration: duration, avgHeartRate: avgHeartRate, staticCalorie: staticCalorie))
             }
             print("多运动模式数据数量: \(numData), 数据详情: \(sportDataList)")
-        case.getSleepData:
-            guard response.count >= 12 && response[6] == 0x00 else {
-                print("getSleepData command response error")
-                return
-            }
-            let shallowSleepHour = getShortFromBytes(response, 6)
-            let deepSleepHour = getShortFromBytes(response, 8)
-            let wakeUpNumber = Int(response[10])
-            print("浅睡眠小时数: \(shallowSleepHour)")
-            print("深睡眠小时数: \(deepSleepHour)")
-            print("醒来次数: \(wakeUpNumber)")
         case.setAutoSleepMonitoring:
             guard response.count >= 12 else {
                 print("setAutoSleepMonitoring command response error")
@@ -1418,6 +1531,198 @@ public class XGZTCommand {
             } else {
                 print("资源升级相关命令执行失败")
             }
+        case .getNewestHealthData:
+            guard response.count >= 11 else {
+                print("resourceUpgrade command response error")
+                return
+            }
+            
+            if response.count == 11 {
+                XGZTBlueToothManager.shared.device?.currentHeartrate = Int(response[7])
+                XGZTBlueToothManager.shared.device?.currentOxygen = Int(response[8])
+                XGZTBlueToothManager.shared.device?.currentSystolicpressure = Int(response[9])
+                XGZTBlueToothManager.shared.device?.currentDiastolicpressure = Int(response[10])
+                NotificationCenter.default.post(name: Notification.Name("HealthViewController"), object: "blood")
+                NotificationCenter.default.post(name: Notification.Name("HealthViewController"), object: "oxygen")
+                NotificationCenter.default.post(name: Notification.Name("HealthViewController"), object: "heart")
+            } else if response.count == 19 {
+                XGZTBlueToothManager.shared.device?.currentStep = getIntFromBytes(response, 7)
+                XGZTBlueToothManager.shared.device?.currentCalorie = getIntFromBytes(response, 11)
+                XGZTBlueToothManager.shared.device?.currentDistance = getIntFromBytes(response, 15)
+                NotificationCenter.default.post(name: Notification.Name("HealthViewController"), object: "step")
+            }
+            
+        case .getStepData:
+            guard response.count >= 62 else {
+                print("resourceUpgrade command response error")
+                return
+            }
+            let fixedMac = lastestDeviceMac
+            let startIndex = 6
+            let stepDataLength = 8
+
+            for i in stride(from: startIndex, to: response.count, by: stepDataLength) {
+                guard i + stepDataLength <= response.count else { break }
+
+                let year = Int(response[i + 2]) | (Int(response[i + 3]) << 8)
+                if year == 0 {
+                    continue
+                }
+                
+                let month = Int(response[i + 1])
+                let day = Int(response[i])
+                let date = String(format: "%04d-%02d-%02d", year, month, day)
+
+                let step = Int(response[i + 4]) |
+                           (Int(response[i + 5]) << 8) |
+                           (Int(response[i + 6]) << 16) |
+                           (Int(response[i + 7]) << 24)
+
+                let stepObj = StepObj()
+                stepObj.date = date
+                stepObj.mac = fixedMac
+                stepObj.step = step
+
+                DatabaseManager.shared.addStepObj(stepObj: stepObj)
+                print("历史步数读取成功:\(stepObj)")
+            }
+        case .getHistorySleepData:
+            guard response.count >= 76 else {
+                print("resourceUpgrade command response error")
+                return
+            }
+            let fixedMac = lastestDeviceMac
+            let startIndex = 6
+            let stepDataLength = 10
+
+            for i in stride(from: startIndex, to: response.count, by: stepDataLength) {
+                guard i + stepDataLength <= response.count else { break }
+
+                let year = Int(response[i + 2]) | (Int(response[i + 3]) << 8)
+                if year == 0 {
+                    continue
+                }
+                
+                let month = Int(response[i + 1])
+                let day = Int(response[i])
+                let date = String(format: "%04d-%02d-%02d", year, month, day)
+
+                let awake = Int(response[i + 4]) |
+                           (Int(response[i + 5]) << 8)
+                let light = Int(response[i + 6]) |
+                           (Int(response[i + 7]) << 8)
+                let deep = Int(response[i + 8]) |
+                           (Int(response[i + 9]) << 8)
+
+                let sleepObj = SleepObj()
+                sleepObj.date = date
+                sleepObj.mac = fixedMac
+                sleepObj.awake = awake
+                sleepObj.light = light
+                sleepObj.deep = deep
+
+                DatabaseManager.shared.addSleepObj(sleepObj: sleepObj)
+                print("历史睡眠读取成功:\(sleepObj)")
+                
+                NotificationCenter.default.post(name: Notification.Name("HealthViewController"), object: "refresh")
+            }
+        case .startTest:
+            if response.count == 7 {
+                let success = response[6] == 0x00
+                if success {
+                    print("测试命令执行成功")
+                } else {
+                    print("测试命令执行失败")
+                }
+            }
+            if response.count >= 11 {
+                let time = Int(response[6]) |
+                           (Int(response[7]) << 8) |
+                           (Int(response[8]) << 16) |
+                           (Int(response[9]) << 24)
+                let cmdType = Int(response[5])
+                if cmdType == 0 {
+                    XGZTBlueToothManager.shared.device?.currentHeartrate = Int(response[10])
+                    XGZTCommand.startTest(cmdType: 0, control: 0)
+                    let heartObj = HeartObj()
+                    heartObj.mac = lastestDeviceMac
+                    heartObj.time = time
+                    heartObj.heart = Int(response[10])
+                    DatabaseManager.shared.addHeartObj(heartObj: heartObj)
+                    NotificationCenter.default.post(name: Notification.Name("HealthViewController"), object: "heart")
+                    print("获取到的心率为:\(time) --- \(Int(response[10]))")
+                } else if cmdType == 1 {
+                    XGZTBlueToothManager.shared.device?.currentOxygen = Int(response[10])
+                    XGZTCommand.startTest(cmdType: 1, control: 0)
+                    let oxgenObj = OxgenObj()
+                    oxgenObj.mac = lastestDeviceMac
+                    oxgenObj.time = time
+                    oxgenObj.oxgen = Int(response[10])
+                    DatabaseManager.shared.addOxgenObj(oxgenObj: oxgenObj)
+                    NotificationCenter.default.post(name: Notification.Name("HealthViewController"), object: "oxygen")
+                    print("获取到的血氧为:\(time) --- \(Int(response[10]))")
+                } else {
+                    XGZTBlueToothManager.shared.device?.currentSystolicpressure = Int(response[10])
+                    XGZTBlueToothManager.shared.device?.currentDiastolicpressure = Int(response[11])
+                    XGZTCommand.startTest(cmdType: 2, control: 0)
+                    let booldObj = BloodObj()
+                    booldObj.time = time
+                    booldObj.mac = lastestDeviceMac
+                    booldObj.max = Int(response[10])
+                    booldObj.min = Int(response[11])
+                    DatabaseManager.shared.addBloodObj(bloodObj: booldObj)
+                    NotificationCenter.default.post(name: Notification.Name("HealthViewController"), object: "blood")
+                    print("获取到的血压为:\(time) --- \(Int(response[10])) --- \(Int(response[11]))")
+                }
+                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.01) {
+                    NotificationCenter.default.post(name: Notification.Name("healthDetail"), object: nil)
+                }
+            }
+        case .getNewestHeartData:
+            if response.count >= 11 {
+                let time = Int(response[6]) |
+                           (Int(response[7]) << 8) |
+                           (Int(response[8]) << 16) |
+                           (Int(response[9]) << 24)
+                let cmdType = Int(response[5])
+                if cmdType == 0 {
+                    XGZTBlueToothManager.shared.device?.currentHeartrate = Int(response[10])
+                    XGZTCommand.startTest(cmdType: 0, control: 0)
+                    let heartObj = HeartObj()
+                    heartObj.mac = lastestDeviceMac
+                    heartObj.time = time
+                    heartObj.heart = Int(response[10])
+                    DatabaseManager.shared.addHeartObj(heartObj: heartObj)
+                    NotificationCenter.default.post(name: Notification.Name("HealthViewController"), object: "heart")
+                    print("获取到的心率为:\(time) --- \(Int(response[10]))")
+                } else if cmdType == 1 {
+                    XGZTBlueToothManager.shared.device?.currentOxygen = Int(response[10])
+                    XGZTCommand.startTest(cmdType: 1, control: 0)
+                    let oxgenObj = OxgenObj()
+                    oxgenObj.mac = lastestDeviceMac
+                    oxgenObj.time = time
+                    oxgenObj.oxgen = Int(response[10])
+                    DatabaseManager.shared.addOxgenObj(oxgenObj: oxgenObj)
+                    NotificationCenter.default.post(name: Notification.Name("HealthViewController"), object: "oxygen")
+                    print("获取到的血氧为:\(time) --- \(Int(response[10]))")
+                } else {
+                    XGZTBlueToothManager.shared.device?.currentSystolicpressure = Int(response[10])
+                    XGZTBlueToothManager.shared.device?.currentDiastolicpressure = Int(response[11])
+                    XGZTCommand.startTest(cmdType: 2, control: 0)
+                    let booldObj = BloodObj()
+                    booldObj.time = time
+                    booldObj.mac = lastestDeviceMac
+                    booldObj.max = Int(response[10])
+                    booldObj.min = Int(response[11])
+                    DatabaseManager.shared.addBloodObj(bloodObj: booldObj)
+                    NotificationCenter.default.post(name: Notification.Name("HealthViewController"), object: "blood")
+                    print("获取到的血压为:\(time) --- \(Int(response[10])) --- \(Int(response[11]))")
+                }
+                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.01) {
+                    NotificationCenter.default.post(name: Notification.Name("healthDetail"), object: nil)
+                }
+            }
         }
+        
     }
 }

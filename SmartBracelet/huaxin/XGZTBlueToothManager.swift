@@ -63,6 +63,8 @@ class XGZTBlueToothManager: NSObject, CBCentralManagerDelegate, CBPeripheralDele
             centralManager?.scanForPeripherals(withServices: nil, options: options)
             print("开始扫描设备")
         }
+        
+        reconnectToDevice()
     }
 
     func stopScanning() {
@@ -87,6 +89,17 @@ class XGZTBlueToothManager: NSObject, CBCentralManagerDelegate, CBPeripheralDele
             }
         }
         
+    }
+    
+    // 新增发起BLE回连功能
+    public func reconnectToDevice() {
+        if let peripheral = centralManager?.retrieveConnectedPeripherals(withServices: [CBUUID(string: "0000FF12-0000-1000-8000-00805F9B34FB")]).first {
+            let peripheralInfo = PeripheralInfo(peripheral: peripheral, macAddress: lastestDeviceMac)
+            discoveredPeripherals.append(peripheralInfo)
+            centralManager?.connect(peripheral, options: nil)
+        } else {
+            print("No known peripheral found with the given identifier")
+        }
     }
     
     // 先将OTA前检查设备是否准备好的指令放到这里
@@ -116,26 +129,12 @@ class XGZTBlueToothManager: NSObject, CBCentralManagerDelegate, CBPeripheralDele
         for p in discoveredPeripherals {
             if p.peripheral.identifier.uuidString == peripheral.identifier.uuidString {
                 lastestDeviceMac = p.macAddress
+                UserDefaults.standard.setValue(lastestDeviceMac, forKey: "LastestDeviceMac")
+                UserDefaults.standard.synchronize()
                 device = BluetoothWatchDevice()
                 device?.deviceName = p.peripheral.name ?? ""
                 device?.max = p.macAddress
-                device?.saveToSandbox(mac: lastestDeviceMac)
-                
-                var array = UserDefaults.standard.array(forKey: "max") as? [String]
-
-                if array == nil {
-                    array = [String]()
-                }
-
-                if let index = array?.firstIndex(of: lastestDeviceMac) {
-                    print("Item already exists at index \(index)")
-                } else {
-                    array?.append(lastestDeviceMac)
-                    UserDefaults.standard.set(array, forKey: "max")
-                    UserDefaults.standard.synchronize()
-                    print("Item added successfully")
-                }
-                
+                BluetoothWatchDevice.saveToSandbox(device: device!)
                 break
             }
         }
@@ -234,7 +233,7 @@ class XGZTBlueToothManager: NSObject, CBCentralManagerDelegate, CBPeripheralDele
         if let error = error {
             print("读取特征值失败: \(error.localizedDescription)")
         } else if let value = characteristic.value {
-            print("<- 0x\(value.hex)")
+            print("<-[\(value.count)] \(value.hex)")
             if isOTAing { // 如果当前正在OTA中
                 DispatchQueue.main.async { [weak self] in
                     self?.delegate?.receiveData(value)

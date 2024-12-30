@@ -31,6 +31,9 @@ class DevicesViewController: BaseViewController {
     var clockArray: [String] = []
     var width: CGFloat = 90
     var height: CGFloat = 150
+    var deviceSettingsViewHeightMultiplier = 13
+    var deviceSettingsView: DeviceSettingsViewController?
+    var lblTitle: UILabel?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -113,19 +116,24 @@ class DevicesViewController: BaseViewController {
         deviceView?.refreshData()
         changeButtonAttr()
         refreshDevices()
-        Async.main(after: 1) {
-            if bleSelf.isConnected { // 连接成功
-                bleSelf.notifyModel.isWechat = true
-                bleSelf.notifyModel.isQQ = true
-                bleSelf.notifyModel.isLinkedin = true
-                bleSelf.notifyModel.isFacebook = true
-                bleSelf.notifyModel.isTwitter = true
-                bleSelf.notifyModel.isWhatapp = true
-                bleSelf.notifyModel.isLine = true
-                bleSelf.notifyModel.isKakaoTalk = true
-                bleSelf.notifyModel.isFacebookMessage = true
-                bleSelf.notifyModel.isInstagram = true
-                bleSelf.setAncsSwitchForWristband(bleSelf.notifyModel)
+        
+        if isXGZT {
+            refreshHeight()
+        } else {
+            Async.main(after: 1) {
+                if bleSelf.isConnected { // 连接成功
+                    bleSelf.notifyModel.isWechat = true
+                    bleSelf.notifyModel.isQQ = true
+                    bleSelf.notifyModel.isLinkedin = true
+                    bleSelf.notifyModel.isFacebook = true
+                    bleSelf.notifyModel.isTwitter = true
+                    bleSelf.notifyModel.isWhatapp = true
+                    bleSelf.notifyModel.isLine = true
+                    bleSelf.notifyModel.isKakaoTalk = true
+                    bleSelf.notifyModel.isFacebookMessage = true
+                    bleSelf.notifyModel.isInstagram = true
+                    bleSelf.setAncsSwitchForWristband(bleSelf.notifyModel)
+                }
             }
         }
     }
@@ -182,30 +190,48 @@ class DevicesViewController: BaseViewController {
             $0.right.equalTo(-15)
             $0.top.equalTo(dialView.snp.bottom).offset(15)
         }
-        let lblTitle = UILabel().then {
+        lblTitle = UILabel().then {
             $0.textColor = UIColor.black
             $0.font = UIFont.boldSystemFont(ofSize: 15)
             $0.text = "device_settings".localized()
         }
-        deviceSettingView?.addSubview(lblTitle)
-        lblTitle.snp.makeConstraints {
+        deviceSettingView?.addSubview(lblTitle!)
+        lblTitle?.snp.makeConstraints {
             $0.left.equalTo(15)
             $0.top.equalTo(10)
             $0.height.equalTo(20)
         }
         
         let storyboard = UIStoryboard(name: "Device", bundle: nil)
-        let vc = storyboard.instantiateViewController(withIdentifier: "DeviceSettingsViewController") as! DeviceSettingsViewController
-        addChild(vc)
-        deviceSettingView?.addSubview(vc.view)
-        vc.view.snp.makeConstraints {
+        deviceSettingsView = storyboard.instantiateViewController(withIdentifier: "DeviceSettingsViewController") as? DeviceSettingsViewController
+        addChild(deviceSettingsView!)
+        deviceSettingView?.addSubview(deviceSettingsView!.view)
+        deviceSettingsView?.view.snp.makeConstraints {
             $0.left.equalTo(0)
-            $0.top.equalTo(lblTitle.snp.bottom).offset(10)
+            $0.top.equalTo(lblTitle!.snp.bottom).offset(10)
             $0.right.equalTo(0)
-            $0.height.equalTo(52 * 14)
+            $0.height.equalTo(52 * deviceSettingsViewHeightMultiplier)
             $0.bottom.equalToSuperview()
         }
-        bottomLConstraint.constant = 52 * 14 + 30 + 40
+        bottomLConstraint.constant = CGFloat(52 * deviceSettingsViewHeightMultiplier + 70)
+    }
+    
+    public func refreshHeight() {
+        // 将 deviceSettingsViewHeightMultiplier 修改为 14
+        deviceSettingsViewHeightMultiplier = 14
+            
+        deviceSettingsView?.view.snp.remakeConstraints {
+            $0.left.equalTo(0)
+            $0.top.equalTo(lblTitle!.snp.bottom).offset(10)
+            $0.right.equalTo(0)
+            $0.height.equalTo(52 * deviceSettingsViewHeightMultiplier)
+            $0.bottom.equalToSuperview()
+        }
+        updateDeviceSettingsViewBottomConstraint()
+    }
+    
+    private func updateDeviceSettingsViewBottomConstraint() {
+        bottomLConstraint.constant = CGFloat(52 * deviceSettingsViewHeightMultiplier + 70)
     }
     
     public func addChangeButton() {
@@ -316,18 +342,12 @@ class DevicesViewController: BaseViewController {
     }
     
     @IBAction private func showPop(_ sender: Any) {
-        let pop = PopupViewController()
-        pop.modalTransitionStyle = .crossDissolve
-        pop.modalPresentationStyle = .overFullScreen
-        pop.view.backgroundColor = UIColor.black.withAlphaComponent(0.5)
-        present(pop, animated: true, completion: nil)
-        pop.titleLabel.text = "玩机技巧"
-        pop.contentLabel.text =
-        " "
+        
     }
     
     @objc public func addDevice() {
-        let count = DeviceManager.shared.devices.count
+        var count = DeviceManager.shared.devices.count
+        count += BluetoothWatchDevice.loadAll()?.count ?? 0
         let storyboard = UIStoryboard(name: "Device", bundle: nil)
         if count == 0 {
             let vc = storyboard.instantiateViewController(withIdentifier: "DeviceSearchViewController")

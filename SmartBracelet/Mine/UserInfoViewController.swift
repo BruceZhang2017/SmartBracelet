@@ -61,7 +61,11 @@ extension UserInfoViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: .kCellIdentifier, for: indexPath) as! UserInfoTableViewCell
         cell.backgroundColor = UIColor.clear
         cell.lineImageView.backgroundColor = UIColor(hex: 0x000000, alpha: 0.06)
-        cell.titleLabel.text = titles[indexPath.row]
+        if indexPath.row == 3 && isXGZT {
+            cell.titleLabel.text = "age".localized()
+        } else {
+            cell.titleLabel.text = titles[indexPath.row]
+        }
         cell.titleLabel.textColor = UIColor.text_primary
         cell.titleLabel.font = UIFont.body1()
         cell.iconImageView.isHidden = indexPath.row != 0
@@ -94,39 +98,62 @@ extension UserInfoViewController: UITableViewDataSource {
             }
         } else if indexPath.row == 2 {
             if UserManager.sharedInstall.user?.token == nil {
-                cell.valueLabel.text = bleSelf.userInfo.sex == 1 ? "mine_male".localized() : "mine_female".localized()
+                if isXGZT {
+                    cell.valueLabel.text = (XGZTBlueToothManager.shared.device?.sex ?? 0) == 0 ? "mine_male".localized() : "mine_female".localized()
+                } else {
+                    cell.valueLabel.text = bleSelf.userInfo.sex == 1 ? "mine_male".localized() : "mine_female".localized()
+                }
             } else {
                 cell.valueLabel.text = (UserManager.sharedInstall.user?.sex ?? 0 == 0) ? "mine_male".localized() : "mine_female".localized()
             }
             
         } else if indexPath.row == 3 {
             if UserManager.sharedInstall.user?.token == nil {
-                let value = UserDefaults.standard.string(forKey: "Birthday")
-                if value?.count ?? 0 > 0 {
-                    cell.valueLabel.text = value
+                if isXGZT {
+                    cell.valueLabel.text = "\(XGZTBlueToothManager.shared.device?.age ?? 0)"
                 } else {
-                    cell.valueLabel.text = WUDate.dateFromTimeStamp(bleSelf.userInfo.birthday).stringFromYmd()
+                    let value = UserDefaults.standard.string(forKey: "Birthday")
+                    if value?.count ?? 0 > 0 {
+                        cell.valueLabel.text = value
+                    } else {
+                        cell.valueLabel.text = WUDate.dateFromTimeStamp(bleSelf.userInfo.birthday).stringFromYmd()
+                    }
                 }
-                
             } else {
                 cell.valueLabel.text = UserManager.sharedInstall.user?.birthday ?? ""
             }
         } else if indexPath.row == 4 {
             if UserManager.sharedInstall.user?.token == nil {
-                cell.valueLabel.text = "\(bleSelf.userInfo.height)CM"
+                if isXGZT {
+                    cell.valueLabel.text = "\(XGZTBlueToothManager.shared.device?.height ?? 0)CM"
+                } else {
+                    cell.valueLabel.text = "\(bleSelf.userInfo.height)CM"
+                }
             } else {
                 cell.valueLabel.text = "\(UserManager.sharedInstall.user?.height ?? 0)CM"
             }
         } else if indexPath.row == 5 {
             if UserManager.sharedInstall.user?.token == nil {
-                cell.valueLabel.text = "\(bleSelf.userInfo.weight)KG"
+                if isXGZT {
+                    cell.valueLabel.text = "\(XGZTBlueToothManager.shared.device?.weight ?? 0)CM"
+                } else {
+                    cell.valueLabel.text = "\(bleSelf.userInfo.weight)KG"
+                }
             } else {
                 cell.valueLabel.text = "\(UserManager.sharedInstall.user?.weight ?? 0)KG"
             }
         } else if indexPath.row == 6 {
-            cell.valueLabel.text = bleSelf.userInfo.timeUnit == 0 ? "24\("health_hour".localized())" : "12\("health_hour".localized())"
+            if isXGZT {
+                cell.valueLabel.text = XGZTBlueToothManager.shared.device?.timeUnit == 1 ? "24\("health_hour".localized())" : "12\("health_hour".localized())"
+            } else {
+                cell.valueLabel.text = bleSelf.userInfo.timeUnit == 0 ? "24\("health_hour".localized())" : "12\("health_hour".localized())"
+            }
         } else if indexPath.row == 7 {
-            cell.valueLabel.text = bleSelf.userInfo.unit == 0 ? "cm,kg" : "ft-in,lb"
+            if isXGZT {
+                cell.valueLabel.text = XGZTBlueToothManager.shared.device?.baseUnit == 0 ? "cm,kg" : "ft-in,lb"
+            } else {
+                cell.valueLabel.text = bleSelf.userInfo.unit == 0 ? "cm,kg" : "ft-in,lb"
+            }
         }
         return cell
     }
@@ -151,35 +178,48 @@ extension UserInfoViewController: UITableViewDelegate {
             let storyboard = UIStoryboard(name: .kMine, bundle: nil)
             let vc = storyboard.instantiateViewController(withIdentifier: "NickNameViewController")
             navigationController?.pushViewController(vc, animated: true)
-//        } else if indexPath.row == 2 { // 姓名
-//            let storyboard = UIStoryboard(name: .kMine, bundle: nil)
-//            let vc = storyboard.instantiateViewController(withIdentifier: "NickNameViewController") as! NickNameViewController
-//            vc.type = 1
-//            navigationController?.pushViewController(vc, animated: true)
         } else if indexPath.row == 2 { // 性别
             let storyboard = UIStoryboard(name: .kMine, bundle: nil)
             let vc = storyboard.instantiateViewController(withIdentifier: "SelectSexViewController") as! SelectSexViewController
             vc.delegate = self
             vc.modalTransitionStyle = .crossDissolve
             vc.modalPresentationStyle = .overFullScreen
-            vc.sex = (bleSelf.userInfo.sex) == 0 ? "mine_male".localized() : "mine_female".localized()
+            if isXGZT {
+                vc.sex = (XGZTBlueToothManager.shared.device?.sex ?? 0) == 0 ? "mine_male".localized() : "mine_female".localized()
+            } else {
+                vc.sex = (bleSelf.userInfo.sex) == 0 ? "mine_male".localized() : "mine_female".localized()
+            }
             navigationController?.present(vc, animated: true, completion: nil)
         } else if indexPath.row == 3 { // 出生年月
-            let storyboard = UIStoryboard(name: .kMine, bundle: nil)
-            let vc = storyboard.instantiateViewController(withIdentifier: "SelectSexViewController") as! SelectSexViewController
-            vc.delegate = self
-            var birth = ""
-            let value = UserDefaults.standard.string(forKey: "Birthday") ?? ""
-            if value.count > 0 {
-                birth = value
+            if isXGZT {
+                let storyboard = UIStoryboard(name: .kMine, bundle: nil)
+                itemVC = storyboard.instantiateViewController(withIdentifier: "SelectItemViewController") as? SelectItemViewController
+                itemVC?.delegate = self
+                itemVC?.modalTransitionStyle = .crossDissolve
+                itemVC?.modalPresentationStyle = .overFullScreen
+                itemVC?.index = (XGZTBlueToothManager.shared.device?.age ?? 0) - 1
+                itemVC?.type = 2
+                itemVC?.titles = (1...100).map { String($0) }
+                itemVC?.titleStr = "age".localized()
+                navigationController?.present(itemVC!, animated: false, completion: nil)
             } else {
-                birth = WUDate.dateFromTimeStamp(bleSelf.userInfo.birthday).stringFromYmd()
+                let storyboard = UIStoryboard(name: .kMine, bundle: nil)
+                let vc = storyboard.instantiateViewController(withIdentifier: "SelectSexViewController") as! SelectSexViewController
+                vc.delegate = self
+                var birth = ""
+                let value = UserDefaults.standard.string(forKey: "Birthday") ?? ""
+                if value.count > 0 {
+                    birth = value
+                } else {
+                    birth = WUDate.dateFromTimeStamp(bleSelf.userInfo.birthday).stringFromYmd()
+                }
+                vc.birth = birth.components(separatedBy: "-")
+                vc.modalTransitionStyle = .crossDissolve
+                vc.modalPresentationStyle = .overFullScreen
+                vc.type = 1
+                navigationController?.present(vc, animated: true, completion: nil)
             }
-            vc.birth = birth.components(separatedBy: "-")
-            vc.modalTransitionStyle = .crossDissolve
-            vc.modalPresentationStyle = .overFullScreen
-            vc.type = 1
-            navigationController?.present(vc, animated: true, completion: nil)
+            
         } else if indexPath.row == 4 {
             let storyboard = UIStoryboard(name: .kMine, bundle: nil)
             let vc = storyboard.instantiateViewController(withIdentifier: "InputHeightViewController") as! InputHeightViewController
@@ -187,7 +227,11 @@ extension UserInfoViewController: UITableViewDelegate {
             vc.modalTransitionStyle = .crossDissolve
             vc.modalPresentationStyle = .overFullScreen
             vc.type = 0
-            vc.value = "\(bleSelf.userInfo.height)"
+            if isXGZT {
+                vc.value = "\(XGZTBlueToothManager.shared.device?.height ?? 0)"
+            } else {
+                vc.value = "\(bleSelf.userInfo.height)"
+            }
             navigationController?.present(vc, animated: true, completion: nil)
         } else if indexPath.row == 5 {
             let storyboard = UIStoryboard(name: .kMine, bundle: nil)
@@ -196,12 +240,13 @@ extension UserInfoViewController: UITableViewDelegate {
             vc.modalTransitionStyle = .crossDissolve
             vc.modalPresentationStyle = .overFullScreen
             vc.type = 1
-            vc.value = "\(bleSelf.userInfo.weight)"
+            if isXGZT {
+                vc.value = "\(XGZTBlueToothManager.shared.device?.weight ?? 0)"
+            } else {
+                vc.value = "\(bleSelf.userInfo.weight)"
+            }
             navigationController?.present(vc, animated: true, completion: nil)
-//        } else {
-//            let vc = CitySelectorViewController()
-//            vc.delegate = self
-//            navigationController?.pushViewController(vc, animated: true)
+
         } else if indexPath.row == 6 { // 时间制
             let storyboard = UIStoryboard(name: .kMine, bundle: nil)
             itemVC = storyboard.instantiateViewController(withIdentifier: "SelectItemViewController") as? SelectItemViewController
@@ -241,7 +286,11 @@ extension UserInfoViewController {
 extension UserInfoViewController: SelectSexVCDelegate {
     func callback(type: Int, value: String) {
         if type == 0 {
-            UserManager.sharedInstall.user?.sex = value == "mine_male".localized() ? 0 : 1
+            if isXGZT {
+                XGZTBlueToothManager.shared.device?.sex = value == "mine_male".localized() ? 0 : 1
+            } else {
+                UserManager.sharedInstall.user?.sex = value == "mine_male".localized() ? 0 : 1
+            }
         } else {
             UserManager.sharedInstall.user?.birthday = value
         }
@@ -253,87 +302,71 @@ extension UserInfoViewController: SelectSexVCDelegate {
 
 extension UserInfoViewController {
     func uploadData(type: Int, value: String) {
-        //ProgressHUD.animate(nil, .activityIndicator, interaction: false)
-        var parameters = ["id": "\(UserManager.sharedInstall.user?.id ?? 0)"]
         if type == 0 {
             let sex = value == "mine_male".localized() ? 0 : 1
-            parameters["sex"] = "\(sex)"
+            if isXGZT {
+                UserManager.sharedInstall.user?.sex = sex
+                XGZTCommand.setPersonalInfo(sex: XGZTBlueToothManager.shared.device?.sex ?? 0, age: XGZTBlueToothManager.shared.device?.age ?? 0, height: XGZTBlueToothManager.shared.device?.height ?? 0, weight: XGZTBlueToothManager.shared.device?.weight ?? 0)
+                return
+            }
             if UserManager.sharedInstall.user?.token == nil {
                 bleSelf.userInfo.sex = sex == 0 ? 1 : 0
                 bleSelf.setUserinfoForWristband(bleSelf.userInfo)
-                return
             }
         } else if type == 1 {
-            parameters["birthday"] = value
             UserDefaults.standard.setValue(value, forKey: "Birthday")
             UserDefaults.standard.synchronize()
             if UserManager.sharedInstall.user?.token == nil {
                 bleSelf.userInfo.birthday = Int(DateHelper().ymdToDate(value: value).timeIntervalSince1970)
                 bleSelf.setUserinfoForWristband(bleSelf.userInfo)
-                return
             }
         }
-//        AF.request("\(UrlPrefix)api/User/userinfo.php", method: .post, parameters: parameters, encoder: URLEncodedFormParameterEncoder.default).response { (response) in
-//            debugPrint("Response: \(response.debugDescription)")
-//            //ProgressHUD.dismiss()
-////            guard let data = response.value as? Data else {
-////                return
-////            }
-////            let model = try? JSONDecoder().decode(BaseResponse.self, from: data)
-////            if model == nil {
-////                Toast(text: model?.message ?? "注册失败").show()
-////                return
-////            }
-//            
-//        }
     }
 }
 
 extension UserInfoViewController: InputHeightVCDelegate {
     func callback(type: Int, value: Int) {
         if type == 0 {
-            UserManager.sharedInstall.user?.height = value
+            if isXGZT {
+                XGZTBlueToothManager.shared.device?.height = value
+            } else {
+                UserManager.sharedInstall.user?.height = value
+                XGZTCommand.setPersonalInfo(sex: XGZTBlueToothManager.shared.device?.sex ?? 0, age: XGZTBlueToothManager.shared.device?.age ?? 0, height: XGZTBlueToothManager.shared.device?.height ?? 0, weight: XGZTBlueToothManager.shared.device?.weight ?? 0)
+            }
+            
         } else {
-            UserManager.sharedInstall.user?.weight = value
+            if isXGZT {
+                XGZTBlueToothManager.shared.device?.weight = value
+            } else {
+                UserManager.sharedInstall.user?.weight = value
+                XGZTCommand.setPersonalInfo(sex: XGZTBlueToothManager.shared.device?.sex ?? 0, age: XGZTBlueToothManager.shared.device?.age ?? 0, height: XGZTBlueToothManager.shared.device?.height ?? 0, weight: XGZTBlueToothManager.shared.device?.weight ?? 0)
+            }
         }
-        UserManager.sharedInstall.saveUser()
+        if !isXGZT {
+            UserManager.sharedInstall.saveUser()
+            uploadData(type: type, value: value)
+        }
+        
         tableView.reloadData()
-        uploadData(type: type, value: value)
+        
     }
 }
 
 extension UserInfoViewController {
     func uploadData(type: Int, value: Int) {
-        //ProgressHUD.animate(nil, .activityIndicator, interaction: false)
-        var parameters = ["id": "\(UserManager.sharedInstall.user?.id ?? 0)"]
         if type == 0 {
-            parameters["height"] = "\(value)"
             if UserManager.sharedInstall.user?.token == nil {
                 bleSelf.userInfo.height = Double(value)
                 bleSelf.setUserinfoForWristband(bleSelf.userInfo)
                 return
             }
         } else if type == 1 {
-            parameters["weight"] = "\(value)"
             if UserManager.sharedInstall.user?.token == nil {
                 bleSelf.userInfo.weight = Double(value)
                 bleSelf.setUserinfoForWristband(bleSelf.userInfo)
                 return
             }
         }
-//        AF.request("\(UrlPrefix)api/User/userinfo.php", method: .post, parameters: parameters, encoder: URLEncodedFormParameterEncoder.default).response { (response) in
-//            debugPrint("Response: \(response.debugDescription)")
-//            //ProgressHUD.dismiss()
-////            guard let data = response.value as? Data else {
-////                return
-////            }
-////            let model = try? JSONDecoder().decode(BaseResponse.self, from: data)
-////            if model == nil {
-////                Toast(text: model?.message ?? "注册失败").show()
-////                return
-////            }
-//            
-//        }
     }
 }
 
@@ -348,35 +381,38 @@ extension UserInfoViewController: CitySelectorVCDelegate {
 
 extension UserInfoViewController {
     func uploadData(city: String) {
-        //ProgressHUD.animate(nil, .activityIndicator, interaction: false)
-        var parameters = ["id": "\(UserManager.sharedInstall.user?.id ?? 0)"]
-        parameters["area"] = city
-//        AF.request("\(UrlPrefix)api/User/userinfo.php", method: .post, parameters: parameters, encoder: URLEncodedFormParameterEncoder.default).response { (response) in
-//            debugPrint("Response: \(response.debugDescription)")
-//            //ProgressHUD.dismiss()
-////            guard let data = response.value as? Data else {
-////                return
-////            }
-////            let model = try? JSONDecoder().decode(BaseResponse.self, from: data)
-////            if model == nil {
-////                Toast(text: model?.message ?? "注册失败").show()
-////                return
-////            }
-//            
-//        }
+
     }
 }
 
 extension UserInfoViewController: SelectItemVCDelegate {
     func callback(type: Int, index: Int, value: String) {
-        if type == 1 {
-            bleSelf.userInfo.unit = index
-            bleSelf.setZhiShiForWristband(bleSelf.userInfo)
+        if type == 2 {
+            if isXGZT {
+                XGZTBlueToothManager.shared.device?.age = Int(value) ?? 0
+                XGZTCommand.setPersonalInfo(sex: XGZTBlueToothManager.shared.device?.sex ?? 0, age: XGZTBlueToothManager.shared.device?.age ?? 0, height: XGZTBlueToothManager.shared.device?.height ?? 0, weight: XGZTBlueToothManager.shared.device?.weight ?? 0)
+            }
             tableView.reloadData()
             return
         }
-        bleSelf.userInfo.timeUnit = index
-        bleSelf.setZhiShiForWristband(bleSelf.userInfo)
+        if type == 1 {
+            if isXGZT {
+                XGZTBlueToothManager.shared.device?.baseUnit = index
+                XGZTCommand.setDeviceUnitFormat(unitType: index)
+            } else {
+                bleSelf.userInfo.unit = index
+                bleSelf.setZhiShiForWristband(bleSelf.userInfo)
+            }
+            tableView.reloadData()
+            return
+        }
+        if isXGZT {
+            XGZTBlueToothManager.shared.device?.timeUnit = index == 1 ? 0 : 1
+            XGZTCommand.set12H24HTimeFormat(format: index == 1 ? 0 : 1)
+        } else {
+            bleSelf.userInfo.timeUnit = index
+            bleSelf.setZhiShiForWristband(bleSelf.userInfo)
+        }
         tableView.reloadData()
     }
 }

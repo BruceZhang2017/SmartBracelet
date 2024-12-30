@@ -36,13 +36,28 @@ public class BluetoothWatchDevice {
     var mtu: Int = 0
     
     var sex: Int = 0
-    var year: Int = 0
+    var age: Int = 0
     var height: Int = 0
     var weight: Int = 0
+    var timeUnit: Int = 0 // 返回时间制：0x00:12h 0x01:24h
+    var baseUnit: Int = 0 
+    
     var alarmcount: Int = 0
     var alarms: [AlarmData] = [] // 闹钟
     var longsit: ReminderInfoResponse?
     var drinkWater: ReminderInfoResponse?
+    
+    // health
+    var currentStep: Int = 0
+    var currentCalorie: Int = 0
+    var currentDistance: Int = 0
+    var currentHeartrate: Int = 0
+    var currentOxygen: Int = 0
+    var currentSystolicpressure: Int = 0 // 收缩压（单位：mmHg）
+    var currentDiastolicpressure: Int = 0 // 舒张压（单位：mmHg）
+    
+    var functioncontrolflags: Int = 0 // [0] 是否⽀持表盘市场 [1] 是否⽀持消息提醒 [2] 是否⽀持天⽓功能 等
+    var healthcontrolflags: Int = 0 // [0] 是否⽀持⼼率检测 [1] 是否⽀持⾎氧检测 等
     
     // 开关类
     var isAntilostSwitch: Bool = false // 防丢开关
@@ -91,22 +106,44 @@ public class BluetoothWatchDevice {
     var isLinkedIn: Bool = false
     
     
-    
-    
     // 存储设备信息到沙盒
-    func saveToSandbox(mac: String) {
+    static func saveToSandbox(device: BluetoothWatchDevice) {
         let defaults = UserDefaults.standard
-        let keyPrefix = "\(mac)-"
-        defaults.set(deviceName, forKey: keyPrefix + "deviceName")
-        defaults.set(max, forKey: keyPrefix + "max")
+        var dic = defaults.dictionary(forKey: "xgzt") as? [String: String] ?? [:]
+        if dic[device.max!]?.count ?? 0 > 0 {
+            return
+        }
+        dic[device.max!] = device.deviceName ?? ""
+        defaults.set(dic, forKey: "xgzt")
         defaults.synchronize()
     }
     
     // 从沙盒读取设备信息
-    func loadFromSandbox(mac: String) {
+    static func loadFromSandbox(mac: String) -> BluetoothWatchDevice? {
         let defaults = UserDefaults.standard
-        let keyPrefix = "\(mac)-"
-        deviceName = defaults.string(forKey: keyPrefix + "deviceName")
-        max = defaults.string(forKey: keyPrefix + "max")
+        let dic = defaults.dictionary(forKey: "xgzt") as? [String: String] ?? [:]
+        guard let name = dic[mac] else {
+            return nil
+        }
+        var device = BluetoothWatchDevice()
+        device.deviceName = name
+        device.max = mac
+        return device
+    }
+    
+    static func loadAll() -> [BluetoothWatchDevice]? {
+        let defaults = UserDefaults.standard
+        let dic = defaults.dictionary(forKey: "xgzt") as? [String: String] ?? [:]
+        if dic.count == 0 {
+            return nil
+        }
+        var devices = [BluetoothWatchDevice]()
+        for (mac, name) in dic {
+            var device = BluetoothWatchDevice()
+            device.deviceName = name
+            device.max = mac
+            devices.append(device)
+        }
+        return devices
     }
 }
