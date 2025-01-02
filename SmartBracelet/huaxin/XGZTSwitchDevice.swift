@@ -59,6 +59,9 @@ public class BluetoothWatchDevice {
     var functioncontrolflags: Int = 0 // [0] 是否⽀持表盘市场 [1] 是否⽀持消息提醒 [2] 是否⽀持天⽓功能 等
     var healthcontrolflags: Int = 0 // [0] 是否⽀持⼼率检测 [1] 是否⽀持⾎氧检测 等
     
+    var dialLocal: Int = 0 // 右上, 0x04: 右下, 0x05: 居中时间文字⽅向: 0x00: ⽆, 0x01: 左上, 0x02: 左下, 0x03:1
+    var dialColor: Int = 0 // 文字颜⾊(RGB565): 红绿蓝 (⾼位在前)
+    
     // 开关类
     var isAntilostSwitch: Bool = false // 防丢开关
     var isRaisehandtobrightenscreen: Bool = false // 抬⼿亮屏开关
@@ -129,6 +132,23 @@ public class BluetoothWatchDevice {
         device.deviceName = name
         device.max = mac
         return device
+    }
+    
+    static func deleteFromSandbox(mac: String) {
+        let defaults = UserDefaults.standard
+        var dic = defaults.dictionary(forKey: "xgzt") as? [String: String] ?? [:]
+        if dic.count == 0 {
+            return
+        }
+        var devices = [BluetoothWatchDevice]()
+        for (m, name) in dic {
+            if m == mac {
+                dic.removeValue(forKey: m)
+                break
+            }
+        }
+        defaults.set(dic, forKey: "xgzt")
+        defaults.synchronize()
     }
     
     static func loadAll() -> [BluetoothWatchDevice]? {

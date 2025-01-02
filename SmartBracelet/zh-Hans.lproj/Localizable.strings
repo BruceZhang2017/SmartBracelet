@@ -406,3 +406,4 @@
 "qushi" = "趋势";
 "age" = "年龄";
 "synchronize_data_finish" = "同步数据已完成";
+"delete_connected_device" = "不能删除当前连接中的设备";

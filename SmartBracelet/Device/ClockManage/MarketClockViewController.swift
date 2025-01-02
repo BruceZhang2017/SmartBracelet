@@ -63,8 +63,8 @@ class MarketClockViewController: UIViewController {
         }
         if isXGZT {
             firmNo = "ZhongKe_S"
-            w = 240
-            h = 296
+            w = XGZTBlueToothManager.shared.device?.screenWidth ?? 0
+            h = XGZTBlueToothManager.shared.device?.screenHeight ?? 0
         }
         let parameters = ["pageSize": "100", "pageNum": "1", "isPublish": "Y", "resolutionRatio": "\(w)*\(h)", "firmNo": firmNo]
         AF.request("https://u-watch.com.cn/api/app/dial/list?pageSize=100&pageNum=1&firmNo=ZhongKe_S", method: .post, parameters: parameters, encoder: JSONParameterEncoder.default).response { [weak self] (response) in

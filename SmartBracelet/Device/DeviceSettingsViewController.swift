@@ -257,21 +257,24 @@ class DeviceSettingsViewController: UIViewController {
     }
     
     private func takePhoto() {
-        var croppingParameters: CroppingParameters {
-            return CroppingParameters(isEnabled: false, allowResizing: false, allowMoving: false, minimumSize: CGSize(width: 60, height: 60))
-        }
-        cameraViewController = CameraViewController(croppingParameters: croppingParameters, allowsLibraryAccess: true) { [weak self] image, asset in
-            self?.dismiss(animated: true, completion: nil)
-            self?.cameraViewController = nil
-            if isXGZT {
-                XGZTCommand.remotePhoto(action: 0)
-            } else {
-                bleSelf.setCameraForWristband(false)
-                bleSelf.responseCameraForWristband()
+        DispatchQueue.main.async {
+            [weak self] in
+            var croppingParameters: CroppingParameters {
+                return CroppingParameters(isEnabled: false, allowResizing: false, allowMoving: false, minimumSize: CGSize(width: 60, height: 60))
             }
+            self?.cameraViewController = CameraViewController(croppingParameters: croppingParameters, allowsLibraryAccess: true) { [weak self] image, asset in
+                self?.dismiss(animated: true, completion: nil)
+                self?.cameraViewController = nil
+                if isXGZT {
+                    XGZTCommand.remotePhoto(action: 0)
+                } else {
+                    bleSelf.setCameraForWristband(false)
+                    bleSelf.responseCameraForWristband()
+                }
+            }
+            self?.cameraViewController?.modalPresentationStyle = .fullScreen
+            self?.parent?.present(self!.cameraViewController!, animated: true, completion: nil)
         }
-        cameraViewController?.modalPresentationStyle = .fullScreen
-        parent?.present(cameraViewController!, animated: true, completion: nil)
     }
     
     @objc private func readAlarm() {

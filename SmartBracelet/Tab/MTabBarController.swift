@@ -42,7 +42,6 @@ class MTabBarController: UITabBarController {
         
         
         ToastView.appearance().backgroundColor = .black.withAlphaComponent(0.8)
-        ToastView.appearance().bottomOffsetPortrait = screenHeight / 2 - 20
         ToastView.appearance().maxWidthRatio = 0.8
         ToastView.appearance().cornerRadius = 16
         ToastView.appearance().font = UIFont.body()

@@ -356,7 +356,7 @@ public class XGZTCommand {
             0x01,
             0x00,
             0x02,
-            0x00,
+            0x01,
             UInt8(format)
         ])
         XGZTBlueToothManager.shared.writeCharacteristic(command: command)
@@ -823,10 +823,11 @@ public class XGZTCommand {
             UInt8(dialType),
             UInt8(dialNum),
             UInt8(local),
-            UInt8(typeValue & 0xFF),
-            UInt8((typeValue >> 8) & 0xFF),
-            UInt8(dialTypeValue & 0xFF),
-            UInt8((dialTypeValue >> 8) & 0xFF)
+            UInt8(typeValue),
+            UInt8((dialTypeValue >> 16) & 0xFF),
+            UInt8((dialTypeValue >> 8) & 0xFF),
+            UInt8(dialTypeValue & 0xFF)
+            
         ])
         XGZTBlueToothManager.shared.writeCharacteristic(command: command)
     }
@@ -1348,7 +1349,7 @@ public class XGZTCommand {
         case.remotePhoto:
             if response.count == 6 {
                 if response[5] == 0 {
-                    
+                    NotificationCenter.default.post(name: Notification.Name("DeviceSettings"), object: nil)
                 } else if response[5] == 1 {
                     NotificationCenter.default.post(name: Notification.Name("DeviceSettings"), object: 3)
                 } else if response[5] == 2 {
@@ -1624,8 +1625,9 @@ public class XGZTCommand {
                 DatabaseManager.shared.addSleepObj(sleepObj: sleepObj)
                 print("历史睡眠读取成功:\(sleepObj)")
                 
-                NotificationCenter.default.post(name: Notification.Name("HealthViewController"), object: "refresh")
+                
             }
+            NotificationCenter.default.post(name: Notification.Name("HealthViewController"), object: "refresh")
         case .startTest:
             if response.count == 7 {
                 let success = response[6] == 0x00
@@ -1674,7 +1676,7 @@ public class XGZTCommand {
                     NotificationCenter.default.post(name: Notification.Name("HealthViewController"), object: "blood")
                     print("获取到的血压为:\(time) --- \(Int(response[10])) --- \(Int(response[11]))")
                 }
-                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.01) {
+                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.1) {
                     NotificationCenter.default.post(name: Notification.Name("healthDetail"), object: nil)
                 }
             }

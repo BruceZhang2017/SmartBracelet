@@ -50,8 +50,8 @@ class ClockUseViewController: BaseViewController {
             var w = bleSelf.bleModel.screenWidth
             var h = bleSelf.bleModel.screenHeight
             if isXGZT {
-                w = XGZTBlueToothManager.shared.device?.screenWidth ?? 240
-                h = XGZTBlueToothManager.shared.device?.screenHeight ?? 296
+                w = XGZTBlueToothManager.shared.device?.screenWidth ?? 0
+                h = XGZTBlueToothManager.shared.device?.screenHeight ?? 0
             }
             ivWidthLC.constant = 165
             ivHeightLC.constant = CGFloat(165) * CGFloat(h) / CGFloat(w)
@@ -247,16 +247,16 @@ class ClockUseViewController: BaseViewController {
                 fatalError("MTU should be greater than 0")
             }
 
-            if binsize % (mtu / 8) == 0 {
-                packageTotal = binsize / (mtu / 8)
+            if binsize % 200 == 0 {
+                packageTotal = binsize / 200
             } else {
-                packageTotal = binsize / (mtu / 8) + 1
+                packageTotal = binsize / 200 + 1
             }
-            XGZTCommand.dialMarketSetTransferConfig(packageTotal: packageTotal, binSize: binsize, mtu: mtu, dialType: 0, dialNum: 1, local: 0, typeValue: 0 ,dialTypeValue: 0)
+            XGZTCommand.dialMarketSetTransferConfig(packageTotal: packageTotal, binSize: binsize, mtu: mtu, dialType: 0, dialNum: 1, local: 0, typeValue: 0 ,dialTypeValue: 0xffffff)
         } else if obj == 5 {
             packageNum += 1
             let mtu = XGZTBlueToothManager.shared.device?.mtu ?? 0
-            let maxDataLength = mtu / 8
+            let maxDataLength = 200
             let bin = (packageNum - 1) * maxDataLength
             let progress = bin * 100 / binData.count
 
@@ -317,7 +317,7 @@ class ClockUseViewController: BaseViewController {
     }
     
     public func refreshDialogForResult(value: Bool) {
-        //Toast(text: value ? "推送成功" : "推送失败").show()
+        Toast(text: value ? "toast_success".localized() : "toast_failed".localized()).show()
         hideDialog()
         
         if value {
@@ -364,5 +364,9 @@ extension Int {
 extension ClockUseViewController: UploadImageDelegate {
     func startUpload(image: UIImage) {
         
+    }
+    
+    func dismissVC() {
+        imageUploadVc = nil
     }
 }

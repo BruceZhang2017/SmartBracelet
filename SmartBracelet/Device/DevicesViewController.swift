@@ -99,12 +99,14 @@ class DevicesViewController: BaseViewController {
         
         width = (ScreenWidth - 60) / 3
         if AppDelegate.IsDeviceNotRound() { // 方形
-            let w = bleSelf.bleModel.screenWidth
-            let h = bleSelf.bleModel.screenHeight
+            let w = isXGZT ? (XGZTBlueToothManager.shared.device?.screenWidth ?? 0) : bleSelf.bleModel.screenWidth
+            let h = isXGZT ? (XGZTBlueToothManager.shared.device?.screenHeight ?? 0) : bleSelf.bleModel.screenHeight
             height = CGFloat(width) * CGFloat(h) / CGFloat(w)
         } else { // 圆形
             height =  width
         }
+        
+        print("width: \(width) height: \(height)")
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -382,7 +384,7 @@ extension DevicesViewController: UICollectionViewDataSource {
         if indexPath.row < clockArray.count  {
             let item = clockArray[indexPath.item]
             let array = item.components(separatedBy: "&&")
-            if array[0] == "_" || DeviceManager.shared.devices.count == 0 {
+            if array[0] == "_" || (DeviceManager.shared.devices.count == 0 && (BluetoothWatchDevice.loadAll()?.count ?? 0) == 0) {
                 cell.clockImageView.isHidden = true
                 cell.addImageView.isHidden = false
                 cell.clockBGView.backgroundColor = UIColor.fill

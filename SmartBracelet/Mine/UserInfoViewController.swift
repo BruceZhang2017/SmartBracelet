@@ -135,7 +135,7 @@ extension UserInfoViewController: UITableViewDataSource {
         } else if indexPath.row == 5 {
             if UserManager.sharedInstall.user?.token == nil {
                 if isXGZT {
-                    cell.valueLabel.text = "\(XGZTBlueToothManager.shared.device?.weight ?? 0)CM"
+                    cell.valueLabel.text = "\(XGZTBlueToothManager.shared.device?.weight ?? 0)KG"
                 } else {
                     cell.valueLabel.text = "\(bleSelf.userInfo.weight)KG"
                 }
@@ -167,10 +167,6 @@ extension UserInfoViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         if indexPath.row == 0 { // 头像
-//            if UserManager.sharedInstall.user?.token == nil {
-//                Toast(text: "服务器不可用").show()
-//                return
-//            }
             let storyboard = UIStoryboard(name: .kMine, bundle: nil)
             let vc = storyboard.instantiateViewController(withIdentifier: "ModifyHeadViewController")
             navigationController?.pushViewController(vc, animated: true)

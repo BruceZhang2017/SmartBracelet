@@ -28,6 +28,7 @@ class MyClockViewController: UIViewController {
     var datetimeTopLocation = 0 ///关闭0 日期1 睡眠2 心率3 计步4
     var datetimeBottomLocation = 0 ///关闭0 日期1 睡眠2 心率3 计步4
     var colorIndex = 0 ///白色0 黑色1 黄色2 橙色3 粉色4 紫色5 蓝色6 青色7
+    var diallocation = 3
     final let locations = ["above".localized(), "below".localized()]
     final let tops = ["closure".localized(), "date".localized(), "sleep".localized(), "heart_rate".localized(), "step".localized()]
     var topTap = false
@@ -51,20 +52,24 @@ class MyClockViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        let w: CGFloat = CGFloat(bleSelf.bleModel.screenWidth)
-        let h: CGFloat = CGFloat(bleSelf.bleModel.screenHeight)
+        let w: CGFloat = isXGZT ? CGFloat(XGZTBlueToothManager.shared.device?.screenWidth ?? 0) : CGFloat(bleSelf.bleModel.screenWidth)
+        let h: CGFloat = isXGZT ? CGFloat(XGZTBlueToothManager.shared.device?.screenHeight ?? 0) : CGFloat(bleSelf.bleModel.screenHeight)
         if w == 80 {
             self.view.bg_base1()
             self.edgesForExtendedLayout = .all
         }
         
         title = "custom_watch_face".localized()
-        print("瑞昱设备表盘宽%@高%@,可推空间",bleSelf.bleModel.screenWidth, bleSelf.bleModel.screenHeight)
         
-        datetimeLocation = bleSelf.dialSelectModel.timeDirection
-        datetimeTopLocation = bleSelf.dialSelectModel.onTheTime
-        datetimeBottomLocation = bleSelf.dialSelectModel.belowTheTime
-        colorIndex = bleSelf.dialSelectModel.textColor
+        if isXGZT {
+            diallocation = XGZTBlueToothManager.shared.device?.dialLocal ?? 0
+            colorIndex = XGZTBlueToothManager.shared.device?.dialColor ?? 0
+        } else {
+            datetimeLocation = bleSelf.dialSelectModel.timeDirection
+            datetimeTopLocation = bleSelf.dialSelectModel.onTheTime
+            datetimeBottomLocation = bleSelf.dialSelectModel.belowTheTime
+            colorIndex = bleSelf.dialSelectModel.textColor
+        }
         
         //去掉没有数据显示部分多余的分隔线
         tableView.tableFooterView =  UIView.init(frame: CGRect.zero)
@@ -83,8 +88,8 @@ class MyClockViewController: UIViewController {
         bleSelf.getFuncCategory()
         
         if AppDelegate.IsDeviceNotRound() { // 方形
-            let w = bleSelf.bleModel.screenWidth
-            let h = bleSelf.bleModel.screenHeight
+            let w: CGFloat = isXGZT ? CGFloat(XGZTBlueToothManager.shared.device?.screenWidth ?? 0) : CGFloat(bleSelf.bleModel.screenWidth)
+            let h: CGFloat = isXGZT ? CGFloat(XGZTBlueToothManager.shared.device?.screenHeight ?? 0) : CGFloat(bleSelf.bleModel.screenHeight)
             height = CGFloat(width) * CGFloat(h) / CGFloat(w)
         } else { // 圆形
             height =  width
@@ -104,13 +109,18 @@ class MyClockViewController: UIViewController {
         needStop = true
         print("壁纸推送暂停")
         imageUploadVc?.dismiss(animated: false, completion: {
-            
+            [weak self] in
+            self?.imageUploadVc = nil
         })
         NotificationCenter.default.removeObserver(self)
     }
     
     // 修改自定义设置内容位置
     private func modifyCustomDialSettings() {
+        if isXGZT {
+            return
+        }
+        
         ///时间上方0 时间下方1
         bleSelf.dialSelectModel.timeDirection = datetimeLocation
         
@@ -131,13 +141,14 @@ class MyClockViewController: UIViewController {
         guard let image = currentImage else {
             return
         }
-        
-        guard let data = image.compressImageOnlength(maxLength: 10) else {
+        print("image: width \(image.size.width) height \(image.size.height)")
+        guard let data = image.compressImageOnlength(maxLength: 8) else {
             return
         }
         guard let nImage = UIImage(data: data) else {
             return
         }
+        print("nImage: width \(nImage.size.width) height \(nImage.size.height)")
         // 从UIImage获取原始图像数据
         guard let rawImageData = nImage.rawImageData else {
             return
@@ -155,6 +166,9 @@ class MyClockViewController: UIViewController {
                                   useFilter: false,
                                   supportRotate: false)
         
+        var message = "Convert image to rotate PAR successfully. PAR info: size=\(parData?.count ?? 0) width=\(width) height=\(height)"
+        print(message)
+        
         // 最终展示的结果
         if let parData {
             binData = parData
@@ -164,8 +178,11 @@ class MyClockViewController: UIViewController {
     
     @objc func handleNotifyXGZT(_ notification: Notification) {
         let obj = notification.object as? Int ?? 0 // 1.开始 2.成功 3.失败   自定义 4.配置，5.开始，6，成功，7.失败
-        let userinfo = notification.userInfo as? [String: String]
+        _ = notification.userInfo as? [String: String]
         if obj == 4 {
+            if binData.count == 0 {
+                return
+            }
             let binsize = binData.count
             let mtu = XGZTBlueToothManager.shared.device?.mtu ?? 0
             var packageTotal = 0
@@ -173,16 +190,18 @@ class MyClockViewController: UIViewController {
                 fatalError("MTU should be greater than 0")
             }
 
-            if binsize % (mtu / 8) == 0 {
-                packageTotal = binsize / (mtu / 8)
+            if binsize % 200 == 0 {
+                packageTotal = binsize / 200
             } else {
-                packageTotal = binsize / (mtu / 8) + 1
+                packageTotal = binsize / 200 + 1
             }
-            XGZTCommand.dialMarketSetTransferConfig(packageTotal: packageTotal, binSize: binsize, mtu: mtu, dialType: 1, dialNum: 1, local: 1, typeValue: 0 ,dialTypeValue: 0)
+            XGZTCommand.dialMarketSetTransferConfig(packageTotal: packageTotal, binSize: binsize, mtu: mtu, dialType: 1, dialNum: 1, local: diallocation, typeValue: 0 ,dialTypeValue: colorIndex)
         } else if obj == 5 {
+            if binData.count == 0 {
+                return
+            }
             packageNum += 1
-            let mtu = XGZTBlueToothManager.shared.device?.mtu ?? 0
-            let maxDataLength = mtu / 8
+            let maxDataLength = 200
             let bin = (packageNum - 1) * maxDataLength
             let progress = bin * 100 / binData.count
 
@@ -203,12 +222,19 @@ class MyClockViewController: UIViewController {
             }
             
         } else if obj == 6 {
+            if binData.count == 0 {
+                return
+            }
             notif()
         } else if obj == 7 {
+            if binData.count == 0 {
+                return
+            }
             DispatchQueue.main.async {
                 [weak self] in
                 self?.imageUploadVc?.dismiss(animated: false, completion: {
-                    
+                    [weak self] in
+                    self?.imageUploadVc = nil
                 })
             }
         }
@@ -278,7 +304,8 @@ class MyClockViewController: UIViewController {
                     DispatchQueue.main.async {
                         [weak self] in
                         self?.imageUploadVc?.dismiss(animated: false, completion: {
-                            
+                            [weak self] in
+                            self?.imageUploadVc = nil
                         })
                     }
                     return
@@ -302,12 +329,12 @@ class MyClockViewController: UIViewController {
         let timestamp = Int(Date().timeIntervalSince1970)
         DispatchQueue.main.async {
             [weak self] in
+            Toast(text: "toast_success".localized()).show()
             if self?.currentImage == nil {
                 return
             }
             let w  = isXGZT ? (XGZTBlueToothManager.shared.device?.screenWidth ?? 0) : bleSelf.bleModel.screenWidth
             let h = isXGZT ? (XGZTBlueToothManager.shared.device?.screenHeight ?? 0) : bleSelf.bleModel.screenHeight
-            let lastestDeviceMac = UserDefaults.standard.string(forKey: "LastestDeviceMac") ?? "00:00:00:00:00:00"
             self?.saveImage(currentImage: self!.currentImage!, imageName: "\(lastestDeviceMac)_\(w)_\(h)_\(timestamp).png")
             var lastStamp = UserDefaults.standard.dictionary(forKey: "lastStamp") ?? [:]
             lastStamp[lastestDeviceMac] = timestamp
@@ -319,7 +346,6 @@ class MyClockViewController: UIViewController {
             })
             self?.tableView?.reloadData()
         }
-        let lastestDeviceMac = UserDefaults.standard.string(forKey: "LastestDeviceMac") ?? "00:00:00:00:00:00"
         var clockDir = UserDefaults.standard.dictionary(forKey: "MyClock") ?? [:]
         var clockStr = clockDir[lastestDeviceMac] as? [String] ?? ["_&&_&&_", "_&&_&&_", "_&&_&&_"]
         let w  = isXGZT ? (XGZTBlueToothManager.shared.device?.screenWidth ?? 0) : bleSelf.bleModel.screenWidth
@@ -413,7 +439,7 @@ extension MyClockViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.row == 0 {
             return height + 80
-        } else if indexPath.row == 4 {
+        } else if indexPath.row == 4 || (indexPath.row == 2 && isXGZT) {
             return 112
         }
         
@@ -433,7 +459,7 @@ extension MyClockViewController: UITableViewDelegate {
             itemVC?.titles = locations
             itemVC?.titleStr = "time_position".localized()
             navigationController?.present(itemVC!, animated: false, completion: nil)
-        } else if indexPath.row == 2 {
+        } else if indexPath.row == 2 && !isXGZT {
             let storyboard = UIStoryboard(name: .kMine, bundle: nil)
             itemVC = storyboard.instantiateViewController(withIdentifier: "SelectItemViewController") as? SelectItemViewController
             itemVC?.delegate = self
@@ -445,7 +471,7 @@ extension MyClockViewController: UITableViewDelegate {
             itemVC?.titles = tops
             itemVC?.titleStr = "content_above_time".localized()
             navigationController?.present(itemVC!, animated: false, completion: nil)
-        } else if indexPath.row == 3 {
+        } else if indexPath.row == 3 && !isXGZT {
             let storyboard = UIStoryboard(name: .kMine, bundle: nil)
             itemVC = storyboard.instantiateViewController(withIdentifier: "SelectItemViewController") as? SelectItemViewController
             itemVC?.delegate = self
@@ -462,6 +488,9 @@ extension MyClockViewController: UITableViewDelegate {
 
 extension MyClockViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if isXGZT {
+            return 3
+        }
         let bk = bleSelf.bleModel.internalNumber.hasPrefix("5A4B") // 是否为中科
         if bleSelf.isJLBlue {
             return 1
@@ -478,22 +507,28 @@ extension MyClockViewController: UITableViewDataSource {
             cell.delegate = self
             cell.clockView.layer.cornerRadius = AppDelegate.IsDeviceNotRound() ? 30 : width / 2
             cell.clockView.clipsToBounds = true
-            cell.dateTimeLabel.text = "time".localized()
-            cell.dateTimeTopLabel.text = datetimeTopLocation > 0 ? tops[datetimeTopLocation] : ""
-            cell.dateTimeBottomLabel.text = datetimeBottomLocation > 0 ? tops[datetimeBottomLocation] : ""
-            cell.dateTimeLabel.textColor = colors[colorIndex]
-            cell.dateTimeTopLabel.textColor = colors[colorIndex]
-            cell.dateTimeBottomLabel.textColor = colors[colorIndex]
+            if isXGZT {
+                cell.dateTimeLabel.isHidden = true
+                cell.dateTimeTopLabel.isHidden = true
+                cell.dateTimeBottomLabel.isHidden = true
+            } else {
+                cell.dateTimeLabel.text = "time".localized()
+                cell.dateTimeTopLabel.text = datetimeTopLocation > 0 ? tops[datetimeTopLocation] : ""
+                cell.dateTimeBottomLabel.text = datetimeBottomLocation > 0 ? tops[datetimeBottomLocation] : ""
+                cell.dateTimeLabel.textColor = colors[colorIndex]
+                cell.dateTimeTopLabel.textColor = colors[colorIndex]
+                cell.dateTimeBottomLabel.textColor = colors[colorIndex]
+            }
             cell.topLC.constant = datetimeLocation == 0 ? 10 : 74
-            cell.itemImageView.contentMode = .scaleAspectFit
+            cell.itemImageView.contentMode = .scaleToFill
             cell.itemImageView.backgroundColor = UIColor.gray
             cell.itemImageView.layer.cornerRadius = 30
             cell.itemImageView.clipsToBounds = true
             cell.selectButton.setTitle("select_image".localized(), for: .normal)
             cell.selectButton.setTitleColor(UIColor.brand, for: .normal)
             cell.selectButton.titleLabel?.font = UIFont.subtitle1()
-            let w  = bleSelf.bleModel.screenWidth
-            let h = bleSelf.bleModel.screenHeight
+            let w  = isXGZT ? (XGZTBlueToothManager.shared.device?.screenWidth ?? 0) : bleSelf.bleModel.screenWidth
+            let h = isXGZT ? (XGZTBlueToothManager.shared.device?.screenHeight ?? 0) : bleSelf.bleModel.screenHeight
             let lastestDeviceMac = UserDefaults.standard.string(forKey: "LastestDeviceMac") ?? "00:00:00:00:00:00"
             let lastStamp = UserDefaults.standard.dictionary(forKey: "lastStamp") ?? [:]
             let stamp = lastStamp[lastestDeviceMac] ?? ""
@@ -509,7 +544,7 @@ extension MyClockViewController: UITableViewDataSource {
             cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
             return cell
         }
-        if indexPath.row == 4 {
+        if indexPath.row == 4 || (indexPath.row == 2 && isXGZT) {
             let cell = tableView.dequeueReusableCell(withIdentifier: "Cell3", for: indexPath) as! EditClcokBottomTableViewCell
             cell.index = colorIndex
             cell.delegate = self
@@ -518,13 +553,13 @@ extension MyClockViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell2", for: indexPath) as! EditClockMiddleTableViewCell
         if indexPath.row == 1 {
             cell.textLabel?.text = "time_position".localized()
-            cell.detailTextLabel?.text = locations[datetimeLocation]
+            cell.detailTextLabel?.text = locations[isXGZT ? (diallocation == 4 ? 1 : 0) : datetimeLocation]
         }
-        if indexPath.row == 2 {
+        if indexPath.row == 2 && !isXGZT {
             cell.textLabel?.text = "content_above_time".localized()
             cell.detailTextLabel?.text = tops[datetimeTopLocation]
         }
-        if indexPath.row == 3 {
+        if indexPath.row == 3 && !isXGZT {
             cell.textLabel?.text = "content_below_time".localized()
             cell.detailTextLabel?.text = tops[datetimeBottomLocation]
         }
@@ -536,7 +571,15 @@ extension MyClockViewController: UITableViewDataSource {
 extension MyClockViewController: SelectItemVCDelegate {
     func callback(type: Int, index: Int, value: String) {
         if type == 0 {
-            datetimeLocation = index
+            if isXGZT {
+                if index == 0 {
+                    diallocation = 3
+                } else {
+                    diallocation = 4
+                }
+            } else {
+                datetimeLocation = index
+            }
             tableView.reloadData()
         }
         if type == 1 {
@@ -560,8 +603,8 @@ extension MyClockViewController: EidtClockHeadTableViewCellDelegate {
         if !AppDelegate.IsDeviceNotRound() {
             imagePickerVc?.needCircleCrop = true
         }
-        let w: CGFloat = CGFloat(bleSelf.bleModel.screenWidth)
-        let h: CGFloat = CGFloat(bleSelf.bleModel.screenHeight)
+        let w: CGFloat  = isXGZT ? CGFloat(XGZTBlueToothManager.shared.device?.screenWidth ?? 0) : CGFloat(bleSelf.bleModel.screenWidth)
+        let h: CGFloat = isXGZT ? CGFloat(XGZTBlueToothManager.shared.device?.screenHeight ?? 0) : CGFloat(bleSelf.bleModel.screenHeight)
         var w1: CGFloat = 0
         var h1: CGFloat = 0
         if w >= h {
@@ -645,6 +688,10 @@ extension MyClockViewController: UploadImageDelegate {
                 bleSelf.startImagePush(data)
             }
         }
+    }
+    
+    func dismissVC() {
+        imageUploadVc = nil
     }
 }
 
