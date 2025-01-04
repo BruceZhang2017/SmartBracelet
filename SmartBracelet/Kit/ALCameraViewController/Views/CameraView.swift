@@ -52,9 +52,10 @@ public class CameraView: UIView {
         imageOutput.outputSettings = outputSettings
 
         session.addOutput(imageOutput)
-
-        cameraQueue.sync {
-            session.startRunning()
+        
+        DispatchQueue.global().async {
+            [weak self] in
+            self?.session.startRunning()
             DispatchQueue.main.async() { [weak self] in
                 self?.createPreview()
                 self?.rotatePreview()

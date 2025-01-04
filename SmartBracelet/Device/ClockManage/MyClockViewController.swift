@@ -28,8 +28,9 @@ class MyClockViewController: UIViewController {
     var datetimeTopLocation = 0 ///关闭0 日期1 睡眠2 心率3 计步4
     var datetimeBottomLocation = 0 ///关闭0 日期1 睡眠2 心率3 计步4
     var colorIndex = 0 ///白色0 黑色1 黄色2 橙色3 粉色4 紫色5 蓝色6 青色7
-    var diallocation = 3
+    var diallocation = 0
     final let locations = ["above".localized(), "below".localized()]
+    final let xgztlocations = ["无".localized(), "左上".localized(), "左下".localized(), "右上".localized(), "右下".localized(), "居中".localized()]
     final let tops = ["closure".localized(), "date".localized(), "sleep".localized(), "heart_rate".localized(), "step".localized()]
     var topTap = false
     final var colors: [UIColor] = [UIColor.white, UIColor.black, UIColor.yellow,
@@ -62,8 +63,7 @@ class MyClockViewController: UIViewController {
         title = "custom_watch_face".localized()
         
         if isXGZT {
-            diallocation = XGZTBlueToothManager.shared.device?.dialLocal ?? 0
-            colorIndex = XGZTBlueToothManager.shared.device?.dialColor ?? 0
+            
         } else {
             datetimeLocation = bleSelf.dialSelectModel.timeDirection
             datetimeTopLocation = bleSelf.dialSelectModel.onTheTime
@@ -142,38 +142,45 @@ class MyClockViewController: UIViewController {
             return
         }
         print("image: width \(image.size.width) height \(image.size.height)")
-        guard let data = image.compressImageOnlength(maxLength: 8) else {
-            return
+        var nImage = compressAndConvertImage(image: image)
+        while true {
+            guard let rawImageData = nImage?.rawImageData else {
+                return
+            }
+            let width = Int32(nImage!.size.width)
+            let height = Int32(nImage!.size.height)
+            if let parData = ParTool.par(fromRaw: rawImageData,
+                                    width: width,
+                                    height: height,
+                                    runAlpha: false,
+                                    useFilter: false,
+                                    supportRotate: false) {
+                if parData.count <= 65 * 1024 {
+                    var message = "Convert image to rotate PAR successfully. PAR info: size=\(parData.count) width=\(width) height=\(height)"
+                    print(message)
+                    binData = parData
+                    XGZTCommand.dialMarketQuery(dataType: 0) // 查询 mtu
+                    break
+                } else {
+                    print("parData size exceeds 65K limit, recompressing...")
+                    nImage = compressAndConvertImage(image: image)
+                }
+            } else {
+                print("Failed to convert image to PAR format")
+                return
+            }
+        }
+    }
+
+    private func compressAndConvertImage(image: UIImage) -> UIImage? {
+        guard let data = image.compressImageOnlength(maxLength: 10) else {
+            return nil
         }
         guard let nImage = UIImage(data: data) else {
-            return
+            return nil
         }
         print("nImage: width \(nImage.size.width) height \(nImage.size.height)")
-        // 从UIImage获取原始图像数据
-        guard let rawImageData = nImage.rawImageData else {
-            return
-        }
-        
-        let width = Int32(nImage.size.width)
-        let height = Int32(nImage.size.height)
-    
-        
-        // 转换原始图像数据到PAR格式
-        let parData = ParTool.par(fromRaw: rawImageData,
-                                  width: width,
-                                  height: height,
-                                  runAlpha: false,
-                                  useFilter: false,
-                                  supportRotate: false)
-        
-        var message = "Convert image to rotate PAR successfully. PAR info: size=\(parData?.count ?? 0) width=\(width) height=\(height)"
-        print(message)
-        
-        // 最终展示的结果
-        if let parData {
-            binData = parData
-            XGZTCommand.dialMarketQuery(dataType: 0) // 查询mtu
-        }
+        return nImage
     }
     
     @objc func handleNotifyXGZT(_ notification: Notification) {
@@ -454,9 +461,14 @@ extension MyClockViewController: UITableViewDelegate {
             itemVC?.delegate = self
             itemVC?.modalTransitionStyle = .crossDissolve
             itemVC?.modalPresentationStyle = .overFullScreen
-            itemVC?.index = datetimeLocation
             itemVC?.type = 0
-            itemVC?.titles = locations
+            if isXGZT {
+                itemVC?.index = diallocation
+                itemVC?.titles = xgztlocations
+            } else {
+                itemVC?.index = datetimeLocation
+                itemVC?.titles = locations
+            }
             itemVC?.titleStr = "time_position".localized()
             navigationController?.present(itemVC!, animated: false, completion: nil)
         } else if indexPath.row == 2 && !isXGZT {
@@ -553,7 +565,11 @@ extension MyClockViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell2", for: indexPath) as! EditClockMiddleTableViewCell
         if indexPath.row == 1 {
             cell.textLabel?.text = "time_position".localized()
-            cell.detailTextLabel?.text = locations[isXGZT ? (diallocation == 4 ? 1 : 0) : datetimeLocation]
+            if isXGZT {
+                cell.detailTextLabel?.text = xgztlocations[diallocation]
+            } else {
+                cell.detailTextLabel?.text = locations[datetimeLocation]
+            }
         }
         if indexPath.row == 2 && !isXGZT {
             cell.textLabel?.text = "content_above_time".localized()
@@ -572,11 +588,7 @@ extension MyClockViewController: SelectItemVCDelegate {
     func callback(type: Int, index: Int, value: String) {
         if type == 0 {
             if isXGZT {
-                if index == 0 {
-                    diallocation = 3
-                } else {
-                    diallocation = 4
-                }
+                diallocation = index
             } else {
                 datetimeLocation = index
             }
@@ -654,7 +666,11 @@ extension MyClockViewController: EditClcokBottomTableViewCellDelegate {
     func callbackForSelectColor(collectionView: UICollectionView, index: Int) {
         colorIndex = index
         modifyCustomDialSettings()
-        tableView.reloadRows(at: [IndexPath(item: 4, section: 0), IndexPath(item: 0, section: 0)], with: UITableView.RowAnimation.automatic)
+        if isXGZT {
+            //tableView.reloadRows(at: [IndexPath(item: 2, section: 0)], with: UITableView.RowAnimation.automatic)
+        } else {
+            tableView.reloadRows(at: [IndexPath(item: 4, section: 0), IndexPath(item: 0, section: 0)], with: UITableView.RowAnimation.automatic)
+        }
         collectionView.reloadData()
     }
 }

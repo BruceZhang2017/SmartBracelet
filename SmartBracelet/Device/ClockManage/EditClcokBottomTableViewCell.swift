@@ -107,8 +107,12 @@ extension EditClcokBottomTableViewCell: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("当前点击的是：\(indexPath.item)")
-        index = indexToDialColor(index: indexPath.item) ?? 0
+        if isXGZT {
+            index = indexToDialColor(index: indexPath.item) ?? 0
+        } else {
+            index = indexPath.item
+        }
+        print("当前点击的是：\(index)")
         delegate?.callbackForSelectColor(collectionView: collectionView, index: index)
     }
 }
@@ -124,6 +128,7 @@ extension EditClcokBottomTableViewCell: UICollectionViewDataSource {
         cell.smallImageVIew.layer.backgroundColor = colors[indexPath.item].cgColor
         if isXGZT {
             let i = dialColorToIndex(dialColor: index) ?? 0
+            print("当前选中是：\(i)")
             cell.bigImageView.isHidden = i != indexPath.item
         } else {
             cell.bigImageView.isHidden = index != indexPath.item

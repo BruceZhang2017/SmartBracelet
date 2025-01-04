@@ -16,6 +16,7 @@ public class BluetoothWatchDevice {
     var deviceName: String?
     var deviceModel: Int?
     var deviceID: Int?
+    var brandID: Int? // 品牌id
     var max: String?
     var batteryLevel: Int?
     var isCharging: Bool?
@@ -59,9 +60,6 @@ public class BluetoothWatchDevice {
     var functioncontrolflags: Int = 0 // [0] 是否⽀持表盘市场 [1] 是否⽀持消息提醒 [2] 是否⽀持天⽓功能 等
     var healthcontrolflags: Int = 0 // [0] 是否⽀持⼼率检测 [1] 是否⽀持⾎氧检测 等
     
-    var dialLocal: Int = 0 // 右上, 0x04: 右下, 0x05: 居中时间文字⽅向: 0x00: ⽆, 0x01: 左上, 0x02: 左下, 0x03:1
-    var dialColor: Int = 0 // 文字颜⾊(RGB565): 红绿蓝 (⾼位在前)
-    
     // 开关类
     var isAntilostSwitch: Bool = false // 防丢开关
     var isRaisehandtobrightenscreen: Bool = false // 抬⼿亮屏开关
@@ -77,36 +75,36 @@ public class BluetoothWatchDevice {
     var isMessagevibrationswitch: Bool = false // 消息提醒震动开关
     
     // 通知类
-    var isNullMessage: Bool = false // 五消息
+    var isNullMessage: Bool = true // 五消息
     var isIncomingCall: Bool = false // 来电
     var isMissedCall: Bool = false // 未接来电
-    var isMessages: Bool = false // 短信
-    var isEmail: Bool = false // 邮件
-    var isSchedule: Bool = false // ⽇程
-    var isFacetime: Bool = false // Facetime
-    var isQQ: Bool = false // qq
-    var isSkype: Bool = false // Skype
-    var isWechat: Bool = false // Wechat
-    var isWhatsapp: Bool = false // Whatsapp
-    var isGmail: Bool = false // Gmail
-    var isHangout: Bool = false // Hangout
-    var isInbox: Bool = false // Inbox
-    var isLine: Bool = false // Line
-    var isTwitter: Bool = false
-    var isFacebook: Bool = false
-    var isFacebookMessenger: Bool = false
-    var isInstagram: Bool = false
-    var isWeibo: Bool = false
-    var isKakaotalk: Bool = false
-    var isFacebookpagemanager: Bool = false
-    var isViber: Bool = false
-    var isVkclient: Bool = false
-    var isTelegram: Bool = false
-    var isSnapchat: Bool = false
-    var isDingTalk: Bool = false
-    var isAlipay: Bool = false
-    var isTiktok: Bool = false
-    var isLinkedIn: Bool = false
+    var isMessages: Bool = true // 短信
+    var isEmail: Bool = true // 邮件
+    var isSchedule: Bool = true // ⽇程
+    var isFacetime: Bool = true // Facetime
+    var isQQ: Bool = true // qq
+    var isSkype: Bool = true // Skype
+    var isWechat: Bool = true // Wechat
+    var isWhatsapp: Bool = true // Whatsapp
+    var isGmail: Bool = true // Gmail
+    var isHangout: Bool = true // Hangout
+    var isInbox: Bool = true // Inbox
+    var isLine: Bool = true // Line
+    var isTwitter: Bool = true
+    var isFacebook: Bool = true
+    var isFacebookMessenger: Bool = true
+    var isInstagram: Bool = true
+    var isWeibo: Bool = true
+    var isKakaotalk: Bool = true
+    var isFacebookpagemanager: Bool = true
+    var isViber: Bool = true
+    var isVkclient: Bool = true
+    var isTelegram: Bool = true
+    var isSnapchat: Bool = true
+    var isDingTalk: Bool = true
+    var isAlipay: Bool = true
+    var isTiktok: Bool = true
+    var isLinkedIn: Bool = true
     
     
     // 存储设备信息到沙盒

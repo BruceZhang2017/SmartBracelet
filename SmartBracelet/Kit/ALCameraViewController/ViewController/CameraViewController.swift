@@ -288,7 +288,10 @@ open class CameraViewController: UIViewController {
     }
     
     @objc internal func notifyCameraReady() {
-        cameraButton.isEnabled = true
+        DispatchQueue.main.async {
+            [weak self] in
+            self?.cameraButton.isEnabled = true
+        }
     }
     
     /**
@@ -429,6 +432,9 @@ open class CameraViewController: UIViewController {
      * the picture on the device.
      */
     public func capturePhoto() {
+        if cameraView.imageOutput == nil {
+            print("cameraView.imageOutput为空")
+        }
         guard let output = cameraView.imageOutput,
             let connection = output.connection(with: AVMediaType.video) else {
             return

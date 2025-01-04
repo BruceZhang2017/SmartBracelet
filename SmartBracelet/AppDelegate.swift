@@ -19,6 +19,7 @@ let log = XCGLogger()
 class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     var soundID: SystemSoundID = 0
+    var audioPlayer: AVAudioPlayer?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         application.applicationIconBadgeNumber = 0
@@ -40,35 +41,35 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
         UNUserNotificationCenter.current().delegate = self
-        
+
         Bugly.start(withAppId: "0c6ba8bb6a")
-        
-        var openCount = UserDefaults.standard.integer(forKey: "APPOPEN") 
+
+        var openCount = UserDefaults.standard.integer(forKey: "APPOPEN")
         openCount += 1
         UserDefaults.standard.set(openCount, forKey: "APPOPEN")
-        
+
         // 配置音频会话
         let audioSession = AVAudioSession.sharedInstance()
         do {
-            try audioSession.setCategory(.playback)
+            try audioSession.setCategory(.playback, mode: .default, options: [.mixWithOthers, .duckOthers])
             try audioSession.setActive(true)
         } catch {
             print("Failed to set up audio session: \(error)")
         }
-        
+
         return true
     }
-    
+
     func applicationDidBecomeActive(_ application: UIApplication) {
         application.applicationIconBadgeNumber = 0
     }
-    
+
     public func pushToTab() {
         let sb = UIStoryboard(name: "Main", bundle: nil)
         let vc = sb.instantiateViewController(withIdentifier: "MTabBarController")
         window?.rootViewController = vc
     }
-    
+
     private func setupConfig() {
         UINavigationBar.appearance().shadowImage = UIImage()
         UINavigationBar.appearance().setBackgroundImage(UIImage(), for: .default)
@@ -76,7 +77,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UITabBarItem.appearance().setTitleTextAttributes([.foregroundColor: UIColor(hex: 0x0FC08D)], for: .selected)
         UITabBarItem.appearance().setTitleTextAttributes([.foregroundColor: UIColor(hex: 0x818181)], for: .normal)
     }
-    
+
     /// 配置数据库
     private func configRealm() {
         /// 如果要存储的数据模型属性发生变化,需要配置当前版本号比之前大
@@ -84,11 +85,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let docPath = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.documentDirectory, FileManager.SearchPathDomainMask.userDomainMask, true)[0] as String
         let dbPath = docPath.appending("/bracelet.realm")
         let config = Realm.Configuration(fileURL: URL.init(string: dbPath), inMemoryIdentifier: nil, syncConfiguration: nil, encryptionKey: nil, readOnly: false, schemaVersion: dbVersion, migrationBlock: { (migration, oldSchemaVersion) in
-            
+
         }, deleteRealmIfMigrationNeeded: false, shouldCompactOnLaunch: nil, objectTypes: nil)
         Realm.Configuration.defaultConfiguration = config
     }
-    
+
     public func foundphone() {
         // 创建通知内容
         let content = UNMutableNotificationContent()
@@ -111,33 +112,35 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 print("添加本地通知成功")
             }
         }
-        
+
         DispatchQueue.main.async {
             [weak self] in
-            
-            
+
             let alert = UIAlertController(title: "device_tip".localized(), message: "found_success".localized(), preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "mine_confirm".localized(), style: .cancel, handler: { [weak self] action in
                 // 停止播放声音
-                AudioServicesDisposeSystemSoundID(self?.soundID ?? 0)
+                self?.audioPlayer?.stop()
             }))
-            UIApplication.shared.keyWindow?.rootViewController?.present(alert, animated: true, completion: {
-                
-            })
+            UIApplication.shared.keyWindow?.rootViewController?.present(alert, animated: true, completion: nil)
         }
-        
-        let soundURL = Bundle.main.url(forResource: "Alarm", withExtension: "mp3")
-        AudioServicesCreateSystemSoundID(soundURL as! CFURL, &soundID)
-        AudioServicesPlaySystemSound(soundID)
+
+        guard let soundURL = Bundle.main.url(forResource: "Alarm", withExtension: "mp3") else { return }
+        do {
+            audioPlayer = try AVAudioPlayer(contentsOf: soundURL)
+            audioPlayer?.prepareToPlay()
+            audioPlayer?.play()
+        } catch {
+            print("Failed to play sound: \(error)")
+        }
     }
 }
 
 extension AppDelegate: UNUserNotificationCenterDelegate {
-    
+
     func userNotificationCenter(_ center: UNUserNotificationCenter, openSettingsFor notification: UNNotification?) {
         UIApplication.shared.applicationIconBadgeNumber = 0
     }
-    
+
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         guard let trigger = notification.request.trigger else { return; }
         if trigger.isKind(of: UNTimeIntervalNotificationTrigger.classForCoder()) {
@@ -150,24 +153,22 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         // show alert while app is running in foreground
         return completionHandler([.alert, .badge, .sound])
     }
-    
+
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
         // 判断通知的触发器类型
         // 如果触发器是 UNTimeIntervalNotificationTrigger 类型
         if let trigger = response.notification.request.trigger as? UNTimeIntervalNotificationTrigger {
-            print("Notification did receive, Is class UNTimeIntervalNotificationTrigger")
+            print("Notification did receive, Is class UNTimeIntervalNotificationTrigger2")
             UIApplication.shared.applicationIconBadgeNumber = 0
         }
         // 如果触发器是 UNCalendarNotificationTrigger 类型
         else if let trigger = response.notification.request.trigger as? UNCalendarNotificationTrigger {
-            print("Notification did receive, Is class UNCalendarNotificationTrigger")
+            print("Notification did receive, Is class UNCalendarNotificationTrigger2")
             UIApplication.shared.applicationIconBadgeNumber = 0
         }
         // 调用 completionHandler 表示处理完成
         return completionHandler()
     }
-    
-
 }
 
 extension String {
@@ -181,7 +182,7 @@ extension AppDelegate {
         if isXGZT {
             return XGZTBlueToothManager.shared.device?.screenType != 1
         }
-        
+
         var type = BLEDeviceNameHandler().handleName()
         if type == 0 {
             type = bleSelf.bleModel.screenType
@@ -190,4 +191,3 @@ extension AppDelegate {
         return type == 1
     }
 }
-
