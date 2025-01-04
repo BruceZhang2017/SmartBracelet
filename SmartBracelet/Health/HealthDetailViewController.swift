@@ -217,11 +217,11 @@ class HealthDetailViewController: BaseViewController {
             return
         }
         
-        if (type == 2 && isXGZT) && ((XGZTBlueToothManager.shared.device?.healthcontrolflags ?? 0) & 1 == 0) {
+        if (type == 2 && isXGZT) && (XGZTBlueToothManager.shared.device?.brandID ?? 0) == 0 {
             return
         }
         
-        if (type == 5 && isXGZT) && ( getBitValue(of: (XGZTBlueToothManager.shared.device?.healthcontrolflags ?? 0), at: 1) == 0) {
+        if (type == 5 && isXGZT) && (XGZTBlueToothManager.shared.device?.brandID ?? 0) == 0  {
             return
         }
         

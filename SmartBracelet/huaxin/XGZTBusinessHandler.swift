@@ -48,7 +48,12 @@ class XGZTBusinessHandler {
         // 获取当前的时区信息
         let currentTimeZone = TimeZone.current
         let timeZoneOffsetInSeconds = currentTimeZone.secondsFromGMT()
-        let timeZoneOffsetInHours = timeZoneOffsetInSeconds / 3600
+        var timeZoneOffsetInHours = timeZoneOffsetInSeconds / 3600
+        if timeZoneOffsetInSeconds >= 0 {
+            timeZoneOffsetInHours = 12 + timeZoneOffsetInHours
+        } else {
+            timeZoneOffsetInHours = 12 - timeZoneOffsetInHours
+        }
 
         // 获取当前的 UTC 时间
         let now = Date()
@@ -84,5 +89,10 @@ class XGZTBusinessHandler {
             XGZTCommand.getHistorySleepData()
         }
         
+        
+        delayTime = DispatchTime.now() + .milliseconds(500)
+        DispatchQueue.main.asyncAfter(deadline: delayTime) {
+            XGZTCommand.getDeviceInfo()
+        }
     }
 }

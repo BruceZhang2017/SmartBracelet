@@ -369,8 +369,9 @@ public class XGZTCommand {
             XGZTCommands.getDeviceInfo.rawValue,
             0x01,
             0x00,
-            0x01,
-            0x00
+            0x02,
+            0x00,
+            0x09
         ])
         XGZTBlueToothManager.shared.writeCharacteristic(command: command)
     }
@@ -522,7 +523,7 @@ public class XGZTCommand {
             0x00,
             0x08,
             0x01,
-            UInt8(response.eventType),
+            UInt8(response.eventType + 1),
             UInt8(response.cycle),
             UInt8(response.startHour),
             UInt8(response.startMinute),
@@ -1104,16 +1105,17 @@ public class XGZTCommand {
                 print("查找手环命令执行失败")
             }
         case.findPhone:
-            guard response.count >= 7 else {
+            guard response.count >= 6 else {
                 print("findPhone command response error")
                 return
             }
-            let success = response[6] == 0x00
-            if success && response[5] == 0x00 {
-                print("查找手机命令执行成功")
-                (UIApplication.shared.delegate as? AppDelegate)?.foundphone()
+            if response[5] == 0x00 {
+                print("开始查找手机")
+                DispatchQueue.main.async {
+                    (UIApplication.shared.delegate as? AppDelegate)?.foundphone()
+                }
             } else {
-                print("查找手机命令执行失败")
+                print("结束查找手机")
             }
         case.setWeatherUnit:
             guard response.count >= 6 else {
@@ -1142,6 +1144,16 @@ public class XGZTCommand {
                 }
             }
         case.getDeviceInfo:
+            if response.count == 13 {
+                let range = 7..<13 // Convert ClosedRange to Range by adding 1 to the upper bound
+                let macAddressData = response[range]
+                let macAddress = macAddressData.map { String(format: "%02x", $0) }.joined(separator: ":").uppercased()
+                lastestDeviceMac = macAddress
+                XGZTBlueToothManager.shared.device?.max = macAddress
+                UserDefaults.standard.setValue(lastestDeviceMac, forKey: "LastestDeviceMac")
+                UserDefaults.standard.synchronize()
+                return
+            }
             guard response.count >= 46 else {
                 print("getDeviceInfo command response error")
                 return
@@ -1231,8 +1243,12 @@ public class XGZTCommand {
                 print("alarmInfo command response error")
                 return
             }
-            if response.count == 7 {
+            if response.count == 7 && response[5] == 0x00 {
                 XGZTBlueToothManager.shared.device?.alarmcount = Int(response[6])
+                return
+            }
+            if response.count == 7 && response[5] == 0x01 && response[6] == 0x00 {
+                XGZTCommand.getAlarmInfo()
                 return
             }
             if response.count == 13 {
@@ -1689,7 +1705,6 @@ public class XGZTCommand {
                 let cmdType = Int(response[5])
                 if cmdType == 0 {
                     XGZTBlueToothManager.shared.device?.currentHeartrate = Int(response[10])
-                    XGZTCommand.startTest(cmdType: 0, control: 0)
                     let heartObj = HeartObj()
                     heartObj.mac = lastestDeviceMac
                     heartObj.time = time
@@ -1699,7 +1714,6 @@ public class XGZTCommand {
                     print("获取到的心率为:\(time) --- \(Int(response[10]))")
                 } else if cmdType == 1 {
                     XGZTBlueToothManager.shared.device?.currentOxygen = Int(response[10])
-                    XGZTCommand.startTest(cmdType: 1, control: 0)
                     let oxgenObj = OxgenObj()
                     oxgenObj.mac = lastestDeviceMac
                     oxgenObj.time = time
@@ -1710,7 +1724,6 @@ public class XGZTCommand {
                 } else {
                     XGZTBlueToothManager.shared.device?.currentSystolicpressure = Int(response[10])
                     XGZTBlueToothManager.shared.device?.currentDiastolicpressure = Int(response[11])
-                    XGZTCommand.startTest(cmdType: 2, control: 0)
                     let booldObj = BloodObj()
                     booldObj.time = time
                     booldObj.mac = lastestDeviceMac

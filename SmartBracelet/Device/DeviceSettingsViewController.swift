@@ -25,8 +25,17 @@ class DeviceSettingsViewController: UIViewController {
         if isXGZT { // 如果是自研产品
             XGZTCommand.getSwitchStatus()
             XGZTCommand.getSwitchTableExtension()
-            XGZTCommand.getReminderInfo(eventType: 0) // 久坐
-            XGZTCommand.getReminderInfo(eventType: 1) //喝水
+            var delayTime = DispatchTime.now() + .milliseconds(50)
+            DispatchQueue.main.asyncAfter(deadline: delayTime) {
+                XGZTCommand.getReminderInfo(eventType: 0) // 久坐
+            }
+            
+            delayTime = DispatchTime.now() + .milliseconds(100)
+            DispatchQueue.main.asyncAfter(deadline: delayTime) {
+                XGZTCommand.getReminderInfo(eventType: 1) //喝水
+            }
+            
+            
         } else {
             bleSelf.getAncsSwitchForWristband() // 苹果推送消息
             let delay = DispatchTime.now() + 0.05
@@ -63,18 +72,17 @@ class DeviceSettingsViewController: UIViewController {
                 return
             } else if obj == 2 {
                 if isXGZT {
-                    XGZTCommand.remotePhoto(action: 1)
+                    return
                 }
                 takePhoto()
             } else if obj == 3 {
+                if isXGZT {
+                    return
+                }
                 DispatchQueue.main.async {
                     [weak self] in
                     self?.cameraViewController?.dismiss(animated: true, completion: nil)
                     self?.cameraViewController = nil
-                }
-                
-                if isXGZT {
-                    XGZTCommand.remotePhoto(action: 0)
                 }
             }
         }
@@ -105,17 +113,22 @@ class DeviceSettingsViewController: UIViewController {
                 }
                 if (mSwitch?.isOn ?? false) {
                     device.longsit?.cycle = 0b11111111
-                    device.longsit?.startHour = 0
+                    device.longsit?.startHour = 8
                     device.longsit?.startMinute = 0
-                    device.longsit?.endHour = 0x17
-                    device.longsit?.endMinute = 0x3b
+                    device.longsit?.endHour = 0x14
+                    device.longsit?.endMinute = 0
                     if (device.longsit?.period ?? 0) == 0 {
                         device.longsit?.period = 0x0a
+                        tableView.reloadData()
                     }
-                    XGZTCommand.setReminderInfo(response: device.longsit!)
+                    if device.longsit != nil {
+                        XGZTCommand.setReminderInfo(response: device.longsit!)
+                    }
                 } else {
-                    device.longsit?.cycle = 0b01111111
-                    XGZTCommand.setReminderInfo(response: device.longsit!)
+                    if device.longsit != nil {
+                        device.longsit?.cycle = 0b01111111
+                        XGZTCommand.setReminderInfo(response: device.longsit!)
+                    }
                 }
             } else {
                 bleSelf.functionSwitchModel.isLongSit = mSwitch?.isOn ?? false
@@ -237,17 +250,23 @@ class DeviceSettingsViewController: UIViewController {
                         device.drinkWater = ReminderInfoResponse(eventType: 1, cycle: 0, startHour: 0, startMinute: 0, endHour: 0, endMinute: 0, period: 0)
                     }
                     device.drinkWater?.cycle = 0b11111111
-                    device.drinkWater?.startHour = 0
+                    device.drinkWater?.startHour = 0x08
                     device.drinkWater?.startMinute = 0
-                    device.drinkWater?.endHour = 0x17
-                    device.drinkWater?.endMinute = 0x3b
+                    device.drinkWater?.endHour = 0x14
+                    device.drinkWater?.endMinute = 0
                     if (device.drinkWater?.period ?? 0) == 0 {
                         device.drinkWater?.period = 0x0a
+                        tableView.reloadData()
+                        
                     }
-                    XGZTCommand.setReminderInfo(response: device.drinkWater!)
+                    if device.drinkWater != nil {
+                        XGZTCommand.setReminderInfo(response: device.drinkWater!)
+                    }
                 } else {
-                    device.drinkWater?.cycle = 0b01111111
-                    XGZTCommand.setReminderInfo(response: device.drinkWater!)
+                    if device.drinkWater != nil {
+                        device.drinkWater?.cycle = 0b01111111
+                        XGZTCommand.setReminderInfo(response: device.drinkWater!)
+                    }
                 }
             } else {
                 bleSelf.functionSwitchModel.isDrink = mSwitch?.isOn ?? false
@@ -306,7 +325,7 @@ extension DeviceSettingsViewController: UITableViewDataSource {
             cell.accessoryView = mSwitch
             if indexPath.row == 3 {
                 if isXGZT {
-                    mSwitch.isOn = XGZTBlueToothManager.shared.device?.longsit?.cycle ?? 0 >= 0b1000000
+                    mSwitch.isOn = (((XGZTBlueToothManager.shared.device?.longsit?.cycle ?? 0) >> 7) & 1) > 0
                 } else {
                     mSwitch.isOn = bleSelf.functionSwitchModel.isLongSit
                 }
@@ -324,7 +343,7 @@ extension DeviceSettingsViewController: UITableViewDataSource {
                 }
             } else if indexPath.row == 5 {
                 if isXGZT {
-                    mSwitch.isOn = XGZTBlueToothManager.shared.device?.drinkWater?.cycle ?? 0 >= 0b1000000
+                    mSwitch.isOn = (((XGZTBlueToothManager.shared.device?.drinkWater?.cycle ?? 0) >> 7) & 1) > 0
                 } else {
                     mSwitch.isOn = bleSelf.functionSwitchModel.isDrink
                 }

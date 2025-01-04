@@ -121,6 +121,56 @@ class DevicesViewController: BaseViewController {
         
         if isXGZT {
             refreshHeight()
+            
+            let delayTime = DispatchTime.now() + .milliseconds(1000)
+            DispatchQueue.main.asyncAfter(deadline: delayTime) {
+                guard let device = XGZTBlueToothManager.shared.device else {
+                    return
+                }
+                var p0: UInt8 = 0
+                var p1: UInt8 = 0
+                var p2: UInt8 = 0
+                var p3: UInt8 = 0
+                p0 |= 1 << 0
+                p0 |= device.isIncomingCall ? 1 << 1 : 0
+                p0 |= 1 << 2
+                p0 |= 1 << 3
+                p0 |= 1 << 4
+                p0 |= 1 << 5
+                p0 |= 1 << 6
+                p0 |= 1 << 7
+
+                // 处理 response[8]
+                p1 |= 1 << 0
+                p1 |= 1 << 1
+                p1 |= 1 << 2
+                p1 |= 1 << 3
+                p1 |= 1 << 4
+                p1 |= 1 << 5
+                p1 |= 1 << 6
+                p1 |= 1 << 7
+                
+                // 处理 response[9]
+                p2 |= 1 << 0
+                p2 |= 1 << 1
+                p2 |= 1 << 2
+                p2 |= 1 << 3
+                p2 |= 1 << 4
+                p2 |= 1 << 5
+                p2 |= 1 << 6
+                p2 |= 1 << 7
+                
+                // 处理 response[9]
+                p3 |= 1 << 0
+                p3 |= 1 << 2
+                p3 |= 1 << 3
+                p3 |= 1 << 4
+                p3 |= 1 << 5
+                p3 |= 1 << 6
+                
+                XGZTCommand.setSwitchTableExtension(p0: p0, p1: p1, p2: p2, p3: p3)
+            }
+            
         } else {
             Async.main(after: 1) {
                 if bleSelf.isConnected { // 连接成功
