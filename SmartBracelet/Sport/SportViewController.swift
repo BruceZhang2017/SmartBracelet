@@ -1,261 +1,469 @@
 //
-// Copyright © 2015-2018 Anker Innovations Technology Limited All Rights Reserved.
-// The program and materials is not free. Without our permission, any use, including but not limited to reproduction, retransmission, communication, display, mirror, download, modification, is expressly prohibited. Otherwise, it will be pursued for legal liability.
-// 
 //  SportViewController.swift
-//  SmartBracelet
+//  LefunHealth
 //
-//  Created by ANKER on 2020/7/28.
-//  Copyright © 2020 tjd. All rights reserved.
+//  Created by tjd on 2019/2/18.
+//  Copyright © 2019年 tjd. All rights reserved.
 //
-	
 
 import UIKit
-import SnapKit
-import Segmentio
 
-class SportViewController: BaseViewController {
-    @IBOutlet weak var startButton: UIButton!
-    @IBOutlet weak var totalValueLabel: UILabel!
-    @IBOutlet weak var mapSuperView: UIView!
-    @IBOutlet weak var segmentioView: Segmentio!
-    @IBOutlet weak var setTargetButton: UIButton!
-    var target: TargetModel = TargetModel() // 目标设置内容
-    var mapView: MAMapView!
-    var sportDataModel: SportDataModel!
+class SportViewController: BaseViewController, UITableViewDelegate, UITableViewDataSource {
+    var table = UITableView()
+    var headView = SportHeadView()
+    var footView = SportFootView()
+    var dataArray = [RunModel]()
+    var valueArray = [String]()
     
+    var bgImageView = UIImageView()
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        AMapServices.shared().enableHTTPS = true
-        mapView = MAMapView(frame: .zero)
-        mapSuperView.addSubview(mapView)
-        mapView.zoomLevel = 14
-        mapView.maxZoomLevel = 18
-        mapView.snp.makeConstraints {
-            $0.edges.equalTo(mapSuperView)
-        }
-        let maskView = UIView().then {
-            $0.backgroundColor = UIColor.white.withAlphaComponent(0.6)
-        }
-        mapView.addSubview(maskView)
-        maskView.snp.makeConstraints {
-            $0.edges.equalTo(mapView)
-        }
-         
-        mapView.isShowsUserLocation = true
-        mapView.userTrackingMode = .follow
         
-        let run = SegmentioItem(title: "跑步", image: nil)
-        let bike = SegmentioItem(title: "骑行", image: nil)
-        let foot = SegmentioItem(title: "步行", image: nil)
-        let state = SegmentioStates(
-                    defaultState: SegmentioState(
-                        backgroundColor: .white,
-                        titleFont: UIFont.systemFont(ofSize: 13),
-                        titleTextColor: UIColor(hex: 0x333333)
-                    ),
-                    selectedState: SegmentioState(
-                        backgroundColor: .white,
-                        titleFont: UIFont.systemFont(ofSize: 13),
-                        titleTextColor: UIColor(hex: 0x333333)
-                    ),
-                    highlightedState: SegmentioState(
-                        backgroundColor: .white,
-                        titleFont: UIFont.boldSystemFont(ofSize: 13),
-                        titleTextColor: UIColor(hex: 0x333333)
-                    )
-        )
-        let options = SegmentioOptions(
-                    backgroundColor: .white,
-                    segmentPosition: SegmentioPosition.fixed(maxVisibleItems: 5),
-                    scrollEnabled: true,
-                    indicatorOptions: SegmentioIndicatorOptions(type: .bottom, ratio: 0.3, height: 2, color: .k3ACF95),
-                    horizontalSeparatorOptions: SegmentioHorizontalSeparatorOptions(type: .none, height: 0, color: .clear),
-                    verticalSeparatorOptions: SegmentioVerticalSeparatorOptions(ratio: 0, color: .clear),
-                    imageContentMode: .center,
-                    labelTextAlignment: .center,
-                    segmentStates: state
-        )
-        
-        segmentioView.setup(
-            content: [run, bike, foot],
-            style: .onlyLabel,
-            options: options
-        )
-        segmentioView.selectedSegmentioIndex = 0
-        segmentioView.valueDidChange = {
-            [weak self] segmentio, segmentIndex in
-            if segmentIndex == 0 {
-                self?.startButton.setImage(UIImage(named: "run"), for: .normal)
-            } else if segmentIndex == 1 {
-                self?.startButton.setImage(UIImage(named: "bike"), for: .normal)
-            } else {
-                self?.startButton.setImage(UIImage(named: "walk"), for: .normal)
-            }
+        footView.leftBlock = { [unowned self] in
+            let vc = RunHistoryViewController()
+            vc.title = NSLocalizedString("运动历史", comment: "")
+            self.navigationController?.pushViewController(vc, animated: true)
         }
         
-        setTargetButton.setImagePosition(at: .right, space: 3)
+        footView.rightBlock = { [unowned self] in
+            
+        }
         
-        NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: Notification.Name("SportViewController"), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(handleNotificationForSportData(_:)), name: Notification.Name("SportData"), object: nil)
-        startButton.setImage(UIImage(named: "run"), for: .normal)
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated);
-        let totalDistance = UserDefaults.standard.double(forKey: "totalDistance")
-        let distance = UserDefaults.standard.double(forKey: "distance")
-        let title = NSMutableAttributedString()
-        title.append(NSAttributedString(string: "\(String(format: "%.2f", Float(totalDistance + distance)))", attributes: [.font: UIFont.systemFont(ofSize: 32),   .foregroundColor: UIColor.k666666]))
-        title.append(NSAttributedString(string: "  \("health_walk_unit".localized())", attributes: [.font: UIFont.systemFont(ofSize: 12),   .foregroundColor: UIColor.k666666]))
-        totalValueLabel.attributedText = title
-        if distance > 0 {
-            UserDefaults.standard.setValue(totalDistance + distance, forKey: "totalDistance")
-            UserDefaults.standard.setValue(0, forKey: "distance")
-            UserDefaults.standard.synchronize()
-        }
-        mapView.delegate = self
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        mapView.setZoomLevel(14, animated: true)
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        mapView.delegate = nil 
-    }
-    
-    deinit {
-        NotificationCenter.default.removeObserver(self)
-    }
-    
-    @objc private func handleNotification(_ notification: Notification) {
-        guard let target = notification.object as? TargetModel else {
-            return
-        }
-        self.target = target
-    }
-    
-    @objc private func handleNotificationForSportData(_ notification: Notification) {
-        let obj = notification.object as? String ?? ""
-        if obj == "finished" {
-            try? sportDataModel?.er.save(update: true)
-        } else {
-            if obj.contains("&") {
-                let array = obj.split(separator: "&")
-                if array.count == 4 {
-                    sportDataModel?.avgSpeed = Float(Double(String(array[0])) ?? 0)
-                    sportDataModel?.maxSpeed = Float(Double(String(array[1])) ?? 0)
-                    sportDataModel?.duration = Float(Double(String(array[2])) ?? 0)
-                    sportDataModel?.distance = Float(Double(String(array[3])) ?? 0)
+        footView.pauseBlock = { [unowned self] in
+            WULocationManager.shared.requestAuthorization(authorized: {
+                CutDownView.showCutDownView(with: 3) {
+                    let vc = UINavigationController.init(rootViewController: RunViewController())
+                    vc.modalPresentationStyle = .fullScreen
+                    self.present(vc, animated: true, completion: {
+                    })
                 }
+                
+            }, denied: {
+                let alert = UIAlertController.init(title: NSLocalizedString("定位权限设置", comment: ""), message: nil, preferredStyle: .alert)
+                let action = UIAlertAction.init(title: NSLocalizedString("取消", comment: ""), style: .default, handler: { (_) in
+                    self.dismiss(animated: true, completion: nil)
+                })
+                alert.addAction(action)
+                let action1 = UIAlertAction.init(title: NSLocalizedString("确定", comment: ""), style: .default, handler: { (_) in
+                    self.dismiss(animated: true, completion: nil)
+                    let settings = URL.init(string: UIApplication.openSettingsURLString)!
+                    UIApplication.shared.openURL(settings)
+                    
+                })
+                alert.addAction(action1)
+                DispatchQueue.main.async {
+                    self.present(alert, animated: true, completion: nil)
+                }
+            })
+        }
+    }
+    
+    func setupViews() {
+        view.addSubview(bgImageView)
+        bgImageView.snp.makeConstraints { (make) in
+            make.left.right.bottom.equalToSuperview()
+            make.width.equalTo(bgImageView.snp.height).multipliedBy(1224.0/1173)
+        }
+        bgImageView.image = UIImage.init(named: "底部背景")
+        
+        view.addSubview(headView)
+        headView.snp.makeConstraints { (make) in
+            if let navigationController = self.navigationController {
+                make.top.equalTo(navigationController.navigationBar.snp.bottom)
             } else {
-                sportDataModel?.locations += obj
+                make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
+            }
+            make.left.equalToSuperview()
+            make.right.equalToSuperview()
+            make.height.equalTo(180)
+        }
+        
+        view.addSubview(footView)
+        footView.snp.makeConstraints { (make) in
+            make.top.equalTo(headView.snp.bottom)
+            make.left.equalToSuperview()
+            make.right.equalToSuperview()
+            make.height.equalTo(120)
+        }
+        
+        view.addSubview(table)
+        table.snp.makeConstraints { (make) in
+            make.top.equalTo(footView.snp.bottom)
+            make.left.equalToSuperview()
+            make.right.equalToSuperview()
+            make.bottom.equalToSuperview()
+
+        }
+        table.bounces = false
+        table.backgroundColor = UIColor.clear
+        table.delegate = self
+        table.dataSource = self
+        table.register(SportTableViewCell.self, forCellReuseIdentifier: SportTableViewCell.wuClassName())
+        if #available(iOS 11.0, *) {
+            table.contentInsetAdjustmentBehavior = .never
+        }
+        table.separatorStyle = .none
+    }
+    
+    func displayData() {
+        dataArray = J_Select(RunModel.self).Recursively().Order(by: "distance").list()
+        let model = dataArray.last ?? {
+            let temp = RunModel()
+            temp.timeStamp = Date().secondFromDate()
+            return temp
+        }()
+        title = model.timeStamp.dateFromSecond().stringFromYmd()
+        headView.labels.nameLabel1.text = (model.distance/1000).stringFloor(2) + "km"
+        var speed = (model.distance > 0) ? Double(model.duration)/model.distance*1000 : 0
+        if bleSelf.userInfo.unit == 1 {
+            headView.labels.nameLabel1.text = (model.distance/1000).kmToMi().stringFloor(2) + "miles"
+            speed = (model.distance > 0) ? (Double(model.duration)/model.distance*1000).miToKm() : 0
+        }
+        
+        var altitude = 0.0
+        if model.pointArray.count >= 2 {
+            let first = model.pointArray.first!
+            let last = model.pointArray.last!
+            altitude = last.altitude - first.altitude
+            if bleSelf.userInfo.unit == 1 {
+                altitude = (altitude * 100).cmToFt()
             }
         }
-    }
-    
-    @IBAction func setTarget(_ sender: Any) {
-        let storyboard = UIStoryboard(name: .kSport, bundle: nil)
-        let vc = storyboard.instantiateViewController(withIdentifier: .kSetTargetBViewController) as! SetTargetBViewController
-        vc.target = TargetModel()
-        vc.target.distance = target.distance
-        vc.target.cal = target.cal
-        vc.target.time = target.time
-        vc.target.speed = target.speed
-        self.navigationController?.pushViewController(vc, animated: true)
-    }
-    
-    @IBAction func setRun(_ sender: Any) {
-        let bgView = UIView(frame: CGRect(x: 0, y: 0, width: ScreenWidth, height: ScreenHeight))
-        tabBarController?.view.addSubview(bgView)
-        tabBarController?.view.isUserInteractionEnabled = false
-        let label = HHCountdowLabel(frame: CGRect(x: 0, y: 0, width: ScreenWidth - 20, height: ScreenHeight))
-        label?.textAlignment = .center
-        label?.textColor = .white
-        label?.font = UIFont.init(name: "Helvetica-BoldOblique", size: 200)
-        bgView.addSubview(label!)
-        bgView.addVGradientLayer(at: CGRect(x: 0, y: 0, width: ScreenWidth, height: ScreenHeight), colors: [UIColor.k64F2B4, UIColor.k08CCCC])
-        label?.startCount({
-            [weak self] in
-            bgView.removeFromSuperview()
-            self?.tabBarController?.view.isUserInteractionEnabled = true
-            self?.pushToRunning()
-        })
-    }
-
-    private func pushToRunning() {
-        let sb = UIStoryboard(name: "SGSportingView", bundle: nil)
-        let vc = sb.instantiateViewController(withIdentifier: "SGSportingViewController") as! SGSportingViewController
-        let index = segmentioView.selectedSegmentioIndex
-        if index == 0 {
-            vc.sportType = SGSportType(0) // 0 跑步 1 走路 2 骑行
-        } else if index == 1 {
-            vc.sportType = SGSportType(2)
-        } else {
-            vc.sportType = SGSportType(1)
+        var altitudeStr = "+0"
+        if altitude >= 0 {
+            altitudeStr = "+" + altitude.stringFloor(2)
         }
-        let timeStamp = Int(Date().timeIntervalSince1970)
-        vc.hidesBottomBarWhenPushed = true
-        vc.timeStamp = Int32(timeStamp)
-        navigationController?.pushViewController(vc, animated: true)
-        sportDataModel = SportDataModel()
-        sportDataModel?.timeStamp = timeStamp
-    }
-    
-    @IBAction func addDevice(_ sender: Any) {
-        var count = DeviceManager.shared.devices.count
-        count += BluetoothWatchDevice.loadAll()?.count ?? 0
-        let storyboard = UIStoryboard(name: "Device", bundle: nil)
-        if count == 0 {
-            let vc = storyboard.instantiateViewController(withIdentifier: "DeviceSearchViewController")
-            vc.title = "device_add".localized()
-            vc.hidesBottomBarWhenPushed = true
-            navigationController?.pushViewController(vc, animated: true)
-        } else {
-            let vc = storyboard.instantiateViewController(withIdentifier: "DeviceListViewController")
-            vc.title = "device_change".localized()
-            vc.hidesBottomBarWhenPushed = true
-            navigationController?.pushViewController(vc, animated: true)
+        else {
+            altitudeStr = altitude.stringFloor(2)
         }
+        self.valueArray = [Int(speed).stringSpeedFromSecond(), model.duration.stringHmsFromSecond(), model.cal.stringFloor(2), altitudeStr]
+        self.table.reloadData()
+        
     }
     
-    @IBAction func pushToSportRecord(_ sender: Any) {
-        let sb = UIStoryboard(name: "Sport", bundle: nil)
-        let vc = sb.instantiateViewController(withIdentifier: "SportRecordViewController") as! SportRecordViewController
-        vc.hidesBottomBarWhenPushed = true 
-        navigationController?.pushViewController(vc, animated: true)
+    // MARK: - TableView
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 1
     }
-}
-
-extension SportViewController: MAMapViewDelegate {
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: SportTableViewCell.wuClassName(), for: indexPath) as! SportTableViewCell
+        if self.valueArray.count >= 4 {
+            cell.valueArray = self.valueArray
+        }
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return tableView.height
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
     
 }
 
-extension SportViewController: CLLocationManagerDelegate {
-    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        switch status {
-        case .notDetermined:
-//            if locationManager.responds(to: #selector(CLLocationManager.requestAlwaysAuthorization)) {
-//                locationManager.requestAlwaysAuthorization()
-//            }
-            print("没有授权")
-        case .restricted:
-            print("访问受限")
-        case .denied:
-            if CLLocationManager.locationServicesEnabled() {
-                showLocationAlertView(title: "系统提示", message: "请至设置 -> 开启定位权限")
-            } else {
-                showLocationAlertView(title: "系统提示", message: "请至设置 -> 打开定位功能")
+class SportHeadView: UIView {
+    var bgView = UIView()
+    var iconImageView = UIImageView()
+    var nameLabel = UILabel()
+    var labels = VerticalLabels()
+    
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        backgroundColor = UIColor.Common.clear
+        
+        bgView.adhere(toSuperView: self).layout { (make) in
+            make.top.bottom.equalToSuperview().inset(20)
+            make.left.right.equalToSuperview().inset(50)
             }
-        case .authorizedAlways:
-            print("获取前后台授权")
-        case .authorizedWhenInUse:
-            print("获取前台授权")
-        default:
-            break;
+            .config { (make) in
+                make.layer.cornerRadius = 20
+                make.layer.borderColor = UIColor.Common.navigation.cgColor
+                make.layer.borderWidth = 2
         }
+        
+        iconImageView.adhere(toSuperView: bgView).layout { (make) in
+            make.centerY.equalToSuperview()
+            make.centerX.equalToSuperview().dividedBy(2)
+            }
+            .config { (make) in
+                make.image = UIImage.init(named: "小")
+                make.setContentHuggingPriority(UILayoutPriority.required, for: NSLayoutConstraint.Axis.horizontal)
+                make.setContentCompressionResistancePriority(UILayoutPriority.required, for: NSLayoutConstraint.Axis.horizontal)
+        }
+        
+        labels.adhere(toSuperView: bgView).layout { (make) in
+            make.left.equalTo(iconImageView.snp.right)
+            make.centerY.equalToSuperview()
+            make.height.equalToSuperview()
+            make.right.equalToSuperview()
+            }
+            .config { (make) in
+                make.nameLabel.text = NSLocalizedString("最佳记录", comment: "")
+                make.nameLabel1.text = "0.00km"
+        }
+        
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+}
+
+import SnapKit
+
+class SportFootView: UIView {
+    var pauseBtn = UIButton()
+    var startBtn = UIButton()
+    var stopBtn = UIButton()
+    var leftView = UIView()
+    var rightView = UIView()
+    var leftBtn = UIButton()
+    var rightBtn = UIButton()
+    var startConstraint: Constraint!
+    var endConstraint: Constraint!
+    
+    var pauseBlock: WUOkHandler?
+    var startBlock: WUOkHandler?
+    var stopBlock: WUOkHandler?
+    var leftBlock: WUOkHandler?
+    var rightBlock: WUOkHandler?
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        
+        pauseBtn.adhere(toSuperView: self).layout { (make) in
+            make.centerX.equalToSuperview()
+            make.centerY.equalToSuperview()
+            make.width.height.equalTo(67)
+            }
+            .config { (make) in
+                make.setBackgroundImage(UIImage.init(named: "暂停"), for: .normal)
+                make.addTarget(self, action: #selector(pressBtn(_:)), for: .touchUpInside)
+        }
+        
+        startBtn.adhere(toSuperView: self).layout { (make) in
+            startConstraint = make.centerX.equalToSuperview().constraint
+            make.centerY.equalTo(pauseBtn)
+            make.width.height.equalTo(67)
+            }
+            .config { (make) in
+                make.setBackgroundImage(UIImage.init(named: "暂停"), for: .normal)
+                make.addTarget(self, action: #selector(pressBtn(_:)), for: .touchUpInside)
+                make.isHidden = true
+        }
+        
+        stopBtn.adhere(toSuperView: self).layout { (make) in
+            endConstraint = make.centerX.equalToSuperview().constraint
+            make.centerY.equalTo(pauseBtn)
+            make.width.height.equalTo(67)
+            }
+            .config { (make) in
+                make.setBackgroundImage(UIImage.init(named: "move_icon_stop"), for: .normal)
+                make.addTarget(self, action: #selector(pressBtn(_:)), for: .touchUpInside)
+                make.isHidden = true
+        }
+        
+        leftView.adhere(toSuperView: self).layout { (make) in
+            make.centerX.equalTo(self.snp.left)
+            make.centerY.equalToSuperview()
+            make.height.equalTo(35)
+            make.width.equalTo(150)
+            }
+            .config { (make) in
+                make.backgroundColor = UIColor.Common.clear
+                make.layer.cornerRadius = 15
+                make.clipsToBounds = true
+        }
+        
+        leftBtn.adhere(toSuperView: leftView).layout { (make) in
+            make.right.equalToSuperview().offset(-10)
+            make.width.height.equalTo(25)
+            make.centerY.equalToSuperview()
+            }
+            .config { (make) in
+                make.setBackgroundImage(UIImage.init(named: "move_icon_clock"), for: .normal)
+                make.addTarget(self, action: #selector(pressBtn(_:)), for: .touchUpInside)
+        }
+        
+        rightView.adhere(toSuperView: self).layout { (make) in
+            make.centerX.equalTo(self.snp.right)
+            make.centerY.equalToSuperview()
+            make.height.equalTo(35)
+            make.width.equalTo(150)
+            }
+            .config { (make) in
+                make.backgroundColor = UIColor.Common.clear
+                make.layer.cornerRadius = 15
+                make.clipsToBounds = true
+        }
+        
+        rightBtn.adhere(toSuperView: rightView).layout { (make) in
+            make.left.equalToSuperview().offset(10)
+            make.width.height.equalTo(25)
+            make.centerY.equalToSuperview()
+            }
+            .config { (make) in
+                make.setBackgroundImage(UIImage.init(named: "move_icon_setup"), for: .normal)
+                make.addTarget(self, action: #selector(pressBtn(_:)), for: .touchUpInside)
+        }
+        
+    }
+    
+    @objc func pressBtn(_ sender: UIButton) {
+        if sender == pauseBtn {
+            pauseBlock?()
+        }
+        
+        if sender == startBtn {
+            startBlock?()
+        }
+        
+        if sender == stopBtn {
+            stopBlock?()
+        }
+        
+        if sender == leftBtn {
+            leftBlock?()
+        }
+        
+        if sender == rightBtn {
+            rightBlock?()
+        }
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+}
+
+class SportTableViewCell: UITableViewCell, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    var collection: UICollectionView!
+    var valueArray = [0.stringSpeedFromSecond(), 0.stringHmsFromSecond(), 0.stringFloor(2), "+0"] {
+        didSet {
+            collection.reloadData()
+        }
+    }
+    
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        
+        backgroundColor = UIColor.clear
+        contentView.backgroundColor = UIColor.clear
+        selectionStyle = .none
+        
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .vertical
+        layout.minimumLineSpacing = 10
+        layout.minimumInteritemSpacing = 10
+        layout.itemSize = CGSize.init(width: kWuScreenWidth/3, height: 100)
+        
+        collection = UICollectionView.init(frame: .zero, collectionViewLayout: layout)
+        collection.adhere(toSuperView: self).layout { (make) in
+            make.top.bottom.equalToSuperview().inset(10)
+            make.left.right.equalToSuperview().inset(10)
+            }
+            .config { (make) in
+                make.backgroundColor = UIColor.clear
+                make.delegate = self
+                make.dataSource = self
+                make.register(SportCollectionViewCell.self, forCellWithReuseIdentifier: SportCollectionViewCell.wuClassName())
+                if #available(iOS 11.0, *) {
+                    make.contentInsetAdjustmentBehavior = .never
+                }
+        }
+    }
+    
+    // MARK: - collectionView
+    private let titleArray = [NSLocalizedString("配速", comment: ""), NSLocalizedString("时长", comment: ""), NSLocalizedString("消耗", comment: ""), NSLocalizedString("海拔变化", comment: "")]
+    private let imageArray = ["move_icon_km", "move_icon_time", "move_icon_calories", "move_icon_m"]
+    private let unitArray = ["(min/km)", "(hr:min:sec)", "(cal)", "(m)"]
+    private let unitArray1 = ["(min/miles)", "(hr:min:sec)", "(hr:min:sec)", "(feet)"]
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return titleArray.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SportCollectionViewCell.wuClassName(), for: indexPath) as! SportCollectionViewCell
+        
+        cell.labels.nameLabel.text = valueArray[indexPath.row]
+        
+//        let unitArray = ["min/km", "h:m:s", "cal", "m"]
+//         + " " + unitArray[indexPath.row]
+        cell.labels.nameLabel1.text = titleArray[indexPath.row]
+//        cell.iconImageView.image = UIImage.init(named: imageArray[indexPath.row])
+        
+        cell.labels.nameLabel2.text = unitArray[indexPath.row]
+        if bleSelf.userInfo.unit == 1 {
+            cell.labels.nameLabel2.text = unitArray1[indexPath.row]
+        }
+        cell.labels.nameLabel.textAlignment = .center
+        cell.labels.nameLabel1.textAlignment = .center
+        cell.labels.nameLabel2.textAlignment = .center
+        
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        collectionView.deselectItem(at: indexPath, animated: true)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize.init(width: floor(collectionView.width/2) - 5, height: floor(collectionView.height/2) - 5)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+}
+
+class SportCollectionViewCell: UICollectionViewCell {
+    var bgView = UIView()
+    var iconImageView = UIImageView()
+    var lineView = UIView()
+    var labels = VerticalLabels1()
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        
+        backgroundColor = UIColor.clear
+        contentView.backgroundColor = UIColor.Common.clear
+        bgView.adhere(toSuperView: contentView).layout { (make) in
+            make.edges.equalToSuperview()
+            }
+            .config { (make) in
+                make.backgroundColor = UIColor.Common.background
+                make.layer.cornerRadius = 10
+                make.clipsToBounds = true
+        }
+        
+        iconImageView.adhere(toSuperView: bgView).layout { (make) in
+            make.left.equalToSuperview().offset(10)
+            make.bottom.equalToSuperview().offset(-20)
+            }
+            .config { (make) in
+                make.image = UIImage.init(named: "home_icon_heart")
+                make.isHidden = true
+        }
+        
+        labels.adhere(toSuperView: bgView).layout { (make) in
+            make.left.equalToSuperview().offset(10)
+            make.centerY.equalToSuperview()
+            make.height.equalToSuperview()
+            make.right.equalToSuperview()
+            }
+            .config { (make) in
+        }
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 }

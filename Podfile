@@ -37,7 +37,8 @@ pod 'RxSwift'
 
 pod 'CryptoSwift'
 pod 'IotLinkKit', '1.2.1'
-#pod 'RxBluetoothKit'
+
+pod 'JRDB'
 
   post_install do |installer|
     #调用移除函数

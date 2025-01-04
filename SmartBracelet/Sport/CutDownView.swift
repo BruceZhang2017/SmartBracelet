@@ -1,0 +1,84 @@
+//
+//  CutDownView.swift
+//  LifeFit
+//
+//  Created by tjd on 2018/11/29.
+//  Copyright © 2018年 tjd. All rights reserved.
+//
+
+import UIKit
+
+class CutDownView: UIView {
+    var bgImageView = UIImageView()
+    var completeBlock: WUOkHandler!
+    var count = 0
+    var nameLabel = UILabel()
+    
+    class func showCutDownView(with count: Int, completeBlock: @escaping WUOkHandler) {
+        let view = CutDownView.init(with: count, completeBlock: completeBlock)
+        if let window = UIApplication.shared.keyWindow {
+            view.adhere(toSuperView: window).layout { (make) in
+                make.edges.equalToSuperview()
+                }
+                .config { (make) in
+                    
+            }
+        }
+    }
+    
+    init(with count: Int, completeBlock: @escaping WUOkHandler) {
+        super.init(frame: .zero)
+        self.completeBlock = completeBlock
+        self.count = count
+        bgImageView.adhere(toSuperView: self).layout { (make) in
+            make.edges.equalToSuperview()
+            }
+            .config { (make) in
+                make.image = UIImage.init(named: "倒计时背景")
+        }
+        
+        nameLabel.adhere(toSuperView: self).layout { (make) in
+            make.center.equalToSuperview()
+            }
+            .config { (make) in
+                make.text = self.count.description
+                make.textColor = UIColor.white
+                make.font = UIFont.Common.bold.withSize(500)
+        }
+        self.showAnimation()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    func showAnimation() {
+        if self.count == 0 {
+            nameLabel.text = "GO"
+            nameLabel.font = UIFont.Common.bold.withSize(200)
+        }
+        else {
+            nameLabel.text = self.count.description
+            nameLabel.font = UIFont.Common.bold.withSize(500)
+        }
+        nameLabel.transform = CGAffineTransform.init(scaleX: 0.1, y: 0.1)
+        nameLabel.alpha = 1
+        UIView.animate(withDuration: 1, animations: {
+            self.nameLabel.transform = CGAffineTransform.identity
+            self.nameLabel.alpha = 0.2
+        }) { (finished) in
+            self.count = self.count - 1
+            if self.count == -1 {
+                self.removeFromSuperview()
+                self.completeBlock()
+            }
+            else {
+                self.showAnimation()
+            }
+        }
+    }
+    
+    deinit {
+        wuPrint(#function)
+    }
+}

@@ -121,3 +121,21 @@ class DateHelper: NSObject {
         return Int(data.timeIntervalSince1970)
     }
 }
+
+extension Date {
+    func secondFromDate() -> Int {
+        let second = self.timeIntervalSince1970
+        return Int(second)
+    }
+    
+    func distance(_ date: Date) -> Int {
+        let second = self.timeIntervalSince(date)
+        return Int(second)/(3600 * 24)
+    }
+    
+    func isInCurrent(_ date: Date) -> Bool {
+        let start = WUCalendarManager.gregorian().date(bySettingHour: 0, minute: 0, second: 0, of: date)!
+        let end = WUCalendarManager.gregorian().date(bySettingHour: 23, minute: 59, second: 59, of: date)!
+        return (self.compare(start) != ComparisonResult.orderedAscending) && (self.compare(end) != ComparisonResult.orderedDescending)
+    }
+}
