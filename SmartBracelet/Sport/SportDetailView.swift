@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import TJDWristbandSDK
 
 class SportDetailView: UIView, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     var collection: UICollectionView!
@@ -71,7 +72,7 @@ class SportDetailView: UIView, UICollectionViewDelegate, UICollectionViewDataSou
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize.init(width: floor(collectionView.width/3), height: floor(collectionView.height))
+        return CGSize.init(width: floor(collectionView.frame.size.width/3), height: floor(collectionView.frame.size.height))
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {

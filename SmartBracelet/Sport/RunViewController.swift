@@ -7,35 +7,33 @@
 //
 
 import UIKit
+import TJDWristbandSDK
 
 class RunViewController: BaseViewController, UITableViewDelegate, UITableViewDataSource, HBLockSliderDelegate {
     var table = UITableView()
     var headView = SportHeadView()
     var footView = SportFootView()
-    var gpsView = GpsView.init(frame: .zero, color: UIColor.Common.white)
+    var gpsView = GpsView.init(frame: .zero, color: UIColor.white)
     var gpsLabel = UILabel()
     var valueArray = [String]()
-    var shimmerView = KRLShimmerView.init(frame: CGRect.init(x: 0, y: 180 + kWuNaviHeight, width: kWuScreenWidth, height: 120))
+    var shimmerView = KRLShimmerView(frame: CGRect.init(x: 0, y: 180 + kWuNaviHeight, width: kWuScreenWidth, height: 120))
     var slider: HBLockSliderView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Do any additional setup after loading the view.
-        topBarView.leftBtn.isHidden = true
-        topBarView.backgroundColor = UIColor.Common.background
-        topBarView.titleLabel.text = NSLocalizedString("运动", comment: "")
-        
+        title = NSLocalizedString("运动", comment: "")
+        setupViews()
         shimmerView.isHidden = true
         shimmerView.shimmerColors = [UIColor.white, UIColor.black, UIColor.white]
         shimmerView.textColor = UIColor.white
         shimmerView.text = NSLocalizedString("向右滑动解锁", comment: "")
-        shimmerView.backgroundColor = UIColor.Common.background
+        shimmerView.backgroundColor = UIColor.red
         view.addSubview(shimmerView)
         
         footView.leftBlock = { [unowned self] in
             self.slider = HBLockSliderView()
-            self.slider.frame = CGRect.init(x: 30, y: 180 + kWuNaviHeight + self.shimmerView.height/2 - 15, width: kWuScreenWidth - 60, height: 30)
+            self.slider.frame = CGRect.init(x: 30, y: 180 + kWuNaviHeight + self.shimmerView.frame.size.height/2 - 15, width: kWuScreenWidth - 60, height: 30)
             self.slider.setThumbBegin(UIImage.init(named: "move_icon_lock"), finish: UIImage.init(named: "move_icon_lock"))
             self.slider.delegate = self
             self.slider.removeRoundCorners(true, border: true)
@@ -49,7 +47,7 @@ class RunViewController: BaseViewController, UITableViewDelegate, UITableViewDat
         footView.rightBlock = { [unowned self] in
             let vc = MapViewController()
             vc.title = NSLocalizedString("地图", comment: "")
-            self.pushViewController(vc)
+            self.navigationController?.pushViewController(vc, animated: true)
         }
         
         footView.pauseBlock = { [unowned self] in
@@ -110,75 +108,64 @@ class RunViewController: BaseViewController, UITableViewDelegate, UITableViewDat
         gpsSelf.timerBlock = nil
     }
     
-    override func setupViews() {
-        headView.adhere(toSuperView: view).layout { (make) in
-            make.top.equalTo(topBarView.snp.bottom)
+    func setupViews() {
+        view.addSubview(headView)
+        headView.snp.makeConstraints { (make) in
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
             make.left.equalToSuperview()
             make.right.equalToSuperview()
             make.height.equalTo(180)
-            }
-            .config { (make) in
-                
         }
-        footView.adhere(toSuperView: view).layout { (make) in
+        
+        view.addSubview(footView)
+        footView.snp.makeConstraints { (make) in
             make.top.equalTo(headView.snp.bottom)
             make.left.equalToSuperview()
             make.right.equalToSuperview()
             make.height.equalTo(120)
-            }
-            .config { (make) in
-                
         }
         
-        table.adhere(toSuperView: view).layout { (make) in
+        view.addSubview(table)
+        table.snp.makeConstraints { (make) in
             make.top.equalTo(footView.snp.bottom)
             make.left.equalToSuperview()
             make.right.equalToSuperview()
             make.bottom.equalToSuperview()
-            }
-            .config { (make) in
-                make.bounces = false
-                make.backgroundColor = UIColor.clear
-                make.delegate = self
-                make.dataSource = self
-                make.register(SportTableViewCell.self, forCellReuseIdentifier: SportTableViewCell.wuClassName())
-                if #available(iOS 11.0, *) {
-                    make.contentInsetAdjustmentBehavior = .never
-                }
-//                footView.height = abs(kWuScreenHeight - 390 - kWuNaviHeight)
-//                make.tableFooterView = footView
-//                headView.height = 150
-//                make.tableHeaderView = headView
-                make.separatorStyle = .none
         }
+        table.bounces = false
+        table.backgroundColor = UIColor.clear
+        table.delegate = self
+        table.dataSource = self
+        table.register(SportTableViewCell.self, forCellReuseIdentifier: SportTableViewCell.wuClassName())
+        if #available(iOS 11.0, *) {
+            table.contentInsetAdjustmentBehavior = .never
+        }
+        table.separatorStyle = .none
         
-        gpsView.adhere(toSuperView: topBarView.contentView).layout { (make) in
+        view.addSubview(gpsView)
+        gpsView.snp.makeConstraints  { (make) in
             make.centerY.equalToSuperview()
             make.right.equalToSuperview().offset(-2)
             make.width.equalTo(40)
             make.height.equalTo(9)
-            }
-            .config { (make) in
-                
         }
         
-        gpsLabel.adhere(toSuperView: topBarView.contentView).layout { (make) in
+        view.addSubview(gpsLabel)
+        gpsLabel.snp.makeConstraints { (make) in
             make.centerY.equalToSuperview()
             make.right.equalTo(gpsView.snp.left)
-            }
-            .config { (make) in
-                make.text = "GPS "
-                make.textColor = UIColor.Common.text
-                make.font = UIFont.Common.regular.withSize(12)
         }
+        gpsLabel.text = "GPS "
+        gpsLabel.textColor = UIColor.red
+        gpsLabel.font = UIFont.systemFont(ofSize: 12)
     }
     
-    override func setupNotify() {
+    func setupNotify() {
         NotificationCenter.default.addObserver(self, selector: #selector(handle(_:)), name: WULocationManagerNotifyKey.locationDidUpdate, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handle(_:)), name: UIApplication.willEnterForegroundNotification, object: nil)
     }
     
-    override func handle(_ notify: Notification) {
+    @objc func handle(_ notify: Notification) {
         if notify.name == WULocationManagerNotifyKey.locationDidUpdate {
             gpsView.signalState = WULocationManager.shared.signalState
         }
@@ -229,7 +216,7 @@ class RunViewController: BaseViewController, UITableViewDelegate, UITableViewDat
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return tableView.height
+        return tableView.frame.size.height
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

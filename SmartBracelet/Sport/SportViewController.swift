@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import TJDWristbandSDK
 
 class SportViewController: BaseViewController, UITableViewDelegate, UITableViewDataSource {
     var table = UITableView()
@@ -156,7 +157,7 @@ class SportViewController: BaseViewController, UITableViewDelegate, UITableViewD
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return tableView.height
+        return tableView.frame.size.height
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -174,38 +175,35 @@ class SportHeadView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = UIColor.Common.clear
+        backgroundColor = UIColor.red
         
-        bgView.adhere(toSuperView: self).layout { (make) in
+        addSubview(bgView)
+        bgView.snp.makeConstraints { (make) in
             make.top.bottom.equalToSuperview().inset(20)
             make.left.right.equalToSuperview().inset(50)
-            }
-            .config { (make) in
-                make.layer.cornerRadius = 20
-                make.layer.borderColor = UIColor.Common.navigation.cgColor
-                make.layer.borderWidth = 2
         }
+        bgView.layer.cornerRadius = 20
+        bgView.layer.borderColor = UIColor.red.cgColor
+        bgView.layer.borderWidth = 2
         
-        iconImageView.adhere(toSuperView: bgView).layout { (make) in
+        bgView.addSubview(iconImageView)
+        iconImageView.snp.makeConstraints { (make) in
             make.centerY.equalToSuperview()
             make.centerX.equalToSuperview().dividedBy(2)
-            }
-            .config { (make) in
-                make.image = UIImage.init(named: "小")
-                make.setContentHuggingPriority(UILayoutPriority.required, for: NSLayoutConstraint.Axis.horizontal)
-                make.setContentCompressionResistancePriority(UILayoutPriority.required, for: NSLayoutConstraint.Axis.horizontal)
         }
+        iconImageView.image = UIImage.init(named: "小")
+        iconImageView.setContentHuggingPriority(UILayoutPriority.required, for: NSLayoutConstraint.Axis.horizontal)
+        iconImageView.setContentCompressionResistancePriority(UILayoutPriority.required, for: NSLayoutConstraint.Axis.horizontal)
         
-        labels.adhere(toSuperView: bgView).layout { (make) in
+        bgView.addSubview(labels)
+        labels.snp.makeConstraints { (make) in
             make.left.equalTo(iconImageView.snp.right)
             make.centerY.equalToSuperview()
             make.height.equalToSuperview()
             make.right.equalToSuperview()
-            }
-            .config { (make) in
-                make.nameLabel.text = NSLocalizedString("最佳记录", comment: "")
-                make.nameLabel1.text = "0.00km"
         }
+        labels.nameLabel.text = NSLocalizedString("最佳记录", comment: "")
+        labels.nameLabel1.text = "0.00km"
         
     }
 
@@ -276,7 +274,7 @@ class SportFootView: UIView {
             make.width.equalTo(150)
             }
             .config { (make) in
-                make.backgroundColor = UIColor.Common.clear
+                make.backgroundColor = UIColor.red
                 make.layer.cornerRadius = 15
                 make.clipsToBounds = true
         }
@@ -298,7 +296,7 @@ class SportFootView: UIView {
             make.width.equalTo(150)
             }
             .config { (make) in
-                make.backgroundColor = UIColor.Common.clear
+                make.backgroundColor = UIColor.red
                 make.layer.cornerRadius = 15
                 make.clipsToBounds = true
         }
@@ -415,7 +413,7 @@ class SportTableViewCell: UITableViewCell, UICollectionViewDelegate, UICollectio
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize.init(width: floor(collectionView.width/2) - 5, height: floor(collectionView.height/2) - 5)
+        return CGSize.init(width: floor(collectionView.frame.size.width/2) - 5, height: floor(collectionView.frame.size.height/2) - 5)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -434,12 +432,12 @@ class SportCollectionViewCell: UICollectionViewCell {
         super.init(frame: frame)
         
         backgroundColor = UIColor.clear
-        contentView.backgroundColor = UIColor.Common.clear
+        contentView.backgroundColor = UIColor.red
         bgView.adhere(toSuperView: contentView).layout { (make) in
             make.edges.equalToSuperview()
             }
             .config { (make) in
-                make.backgroundColor = UIColor.Common.background
+                make.backgroundColor = UIColor.red
                 make.layer.cornerRadius = 10
                 make.clipsToBounds = true
         }

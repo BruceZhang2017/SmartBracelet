@@ -4,6 +4,7 @@
 #import <RTKLEFoundation/RTKLEFoundation.h>
 #import <RTKOTASDK/RTKOTASDK.h>
 
+#import "LocationConverter.h"
 #import <JL_BLEKit/JL_BLEKit.h>
 #import <JLDialUnit/JLDialUnit.h>
 #import <DFUnits/DFUnits.h>

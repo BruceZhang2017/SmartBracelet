@@ -10,6 +10,7 @@ import UIKit
 import CoreLocation
 import SnapKit
 import MapKit
+import TJDWristbandSDK
 
 class HistoryMapViewController: BaseViewController, MKMapViewDelegate {
     var unitLabel = UILabel()
@@ -27,9 +28,8 @@ class HistoryMapViewController: BaseViewController, MKMapViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        // Do any additional setup after loading the view.
-        topBarView.backgroundColor = UIColor.Common.background
+        setupViews()
+        displayData()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -37,13 +37,12 @@ class HistoryMapViewController: BaseViewController, MKMapViewDelegate {
         self.drawLines(with: runModel)
     }
     
-    override func setupViews() {
-        mapBgView.adhere(toSuperView: view).layout { (make) in
+    func setupViews() {
+        view.addSubview(mapBgView)
+        mapBgView.snp.makeConstraints { (make) in
             make.edges.equalToSuperview()
-            }
-            .config { (make) in
-                make.backgroundColor = UIColor.white
         }
+        mapBgView.backgroundColor = UIColor.white
         
         mapView.adhere(toSuperView: mapBgView).layout { (make) in
             make.edges.equalToSuperview()
@@ -58,15 +57,13 @@ class HistoryMapViewController: BaseViewController, MKMapViewDelegate {
             make.bottom.equalToSuperview().offset(-8)
             make.left.equalToSuperview().offset(16)
             make.height.equalTo(150)
-            }
-            .config { (make) in
-                make.backgroundColor = UIColor.Common.background_bottom.withAlphaComponent(0.8)
-                make.layer.cornerRadius = 7
-                make.layer.shadowColor = UIColor.black.cgColor
-                make.layer.shadowOpacity = 0.25
-                make.layer.shadowRadius = 12
-                make.layer.shadowOffset = .zero
         }
+        baseView.backgroundColor = UIColor.red.withAlphaComponent(0.8)
+        baseView.layer.cornerRadius = 7
+        baseView.layer.shadowColor = UIColor.black.cgColor
+        baseView.layer.shadowOpacity = 0.25
+        baseView.layer.shadowRadius = 12
+        baseView.layer.shadowOffset = .zero
         
         let content = UIView().adhere(toSuperView: baseView).layout { (make) in
             make.top.equalToSuperview().offset(20)
@@ -82,8 +79,8 @@ class HistoryMapViewController: BaseViewController, MKMapViewDelegate {
             }
             .config { (make) in
                 make.text = "0.00"
-                make.font = UIFont.Default.akFont.withSize(35)
-                make.textColor = UIColor.Common.navigation
+                make.font = UIFont.systemFont(ofSize: 35)
+                make.textColor = UIColor.red
         }
         
         unitLabel.adhere(toSuperView: content).layout { (make) in
@@ -94,8 +91,8 @@ class HistoryMapViewController: BaseViewController, MKMapViewDelegate {
             }
             .config { (make) in
                 make.text = "km"
-                make.font = UIFont.Common.regular
-                make.textColor = UIColor.Common.navigation
+                make.font = UIFont.systemFont(ofSize: 20)
+                make.textColor = UIColor.red
         }
         
         detailView.adhere(toSuperView: baseView).layout { (make) in
@@ -108,7 +105,7 @@ class HistoryMapViewController: BaseViewController, MKMapViewDelegate {
         }
     }
     
-    override func displayData() {
+     func displayData() {
         let cal = runModel.cal
         let seconds = runModel.duration
         let distance = runModel.distance
@@ -126,13 +123,13 @@ class HistoryMapViewController: BaseViewController, MKMapViewDelegate {
         mapView.removeOverlays(mapView.overlays)
         let start = MKPointAnnotation()
         let first = model.pointArray[0]
-        start.coordinate = JZLocationConverter.wgs84(toGcj02: CLLocationCoordinate2DMake(first.latitude, first.longitude))
+        start.coordinate = LocationConverter.wgs84(toGcj02: CLLocationCoordinate2DMake(first.latitude, first.longitude))
         startPoint = start
         mapView.addAnnotation(start)
         
         let end = MKPointAnnotation()
         let last = model.pointArray.last!
-        end.coordinate = JZLocationConverter.wgs84(toGcj02: CLLocationCoordinate2DMake(last.latitude, last.longitude))
+        end.coordinate = LocationConverter.wgs84(toGcj02: CLLocationCoordinate2DMake(last.latitude, last.longitude))
         mapView.addAnnotation(end)
         
         for i in 0..<model.pathCount {
@@ -141,7 +138,7 @@ class HistoryMapViewController: BaseViewController, MKMapViewDelegate {
             }
             
             let coordinateArray = array.map { (temp) -> CLLocationCoordinate2D in
-                return JZLocationConverter.wgs84(toGcj02: CLLocationCoordinate2DMake(temp.latitude, temp.longitude))
+                return LocationConverter.wgs84(toGcj02: CLLocationCoordinate2DMake(temp.latitude, temp.longitude))
             }
             let polyline = MKPolyline.init(coordinates: coordinateArray, count: coordinateArray.count)
             mapView.addOverlay(polyline)
@@ -174,7 +171,7 @@ class HistoryMapViewController: BaseViewController, MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         let routeLineView = MKPolylineRenderer.init(overlay: overlay)
         routeLineView.lineWidth = 2
-        routeLineView.strokeColor = UIColor.Common.navigation
+        routeLineView.strokeColor = UIColor.red
         return routeLineView
     }
     
@@ -182,7 +179,7 @@ class HistoryMapViewController: BaseViewController, MKMapViewDelegate {
 }
 
 
-class MapViewController: WUBaseVc, MKMapViewDelegate {
+class MapViewController: BaseViewController, MKMapViewDelegate {
     var unitLabel = UILabel()
     var valueLabel = UILabel()
     var detailView = SportDetailView()
@@ -200,8 +197,8 @@ class MapViewController: WUBaseVc, MKMapViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Do any additional setup after loading the view.
-        topBarView.backgroundColor = UIColor.Common.background
+        setupViews()
+        displayData()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -224,7 +221,7 @@ class MapViewController: WUBaseVc, MKMapViewDelegate {
         gpsSelf.gpsBlock = nil
     }
     
-    override func setupViews() {
+    func setupViews() {
         mapBgView.adhere(toSuperView: view).layout { (make) in
             make.edges.equalToSuperview()
             }
@@ -248,7 +245,7 @@ class MapViewController: WUBaseVc, MKMapViewDelegate {
             make.height.equalTo(150)
             }
             .config { (make) in
-                make.backgroundColor = UIColor.Common.background_bottom.withAlphaComponent(0.8)
+                make.backgroundColor = UIColor.red.withAlphaComponent(0.8)
                 make.layer.cornerRadius = 7
                 make.layer.shadowColor = UIColor.black.cgColor
                 make.layer.shadowOpacity = 0.25
@@ -270,8 +267,8 @@ class MapViewController: WUBaseVc, MKMapViewDelegate {
             }
             .config { (make) in
                 make.text = "0.00"
-                make.font = UIFont.Default.akFont.withSize(35)
-                make.textColor = UIColor.Common.navigation
+                make.font = UIFont.systemFont(ofSize: 35)
+                make.textColor = UIColor.red
         }
         
         unitLabel.adhere(toSuperView: content).layout { (make) in
@@ -282,8 +279,8 @@ class MapViewController: WUBaseVc, MKMapViewDelegate {
             }
             .config { (make) in
                 make.text = "km"
-                make.font = UIFont.Common.regular
-                make.textColor = UIColor.Common.navigation
+                make.font = UIFont.systemFont(ofSize: 20)
+                make.textColor = UIColor.red
         }
         
         detailView.adhere(toSuperView: baseView).layout { (make) in
@@ -314,7 +311,7 @@ class MapViewController: WUBaseVc, MKMapViewDelegate {
         }
     }
     
-    override func displayData() {
+    func displayData() {
         wuPrint(#function)
         let cal = gpsSelf.cal
         let seconds = gpsSelf.seconds
@@ -333,13 +330,13 @@ class MapViewController: WUBaseVc, MKMapViewDelegate {
         mapView.removeOverlays(mapView.overlays)
         let start = MKPointAnnotation()
         let first = model.pointArray[0]
-        start.coordinate = JZLocationConverter.wgs84(toGcj02: CLLocationCoordinate2DMake(first.latitude, first.longitude))
+        start.coordinate = LocationConverter.wgs84(toGcj02: CLLocationCoordinate2DMake(first.latitude, first.longitude))
         startPoint = start
         mapView.addAnnotation(start)
         
         let end = MKPointAnnotation()
         let last = model.pointArray.last!
-        end.coordinate = JZLocationConverter.wgs84(toGcj02: CLLocationCoordinate2DMake(last.latitude, last.longitude))
+        end.coordinate = LocationConverter.wgs84(toGcj02: CLLocationCoordinate2DMake(last.latitude, last.longitude))
         mapView.addAnnotation(end)
         
         for i in 0..<model.pathCount {
@@ -348,14 +345,14 @@ class MapViewController: WUBaseVc, MKMapViewDelegate {
             }
             
             let coordinateArray = array.map { (temp) -> CLLocationCoordinate2D in
-                return JZLocationConverter.wgs84(toGcj02: CLLocationCoordinate2DMake(temp.latitude, temp.longitude))
+                return LocationConverter.wgs84(toGcj02: CLLocationCoordinate2DMake(temp.latitude, temp.longitude))
             }
             let polyline = MKPolyline.init(coordinates: coordinateArray, count: coordinateArray.count)
             mapView.addOverlay(polyline)
         }
     }
     
-    override func pressBtn(_ sender: UIButton) {
+    @objc func pressBtn(_ sender: UIButton) {
         if sender == leftBtn {
             self.baseView.isHidden = !self.baseView.isHidden
         }
@@ -407,7 +404,7 @@ class MapViewController: WUBaseVc, MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         let routeLineView = MKPolylineRenderer.init(overlay: overlay)
         routeLineView.lineWidth = 2
-        routeLineView.strokeColor = UIColor.Common.navigation
+        routeLineView.strokeColor = UIColor.red
         return routeLineView
     }
     

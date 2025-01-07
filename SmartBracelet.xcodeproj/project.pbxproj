@@ -26,6 +26,15 @@
 		9A0C34952B341D6600E798F1 /* DFUnits.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A0C34932B341D6100E798F1 /* DFUnits.framework */; };
 		9A0C34962B341D6600E798F1 /* JL_BLEKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A0C34942B341D6600E798F1 /* JL_BLEKit.framework */; };
 		9A127EAE2BC2ACE300126836 /* UIFont+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A127EAD2BC2ACE200126836 /* UIFont+Extension.swift */; };
+		9A20FA322D2A2C3C0027A26F /* WUCalendarManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A20FA2F2D2A2C3C0027A26F /* WUCalendarManager.swift */; };
+		9A20FA342D2A2CA10027A26F /* Int+String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A20FA332D2A2CA10027A26F /* Int+String.swift */; };
+		9A20FA362D2A2CB70027A26F /* Double+String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A20FA352D2A2CB70027A26F /* Double+String.swift */; };
+		9A20FA3A2D2A36120027A26F /* VerticalLabels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A20FA392D2A36120027A26F /* VerticalLabels.swift */; };
+		9A20FA3C2D2A37A20027A26F /* UIView+ViewChainable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A20FA3B2D2A37A20027A26F /* UIView+ViewChainable.swift */; };
+		9A20FA402D2A39840027A26F /* KRLShimmerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A20FA3F2D2A39840027A26F /* KRLShimmerView.swift */; };
+		9A20FA422D2A41BE0027A26F /* VerticalLabelsCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A20FA412D2A41BE0027A26F /* VerticalLabelsCollectionCell.swift */; };
+		9A20FA442D2A4B920027A26F /* ImageLabelsCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A20FA432D2A4B920027A26F /* ImageLabelsCollectionCell.swift */; };
+		9A20FA472D2A4D860027A26F /* LocationConverter.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A20FA462D2A4D860027A26F /* LocationConverter.m */; };
 		9A2181652557EDBE000330E5 /* apple.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 9A2181622557EDBE000330E5 /* apple.jpeg */; };
 		9A2181662557EDBE000330E5 /* walk.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 9A2181632557EDBE000330E5 /* walk.jpeg */; };
 		9A2181672557EDBE000330E5 /* water.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9A2181642557EDBE000330E5 /* water.jpg */; };
@@ -554,6 +563,16 @@
 		9A0C34932B341D6100E798F1 /* DFUnits.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = DFUnits.framework; sourceTree = "<group>"; };
 		9A0C34942B341D6600E798F1 /* JL_BLEKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = JL_BLEKit.framework; sourceTree = "<group>"; };
 		9A127EAD2BC2ACE200126836 /* UIFont+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Extension.swift"; sourceTree = "<group>"; };
+		9A20FA2F2D2A2C3C0027A26F /* WUCalendarManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WUCalendarManager.swift; sourceTree = "<group>"; };
+		9A20FA332D2A2CA10027A26F /* Int+String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+String.swift"; sourceTree = "<group>"; };
+		9A20FA352D2A2CB70027A26F /* Double+String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+String.swift"; sourceTree = "<group>"; };
+		9A20FA392D2A36120027A26F /* VerticalLabels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerticalLabels.swift; sourceTree = "<group>"; };
+		9A20FA3B2D2A37A20027A26F /* UIView+ViewChainable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+ViewChainable.swift"; sourceTree = "<group>"; };
+		9A20FA3F2D2A39840027A26F /* KRLShimmerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KRLShimmerView.swift; sourceTree = "<group>"; };
+		9A20FA412D2A41BE0027A26F /* VerticalLabelsCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerticalLabelsCollectionCell.swift; sourceTree = "<group>"; };
+		9A20FA432D2A4B920027A26F /* ImageLabelsCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLabelsCollectionCell.swift; sourceTree = "<group>"; };
+		9A20FA452D2A4D860027A26F /* LocationConverter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LocationConverter.h; sourceTree = "<group>"; };
+		9A20FA462D2A4D860027A26F /* LocationConverter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LocationConverter.m; sourceTree = "<group>"; };
 		9A2181622557EDBE000330E5 /* apple.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = apple.jpeg; sourceTree = "<group>"; };
 		9A2181632557EDBE000330E5 /* walk.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = walk.jpeg; sourceTree = "<group>"; };
 		9A2181642557EDBE000330E5 /* water.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = water.jpg; sourceTree = "<group>"; };
@@ -1973,6 +1992,8 @@
 		9A820B7024CE5AFF00A62C6F /* Extension */ = {
 			isa = PBXGroup;
 			children = (
+				9A20FA352D2A2CB70027A26F /* Double+String.swift */,
+				9A20FA332D2A2CA10027A26F /* Int+String.swift */,
 				1898B72B2451969B00B9E5A5 /* Date+String.swift */,
 				9A820B7124CE5BC700A62C6F /* UILabel+Extension.swift */,
 				9A820B7B24CECFBC00A62C6F /* String+Extension.swift */,
@@ -1999,6 +2020,14 @@
 				9AC2B91E2D27BB890064903C /* WULocationManager.swift */,
 				9AC2B9202D27BBE10064903C /* CutDownView.swift */,
 				9AC2B9222D27C35F0064903C /* JRDB.swift */,
+				9A20FA2F2D2A2C3C0027A26F /* WUCalendarManager.swift */,
+				9A20FA392D2A36120027A26F /* VerticalLabels.swift */,
+				9A20FA3B2D2A37A20027A26F /* UIView+ViewChainable.swift */,
+				9A20FA3F2D2A39840027A26F /* KRLShimmerView.swift */,
+				9A20FA412D2A41BE0027A26F /* VerticalLabelsCollectionCell.swift */,
+				9A20FA432D2A4B920027A26F /* ImageLabelsCollectionCell.swift */,
+				9A20FA452D2A4D860027A26F /* LocationConverter.h */,
+				9A20FA462D2A4D860027A26F /* LocationConverter.m */,
 			);
 			path = Sport;
 			sourceTree = "<group>";
@@ -2620,6 +2649,7 @@
 				9A56D23C25216FC60082CC08 /* LegendRenderer.swift in Sources */,
 				9A60DEF9252F5B7100E0D849 /* DeviceModel.swift in Sources */,
 				9A037E4525BDB1CD0006FB94 /* OTACMD.m in Sources */,
+				9A20FA422D2A41BE0027A26F /* VerticalLabelsCollectionCell.swift in Sources */,
 				9AB5BE142A06644500680757 /* JLBlueManager.swift in Sources */,
 				9A839BEF255FE5A300714CBE /* HImagePickerUtils.swift in Sources */,
 				9A56D2B825216FC70082CC08 /* IChartDataSet.swift in Sources */,
@@ -2657,6 +2687,7 @@
 				9A56D2A325216FC70082CC08 /* ChartDataEntryBase.swift in Sources */,
 				9A5E932A2515BB630060AB13 /* UserModel.swift in Sources */,
 				9AB910292501322C006E0FC4 /* EMAlertController.swift in Sources */,
+				9A20FA402D2A39840027A26F /* KRLShimmerView.swift in Sources */,
 				9A33D30D26AD9A4F00DF9618 /* CameraShot.swift in Sources */,
 				9AB7AC482766426A00D51DBC /* EditClockMiddleTableViewCell.swift in Sources */,
 				9AE1A181262AB9F900B8B10D /* HeartRateView.swift in Sources */,
@@ -2687,6 +2718,7 @@
 				9A60DED9252F002400E0D849 /* CurrentCityTableViewCell.swift in Sources */,
 				9AF3F2D72BCBFA6500AFBC55 /* HealthTableViewCell.swift in Sources */,
 				9A8CA52525272C5200EC01A7 /* CVPresent.swift in Sources */,
+				9A20FA342D2A2CA10027A26F /* Int+String.swift in Sources */,
 				9A93EE552CFDE78C00C02370 /* XGZTSwitchDevice.swift in Sources */,
 				9A93EE562CFDE78C00C02370 /* XGZTBusinessHandler.swift in Sources */,
 				9A93EE572CFDE78C00C02370 /* XGZTBlueToothManager.swift in Sources */,
@@ -2812,6 +2844,7 @@
 				9A8D431D250F411800E8D6F7 /* RegisterViewController.swift in Sources */,
 				9A60DECA252DEA2B00E0D849 /* BindThreeViewController.swift in Sources */,
 				9AE66874267E410200A8584A /* DSleepModel.swift in Sources */,
+				9A20FA362D2A2CB70027A26F /* Double+String.swift in Sources */,
 				9AB5BE432A164CFA00680757 /* SCImageReviewView.swift in Sources */,
 				9AE1A1722629465F00B8B10D /* FileManager.m in Sources */,
 				9A8CA51725272C5200EC01A7 /* CVCalendarMenuView.swift in Sources */,
@@ -2837,6 +2870,7 @@
 				9A8CA51325272C5200EC01A7 /* CVCalendarWeekContentViewController.swift in Sources */,
 				9AB910262501322C006E0FC4 /* UIColor+EMAlertController.swift in Sources */,
 				9A56D24025216FC60082CC08 /* AxisRendererBase.swift in Sources */,
+				9A20FA442D2A4B920027A26F /* ImageLabelsCollectionCell.swift in Sources */,
 				9A33D30A26AD9A4F00DF9618 /* Utilities.swift in Sources */,
 				9A56D2AA25216FC70082CC08 /* PieChartData.swift in Sources */,
 				9A127EAE2BC2ACE300126836 /* UIFont+Extension.swift in Sources */,
@@ -2902,6 +2936,7 @@
 				9A5210712503DB2E00F64A7A /* ClockCCollectionViewCell.swift in Sources */,
 				9A56D25025216FC60082CC08 /* TriangleShapeRenderer.swift in Sources */,
 				9A33D31A26AD9A4F00DF9618 /* CameraView.swift in Sources */,
+				9A20FA3A2D2A36120027A26F /* VerticalLabels.swift in Sources */,
 				9AE1A16D2629465F00B8B10D /* OTAManager.m in Sources */,
 				9AE6688D267F8B2A00A8584A /* MAWeatherForecastView.m in Sources */,
 				9A56D2AE25216FC70082CC08 /* RadarChartDataSet.swift in Sources */,
@@ -2922,6 +2957,7 @@
 				9A21BFFE2D0082E00048CF53 /* ABOtaManager.swift in Sources */,
 				9A21BFFF2D0082E00048CF53 /* OtaDataReader.swift in Sources */,
 				9A21C0002D0082E00048CF53 /* OtaManager.swift in Sources */,
+				9A20FA322D2A2C3C0027A26F /* WUCalendarManager.swift in Sources */,
 				9A56D28625216FC60082CC08 /* MarkerImage.swift in Sources */,
 				9A56D24325216FC60082CC08 /* ScatterChartRenderer.swift in Sources */,
 				9A56D2A525216FC70082CC08 /* PieChartDataSet.swift in Sources */,
@@ -2940,6 +2976,7 @@
 				9A60DEE9252F1E8200E0D849 /* DeviceInfoViewController.swift in Sources */,
 				9AB5BE162A06644500680757 /* ContactsTool.m in Sources */,
 				9A9E4E192782F7BD0084CCFF /* CustomImageFooterView.swift in Sources */,
+				9A20FA3C2D2A37A20027A26F /* UIView+ViewChainable.swift in Sources */,
 				9AB5BE1D2A06644500680757 /* ChangeImageData.m in Sources */,
 				9AE1A16C2629465F00B8B10D /* JCBlutoothInfoModel.m in Sources */,
 				9A56D25625216FC60082CC08 /* PieChartRenderer.swift in Sources */,
@@ -2958,6 +2995,7 @@
 				9A56D2A225216FC70082CC08 /* BubbleChartDataEntry.swift in Sources */,
 				9A56D25225216FC60082CC08 /* XAxisRendererHorizontalBarChart.swift in Sources */,
 				9A21BFD82D00339F0048CF53 /* Utils.swift in Sources */,
+				9A20FA472D2A4D860027A26F /* LocationConverter.m in Sources */,
 				9AF3F2DD2BCC229B00AFBC55 /* HNavigationController.swift in Sources */,
 				9A60DEC6252D896400E0D849 /* BindEmailViewController.swift in Sources */,
 				9A56D28225216FC60082CC08 /* Platform+Color.swift in Sources */,

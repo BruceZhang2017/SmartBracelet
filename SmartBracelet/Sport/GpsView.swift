@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import TJDWristbandSDK
 
 class GpsView: UIView {
     var signalState = WULocationManagerSignalState.none {
@@ -14,7 +15,7 @@ class GpsView: UIView {
             self.setNeedsDisplay()
         }
     }
-    private var noSignalColor = UIColor.Common.text.withAlphaComponent(0.3)
+    private var noSignalColor = UIColor.red.withAlphaComponent(0.3)
     private let signalColor = UIColor.red
     
     init(frame: CGRect, color: UIColor) {
@@ -54,8 +55,8 @@ class GpsView: UIView {
         color.setStroke()
         path.lineWidth = 2
         let tempx = (path.lineWidth + 1) * CGFloat(index) + path.lineWidth/2
-        let start = CGPoint.init(x: tempx, y: height)
-        let stop = CGPoint.init(x: tempx, y: CGFloat(6 - index)/6.0*height)
+        let start = CGPoint(x: tempx, y: frame.size.height)
+        let stop = CGPoint.init(x: tempx, y: CGFloat(6 - index)/6.0*frame.size.height)
         path.move(to: start)
         path.addLine(to: stop)
         path.stroke()
@@ -66,7 +67,7 @@ class GpsView: UIView {
         color.setFill()
         let radius = CGFloat(4)
         let tempx = (radius * 2 + 2) * CGFloat(index) + radius
-        let center = CGPoint.init(x: tempx, y: height/2)
+        let center = CGPoint.init(x: tempx, y: frame.size.height/2)
         path.addArc(withCenter: center, radius: radius, startAngle: 0, endAngle: CGFloat.pi * 2, clockwise: true)
         path.fill()
     }
@@ -174,7 +175,7 @@ class GpsManager: NSObject {
             model.altitude = location.altitude
             if let last = lastLocation {
                 distance = distance + last.distance(from: location)
-                cal = Double(bleSelf.userInfo.weight) * KCalConversion * distance/1000
+                cal = Double(bleSelf.userInfo.weight) * 0.8214 * distance/1000
             }
             lastLocation = location
             pointArray.append(model)

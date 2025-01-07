@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import TJDWristbandSDK
 
 class RunHistoryViewController: BaseViewController, UITableViewDelegate, UITableViewDataSource {
     var table = UITableView()
@@ -15,8 +16,7 @@ class RunHistoryViewController: BaseViewController, UITableViewDelegate, UITable
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
-        topBarView.backgroundColor = UIColor.Common.background
+        setupViews()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -38,27 +38,23 @@ class RunHistoryViewController: BaseViewController, UITableViewDelegate, UITable
         table.reloadData()
     }
     
-    override func setupViews() {
-        table.adhere(toSuperView: view).layout { (make) in
-            make.top.equalTo(topBarView.snp.bottom)
+    func setupViews() {
+        view.addSubview(table)
+        table.snp.makeConstraints { (make) in
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
             make.left.equalToSuperview()
             make.right.equalToSuperview()
             make.bottom.equalToSuperview()
-            }
-            .config { (make) in
-                make.backgroundColor = UIColor.clear
-                make.delegate = self
-                make.dataSource = self
-                make.emptyDataSetSource = self
-                make.emptyDataSetDelegate = self
-                make.register(RunHistoryTableViewCell.self, forCellReuseIdentifier: RunHistoryTableViewCell.wuClassName())
-                if #available(iOS 11.0, *) {
-                    make.contentInsetAdjustmentBehavior = .never
-                }
-                make.tableFooterView = UIView()
-                make.separatorColor = UIColor.Common.background_bottom
-                
         }
+        table.backgroundColor = UIColor.clear
+        table.delegate = self
+        table.dataSource = self
+        table.register(RunHistoryTableViewCell.self, forCellReuseIdentifier: RunHistoryTableViewCell.wuClassName())
+        if #available(iOS 11.0, *) {
+            table.contentInsetAdjustmentBehavior = .never
+        }
+        table.tableFooterView = UIView()
+        table.separatorColor = UIColor.red
     }
     
     // MARK: - TableView
@@ -97,7 +93,7 @@ class RunHistoryViewController: BaseViewController, UITableViewDelegate, UITable
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let cell = tableView.dequeueReusableHeaderFooterView(withIdentifier: "cell") ?? UITableViewHeaderFooterView()
-        cell.contentView.backgroundColor = UIColor.Common.background_bottom
+        cell.contentView.backgroundColor = UIColor.red
         let model = dataArray[section][0]
         cell.textLabel?.text = model.timeStamp.dateFromSecond().stringFromYmd()
         
@@ -110,7 +106,7 @@ class RunHistoryViewController: BaseViewController, UITableViewDelegate, UITable
         vc.title = NSLocalizedString("地图", comment: "")
         let model = dataArray[indexPath.section][indexPath.row]
         vc.runModel = model
-        self.pushViewController(vc)
+        self.navigationController?.pushViewController(vc, animated: true)
     }
 
     public func image(forEmptyDataSet scrollView: UIScrollView!) -> UIImage! {
@@ -128,8 +124,8 @@ class RunHistoryTableViewCell: UITableViewCell, UICollectionViewDelegate, UIColl
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        backgroundColor = UIColor.Common.background
-        contentView.backgroundColor = UIColor.Common.background
+        backgroundColor = UIColor.red
+        contentView.backgroundColor = UIColor.red
         
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
@@ -156,17 +152,18 @@ class RunHistoryTableViewCell: UITableViewCell, UICollectionViewDelegate, UIColl
         }
     }
     
-    func stepAtrr(with valueStr: String) -> NSMutableAttributedString {
-        var unit = " " + "km"
+    func stepAttr(with valueStr: String) -> NSMutableAttributedString {
+        let unit: String
         if bleSelf.userInfo.unit == 1 {
-            unit = " " + "miles"
+            unit = " miles"
+        } else {
+            unit = " km"
         }
         
-        let valueAttr = valueStr.setupAttribute([NSAttributedString.Key.font : UIFont.Default.akFont.withSize(30), NSAttributedString.Key.foregroundColor: UIColor.Common.navigation])
-        
-        let unitAttr = unit.setupAttribute([NSAttributedString.Key.font : UIFont.Common.regular.withSize(10), NSAttributedString.Key.foregroundColor: UIColor.Common.navigation])
-        return valueAttr + unitAttr
-        
+        let valueAttr = NSMutableAttributedString(string: valueStr, attributes: [NSAttributedString.Key.font : UIFont.systemFont(ofSize: 30), NSAttributedString.Key.foregroundColor: UIColor.red])
+        let unitAttr = NSMutableAttributedString(string: unit, attributes: [NSAttributedString.Key.font : UIFont.systemFont(ofSize: 10), NSAttributedString.Key.foregroundColor: UIColor.red])
+        valueAttr.append(unitAttr)
+        return valueAttr
     }
     
     private let titleArray = [NSLocalizedString("配速", comment: ""), NSLocalizedString("时长", comment: ""), NSLocalizedString("消耗", comment: "")]
@@ -177,14 +174,14 @@ class RunHistoryTableViewCell: UITableViewCell, UICollectionViewDelegate, UIColl
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: VerticalLabelsCollectionCell.wuClassName(), for: indexPath) as! VerticalLabelsCollectionCell
-        cell.labels.nameLabel1.textColor = UIColor.Common.navigation
-        cell.labels.nameLabel1.font = UIFont.Default.akFont.withSize(24)
+        cell.labels.nameLabel1.textColor = UIColor.red
+        cell.labels.nameLabel1.font = UIFont.systemFont(ofSize: 24)
         if indexPath.row == 0 {
             let date = myModel.timeStamp.dateFromSecond()
             cell.labels.nameLabel.text = date.stringFromHms()
-            cell.labels.nameLabel1.attributedText = self.stepAtrr(with: (myModel.distance/1000).stringFloor(2))
+            cell.labels.nameLabel1.attributedText = self.stepAttr(with: (myModel.distance/1000).stringFloor(2))
             if bleSelf.userInfo.unit == 1 {
-                cell.labels.nameLabel1.attributedText = self.stepAtrr(with: (myModel.distance/1000).kmToMi().stringFloor(2))
+                cell.labels.nameLabel1.attributedText = self.stepAttr(with: (myModel.distance/1000).kmToMi().stringFloor(2))
             }
         }
         else {
@@ -213,11 +210,25 @@ class RunHistoryTableViewCell: UITableViewCell, UICollectionViewDelegate, UIColl
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize.init(width: floor(collectionView.width/4), height: floor(collectionView.height))
+        return CGSize.init(width: floor(collectionView.frame.size.width/4), height: floor(collectionView.frame.size.height))
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     //MARK: End
+}
+
+extension Array {
+    // 去重
+    func filterDuplicates<E: Equatable>(_ filter: (Element) -> E) -> [Element] {
+        var result = [Element]()
+        for value in self {
+            let key = filter(value)
+            if !result.map({filter($0)}).contains(key) {
+                result.append(value)
+            }
+        }
+        return result
+    }
 }

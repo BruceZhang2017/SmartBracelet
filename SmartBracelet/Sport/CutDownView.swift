@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import TJDWristbandSDK
 
 class CutDownView: UIView {
     var bgImageView = UIImageView()
@@ -43,7 +44,7 @@ class CutDownView: UIView {
             .config { (make) in
                 make.text = self.count.description
                 make.textColor = UIColor.white
-                make.font = UIFont.Common.bold.withSize(500)
+                make.font = UIFont.systemFont(ofSize: 500)
         }
         self.showAnimation()
     }
@@ -55,11 +56,11 @@ class CutDownView: UIView {
     func showAnimation() {
         if self.count == 0 {
             nameLabel.text = "GO"
-            nameLabel.font = UIFont.Common.bold.withSize(200)
+            nameLabel.font = UIFont.systemFont(ofSize: 200)
         }
         else {
             nameLabel.text = self.count.description
-            nameLabel.font = UIFont.Common.bold.withSize(500)
+            nameLabel.font = UIFont.systemFont(ofSize: 500)
         }
         nameLabel.transform = CGAffineTransform.init(scaleX: 0.1, y: 0.1)
         nameLabel.alpha = 1
