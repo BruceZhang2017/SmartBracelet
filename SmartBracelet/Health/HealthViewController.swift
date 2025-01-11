@@ -829,10 +829,42 @@ extension HealthViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // 然后取消选中效果
         tableView.deselectRow(at: indexPath, animated: false)
-        if indexPath.item == 2 {
-            flag = 2 + 3
-        } else {
-            flag = 2 + indexPath.item
+        if indexPath.item == 0 {
+            if bleSelf.funcListModel.hasHeart {
+                flag = 2
+            } else {
+                flag = 3
+            }
+        } else if indexPath.item == 1 {
+            if bleSelf.funcListModel.hasHeart {
+                flag = 3
+            } else {
+                if bleSelf.funcListModel.hasBlood {
+                    flag = 4
+                } else {
+                    if bleSelf.funcListModel.hasOxygen {
+                        flag = 5
+                    }
+                }
+            }
+        } else if indexPath.item == 2 {
+            if bleSelf.funcListModel.hasHeart {
+                if bleSelf.funcListModel.hasBlood {
+                    flag = 4
+                } else {
+                    if bleSelf.funcListModel.hasOxygen {
+                        flag = 5
+                    }
+                }
+            } else {
+                if bleSelf.funcListModel.hasOxygen {
+                    flag = 5
+                }
+            }
+        } else if indexPath.item == 3 {
+            if bleSelf.funcListModel.hasOxygen {
+                flag = 5
+            }
         }
         let vc = HealthDetailViewController()
         vc.type = flag
@@ -847,7 +879,17 @@ extension HealthViewController: UITableViewDataSource {
         if lastestDeviceMac.count <= 0 {
             return 0
         }
-        return 3 // 你有4个cells
+        var count = 1
+        if bleSelf.funcListModel.hasHeart {
+            count += 1
+        }
+        if bleSelf.funcListModel.hasBlood {
+            count += 1
+        }
+        if bleSelf.funcListModel.hasOxygen {
+            count += 1
+        }
+        return count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -856,19 +898,51 @@ extension HealthViewController: UITableViewDataSource {
         cell.selectionStyle = .none
         // 配置cell，这里只是示例数据
         if indexPath.item == 0 {
-            cell.configureCell(icon: UIImage(named: "health_heart"), leftTitle: "health_heart_rate".localized(), rightTitle: arrayValue[indexPath.item])
-            cell.temImageView.image = UIImage(named: "health_heart_t")
-            cell.temImageView.isHidden = true
+            if bleSelf.funcListModel.hasHeart {
+                cell.configureCell(icon: UIImage(named: "health_heart"), leftTitle: "health_heart_rate".localized(), rightTitle: arrayValue[indexPath.item])
+                cell.temImageView.image = UIImage(named: "health_heart_t")
+                cell.temImageView.isHidden = true
+            } else {
+                cell.configureCell(icon: UIImage(named: "health_sleep"), leftTitle: "health_sleep".localized(), rightTitle: arrayValue[indexPath.item])
+                cell.temImageView.image = UIImage(named: "health_sleep_t")
+                cell.temImageView.isHidden = true
+            }
+            
         } else if indexPath.item == 1 {
-            cell.configureCell(icon: UIImage(named: "health_sleep"), leftTitle: "health_sleep".localized(), rightTitle: arrayValue[indexPath.item])
-            cell.temImageView.image = UIImage(named: "health_sleep_t")
-            cell.temImageView.isHidden = true
-        }
-//        else if indexPath.item == 2 {
-//            cell.configureCell(icon: UIImage(named: "health_bloodpressure"), leftTitle: "health_blood_pressure".localized(), rightTitle: arrayValue[indexPath.item])
-//            cell.temImageView.isHidden = true
-//        }
-        else {
+            if bleSelf.funcListModel.hasHeart {
+                cell.configureCell(icon: UIImage(named: "health_sleep"), leftTitle: "health_sleep".localized(), rightTitle: arrayValue[indexPath.item])
+                cell.temImageView.image = UIImage(named: "health_sleep_t")
+                cell.temImageView.isHidden = true
+            } else {
+                if bleSelf.funcListModel.hasBlood {
+                    cell.configureCell(icon: UIImage(named: "health_bloodpressure"), leftTitle: "health_blood_pressure".localized(), rightTitle: arrayValue[indexPath.item])
+                    cell.temImageView.isHidden = true
+                } else {
+                    if bleSelf.funcListModel.hasOxygen {
+                        cell.configureCell(icon: UIImage(named: "health_bloodoxygen"), leftTitle: "health_blood_oxygen".localized(), rightTitle: arrayValue[indexPath.item])
+                        cell.temImageView.isHidden = true
+                    }
+                }
+            }
+        } else if indexPath.item == 2 {
+            if bleSelf.funcListModel.hasHeart {
+                if bleSelf.funcListModel.hasBlood {
+                    cell.configureCell(icon: UIImage(named: "health_bloodpressure"), leftTitle: "health_blood_pressure".localized(), rightTitle: arrayValue[indexPath.item])
+                    cell.temImageView.isHidden = true
+                } else {
+                    if bleSelf.funcListModel.hasOxygen {
+                        cell.configureCell(icon: UIImage(named: "health_bloodoxygen"), leftTitle: "health_blood_oxygen".localized(), rightTitle: arrayValue[indexPath.item])
+                        cell.temImageView.isHidden = true
+                    }
+                }
+                
+            } else {
+                if bleSelf.funcListModel.hasOxygen {
+                    cell.configureCell(icon: UIImage(named: "health_bloodoxygen"), leftTitle: "health_blood_oxygen".localized(), rightTitle: arrayValue[indexPath.item])
+                    cell.temImageView.isHidden = true
+                }
+            }
+        } else {
             cell.configureCell(icon: UIImage(named: "health_bloodoxygen"), leftTitle: "health_blood_oxygen".localized(), rightTitle: arrayValue[indexPath.item])
             cell.temImageView.isHidden = true
         }

@@ -44,8 +44,6 @@ PODS:
   - Realm/Headers (10.13.0)
   - RealmSwift (10.13.0):
     - Realm (= 10.13.0)
-  - RxBluetoothKit (6.0.0):
-    - RxSwift (~> 5.1)
   - RxSwift (5.1.3)
   - SDWebImage (5.20.0):
     - SDWebImage/Core (= 5.20.0)
@@ -87,7 +85,6 @@ DEPENDENCIES:
   - ProgressHUD
   - Realm (~> 10.13.0)
   - RealmSwift (~> 10.13.0)
-  - RxBluetoothKit (= 6.0.0)
   - RxSwift
   - SDWebImage
   - Segmentio
@@ -123,7 +120,6 @@ SPEC REPOS:
     - ProgressHUD
     - Realm
     - RealmSwift
-    - RxBluetoothKit
     - RxSwift
     - SDWebImage
     - Segmentio
@@ -157,7 +153,6 @@ SPEC CHECKSUMS:
   ProgressHUD: abb9136ae23c85204236828562cb9a8ec98efb44
   Realm: e3a1225aafa7cec96a020dc199201b9d1f9cd59c
   RealmSwift: 62585b4a934754a9d9117331689f4e8a5b1f6113
-  RxBluetoothKit: dad22912b15b74a40df8f60057f218d4e851746d
   RxSwift: 915abbdfb62214aa89ccd0b194d44fb478019b27
   SDWebImage: 73c6079366fea25fa4bb9640d5fb58f0893facd8
   Segmentio: ab29def64e1bff6e6e9b97671788a99bed3f1d9f
@@ -171,6 +166,6 @@ SPEC CHECKSUMS:
   XCGLogger: 399c5885210b4e2ad79d9f7a29b105d672ef724f
   YYImage: 1e1b62a9997399593e4b9c4ecfbbabbf1d3f3b54
 
-PODFILE CHECKSUM: c24232749c503aa38291118267eb9c94843940f4
+PODFILE CHECKSUM: 8c5764d8ca4a2c7a194f3237d5601f170efea58e
 
 COCOAPODS: 1.13.0
