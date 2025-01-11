@@ -72,15 +72,15 @@ public class OpenWeatherManager: NSObject {
                 let max: Int = Int(tempratureKToC(temp: weather.list[i].temp.max ))
                 let min: Int = Int(tempratureKToC(temp: weather.list[i].temp.min ))
                 let weather = weather.list[i].weather.first?.icon ?? ""
-                var type = 1
+                var type = 0
                 if weather.hasPrefix("02") || weather.hasPrefix("03") {
-                    type = 0
+                    type = 1
                 }
                 if weather.hasPrefix("09") || weather.hasPrefix("10") || weather.hasPrefix("11")  {
-                    type = 3
+                    type = 2
                 }
                 if weather.hasPrefix("13") {
-                    type = 2
+                    type = 3
                 }
                 if weather.hasPrefix("04") {
                     type = 4

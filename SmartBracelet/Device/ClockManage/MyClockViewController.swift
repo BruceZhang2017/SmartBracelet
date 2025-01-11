@@ -155,14 +155,14 @@ class MyClockViewController: UIViewController {
                                     runAlpha: false,
                                     useFilter: false,
                                     supportRotate: false) {
-                if parData.count <= 65 * 1024 {
+                if parData.count <= 50 * 1024 {
                     var message = "Convert image to rotate PAR successfully. PAR info: size=\(parData.count) width=\(width) height=\(height)"
                     print(message)
                     binData = parData
                     XGZTCommand.dialMarketQuery(dataType: 0) // 查询 mtu
                     break
                 } else {
-                    print("parData size exceeds 65K limit, recompressing...")
+                    print("parData size exceeds 50K limit, recompressing...")
                     nImage = compressAndConvertImage(image: image)
                 }
             } else {
