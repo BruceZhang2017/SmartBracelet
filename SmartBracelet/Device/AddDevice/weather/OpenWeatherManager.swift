@@ -13,6 +13,7 @@ import Foundation
 public class OpenWeatherManager: NSObject {
     
     var callback: ((CurrentWeatherData) -> Void)?
+    var flag = 0
     
     private let viewModel = ViewModel()
     lazy var locationManager: CLLocationManager = {
@@ -23,7 +24,8 @@ public class OpenWeatherManager: NSObject {
         return location
     }()
     
-    public func syncTemprature() {
+    public func syncTemprature(flag: Int = 0) {
+        self.flag = flag
         checkLocationAuthorization()
     }
     
@@ -86,7 +88,7 @@ public class OpenWeatherManager: NSObject {
                     type = 4
                 }
                 print("发送给手表的数据：\(temp) \(type) \(i)")
-                XGZTCommand.setWeatherInfo(dateType: i, weatherType: type, currTemp: temp, lTemp: min, hTemp: max)
+                XGZTCommand.setWeatherInfo(dateType: i, weatherType: type, currTemp: temp, lTemp: min, hTemp: max, cmd: flag > 0 ? 2 : 1)
             }
             return
         }

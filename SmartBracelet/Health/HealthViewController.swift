@@ -494,7 +494,7 @@ class HealthViewController: BaseViewController {
             }
         }
         if obj == 1000 {
-            manager.syncTemprature() //  连接成功后，则同步天气。
+            manager.syncTemprature(flag: 1) //  连接成功后，则同步天气。
         }
     }
     

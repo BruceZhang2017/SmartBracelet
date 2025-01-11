@@ -611,14 +611,14 @@ public class XGZTCommand {
     }
     
     // 设置天气信息（此处仅为示例，根据实际需求完善）
-    static func setWeatherInfo(dateType: Int, weatherType: Int, currTemp: Int, lTemp: Int, hTemp: Int) {
+    static func setWeatherInfo(dateType: Int, weatherType: Int, currTemp: Int, lTemp: Int, hTemp: Int, cmd: Int) {
         let command = createCommand(with: [
             0x00,
             XGZTCommands.setWeatherInfo.rawValue,
             0x01,
             0x00,
             UInt8(14),
-            0x01,
+            UInt8(cmd),
             UInt8(dateType),
             0x00,
             0x01,
