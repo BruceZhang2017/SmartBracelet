@@ -50,6 +50,7 @@ class MyClockViewController: UIViewController {
     var currentPackage = 0
     var footView: CustomImageFooterView?
     var packageNum = 0
+    var imageScale: CGFloat = 1.0
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -138,38 +139,99 @@ class MyClockViewController: UIViewController {
     }
     
     private func startupdateCustomImage() {
-        guard let image = currentImage else {
+        guard var image = currentImage else {
             return
         }
-        print("image: width \(image.size.width) height \(image.size.height)")
-        var nImage = compressAndConvertImage(image: image)
+        let owidth: CGFloat = image.size.width
+        let oheight: CGFloat = image.size.height
         while true {
-            guard let rawImageData = nImage?.rawImageData else {
+            guard let rawImageData = image.rawImageData else {
                 return
             }
-            let width = Int32(nImage!.size.width)
-            let height = Int32(nImage!.size.height)
+            print("rawImageData count: \(rawImageData.count)")
+            var width = Int32(owidth * imageScale)
+            var height = Int32(oheight * imageScale)
             if let parData = ParTool.par(fromRaw: rawImageData,
                                     width: width,
                                     height: height,
                                     runAlpha: false,
                                     useFilter: false,
                                     supportRotate: false) {
-                if parData.count <= 50 * 1024 {
-                    var message = "Convert image to rotate PAR successfully. PAR info: size=\(parData.count) width=\(width) height=\(height)"
+                if parData.count <= 56 * 1024 {
+                    let message = "Convert image to rotate PAR successfully. PAR info: size=\(parData.count) width=\(width) height=\(height)"
                     print(message)
                     binData = parData
                     XGZTCommand.dialMarketQuery(dataType: 0) // 查询 mtu
+                    imageScale = 1.0
                     break
                 } else {
                     print("parData size exceeds 50K limit, recompressing...")
-                    nImage = compressAndConvertImage(image: image)
+                    imageScale -= 0.1
+                    if imageScale <= 0 {
+                        return
+                    }
+                    width = Int32(owidth * imageScale)
+                    height = Int32(oheight * imageScale)
+                    image = resizeAndReduceRGB(image: image, targetSize: CGSize(width: CGFloat(width), height: CGFloat(height))) ?? UIImage()
                 }
             } else {
                 print("Failed to convert image to PAR format")
                 return
             }
         }
+    }
+    
+    func resizeAndReduceRGB(image: UIImage, targetSize: CGSize) -> UIImage? {
+        // 首先调整图像大小
+        UIGraphicsBeginImageContextWithOptions(targetSize, false, 1.0)
+        image.draw(in: CGRect(origin:.zero, size: targetSize))
+        let resizedImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        guard let cgImage = resizedImage?.cgImage else {
+            return nil
+        }
+        
+        let colorSpace = CGColorSpaceCreateDeviceRGB()
+        let width = cgImage.width
+        let height = cgImage.height
+        let bytesPerPixel = 4
+        let bitsPerComponent = 8
+        let bytesPerRow = bytesPerPixel * width
+        let bitmapInfo = CGImageAlphaInfo.premultipliedLast.rawValue | CGBitmapInfo.byteOrder32Big.rawValue
+        
+        guard let context = CGContext(data: nil, width: width, height: height, bitsPerComponent: bitsPerComponent, bytesPerRow: bytesPerRow, space: colorSpace, bitmapInfo: bitmapInfo) else {
+            return nil
+        }
+        
+        context.draw(cgImage, in: CGRect(x: 0, y: 0, width: width, height: height))
+        
+        if let pixelData = context.data {
+            let data = pixelData.bindMemory(to: UInt8.self, capacity: width * height * bytesPerPixel)
+            for y in 0..<height {
+                for x in 0..<width {
+                    let index = (y * width + x) * bytesPerPixel
+                    var red = data[index]
+                    var green = data[index + 1]
+                    var blue = data[index + 2]
+                    
+                    // 将 RGB 值从 256 降到 64
+                    red = (red / 4) * 4
+                    green = (green / 4) * 4
+                    blue = (blue / 4) * 4
+                    
+                    data[index] = red
+                    data[index + 1] = green
+                    data[index + 2] = blue
+                }
+            }
+        }
+        
+        guard let newCGImage = context.makeImage() else {
+            return nil
+        }
+        
+        return UIImage(cgImage: newCGImage)
     }
 
     private func compressAndConvertImage(image: UIImage) -> UIImage? {
