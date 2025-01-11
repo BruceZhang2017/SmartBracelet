@@ -523,7 +523,7 @@ public class XGZTCommand {
             0x00,
             0x08,
             0x01,
-            UInt8(response.eventType + 1),
+            UInt8(response.eventType),
             UInt8(response.cycle),
             UInt8(response.startHour),
             UInt8(response.startMinute),

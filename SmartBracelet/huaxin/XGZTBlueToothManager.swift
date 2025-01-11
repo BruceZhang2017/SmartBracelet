@@ -45,6 +45,7 @@ class XGZTBlueToothManager: NSObject, CBCentralManagerDelegate, CBPeripheralDele
     public weak var delegate: BleManagerDelegate? // ble 管理代理
     public var isOTAing = false // 是否正在 OTA
     private var reconnectTimer: Timer? // 重连定时器
+    private var autoDisconnect = false // 主动断开
 
     override init() {
         super.init()
@@ -91,8 +92,18 @@ class XGZTBlueToothManager: NSObject, CBCentralManagerDelegate, CBPeripheralDele
         }
     }
     
+    func disconnectDevice() {
+        if let per = peripheral {
+            autoDisconnect = true
+            centralManager?.cancelPeripheralConnection(per)
+        }
+    }
+    
     // 新增发起 BLE 回连功能
     public func reconnectToDevice() {
+        if lastestDeviceMac.count == 0 {
+            return 
+        }
         if let peripheral = centralManager?.retrieveConnectedPeripherals(withServices: [CBUUID(string: "0000FF12-0000-1000-8000-00805F9B34FB")]).first {
             let peripheralInfo = PeripheralInfo(peripheral: peripheral, macAddress: lastestDeviceMac)
             discoveredPeripherals.append(peripheralInfo)
@@ -153,6 +164,13 @@ class XGZTBlueToothManager: NSObject, CBCentralManagerDelegate, CBPeripheralDele
     
     func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: (any Error)?) {
         print("蓝牙设备断开连接")
+        if autoDisconnect {
+            self.peripheral = nil
+            device = nil
+            handler.handleDisconnected()
+            autoDisconnect = false 
+            return
+        }
         startReconnectTimer() // 设备断开连接时，启动重连定时器
     }
 

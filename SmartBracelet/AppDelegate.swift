@@ -51,7 +51,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // 配置音频会话
         let audioSession = AVAudioSession.sharedInstance()
         do {
-            try audioSession.setCategory(.playback, mode: .default, options: [.mixWithOthers, .duckOthers])
+            try audioSession.setCategory(.playAndRecord, options: [.defaultToSpeaker, .mixWithOthers])
             try audioSession.setActive(true)
         } catch {
             print("Failed to set up audio session: \(error)")

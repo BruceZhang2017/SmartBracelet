@@ -493,6 +493,9 @@ class HealthViewController: BaseViewController {
                 self?.hud?.textLabel.text = msg
             }
         }
+        if obj == 1000 {
+            manager.syncTemprature() //  连接成功后，则同步天气。
+        }
     }
     
     private func startLoadingViewCheckTimer() {

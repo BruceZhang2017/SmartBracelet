@@ -146,6 +146,10 @@ class DeviceListViewController: BaseViewController {
             
         }))
         alert.addAction(UIAlertAction(title: "mine_confirm".localized(), style: .default, handler: { [weak self] (action) in
+            if XGZTBlueToothManager.shared.device != nil && mac == lastestDeviceMac {
+                XGZTBlueToothManager.shared.disconnectDevice()
+                lastestDeviceMac = ""
+            }
             BluetoothWatchDevice.deleteFromSandbox(mac: mac)
             let count = DeviceManager.shared.devices.count + (BluetoothWatchDevice.loadAll()?.count ?? 0)
             if count <= 1 {
@@ -275,10 +279,6 @@ extension DeviceListViewController: DeviceTableViewCellDelegate {
                 let count = DeviceManager.shared.devices.count
                 let model = BluetoothWatchDevice.loadAll()?[indexPath.row - count]
                 guard let mac = model?.max else {
-                    return
-                }
-                if XGZTBlueToothManager.shared.device != nil && mac == lastestDeviceMac {
-                    Toast(text: "delete_connected_device".localized()).show()
                     return
                 }
                 deleteDevice(mac: mac)
