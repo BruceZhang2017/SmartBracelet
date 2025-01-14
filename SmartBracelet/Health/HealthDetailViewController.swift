@@ -369,6 +369,9 @@ class HealthDetailViewController: BaseViewController {
     
     /// 设置图表
     private func setupChart() {
+        if type == 0 {
+            valueView.isHidden = true 
+        }
         valueView.addSubview(lineChartView)
         lineChartView.snp.makeConstraints { make in
             make.leading.equalTo(15)
