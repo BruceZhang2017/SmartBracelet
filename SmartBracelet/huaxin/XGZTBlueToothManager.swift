@@ -101,8 +101,8 @@ class XGZTBlueToothManager: NSObject, CBCentralManagerDelegate, CBPeripheralDele
     
     // 新增发起 BLE 回连功能
     public func reconnectToDevice() {
-        if lastestDeviceMac.count == 0 {
-            return 
+        if lastestDeviceMac.count == 0 || device != nil {
+            return
         }
         if let peripheral = centralManager?.retrieveConnectedPeripherals(withServices: [CBUUID(string: "0000FF12-0000-1000-8000-00805F9B34FB")]).first {
             let peripheralInfo = PeripheralInfo(peripheral: peripheral, macAddress: lastestDeviceMac)

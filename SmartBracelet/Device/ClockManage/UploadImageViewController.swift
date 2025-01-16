@@ -142,8 +142,12 @@ class UploadImageViewController: UIViewController {
                 print("中科设备开始推送表盘数据")
                 delegate?.startUpload(image: newImage)
             } else {
-                let imageData = newImage.compressImageOnlength(maxLength: (w <= 80 || h <= 160) ? 28 : 100)
-                delegate?.startUpload(image: UIImage(data: imageData!)!)
+                if isXGZT {
+                    delegate?.startUpload(image: i)
+                } else {
+                    let imageData = newImage.compressImageOnlength(maxLength: (w <= 80 || h <= 160) ? 28 : 100)
+                    delegate?.startUpload(image: UIImage(data: imageData!)!)
+                }
             }
         }
     }

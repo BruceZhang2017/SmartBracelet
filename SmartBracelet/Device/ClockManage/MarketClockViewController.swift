@@ -67,7 +67,7 @@ class MarketClockViewController: UIViewController {
             h = XGZTBlueToothManager.shared.device?.screenHeight ?? 0
         }
         let parameters = ["pageSize": "100", "pageNum": "1", "isPublish": "Y", "resolutionRatio": "\(w)*\(h)", "firmNo": firmNo]
-        AF.request("https://u-watch.com.cn/api/app/dial/list?pageSize=100&pageNum=1&firmNo=ZhongKe_S", method: .post, parameters: parameters, encoder: JSONParameterEncoder.default).response { [weak self] (response) in
+        AF.request("https://u-watch.com.cn/api/app/dial/list?pageSize=100&pageNum=1&firmNo=\(firmNo)", method: .post, parameters: parameters, encoder: JSONParameterEncoder.default).response { [weak self] (response) in
             debugPrint("Request: \((String(data:response.request?.httpBody ?? Data(),encoding:.utf8) ?? "")) Response: \(response.debugDescription)")
             ProgressHUD.dismiss()
             guard let data = response.value as? Data else {

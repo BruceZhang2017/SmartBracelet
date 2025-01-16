@@ -157,7 +157,7 @@ class MyClockViewController: UIViewController {
                                     runAlpha: false,
                                     useFilter: false,
                                     supportRotate: false) {
-                if parData.count <= 56 * 1024 {
+                if parData.count <= 100 * 1024 {
                     let message = "Convert image to rotate PAR successfully. PAR info: size=\(parData.count) width=\(width) height=\(height)"
                     print(message)
                     binData = parData

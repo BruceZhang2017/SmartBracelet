@@ -109,6 +109,7 @@ class DeviceSettingsViewController: UIViewController {
         if tag == 1002 { // 长坐提醒
             if isXGZT {
                 guard let device = XGZTBlueToothManager.shared.device else {
+                    Toast(text: "设备未连接").show()
                     return
                 }
                 if (mSwitch?.isOn ?? false) {
@@ -119,7 +120,7 @@ class DeviceSettingsViewController: UIViewController {
                     device.longsit?.endMinute = 0
                     if (device.longsit?.period ?? 0) == 0 {
                         device.longsit?.period = 0x0a
-                        tableView.reloadData()
+                        tableView.reloadRows(at: [IndexPath(item: 4, section: 0)], with: .none)
                     }
                     if device.longsit != nil {
                         XGZTCommand.setReminderInfo(response: device.longsit!)
@@ -243,6 +244,7 @@ class DeviceSettingsViewController: UIViewController {
         } else { // 喝水提醒
             if isXGZT {
                 guard let device = XGZTBlueToothManager.shared.device else {
+                    Toast(text: "设备未连接").show()
                     return
                 }
                 if (mSwitch?.isOn ?? false) {
@@ -256,7 +258,7 @@ class DeviceSettingsViewController: UIViewController {
                     device.drinkWater?.endMinute = 0
                     if (device.drinkWater?.period ?? 0) == 0 {
                         device.drinkWater?.period = 0x0a
-                        tableView.reloadData()
+                        tableView.reloadRows(at: [IndexPath(item: 6, section: 0)], with: .none)
                         
                     }
                     if device.drinkWater != nil {

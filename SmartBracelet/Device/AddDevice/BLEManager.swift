@@ -30,7 +30,6 @@ class BLEManager: NSObject {
     private var otaTotal = 0
     var distanceDays = 0 // 相隔多少天
     var bleFlag = -1
-    var mTimer: Timer?
     public var currentReadProgress = 0 {
         didSet {
             NotificationCenter.default.post(name: Notification.Name("HealthVCLoading"), object: 100, userInfo: ["msg": "\(currentReadProgress)"])
@@ -165,6 +164,7 @@ class BLEManager: NSObject {
             //Toast(text: "toast_success".localized()).show()
             print("设备连接成功")
             endTimer()
+            isXGZT = false // 将自研手表设置为断开
             bleSelf.bleModel.isBond = true
             WUBleModel.setModel(bleSelf.bleModel)
             NotificationCenter.default.post(name: Notification.Name.SearchDevice, object: "connected") // 通知搜索页面
@@ -188,8 +188,6 @@ class BLEManager: NSObject {
         
         if notify.name == WUBleManagerNotifyKeys.disconnected {
             print("蓝牙断开连接")
-            mTimer?.invalidate()
-            mTimer = nil
             isReconnect = false
             if lastestDeviceMac.count > 0 {
                 isReconnect = true
@@ -449,18 +447,21 @@ class BLEManager: NSObject {
             } else {
                 if model.totalCount > 0 && model.totalCount == model.indexOfTotal {
                     print("detail sleep sync complete", model.day)
-                    bleSelf.aloneGetSleep(with: model.day + 1)
+                    if currentReadProgress == 5 {
+                        bleSelf.aloneGetSleep(with: model.day + 1)
+                    }
                 }
             }
             if model.day == 0 {
                 if model.totalCount == model.indexOfTotal {
                     print("开始读取血压")
                     NotificationCenter.default.post(name: Notification.Name("HealthViewController"), object: "sleep")
-                    if currentReadProgress == 5 {
-                        currentReadProgress = 6
-                        Async.main(after: 1) {
-                            bleSelf.aloneGetMeasure(.blood) // 第7步：获取血压历史数据
-                        }
+                    if currentReadProgress != 5 {
+                        return
+                    }
+                    currentReadProgress = 6
+                    Async.main(after: 1) {
+                        bleSelf.aloneGetMeasure(.blood) // 第7步：获取血压历史数据
                     }
                 }
             }
@@ -487,10 +488,11 @@ class BLEManager: NSObject {
                 }
                 NotificationCenter.default.post(name: Notification.Name("HealthViewController"), object: "heart")
             }
-            if currentReadProgress == 4 {
-                currentReadProgress = 5
-                bleSelf.aloneGetSleep(with: 0) // 第6步：获取历史睡眠信息
+            if currentReadProgress != 4 {
+                return
             }
+            currentReadProgress = 5
+            bleSelf.aloneGetSleep(with: 0) // 第6步：获取历史睡眠信息
         }
                 
         if notify.name == WristbandNotifyKeys.sysCeLiang_blood {
