@@ -93,6 +93,9 @@ class BLEManager: NSObject {
             return
         }
         if let model = WUBleModel.getModel() as? TJDWristbandSDK.WUBleModel {
+            if bleSelf.bleModel.internalNumberString.count == 0 {
+                return
+            }
             bleSelf.bleModel = model
             if bleSelf.bleModel.internalNumberString.hasPrefix("P1") || bleSelf.bleModel.internalNumberString.hasPrefix("S1") {
                 bleSelf.bleModel.screenWidth = 80

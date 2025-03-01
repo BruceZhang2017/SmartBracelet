@@ -24,7 +24,7 @@ class OpenWeatherViewController: UIViewController {
         setupWeatherView()
 
         title = "device_weather_push".localized()
-        manager.syncTemprature()
+        manager.syncTemprature(flag: 0)
         manager.callback = {
             [weak self] weatherData in
             self?.updateInterface(weather: weatherData)
@@ -64,8 +64,22 @@ class OpenWeatherViewController: UIViewController {
             [weak self] in
             guard let self = self else { return }
             //self.weatherIconImageView.image = UIImage(systemName: weather.systemIconNameString)
-            self.temperatureLabel.text = "\(Int(self.tempratureKToC(temp: weather.list.first?.temp.day ?? 0)))°C"
-            self.feelsLikeLabel.text = "\("min_temp".localized()):\(Int(self.tempratureKToC(temp: weather.list.first?.temp.min ?? 0)))°C - \("max_temp".localized()):\(Int(self.tempratureKToC(temp: weather.list.first?.temp.max ?? 0)))°C"
+            if isXGZT {
+                if XGZTBlueToothManager.shared.device?.baseUnit ?? 0 > 0 {
+                    let a = Int(self.tempratureKToC(temp: weather.list.first?.temp.day ?? 0)) // 当前温度
+                    let b = Int(self.tempratureKToC(temp: weather.list.first?.temp.min ?? 0))
+                    let c = Int(self.tempratureKToC(temp: weather.list.first?.temp.max ?? 0))
+                    self.temperatureLabel.text = "\(Int((a * 9 / 5) + 32))°F"
+                    self.feelsLikeLabel.text = "\("min_temp".localized()):\(Int((b * 9 / 5) + 32))°F - \("max_temp".localized()):\(Int((c * 9 / 5) + 32))°F"
+                } else {
+                    self.temperatureLabel.text = "\(Int(self.tempratureKToC(temp: weather.list.first?.temp.day ?? 0)))°C"
+                    self.feelsLikeLabel.text = "\("min_temp".localized()):\(Int(self.tempratureKToC(temp: weather.list.first?.temp.min ?? 0)))°C - \("max_temp".localized()):\(Int(self.tempratureKToC(temp: weather.list.first?.temp.max ?? 0)))°C"
+                }
+            } else {
+                self.temperatureLabel.text = "\(Int(self.tempratureKToC(temp: weather.list.first?.temp.day ?? 0)))°C"
+                self.feelsLikeLabel.text = "\("min_temp".localized()):\(Int(self.tempratureKToC(temp: weather.list.first?.temp.min ?? 0)))°C - \("max_temp".localized()):\(Int(self.tempratureKToC(temp: weather.list.first?.temp.max ?? 0)))°C"
+            }
+            
         }
     }
     

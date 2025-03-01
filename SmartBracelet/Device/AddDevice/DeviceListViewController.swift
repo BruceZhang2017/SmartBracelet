@@ -197,6 +197,7 @@ extension DeviceListViewController: UITableViewDataSource {
             cell.deviceNameLabel.textColor = UIColor.text_primary
             cell.deviceNameLabel.font = UIFont.subtitle1()
             cell.deleteButton.titleLabel?.textColor = UIColor.brand
+            cell.deleteButton.setTitle("deivce_unbind".localized(), for: .normal)
             cell.deviceImageView.image = UIImage(named: AppDelegate.IsDeviceNotRound() ? "icon_ewatch" : "icon_ewatch_2")
             if model.mac == lastestDeviceMac && bleSelf.isConnected {
                 cell.selectImageView.isHidden = false
@@ -212,8 +213,9 @@ extension DeviceListViewController: UITableViewDataSource {
             cell.deviceNameLabel.textColor = UIColor.text_primary
             cell.deviceNameLabel.font = UIFont.subtitle1()
             cell.deleteButton.titleLabel?.textColor = UIColor.brand
+            cell.deleteButton.setTitle("deivce_unbind".localized(), for: .normal)
             cell.deviceImageView.image = UIImage(named: AppDelegate.IsDeviceNotRound() ? "icon_ewatch" : "icon_ewatch_2")
-            if model?.max ?? "" == lastestDeviceMac && XGZTBlueToothManager.shared.device != nil {
+            if model?.max ?? "" == lastestDeviceMac && XGZTBlueToothManager.shared.device != nil && isXGZT {
                 cell.selectImageView.isHidden = false
                 cell.bleConnectButton.setTitle("mine_bluetooth_connect".localized(), for: .normal)
             } else {

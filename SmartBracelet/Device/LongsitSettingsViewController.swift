@@ -64,11 +64,12 @@ extension LongsitSettingsViewController: UITableViewDelegate {
         tableView.deselectRow(at: indexPath, animated: true)
         if flag == 1 {
             if isXGZT {
-                guard let drinkWater = XGZTBlueToothManager.shared.device?.drinkWater else {
+                guard var drinkWater = XGZTBlueToothManager.shared.device?.drinkWater else {
                     return
                 }
-                XGZTBlueToothManager.shared.device?.drinkWater?.period = times[indexPath.row]
+                drinkWater.period = times[indexPath.row]
                 XGZTCommand.setReminderInfo(response: drinkWater)
+                XGZTBlueToothManager.shared.device?.drinkWater = drinkWater
             } else {
                 bleSelf.drinkModel.interval = times[indexPath.row]
                 bleSelf.setDrinkForWristband(bleSelf.drinkModel)
@@ -76,11 +77,12 @@ extension LongsitSettingsViewController: UITableViewDelegate {
             
         } else {
             if isXGZT {
-                guard let longsit = XGZTBlueToothManager.shared.device?.longsit else {
+                guard var longsit = XGZTBlueToothManager.shared.device?.longsit else {
                     return
                 }
-                XGZTBlueToothManager.shared.device?.longsit?.period = times[indexPath.row]
+                longsit.period = times[indexPath.row]
                 XGZTCommand.setReminderInfo(response: longsit)
+                XGZTBlueToothManager.shared.device?.longsit = longsit
             } else {
                 bleSelf.longSitModel.interval = times[indexPath.row]
                 bleSelf.setLongSitForWristband(bleSelf.longSitModel)

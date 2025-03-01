@@ -349,7 +349,6 @@
 		9A820B8B24D1066300A62C6F /* SetTargetCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A820B8A24D1066300A62C6F /* SetTargetCollectionViewCell.swift */; };
 		9A820B8D24D11E3000A62C6F /* SetTargetBViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A820B8C24D11E3000A62C6F /* SetTargetBViewController.swift */; };
 		9A820B8F24D1B15B00A62C6F /* UIButton+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A820B8E24D1B15B00A62C6F /* UIButton+Extension.swift */; };
-		9A839BEA255F72F000714CBE /* PopupBViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A839BE9255F72F000714CBE /* PopupBViewController.swift */; };
 		9A839BEF255FE5A300714CBE /* HImagePickerUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A839BEE255FE5A300714CBE /* HImagePickerUtils.swift */; };
 		9A839BF1255FF3B700714CBE /* FileCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A839BF0255FF3B700714CBE /* FileCache.swift */; };
 		9A839C0325602BB700714CBE /* BaseResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A839C0225602BB700714CBE /* BaseResponse.swift */; };
@@ -885,7 +884,6 @@
 		9A820B8A24D1066300A62C6F /* SetTargetCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetTargetCollectionViewCell.swift; sourceTree = "<group>"; };
 		9A820B8C24D11E3000A62C6F /* SetTargetBViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetTargetBViewController.swift; sourceTree = "<group>"; };
 		9A820B8E24D1B15B00A62C6F /* UIButton+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Extension.swift"; sourceTree = "<group>"; };
-		9A839BE9255F72F000714CBE /* PopupBViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupBViewController.swift; sourceTree = "<group>"; };
 		9A839BEE255FE5A300714CBE /* HImagePickerUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HImagePickerUtils.swift; sourceTree = "<group>"; };
 		9A839BF0255FF3B700714CBE /* FileCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileCache.swift; sourceTree = "<group>"; };
 		9A839C0225602BB700714CBE /* BaseResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseResponse.swift; sourceTree = "<group>"; };
@@ -1452,7 +1450,6 @@
 			isa = PBXGroup;
 			children = (
 				9A5210762504D47C00F64A7A /* PopupViewController.swift */,
-				9A839BE9255F72F000714CBE /* PopupBViewController.swift */,
 			);
 			path = Popup;
 			sourceTree = "<group>";
@@ -2703,7 +2700,6 @@
 				9A93EE592CFDE78C00C02370 /* XGZTCommands.swift in Sources */,
 				9A56D26D25216FC60082CC08 /* ScatterChartView.swift in Sources */,
 				9A56D27A25216FC60082CC08 /* Platform+Touch Handling.swift in Sources */,
-				9A839BEA255F72F000714CBE /* PopupBViewController.swift in Sources */,
 				9A350BE924EA765F004CEE6A /* UserInfoViewController.swift in Sources */,
 				9A56D26A25216FC60082CC08 /* BubbleChartView.swift in Sources */,
 				18385E9E24517F1600EA380A /* AppDelegate.swift in Sources */,
@@ -3207,7 +3203,7 @@
 				CODE_SIGN_ENTITLEMENTS = "";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 101;
+				CURRENT_PROJECT_VERSION = 120;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_ASSET_PATHS = TJDWristbandSDK.framework;
 				DEVELOPMENT_TEAM = 6BTCM549U7;
@@ -3256,7 +3252,7 @@
 				CODE_SIGN_ENTITLEMENTS = "";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 101;
+				CURRENT_PROJECT_VERSION = 120;
 				DEVELOPMENT_ASSET_PATHS = TJDWristbandSDK.framework;
 				DEVELOPMENT_TEAM = 6BTCM549U7;
 				ENABLE_BITCODE = NO;

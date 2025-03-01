@@ -52,6 +52,7 @@ enum XGZTCommands: UInt8 {
 
     case targetSettings = 0xB0
     case multiSportModeData = 0xB3
+    case getSleepMonitoring = 0xB5
     case setAutoSleepMonitoring = 0xB6
     
     case startTest = 0xC5
@@ -61,6 +62,7 @@ enum XGZTCommands: UInt8 {
     case getNewestHeartData = 0xCA
 
     case dialMarket = 0xE0
+    case setTimePositionAndColor = 0xE1
     case resourceUpgrade = 0xE2
 }
 
@@ -329,6 +331,7 @@ public class XGZTCommand {
             XGZTCommands.setWeatherUnit.rawValue,
             0x01,
             0x00,
+            0x02,
             0x01,
             UInt8(unit)
         ])
@@ -774,6 +777,18 @@ public class XGZTCommand {
         XGZTBlueToothManager.shared.writeCharacteristic(command: command)
     }
     
+    static func getSleepMonitoring() {
+        let command = createCommand(with: [
+            0x00,
+            XGZTCommands.getSleepMonitoring.rawValue,
+            0x01,
+            0x00,
+            0x01,
+            0x01
+        ])
+        XGZTBlueToothManager.shared.writeCharacteristic(command: command)
+    }
+    
     // 设置自动睡眠监测
     static func setAutoSleepMonitoring(startHour: Int, startMinute: Int, endHour: Int, endMinute: Int, alarmCycle: Int) {
         let command = createCommand(with: [
@@ -926,6 +941,23 @@ public class XGZTCommand {
         XGZTBlueToothManager.shared.writeCharacteristic(command: command)
     }
     
+    static func setTimePositionAndColor(type: Int, position: Int, color: Int) {
+        let command = createCommand(with: [
+            0x00,
+            XGZTCommands.setTimePositionAndColor.rawValue,
+            0x01,
+            0x00,
+            0x06,
+            0x01,
+            UInt8(type),
+            UInt8(position),
+            UInt8((color >> 16) & 0xFF),
+            UInt8((color >> 8) & 0xFF),
+            UInt8(color & 0xFF)
+        ])
+        XGZTBlueToothManager.shared.writeCharacteristic(command: command)
+    }
+    
     static func getNewestHeartData(type: Int) {
         let command = createCommand(with: [
             0x00,
@@ -1051,10 +1083,12 @@ public class XGZTCommand {
             }
             if response[5] == 0x00 {
                 XGZTBlueToothManager.shared.device?.baseUnit = Int(response[6])
+                NotificationCenter.default.post(name: Notification.Name("HealthViewController"), object: "step")
             } else {
                 let success = response[6] == 0x00
                 if success {
                     print("设置设备单位格式命令执行成功")
+                    NotificationCenter.default.post(name: Notification.Name("HealthViewController"), object: "step")
                 } else {
                     print("设置设备单位格式命令执行失败")
                 }
@@ -1118,11 +1152,11 @@ public class XGZTCommand {
                 print("结束查找手机")
             }
         case.setWeatherUnit:
-            guard response.count >= 6 else {
+            guard response.count >= 7 else {
                 print("setWeatherUnit command response error")
                 return
             }
-            let success = response[5] == 0x00
+            let success = response[6] == 0x00
             if success {
                 print("设置天气单位命令执行成功")
             } else {
@@ -1219,6 +1253,11 @@ public class XGZTCommand {
                 XGZTBlueToothManager.shared.device?.isVibrationswitch = ((response[7] >> 3) & 1) > 0
                 XGZTBlueToothManager.shared.device?.isRegularhealthdatauploadswitch = ((response[7] >> 4) & 1) > 0
                 XGZTBlueToothManager.shared.device?.isMessagevibrationswitch = ((response[7] >> 5) & 1) > 0
+                
+                if response[2] == 3 {
+                    NotificationCenter.default.post(name: Notification.Name("DeviceSettings"), object: 1)
+                }
+                
             } else {
                 let success = response[6] == 0x00
                 if success {
@@ -1486,6 +1525,31 @@ public class XGZTCommand {
                 sportDataList.append(MultiSportModeData(sportType: sportType, timestamp: timestamp, stepCount: stepCount, calorie: calorie, distance: distance, duration: duration, avgHeartRate: avgHeartRate, staticCalorie: staticCalorie))
             }
             print("多运动模式数据数量: \(numData), 数据详情: \(sportDataList)")
+        case.getSleepMonitoring:
+            guard response.count >= 12 else {
+                print("setAutoSleepMonitoring command response error")
+                return
+            }
+            if response[2] == 2 {
+                let deep = Int(response[6]) |
+                           (Int(response[7]) << 8)
+                let light = Int(response[8]) |
+                           (Int(response[9]) << 8)
+                let awake = Int(response[10]) |
+                           (Int(response[11]) << 8)
+                XGZTBlueToothManager.shared.device?.currentSleep = light + deep
+                NotificationCenter.default.post(name: Notification.Name("HealthViewController"), object: "sleep")
+            } else if response[2] == 3 {
+                let deep = Int(response[5]) |
+                           (Int(response[6]) << 8)
+                let light = Int(response[7]) |
+                           (Int(response[8]) << 8)
+                let awake = Int(response[9]) |
+                           (Int(response[10]) << 8)
+                XGZTBlueToothManager.shared.device?.currentSleep = light + deep
+                NotificationCenter.default.post(name: Notification.Name("HealthViewController"), object: "sleep")
+            }
+            
         case.setAutoSleepMonitoring:
             guard response.count >= 12 else {
                 print("setAutoSleepMonitoring command response error")
@@ -1735,6 +1799,15 @@ public class XGZTCommand {
                 }
                 DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.01) {
                     NotificationCenter.default.post(name: Notification.Name("healthDetail"), object: nil)
+                }
+            }
+        case .setTimePositionAndColor:
+            if response.count == 7 {
+                let success = response[6] == 0x00
+                if success {
+                    print("设置时间位置和颜色执行成功")
+                } else {
+                    print("设置时间位置和颜色执行失败")
                 }
             }
         }

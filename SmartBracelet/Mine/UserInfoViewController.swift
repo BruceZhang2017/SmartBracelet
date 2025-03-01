@@ -395,6 +395,7 @@ extension UserInfoViewController: SelectItemVCDelegate {
             if isXGZT {
                 XGZTBlueToothManager.shared.device?.baseUnit = index
                 XGZTCommand.setDeviceUnitFormat(unitType: index)
+                XGZTCommand.setWeatherUnit(unit: index)
             } else {
                 bleSelf.userInfo.unit = index
                 bleSelf.setZhiShiForWristband(bleSelf.userInfo)

@@ -12,6 +12,7 @@
 
 import UIKit
 import Toaster
+import DropDown
 
 class MineViewController: BaseViewController {
     
@@ -22,6 +23,8 @@ class MineViewController: BaseViewController {
     var bOnce = false
     let titles = ["mine_userinfo".localized(), "mine_help_center".localized(), "mine_about".localized()]
     let icons = [UIImage(named: "mine_account_info"), UIImage(named: "mine_help"), UIImage(named: "mine_account_about")]
+    let dropDown = DropDown()
+    var bHavenScanResult = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -84,6 +87,102 @@ class MineViewController: BaseViewController {
             tableView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor)
         ])
         
+        // 设置 DropDown 数据源
+        dropDown.dataSource = ["扫一扫", "添加设备"]
+
+        // 自定义下拉菜单样式
+        dropDown.textFont = UIFont.systemFont(ofSize: 16)
+        dropDown.textColor = .black
+        dropDown.backgroundColor = .white
+        dropDown.layer.cornerRadius = 16
+        dropDown.clipsToBounds = true
+
+        // 设置选中事件回调
+        dropDown.selectionAction = { [unowned self] (index: Int, item: String) in
+            print("选中了第 \(index) 项: \(item)")
+            self.bHavenScanResult = false
+            // 您可以在这里处理选中后的操作，例如更新界面或发送请求
+            if index == 1 {
+                var count = DeviceManager.shared.devices.count
+                count += BluetoothWatchDevice.loadAll()?.count ?? 0
+                let storyboard = UIStoryboard(name: "Device", bundle: nil)
+                if count == 0 {
+                    let vc = storyboard.instantiateViewController(withIdentifier: "DeviceSearchViewController") as? DeviceSearchViewController
+                    vc?.title = "device_add".localized()
+                    vc?.refreshBackButton()
+                    vc?.hidesBottomBarWhenPushed = true
+                    self.navigationController?.pushViewController(vc!, animated: true)
+                } else {
+                    let vc = storyboard.instantiateViewController(withIdentifier: "DeviceListViewController") as? DeviceListViewController
+                    vc?.title = "device_change".localized()
+                    vc?.refreshBackButton()
+                    vc?.style = 1
+                    vc?.hidesBottomBarWhenPushed = true
+                    self.navigationController?.pushViewController(vc!, animated: true)
+                }
+            } else {
+                /// 创建二维码扫描
+                let vc = ScannerVC()
+                vc.modalPresentationStyle = .fullScreen
+                //设置标题、颜色、扫描样式（线条、网格）、提示文字
+                vc.setupScanner("device_scan".localized(), .blue, .grid, "device_scan_add_device".localized()) {[weak self] (code) in
+                    //扫描回调方法
+                    print("扫描的结果是：\(code)")
+                    if (self?.bHavenScanResult ?? false) {
+                        return
+                    }
+                    if code.count > 0 && code.contains("mac=") {
+                        self?.bHavenScanResult = true
+                        let mac = self?.extractMacValue(from: code)
+                        if bleSelf.bleModels.count > 0 {
+                            for model in bleSelf.bleModels {
+                                let m = model.mac.replacingOccurrences(of: ":", with: "").lowercased()
+                                if m == mac?.lowercased() {
+                                    bleSelf.connectBleDevice(model: model)
+                                    break
+                                }
+                            }
+                        }
+                    } else if code.count > 0 && code.contains("k=") {
+                        self?.bHavenScanResult = true
+                        if let url = URL(string: code),
+                           let components = URLComponents(url: url, resolvingAgainstBaseURL: false),
+                           let queryItems = components.queryItems {
+
+                            // 查找名称为 'k' 的查询参数
+                            if let kItem = queryItems.first(where: { $0.name == "k" }),
+                               var macAddress = kItem.value {
+                                
+                                // 如果值中包含 '|'，则截取 '|' 之前的部分
+                                if let pipeIndex = macAddress.firstIndex(of: "|") {
+                                    macAddress = String(macAddress[..<pipeIndex])
+                                    XGZTBlueToothManager.shared.connectAndScan(to: macAddress)
+                                }
+                            }
+                        }
+                    }
+                    //关闭扫描页面
+                    self?.dismiss(animated: true, completion: nil)
+                    
+                }
+
+                //Present到扫描页面
+                self.navigationController?.present(vc, animated: true, completion: nil)
+            }
+            self.dropDown.clearSelection()
+        }
+        
+    }
+    
+    func extractMacValue(from string: String) -> String? {
+        let pattern = "mac="
+        guard let range = string.range(of: pattern, options: .backwards) else {
+            // 如果没有找到 "mac="，返回 nil
+            return nil
+        }
+        // 截取 "mac=" 之后的字符串
+        let macValue = string[range.upperBound...]
+        return String(macValue)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -134,19 +233,13 @@ class MineViewController: BaseViewController {
     }
     
     @IBAction func pushToAddDevice(_ sender: Any) {
-        var count = DeviceManager.shared.devices.count
-        count += BluetoothWatchDevice.loadAll()?.count ?? 0
-        let storyboard = UIStoryboard(name: "Device", bundle: nil)
-        if count == 0 {
-            let vc = storyboard.instantiateViewController(withIdentifier: "DeviceSearchViewController")
-            vc.title = "device_add".localized()
-            vc.hidesBottomBarWhenPushed = true
-            navigationController?.pushViewController(vc, animated: true)
-        } else {
-            let vc = storyboard.instantiateViewController(withIdentifier: "DeviceListViewController")
-            vc.title = "device_change".localized()
-            vc.hidesBottomBarWhenPushed = true
-            navigationController?.pushViewController(vc, animated: true)
+        // 获取导航栏按钮的视图
+        if let rightBarButton = self.navigationItem.rightBarButtonItem,
+           let view = rightBarButton.value(forKey: "view") as? UIView {
+            // 设置锚点视图
+            dropDown.anchorView = view
+            dropDown.bottomOffset = CGPoint(x: 0, y: view.bounds.height)
+            dropDown.show()
         }
     }
     

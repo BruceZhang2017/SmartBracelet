@@ -25,6 +25,7 @@ PODS:
   - Bugly (2.6.1)
   - CountryPickerView (3.3.0)
   - CryptoSwift (1.8.4)
+  - DropDown (2.3.13)
   - IMSLog (1.0.8)
   - IotLinkKit (1.2.1):
     - IMSLog
@@ -77,6 +78,7 @@ DEPENDENCIES:
   - Bugly
   - CountryPickerView
   - CryptoSwift
+  - DropDown
   - IotLinkKit (= 1.2.1)
   - IQKeyboardManagerSwift (= 6.3.0)
   - Kingfisher
@@ -112,6 +114,7 @@ SPEC REPOS:
     - Bugly
     - CountryPickerView
     - CryptoSwift
+    - DropDown
     - IQKeyboardManagerSwift
     - Kingfisher
     - MJRefresh
@@ -143,6 +146,7 @@ SPEC CHECKSUMS:
   Bugly: 217ac2ce5f0f2626d43dbaa4f70764c953a26a31
   CountryPickerView: 6322ada32a80b0cd721b0267282a5c24f406f263
   CryptoSwift: e64e11850ede528a02a0f3e768cec8e9d92ecb90
+  DropDown: 8a2116376c1981888557f72ec2ffc9a5e0e456ec
   IMSLog: d17ae9fa27c5a31ef5a76ed4e233fd4c89404508
   IotLinkKit: 509ab45c59359880b6b80124687e670d723c6a8c
   IQKeyboardManagerSwift: a8228c257614af98743b4cd8584637025f36358f
@@ -166,6 +170,6 @@ SPEC CHECKSUMS:
   XCGLogger: 399c5885210b4e2ad79d9f7a29b105d672ef724f
   YYImage: 1e1b62a9997399593e4b9c4ecfbbabbf1d3f3b54
 
-PODFILE CHECKSUM: 6957a1aac131b8ea439649f28d04ca3a9cd8a14b
+PODFILE CHECKSUM: ba228e13fee0cdedce0caaca3bd7a9f51f7acdde
 
 COCOAPODS: 1.13.0

@@ -84,6 +84,10 @@ class XGZTBusinessHandler {
         DispatchQueue.main.asyncAfter(deadline: delayTime) {
             XGZTCommand.getStepData()
         }
+        delayTime = DispatchTime.now() + .milliseconds(350)
+        DispatchQueue.main.asyncAfter(deadline: delayTime) {
+            XGZTCommand.getSleepMonitoring() // 获取当天的睡眠数据
+        }
         // 7. 获取历史睡眠
         delayTime = DispatchTime.now() + .milliseconds(400)
         DispatchQueue.main.asyncAfter(deadline: delayTime) {
@@ -94,6 +98,12 @@ class XGZTBusinessHandler {
         delayTime = DispatchTime.now() + .milliseconds(500)
         DispatchQueue.main.asyncAfter(deadline: delayTime) {
             XGZTCommand.getDeviceInfo()
+        }
+        delayTime = DispatchTime.now() + .milliseconds(600)
+        DispatchQueue.main.asyncAfter(deadline: delayTime) {
+            XGZTCommand.get12H24HTimeFormat()
+            XGZTCommand.getDeviceUnitFormat()
+            NotificationCenter.default.post(name: Notification.Name("DeviceSettings"), object: 200)
         }
     }
     

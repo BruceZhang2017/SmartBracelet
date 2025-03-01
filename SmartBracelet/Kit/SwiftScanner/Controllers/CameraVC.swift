@@ -1,336 +1,260 @@
-//
-//  CameraVC.swift
-//  SwiftScanner
-//
-//  Created by Jason on 2018/11/30.
-//  Copyright © 2018 Jason. All rights reserved.
-//
-
 import UIKit
 import AVFoundation
 
-protocol CameraViewControllerDelegate: class {
-    
-    func didOutput(_ code:String)
-    
+protocol CameraViewControllerDelegate: AnyObject {
+    func didOutput(_ code: String)
     func didReceiveError(_ error: Error)
-    
 }
 
-
 public class CameraVC: UIViewController {
-    
-    weak var delegate:CameraViewControllerDelegate?
-    
+
+    weak var delegate: CameraViewControllerDelegate?
+
+    // 动画相关属性
     lazy var animationImage = UIImage()
-    
-    /// 动画样式
-    var animationStyle:ScanAnimationStyle = .default{
-        didSet{
-            if animationStyle == .default {
-                animationImage = imageNamed("ScanLine")
-            }else{
-                animationImage = imageNamed("ScanNet")
-            }
+    var animationStyle: ScanAnimationStyle = .default {
+        didSet {
+            animationImage = animationStyle == .default ? imageNamed("ScanLine") : imageNamed("ScanNet")
         }
     }
-    
-    lazy var scannerColor:UIColor = .red
-    
+    lazy var scannerColor: UIColor = .red
     public lazy var flashBtn: UIButton = .init(type: .custom)
-    
-    private var torchMode:TorchMode = .off {
-        didSet{
+
+    // 手电筒模式
+    private var torchMode: TorchMode = .off {
+        didSet {
             guard let captureDevice = captureDevice,
-                captureDevice.hasFlash else {
-                    return
-            }
-            guard captureDevice.isTorchModeSupported(torchMode.captureTorchMode) else{
-                return
-            }
-            
+                  captureDevice.hasTorch,
+                  captureDevice.isTorchModeSupported(torchMode.captureTorchMode) else { return }
+
             do {
                 try captureDevice.lockForConfiguration()
                 captureDevice.torchMode = torchMode.captureTorchMode
                 captureDevice.unlockForConfiguration()
-            }catch{}
-            
-            flashBtn.setImage(torchMode.image, for: .normal)
+            } catch {
+                print("Torch could not be used")
+            }
+
+            DispatchQueue.main.async {
+                self.flashBtn.setImage(self.torchMode.image, for: .normal)
+            }
         }
     }
-    
-    
-    
-    /// `AVCaptureMetadataOutput` metadata object types.
+
+    // 支持的元数据类型
     var metadata = [AVMetadataObject.ObjectType]()
-    
-    // MARK: - Video
-    
-    /// Video preview layer.
-    private var videoPreviewLayer: AVCaptureVideoPreviewLayer?
-    /// Video capture device. This may be nil when running in Simulator.
-    private lazy var captureDevice: AVCaptureDevice? = {
-        
-        guard let captureDevice = AVCaptureDevice.default(for: .video) else { return nil }
-        
-        // 自动白平衡
-        if captureDevice.isWhiteBalanceModeSupported(.continuousAutoWhiteBalance) {
-            do {
-                try captureDevice.lockForConfiguration()
-                captureDevice.whiteBalanceMode = .continuousAutoWhiteBalance
-                captureDevice.unlockForConfiguration()
-            } catch {}
-        }
-        // 自动对焦
-        if captureDevice.isFocusModeSupported(.continuousAutoFocus) {
-            do {
-                try captureDevice.lockForConfiguration()
-                captureDevice.focusMode = .continuousAutoFocus
-                captureDevice.unlockForConfiguration()
-            } catch {}
-        }
-        // 自动曝光
-        if captureDevice.isExposureModeSupported(.continuousAutoExposure) {
-            do {
-                try captureDevice.lockForConfiguration()
-                captureDevice.exposureMode = .continuousAutoExposure
-                captureDevice.unlockForConfiguration()
-            } catch {}
-        }
-        
-        return captureDevice
-    }()
-    /// Capture session.
+
+    // MARK: - 捕获会话相关属性
+
+    /// 专用的串行队列用于会话配置和控制
+    private let sessionQueue = DispatchQueue(label: "com.yourapp.capturesession")
     private lazy var captureSession = AVCaptureSession()
-    
+    private var videoPreviewLayer: AVCaptureVideoPreviewLayer?
+
+    /// 视频捕获设备
+    private lazy var captureDevice: AVCaptureDevice? = {
+        guard let device = AVCaptureDevice.default(for: .video) else { return nil }
+
+        do {
+            try device.lockForConfiguration()
+            // 自动白平衡
+            if device.isWhiteBalanceModeSupported(.continuousAutoWhiteBalance) {
+                device.whiteBalanceMode = .continuousAutoWhiteBalance
+            }
+            // 自动对焦
+            if device.isFocusModeSupported(.continuousAutoFocus) {
+                device.focusMode = .continuousAutoFocus
+            }
+            // 自动曝光
+            if device.isExposureModeSupported(.continuousAutoExposure) {
+                device.exposureMode = .continuousAutoExposure
+            }
+            device.unlockForConfiguration()
+        } catch {
+            print("Device configuration error: \(error)")
+        }
+
+        return device
+    }()
+
+    // 扫描视图
     lazy var scanView = ScanView(frame: CGRect(x: 0, y: 0, width: screenWidth, height: screenHeight))
-    
+
+    // MARK: - 生命周期方法
+
     override public func viewDidLoad() {
         super.viewDidLoad()
-        
+
         setupUI()
-        
-    }
-    
-    
-    public override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        scanView.startAnimation()
-        
-    }
-    
-    public override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        
-        scanView.stopAnimation()
-        
-    }
-    
-}
-
-
-
-// MARK: - CustomMethod
-extension CameraVC {
-    
-    func setupUI() {
-        
-        view.backgroundColor = .black
-        
-        videoPreviewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
-        
-        videoPreviewLayer?.videoGravity = .resizeAspectFill
-        
-        videoPreviewLayer?.frame = view.layer.bounds
-        
-        guard let videoPreviewLayer = videoPreviewLayer else {
-            return
-        }
-        
-        view.layer.addSublayer(videoPreviewLayer)
-        
-        scanView.scanAnimationImage = animationImage
-        
-        scanView.scanAnimationStyle = animationStyle
-        
-        scanView.cornerColor = scannerColor
-        
-        view.addSubview(scanView)
-        
         setupCamera()
-        
-        setupTorch()
-        
     }
-    
-    
-    /// 创建手电筒按钮
-    func setupTorch() {
-        
-        let buttonSize:CGFloat = 37
-        
-        flashBtn.frame = CGRect(x: screenWidth - 20 - buttonSize, y: statusHeight + 44 + 20, width: buttonSize, height: buttonSize)
-        
-        flashBtn.addTarget(self, action: #selector(flashBtnClick), for: .touchUpInside)
-        
-        flashBtn.isHidden = true
-        
-        view.addSubview(flashBtn)
-        
-        view.bringSubviewToFront(flashBtn)
-        
-        torchMode = .off
-        
+
+    override public func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        startCapturing()
+        scanView.startAnimation()
     }
-    
-    
-    
-    // 设置相机
+
+    override public func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        stopCapturing()
+        scanView.stopAnimation()
+    }
+
+    // MARK: - 设置方法
+
+    /// 设置UI界面
+    func setupUI() {
+        DispatchQueue.main.async {
+            self.view.backgroundColor = .black
+            self.scanView.scanAnimationImage = self.animationImage
+            self.scanView.scanAnimationStyle = self.animationStyle
+            self.scanView.cornerColor = self.scannerColor
+            self.view.addSubview(self.scanView)
+            self.setupTorch()
+        }
+    }
+
+    /// 设置摄像头
     func setupCamera() {
-        
-        setupSessionInput()
-        
-        setupSessionOutput()
-        
+        sessionQueue.async { [unowned self] in
+            self.configureSession()
+
+            DispatchQueue.main.async {
+                self.setupPreviewLayer()
+            }
+        }
     }
-    
-    
-    //捕获设备输入流
-    private  func setupSessionInput() {
-        
-        guard let device = captureDevice else {
+
+    /// 配置捕获会话
+    private func configureSession() {
+        guard let captureDevice = self.captureDevice else {
+            DispatchQueue.main.async {
+                let error = NSError(domain: "CameraVC", code: -1, userInfo: [NSLocalizedDescriptionKey: "摄像头不可用"])
+                self.delegate?.didReceiveError(error)
+            }
             return
         }
-        
+
         do {
-            let newInput = try AVCaptureDeviceInput(device: device)
-            
-            captureSession.beginConfiguration()
-            
-            if let currentInput = captureSession.inputs.first as? AVCaptureDeviceInput {
-                captureSession.removeInput(currentInput)
+            self.captureSession.beginConfiguration()
+
+            // 添加输入
+            let videoInput = try AVCaptureDeviceInput(device: captureDevice)
+            if self.captureSession.canAddInput(videoInput) {
+                self.captureSession.addInput(videoInput)
             }
-            
-            captureSession.addInput(newInput)
-            
-            captureSession.commitConfiguration()
-            
-        }catch{
-            delegate?.didReceiveError(error)
-        }
-        
-    }
-    
-    //捕获元数据输出流
-    private func setupSessionOutput() {
-        
-        let videoDataOutput = AVCaptureVideoDataOutput()
-        
-        videoDataOutput.setSampleBufferDelegate(self, queue: DispatchQueue.main)
-        
-        captureSession.addOutput(videoDataOutput)
-        
-        let output = AVCaptureMetadataOutput()
-        
-        captureSession.addOutput(output)
-        
-        output.setMetadataObjectsDelegate(self, queue: DispatchQueue.main)
-        
-        for type in metadata {
-            if !output.availableMetadataObjectTypes.contains(type){
-                return
+
+            // 添加元数据输出
+            let metadataOutput = AVCaptureMetadataOutput()
+            if self.captureSession.canAddOutput(metadataOutput) {
+                self.captureSession.addOutput(metadataOutput)
+                metadataOutput.setMetadataObjectsDelegate(self, queue: self.sessionQueue)
+                metadataOutput.metadataObjectTypes = self.metadata
+            }
+
+            // 添加视频数据输出
+            let videoDataOutput = AVCaptureVideoDataOutput()
+            if self.captureSession.canAddOutput(videoDataOutput) {
+                self.captureSession.addOutput(videoDataOutput)
+                videoDataOutput.setSampleBufferDelegate(self, queue: self.sessionQueue)
+            }
+
+            self.captureSession.commitConfiguration()
+
+        } catch {
+            DispatchQueue.main.async {
+                self.delegate?.didReceiveError(error)
             }
         }
-        
-        output.metadataObjectTypes = metadata
-        
-        videoPreviewLayer?.session = captureSession
-        
-        view.setNeedsLayout()
     }
-    
-    
-    
-    /// 开始扫描
+
+    /// 设置预览图层
+    func setupPreviewLayer() {
+        let videoPreviewLayer = AVCaptureVideoPreviewLayer(session: self.captureSession)
+        videoPreviewLayer.videoGravity = .resizeAspectFill
+        videoPreviewLayer.frame = self.view.layer.bounds
+        self.view.layer.insertSublayer(videoPreviewLayer, at: 0)
+        self.videoPreviewLayer = videoPreviewLayer
+    }
+
+    /// 设置手电筒按钮
+    func setupTorch() {
+        let buttonSize: CGFloat = 37
+        flashBtn.frame = CGRect(x: screenWidth - 20 - buttonSize, y: statusHeight + 44 + 20, width: buttonSize, height: buttonSize)
+        flashBtn.addTarget(self, action: #selector(flashBtnClick), for: .touchUpInside)
+        flashBtn.isHidden = true
+        self.view.addSubview(flashBtn)
+        self.view.bringSubviewToFront(flashBtn)
+        torchMode = .off
+    }
+
+    // MARK: - 会话控制方法
+
+    /// 开始捕获
     func startCapturing() {
-        captureSession.startRunning()
-        
+        sessionQueue.async {
+            if !self.captureSession.isRunning {
+                self.captureSession.startRunning()
+            }
+        }
     }
-    
-    
-    /// 停止扫描
+
+    /// 停止捕获
     func stopCapturing() {
-        
-        captureSession.stopRunning()
-        
+        sessionQueue.async {
+            if self.captureSession.isRunning {
+                self.captureSession.stopRunning()
+            }
+        }
     }
-    
-    
+
+    // MARK: - 按钮点击事件
+
+    @objc func flashBtnClick(sender: UIButton) {
+        torchMode = torchMode.next
+    }
+
 }
-
-
-
 
 // MARK: - AVCaptureMetadataOutputObjectsDelegate
-extension CameraVC:AVCaptureMetadataOutputObjectsDelegate{
-    
+extension CameraVC: AVCaptureMetadataOutputObjectsDelegate {
     public func metadataOutput(_ output: AVCaptureMetadataOutput, didOutput metadataObjects: [AVMetadataObject], from connection: AVCaptureConnection) {
-        
-        stopCapturing()
-        
-        guard let object = metadataObjects.first as? AVMetadataMachineReadableCodeObject else {
-            return
+
+        if let object = metadataObjects.first as? AVMetadataMachineReadableCodeObject {
+            let scannedValue = object.stringValue ?? ""
+
+            // 停止捕获
+            self.stopCapturing()
+
+            // 将结果传递给代理
+            DispatchQueue.main.async {
+                self.delegate?.didOutput(scannedValue)
+            }
         }
-        
-        delegate?.didOutput(object.stringValue ?? "")
-        
     }
-    
 }
-
-
 
 // MARK: - AVCaptureVideoDataOutputSampleBufferDelegate
-extension CameraVC:AVCaptureVideoDataOutputSampleBufferDelegate{
-    
+extension CameraVC: AVCaptureVideoDataOutputSampleBufferDelegate {
     public func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
-        
-        let metadataDict = CMCopyDictionaryOfAttachments(allocator: nil,target: sampleBuffer, attachmentMode: kCMAttachmentMode_ShouldPropagate)
-        
-        guard let metadata = metadataDict as? [String:Any],
-            let exifMetadata = metadata[kCGImagePropertyExifDictionary as String] as? [String:Any],
-            let brightnessValue = exifMetadata[kCGImagePropertyExifBrightnessValue as String] as? Double else{
-                return
+
+        // 这里是在 sessionQueue 上执行的，需要更新 UI 时切换到主线程
+        guard let metadataDict = CMCopyDictionaryOfAttachments(allocator: nil, target: sampleBuffer, attachmentMode: kCMAttachmentMode_ShouldPropagate) as? [String: Any],
+              let exifMetadata = metadataDict[kCGImagePropertyExifDictionary as String] as? [String: Any],
+              let brightnessValue = exifMetadata[kCGImagePropertyExifBrightnessValue as String] as? Double else {
+            return
         }
-        
-        // 判断光线强弱
-        if brightnessValue < -1.0 {
-            
-            flashBtn.isHidden = false
-            
-        }else{
-            
-            if torchMode == .on{
-                flashBtn.isHidden = false
-            }else{
-                flashBtn.isHidden = true
+
+        DispatchQueue.main.async {
+            // 判断光线强弱，更新手电筒按钮的显示状态
+            if brightnessValue < -1.0 {
+                self.flashBtn.isHidden = false
+            } else {
+                self.flashBtn.isHidden = self.torchMode == .on ? false : true
             }
-            
         }
-        
     }
 }
 
 
-
-// MARK: - Click
-extension CameraVC{
-    
-    @objc func flashBtnClick(sender:UIButton) {
-        
-        torchMode = torchMode.next
-        
-    }
-    
-}

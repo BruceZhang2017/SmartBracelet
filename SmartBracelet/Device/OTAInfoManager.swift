@@ -50,9 +50,8 @@ class OTAInfoManager {
             "pageSize": "100",
             "pageNum": "1",
             "otaModel": "jd9853",
-            "otaVersion": "v0.0.21",
-            "isPublish": "N",
-            "mobileType": "1"
+            "moreEqOtaVersion": "v0.0.21",
+            "isPublish": "N"
         ]
 
         AF.upload(multipartFormData: { multipartFormData in

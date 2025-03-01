@@ -115,6 +115,9 @@ class ClockUseViewController: BaseViewController {
     
     deinit {
         unregisterNotification()
+        imageUploadVc?.dismiss(animated: false, completion: {
+
+        })
     }
 
     private func downloadFile(url: String) {
@@ -254,14 +257,20 @@ class ClockUseViewController: BaseViewController {
             }
             XGZTCommand.dialMarketSetTransferConfig(packageTotal: packageTotal, binSize: binsize, mtu: mtu, dialType: 0, dialNum: 1, local: 0, typeValue: 0 ,dialTypeValue: 0xffffff)
         } else if obj == 5 {
+            if binData.count == 0 {
+                return
+            }
             packageNum += 1
-            let mtu = XGZTBlueToothManager.shared.device?.mtu ?? 0
             let maxDataLength = 200
             let bin = (packageNum - 1) * maxDataLength
             let progress = bin * 100 / binData.count
 
             // 计算子数据的范围
-            let range = bin..<min(bin + maxDataLength, binData.count)
+            let a = min(bin + maxDataLength, binData.count)
+            if a <= bin {
+                return
+            }
+            let range = bin..<a
             let subData = binData.subdata(in: range)
             var control = 0
             if bin + maxDataLength >= binData.count {

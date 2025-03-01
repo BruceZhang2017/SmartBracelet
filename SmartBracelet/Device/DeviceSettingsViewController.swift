@@ -84,6 +84,25 @@ class DeviceSettingsViewController: UIViewController {
                     self?.cameraViewController?.dismiss(animated: true, completion: nil)
                     self?.cameraViewController = nil
                 }
+            } else if obj == 200 {
+                guard let device = XGZTBlueToothManager.shared.device else {
+                    Toast(text: "mine_unconnect".localized()).show()
+                    return
+                }
+                if device.longsit != nil {
+                    return
+                }
+                XGZTCommand.getSwitchStatus()
+                XGZTCommand.getSwitchTableExtension()
+                var delayTime = DispatchTime.now() + .milliseconds(50)
+                DispatchQueue.main.asyncAfter(deadline: delayTime) {
+                    XGZTCommand.getReminderInfo(eventType: 0) // 久坐
+                }
+                
+                delayTime = DispatchTime.now() + .milliseconds(100)
+                DispatchQueue.main.asyncAfter(deadline: delayTime) {
+                    XGZTCommand.getReminderInfo(eventType: 1) //喝水
+                }
             }
         }
         
@@ -108,10 +127,11 @@ class DeviceSettingsViewController: UIViewController {
         let tag = mSwitch?.tag ?? 0
         if tag == 1002 { // 长坐提醒
             if isXGZT {
-                guard let device = XGZTBlueToothManager.shared.device else {
-                    Toast(text: "设备未连接").show()
+                guard var device = XGZTBlueToothManager.shared.device else {
+                    Toast(text: "mine_unconnect".localized()).show()
                     return
                 }
+                
                 if (mSwitch?.isOn ?? false) {
                     device.longsit?.cycle = 0b11111111
                     device.longsit?.startHour = 8
@@ -131,6 +151,7 @@ class DeviceSettingsViewController: UIViewController {
                         XGZTCommand.setReminderInfo(response: device.longsit!)
                     }
                 }
+                XGZTBlueToothManager.shared.device = device
             } else {
                 bleSelf.functionSwitchModel.isLongSit = mSwitch?.isOn ?? false
                 bleSelf.setSwitchForWristband(bleSelf.functionSwitchModel)
@@ -243,7 +264,7 @@ class DeviceSettingsViewController: UIViewController {
             
         } else { // 喝水提醒
             if isXGZT {
-                guard let device = XGZTBlueToothManager.shared.device else {
+                guard var device = XGZTBlueToothManager.shared.device else {
                     Toast(text: "设备未连接").show()
                     return
                 }
@@ -270,6 +291,7 @@ class DeviceSettingsViewController: UIViewController {
                         XGZTCommand.setReminderInfo(response: device.drinkWater!)
                     }
                 }
+                XGZTBlueToothManager.shared.device = device
             } else {
                 bleSelf.functionSwitchModel.isDrink = mSwitch?.isOn ?? false
                 bleSelf.setSwitchForWristband(bleSelf.functionSwitchModel)
@@ -389,18 +411,27 @@ extension DeviceSettingsViewController: UITableViewDelegate {
                 vc.hidesBottomBarWhenPushed = true
                 parent?.navigationController?.pushViewController(vc, animated: true)
             } else if indexPath.row == 4 {
-                let vc = storyboard?.instantiateViewController(withIdentifier: "LongsitSettingsViewController")
-                vc?.hidesBottomBarWhenPushed = true
-                parent?.navigationController?.pushViewController(vc!, animated: true)
+                let delayTime = DispatchTime.now() + .milliseconds(500)
+                DispatchQueue.main.asyncAfter(deadline: delayTime) {
+                    [weak self] in
+                    let vc = self?.storyboard?.instantiateViewController(withIdentifier: "LongsitSettingsViewController")
+                    vc?.hidesBottomBarWhenPushed = true
+                    self?.parent?.navigationController?.pushViewController(vc!, animated: true)
+                }
             } else if indexPath.row == 7 {
                 let vc = OpenWeatherViewController()
                 vc.hidesBottomBarWhenPushed = true
                 parent?.navigationController?.pushViewController(vc, animated: true)
             }  else if indexPath.row == 6 {
-                let vc = storyboard?.instantiateViewController(withIdentifier: "LongsitSettingsViewController") as? LongsitSettingsViewController
-                vc?.flag = 1
-                vc?.hidesBottomBarWhenPushed = true
-                parent?.navigationController?.pushViewController(vc!, animated: true)
+                let delayTime = DispatchTime.now() + .milliseconds(200)
+                DispatchQueue.main.asyncAfter(deadline: delayTime) {
+                    [weak self] in
+                    let vc = self?.storyboard?.instantiateViewController(withIdentifier: "LongsitSettingsViewController") as? LongsitSettingsViewController
+                    vc?.flag = 1
+                    vc?.hidesBottomBarWhenPushed = true
+                    self?.parent?.navigationController?.pushViewController(vc!, animated: true)
+                }
+                
             }
         }
         if indexPath.row == 11 {

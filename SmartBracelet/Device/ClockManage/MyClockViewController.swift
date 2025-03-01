@@ -28,7 +28,7 @@ class MyClockViewController: UIViewController {
     var datetimeTopLocation = 0 ///关闭0 日期1 睡眠2 心率3 计步4
     var datetimeBottomLocation = 0 ///关闭0 日期1 睡眠2 心率3 计步4
     var colorIndex = 0 ///白色0 黑色1 黄色2 橙色3 粉色4 紫色5 蓝色6 青色7
-    var diallocation = 0
+    var diallocation = 5
     final let locations = ["above".localized(), "below".localized()]
     final let xgztlocations = ["无".localized(), "左上".localized(), "左下".localized(), "右上".localized(), "右下".localized(), "居中".localized()]
     final let tops = ["closure".localized(), "date".localized(), "sleep".localized(), "heart_rate".localized(), "step".localized()]
@@ -100,10 +100,11 @@ class MyClockViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        //collctionView.reloadData()
+        
     }
     
     deinit {
+        binData = Data()
         itemVC?.dismiss(animated: false, completion: {
             
         })
@@ -119,6 +120,7 @@ class MyClockViewController: UIViewController {
     // 修改自定义设置内容位置
     private func modifyCustomDialSettings() {
         if isXGZT {
+            XGZTCommand.setTimePositionAndColor(type: 2, position: diallocation, color: colorIndex)
             return
         }
         
@@ -275,7 +277,11 @@ class MyClockViewController: UIViewController {
             let progress = bin * 100 / binData.count
 
             // 计算子数据的范围
-            let range = bin..<min(bin + maxDataLength, binData.count)
+            let a = min(bin + maxDataLength, binData.count)
+            if a <= bin {
+                return
+            }
+            let range = bin..<a
             let subData = binData.subdata(in: range)
             var control = 0
             if bin + maxDataLength >= binData.count {
@@ -294,11 +300,15 @@ class MyClockViewController: UIViewController {
             if binData.count == 0 {
                 return
             }
+            packageNum = 0
             notif()
+            binData = Data()
         } else if obj == 7 {
             if binData.count == 0 {
                 return
             }
+            packageNum = 0
+            binData = Data()
             DispatchQueue.main.async {
                 [weak self] in
                 self?.imageUploadVc?.dismiss(animated: false, completion: {

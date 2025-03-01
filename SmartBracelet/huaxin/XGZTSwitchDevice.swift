@@ -50,6 +50,7 @@ public class BluetoothWatchDevice {
     
     // health
     var currentStep: Int = 0
+    var currentSleep: Int = 0
     var currentCalorie: Int = 0
     var currentDistance: Int = 0
     var currentHeartrate: Int = 0
