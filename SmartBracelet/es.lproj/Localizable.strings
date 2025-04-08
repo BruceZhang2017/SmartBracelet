@@ -398,3 +398,5 @@
 "You are using the latest version." = "Estás usando la última versión.";
 "qushi" = "tendencia";
 "mile" = "millar";
+"confirm_delete" = "Confirmar eliminación";
+"delete_alarm_confirmation" = "¿Estás seguro de que quieres eliminar esta alarma?";

@@ -397,3 +397,5 @@
 "You are using the latest version." = "U gebruikt de nieuwste versie.";
 "qushi" = "trend";
 "mile" = "mijl";
+"confirm_delete" = "Verwijderen bevestigen";
+"delete_alarm_confirmation" = "Weet je zeker dat je deze wekker wilt verwijderen?";

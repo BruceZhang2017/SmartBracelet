@@ -63,6 +63,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationDidBecomeActive(_ application: UIApplication) {
         application.applicationIconBadgeNumber = 0
     }
+    
+    func applicationWillTerminate(_ application: UIApplication) {
+            
+    }
 
     public func pushToTab() {
         let sb = UIStoryboard(name: "Main", bundle: nil)
@@ -189,5 +193,42 @@ extension AppDelegate {
         }
         log.info("当前连接设备为：\(type == 1 ? "方形" : "圆形")")
         return type == 1
+    }
+}
+
+extension UIApplication {
+    /// 获取当前最顶层的非 UIAlertController 的视图控制器
+    func topMostViewController() -> UIViewController? {
+        // 获取当前的 keyWindow
+        guard let keyWindow = connectedScenes
+           .compactMap({ $0 as? UIWindowScene })
+           .flatMap({ $0.windows })
+           .first(where: { $0.isKeyWindow }) else {
+            return nil
+        }
+
+        // 从 keyWindow 的根视图控制器开始查找
+        return topMostViewController(for: keyWindow.rootViewController)
+    }
+
+    private func topMostViewController(for viewController: UIViewController?) -> UIViewController? {
+        // 如果视图控制器是 UINavigationController，获取其栈顶的视图控制器
+        if let navigationController = viewController as? UINavigationController {
+            return topMostViewController(for: navigationController.topViewController)
+        }
+        // 如果视图控制器是 UITabBarController，获取其选中的视图控制器
+        else if let tabBarController = viewController as? UITabBarController {
+            return topMostViewController(for: tabBarController.selectedViewController)
+        }
+        // 如果视图控制器是 UIAlertController，跳过并查找其父视图控制器的顶层视图控制器
+        else if viewController is UIAlertController {
+            return topMostViewController(for: viewController?.presentingViewController)
+        }
+        // 如果视图控制器有正在展示的视图控制器，继续查找该展示视图控制器的顶层视图控制器
+        else if let presentedViewController = viewController?.presentedViewController {
+            return topMostViewController(for: presentedViewController)
+        }
+        // 否则返回当前视图控制器
+        return viewController
     }
 }

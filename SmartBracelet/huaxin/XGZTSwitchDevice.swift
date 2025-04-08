@@ -11,6 +11,8 @@ import Foundation
 
 import Foundation
 
+public var cacheDevices = [BluetoothWatchDevice]()
+
 public class BluetoothWatchDevice {
     // 手表设备信息属性
     var deviceName: String?
@@ -44,6 +46,7 @@ public class BluetoothWatchDevice {
     var baseUnit: Int = 0 
     
     var alarmcount: Int = 0
+    var alarmCanUse: Int = 0
     var alarms: [AlarmData] = [] // 闹钟
     var longsit: ReminderInfoResponse?
     var drinkWater: ReminderInfoResponse?
@@ -118,6 +121,9 @@ public class BluetoothWatchDevice {
         dic[device.max!] = device.deviceName ?? ""
         defaults.set(dic, forKey: "xgzt")
         defaults.synchronize()
+        
+        cacheDevices.removeAll()
+        BluetoothWatchDevice.loadAll()
     }
     
     // 从沙盒读取设备信息
@@ -139,30 +145,52 @@ public class BluetoothWatchDevice {
         if dic.count == 0 {
             return
         }
-        var devices = [BluetoothWatchDevice]()
+
         for (m, name) in dic {
             if m == mac {
                 dic.removeValue(forKey: m)
                 break
             }
         }
+        print("删除设备后：\(dic.keys.count) ")
         defaults.set(dic, forKey: "xgzt")
         defaults.synchronize()
+        
+        cacheDevices.removeAll()
+        BluetoothWatchDevice.loadAll()
     }
     
     static func loadAll() -> [BluetoothWatchDevice]? {
         let defaults = UserDefaults.standard
-        let dic = defaults.dictionary(forKey: "xgzt") as? [String: String] ?? [:]
-        if dic.count == 0 {
+        guard let dic = defaults.dictionary(forKey: "xgzt") as? [String: String] else {
             return nil
         }
-        var devices = [BluetoothWatchDevice]()
+        
+        if dic.isEmpty {
+            return nil
+        }
+        
+        if cacheDevices.count > 0 {
+            return cacheDevices
+        }
+        
+        var existingMACs = Set<String>() // 用于记录已存在的 MAC 地址
+        
         for (mac, name) in dic {
-            var device = BluetoothWatchDevice()
+            // 检查 MAC 是否已存在
+            if existingMACs.contains(mac) {
+                continue
+            }
+            
+            existingMACs.insert(mac)
+            
+            let device = BluetoothWatchDevice()
             device.deviceName = name
             device.max = mac
-            devices.append(device)
+            print("已经缓存的设备：\(mac) \(name)")
+            cacheDevices.append(device)
         }
-        return devices
+        
+        return cacheDevices.isEmpty ? nil : cacheDevices
     }
 }

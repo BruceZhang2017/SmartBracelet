@@ -397,3 +397,5 @@
 "You are using the latest version." = "En son sürümü kullanıyorsunuz.";
 "qushi" = "trend";
 "mile" = "mil";
+"confirm_delete" = "Silmeyi onayla";
+"delete_alarm_confirmation_turkish" = "Bu çanı silmek istediğinizden emin misiniz?";

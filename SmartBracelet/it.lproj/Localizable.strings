@@ -224,3 +224,5 @@
 "You are using the latest version." = "Stai usando l'ultima versione.";
 "qushi" = "tendenza";
 "mile" = "miglio";
+"confirm_delete" = "Conferma cancellazione";
+"delete_alarm_confirmation" = "Sei sicuro di voler eliminare questa sveglia?";

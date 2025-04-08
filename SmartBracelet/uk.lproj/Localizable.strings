@@ -397,3 +397,5 @@
 "You are using the latest version." = "Ви використовуєте останню версію.";
 "qushi" = "тренд";
 "mile" = "миля";
+"confirm_delete" = "Підтвердити видалення";
+"delete_alarm_confirmation" = "Ви впевнені, що хочете видалити цей будильник?";

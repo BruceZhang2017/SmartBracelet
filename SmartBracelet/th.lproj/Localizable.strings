@@ -397,3 +397,5 @@
 "You are using the latest version." = "คุณกำลังใช้เวอร์ชันล่าสุด";
 "qushi" = "แนวโน้ม";
 "mile" = "ไมล์";
+"confirm_delete" = "ยืนยันการลบ";
+"delete_alarm_confirmation" = "คุณแน่ใจหรือว่าต้องการลบนาฬิกานี้ใช่ไหม?";

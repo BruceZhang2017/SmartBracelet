@@ -685,6 +685,15 @@ class HealthViewController: BaseViewController {
         if obj == 1000 {
             manager.syncTemprature(flag: 1) //  连接成功后，则同步天气。
         }
+        if obj == 10000 {
+            startPhoto()
+        }
+        if obj == 10001 {
+            takePhoto()
+        }
+        if obj == 10002 {
+            closePhoto()
+        }
     }
     
     private func startLoadingViewCheckTimer() {
@@ -1024,6 +1033,63 @@ class HealthViewController: BaseViewController {
             }
         }
     }
+    
+    var cameraViewController: CameraViewController?
+    private var currentTime: TimeInterval = 0 // 当前时间戳
+    
+    private func takePhoto() {
+        DispatchQueue.main.async {
+            [weak self] in
+            if UIApplication.shared.applicationState == .background {
+                return
+            }
+            if self?.cameraViewController != nil {
+                return
+            }
+            var croppingParameters: CroppingParameters {
+                return CroppingParameters(isEnabled: false, allowResizing: false, allowMoving: false, minimumSize: CGSize(width: 60, height: 60))
+            }
+            self?.cameraViewController = CameraViewController(croppingParameters: croppingParameters, allowsLibraryAccess: true) { [weak self] image, asset in
+                self?.dismiss(animated: true, completion: nil)
+                self?.cameraViewController = nil
+                XGZTCommand.remotePhoto(action: 0)
+            }
+            self?.cameraViewController?.modalPresentationStyle = .fullScreen
+            UIApplication.shared.topMostViewController()?.present(self!.cameraViewController!, animated: true, completion: nil)
+        }
+    }
+    
+    private func closePhoto() {
+        DispatchQueue.main.async {
+            [weak self] in
+            if UIApplication.shared.applicationState == .background {
+                return
+            }
+            self?.cameraViewController?.dismiss(animated: true, completion: nil)
+            self?.cameraViewController = nil
+        }
+    }
+    
+    private func startPhoto() {
+        let current = Date().timeIntervalSince1970
+        if currentTime > 0 {
+            if abs(current - currentTime) < 4 {
+                return
+            }
+        }
+        currentTime = current
+        DispatchQueue.main.async {
+            [weak self] in
+            if UIApplication.shared.applicationState == .background {
+                return
+            }
+            if self?.cameraViewController == nil {
+                return
+            }
+            self?.cameraViewController?.capturePhoto()
+        }
+    }
+    
 }
 
 

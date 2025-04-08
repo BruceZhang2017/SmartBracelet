@@ -397,3 +397,5 @@
 "You are using the latest version." = "您正在使用最新版本。";
 "qushi" = "趨勢";
 "mile" = "英里";
+"confirm_delete" = "確認刪除";
+"delete_alarm_confirmation" = "您確定要刪除這個鬧鈴嗎？";

@@ -398,3 +398,5 @@
 "You are using the latest version." = "Käytät uusinta versiota.";
 "qushi" = "trendi";
 "mile" = "mii";
+"confirm_delete" = "Vahvista poisto";
+"delete_alarm_confirmation" = "Haluatko varmasti poistaa tämän kellon?";

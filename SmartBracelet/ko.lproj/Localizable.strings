@@ -397,3 +397,5 @@
 "You are using the latest version." = "최신 버전을 사용 중입니다.";
 "qushi" = "트렌드";
 "mile" = "마일";
+"confirm_delete" = "삭제 확인";
+"delete_alarm_confirmation" = "이 알람을 삭제하시겠습니까?";

@@ -31,6 +31,7 @@ class XGZTBlueToothManager: NSObject, CBCentralManagerDelegate, CBPeripheralDele
     static let shared = XGZTBlueToothManager()
     // 存储扫描到的蓝牙设备
     var discoveredPeripherals: [PeripheralInfo] = []
+    var deletePeripheralInfo: PeripheralInfo? = nil
     var brands: [String: Int] = [:]
     var centralManager: CBCentralManager?
     private var peripheral: CBPeripheral?
@@ -48,6 +49,7 @@ class XGZTBlueToothManager: NSObject, CBCentralManagerDelegate, CBPeripheralDele
     private var reconnectTimer: Timer? // 重连定时器
     private var autoDisconnect = false // 主动断开
     private var scanMacAddress = ""
+    public var switchAutoDisconnect = false
 
     override init() {
         super.init()
@@ -136,16 +138,31 @@ class XGZTBlueToothManager: NSObject, CBCentralManagerDelegate, CBPeripheralDele
     }
     
     // 新增发起 BLE 回连功能
-    public func reconnectToDevice() {
-        if lastestDeviceMac.count == 0 || device != nil {
+    private func reconnectToDevice() {
+        let mac = UserDefaults.standard.string(forKey: "deleteLastestDeviceMac") ?? ""
+        if (lastestDeviceMac.count == 0 || device != nil) && mac.count == 0 {
             return
         }
         if let peripheral = centralManager?.retrieveConnectedPeripherals(withServices: [CBUUID(string: "0000FF12-0000-1000-8000-00805F9B34FB")]).first {
-            let peripheralInfo = PeripheralInfo(peripheral: peripheral, macAddress: lastestDeviceMac)
-            discoveredPeripherals.append(peripheralInfo)
-            centralManager?.connect(peripheral, options: nil)
+            if mac.count > 0 {
+                let peripheralInfo = PeripheralInfo(peripheral: peripheral, macAddress: mac)
+                discoveredPeripherals.append(peripheralInfo)
+                deletePeripheralInfo = peripheralInfo
+                NotificationCenter.default.post(name: Notification.Name.SearchDevice, object: "scan") // 搜索页面
+            } else {
+                if (lastestDeviceMac.count == 0 || device != nil){
+                    return
+                }
+                let peripheralInfo = PeripheralInfo(peripheral: peripheral, macAddress: lastestDeviceMac)
+                discoveredPeripherals.append(peripheralInfo)
+                centralManager?.connect(peripheral, options: nil)
+            }
+            
         } else {
             print("No known peripheral reconnectToDevice")
+            if (lastestDeviceMac.count == 0 || device != nil){
+                return
+            }
             connect(to: lastestDeviceMac)
         }
     }
@@ -161,10 +178,12 @@ class XGZTBlueToothManager: NSObject, CBCentralManagerDelegate, CBPeripheralDele
         if central.state == .poweredOn {
             // 扫描设备或执行其他操作
             NotificationCenter.default.post(name: Notification.Name("HealthVCLoading"), object: 0)
+            NotificationCenter.default.post(name: Notification.Name("DevicesViewController"), object: "1")
             startScanning()
         } else if central.state == .poweredOff {
             stopScanning()
             NotificationCenter.default.post(name: Notification.Name("HealthVCLoading"), object: 1)
+            NotificationCenter.default.post(name: Notification.Name("DevicesViewController"), object: "1")
         } else if central.state == .unauthorized {
             stopScanning()
         }
@@ -177,6 +196,8 @@ class XGZTBlueToothManager: NSObject, CBCentralManagerDelegate, CBPeripheralDele
         reconnectTimer = nil
         peripheral.delegate = self
         peripheral.discoverServices(nil)
+        UserDefaults.standard.removeObject(forKey: "deleteLastestDeviceMac")
+        deletePeripheralInfo = nil
         
         for p in discoveredPeripherals {
             if p.peripheral.identifier.uuidString == peripheral.identifier.uuidString {
@@ -204,6 +225,7 @@ class XGZTBlueToothManager: NSObject, CBCentralManagerDelegate, CBPeripheralDele
     
     func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: (any Error)?) {
         print("蓝牙设备断开连接")
+        NotificationCenter.default.post(name: Notification.Name("DevicesViewController"), object: "100")
         if autoDisconnect {
             self.peripheral?.delegate = nil
             self.peripheral = nil
@@ -222,6 +244,15 @@ class XGZTBlueToothManager: NSObject, CBCentralManagerDelegate, CBPeripheralDele
                 isFromOTASuccess = false
             }
             return
+        }
+        if switchAutoDisconnect {
+            self.peripheral?.delegate = nil
+            self.peripheral = nil
+            device = nil
+            handler.handleDisconnected()
+            switchAutoDisconnect = false
+            NotificationCenter.default.post(name: Notification.Name("DeviceList"), object: "3")
+            return 
         }
         startReconnectTimer() // 设备断开连接时，启动重连定时器
     }
@@ -382,26 +413,45 @@ class XGZTBlueToothManager: NSObject, CBCentralManagerDelegate, CBPeripheralDele
     
     // 启动重连定时器
     private func startReconnectTimer() {
+        // 先清理旧定时器
         reconnectTimer?.invalidate()
-        reconnectTimer = Timer.scheduledTimer(timeInterval: 3.0, target: self, selector: #selector(disconnect), userInfo: nil, repeats: false)
+        reconnectTimer = nil
         
-        if isFromOTASuccess {
+        // 确保在主线程创建定时器
+        DispatchQueue.main.async { [weak self] in
+            guard let self else { return }
+            self.reconnectTimer = Timer.scheduledTimer(timeInterval: 3.0,
+                                                       target: self,
+                                                       selector: #selector(disconnectAndStopTimer(_:)),
+                                                       userInfo: nil,
+                                                       repeats: false)
+            print("执行延时3秒断开检查") // 确保日志在主线程输出
             
-        } else {
-            if let lastConnectedPeripheral = self.peripheral {
-                centralManager?.connect(lastConnectedPeripheral, options: nil)
+            // 连接操作也需在主线程执行
+            if !self.isFromOTASuccess {
+                if let lastConnectedPeripheral = self.peripheral {
+                    self.centralManager?.connect(lastConnectedPeripheral, options: nil)
+                }
             }
         }
     }
     
-    // 重连操作
-    @objc private func disconnect() {
-        print("定时器被激活")
+    @objc private func disconnectAndStopTimer(_ timer: Timer) {
+        print("定时器被激活了")
+        guard timer === reconnectTimer else {
+            print("忽略无效的定时器回调")
+            return
+        }
+        
         reconnectTimer?.invalidate()
         reconnectTimer = nil
+        
+        // 安全断开连接
         if let lastConnectedPeripheral = self.peripheral {
             centralManager?.cancelPeripheralConnection(lastConnectedPeripheral)
         }
+        
+        // 重置对象并通知处理
         peripheral = nil
         device = nil
         handler.handleDisconnected()

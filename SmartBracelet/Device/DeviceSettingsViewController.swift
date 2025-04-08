@@ -106,6 +106,11 @@ class DeviceSettingsViewController: UIViewController {
             }
         }
         
+        if isXGZT {
+            NotificationCenter.default.post(name: Notification.Name("HealthVCLoading"), object: 10000)
+            return
+        }
+        
         let current = Date().timeIntervalSince1970
         if currentTime > 0 {
             if abs(current - currentTime) < 4 {
@@ -116,6 +121,12 @@ class DeviceSettingsViewController: UIViewController {
         if #available(iOS 3.1, *) {
             DispatchQueue.main.async {
                 [weak self] in
+                if UIApplication.shared.applicationState == .background {
+                    return
+                }
+                if self?.cameraViewController == nil {
+                    return
+                }
                 self?.cameraViewController?.capturePhoto()
             }
         }
@@ -300,20 +311,27 @@ class DeviceSettingsViewController: UIViewController {
     }
     
     private func takePhoto() {
+        if isXGZT {
+            NotificationCenter.default.post(name: Notification.Name("HealthVCLoading"), object: 10001)
+            return
+        }
         DispatchQueue.main.async {
             [weak self] in
+            if UIApplication.shared.applicationState == .background {
+                return
+            }
+            if self?.cameraViewController != nil {
+                return
+            }
             var croppingParameters: CroppingParameters {
                 return CroppingParameters(isEnabled: false, allowResizing: false, allowMoving: false, minimumSize: CGSize(width: 60, height: 60))
             }
             self?.cameraViewController = CameraViewController(croppingParameters: croppingParameters, allowsLibraryAccess: true) { [weak self] image, asset in
                 self?.dismiss(animated: true, completion: nil)
                 self?.cameraViewController = nil
-                if isXGZT {
-                    XGZTCommand.remotePhoto(action: 0)
-                } else {
-                    bleSelf.setCameraForWristband(false)
-                    bleSelf.responseCameraForWristband()
-                }
+                bleSelf.setCameraForWristband(false)
+                bleSelf.responseCameraForWristband()
+                
             }
             self?.cameraViewController?.modalPresentationStyle = .fullScreen
             self?.parent?.present(self!.cameraViewController!, animated: true, completion: nil)
@@ -453,7 +471,7 @@ extension DeviceSettingsViewController: UITableViewDelegate {
             parent?.navigationController?.pushViewController(vc, animated: true)
         } else if indexPath.row == 8 { // 闹钟设置
             if isXGZT {
-                XGZTCommand.getAlarmInfo()
+                XGZTCommand.getAlarmInfo(type: 1)
             } else {
                 bleSelf.getAlarmForWristband() // 获取闹钟信息
             }

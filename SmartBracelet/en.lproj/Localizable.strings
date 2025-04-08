@@ -399,3 +399,5 @@
 "age" = "Age";
 "synchronize_data_finish" = "The data synchronization is complete.";
 "mile" = "mile";
+"confirm_delete" = "Confirm Delete";
+"delete_alarm_confirmation" = "Are you sure you want to delete this alarm?";

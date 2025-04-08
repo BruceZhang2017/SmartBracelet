@@ -398,3 +398,5 @@
 "You are using the latest version." = "Sie verwenden die neueste Version.";
 "qushi" = "Trend";
 "mile" = "Meile";
+"confirm_delete" = "Löschen bestätigen";
+"delete_alarm_confirmation" = "Möchten Sie diese Wecker wirklich löschen?";

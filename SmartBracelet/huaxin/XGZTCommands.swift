@@ -42,6 +42,7 @@ enum XGZTCommands: UInt8 {
     case alarmInfo = 0x83
     case reminderInfo = 0x85
     case switchTableExtension = 0x86
+    case disconnectBT = 0x87
     case musicControl = 0x90
     case remotePhoto = 0x91
 
@@ -324,6 +325,18 @@ public class XGZTCommand {
         XGZTBlueToothManager.shared.writeCharacteristic(command: command)
     }
     
+    static func disconnectBT() {
+        let command = createCommand(with: [
+            0x00,
+            XGZTCommands.disconnectBT.rawValue,
+            0x01,
+            0x00,
+            0x01,
+            0x01
+        ])
+        XGZTBlueToothManager.shared.writeCharacteristic(command: command)
+    }
+    
     // 设置天气单位
     static func setWeatherUnit(unit: Int) {
         let command = createCommand(with: [
@@ -469,7 +482,7 @@ public class XGZTCommand {
     }
     
     // 获取闹钟信息
-    static func getAlarmInfo() {
+    static func getAlarmInfo(type: Int) {
         let command = createCommand(with: [
             0x00,
             XGZTCommands.alarmInfo.rawValue,
@@ -477,7 +490,7 @@ public class XGZTCommand {
             0x00,
             0x02,
             0x00,
-            0x01
+            UInt8(type)
         ])
         XGZTBlueToothManager.shared.writeCharacteristic(command: command)
     }
@@ -1282,22 +1295,27 @@ public class XGZTCommand {
                 print("alarmInfo command response error")
                 return
             }
-            if response.count == 7 && response[5] == 0x00 {
+            if response.count == 8 && response[5] == 0x00 && response[6] == 0x00 {
                 XGZTBlueToothManager.shared.device?.alarmcount = Int(response[6])
                 return
             }
-            if response.count == 7 && response[5] == 0x01 && response[6] == 0x00 {
-                XGZTCommand.getAlarmInfo()
+            if response.count == 8 && response[5] == 0x00 && response[6] == 0x02 {
+                XGZTBlueToothManager.shared.device?.alarmCanUse = Int(response[7])
                 return
             }
-            if response.count == 13 {
-                let index = Int(response[6])
-                let switchValue = Int(response[7])
-                let cycle = Int(response[8])
-                let hour = Int(response[9])
-                let minute = Int(response[10])
-                let vibration = Int(response[11])
-                let later = Int(response[12])
+            if response.count == 8 && response[5] == 0x01 && response[7] == 0x00 {
+                XGZTCommand.getAlarmInfo(type: 1)
+                XGZTCommand.getAlarmInfo(type: 2)
+                return
+            }
+            if response.count == 14 {
+                let index = Int(response[7])
+                let switchValue = Int(response[8])
+                let cycle = Int(response[9])
+                let hour = Int(response[10])
+                let minute = Int(response[11])
+                let vibration = Int(response[12])
+                let later = Int(response[13])
                 let alarm = AlarmData(alarmIndex: index, mswitch: switchValue, alarmCycle: cycle, alarmHour: hour, alarmMinute: minute, vibrationMode: vibration, remindLater: later)
                 if XGZTBlueToothManager.shared.device?.alarms.count ?? 0 > 0 {
                     var b = false
@@ -1404,11 +1422,25 @@ public class XGZTCommand {
         case.remotePhoto:
             if response.count == 6 {
                 if response[5] == 0 {
-                    NotificationCenter.default.post(name: Notification.Name("DeviceSettings"), object: nil)
+                    if response[2] == 3 {
+                        NotificationCenter.default.post(name: Notification.Name("HealthVCLoading"), object: 10000)
+                    } else {
+                        NotificationCenter.default.post(name: Notification.Name("DeviceSettings"), object: nil)
+                    }
+                    
                 } else if response[5] == 1 {
-                    NotificationCenter.default.post(name: Notification.Name("DeviceSettings"), object: 3)
+                    if response[2] == 3 {
+                        NotificationCenter.default.post(name: Notification.Name("HealthVCLoading"), object: 10002)
+                    } else {
+                        NotificationCenter.default.post(name: Notification.Name("DeviceSettings"), object: 3)
+                    }
                 } else if response[5] == 2 {
-                    NotificationCenter.default.post(name: Notification.Name("DeviceSettings"), object: 2)
+                    if response[2] == 3 {
+                        NotificationCenter.default.post(name: Notification.Name("HealthVCLoading"), object: 10001)
+                    } else {
+                        NotificationCenter.default.post(name: Notification.Name("DeviceSettings"), object: 2)
+                    }
+                    
                 }
                 return
             }
@@ -1612,6 +1644,18 @@ public class XGZTCommand {
             } else {
                 print("资源升级相关命令执行失败")
             }
+        case .disconnectBT:
+            guard response.count >= 7 else {
+                print("resourceUpgrade command response error")
+                return
+            }
+            let success = response[6] == 0x00
+            if success {
+                print("BT断开执行成功")
+                NotificationCenter.default.post(name: Notification.Name("DeviceList"), object: "2")
+            } else {
+                print("BT断开执行失败")
+            }
         case .getNewestHealthData:
             guard response.count >= 11 else {
                 print("resourceUpgrade command response error")
@@ -1724,8 +1768,11 @@ public class XGZTCommand {
                            (Int(response[9]) << 24)
                 let cmdType = Int(response[5])
                 if cmdType == 0 {
+                    if Int(response[10]) == 0 {
+                        return
+                    }
                     XGZTBlueToothManager.shared.device?.currentHeartrate = Int(response[10])
-                    XGZTCommand.startTest(cmdType: 0, control: 0)
+                    //XGZTCommand.startTest(cmdType: 0, control: 0)
                     let heartObj = HeartObj()
                     heartObj.mac = lastestDeviceMac
                     heartObj.time = time
@@ -1734,8 +1781,11 @@ public class XGZTCommand {
                     NotificationCenter.default.post(name: Notification.Name("HealthViewController"), object: "heart")
                     print("获取到的心率为:\(time) --- \(Int(response[10]))")
                 } else if cmdType == 1 {
+                    if Int(response[10]) == 0 {
+                        return
+                    }
                     XGZTBlueToothManager.shared.device?.currentOxygen = Int(response[10])
-                    XGZTCommand.startTest(cmdType: 1, control: 0)
+                    //XGZTCommand.startTest(cmdType: 1, control: 0)
                     let oxgenObj = OxgenObj()
                     oxgenObj.mac = lastestDeviceMac
                     oxgenObj.time = time
@@ -1744,9 +1794,12 @@ public class XGZTCommand {
                     NotificationCenter.default.post(name: Notification.Name("HealthViewController"), object: "oxygen")
                     print("获取到的血氧为:\(time) --- \(Int(response[10]))")
                 } else {
+                    if Int(response[10]) == 0 {
+                        return
+                    }
                     XGZTBlueToothManager.shared.device?.currentSystolicpressure = Int(response[10])
                     XGZTBlueToothManager.shared.device?.currentDiastolicpressure = Int(response[11])
-                    XGZTCommand.startTest(cmdType: 2, control: 0)
+                    //XGZTCommand.startTest(cmdType: 2, control: 0)
                     let booldObj = BloodObj()
                     booldObj.time = time
                     booldObj.mac = lastestDeviceMac

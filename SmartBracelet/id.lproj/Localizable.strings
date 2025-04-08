@@ -397,3 +397,5 @@
 "You are using the latest version." = "Anda menggunakan versi terbaru.";
 "qushi" = "tren";
 "mile" = "mil";
+"confirm_delete" = "Konfirmasi hapus";
+"delete_alarm_confirmation" = "Apakah Anda yakin ingin menghapus alarm ini?";

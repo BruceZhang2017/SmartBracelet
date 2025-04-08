@@ -362,12 +362,19 @@ class DevicesViewController: BaseViewController {
     @objc private func handleNotification(_ notification: Notification) {
         if let obj = notification.object as? String, obj.count > 0 {
             print("刷新设备列表数据")
-            deviceView?.refreshData()
-            changeButtonAttr()
-            refreshDevices()
-            return
+            DispatchQueue.main.async {
+                [weak self] in
+                
+                if obj == "100" {
+                    self?.deviceView?.refreshData(value: 100)
+                    return
+                }
+                
+                self?.deviceView?.refreshData()
+                self?.changeButtonAttr()
+                self?.refreshDevices()
+            }
         }
-        //self.perform(#selector(pushToMobileSettings), with: nil, afterDelay: 0.3)
     }
     
     @objc private func pushToMobileSettings() {
