@@ -29,7 +29,7 @@
 
 #import "OTASDK.h"
 #import "OTAUpgradeViewController.h"
-#import "MJRefresh.h"
+#import <MJRefresh/MJRefresh.h>
 
 #import <AMapSearchKit/AMapSearchKit.h>
 #import "MAWeatherLiveView.h"
@@ -43,21 +43,3 @@
 #import"AFNetworking.h"
 
 #import "JGProgressHUD.h"
-
-
-//// Objective-C 桥接文件内容 (YourProject-Bridging-Header.h)
-//#import <Foundation/Foundation.h>
-//
-//NS_INLINE void _ObjectiveCExceptionCatcher(void(^tryBlock)(void),
-//                                         void(^catchBlock)(NSException *),
-//                                         void(^finallyBlock)(void)) {
-//    @try {
-//        tryBlock();
-//    }
-//    @catch (NSException *exception) {
-//        catchBlock(exception);
-//    }
-//    @finally {
-//        finallyBlock();
-//    }
-//}

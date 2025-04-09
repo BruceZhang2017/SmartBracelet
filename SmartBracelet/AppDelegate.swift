@@ -8,12 +8,10 @@
 
 import UIKit
 import IQKeyboardManagerSwift
-import XCGLogger
 import RealmSwift
 import AudioToolbox
 import AVKit
 
-let log = XCGLogger()
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -29,7 +27,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         IQKeyboardManager.shared.enable = true
         setupConfig()
         pushToTab()
-        log.setup(level: .info, showLogIdentifier: true, showFunctionName: true, showThreadName: true, showLevel: true, showFileNames: true, showLineNumbers: true, showDate: true, writeToFile: false, fileLevel: .alert)
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { (status, err) in
             if !status {
                 print("当用户不同意授权通知权限，则做其他的判读")
@@ -191,7 +188,7 @@ extension AppDelegate {
         if type == 0 {
             type = bleSelf.bleModel.screenType
         }
-        log.info("当前连接设备为：\(type == 1 ? "方形" : "圆形")")
+        print("当前连接设备为：\(type == 1 ? "方形" : "圆形")")
         return type == 1
     }
 }

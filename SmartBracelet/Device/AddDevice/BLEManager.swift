@@ -78,7 +78,6 @@ class BLEManager: NSObject {
     
     public func startScan() {
         if bleSelf.isBluetoothOn {
-            log.info("开始扫描设备")
             bleSelf.startFindBleDevices()
 
         }
@@ -103,7 +102,6 @@ class BLEManager: NSObject {
             }
             bleSelf.connectBleDevice(model: bleSelf.bleModel)
             startTimer(timerTnternal: 2)
-            log.info("开始连接设备")
         }
     }
     
@@ -679,7 +677,6 @@ class BLEManager: NSObject {
             if bleSelf.bleModel.internalNumberString.hasPrefix("P1") || bleSelf.bleModel.internalNumberString.hasPrefix("S1") {
                 bleSelf.bleModel.screenWidth = 80
                 bleSelf.bleModel.screenHeight = 160
-                log.info("更新设备的信息")
             }
             if currentReadProgress != 1 {
                 return

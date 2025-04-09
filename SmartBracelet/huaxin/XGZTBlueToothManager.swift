@@ -420,12 +420,12 @@ class XGZTBlueToothManager: NSObject, CBCentralManagerDelegate, CBPeripheralDele
         // 确保在主线程创建定时器
         DispatchQueue.main.async { [weak self] in
             guard let self else { return }
-            self.reconnectTimer = Timer.scheduledTimer(timeInterval: 3.0,
-                                                       target: self,
-                                                       selector: #selector(disconnectAndStopTimer(_:)),
-                                                       userInfo: nil,
-                                                       repeats: false)
-            print("执行延时3秒断开检查") // 确保日志在主线程输出
+//            self.reconnectTimer = Timer.scheduledTimer(timeInterval: 10.0,
+//                                                       target: self,
+//                                                       selector: #selector(disconnectAndStopTimer(_:)),
+//                                                       userInfo: nil,
+//                                                       repeats: false)
+//            print("执行延时3秒断开检查") // 确保日志在主线程输出
             
             // 连接操作也需在主线程执行
             if !self.isFromOTASuccess {
@@ -462,6 +462,10 @@ extension XGZTBlueToothManager: ABOtaSendDelegate {
     func sendData(_ data: Data) {
         guard let dataOutCharacteristic else { return }
         print("=> 0x\(data.hex)")
+        guard peripheral?.state == .connected else {
+            print("Cannot send data: Peripheral not connected")
+            return
+        }
         peripheral?.writeValue(data, for: dataOutCharacteristic, type:.withoutResponse)
     }
 }

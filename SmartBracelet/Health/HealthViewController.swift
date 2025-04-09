@@ -646,7 +646,6 @@ class HealthViewController: BaseViewController {
             return
         }
         if obj == 3 {
-            log.info("隐藏loading图片")
             endLoadingViewCheckTimer()
             DispatchQueue.main.async {
                 [weak self] in

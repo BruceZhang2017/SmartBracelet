@@ -116,8 +116,6 @@
 		9A3C55CF2BD3ECA3007737A2 /* RoundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3C55CE2BD3ECA3007737A2 /* RoundView.swift */; };
 		9A3C55D12BD3F41B007737A2 /* TestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3C55D02BD3F41B007737A2 /* TestView.swift */; };
 		9A40E02C25D37477001879B3 /* DStepModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A40E02B25D37477001879B3 /* DStepModel.swift */; };
-		9A491EEF2BA07C43000CF726 /* AliIotConnectKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A491EED2BA07A8C000CF726 /* AliIotConnectKit.framework */; };
-		9A491EF02BA07C43000CF726 /* AliIotConnectKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9A491EED2BA07A8C000CF726 /* AliIotConnectKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9A4CADEE294032F200B0BDF8 /* CommonResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A4CADED294032F100B0BDF8 /* CommonResponse.swift */; };
 		9A4CADF029406E6E00B0BDF8 /* QuestionItemResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A4CADEF29406E6E00B0BDF8 /* QuestionItemResponse.swift */; };
 		9A4CADF22940941F00B0BDF8 /* JXWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A4CADF12940941F00B0BDF8 /* JXWebViewController.swift */; };
@@ -460,6 +458,8 @@
 		9AB910282501322C006E0FC4 /* EMAlertAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB910242501322B006E0FC4 /* EMAlertAction.swift */; };
 		9AB910292501322C006E0FC4 /* EMAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB910252501322B006E0FC4 /* EMAlertController.swift */; };
 		9AC58A1528C37A3800992836 /* ClockResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AC58A1428C37A3800992836 /* ClockResponse.swift */; };
+		9AC961822DA5531D00699C7F /* AliIotConnectKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AC961802DA5527900699C7F /* AliIotConnectKit.framework */; };
+		9AC961832DA5531D00699C7F /* AliIotConnectKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9AC961802DA5527900699C7F /* AliIotConnectKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9AE1A16B2629465F00B8B10D /* ErrorCode.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AE1A1552629465F00B8B10D /* ErrorCode.m */; };
 		9AE1A16C2629465F00B8B10D /* JCBlutoothInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AE1A1582629465F00B8B10D /* JCBlutoothInfoModel.m */; };
 		9AE1A16D2629465F00B8B10D /* OTAManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AE1A1592629465F00B8B10D /* OTAManager.m */; };
@@ -511,12 +511,12 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				9AC961832DA5531D00699C7F /* AliIotConnectKit.framework in Embed Frameworks */,
 				9AB5BE262A06648E00680757 /* ZipZap.framework in Embed Frameworks */,
 				9A99CCEB26CB57DE00D6972A /* TJDWristbandSDK.framework in Embed Frameworks */,
 				9A869E122D17DDFC00B78FDF /* ABParTool.xcframework in Embed Frameworks */,
 				9AB5BE2A2A06649700680757 /* RTKOTASDK.framework in Embed Frameworks */,
 				9AB5BE282A06649300680757 /* RTKLEFoundation.framework in Embed Frameworks */,
-				9A491EF02BA07C43000CF726 /* AliIotConnectKit.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -646,7 +646,6 @@
 		9A3C55CE2BD3ECA3007737A2 /* RoundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundView.swift; sourceTree = "<group>"; };
 		9A3C55D02BD3F41B007737A2 /* TestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestView.swift; sourceTree = "<group>"; };
 		9A40E02B25D37477001879B3 /* DStepModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DStepModel.swift; sourceTree = "<group>"; };
-		9A491EED2BA07A8C000CF726 /* AliIotConnectKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AliIotConnectKit.framework; path = ../Downloads/AliIotConnectKit.framework; sourceTree = "<group>"; };
 		9A4CADED294032F100B0BDF8 /* CommonResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonResponse.swift; sourceTree = "<group>"; };
 		9A4CADEF29406E6E00B0BDF8 /* QuestionItemResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionItemResponse.swift; sourceTree = "<group>"; };
 		9A4CADF12940941F00B0BDF8 /* JXWebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JXWebViewController.swift; sourceTree = "<group>"; };
@@ -1010,6 +1009,7 @@
 		9ABE55F8271AD429006E0452 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		9ABE55F9271AD429006E0452 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
 		9AC58A1428C37A3800992836 /* ClockResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClockResponse.swift; sourceTree = "<group>"; };
+		9AC961802DA5527900699C7F /* AliIotConnectKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AliIotConnectKit.framework; sourceTree = "<group>"; };
 		9ACA8AFB2DA4F349000E4F8E /* SmartBracelet-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SmartBracelet-Bridging-Header.h"; sourceTree = "<group>"; };
 		9AD431F6271B2671001A6E8F /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		9AD431F7271B2671001A6E8F /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -1127,6 +1127,7 @@
 				9AB5BE252A06648E00680757 /* ZipZap.framework in Frameworks */,
 				9A0C34952B341D6600E798F1 /* DFUnits.framework in Frameworks */,
 				9A218423255A3351000330E5 /* CoreTelephony.framework in Frameworks */,
+				9AC961822DA5531D00699C7F /* AliIotConnectKit.framework in Frameworks */,
 				9A99CCEA26CB57DE00D6972A /* TJDWristbandSDK.framework in Frameworks */,
 				9AB5BE152A06644500680757 /* JL_BLEKit.framework in Frameworks */,
 				9A218425255A335F000330E5 /* SystemConfiguration.framework in Frameworks */,
@@ -1134,7 +1135,6 @@
 				9AB5BE202A06644500680757 /* DFUnits.framework in Frameworks */,
 				9AB5BE1C2A06644500680757 /* libJL_BmpConvert.a in Frameworks */,
 				9AB5BE1F2A06644500680757 /* JLDialUnit.framework in Frameworks */,
-				9A491EEF2BA07C43000CF726 /* AliIotConnectKit.framework in Frameworks */,
 				9A869E112D17DDFB00B78FDF /* ABParTool.xcframework in Frameworks */,
 				9AB5BE272A06649300680757 /* RTKLEFoundation.framework in Frameworks */,
 				9AAF85CC25C6D42000960BDD /* MapKit.framework in Frameworks */,
@@ -1199,8 +1199,8 @@
 		18385EB124517F7700EA380A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				9AC961802DA5527900699C7F /* AliIotConnectKit.framework */,
 				9A869E0F2D17DDEB00B78FDF /* ABParTool.xcframework */,
-				9A491EED2BA07A8C000CF726 /* AliIotConnectKit.framework */,
 				9A0C34932B341D6100E798F1 /* DFUnits.framework */,
 				9A0C34942B341D6600E798F1 /* JL_BLEKit.framework */,
 				9AB5BE212A06645A00680757 /* RTKLEFoundation.framework */,
@@ -2045,13 +2045,6 @@
 			path = Controllers;
 			sourceTree = "<group>";
 		};
-		9A869E0E2D16D66B00B78FDF /* CustomDeal */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = CustomDeal;
-			sourceTree = "<group>";
-		};
 		9A8CA4E625272C5200EC01A7 /* CVCalendar */ = {
 			isa = PBXGroup;
 			children = (
@@ -2119,7 +2112,6 @@
 		9A93EE542CFDE78C00C02370 /* huaxin */ = {
 			isa = PBXGroup;
 			children = (
-				9A869E0E2D16D66B00B78FDF /* CustomDeal */,
 				9A93EE4D2CFDE78C00C02370 /* OTA */,
 				9A93EE4F2CFDE78C00C02370 /* XGZTBlueToothManager.swift */,
 				9A93EE502CFDE78C00C02370 /* XGZTBusinessHandler.swift */,
@@ -3203,7 +3195,7 @@
 				CODE_SIGN_ENTITLEMENTS = "";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 140;
+				CURRENT_PROJECT_VERSION = 141;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_ASSET_PATHS = TJDWristbandSDK.framework;
 				DEVELOPMENT_TEAM = 6BTCM549U7;
@@ -3252,7 +3244,7 @@
 				CODE_SIGN_ENTITLEMENTS = "";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 140;
+				CURRENT_PROJECT_VERSION = 141;
 				DEVELOPMENT_ASSET_PATHS = TJDWristbandSDK.framework;
 				DEVELOPMENT_TEAM = 6BTCM549U7;
 				ENABLE_BITCODE = NO;
