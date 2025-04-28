@@ -104,7 +104,7 @@ class MineViewController: BaseViewController {
             // 您可以在这里处理选中后的操作，例如更新界面或发送请求
             if index == 1 {
                 var count = DeviceManager.shared.devices.count
-                count += BluetoothWatchDevice.loadAll()?.count ?? 0
+                count += cacheDevices.count
                 let storyboard = UIStoryboard(name: "Device", bundle: nil)
                 if count == 0 {
                     let vc = storyboard.instantiateViewController(withIdentifier: "DeviceSearchViewController") as? DeviceSearchViewController
@@ -156,7 +156,11 @@ class MineViewController: BaseViewController {
                                 // 如果值中包含 '|'，则截取 '|' 之前的部分
                                 if let pipeIndex = macAddress.firstIndex(of: "|") {
                                     macAddress = String(macAddress[..<pipeIndex])
-                                    XGZTBlueToothManager.shared.connectAndScan(to: macAddress)
+                                    if XGZTBlueToothManager.shared.isCurrentBleStateOFF() {
+                                        Toast(text: "ble_off".localized()).show()
+                                    } else {
+                                        XGZTBlueToothManager.shared.connectAndScan(to: macAddress)
+                                    }
                                 }
                             }
                         }

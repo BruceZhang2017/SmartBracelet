@@ -226,3 +226,4 @@
 "mile" = "miglio";
 "confirm_delete" = "Conferma cancellazione";
 "delete_alarm_confirmation" = "Sei sicuro di voler eliminare questa sveglia?";
+"ble_off" = "Bluetooth is not enabled. Please enable it first.";

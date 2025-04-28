@@ -21,9 +21,10 @@ class MTabBarController: UITabBarController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupLastestDeviceMac()
         XGZTBlueToothManager.shared.initCentral() // 自定义协议初始化
         BLEManager.shared.regNotification()
-        setupLastestDeviceMac()
+        
         setupViewControllersTitles()
         
         // 设置未选中状态下的字体颜色

@@ -400,3 +400,4 @@
 "mile" = "Meile";
 "confirm_delete" = "Löschen bestätigen";
 "delete_alarm_confirmation" = "Möchten Sie diese Wecker wirklich löschen?";
+"ble_off" = "Bluetooth is not enabled. Please enable it first.";

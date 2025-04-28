@@ -399,3 +399,4 @@
 "mile" = "mil";
 "confirm_delete" = "Konfirmasi hapus";
 "delete_alarm_confirmation" = "Apakah Anda yakin ingin menghapus alarm ini?";
+"ble_off" = "Bluetooth is not enabled. Please enable it first.";

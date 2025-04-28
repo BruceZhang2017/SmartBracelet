@@ -399,3 +399,4 @@
 "mile" = "mil";
 "confirm_delete" = "Silmeyi onayla";
 "delete_alarm_confirmation_turkish" = "Bu çanı silmek istediğinizden emin misiniz?";
+"ble_off" = "Bluetooth is not enabled. Please enable it first.";

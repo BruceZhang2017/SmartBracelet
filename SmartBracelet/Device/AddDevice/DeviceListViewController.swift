@@ -88,10 +88,28 @@ class DeviceListViewController: BaseViewController {
                     UserDefaults.standard.set(lastestDeviceMac, forKey: "deleteLastestDeviceMac")
                     UserDefaults.standard.synchronize()
                     lastestDeviceMac = ""
+                    XGZTBlueToothManager.shared.stopScanning() // 停止扫描
                 }
                 BluetoothWatchDevice.deleteFromSandbox(mac: mac)
                 self?.localMac = ""
-                let count = DeviceManager.shared.devices.count + (BluetoothWatchDevice.loadAll()?.count ?? 0)
+                let count = DeviceManager.shared.devices.count + (cacheDevices.count)
+                if (cacheDevices.count) > 0 {
+                    if lastestDeviceMac == "" {
+                        let model = cacheDevices.last
+                        lastestDeviceMac = model?.max ?? ""
+                        UserDefaults.standard.setValue(lastestDeviceMac, forKey: "LastestDeviceMac")
+                        UserDefaults.standard.synchronize()
+                    }
+                } else {
+                    if DeviceManager.shared.devices.count > 0 {
+                        if lastestDeviceMac == "" {
+                            lastestDeviceMac = DeviceManager.shared.devices.first?.mac ?? ""
+                            UserDefaults.standard.setValue(lastestDeviceMac, forKey: "LastestDeviceMac")
+                            UserDefaults.standard.synchronize()
+                        }
+                    }
+                }
+                print("删除后2，新的macaddress=\(lastestDeviceMac)")
                 if count <= 1 {
                     NotificationCenter.default.post(name: Notification.Name("HealthViewController"), object: "delete", userInfo: ["mac": mac])
                     NotificationCenter.default.post(name: Notification.Name("DevicesViewController"), object: nil)
@@ -105,10 +123,9 @@ class DeviceListViewController: BaseViewController {
                         UserDefaults.standard.removeObject(forKey: "LastestDeviceMac")
                         NotificationCenter.default.post(name: Notification.Name("DevicesViewController"), object: nil)
                         NotificationCenter.default.post(name: Notification.Name("DevicesViewController"), object: 1)
-                        
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                            self?.tableView.reloadData() // 刷新列表
-                        }
+                    }
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                        self?.tableView.reloadData() // 刷新列表
                     }
                 }
             }
@@ -120,20 +137,32 @@ class DeviceListViewController: BaseViewController {
                 guard let mac = self?.localMac, mac.count > 0 else {
                     return
                 }
+                XGZTBlueToothManager.shared.disconnectDevice()
                 UserDefaults.standard.set(lastestDeviceMac, forKey: "deleteLastestDeviceMac")
                 UserDefaults.standard.synchronize()
                 lastestDeviceMac = ""
+                XGZTBlueToothManager.shared.stopScanning() // 停止扫描
                 BluetoothWatchDevice.deleteFromSandbox(mac: mac)
+                
                 self?.localMac = ""
-                let count = DeviceManager.shared.devices.count + (BluetoothWatchDevice.loadAll()?.count ?? 0)
-                if (BluetoothWatchDevice.loadAll()?.count ?? 0) > 0 {
-                    let model = BluetoothWatchDevice.loadAll()?.first
-                    lastestDeviceMac = model?.max ?? ""
+                let count = DeviceManager.shared.devices.count + (cacheDevices.count)
+                if (cacheDevices.count) > 0 {
+                    if lastestDeviceMac == "" {
+                        let model = cacheDevices.last
+                        lastestDeviceMac = model?.max ?? ""
+                        UserDefaults.standard.setValue(lastestDeviceMac, forKey: "LastestDeviceMac")
+                        UserDefaults.standard.synchronize()
+                    }
                 } else {
                     if DeviceManager.shared.devices.count > 0 {
-                        lastestDeviceMac = DeviceManager.shared.devices.first?.mac ?? ""
+                        if lastestDeviceMac == "" {
+                            lastestDeviceMac = DeviceManager.shared.devices.first?.mac ?? ""
+                            UserDefaults.standard.setValue(lastestDeviceMac, forKey: "LastestDeviceMac")
+                            UserDefaults.standard.synchronize()
+                        }
                     }
                 }
+                print("删除后，新的macaddress=\(lastestDeviceMac)")
                 if count <= 1 {
                     NotificationCenter.default.post(name: Notification.Name("HealthViewController"), object: "delete", userInfo: ["mac": mac])
                     NotificationCenter.default.post(name: Notification.Name("DevicesViewController"), object: nil)
@@ -147,10 +176,9 @@ class DeviceListViewController: BaseViewController {
                         UserDefaults.standard.removeObject(forKey: "LastestDeviceMac")
                         NotificationCenter.default.post(name: Notification.Name("DevicesViewController"), object: nil)
                         NotificationCenter.default.post(name: Notification.Name("DevicesViewController"), object: 1)
-                        
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                            self?.tableView.reloadData() // 刷新列表
-                        }
+                    }
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                        self?.tableView.reloadData() // 刷新列表
                     }
                 }
             }
@@ -230,13 +258,8 @@ class DeviceListViewController: BaseViewController {
         alert.addAction(UIAlertAction(title: "mine_confirm".localized(), style: .default, handler: { [weak self] (action) in
             self?.localMac = mac
             if XGZTBlueToothManager.shared.device != nil && mac == lastestDeviceMac {
-                //XGZTBlueToothManager.shared.switchAutoDisconnect = true
-                self?.disconnectBluetoothAudio()
-                XGZTCommand.disconnectBT()
-                let delayTime = DispatchTime.now() + .milliseconds(100)
-                DispatchQueue.main.asyncAfter(deadline: delayTime) {
-                    NotificationCenter.default.post(name: Notification.Name("DeviceList"), object: "2")
-                }
+                XGZTBlueToothManager.shared.switchAutoDisconnect = true 
+                XGZTCommand.bindDevice(value: 2) // 解除绑定
             } else {
                 NotificationCenter.default.post(name: Notification.Name("DeviceList"), object: "2")
             }
@@ -262,7 +285,7 @@ extension DeviceListViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         var count = DeviceManager.shared.devices.count
-        count += BluetoothWatchDevice.loadAll()?.count ?? 0
+        count += cacheDevices.count
         return count
     }
     
@@ -273,7 +296,7 @@ extension DeviceListViewController: UITableViewDataSource {
         let count = DeviceManager.shared.devices.count
         if indexPath.row < count {
             let model = DeviceManager.shared.devices[indexPath.row]
-            cell.deviceNameLabel.text = model.name + ""
+            cell.deviceNameLabel.text = model.name + "-" + model.mac
             cell.deviceNameLabel.textColor = UIColor.text_primary
             cell.deviceNameLabel.font = UIFont.subtitle1()
             cell.deleteButton.titleLabel?.textColor = UIColor.brand
@@ -287,22 +310,29 @@ extension DeviceListViewController: UITableViewDataSource {
                 cell.bleConnectButton.setTitle("mine_bluetooth_unconnect".localized(), for: .normal)
             }
             cell.tag = 10 + indexPath.row
+            print("旧设备：\(model.mac)")
         } else {
-            let model = BluetoothWatchDevice.loadAll()?[indexPath.row - count]
-            cell.deviceNameLabel.text = model?.deviceName ?? ""
+            let model = cacheDevices[indexPath.row - count]
+            cell.deviceNameLabel.text = (model.deviceName ?? "")  + "-" + (model.max ?? "")
             cell.deviceNameLabel.textColor = UIColor.text_primary
             cell.deviceNameLabel.font = UIFont.subtitle1()
             cell.deleteButton.titleLabel?.textColor = UIColor.brand
             cell.deleteButton.setTitle("deivce_unbind".localized(), for: .normal)
             cell.deviceImageView.image = UIImage(named: AppDelegate.IsDeviceNotRound() ? "icon_ewatch" : "icon_ewatch_2")
-            if model?.max ?? "" == lastestDeviceMac && XGZTBlueToothManager.shared.device != nil && isXGZT {
-                cell.selectImageView.isHidden = false
-                cell.bleConnectButton.setTitle("mine_bluetooth_connect".localized(), for: .normal)
+            if model.max ?? "" == lastestDeviceMac && XGZTBlueToothManager.shared.device != nil && isXGZT {
+                if XGZTBlueToothManager.shared.isReconnectingNow {
+                    cell.selectImageView.isHidden = true
+                    cell.bleConnectButton.setTitle("mine_bluetooth_unconnect".localized(), for: .normal)
+                } else {
+                    cell.selectImageView.isHidden = false
+                    cell.bleConnectButton.setTitle("mine_bluetooth_connect".localized(), for: .normal)
+                }
+                
             } else {
                 cell.selectImageView.isHidden = true
                 cell.bleConnectButton.setTitle("mine_bluetooth_unconnect".localized(), for: .normal)
             }
-            print("【\(indexPath.row - count)】设备名称：\(model?.deviceName ?? "") 设备地址：\(model?.max ?? "")")
+            print("【\(indexPath.row - count)】设备名称：\(model.deviceName ?? "") 设备地址：\(model.max ?? "")")
             cell.tag = 100 + indexPath.row
         }
         
@@ -311,7 +341,7 @@ extension DeviceListViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 94
+        return 114
     }
 }
 
@@ -342,12 +372,12 @@ extension DeviceListViewController: UITableViewDelegate {
             }
             bleSelf.connectBleDevice(model: bleSelf.bleModel)
         } else {
-            let model = BluetoothWatchDevice.loadAll()?[indexPath.row - count]
-            if model?.max ?? "" == lastestDeviceMac && XGZTBlueToothManager.shared.device != nil  {
+            let model = cacheDevices[indexPath.row - count]
+            if model.max ?? "" == lastestDeviceMac && XGZTBlueToothManager.shared.device != nil  {
                 return
             }
             bleSelf.disconnectBleDevice()
-            XGZTBlueToothManager.shared.connect(to: model?.max ?? "")
+            XGZTBlueToothManager.shared.connectFunc(to: model.max ?? "")
             navigationController?.popViewController(animated: true)
         }
     }
@@ -360,8 +390,8 @@ extension DeviceListViewController: DeviceTableViewCellDelegate {
             // 在这里处理按钮点击事件
             if cell.tag >= 100 {
                 let count = DeviceManager.shared.devices.count
-                let model = BluetoothWatchDevice.loadAll()?[indexPath.row - count]
-                guard let mac = model?.max else {
+                let model = cacheDevices[indexPath.row - count]
+                guard let mac = model.max else {
                     return
                 }
                 deleteDevice(mac: mac)

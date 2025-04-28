@@ -399,3 +399,4 @@
 "mile" = "миля";
 "confirm_delete" = "Підтвердити видалення";
 "delete_alarm_confirmation" = "Ви впевнені, що хочете видалити цей будильник?";
+"ble_off" = "Bluetooth is not enabled. Please enable it first.";

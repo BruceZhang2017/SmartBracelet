@@ -116,7 +116,7 @@ class DeviceSearchViewController: BaseViewController {
         }
         if objc == "connectFail" {
             ProgressHUD.dismiss()
-            Toast(text: "连接失败").show()
+            Toast(text: "mine_bluetooth_unconnect".localized()).show()
         }
         if objc == "connected_xgzt" { // 自研连接成功逻辑处理
             ProgressHUD.dismiss()
@@ -176,7 +176,8 @@ extension DeviceSearchViewController: UITableViewDataSource {
                     cell.deviceNameLabel.text = model.name + ""
                     if let advertisementData = model.advertisementData,
                        advertisementData.count == 15,
-                       advertisementData[1] == 0x06 { // 自研设备
+                       advertisementData[1] == 0x01,
+                       advertisementData[0] == 0x06  { // 自研设备
                         let range = 5..<11 // Convert ClosedRange to Range by adding 1 to the upper bound
                         cell.deviceMacLabel.text = advertisementData.subdata(in: range).hexEncodedString()
                     } else {
@@ -196,7 +197,8 @@ extension DeviceSearchViewController: UITableViewDataSource {
                 cell.deviceNameLabel.text = model.name + ""
                 if let advertisementData = model.advertisementData,
                    advertisementData.count == 15,
-                   advertisementData[1] == 0x06 { // 自研设备
+                   advertisementData[1] == 0x01,
+                   advertisementData[0] == 0x06 { // 自研设备
                     let range = 5..<11 // Convert ClosedRange to Range by adding 1 to the upper bound
                     cell.deviceMacLabel.text = advertisementData.subdata(in: range).hexEncodedString()
                 } else {
@@ -231,15 +233,16 @@ extension DeviceSearchViewController: UITableViewDelegate {
                 guard let mac = XGZTBlueToothManager.shared.deletePeripheralInfo?.macAddress else {
                     return
                 }
-                XGZTBlueToothManager.shared.connect(to: mac)
+                XGZTBlueToothManager.shared.connectFunc(to: mac)
             } else {
                 let model = bleSelf.bleModels[indexPath.row - 1]
                 if let advertisementData = model.advertisementData,
                    advertisementData.count == 15,
-                   advertisementData[1] == 0x06 { // 自研设备
+                   advertisementData[1] == 0x01,
+                   advertisementData[0] == 0x06 { // 自研设备
                     let range = 5..<11
                     let macAddress = advertisementData.subdata(in: range).hexEncodedString()
-                    XGZTBlueToothManager.shared.connect(to: macAddress)
+                    XGZTBlueToothManager.shared.connectFunc(to: macAddress)
                     print("连接自研设备：\(macAddress)")
                 } else {
                     bleSelf.connectBleDevice(model: model)
@@ -249,10 +252,11 @@ extension DeviceSearchViewController: UITableViewDelegate {
             let model = bleSelf.bleModels[indexPath.row]
             if let advertisementData = model.advertisementData,
                advertisementData.count == 15,
-               advertisementData[1] == 0x06 { // 自研设备
+               advertisementData[1] == 0x01,
+               advertisementData[0] == 0x06 { // 自研设备
                 let range = 5..<11
                 let macAddress = advertisementData.subdata(in: range).hexEncodedString()
-                XGZTBlueToothManager.shared.connect(to: macAddress)
+                XGZTBlueToothManager.shared.connectFunc(to: macAddress)
                 print("连接自研设备：\(macAddress)")
             } else {
                 bleSelf.connectBleDevice(model: model)

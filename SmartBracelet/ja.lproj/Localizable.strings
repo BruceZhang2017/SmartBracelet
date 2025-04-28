@@ -399,3 +399,4 @@
 "mile" = "マイル";
 "confirm_delete" = "削除を確認";
 "delete_alarm_confirmation" = "このアラームを削除してもよろしいですか？";
+"ble_off" = "Bluetooth is not enabled. Please enable it first.";

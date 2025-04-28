@@ -399,3 +399,4 @@
 "mile" = "milha";
 "confirm_delete" = "Confirmar exclusão";
 "delete_alarm_confirmation" = "Tem certeza de que deseja excluir este alarme?";
+"ble_off" = "Bluetooth is not enabled. Please enable it first.";

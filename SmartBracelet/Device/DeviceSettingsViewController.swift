@@ -142,6 +142,10 @@ class DeviceSettingsViewController: UIViewController {
                     Toast(text: "mine_unconnect".localized()).show()
                     return
                 }
+                if XGZTBlueToothManager.shared.isReconnectingNow {
+                    Toast(text: "mine_unconnect".localized()).show()
+                    return
+                }
                 
                 if (mSwitch?.isOn ?? false) {
                     device.longsit?.cycle = 0b11111111
@@ -276,7 +280,11 @@ class DeviceSettingsViewController: UIViewController {
         } else { // 喝水提醒
             if isXGZT {
                 guard var device = XGZTBlueToothManager.shared.device else {
-                    Toast(text: "设备未连接").show()
+                    Toast(text: "mine_unconnect".localized()).show()
+                    return
+                }
+                if XGZTBlueToothManager.shared.isReconnectingNow {
+                    Toast(text: "mine_unconnect".localized()).show()
                     return
                 }
                 if (mSwitch?.isOn ?? false) {
@@ -419,6 +427,10 @@ extension DeviceSettingsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         if !bleSelf.isConnected && XGZTBlueToothManager.shared.device == nil {
+            Toast(text: "mine_unconnect".localized()).show()
+            return
+        }
+        if XGZTBlueToothManager.shared.isReconnectingNow {
             Toast(text: "mine_unconnect".localized()).show()
             return
         }

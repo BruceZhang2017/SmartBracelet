@@ -399,3 +399,4 @@
 "mile" = "英里";
 "confirm_delete" = "確認刪除";
 "delete_alarm_confirmation" = "您確定要刪除這個鬧鈴嗎？";
+"ble_off" = "Bluetooth is not enabled. Please enable it first.";

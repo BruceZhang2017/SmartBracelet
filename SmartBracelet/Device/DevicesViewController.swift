@@ -34,10 +34,18 @@ class DevicesViewController: BaseViewController {
     var deviceSettingsViewHeightMultiplier = 13
     var deviceSettingsView: DeviceSettingsViewController?
     var lblTitle: UILabel?
+    var refreshTimer: DispatchSourceTimer?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "device".localized()
+        NotificationCenter.default.addObserver(
+               self,
+               selector: #selector(audioRouteChanged),
+               name: AVAudioSession.routeChangeNotification,
+               object: nil
+           )
+        BluetoothWatchDevice.loadAll() // 加载一下缓存信息
         deviceView = DevicesView().then {
             $0.backgroundColor = UIColor.white
             $0.layer.cornerRadius = 16
@@ -107,6 +115,17 @@ class DevicesViewController: BaseViewController {
         }
         
         print("width: \(width) height: \(height)")
+        
+        // 获取 AppDelegate 实例
+        if let appDelegate = UIApplication.shared.delegate as? AppDelegate {
+            appDelegate.foregroundObserver = { [weak self] isActive in
+                if isActive {
+                    self?.appDidBecomeActive()
+                } else {
+                    self?.appWillResignActive()
+                }
+            }
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -188,6 +207,24 @@ class DevicesViewController: BaseViewController {
                 }
             }
         }
+        
+        // 创建一个定时器，每 2 秒触发一次，并绑定到主线程队列
+        refreshTimer = DispatchSource.makeTimerSource(queue: .main)
+        refreshTimer?.schedule(deadline: .now(), repeating: 4.0)
+        refreshTimer?.setEventHandler { [weak self] in
+            // 在主线程刷新视图（实际代码根据你的需求调整）
+            self?.deviceView?.refreshData()
+            print("每4秒钟刷新一次")
+        }
+        refreshTimer?.resume()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        // 取消定时器并释放引用
+        refreshTimer?.cancel()
+        refreshTimer = nil
+        
     }
     
     private func refreshDevices() {
@@ -226,7 +263,47 @@ class DevicesViewController: BaseViewController {
     
     deinit {
         NotificationCenter.default.removeObserver(self)
+        // 解除回调
+        if let appDelegate = UIApplication.shared.delegate as? AppDelegate {
+            appDelegate.foregroundObserver = nil
+        }
     }
+    
+    private func appDidBecomeActive() {
+        print("App 进入前台")
+        deviceView.refreshData()
+    }
+    
+    private func appWillResignActive() {
+        print("App 进入后台")
+    }
+    
+    @objc func audioRouteChanged(notification: Notification) {
+           guard let reason = notification.userInfo?[AVAudioSessionRouteChangeReasonKey] as? UInt else { return }
+
+           switch AVAudioSession.RouteChangeReason(rawValue: reason) {
+           case .newDeviceAvailable:
+               print("经典蓝牙设备已连接")
+               checkBluetoothDevice()
+           case .oldDeviceUnavailable:
+               print("经典蓝牙设备已断开")
+               // 处理断开逻辑
+               deviceView.refreshData(value: 100)
+           default:
+               break
+           }
+       }
+
+       func checkBluetoothDevice() {
+           let session = AVAudioSession.sharedInstance()
+           let currentRoute = session.currentRoute
+
+           for output in currentRoute.outputs {
+               if output.portType == .bluetoothA2DP || output.portType == .carAudio {
+                   print("检测到蓝牙设备：\(output.portName)")
+               }
+           }
+       }
     
     // 设备设置
     private func initializeDeviceSettings() {
@@ -406,7 +483,7 @@ class DevicesViewController: BaseViewController {
     
     @objc public func addDevice() {
         var count = DeviceManager.shared.devices.count
-        count += BluetoothWatchDevice.loadAll()?.count ?? 0
+        count += cacheDevices.count
         let storyboard = UIStoryboard(name: "Device", bundle: nil)
         if count == 0 {
             let vc = storyboard.instantiateViewController(withIdentifier: "DeviceSearchViewController")
@@ -441,7 +518,7 @@ extension DevicesViewController: UICollectionViewDataSource {
         if indexPath.row < clockArray.count  {
             let item = clockArray[indexPath.item]
             let array = item.components(separatedBy: "&&")
-            if array[0] == "_" || (DeviceManager.shared.devices.count == 0 && (BluetoothWatchDevice.loadAll()?.count ?? 0) == 0) {
+            if array[0] == "_" || (DeviceManager.shared.devices.count == 0 && (cacheDevices.count) == 0) {
                 cell.clockImageView.isHidden = true
                 cell.addImageView.isHidden = false
                 cell.clockBGView.backgroundColor = UIColor.fill

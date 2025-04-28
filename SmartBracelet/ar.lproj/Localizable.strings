@@ -399,3 +399,4 @@
 "mile" = "ميل";
 "confirm_delete" = "تأكيد الحذف";
 "delete_alarm_confirmation" = "هل أنت متأكد من أنك تريد حذف هذا المنبه؟";
+"ble_off" = "Bluetooth is not enabled. Please enable it first.";

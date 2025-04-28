@@ -39,6 +39,7 @@ class XGZTBlueToothManager: NSObject, CBCentralManagerDelegate, CBPeripheralDele
     // In and Out, for Device
     public var dataInCharacteristic: CBCharacteristic?
     public var dataOutCharacteristic: CBCharacteristic?
+    private var notifyCharacteristic: CBCharacteristic?
     // 标记是否正在扫描
     var isScanning = false
     public var device: BluetoothWatchDevice?
@@ -50,9 +51,15 @@ class XGZTBlueToothManager: NSObject, CBCentralManagerDelegate, CBPeripheralDele
     private var autoDisconnect = false // 主动断开
     private var scanMacAddress = ""
     public var switchAutoDisconnect = false
+    public var isReconnectingNow = false // 当前是否在回连中
 
     override init() {
         super.init()
+    }
+    
+    // MARK: - 获取当前蓝牙状态
+    public func isCurrentBleStateOFF() -> Bool {
+        return centralManager?.state ?? .unknown == .poweredOff
     }
 
     func initCentral() {
@@ -60,6 +67,7 @@ class XGZTBlueToothManager: NSObject, CBCentralManagerDelegate, CBPeripheralDele
     }
 
     func startScanning() {
+        isReconnectingNow = false
         if !isScanning {
             isScanning = true
             // 扫描选项
@@ -74,22 +82,22 @@ class XGZTBlueToothManager: NSObject, CBCentralManagerDelegate, CBPeripheralDele
     }
 
     func stopScanning() {
-        if isScanning {
-            isScanning = false
-            centralManager?.stopScan()
-            print("停止扫描设备")
-        }
+        print("停止扫描")
+        isScanning = false
+        centralManager?.stopScan()
         BLEManager.shared.stopScan() // 停止扫描
     }
 
-    func connect(to device: CBPeripheral) {
+    func connectFunc(to device: CBPeripheral) {
+        print("连接指定的蓝牙设备3")
         centralManager?.connect(device, options: nil)
     }
     
-    func connect(to macAddress: String) {
+    func connectFunc(to macAddress: String) {
         for peripheralInfo in discoveredPeripherals {
             if peripheralInfo.macAddress == macAddress {
                 let device = peripheralInfo.peripheral
+                print("连接指定的mac地址\(macAddress)的蓝牙设备")
                 centralManager?.connect(device, options: nil)
                 break
             }
@@ -100,6 +108,7 @@ class XGZTBlueToothManager: NSObject, CBCentralManagerDelegate, CBPeripheralDele
         for peripheralInfo in discoveredPeripherals {
             if peripheralInfo.macAddress == macAddress {
                 let device = peripheralInfo.peripheral
+                print("连接指定的mac地址\(macAddress)的蓝牙设备2")
                 centralManager?.connect(device, options: nil)
                 scanMacAddress = ""
                 return
@@ -108,6 +117,7 @@ class XGZTBlueToothManager: NSObject, CBCentralManagerDelegate, CBPeripheralDele
         if let peripheral = centralManager?.retrieveConnectedPeripherals(withServices: [CBUUID(string: "0000FF12-0000-1000-8000-00805F9B34FB")]).first {
             let peripheralInfo = PeripheralInfo(peripheral: peripheral, macAddress: macAddress)
             discoveredPeripherals.append(peripheralInfo)
+            print("连接指定的mac地址\(macAddress)的蓝牙设备4")
             centralManager?.connect(peripheral, options: nil)
             scanMacAddress = ""
             return
@@ -116,7 +126,7 @@ class XGZTBlueToothManager: NSObject, CBCentralManagerDelegate, CBPeripheralDele
         }
         
         scanMacAddress = macAddress
-        
+        isReconnectingNow = false
         if !isScanning {
             isScanning = true
             // 扫描选项
@@ -125,7 +135,7 @@ class XGZTBlueToothManager: NSObject, CBCentralManagerDelegate, CBPeripheralDele
                 CBCentralManagerScanOptionSolicitedServiceUUIDsKey: [] // 仅扫描指定服务的外设
             ]
             centralManager?.scanForPeripherals(withServices: nil, options: options)
-            print("开始扫描设备")
+            print("开始扫描设备和连接准备")
         }
     }
     
@@ -141,6 +151,7 @@ class XGZTBlueToothManager: NSObject, CBCentralManagerDelegate, CBPeripheralDele
     private func reconnectToDevice() {
         let mac = UserDefaults.standard.string(forKey: "deleteLastestDeviceMac") ?? ""
         if (lastestDeviceMac.count == 0 || device != nil) && mac.count == 0 {
+            print("终止执行1: \(lastestDeviceMac) \(device != nil) \(mac)")
             return
         }
         if let peripheral = centralManager?.retrieveConnectedPeripherals(withServices: [CBUUID(string: "0000FF12-0000-1000-8000-00805F9B34FB")]).first {
@@ -149,21 +160,24 @@ class XGZTBlueToothManager: NSObject, CBCentralManagerDelegate, CBPeripheralDele
                 discoveredPeripherals.append(peripheralInfo)
                 deletePeripheralInfo = peripheralInfo
                 NotificationCenter.default.post(name: Notification.Name.SearchDevice, object: "scan") // 搜索页面
+                print("执行搜索功能")
             } else {
                 if (lastestDeviceMac.count == 0 || device != nil){
+                    print("终止执行2")
                     return
                 }
                 let peripheralInfo = PeripheralInfo(peripheral: peripheral, macAddress: lastestDeviceMac)
                 discoveredPeripherals.append(peripheralInfo)
+                print("连接指定的mac地址\(lastestDeviceMac)的蓝牙设备5")
                 centralManager?.connect(peripheral, options: nil)
             }
             
         } else {
-            print("No known peripheral reconnectToDevice")
+            print("No known peripheral reconnectToDevice: \(lastestDeviceMac)")
             if (lastestDeviceMac.count == 0 || device != nil){
                 return
             }
-            connect(to: lastestDeviceMac)
+            connectFunc(to: lastestDeviceMac)
         }
     }
     
@@ -172,6 +186,24 @@ class XGZTBlueToothManager: NSObject, CBCentralManagerDelegate, CBPeripheralDele
         delegate?.onBleReady()
     }
     
+    public func getDeviceName(mac: String) -> String {
+        for peripheralInfo in discoveredPeripherals {
+            if peripheralInfo.macAddress == mac {
+                return peripheralInfo.peripheral.name ?? ""
+            }
+        }
+        return ""
+    }
+    
+    // 检查当前连接的设备
+    public func checkConnectedDevicesIsEmpty() -> Bool {
+        let connectedPeripherals = centralManager?.retrieveConnectedPeripherals(withServices: [CBUUID(string: "0000FF12-0000-1000-8000-00805F9B34FB")])
+        if connectedPeripherals?.isEmpty == true {
+            print("No BLE devices are connected.")
+            return true
+        }
+        return false
+    }
 
     // CBCentralManagerDelegate 方法
     func centralManagerDidUpdateState(_ central: CBCentralManager) {
@@ -179,6 +211,9 @@ class XGZTBlueToothManager: NSObject, CBCentralManagerDelegate, CBPeripheralDele
             // 扫描设备或执行其他操作
             NotificationCenter.default.post(name: Notification.Name("HealthVCLoading"), object: 0)
             NotificationCenter.default.post(name: Notification.Name("DevicesViewController"), object: "1")
+            if lastestDeviceMac.count > 0 {
+                scanMacAddress = lastestDeviceMac
+            }
             startScanning()
         } else if central.state == .poweredOff {
             stopScanning()
@@ -191,6 +226,7 @@ class XGZTBlueToothManager: NSObject, CBCentralManagerDelegate, CBPeripheralDele
 
     func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
         print("蓝牙设备连接成功")
+        isReconnectingNow = false
         self.peripheral = peripheral
         reconnectTimer?.invalidate()
         reconnectTimer = nil
@@ -202,6 +238,7 @@ class XGZTBlueToothManager: NSObject, CBCentralManagerDelegate, CBPeripheralDele
         for p in discoveredPeripherals {
             if p.peripheral.identifier.uuidString == peripheral.identifier.uuidString {
                 lastestDeviceMac = p.macAddress
+                print("刷新最新的连接成功的设备：\(lastestDeviceMac)")
                 UserDefaults.standard.setValue(lastestDeviceMac, forKey: "LastestDeviceMac")
                 UserDefaults.standard.synchronize()
                 device = BluetoothWatchDevice()
@@ -212,7 +249,6 @@ class XGZTBlueToothManager: NSObject, CBCentralManagerDelegate, CBPeripheralDele
                 break
             }
         }
-        handler.handleConnected()
     }
 
     func centralManager(_ central: CBCentralManager, didFailToConnect peripheral: CBPeripheral, error: Error?) {
@@ -227,6 +263,7 @@ class XGZTBlueToothManager: NSObject, CBCentralManagerDelegate, CBPeripheralDele
         print("蓝牙设备断开连接")
         NotificationCenter.default.post(name: Notification.Name("DevicesViewController"), object: "100")
         if autoDisconnect {
+            print("蓝牙断开回调方法：autoDisconnect")
             self.peripheral?.delegate = nil
             self.peripheral = nil
             device = nil
@@ -246,6 +283,7 @@ class XGZTBlueToothManager: NSObject, CBCentralManagerDelegate, CBPeripheralDele
             return
         }
         if switchAutoDisconnect {
+            print("蓝牙断开回调方法：switchAutoDisconnect")
             self.peripheral?.delegate = nil
             self.peripheral = nil
             device = nil
@@ -261,7 +299,8 @@ class XGZTBlueToothManager: NSObject, CBCentralManagerDelegate, CBPeripheralDele
         // 检查 advertisementData 是否包含我们需要的数据
         if let manufacturerData = advertisementData[CBAdvertisementDataManufacturerDataKey] as? Data,
            manufacturerData.count == 15,
-           manufacturerData[1] == 0x06 {
+           manufacturerData[1] == 0x01,
+           manufacturerData[0] == 0x06 {
             let range = 5..<11 // Convert ClosedRange to Range by adding 1 to the upper bound
             let macAddress = manufacturerData.subdata(in: range).hexEncodedString()
             // 自研设备的处理逻辑
@@ -280,6 +319,7 @@ class XGZTBlueToothManager: NSObject, CBCentralManagerDelegate, CBPeripheralDele
                 print(peripheralInfo)
             }
             if scanMacAddress.count > 0 && macAddress.lowercased() == scanMacAddress.lowercased() {
+                print("连接指定的mac地址\(scanMacAddress)的蓝牙设备6")
                 centralManager?.connect(peripheral, options: nil)
                 scanMacAddress = ""
             }
@@ -312,10 +352,14 @@ class XGZTBlueToothManager: NSObject, CBCentralManagerDelegate, CBPeripheralDele
                     dataOutCharacteristic = characteristic
                 } else if characteristic.uuid.uuidString == "FF13" || characteristic.uuid.uuidString == "0000FF13-0000-1000-8000-00805F9B34FB"  { // write
                     self.characteristic = characteristic
+                    
+                    handler.handleConnected()
                 }
                 if characteristic.properties.contains(.notify)  {
                     // 启用通知
+                    notifyCharacteristic = characteristic
                     peripheral.setNotifyValue(true, for: characteristic)
+                    print("开启通知Service UUID: \(service.uuid) characteristic UUID: \(characteristic.uuid.uuidString)")
                 }
             }
         }
@@ -430,6 +474,9 @@ class XGZTBlueToothManager: NSObject, CBCentralManagerDelegate, CBPeripheralDele
             // 连接操作也需在主线程执行
             if !self.isFromOTASuccess {
                 if let lastConnectedPeripheral = self.peripheral {
+                    self.isReconnectingNow = true
+                    NotificationCenter.default.post(name: Notification.Name("DevicesViewController"), object: "100")
+                    print("连接指定的mac地址\(lastestDeviceMac)的蓝牙设备7")
                     self.centralManager?.connect(lastConnectedPeripheral, options: nil)
                 }
             }
@@ -452,6 +499,9 @@ class XGZTBlueToothManager: NSObject, CBCentralManagerDelegate, CBPeripheralDele
         }
         
         // 重置对象并通知处理
+        if let cha = notifyCharacteristic {
+            self.peripheral?.setNotifyValue(false, for: cha)
+        }
         peripheral = nil
         device = nil
         handler.handleDisconnected()

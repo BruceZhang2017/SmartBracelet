@@ -90,7 +90,9 @@ class AlarmViewController: BaseViewController {
     }
     
     @objc private func valueChanged(_ sender: Any) {
-        let mSwitch = sender as! UISwitch
+        guard let mSwitch = sender as? UISwitch else {
+            return 
+        }
         if mSwitch.tag - 999 < 0 {
             return
         }

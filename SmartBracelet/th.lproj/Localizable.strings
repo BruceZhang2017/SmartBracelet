@@ -399,3 +399,4 @@
 "mile" = "ไมล์";
 "confirm_delete" = "ยืนยันการลบ";
 "delete_alarm_confirmation" = "คุณแน่ใจหรือว่าต้องการลบนาฬิกานี้ใช่ไหม?";
+"ble_off" = "Bluetooth is not enabled. Please enable it first.";

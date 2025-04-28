@@ -38,7 +38,7 @@ public class BluetoothWatchDevice {
     var screenHeight: Int = 240
     var mtu: Int = 0
     
-    var sex: Int = 0
+    var sex: Int = 0 // 性别：0x00：男，0x01：女
     var age: Int = 0
     var height: Int = 0
     var weight: Int = 0
@@ -114,17 +114,37 @@ public class BluetoothWatchDevice {
     // 存储设备信息到沙盒
     static func saveToSandbox(device: BluetoothWatchDevice) {
         let defaults = UserDefaults.standard
-        var dic = defaults.dictionary(forKey: "xgzt") as? [String: String] ?? [:]
-        if dic[device.max!]?.count ?? 0 > 0 {
+        
+        // 1. 安全解包 `device.max`（mac地址），确保键有效
+        guard let macAddress = device.max, macAddress.count > 0 else {
+            print("Error: device.max (mac address) is nil")
             return
         }
-        dic[device.max!] = device.deviceName ?? ""
-        defaults.set(dic, forKey: "xgzt")
-        defaults.synchronize()
         
+        // 2. 安全解包 `device.deviceName`，确保不存储空值
+        guard let deviceName = device.deviceName, deviceName.count > 0 else {
+            print("Error: deviceName is nil for mac address \(macAddress)")
+            return
+        }
+        
+        var dic = defaults.dictionary(forKey: "xgzt") as? [String: String] ?? [:]
+        
+        // 3. 检查该 `macAddress` 键是否已存在且值不为空
+        if let existingName = dic[macAddress], !existingName.isEmpty {
+            // 键已存在且已有名称，不执行保存操作
+            return
+        }
+        
+        // 4. 存储当前设备的键值对
+        dic[macAddress] = deviceName
+        defaults.set(dic, forKey: "xgzt")
+        
+        // 5. 更新缓存（根据业务逻辑保留）
         cacheDevices.removeAll()
+        cacheDevices = []
         BluetoothWatchDevice.loadAll()
     }
+    
     
     // 从沙盒读取设备信息
     static func loadFromSandbox(mac: String) -> BluetoothWatchDevice? {
@@ -146,7 +166,7 @@ public class BluetoothWatchDevice {
             return
         }
 
-        for (m, name) in dic {
+        for (m, _) in dic {
             if m == mac {
                 dic.removeValue(forKey: m)
                 break
@@ -157,21 +177,18 @@ public class BluetoothWatchDevice {
         defaults.synchronize()
         
         cacheDevices.removeAll()
+        cacheDevices = []
         BluetoothWatchDevice.loadAll()
     }
     
-    static func loadAll() -> [BluetoothWatchDevice]? {
+    static func loadAll() {
         let defaults = UserDefaults.standard
         guard let dic = defaults.dictionary(forKey: "xgzt") as? [String: String] else {
-            return nil
+            return
         }
         
-        if dic.isEmpty {
-            return nil
-        }
-        
-        if cacheDevices.count > 0 {
-            return cacheDevices
+        if dic.isEmpty || dic.count <= 0 {
+            return
         }
         
         var existingMACs = Set<String>() // 用于记录已存在的 MAC 地址
@@ -190,7 +207,5 @@ public class BluetoothWatchDevice {
             print("已经缓存的设备：\(mac) \(name)")
             cacheDevices.append(device)
         }
-        
-        return cacheDevices.isEmpty ? nil : cacheDevices
     }
 }

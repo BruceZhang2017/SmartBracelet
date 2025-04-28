@@ -399,3 +399,4 @@
 "mile" = "마일";
 "confirm_delete" = "삭제 확인";
 "delete_alarm_confirmation" = "이 알람을 삭제하시겠습니까?";
+"ble_off" = "Bluetooth is not enabled. Please enable it first.";

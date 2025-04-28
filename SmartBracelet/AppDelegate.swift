@@ -18,6 +18,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     var soundID: SystemSoundID = 0
     var audioPlayer: AVAudioPlayer?
+    var foregroundObserver: ((Bool) -> Void)?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         application.applicationIconBadgeNumber = 0
@@ -45,20 +46,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         openCount += 1
         UserDefaults.standard.set(openCount, forKey: "APPOPEN")
 
-        // 配置音频会话
-        let audioSession = AVAudioSession.sharedInstance()
-        do {
-            try audioSession.setCategory(.playAndRecord, options: [.defaultToSpeaker, .mixWithOthers])
-            try audioSession.setActive(true)
-        } catch {
-            print("Failed to set up audio session: \(error)")
-        }
-
         return true
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {
         application.applicationIconBadgeNumber = 0
+        foregroundObserver?(true)
+    }
+    
+    func applicationWillResignActive(_ application: UIApplication) {
+        foregroundObserver?(false)
     }
     
     func applicationWillTerminate(_ application: UIApplication) {
@@ -92,20 +89,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     public func foundphone() {
-        // 创建通知内容
+        // 配置本地通知
         let content = UNMutableNotificationContent()
         content.title = NSLocalizedString("device_tip", comment: "")
         content.body = NSLocalizedString("found_success", comment: "")
         content.badge = 1
         content.sound = .default
 
-        // 设置触发器
+        // 设置触发器（5秒延迟）
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 5, repeats: false)
 
-        // 创建通知请求
+        // 创建并添加通知请求
         let request = UNNotificationRequest(identifier: "notification.id.01", content: content, trigger: trigger)
-
-        // 添加通知请求到UNUserNotificationCenter
         UNUserNotificationCenter.current().add(request) { error in
             if let error = error {
                 print("添加本地通知错误: \(error.localizedDescription)")
@@ -114,24 +109,56 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
 
-        DispatchQueue.main.async {
-            [weak self] in
-
-            let alert = UIAlertController(title: "device_tip".localized(), message: "found_success".localized(), preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "mine_confirm".localized(), style: .cancel, handler: { [weak self] action in
-                // 停止播放声音
-                self?.audioPlayer?.stop()
-            }))
-            UIApplication.shared.keyWindow?.rootViewController?.present(alert, animated: true, completion: nil)
+        // 配置音频会话使用内置扬声器
+        do {
+            let audioSession = AVAudioSession.sharedInstance()
+            try audioSession.setCategory(.playAndRecord, options: [.defaultToSpeaker, .mixWithOthers])
+            try audioSession.setActive(true)
+        } catch {
+            print("设置音频会话失败: \(error)")
+            return
         }
 
-        guard let soundURL = Bundle.main.url(forResource: "Alarm", withExtension: "mp3") else { return }
+        // 初始化并播放音频
+        guard let soundURL = Bundle.main.url(forResource: "Alarm", withExtension: "mp3") else {
+            print("未找到声音文件")
+            return
+        }
+        
         do {
             audioPlayer = try AVAudioPlayer(contentsOf: soundURL)
             audioPlayer?.prepareToPlay()
             audioPlayer?.play()
         } catch {
-            print("Failed to play sound: \(error)")
+            print("音频播放初始化失败: \(error)")
+            return
+        }
+
+        // 显示UIAlertController
+        DispatchQueue.main.async { [weak self] in
+            let alert = UIAlertController(title: "device_tip".localized(),
+                                          message: "found_success".localized(),
+                                          preferredStyle: .alert)
+            
+            // 添加停止播放的按钮动作
+            alert.addAction(UIAlertAction(title: "mine_confirm".localized(),
+                                          style: .cancel,
+                                          handler: { action in
+                self?.audioPlayer?.stop()
+                
+                // 恢复默认音频路由并取消激活会话
+                do {
+                    let audioSession = AVAudioSession.sharedInstance()
+                    try audioSession.overrideOutputAudioPort(.none) // 弃用但兼容iOS13
+                    try audioSession.setCategory(.ambient)        // 恢复默认音频模式
+                    try audioSession.setActive(true)
+                } catch {
+                    print("恢复音频会话失败: \(error)")
+                }
+            }))
+            
+            // 展示alert
+            UIApplication.shared.keyWindow?.rootViewController?.present(alert, animated: true, completion: nil)
         }
     }
 }

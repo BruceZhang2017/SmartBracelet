@@ -399,3 +399,4 @@
 "mile" = "mijl";
 "confirm_delete" = "Verwijderen bevestigen";
 "delete_alarm_confirmation" = "Weet je zeker dat je deze wekker wilt verwijderen?";
+"ble_off" = "Bluetooth is not enabled. Please enable it first.";

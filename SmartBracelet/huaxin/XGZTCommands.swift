@@ -39,6 +39,7 @@ enum XGZTCommands: UInt8 {
 
     case switchStatus = 0x80
     case bindDevice = 0x81
+    case unbindDeviceNotif = 0x82
     case alarmInfo = 0x83
     case reminderInfo = 0x85
     case switchTableExtension = 0x86
@@ -468,7 +469,7 @@ public class XGZTCommand {
     }
     
     // 绑定设备
-    static func bindDevice() {
+    static func bindDevice(value: UInt8) {
         let command = createCommand(with: [
             0x00,
             XGZTCommands.bindDevice.rawValue,
@@ -476,7 +477,7 @@ public class XGZTCommand {
             0x00,
             0x02,
             0x01,
-            0x00
+            value
         ])
         XGZTBlueToothManager.shared.writeCharacteristic(command: command)
     }
@@ -1195,25 +1196,40 @@ public class XGZTCommand {
                 let range = 7..<13 // Convert ClosedRange to Range by adding 1 to the upper bound
                 let macAddressData = response[range]
                 let macAddress = macAddressData.map { String(format: "%02x", $0) }.joined(separator: ":").uppercased()
-                lastestDeviceMac = macAddress
-                XGZTBlueToothManager.shared.device?.max = macAddress
-                UserDefaults.standard.setValue(lastestDeviceMac, forKey: "LastestDeviceMac")
-                UserDefaults.standard.synchronize()
+                print("macAddress: \(macAddress)")
                 return
             }
-            guard response.count >= 46 else {
+            if response.count >= 21 && response.count < 30 {
+                let range = 15..<21 // Convert ClosedRange to Range by adding 1 to the upper bound
+                let macAddressData = response[range]
+                let macAddress = macAddressData.map { String(format: "%02x", $0) }.joined(separator: ":").uppercased()
+                print("macAddress: \(macAddress)")
+                return
+            }
+            if response.count == 41 {
+                XGZTBlueToothManager.shared.device?.screenType = Int(response[5])
+                XGZTBlueToothManager.shared.device?.hardwareVersion = Int(response[30])
+                XGZTBlueToothManager.shared.device?.firmwareVersion = "\(Int(response[35])).\(Int(response[32]))"
+                XGZTBlueToothManager.shared.device?.deviceID = (Int(response[34]) << 8) | Int(response[33])
+                XGZTBlueToothManager.shared.device?.deviceModel = (Int(response[36]) << 8) | Int(response[35])
+                XGZTBlueToothManager.shared.device?.screenWidth = (Int(response[38]) << 8) | Int(response[37])
+                XGZTBlueToothManager.shared.device?.screenHeight = (Int(response[40]) << 8) | Int(response[39])
+                XGZTBlueToothManager.shared.device?.functioncontrolflags = getIntFromBytes(response, 10)
+                XGZTBlueToothManager.shared.device?.healthcontrolflags = getIntFromBytes(response, 14)
+            }
+            guard response.count >= 45 else {
                 print("getDeviceInfo command response error")
                 return
             }
             XGZTBlueToothManager.shared.device?.screenType = Int(response[5])
-            XGZTBlueToothManager.shared.device?.hardwareVersion = Int(response[30])
-            XGZTBlueToothManager.shared.device?.firmwareVersion = "\(Int(response[31])).\(Int(response[32]))"
-            XGZTBlueToothManager.shared.device?.deviceID = (Int(response[34]) << 8) | Int(response[33])
-            XGZTBlueToothManager.shared.device?.deviceModel = (Int(response[36]) << 8) | Int(response[35])
-            XGZTBlueToothManager.shared.device?.screenWidth = (Int(response[38]) << 8) | Int(response[37])
-            XGZTBlueToothManager.shared.device?.screenHeight = (Int(response[40]) << 8) | Int(response[39])
-            XGZTBlueToothManager.shared.device?.functioncontrolflags = getIntFromBytes(response, 10)
-            XGZTBlueToothManager.shared.device?.healthcontrolflags = getIntFromBytes(response, 14)
+            XGZTBlueToothManager.shared.device?.hardwareVersion = Int(response[34])
+            XGZTBlueToothManager.shared.device?.firmwareVersion = "\(Int(response[35])).\(Int(response[36]))"
+            XGZTBlueToothManager.shared.device?.deviceID = (Int(response[38]) << 8) | Int(response[37])
+            XGZTBlueToothManager.shared.device?.deviceModel = (Int(response[40]) << 8) | Int(response[39])
+            XGZTBlueToothManager.shared.device?.screenWidth = (Int(response[42]) << 8) | Int(response[41])
+            XGZTBlueToothManager.shared.device?.screenHeight = (Int(response[44]) << 8) | Int(response[43])
+            XGZTBlueToothManager.shared.device?.functioncontrolflags = getIntFromBytes(response, 14)
+            XGZTBlueToothManager.shared.device?.healthcontrolflags = getIntFromBytes(response, 18)
             
         case.setAppInfo:
             guard response.count >= 7 else {
@@ -1226,6 +1242,7 @@ public class XGZTCommand {
             } else {
                 print("设置应用端信息命令执行失败")
             }
+            flag_5d = false
         case.personalInfo:
             if response.count == 7 {
                 let success = response[6] == 0x00
@@ -1284,12 +1301,37 @@ public class XGZTCommand {
                 print("bindDevice command response error")
                 return
             }
-            let success = response[7] == 0x01
-            if success {
-                print("绑定设备命令执行成功")
-            } else {
-                print("绑定设备命令执行失败")
+            let control = response[6]
+            if control == 0 {
+                let success = response[7]
+                if success == 0 {
+                    print("绑定开始结束命令未被绑定过")
+                    Bind_first = true
+                } else if success == 1 {
+                    print("绑定开始结束命令已被绑定过")
+                    Bind_first = false
+                }
+            } else if control == 1 {
+                let success = response[7]
+                if success == 0 {
+                    print("绑定数据结束命令绑定未完成")
+                } else if success == 1 {
+                    print("绑定数据结束命令执行完成")
+                    Bind_first = false 
+                }
+                flag_81 = false
+            } else if control == 2 {
+                let success = response[7]
+                if success == 0 {
+                    print("断开绑定命令执行成功")
+                    //NotificationCenter.default.post(name: Notification.Name("DeviceList"), object: "2")
+                } else if success == 1 {
+                    print("断开绑定命令执行未绑定")
+                } else {
+                    print("断开绑定命令执行失败")
+                }
             }
+            
         case.alarmInfo:
             guard response.count >= 7 else {
                 print("alarmInfo command response error")
@@ -1644,6 +1686,17 @@ public class XGZTCommand {
             } else {
                 print("资源升级相关命令执行失败")
             }
+        case .unbindDeviceNotif:
+            guard response.count >= 6 else {
+                print("resourceUpgrade command response error")
+                return
+            }
+            let success = response[5] == 0x00
+            if success {
+                print("设备端发送通知成功")
+            } else {
+                print("设备端发送通知失败")
+            }
         case .disconnectBT:
             guard response.count >= 7 else {
                 print("resourceUpgrade command response error")
@@ -1670,7 +1723,7 @@ public class XGZTCommand {
                 NotificationCenter.default.post(name: Notification.Name("HealthViewController"), object: "blood")
                 NotificationCenter.default.post(name: Notification.Name("HealthViewController"), object: "oxygen")
                 NotificationCenter.default.post(name: Notification.Name("HealthViewController"), object: "heart")
-            } else if response.count == 19 {
+            } else if response.count >= 19 {
                 XGZTBlueToothManager.shared.device?.currentStep = getIntFromBytes(response, 7)
                 XGZTBlueToothManager.shared.device?.currentCalorie = getIntFromBytes(response, 11)
                 XGZTBlueToothManager.shared.device?.currentDistance = getIntFromBytes(response, 15)
