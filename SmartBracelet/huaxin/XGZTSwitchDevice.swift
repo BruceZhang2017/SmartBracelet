@@ -117,13 +117,13 @@ public class BluetoothWatchDevice {
         
         // 1. 安全解包 `device.max`（mac地址），确保键有效
         guard let macAddress = device.max, macAddress.count > 0 else {
-            print("Error: device.max (mac address) is nil")
+            XLogger.shared.log("Error: device.max (mac address) is nil")
             return
         }
         
         // 2. 安全解包 `device.deviceName`，确保不存储空值
         guard let deviceName = device.deviceName, deviceName.count > 0 else {
-            print("Error: deviceName is nil for mac address \(macAddress)")
+            XLogger.shared.log("Error: deviceName is nil for mac address \(macAddress)")
             return
         }
         
@@ -140,8 +140,6 @@ public class BluetoothWatchDevice {
         defaults.set(dic, forKey: "xgzt")
         
         // 5. 更新缓存（根据业务逻辑保留）
-        cacheDevices.removeAll()
-        cacheDevices = []
         BluetoothWatchDevice.loadAll()
     }
     
@@ -172,16 +170,16 @@ public class BluetoothWatchDevice {
                 break
             }
         }
-        print("删除设备后：\(dic.keys.count) ")
+        XLogger.shared.log("删除设备后：\(dic.keys.count) ")
         defaults.set(dic, forKey: "xgzt")
         defaults.synchronize()
         
-        cacheDevices.removeAll()
-        cacheDevices = []
         BluetoothWatchDevice.loadAll()
     }
     
     static func loadAll() {
+        cacheDevices.removeAll()
+        cacheDevices = []
         let defaults = UserDefaults.standard
         guard let dic = defaults.dictionary(forKey: "xgzt") as? [String: String] else {
             return
@@ -204,7 +202,7 @@ public class BluetoothWatchDevice {
             let device = BluetoothWatchDevice()
             device.deviceName = name
             device.max = mac
-            print("已经缓存的设备：\(mac) \(name)")
+            XLogger.shared.log("已经缓存的设备：\(mac) \(name)")
             cacheDevices.append(device)
         }
     }

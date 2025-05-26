@@ -109,7 +109,7 @@ class MyClockViewController: UIViewController {
             
         })
         needStop = true
-        print("壁纸推送暂停")
+        XLogger.shared.log("壁纸推送暂停")
         imageUploadVc?.dismiss(animated: false, completion: {
             [weak self] in
             self?.imageUploadVc = nil
@@ -150,7 +150,7 @@ class MyClockViewController: UIViewController {
             guard let rawImageData = image.rawImageData else {
                 return
             }
-            print("rawImageData count: \(rawImageData.count)")
+            XLogger.shared.log("rawImageData count: \(rawImageData.count)")
             var width = Int32(owidth * imageScale)
             var height = Int32(oheight * imageScale)
             if let parData = ParTool.par(fromRaw: rawImageData,
@@ -161,13 +161,13 @@ class MyClockViewController: UIViewController {
                                     supportRotate: false) {
                 if parData.count <= 100 * 1024 {
                     let message = "Convert image to rotate PAR successfully. PAR info: size=\(parData.count) width=\(width) height=\(height)"
-                    print(message)
+                    XLogger.shared.log(message)
                     binData = parData
                     XGZTCommand.dialMarketQuery(dataType: 0) // 查询 mtu
                     imageScale = 1.0
                     break
                 } else {
-                    print("parData size exceeds 50K limit, recompressing...")
+                    XLogger.shared.log("parData size exceeds 50K limit, recompressing...")
                     imageScale -= 0.1
                     if imageScale <= 0 {
                         return
@@ -177,7 +177,7 @@ class MyClockViewController: UIViewController {
                     image = resizeAndReduceRGB(image: image, targetSize: CGSize(width: CGFloat(width), height: CGFloat(height))) ?? UIImage()
                 }
             } else {
-                print("Failed to convert image to PAR format")
+                XLogger.shared.log("Failed to convert image to PAR format")
                 return
             }
         }
@@ -243,7 +243,7 @@ class MyClockViewController: UIViewController {
         guard let nImage = UIImage(data: data) else {
             return nil
         }
-        print("nImage: width \(nImage.size.width) height \(nImage.size.height)")
+        XLogger.shared.log("nImage: width \(nImage.size.width) height \(nImage.size.height)")
         return nImage
     }
     
@@ -322,7 +322,7 @@ class MyClockViewController: UIViewController {
     @objc func handleNotify(_ notify: Notification) {
         if notify.name == WristbandNotifyKeys.startImagePush {
             let any = notify.object as! Int
-            print("收到壁纸推送通知: \(any)")
+            XLogger.shared.log("收到壁纸推送通知: \(any)")
             if any == 1 {
                 var mtuSize = 16
                 let bk = bleSelf.bleModel.internalNumber.hasPrefix("5A4B")
@@ -353,11 +353,11 @@ class MyClockViewController: UIViewController {
                         let d = Float(i * 100) / Float(sSelf.total)
                         self?.imageUploadVc?.refreshProgress(p: String(format: "%.02f%%", d))
                     }
-                    print("for循环推送[\(mtuSize)]: \(i) \(self.total)")
+                    XLogger.shared.log("for循环推送[\(mtuSize)]: \(i) \(self.total)")
                     bleSelf.setImagePush(binData, dataIndex: i, MTU: mtuSize)
                     usleep(30 * 1000)
                     if i + 1 == self.total {
-                        print("执行完成操作")
+                        XLogger.shared.log("执行完成操作")
                         notif()
                     }
                 }
@@ -393,7 +393,7 @@ class MyClockViewController: UIViewController {
                     if bk {
                         currentPackage += 1
                         let mtuSize = bleSelf.bleModel.MTU > 16 ? bleSelf.bleModel.MTU - 4 : 16
-                        print("for循环推送[\(mtuSize)]: \(currentPackage) \(self.total)")
+                        XLogger.shared.log("for循环推送[\(mtuSize)]: \(currentPackage) \(self.total)")
                         bleSelf.setImagePush(binData, dataIndex: currentPackage, MTU: mtuSize)
                         if currentPackage >= self.total {
                             notif()
@@ -474,12 +474,12 @@ class MyClockViewController: UIViewController {
             JLSelf.getJLDataFromImage(image: newImage)
             
             JLSelf.getInfoList()
-           print("执行杰里的壁纸推送逻辑")
+           XLogger.shared.log("执行杰里的壁纸推送逻辑")
         }else{
             var data = bleSelf.getRGBData565FromImage(image: image)!
-            print("执行杰里的壁纸推送逻辑1")
+            XLogger.shared.log("执行杰里的壁纸推送逻辑1")
             if bleSelf.funcCategoryModel.hasJLImagePush {
-                print("执行杰里的壁纸推送逻辑2")
+                XLogger.shared.log("执行杰里的壁纸推送逻辑2")
                 //两个字节互调
                 var i = 0
                 while i < data.count - 1 {
@@ -714,7 +714,7 @@ extension MyClockViewController: TZImagePickerControllerDelegate {
         if photos.count <= 0 {
             return
         }
-        print("选定了图片")
+        XLogger.shared.log("选定了图片")
         if imageUploadVc != nil {
             return
         }
@@ -761,7 +761,7 @@ extension MyClockViewController: UploadImageDelegate {
             self.binData = data
             jlPushInitialize(image: image)
         } else {
-            print("中科设备开始推送数据")
+            XLogger.shared.log("中科设备开始推送数据")
             let bk = bleSelf.bleModel.internalNumber.hasPrefix("5A4B") // 是否为中科
             if bk {
                 let mtuSize = bleSelf.bleModel.MTU > 16 ? bleSelf.bleModel.MTU - 4 : 16
@@ -814,7 +814,7 @@ extension MyClockViewController: CustomImageFooterViewDelegate {
     func callbackForSelectImage(collectionView: UICollectionView, index: Int) {
         let image = UIImage(named: "\(index + 1)_80_160")!
         
-        print("选定了图片")
+        XLogger.shared.log("选定了图片")
         if imageUploadVc != nil {
             return
         }

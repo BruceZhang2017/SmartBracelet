@@ -67,7 +67,7 @@ class ModifyHeadViewController: BaseViewController {
                 if status == .denied{
                     HImagePickerUtils.showTips(at: self,type: .takePhoto)
                 }else{
-                    print(status.description())
+                    XLogger.shared.log(status.description())
                 }
             }
         })
@@ -82,7 +82,7 @@ class ModifyHeadViewController: BaseViewController {
                 if status == .denied{
                     HImagePickerUtils.showTips(at: self,type: .choosePhoto)
                 }else{
-                    print(status.description())
+                    XLogger.shared.log(status.description())
                 }
                 
             }

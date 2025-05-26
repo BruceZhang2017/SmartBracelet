@@ -400,3 +400,11 @@
 "confirm_delete" = "確認刪除";
 "delete_alarm_confirmation" = "您確定要刪除這個鬧鈴嗎？";
 "ble_off" = "Bluetooth is not enabled. Please enable it first.";
+
+"delete_device_1" = "刪除裝置";
+"delete_device_2" = "裝置已從U-Watch刪除，但仍與手機連接。若要完全刪除此裝置，請完成以下操作：";
+"delete_device_3" = "1. 在手機「設定」>「藍牙」>「我的裝置」中找到「e watch」，點擊右側的「i」。";
+"delete_device_4" = "2. 選擇「忽略此裝置」。";
+"delete_device_5" = "3. 完成後，返回「U-Watch」應用程式。";
+"delete_device_6" = "已完成上述操作";
+"delete_device_7" = "確定";

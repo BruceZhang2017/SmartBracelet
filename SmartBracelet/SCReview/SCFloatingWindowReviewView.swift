@@ -57,7 +57,7 @@ class SCFloatingWindowReviewView: UIView {
                 self.isHidden = false
                 bigImgDownloaded = true
                 UserDefaults.standard.setValue(self.bigImgUrl, forKeyPath: bigImageURLKey)
-                print("invite: 大图加载成功")
+                XLogger.shared.log("invite: 大图加载成功")
             }
         }
     }
@@ -287,12 +287,12 @@ class SCFloatingWindowReviewView: UIView {
                     imageView.image = UIImage.sd_image(with: data,scale: 1)
                 }
                 isHidden = false
-                print("invite: 大图缓存加载成功")
+                XLogger.shared.log("invite: 大图缓存加载成功")
                 bigImgDownloaded = true
             } catch {
-                print("invite: 大图缓存加载失败")
+                XLogger.shared.log("invite: 大图缓存加载失败")
                 downloadedImage(link: bigImgUrl, imageName: imageNmae)
-                print(error)
+                XLogger.shared.log("\(error)")
             }
             
         } else {
@@ -334,7 +334,7 @@ class SCFloatingWindowView: UIControl {
             DispatchQueue.main.async {
                 _self.isHidden = false
                 UserDefaults.standard.setValue(_self.imageUrl, forKeyPath: miniIageURLKey)
-                print("invite: 小图加载成功")
+                XLogger.shared.log("invite: 小图加载成功")
                 miniImgDownloaded = true
             }
         }
@@ -393,12 +393,12 @@ class SCFloatingWindowView: UIControl {
                 }
                 isHidden = false
                 
-                print("invite: 小图缓存加载成功")
+                XLogger.shared.log("invite: 小图缓存加载成功")
                 miniImgDownloaded = true
             } catch {
-                print("invite: 小图缓存加载失败")
+                XLogger.shared.log("invite: 小图缓存加载失败")
                 downloadedImage(link: imageUrl, imageName: imageNmae)
-                print(error)
+                XLogger.shared.log("\(error)")
             }
         } else {
             downloadedImage(link: imageUrl, imageName: imageNmae)
@@ -419,7 +419,7 @@ extension UIImageView {
                 let mimeType = response?.mimeType, mimeType.hasPrefix("image"),
                 let data = data, error == nil
             else {
-                print("invite 图片下载失败 error: \(String(describing: error?.localizedDescription))")
+                XLogger.shared.log("invite 图片下载失败 error: \(String(describing: error?.localizedDescription))")
                 return
             }
             let name = imageName + (mimeType.hasSuffix("gif") ? ".gif" : ".png")
@@ -431,7 +431,7 @@ extension UIImageView {
                 }
                 try data.write(to: fullPath)
             } catch(let error) {
-                print("invite 图片保存失败失败 error: \(error.localizedDescription)")
+                XLogger.shared.log("invite 图片保存失败失败 error: \(error.localizedDescription)")
             }
             DispatchQueue.main.async() {
                 if mimeType.hasSuffix("gif") {

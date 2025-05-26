@@ -145,7 +145,7 @@ class HImagePickerUtils: NSObject,UIImagePickerControllerDelegate,UINavigationCo
             case .denied:
                 completion?(false,.denied)
             default:
-                print("nothing")
+                XLogger.shared.log("nothing")
         }
     }
     
@@ -161,7 +161,7 @@ class HImagePickerUtils: NSObject,UIImagePickerControllerDelegate,UINavigationCo
             case .denied:
                 completion?(false,.denied)
             default:
-                print("nothing")
+                XLogger.shared.log("nothing")
         }
     }
     

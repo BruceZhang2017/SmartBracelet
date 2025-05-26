@@ -37,7 +37,7 @@ public class CameraView: UIView {
                     device.flashMode = .auto
                     device.unlockForConfiguration()
                 } catch {
-                    print("Error setting flash mode: \(error.localizedDescription)")
+                    XLogger.shared.log("Error setting flash mode: \(error.localizedDescription)")
                 }
             }
         }
@@ -51,7 +51,7 @@ public class CameraView: UIView {
                 self.input = try AVCaptureDeviceInput(device: self.device)
             } catch let error as NSError {
                 self?.input = nil
-                print("Error: \(error.localizedDescription)")
+                XLogger.shared.log("Error: \(error.localizedDescription)")
                 return
             }
 
@@ -118,7 +118,7 @@ public class CameraView: UIView {
                     defer { device.unlockForConfiguration() }
                     device.videoZoomFactor = factor
                 } catch {
-                    print("\(error.localizedDescription)")
+                    XLogger.shared.log("\(error.localizedDescription)")
                 }
             }
         }
@@ -240,7 +240,7 @@ public class CameraView: UIView {
                 }
                 device.unlockForConfiguration()
             } catch {
-                print("Error cycling flash mode: \(error.localizedDescription)")
+                XLogger.shared.log("Error cycling flash mode: \(error.localizedDescription)")
             }
         }
     }

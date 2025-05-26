@@ -32,7 +32,7 @@ public class CameraVC: UIViewController {
                 captureDevice.torchMode = torchMode.captureTorchMode
                 captureDevice.unlockForConfiguration()
             } catch {
-                print("Torch could not be used")
+                XLogger.shared.log("Torch could not be used")
             }
 
             DispatchQueue.main.async {
@@ -71,7 +71,7 @@ public class CameraVC: UIViewController {
             }
             device.unlockForConfiguration()
         } catch {
-            print("Device configuration error: \(error)")
+            XLogger.shared.log("Device configuration error: \(error)")
         }
 
         return device

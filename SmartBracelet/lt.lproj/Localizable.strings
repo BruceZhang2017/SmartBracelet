@@ -235,3 +235,11 @@
 "confirm_delete" = "Patvirtinti ištrynimą";
 "delete_alarm_confirmation" = "Ar jūs tikrai norite ištrinti šią gandą?";
 "ble_off" = "Bluetooth is not enabled. Please enable it first.";
+
+"delete_device_1" = "Ištrinti įrenginį";
+"delete_device_2" = "Įrenginys pašalintas iš U-Watch, tačiau vis dar prijungtas prie jūsų telefono. Norėdami visiškai ištrinti šį įrenginį, atlikite šiuos veiksmus:";
+"delete_device_3" = "1. Jūsų telefono Nustatymuose > Bluetooth > Mano įrenginiai rasti 'e watch' ir paspausti 'i' dešinėje.";
+"delete_device_4" = "2. Pasirinkite 'Pamiršti šį įrenginį'.";
+"delete_device_5" = "3. Po to, kai baigsite, grįžkite į 'U-Watch' programėlę.";
+"delete_device_6" = "Aš atlikau aukščiau nurodytus veiksmus";
+"delete_device_7" = "Patvirtinti";

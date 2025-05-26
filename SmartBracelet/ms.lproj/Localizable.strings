@@ -400,3 +400,11 @@
 "confirm_delete" = "Sahkan penghapusan";
 "delete_alarm_confirmation" = "Adakah anda pasti mahu menghapuskan alaram ini?";
 "ble_off" = "Bluetooth is not enabled. Please enable it first.";
+
+"delete_device_1" = "Padam Peranti";
+"delete_device_2" = "Peranti telah dipadamkan daripada U-Watch tetapi masih disambungkan ke telefon anda. Untuk memadamkan peranti ini sepenuhnya, sila selesaikan langkah-langkah berikut:";
+"delete_device_3" = "1. Dalam Tetapan telefon anda > Bluetooth > Peranti Saya, cari 'e watch' dan tekan 'i' di sebelah kanan.";
+"delete_device_4" = "2. Pilih 'Lupakan peranti ini'.";
+"delete_device_5" = "3. Selepas selesai, kembali ke Aplikasi 'U-Watch'.";
+"delete_device_6" = "Saya telah selesai dengan langkah-langkah di atas";
+"delete_device_7" = "Sahkan";

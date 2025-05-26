@@ -400,3 +400,11 @@
 "confirm_delete" = "Confirmar exclusão";
 "delete_alarm_confirmation" = "Tem certeza de que deseja excluir este alarme?";
 "ble_off" = "Bluetooth is not enabled. Please enable it first.";
+
+"delete_device_1" = "Excluir dispositivo";
+"delete_device_2" = "O dispositivo foi removido do U-Watch, mas ainda está conectado ao seu telefone. Para excluir completamente este dispositivo, conclua as seguintes etapas:";
+"delete_device_3" = "1. Nas configurações do seu telefone > Bluetooth > Meus dispositivos, encontre 'e watch' e toque no 'i' à direita.";
+"delete_device_4" = "2. Selecione 'Esquecer este dispositivo'.";
+"delete_device_5" = "3. Após concluir, retorne ao aplicativo 'U-Watch'.";
+"delete_device_6" = "Eu conclui as etapas acima";
+"delete_device_7" = "Confirmar";

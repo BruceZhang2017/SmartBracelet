@@ -236,3 +236,11 @@
 "confirm_delete" = "Confirmați ștergerea";
 "delete_alarm_confirmation" = "Ești sigur că vrei să ștergi această alarmă?";
 "ble_off" = "Bluetooth is not enabled. Please enable it first.";
+
+"delete_device_1" = "Șterge dispozitivul";
+"delete_device_2" = "Dispozitivul a fost eliminat din U-Watch, dar este încă conectat la telefonul dvs. Pentru a șterge complet acest dispozitiv, urmați pașii următori:";
+"delete_device_3" = "1. În setările telefonului dvs. > Bluetooth > Dispozitivele mele, găsiți 'e watch' și faceți clic pe 'i' din dreapta.";
+"delete_device_4" = "2. Selectați 'Uită-te de acest dispozitiv'.";
+"delete_device_5" = "3. După ce ați terminat, reveniți la aplicația 'U-Watch'.";
+"delete_device_6" = "Am finalizat pașii de mai sus";
+"delete_device_7" = "Confirmă";

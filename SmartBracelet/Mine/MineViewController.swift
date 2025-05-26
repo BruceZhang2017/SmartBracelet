@@ -88,7 +88,7 @@ class MineViewController: BaseViewController {
         ])
         
         // 设置 DropDown 数据源
-        dropDown.dataSource = ["扫一扫", "添加设备"]
+        dropDown.dataSource = ["device_scan".localized(), "device_add".localized()]
 
         // 自定义下拉菜单样式
         dropDown.textFont = UIFont.systemFont(ofSize: 16)
@@ -99,7 +99,7 @@ class MineViewController: BaseViewController {
 
         // 设置选中事件回调
         dropDown.selectionAction = { [unowned self] (index: Int, item: String) in
-            print("选中了第 \(index) 项: \(item)")
+            XLogger.shared.log("选中了第 \(index) 项: \(item)")
             self.bHavenScanResult = false
             // 您可以在这里处理选中后的操作，例如更新界面或发送请求
             if index == 1 {
@@ -127,11 +127,13 @@ class MineViewController: BaseViewController {
                 //设置标题、颜色、扫描样式（线条、网格）、提示文字
                 vc.setupScanner("device_scan".localized(), .blue, .grid, "device_scan_add_device".localized()) {[weak self] (code) in
                     //扫描回调方法
-                    print("扫描的结果是：\(code)")
+                    XLogger.shared.log("扫描的结果是：\(code)")
                     if (self?.bHavenScanResult ?? false) {
+                        XLogger.shared.log("扫描的结果重复了")
                         return
                     }
                     if code.count > 0 && code.contains("mac=") {
+                        XLogger.shared.log("扫描的结果是旧设备")
                         self?.bHavenScanResult = true
                         let mac = self?.extractMacValue(from: code)
                         if bleSelf.bleModels.count > 0 {
@@ -144,6 +146,7 @@ class MineViewController: BaseViewController {
                             }
                         }
                     } else if code.count > 0 && code.contains("k=") {
+                        XLogger.shared.log("扫描的结果是新设备")
                         self?.bHavenScanResult = true
                         if let url = URL(string: code),
                            let components = URLComponents(url: url, resolvingAgainstBaseURL: false),
@@ -156,14 +159,19 @@ class MineViewController: BaseViewController {
                                 // 如果值中包含 '|'，则截取 '|' 之前的部分
                                 if let pipeIndex = macAddress.firstIndex(of: "|") {
                                     macAddress = String(macAddress[..<pipeIndex])
+                                    XLogger.shared.log("扫描到的mac地址是：\(macAddress)")
                                     if XGZTBlueToothManager.shared.isCurrentBleStateOFF() {
                                         Toast(text: "ble_off".localized()).show()
+                                        XLogger.shared.log("蓝牙没有开启")
                                     } else {
+                                        XLogger.shared.log("开始连接并搜索指定蓝牙设备")
                                         XGZTBlueToothManager.shared.connectAndScan(to: macAddress)
                                     }
                                 }
                             }
                         }
+                    } else {
+                        XLogger.shared.log("扫描的结果是无设备")
                     }
                     //关闭扫描页面
                     self?.dismiss(animated: true, completion: nil)

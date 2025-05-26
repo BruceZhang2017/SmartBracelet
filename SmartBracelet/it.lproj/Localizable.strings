@@ -227,3 +227,11 @@
 "confirm_delete" = "Conferma cancellazione";
 "delete_alarm_confirmation" = "Sei sicuro di voler eliminare questa sveglia?";
 "ble_off" = "Bluetooth is not enabled. Please enable it first.";
+
+"delete_device_1" = "Elimina dispositivo";
+"delete_device_2" = "Il dispositivo è stato rimosso da U-Watch ma è ancora connesso al tuo telefono. Per eliminare completamente questo dispositivo, completa i seguenti passaggi:";
+"delete_device_3" = "1. Nelle impostazioni del tuo telefono > Bluetooth > I miei dispositivi, trova 'e watch' e tocca l' 'i' sulla destra.";
+"delete_device_4" = "2. Seleziona 'Dimentica questo dispositivo'.";
+"delete_device_5" = "3. Dopo aver completato, torna all'App 'U-Watch'.";
+"delete_device_6" = "Ho completato i passaggi precedenti";
+"delete_device_7" = "Conferma";

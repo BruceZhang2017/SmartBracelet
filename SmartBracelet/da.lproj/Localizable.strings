@@ -236,3 +236,11 @@
 "confirm_delete" = "Bekræft sletning";
 "delete_alarm_confirmation" = "Er du sikker på, at du vil slette denne alarm?";
 "ble_off" = "Bluetooth is not enabled. Please enable it first.";
+
+"delete_device_1" = "Slet enhed";
+"delete_device_2" = "Enheden er fjernet fra U-Watch, men er stadig tilsluttet din telefon. For at fuldstændig slette denne enhed, udfør følgende trin:";
+"delete_device_3" = "1. I din telefonindstillinger > Bluetooth > Mine enheder, find 'e watch' og tryk på 'i' til højre.";
+"delete_device_4" = "2. Vælg 'Glem enhed'.";
+"delete_device_5" = "3. Når du er færdig, gå tilbage til 'U-Watch'-appen.";
+"delete_device_6" = "Jeg har udført ovenstående trin";
+"delete_device_7" = "Bekræft";

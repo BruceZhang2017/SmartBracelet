@@ -23,6 +23,9 @@
 		9A08C6FB262F182000E178DA /* OTAListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A08C6F5262F182000E178DA /* OTAListCell.m */; };
 		9A08C6FC262F182000E178DA /* ProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A08C6F8262F182000E178DA /* ProgressView.m */; };
 		9A08C701262F19EC00E178DA /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A08C6FF262F19EC00E178DA /* MBProgressHUD.m */; };
+		9A0B86E32DD1C3E100E1E936 /* RemoveDeviceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A0B86E22DD1C3D500E1E936 /* RemoveDeviceViewController.swift */; };
+		9A0B86E62DD1CC1000E1E936 /* delete_device2.png in Resources */ = {isa = PBXBuildFile; fileRef = 9A0B86E52DD1CC1000E1E936 /* delete_device2.png */; };
+		9A0B86E72DD1CC1000E1E936 /* delete_device1.png in Resources */ = {isa = PBXBuildFile; fileRef = 9A0B86E42DD1CC1000E1E936 /* delete_device1.png */; };
 		9A0C34952B341D6600E798F1 /* DFUnits.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A0C34932B341D6100E798F1 /* DFUnits.framework */; };
 		9A0C34962B341D6600E798F1 /* JL_BLEKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A0C34942B341D6600E798F1 /* JL_BLEKit.framework */; };
 		9A127EAE2BC2ACE300126836 /* UIFont+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A127EAD2BC2ACE200126836 /* UIFont+Extension.swift */; };
@@ -116,6 +119,10 @@
 		9A3C55CF2BD3ECA3007737A2 /* RoundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3C55CE2BD3ECA3007737A2 /* RoundView.swift */; };
 		9A3C55D12BD3F41B007737A2 /* TestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3C55D02BD3F41B007737A2 /* TestView.swift */; };
 		9A40E02C25D37477001879B3 /* DStepModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A40E02B25D37477001879B3 /* DStepModel.swift */; };
+		9A410C762DCB5372006240A6 /* XLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A410C752DCB5368006240A6 /* XLogger.swift */; };
+		9A46063D2DD5FF580011017F /* delete_device20.png in Resources */ = {isa = PBXBuildFile; fileRef = 9A46063C2DD5FF580011017F /* delete_device20.png */; };
+		9A46063E2DD5FF580011017F /* delete_device10.png in Resources */ = {isa = PBXBuildFile; fileRef = 9A46063B2DD5FF580011017F /* delete_device10.png */; };
+		9A4B80A72DE1F5BB0001817F /* SelectAddActionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A4B80A62DE1F5BB0001817F /* SelectAddActionViewController.swift */; };
 		9A4CADEE294032F200B0BDF8 /* CommonResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A4CADED294032F100B0BDF8 /* CommonResponse.swift */; };
 		9A4CADF029406E6E00B0BDF8 /* QuestionItemResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A4CADEF29406E6E00B0BDF8 /* QuestionItemResponse.swift */; };
 		9A4CADF22940941F00B0BDF8 /* JXWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A4CADF12940941F00B0BDF8 /* JXWebViewController.swift */; };
@@ -553,6 +560,9 @@
 		9A08C6FD262F183800E178DA /* ColorDefine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ColorDefine.h; sourceTree = "<group>"; };
 		9A08C6FF262F19EC00E178DA /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
 		9A08C700262F19EC00E178DA /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
+		9A0B86E22DD1C3D500E1E936 /* RemoveDeviceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoveDeviceViewController.swift; sourceTree = "<group>"; };
+		9A0B86E42DD1CC1000E1E936 /* delete_device1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = delete_device1.png; sourceTree = "<group>"; };
+		9A0B86E52DD1CC1000E1E936 /* delete_device2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = delete_device2.png; sourceTree = "<group>"; };
 		9A0C34932B341D6100E798F1 /* DFUnits.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = DFUnits.framework; sourceTree = "<group>"; };
 		9A0C34942B341D6600E798F1 /* JL_BLEKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = JL_BLEKit.framework; sourceTree = "<group>"; };
 		9A127EAD2BC2ACE200126836 /* UIFont+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Extension.swift"; sourceTree = "<group>"; };
@@ -647,6 +657,10 @@
 		9A3C55CE2BD3ECA3007737A2 /* RoundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundView.swift; sourceTree = "<group>"; };
 		9A3C55D02BD3F41B007737A2 /* TestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestView.swift; sourceTree = "<group>"; };
 		9A40E02B25D37477001879B3 /* DStepModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DStepModel.swift; sourceTree = "<group>"; };
+		9A410C752DCB5368006240A6 /* XLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XLogger.swift; sourceTree = "<group>"; };
+		9A46063B2DD5FF580011017F /* delete_device10.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = delete_device10.png; sourceTree = "<group>"; };
+		9A46063C2DD5FF580011017F /* delete_device20.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = delete_device20.png; sourceTree = "<group>"; };
+		9A4B80A62DE1F5BB0001817F /* SelectAddActionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectAddActionViewController.swift; sourceTree = "<group>"; };
 		9A4CADED294032F100B0BDF8 /* CommonResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonResponse.swift; sourceTree = "<group>"; };
 		9A4CADEF29406E6E00B0BDF8 /* QuestionItemResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionItemResponse.swift; sourceTree = "<group>"; };
 		9A4CADF12940941F00B0BDF8 /* JXWebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JXWebViewController.swift; sourceTree = "<group>"; };
@@ -1249,6 +1263,10 @@
 		9A037E4025BDACDB0006FB94 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				9A0B86E42DD1CC1000E1E936 /* delete_device1.png */,
+				9A0B86E52DD1CC1000E1E936 /* delete_device2.png */,
+				9A46063B2DD5FF580011017F /* delete_device10.png */,
+				9A46063C2DD5FF580011017F /* delete_device20.png */,
 				9AF3F2DA2BCBFF2600AFBC55 /* icon_default.png */,
 				9A7F13812A8C8099006C0F61 /* loading.gif */,
 				9A2676AB26B1969B0096BC61 /* Alarm.mp3 */,
@@ -1862,6 +1880,7 @@
 		9A5E933125164B2D0060AB13 /* AddDevice */ = {
 			isa = PBXGroup;
 			children = (
+				9A4B80A62DE1F5BB0001817F /* SelectAddActionViewController.swift */,
 				9A7315C02871B0A300D378A7 /* weather */,
 				9A5E933225164B410060AB13 /* DeviceSearchViewController.swift */,
 				9A60DEFC25301FEE00E0D849 /* DeviceSearchTableViewCell.swift */,
@@ -2143,6 +2162,8 @@
 		9A93EE542CFDE78C00C02370 /* huaxin */ = {
 			isa = PBXGroup;
 			children = (
+				9A0B86E22DD1C3D500E1E936 /* RemoveDeviceViewController.swift */,
+				9A410C752DCB5368006240A6 /* XLogger.swift */,
 				9A93EE4D2CFDE78C00C02370 /* OTA */,
 				9A93EE4F2CFDE78C00C02370 /* XGZTBlueToothManager.swift */,
 				9A93EE502CFDE78C00C02370 /* XGZTBusinessHandler.swift */,
@@ -2503,8 +2524,12 @@
 				9A2185AD255BC6AA000330E5 /* new3.jpg in Resources */,
 				9A33D31426AD9A4F00DF9618 /* CameraView.strings in Resources */,
 				9A2181652557EDBE000330E5 /* apple.jpeg in Resources */,
+				9A0B86E62DD1CC1000E1E936 /* delete_device2.png in Resources */,
+				9A0B86E72DD1CC1000E1E936 /* delete_device1.png in Resources */,
 				9A60DEE3252F003800E0D849 /* hotCities.plist in Resources */,
 				9A3C55C92BD36981007737A2 /* SCBreathAnimationView.xib in Resources */,
+				9A46063D2DD5FF580011017F /* delete_device20.png in Resources */,
+				9A46063E2DD5FF580011017F /* delete_device10.png in Resources */,
 				9A2185B0255BC6AA000330E5 /* new5.jpg in Resources */,
 				9A4E624424F7E94E00A0E878 /* Device.storyboard in Resources */,
 				9AA2E0582B343C9C0008CA56 /* Media.xcassets in Resources */,
@@ -2637,6 +2662,7 @@
 				9AE1A16F2629465F00B8B10D /* JCDataConvert.m in Sources */,
 				9A8CA51C25272C5200EC01A7 /* CVCalendarViewPresentationMode.swift in Sources */,
 				9A56D27925216FC60082CC08 /* Transformer.swift in Sources */,
+				9A410C762DCB5372006240A6 /* XLogger.swift in Sources */,
 				9A2181962558290B000330E5 /* SetTargetCViewController.swift in Sources */,
 				9A56D2A625216FC70082CC08 /* BubbleChartData.swift in Sources */,
 				9A56D24C25216FC60082CC08 /* ChevronDownShapeRenderer.swift in Sources */,
@@ -2999,8 +3025,10 @@
 				9A56D2A425216FC70082CC08 /* ChartDataEntry.swift in Sources */,
 				9A56D2BE25216FC70082CC08 /* ChartDataProvider.swift in Sources */,
 				9A56D28325216FC60082CC08 /* ChartUtils.swift in Sources */,
+				9A0B86E32DD1C3E100E1E936 /* RemoveDeviceViewController.swift in Sources */,
 				9A56D26F25216FC60082CC08 /* ChartAnimationEasing.swift in Sources */,
 				9A56D2A225216FC70082CC08 /* BubbleChartDataEntry.swift in Sources */,
+				9A4B80A72DE1F5BB0001817F /* SelectAddActionViewController.swift in Sources */,
 				9A56D25225216FC60082CC08 /* XAxisRendererHorizontalBarChart.swift in Sources */,
 				9A21BFD82D00339F0048CF53 /* Utils.swift in Sources */,
 				9AF3F2DD2BCC229B00AFBC55 /* HNavigationController.swift in Sources */,
@@ -3274,7 +3302,7 @@
 				CODE_SIGN_ENTITLEMENTS = "";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 220;
+				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_ASSET_PATHS = TJDWristbandSDK.framework;
 				DEVELOPMENT_TEAM = 6BTCM549U7;
@@ -3298,7 +3326,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/SmartBracelet/JL/BLEUsage",
 				);
-				MARKETING_VERSION = 2.4.2;
+				MARKETING_VERSION = 2.4.3;
 				OTHER_SWIFT_FLAGS = "$(inherited) -D WeiZhongYun -D DisplayPrint -D TestMode";
 				PRODUCT_BUNDLE_IDENTIFIER = com.sinophy.uwatch;
 				PRODUCT_NAME = FitDAY;
@@ -3323,7 +3351,7 @@
 				CODE_SIGN_ENTITLEMENTS = "";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 220;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = TJDWristbandSDK.framework;
 				DEVELOPMENT_TEAM = 6BTCM549U7;
 				ENABLE_BITCODE = NO;
@@ -3346,7 +3374,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/SmartBracelet/JL/BLEUsage",
 				);
-				MARKETING_VERSION = 2.4.2;
+				MARKETING_VERSION = 2.4.3;
 				OTHER_SWIFT_FLAGS = "$(inherited) -D WeiZhongYun -D DisplayPrint -D TestMode";
 				PRODUCT_BUNDLE_IDENTIFIER = com.sinophy.uwatch;
 				PRODUCT_NAME = FitDAY;

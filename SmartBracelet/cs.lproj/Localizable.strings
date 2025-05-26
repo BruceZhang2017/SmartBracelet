@@ -236,3 +236,11 @@
 "confirm_delete" = "Potvrdit smazání";
 "delete_alarm_confirmation" = "Jste si jisti, že chcete smazat tento alarm?";
 "ble_off" = "Bluetooth is not enabled. Please enable it first.";
+
+"delete_device_1" = "Odstranit zařízení";
+"delete_device_2" = "Zařízení bylo odebráno z U-Watch, ale stále je připojeno k vašemu telefonu. Chcete-li toto zařízení úplně odstranit, proveďte následující kroky:";
+"delete_device_3" = "1. V nastavení vašeho telefonu > Bluetooth > Moje zařízení najděte 'e watch' a klepněte na 'i' vpravo.";
+"delete_device_4" = "2. Vyberte 'Zapomenout na toto zařízení'.";
+"delete_device_5" = "3. Po dokončení se vraťte do aplikace 'U-Watch'.";
+"delete_device_6" = "Provedl jsem výše uvedené kroky";
+"delete_device_7" = "Potvrdit";

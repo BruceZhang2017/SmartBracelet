@@ -76,7 +76,7 @@ class HealthViewController: BaseViewController {
         if !isXGZT {
             WUBleManager.shared.didSetUserinfo = {
                 result in
-                print("设置用户信息是否成功: \(result)")
+                XLogger.shared.log("设置用户信息是否成功: \(result)")
             }
         }
         
@@ -127,7 +127,7 @@ class HealthViewController: BaseViewController {
         }
         
         // 设置 DropDown 数据源
-        dropDown.dataSource = ["扫一扫", "添加设备"]
+        dropDown.dataSource = ["device_scan".localized(), "device_add".localized()]
 
         // 自定义下拉菜单样式
         dropDown.textFont = UIFont.systemFont(ofSize: 16)
@@ -138,7 +138,7 @@ class HealthViewController: BaseViewController {
 
         // 设置选中事件回调
         dropDown.selectionAction = { [unowned self] (index: Int, item: String) in
-            print("选中了第 \(index) 项: \(item)")
+            XLogger.shared.log("选中了第 \(index) 项: \(item)")
             self.bHavenScanResult = false
             // 您可以在这里处理选中后的操作，例如更新界面或发送请求
             if index == 1 {
@@ -165,49 +165,73 @@ class HealthViewController: BaseViewController {
                 vc.modalPresentationStyle = .fullScreen
                 //设置标题、颜色、扫描样式（线条、网格）、提示文字
                 vc.setupScanner("device_scan".localized(), .blue, .grid, "device_scan_add_device".localized()) {[weak self] (code) in
-                    //扫描回调方法
-                    print("扫描的结果是：\(code)")
-                    if (self?.bHavenScanResult ?? false) {
+                    // 扫描回调方法
+                    XLogger.shared.log("扫描的结果是：\(code)")
+                    
+                    if self?.bHavenScanResult ?? false {
+                        XLogger.shared.log("扫描的结果是重复了")
                         return
                     }
-                    if code.count > 0 && code.contains("mac=") {
+                    
+                    guard !code.isEmpty else {
+                        XLogger.shared.log("扫描的结果是无设备4")
+                        self?.dismiss(animated: true, completion: nil)
+                        return
+                    }
+                    
+                    // 处理旧设备（含mac参数）
+                    if code.contains("mac=") {
+                        XLogger.shared.log("扫描的结果是旧设备")
                         self?.bHavenScanResult = true
-                        let mac = self?.extractMacValue(from: code)
-                        if bleSelf.bleModels.count > 0 {
-                            for model in bleSelf.bleModels {
-                                let m = model.mac.replacingOccurrences(of: ":", with: "").lowercased()
-                                if m == mac?.lowercased() {
-                                    bleSelf.connectBleDevice(model: model)
-                                    break
-                                }
-                            }
-                        }
-                    } else if code.count > 0 && code.contains("k=") {
-                        self?.bHavenScanResult = true
-                        if let url = URL(string: code),
-                           let components = URLComponents(url: url, resolvingAgainstBaseURL: false),
-                           let queryItems = components.queryItems {
-
-                            // 查找名称为 'k' 的查询参数
-                            if let kItem = queryItems.first(where: { $0.name == "k" }),
-                               var macAddress = kItem.value {
-                                
-                                // 如果值中包含 '|'，则截取 '|' 之前的部分
-                                if let pipeIndex = macAddress.firstIndex(of: "|") {
-                                    macAddress = String(macAddress[..<pipeIndex])
-                                    if XGZTBlueToothManager.shared.isCurrentBleStateOFF() {
-                                        Toast(text: "ble_off".localized()).show()
-                                    } else {
-                                        XGZTBlueToothManager.shared.connectAndScan(to: macAddress)
+                        if let mac = self?.extractMacValue(from: code) {
+                            if bleSelf.bleModels.count > 0 {
+                                for model in bleSelf.bleModels {
+                                    let m = model.mac.replacingOccurrences(of: ":", with: "").lowercased()
+                                    if m == mac.lowercased() {
+                                        bleSelf.connectBleDevice(model: model)
+                                        break
                                     }
-                                    
                                 }
                             }
                         }
                     }
-                    //关闭扫描页面
-                    self?.dismiss(animated: true, completion: nil)
+                    // 处理新设备（含k参数）
+                    else if code.contains("k=") {
+                        XLogger.shared.log("扫描的结果是新设备")
+                        self?.bHavenScanResult = true
+                        
+                        // 手动解析k参数值（避免URLComponents旧系统兼容问题）
+                        if let kParamStart = code.range(of: "k=")?.upperBound {
+                            let kParamEnd = code[kParamStart...].range(of: "&")?.lowerBound ?? code.endIndex
+                            let kValueStr = String(code[kParamStart..<kParamEnd])
+                            XLogger.shared.log("解析k参数的原始值：\(kValueStr)")
+                            
+                            guard let pipeIndex = kValueStr.firstIndex(of: "|") else {
+                                XLogger.shared.log("扫描的结果有错误1：参数k的值中未找到|分隔符")
+                                self?.dismiss(animated: true, completion: nil)
+                                return
+                            }
+                            
+                            let macAddress = String(kValueStr[..<pipeIndex]).trimmingCharacters(in: .whitespacesAndNewlines)
+                            XLogger.shared.log("解析到的mac地址是：\(macAddress)")
+                            
+                            if XGZTBlueToothManager.shared.isCurrentBleStateOFF() {
+                                Toast(text: "ble_off".localized()).show()
+                                XLogger.shared.log("蓝牙没有开启")
+                            } else {
+                                XGZTBlueToothManager.shared.connectAndScan(to: macAddress)
+                            }
+                        } else {
+                            XLogger.shared.log("扫描的结果有错误2：未找到k参数")
+                            self?.dismiss(animated: true, completion: nil)
+                        }
+                    }
+                    else {
+                        XLogger.shared.log("扫描的结果有错误3：代码格式不匹配")
+                    }
                     
+                    // 关闭扫描页面（无论是否成功均关闭）
+                    self?.dismiss(animated: true, completion: nil)
                 }
 
                 //Present到扫描页面
@@ -288,13 +312,14 @@ class HealthViewController: BaseViewController {
                     message: "mine_bluetooth_unconnect".localized(),
                     preferredStyle: .alert
                 )
+                self?.alertController?.addAction(UIAlertAction(title: "Cancel".localized(), style: .cancel, handler: nil))
                 let action = UIAlertAction(
                     title: "push_to_bt_settings".localized(),
                     style: .default
                 ) { _ in
-                    if let url = URL(string: "App-Prefs:root=Bluetooth"),
-                       UIApplication.shared.canOpenURL(url) {
-                        UIApplication.shared.open(url, options: [:])
+                    guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
+                    if UIApplication.shared.canOpenURL(url) {
+                        UIApplication.shared.open(url, completionHandler: nil)
                     }
                 }
                 self?.alertController?.addAction(action)
@@ -374,7 +399,7 @@ class HealthViewController: BaseViewController {
                     [weak self] in
                     let truncated = (Float(v) / 10000).rounded(.towardZero) / 1000
                     self?.refreshStepValue(unit: Float(unit) / 100000, v: Float(truncated))
-                    print("距离：\(unit), 千卡：\(v)")
+                    XLogger.shared.log("距离：\(unit), 千卡：\(v)")
                 }
             } else {
                 let distance = bleSelf.distance
@@ -540,19 +565,19 @@ class HealthViewController: BaseViewController {
                 }
             }
         } else if objc == "delete" {
-            print("执行删除设备的动作")
+            XLogger.shared.log("执行删除设备的动作")
             let userinfo = notification.userInfo as? [String : String]
             var mac = userinfo?["mac"] ?? ""
             if mac.count == 0 {
                 mac = UserDefaults.standard.string(forKey: "LastestDeviceMac") ?? ""
             }
             if mac.count > 0 {
-                print("执行删除设备的动作: \(mac)")
+                XLogger.shared.log("执行删除设备的动作: \(mac)")
                 for device in DeviceManager.shared.devices {
                     if device.mac == mac {
                         if let model = try? BLEModel.er.array("mac = '\(mac)'").first {
                             try? model.er.delete()
-                            print("执行删除设备的动作标志成功")
+                            XLogger.shared.log("执行删除设备的动作标志成功")
                         }
                         break
                     }
@@ -580,7 +605,14 @@ class HealthViewController: BaseViewController {
                 [weak self] in
                 self?.tableView.reloadData()
             }
-            
+        } else if objc == "head" {
+            DispatchQueue.main.async {
+                [weak self] in
+                if isXGZT {
+                    self?.sexImageView.image = UIImage(named: XGZTBlueToothManager.shared.device?.sex == 0 ? "health_boy" : "health_girl")
+                    return
+                }
+            }
         }
     }
     
@@ -614,13 +646,14 @@ class HealthViewController: BaseViewController {
                     message: "mine_bluetooth_unconnect".localized(),
                     preferredStyle: .alert
                 )
+                self?.alertController?.addAction(UIAlertAction(title: "Cancel".localized(), style: .cancel, handler: nil))
                 let action = UIAlertAction(
                     title: "push_to_bt_settings".localized(),
                     style: .default
                 ) { _ in
-                    if let url = URL(string: "App-Prefs:root=Bluetooth"),
-                       UIApplication.shared.canOpenURL(url) {
-                        UIApplication.shared.open(url, options: [:])
+                    guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
+                    if UIApplication.shared.canOpenURL(url) {
+                        UIApplication.shared.open(url, completionHandler: nil)
                     }
                 }
                 self?.alertController?.addAction(action)
@@ -634,7 +667,7 @@ class HealthViewController: BaseViewController {
             if isSupportAlipay {
                 checkFGSStatus() // 连接成功后，再检查
             }
-            print("显示loading图片")
+            XLogger.shared.log("显示loading图片")
             if hud != nil {
                 hud?.dismiss(animated: false)
                 hud = nil
@@ -675,7 +708,9 @@ class HealthViewController: BaseViewController {
                     self?.hud?.dismiss(animated: false)
                 }
             }
-            
+            if isXGZT {
+                return
+            }
             manager.syncTemprature() //  连接成功后，则同步天气。
         }
         if obj == 100 {
@@ -688,7 +723,35 @@ class HealthViewController: BaseViewController {
             }
         }
         if obj == 1000 {
-            manager.syncTemprature(flag: 1) //  连接成功后，则同步天气。
+            XLogger.shared.log("显示loading图片")
+            if hud != nil {
+                hud?.dismiss(animated: false)
+                hud = nil
+            }
+            if let delegate  = UIApplication.shared.delegate as? AppDelegate {
+                hud = JGProgressHUD(style: .light)
+                let gifImage = UIImage.gifImageWithName("loading")
+                let imageView = UIImageView(image: gifImage)
+                let indicatorView = JGProgressHUDImageIndicatorView(contentView: imageView)
+                hud?.indicatorView = indicatorView
+                hud?.textLabel.text = "\("sync_data".localized())"
+                hud?.show(in: delegate.window ?? UIView())
+            }
+            startLoadingViewCheckTimer()
+        }
+        if obj == 2000 {
+            endLoadingViewCheckTimer()
+            DispatchQueue.main.async {
+                [weak self] in
+                self?.hud?.dismiss(animated: false)
+            }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                [weak self] in
+                guard let s = self else {
+                    return
+                }
+                s.manager.syncTemprature(flag: 1) //  连接成功后，则同步天气。
+            }
         }
         if obj == 10000 {
             startPhoto()
@@ -702,9 +765,9 @@ class HealthViewController: BaseViewController {
     }
     
     private func startLoadingViewCheckTimer() {
-        print("张晓飞：启动加载loading的检查")
+        XLogger.shared.log("张晓飞：启动加载loading的检查")
         endLoadingViewCheckTimer()
-        loadingViewCheckTimer = Timer.scheduledTimer(withTimeInterval: 10, repeats: false, block: { (timer) in
+        loadingViewCheckTimer = Timer.scheduledTimer(withTimeInterval: 20, repeats: false, block: { (timer) in
             NotificationCenter.default.post(name: Notification.Name("HealthVCLoading"), object: 3)
         })
         RunLoop.current.add(loadingViewCheckTimer!, forMode: .common)
@@ -793,7 +856,7 @@ class HealthViewController: BaseViewController {
         }
         let time = Int(Date().zeroTimeStamp())
         let models = try? DStepModel.er.array("timeStamp > \(time) AND mac = '\(lastestDeviceMac)'")
-        print("数据库里\(lastestDeviceMac)步数晚于\(time)的数据总条数：\(models?.count ?? 0)")
+        XLogger.shared.log("数据库里\(lastestDeviceMac)步数晚于\(time)的数据总条数：\(models?.count ?? 0)")
         var step = 0
         var distance = 0
         var cal = 0
@@ -825,7 +888,7 @@ class HealthViewController: BaseViewController {
         let stamp = Int(Date().zeroTimeStamp())
         let a = try? DHeartRateModel.er.array("timeStamp>=\(stamp) AND timeStamp<\(stamp + 24 * 60 * 60) AND mac='\(lastestDeviceMac)'")
         let models = a?.sorted {$0.timeStamp > $1.timeStamp}
-        print("数据库里心跳的数据总条数：\(models?.count ?? 0)")
+        XLogger.shared.log("数据库里心跳的数据总条数：\(models?.count ?? 0)")
         
         let b = try? DHeartRateModel.er.last("mac='\(lastestDeviceMac)'")
         let heart = b?.heartRate ?? 0
@@ -852,7 +915,7 @@ class HealthViewController: BaseViewController {
     private func readDBSleep() {
         let value = Int(Date().zeroTimeStamp())
         let models = try? DSleepModel.er.array("timeStamp>=\(value - 2 * 60 * 60) AND timeStamp<\(value + 10 * 60 * 60) AND mac = '\(lastestDeviceMac)'")
-        print("数据库里睡眠的数据总条数：\(models?.count ?? 0)")
+        XLogger.shared.log("数据库里睡眠的数据总条数：\(models?.count ?? 0)")
         var array: [SleepModel] = []
         if models != nil {
             for model in models! {
@@ -903,7 +966,7 @@ class HealthViewController: BaseViewController {
     
     private func readDBBlood() {
         let models = try? DBloodModel.er.array("mac = '\(lastestDeviceMac)'").sorted(byKeyPath: "timeStamp", ascending: false)
-        print("数据库里血压的数据总条数：\(models?.count ?? 0)")
+        XLogger.shared.log("数据库里血压的数据总条数：\(models?.count ?? 0)")
         var min = 0
         var max = 0
         if models?.count ?? 0 > 0 {
@@ -931,7 +994,7 @@ class HealthViewController: BaseViewController {
     
     private func readDBOxygen() {
         let models = try? DOxygenModel.er.array("mac = '\(lastestDeviceMac)'").sorted(byKeyPath: "timeStamp", ascending: false)
-        print("数据库里血氧的数据总条数：\(models?.count ?? 0)")
+        XLogger.shared.log("数据库里血氧的数据总条数：\(models?.count ?? 0)")
         let value = models?.first?.oxygen ?? 0
         let v = NSMutableAttributedString()
         v.append(NSAttributedString(string: "\(value)", attributes: [.font: UIFont.systemFont(ofSize: 20, weight: .black), .foregroundColor: UIColor.black]))
@@ -1102,22 +1165,22 @@ extension UIImage {
     class func gifImageWithName(_ name: String) -> UIImage? {
         guard let bundleURL = Bundle.main
             .url(forResource: name, withExtension: "gif") else {
-                print("Unable to find the GIF file named \(name).gif")
+                XLogger.shared.log("Unable to find the GIF file named \(name).gif")
                 return nil
         }
         guard let imageData = try? Data(contentsOf: bundleURL) else {
-            print("Unable to load the data for the GIF file \(name).gif")
+            XLogger.shared.log("Unable to load the data for the GIF file \(name).gif")
             return nil
         }
         guard let source = CGImageSourceCreateWithData(imageData as CFData, nil) else {
-            print("Unable to create image source for the GIF file \(name).gif")
+            XLogger.shared.log("Unable to create image source for the GIF file \(name).gif")
             return nil
         }
         var images = [UIImage]()
         let count = CGImageSourceGetCount(source)
         for i in 0..<count {
             guard let cgImage = CGImageSourceCreateImageAtIndex(source, i, nil) else {
-                print("Unable to create image for frame \(i) of the GIF file \(name).gif")
+                XLogger.shared.log("Unable to create image for frame \(i) of the GIF file \(name).gif")
                 continue
             }
             let uiImage = UIImage(cgImage: cgImage)
@@ -1232,7 +1295,7 @@ extension HealthViewController: UITableViewDataSource {
     // UITableViewDataSource
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if lastestDeviceMac.count <= 0 {
-            print("lastestDeviceMac为空")
+            XLogger.shared.log("lastestDeviceMac为空")
             return 0
         }
         if !bleSelf.isConnected && XGZTBlueToothManager.shared.device == nil {
@@ -1253,7 +1316,7 @@ extension HealthViewController: UITableViewDataSource {
                 count += 1
             }
             xgztCount = count
-            print("count = \(count)")
+            XLogger.shared.log("count = \(count)")
             return count
         }
         return 4 // 你有4个cells

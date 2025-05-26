@@ -9,8 +9,8 @@
     // Perform action
     guard let text = alert.firstTextField?.text,
     let password = alert.textFields[1].text else {return}
-    print(text)
-    print(password)
+    XLogger.shared.log(text)
+    XLogger.shared.log(password)
   }
   
   alert.addAction(action1)

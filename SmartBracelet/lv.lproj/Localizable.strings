@@ -235,3 +235,11 @@
 "confirm_delete" = "Potvērst dzēšanu";
 "delete_alarm_confirmation" = "Vai Jūs esat pārliecināti, ka vēlaties izdzēst šo gandrīzi?";
 "ble_off" = "Bluetooth is not enabled. Please enable it first.";
+
+"delete_device_1" = "Dzēst ierīci";
+"delete_device_2" = "Ierīce ir dzēsta no U-Watch, taču tā joprojām ir savienota ar jūsu telefonu. Lai pilnībā dzēstu šo ierīci, veiciet šādus soļus:";
+"delete_device_3" = "1. Jūsu telefona Iestatījumos > Bluetooth > Manas ierīces atrodiet 'e watch' un noklikšķiniet uz 'i' pa labi.";
+"delete_device_4" = "2. Atlasiet 'Aizmirst šo ierīci'.";
+"delete_device_5" = "3. Pēc veiksmīgas izpildes atgriezieties uz 'U-Watch' lietotni.";
+"delete_device_6" = "Es esmu veiksmīgi izpildījis augstāk minētos soļus";
+"delete_device_7" = "Apstiprināt";

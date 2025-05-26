@@ -241,9 +241,9 @@ extension SportViewController: CLLocationManagerDelegate {
 //            if locationManager.responds(to: #selector(CLLocationManager.requestAlwaysAuthorization)) {
 //                locationManager.requestAlwaysAuthorization()
 //            }
-            print("没有授权")
+            XLogger.shared.log("没有授权")
         case .restricted:
-            print("访问受限")
+            XLogger.shared.log("访问受限")
         case .denied:
             if CLLocationManager.locationServicesEnabled() {
                 showLocationAlertView(title: "系统提示", message: "请至设置 -> 开启定位权限")
@@ -251,9 +251,9 @@ extension SportViewController: CLLocationManagerDelegate {
                 showLocationAlertView(title: "系统提示", message: "请至设置 -> 打开定位功能")
             }
         case .authorizedAlways:
-            print("获取前后台授权")
+            XLogger.shared.log("获取前后台授权")
         case .authorizedWhenInUse:
-            print("获取前台授权")
+            XLogger.shared.log("获取前台授权")
         default:
             break;
         }

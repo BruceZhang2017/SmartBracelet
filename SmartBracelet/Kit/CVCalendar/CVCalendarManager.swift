@@ -83,7 +83,7 @@ public final class CVCalendarManager {
         
         let components = (calendar as NSCalendar).components(units, from: date)
         
-        // print("NSDate: \(date), Weekday: \(components.weekday)")
+        // XLogger.shared.log("NSDate: \(date), Weekday: \(components.weekday)")
         
         // let weekday = calendar.ordinalityOfUnit(units, inUnit: WeekUnit, forDate: date)
         

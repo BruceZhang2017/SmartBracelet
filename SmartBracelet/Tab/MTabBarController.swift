@@ -21,10 +21,12 @@ class MTabBarController: UITabBarController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupLastestDeviceMac()
-        XGZTBlueToothManager.shared.initCentral() // 自定义协议初始化
-        BLEManager.shared.regNotification()
-        
+        DispatchQueue.global().async { [weak self] in
+            self?.setupLastestDeviceMac()
+            XGZTBlueToothManager.shared.initCentral() // 自定义协议初始化
+            BLEManager.shared.regNotification()
+        }
+
         setupViewControllersTitles()
         
         // 设置未选中状态下的字体颜色
@@ -54,7 +56,7 @@ class MTabBarController: UITabBarController {
     // 设置最后连接的设备MAC地址
     private func setupLastestDeviceMac() {
         lastestDeviceMac = UserDefaults.standard.string(forKey: "LastestDeviceMac") ?? ""
-        print("最后连接的设备MAC地址为：\(lastestDeviceMac)")
+        XLogger.shared.log("最后连接的设备MAC地址为：\(lastestDeviceMac)")
         if !lastestDeviceMac.isEmpty {
             perform(#selector(checkIfNeedScanDevice), with: nil, afterDelay: 1)
         }
@@ -62,7 +64,7 @@ class MTabBarController: UITabBarController {
     
     // 设置视图控制器的标题
     private func setupViewControllersTitles() {
-        print("数据库里面：\(DeviceManager.shared.devices.count)")
+        XLogger.shared.log("数据库里面：\(DeviceManager.shared.devices.count)")
         let titles = ["health_head", "device", "mine"].map { $0.localized() }
         for (index, title) in titles.enumerated() {
             viewControllers?[index].title = title
@@ -70,6 +72,12 @@ class MTabBarController: UITabBarController {
         }
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if lastestDeviceMac.isEmpty || lastestDeviceMac.count == 0 {
+            selectedIndex = 1
+        }
+    }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -129,15 +137,17 @@ class MTabBarController: UITabBarController {
         let obj = notification.object as? String ?? ""
         if obj == "disconnect" {
             (selectedViewController as? UINavigationController)?.popToRootViewController(animated: true)
+            selectedIndex = 1
+            return
         }
-        
+        selectedIndex = 0
     }
     
     /// 延迟300ms，执行判断是否需要搜索设备
     @objc private func checkIfNeedScanDevice() {
         if let model = WUBleModel.getModel() as? TJDWristbandSDK.WUBleModel {
             if model.mac == lastestDeviceMac {
-                print("还是执行搜索并连接")
+                XLogger.shared.log("还是执行搜索并连接")
                 BLEManager.shared.startScanAndConnect()
                 return
             }

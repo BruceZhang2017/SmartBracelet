@@ -211,19 +211,19 @@ open class CombinedChartData: BarLineScatterCandleBubbleChartData
     
     open override func removeDataSetByIndex(_ index: Int) -> Bool
     {
-        print("removeDataSet(index) not supported for CombinedData", terminator: "\n")
+        XLogger.shared.log("removeDataSet(index) not supported for CombinedData")
         return false
     }
     
     open override func removeEntry(_ entry: ChartDataEntry, dataSetIndex: Int) -> Bool
     {
-        print("removeEntry(entry, dataSetIndex) not supported for CombinedData", terminator: "\n")
+        XLogger.shared.log("removeEntry(entry, dataSetIndex) not supported for CombinedData")
         return false
     }
     
     open override func removeEntry(xValue: Double, dataSetIndex: Int) -> Bool
     {
-        print("removeEntry(xValue, dataSetIndex) not supported for CombinedData", terminator: "\n")
+        XLogger.shared.log("removeEntry(xValue, dataSetIndex) not supported for CombinedData")
         return false
     }
     

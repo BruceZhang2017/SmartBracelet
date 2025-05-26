@@ -625,7 +625,7 @@ class HealthDetailViewController: BaseViewController {
                             let x = (array[i].time - Int(zero)) / 3660
                             values[x] = ChartDataEntry(x: Double(x), y: Double(value) / Double(40))
                         }
-                        print("获取到数据的数量为：\(array.count)")
+                        XLogger.shared.log("获取到数据的数量为：\(array.count)")
                     }
                     if count > 0 {
                         let b = NSMutableAttributedString()
@@ -656,7 +656,7 @@ class HealthDetailViewController: BaseViewController {
                         let x = (array[i].timeStamp - Int(zero)) / 3660
                         values[x] = ChartDataEntry(x: Double(x), y: Double(value) / Double(40))
                     }
-                    print("获取到数据的数量为：\(array.count)")
+                    XLogger.shared.log("获取到数据的数量为：\(array.count)")
                 }
                 if count > 0 {
                     let b = NSMutableAttributedString()
@@ -684,7 +684,7 @@ class HealthDetailViewController: BaseViewController {
                     let x = (array[i].timeStamp - Int(zero)) / 3660
                     values[x] = ChartDataEntry(x: Double(x), y: Double(value) / Double(40))
                 }
-                print("获取到数据的数量为：\(array.count)")
+                XLogger.shared.log("获取到数据的数量为：\(array.count)")
             }
             if count > 0 {
                 let b = NSMutableAttributedString()
@@ -707,7 +707,7 @@ class HealthDetailViewController: BaseViewController {
                 dispatchGroup.enter()
                 readXGZTBlood { [weak self] oxgenObjs in
                     let array = oxgenObjs
-                    print("从数据库里读取到的血氧数据数量为：\(array.count)")
+                    XLogger.shared.log("从数据库里读取到的血氧数据数量为：\(array.count)")
                     if array.count > 0 {
                         count = array.count
                         let zero = self!.mDate.zeroTimeStamp()
@@ -716,7 +716,7 @@ class HealthDetailViewController: BaseViewController {
                             let x = (array[i].time - Int(zero)) / 3660
                             values[x] = ChartDataEntry(x: Double(x), y: Double(value) / Double(20))
                         }
-                        print("获取到数据的数量为：\(array.count)")
+                        XLogger.shared.log("获取到数据的数量为：\(array.count)")
                     }
                     if count > 0 {
                         let b = NSMutableAttributedString()
@@ -739,7 +739,7 @@ class HealthDetailViewController: BaseViewController {
             } else {
                 var count = 0
                 let array = readBlood()
-                print("从数据库里读取到的血氧数据数量为：\(array.count)")
+                XLogger.shared.log("从数据库里读取到的血氧数据数量为：\(array.count)")
                 if array.count > 0 {
                     count = array.count
                     let zero = mDate.zeroTimeStamp()
@@ -748,7 +748,7 @@ class HealthDetailViewController: BaseViewController {
                         let x = (array[i].timeStamp - Int(zero)) / 3660
                         values[x] = ChartDataEntry(x: Double(x), y: Double(value) / Double(20))
                     }
-                    print("获取到数据的数量为：\(array.count)")
+                    XLogger.shared.log("获取到数据的数量为：\(array.count)")
                 }
                 if count > 0 {
                     let b = NSMutableAttributedString()
@@ -955,7 +955,7 @@ extension HealthDetailViewController {
 
 extension HealthDetailViewController {
     func readDBStep() -> [DStepModel] {
-        print("你想查询的设备的mac地址是：\(lastestDeviceMac)")
+        XLogger.shared.log("你想查询的设备的mac地址是：\(lastestDeviceMac)")
         let stamp = Int(mDate.zeroTimeStamp())
         let models = try? DStepModel.er.array("timeStamp>\(stamp) AND timeStamp<\(stamp + 24 * 60 * 60) AND mac='\(lastestDeviceMac)'")
         return models?.sorted { $0.timeStamp < $1.timeStamp } ?? []
@@ -1024,15 +1024,15 @@ extension HealthDetailViewController: TTADataPickerViewDelegate {
     }
     // when the pickerView  has been changed, this function will be called, and you will get the row and component which changed just now
     func dataPickerView(_ pickerView: TTADataPickerView, didChange row: Int, inComponent component: Int) {
-        print(#function)
+        XLogger.shared.log(#function)
     }
     // when you clicked the cancel button, this function will be called firstly
     func dataPickerViewWillCancel(_ pickerView: TTADataPickerView) {
-        print(#function)
+        XLogger.shared.log(#function)
     }
     // when you clicked the cancel button, this function will be called at the last
     func dataPickerViewDidCancel(_ pickerView: TTADataPickerView) {
-        print(#function)
+        XLogger.shared.log(#function)
     }
 }
 

@@ -226,3 +226,11 @@
 "confirm_delete" = "Kinnita kustutamine";
 "delete_alarm_confirmation" = "Kas oled kindel, et soovid kustutada selle häire?";
 "ble_off" = "Bluetooth is not enabled. Please enable it first.";
+
+"delete_device_1" = "Kustuta seade";
+"delete_device_2" = "Seade on eemaldatud U-Watchist, kuid see on endiselt ühendatud teie telefoniga. Selle seadme täielikuks kustutamiseks tehke järgmist:";
+"delete_device_3" = "1. Teie telefoni Seaded > Bluetooth > Minu seadmed leiate 'e watch' ja vajutage paremal 'i'.";
+"delete_device_4" = "2. Valige 'Unusta see seade'.";
+"delete_device_5" = "3. Pärast lõpetamist tagasipöördumine 'U-Watch'-rakendusse.";
+"delete_device_6" = "Olen ülaltoodud toimingud tehtud";
+"delete_device_7" = "Kinnita";

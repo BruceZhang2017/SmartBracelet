@@ -433,7 +433,7 @@ open class CameraViewController: UIViewController {
      */
     public func capturePhoto() {
         if cameraView.imageOutput == nil {
-            print("cameraView.imageOutput为空")
+            XLogger.shared.log("cameraView.imageOutput为空")
         }
         guard let output = cameraView.imageOutput,
             let connection = output.connection(with: AVMediaType.video) else {

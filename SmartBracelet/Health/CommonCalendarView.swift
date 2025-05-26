@@ -115,7 +115,7 @@ extension CommonCalendarView: CVCalendarViewDelegate, CVCalendarMenuViewDelegate
     func shouldSelectRange() -> Bool { return false }
     
     func didSelectRange(from startDayView: DayView, to endDayView: DayView) {
-        print("RANGE SELECTED: \(startDayView.date.commonDescription) to \(endDayView.date.commonDescription)")
+        XLogger.shared.log("RANGE SELECTED: \(startDayView.date.commonDescription) to \(endDayView.date.commonDescription)")
     }
     
     func presentedDateUpdated(_ date: CVDate) {

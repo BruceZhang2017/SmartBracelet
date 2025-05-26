@@ -42,7 +42,7 @@ open class BarChartData: BarLineScatterCandleBubbleChartData
         let setCount = _dataSets.count
         if setCount <= 1
         {
-            print("BarData needs to hold at least 2 BarDataSets to allow grouping.", terminator: "\n")
+            XLogger.shared.log("BarData needs to hold at least 2 BarDataSets to allow grouping.")
             return
         }
         

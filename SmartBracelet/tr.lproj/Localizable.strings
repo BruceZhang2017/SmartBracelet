@@ -400,3 +400,11 @@
 "confirm_delete" = "Silmeyi onayla";
 "delete_alarm_confirmation_turkish" = "Bu çanı silmek istediğinizden emin misiniz?";
 "ble_off" = "Bluetooth is not enabled. Please enable it first.";
+
+"delete_device_1" = "Cihazı Sil";
+"delete_device_2" = "Cihaz U-Watch'ten kaldırıldı ancak hala telefonunuza bağlı. Bu cihazı tamamen silmek için aşağıdaki işlemleri tamamlayın:";
+"delete_device_3" = "1. Telefonunuzun Ayarları > Bluetooth > Cihazlarım bölümünde 'e watch'ı bulun ve sağdaki 'i'ye dokunun.";
+"delete_device_4" = "2. 'Bu cihazı unut' seçeneğini belirleyin.";
+"delete_device_5" = "3. Tamamlandıktan sonra 'U-Watch' Uygulamasına geri dönün.";
+"delete_device_6" = "Yukarıdaki işlemleri tamamladım";
+"delete_device_7" = "Onayla";

@@ -401,3 +401,11 @@
 "confirm_delete" = "Vahvista poisto";
 "delete_alarm_confirmation" = "Haluatko varmasti poistaa tämän kellon?";
 "ble_off" = "Bluetooth is not enabled. Please enable it first.";
+
+"delete_device_1" = "Poista laite";
+"delete_device_2" = "Laite on poistettu U-Watchista, mutta se on edelleen yhdistetty puhelimeesi. Poista tämä laite täysin suorittamalla seuraavat vaiheet:";
+"delete_device_3" = "1. Puhelimen Asetukset > Bluetooth > Omat laitteet -osiossa etsi 'e watch' ja napsauta oikealla 'i'.";
+"delete_device_4" = "2. Valitse 'Unohda tämä laite'.";
+"delete_device_5" = "3. Kun olet valmis, palaa 'U-Watch'-sovellukseen.";
+"delete_device_6" = "Olen suorittanut yllä olevat vaiheet";
+"delete_device_7" = "Vahvista";

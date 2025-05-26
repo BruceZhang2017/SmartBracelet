@@ -23,18 +23,6 @@ class DeviceSettingsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         if isXGZT { // 如果是自研产品
-            XGZTCommand.getSwitchStatus()
-            XGZTCommand.getSwitchTableExtension()
-            var delayTime = DispatchTime.now() + .milliseconds(50)
-            DispatchQueue.main.asyncAfter(deadline: delayTime) {
-                XGZTCommand.getReminderInfo(eventType: 0) // 久坐
-            }
-            
-            delayTime = DispatchTime.now() + .milliseconds(100)
-            DispatchQueue.main.asyncAfter(deadline: delayTime) {
-                XGZTCommand.getReminderInfo(eventType: 1) //喝水
-            }
-            
             
         } else {
             bleSelf.getAncsSwitchForWristband() // 苹果推送消息
@@ -490,8 +478,8 @@ extension DeviceSettingsViewController: UITableViewDelegate {
             perform(#selector(readAlarm), with: nil, afterDelay: 0.3)
         } else if indexPath.row == 12 { // 同步数据
             if isXGZT {
+                NotificationCenter.default.post(name: Notification.Name("HealthVCLoading"), object: 1000)
                 XGZTBlueToothManager.shared.handler.syncDevcieInfo()
-                Toast(text: "synchronize_data_finish".localized()).show()
             } else {
                 if bleSelf.isConnected {
                     NotificationCenter.default.post(name: Notification.Name("HealthVCLoading"), object: 2)

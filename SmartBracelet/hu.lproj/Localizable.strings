@@ -236,3 +236,11 @@
 "confirm_delete" = "Törlés megerősítése";
 "delete_alarm_confirmation" = "Biztosan törölni want to delete this alarm?"; // 应为 "Biztosan törölni szeretnéd ezt az alarmot?";
 "ble_off" = "Bluetooth is not enabled. Please enable it first.";
+
+"delete_device_1" = "Eszköz törlése";
+"delete_device_2" = "Az eszköz törölve lett az U-Watch-ből, de továbbra is csatlakoztatva van a telefonjához. Az eszköz teljes törléséhez hajtsa végre a következőket:";
+"delete_device_3" = "1. A telefon Beállításai > Bluetooth > Eszközöim menüjében keresse meg az 'e watch' nevet, majd kattintson a jobb oldalon található 'i'-re.";
+"delete_device_4" = "2. Válassza az 'Eszköz elvetése' lehetőséget.";
+"delete_device_5" = "3. A befejezés után térjen vissza az 'U-Watch' alkalmazásba.";
+"delete_device_6" = "Elvégeztem a fenti lépéseket";
+"delete_device_7" = "Megerősítés";

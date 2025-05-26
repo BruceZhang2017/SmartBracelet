@@ -401,3 +401,11 @@
 "confirm_delete" = "Löschen bestätigen";
 "delete_alarm_confirmation" = "Möchten Sie diese Wecker wirklich löschen?";
 "ble_off" = "Bluetooth is not enabled. Please enable it first.";
+
+"delete_device_1" = "Gerät löschen";
+"delete_device_2" = "Das Gerät wurde aus U-Watch entfernt, ist aber immer noch mit Ihrem Telefon verbunden. Um dieses Gerät vollständig zu löschen, führen Sie die folgenden Schritte aus:";
+"delete_device_3" = "1. Suchen Sie in den Einstellungen Ihres Telefons > Bluetooth > Meine Geräte nach 'e watch' und tippen Sie auf das 'i' rechts.";
+"delete_device_4" = "2. Wählen Sie 'Gerät vergessen'.";
+"delete_device_5" = "3. Kehren Sie nach Abschluss zur 'U-Watch'-App zurück.";
+"delete_device_6" = "Ich habe die obigen Schritte ausgeführt";
+"delete_device_7" = "Bestätigen";

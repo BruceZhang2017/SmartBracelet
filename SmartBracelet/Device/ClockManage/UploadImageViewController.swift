@@ -139,7 +139,7 @@ class UploadImageViewController: UIViewController {
                 let imageData = newImage.compressImageOnlength(maxLength: 50)
                 delegate?.startUpload(image: UIImage(data: imageData!)!)
             } else if bk {
-                print("中科设备开始推送表盘数据")
+                XLogger.shared.log("中科设备开始推送表盘数据")
                 delegate?.startUpload(image: newImage)
             } else {
                 if isXGZT {

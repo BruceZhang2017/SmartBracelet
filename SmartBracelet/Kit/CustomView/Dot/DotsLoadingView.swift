@@ -52,7 +52,7 @@ public class DotsLoadingView: UIView {
             }
         } else {
             // Fallback on earlier versions
-            print("It's only availabel from iOS 10")
+            XLogger.shared.log("It's only availabel from iOS 10")
         }
     }
     

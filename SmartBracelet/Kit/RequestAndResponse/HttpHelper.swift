@@ -42,7 +42,7 @@ class HttpHelper: NSObject {
                 success(value)
             }
         }) { (_, error: Error) in
-            print(error)
+            XLogger.shared.log("\(error)")
             failure(error)
         }
     }
@@ -59,7 +59,7 @@ class HttpHelper: NSObject {
                 success(value)
             }
         }) { (_, error: Error) in
-            print(error)
+            XLogger.shared.log("\(error)")
             failure(error)
         }
     }

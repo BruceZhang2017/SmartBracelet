@@ -51,7 +51,7 @@ class OTAInfoManager {
             "pageNum": "1",
             "otaModel": "jd9853",
             "moreEqOtaVersion": "v0.0.21",
-            "isPublish": "N"
+            "isPublish": "Y"
         ]
 
         AF.upload(multipartFormData: { multipartFormData in
@@ -66,7 +66,7 @@ class OTAInfoManager {
                 completion(nil)
                 return
             }
-            print("返回的数据：\(data)")
+            XLogger.shared.log("返回的数据：\(data)")
             let model = try? JSONDecoder().decode(OTAInfoResponse.self, from: data)
             completion(model)
         }
@@ -97,7 +97,7 @@ class OTAInfoManager {
             let data = try Data(contentsOf: fileURL)
             return data
         } catch {
-            print("Error reading saved OTA file: \(error)")
+            XLogger.shared.log("Error reading saved OTA file: \(error)")
             return nil
         }
     }

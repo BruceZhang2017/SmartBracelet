@@ -400,3 +400,11 @@
 "confirm_delete" = "Verwijderen bevestigen";
 "delete_alarm_confirmation" = "Weet je zeker dat je deze wekker wilt verwijderen?";
 "ble_off" = "Bluetooth is not enabled. Please enable it first.";
+
+"delete_device_1" = "Apparaat verwijderen";
+"delete_device_2" = "Het apparaat is verwijderd uit U-Watch maar is nog steeds verbonden met uw telefoon. Om dit apparaat volledig te verwijderen, voltooi de volgende stappen:";
+"delete_device_3" = "1. In de instellingen van uw telefoon > Bluetooth > Mijn apparaten, zoek 'e watch' en tik op de 'i' rechts.";
+"delete_device_4" = "2. Selecteer 'Vergeet dit apparaat'.";
+"delete_device_5" = "3. Nadat u klaar bent, ga terug naar de 'U-Watch'-app.";
+"delete_device_6" = "Ik heb de bovenstaande stappen voltooid";
+"delete_device_7" = "Bevestigen";

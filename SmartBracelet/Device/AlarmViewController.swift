@@ -246,7 +246,7 @@ extension AlarmViewController: UITableViewDelegate {
             let firstConfirmAction = UIAlertAction(title: "confirm".localized(), style: .destructive) { [weak self] _ in
                 guard let self = self else { return }
                 // 打印被删除的 cell 的索引
-                print("Deleting cell at indexPath: \(indexPath)")
+                XLogger.shared.log("Deleting cell at indexPath: \(indexPath)")
                 
                 if isXGZT {
                     if var alarms = XGZTBlueToothManager.shared.device?.alarms, alarms.indices.contains(indexPath.row) {

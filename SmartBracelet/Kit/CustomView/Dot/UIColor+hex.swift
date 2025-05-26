@@ -22,7 +22,7 @@ extension UIColor {
             return UIColor(red:r,green:g,blue:b,alpha:alpha)
         } else {
             // Invalid hex string
-            print("invalid hex string")
+            XLogger.shared.log("invalid hex string")
             return UIColor.white;
         }
     }

@@ -8,7 +8,7 @@
 
 import Foundation
 
-
+var flag_time: TimeInterval = 0
 
 public class OpenWeatherManager: NSObject {
     
@@ -86,6 +86,17 @@ public class OpenWeatherManager: NSObject {
     
     func syncTemprature(weather: CurrentWeatherData) {
         if isXGZT { //type 0未知 1晴天 2多云 3下雨 4下雪 5阴天
+            if flag_time == 0 {
+                flag_time = Date().timeIntervalSince1970
+            } else {
+                let t = Date().timeIntervalSince1970
+                if t - flag_time < 3 {
+                    flag_time = t
+                    return
+                } else {
+                    flag_time = t 
+                }
+            }
             let count = min(3, weather.list.count)
             for i in 0..<count {
                 let temp = Int(tempratureKToC(temp: weather.list[i].temp.day ))
@@ -108,7 +119,7 @@ public class OpenWeatherManager: NSObject {
                 if weather.hasPrefix("01") {
                     type = 1
                 }
-                print("发送给手表的数据：\(temp) \(type) \(i)")
+                XLogger.shared.log("发送给手表的数据2：\(temp) \(type) \(i)")
                 XGZTCommand.setWeatherInfo(dateType: i, weatherType: type, currTemp: temp, lTemp: min, hTemp: max, cmd: flag > 0 ? 2 : 1)
             }
             return
@@ -136,7 +147,7 @@ public class OpenWeatherManager: NSObject {
                 if weather.hasPrefix("04") {
                     type = 4
                 }
-                print("发送给手表的数据：\(temp) \(type) \(i)")
+                XLogger.shared.log("发送给手表的数据：\(temp) \(type) \(i)")
                 bleSelf.setWeatherForSevenDays(temper: temp, type: UInt8(type), max: max, min: min, day: i, pressure: 1000, altitude: 1000)
             }
         } else {
@@ -185,7 +196,7 @@ extension OpenWeatherManager: CLLocationManagerDelegate {
     }
 
     public func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        print(error.localizedDescription)
+        XLogger.shared.log(error.localizedDescription)
     }
     
     public func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {

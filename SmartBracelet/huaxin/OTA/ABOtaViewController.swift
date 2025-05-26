@@ -47,14 +47,14 @@ class ABOtaViewController: UIViewController {
                 OTAInfoManager.shared.downloadOTAFile(from: otaUrl) { [weak self] downloadResult in
                     switch downloadResult {
                     case .success(let fileURL):
-                        print("File downloaded to: \(fileURL)")
+                        XLogger.shared.log("File downloaded to: \(fileURL)")
                         if let data = OTAInfoManager.shared.readSavedOTAFile() {
-                            print("Read saved OTA file with size: \(data.count) bytes")
+                            XLogger.shared.log("Read saved OTA file with size: \(data.count) bytes")
                             self?.abOta.setOtaData(data)
                             
                         }
                     case .failure(let error):
-                        print("Failed to download file: \(error)")
+                        XLogger.shared.log("Failed to download file: \(error)")
                     }
                 }
             }

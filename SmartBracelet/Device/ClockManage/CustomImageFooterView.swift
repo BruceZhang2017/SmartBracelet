@@ -60,7 +60,7 @@ extension CustomImageFooterView: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("当前点击的是：\(indexPath.item)")
+        XLogger.shared.log("当前点击的是：\(indexPath.item)")
         delegate?.callbackForSelectImage(collectionView: collectionView, index: indexPath.item)
     }
 }

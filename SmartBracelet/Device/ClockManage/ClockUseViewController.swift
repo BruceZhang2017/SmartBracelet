@@ -174,7 +174,7 @@ class ClockUseViewController: BaseViewController {
         // 创建"确定"按钮
         let confirmAction = UIAlertAction(title: "mine_confirm".localized(), style: .default) {[weak self] (action) in
             // 在这里添加下载和上传至手表的代码
-            print("确定按钮被点击")
+            XLogger.shared.log("确定按钮被点击")
             
             if self?.index ?? 0 > 0 {
                 self?.downloadFile(url: self?.currentClock?.resourcesUrl ?? "")
@@ -194,7 +194,7 @@ class ClockUseViewController: BaseViewController {
         
         // 创建"取消"按钮
         let cancelAction = UIAlertAction(title: "mine_cancel".localized(), style: .cancel) { (action) in
-            print("取消按钮被点击")
+            XLogger.shared.log("取消按钮被点击")
         }
         alertController.addAction(cancelAction)
         
@@ -216,7 +216,7 @@ class ClockUseViewController: BaseViewController {
         let p = userinfo?["p"] ?? ""
         if obj == 1 {
             if p.count > 0 {
-                print("代码执行到这里，上传进度：\(p)")
+                XLogger.shared.log("代码执行到这里，上传进度：\(p)")
                 if Thread.isMainThread {
                     imageUploadVc?.refreshProgress(p: p)
                 } else {

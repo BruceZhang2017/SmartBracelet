@@ -49,7 +49,7 @@ class MarketClockViewController: UIViewController {
         } else { // 圆形
             height =  width
         }
-        print("width: \(width) height: \(height)")
+        XLogger.shared.log("width: \(width) height: \(height)")
     }
     
     private func downloadClock() {
@@ -73,7 +73,7 @@ class MarketClockViewController: UIViewController {
             guard let data = response.value as? Data else {
                 return
             }
-            print("返回的数据：\(data)")
+            XLogger.shared.log("返回的数据：\(data)")
             // MarketClockResponse
             let model = try? JSONDecoder().decode(MarketClockResponse.self, from: data)
             if model == nil {

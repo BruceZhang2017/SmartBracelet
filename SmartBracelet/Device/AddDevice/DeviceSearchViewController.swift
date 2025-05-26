@@ -31,7 +31,7 @@ class DeviceSearchViewController: BaseViewController {
         
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: Notification.Name.SearchDevice, object: nil)
         
-        XGZTBlueToothManager.shared.startScanning() // 开始扫描
+        XGZTBlueToothManager.shared.startScanning(true) // 开始扫描
         BLEManager.shared.startScan()
         
         
@@ -83,7 +83,7 @@ class DeviceSearchViewController: BaseViewController {
             var bTemp = false
             if currentModel != nil {
                 if let model = try? BLEModel.er.fromRealm(with: "\(currentModel.mac)"), model.mac.count > 0 {
-                    print("数据库已经有该设备")
+                    XLogger.shared.log("数据库已经有该设备")
                 } else {
                     bTemp = true
                 }
@@ -91,7 +91,7 @@ class DeviceSearchViewController: BaseViewController {
                 bTemp = true
             }
             if bTemp {
-                print("将设备添加到数据库里面")
+                XLogger.shared.log("将设备添加到数据库里面")
                 currentModel = BLEModel()
                 currentModel.isBond = bleSelf.bleModel.isBond
                 currentModel.uuidString = bleSelf.bleModel.uuidString
@@ -188,7 +188,7 @@ extension DeviceSearchViewController: UITableViewDataSource {
                         }
                     }
                     
-                    print("设备的名称：\(model.name) 设备的mac：\(model.mac) 广播数据: \(String(describing: model.advertisementData?.hexEncodedStringNoBlank()))")
+                    XLogger.shared.log("设备的名称：\(model.name) 设备的mac：\(model.mac) 广播数据: \(String(describing: model.advertisementData?.hexEncodedStringNoBlank()))")
                 }
             }
         } else {
@@ -209,7 +209,7 @@ extension DeviceSearchViewController: UITableViewDataSource {
                     }
                 }
                 
-                print("设备的名称：\(model.name) 设备的mac：\(model.mac) 广播数据: \(String(describing: model.advertisementData?.hexEncodedStringNoBlank()))")
+                XLogger.shared.log("设备的名称：\(model.name) 设备的mac：\(model.mac) 广播数据: \(String(describing: model.advertisementData?.hexEncodedStringNoBlank()))")
             }
         }
         
@@ -243,7 +243,7 @@ extension DeviceSearchViewController: UITableViewDelegate {
                     let range = 5..<11
                     let macAddress = advertisementData.subdata(in: range).hexEncodedString()
                     XGZTBlueToothManager.shared.connectFunc(to: macAddress)
-                    print("连接自研设备：\(macAddress)")
+                    XLogger.shared.log("连接自研设备：\(macAddress)")
                 } else {
                     bleSelf.connectBleDevice(model: model)
                 }
@@ -257,7 +257,7 @@ extension DeviceSearchViewController: UITableViewDelegate {
                 let range = 5..<11
                 let macAddress = advertisementData.subdata(in: range).hexEncodedString()
                 XGZTBlueToothManager.shared.connectFunc(to: macAddress)
-                print("连接自研设备：\(macAddress)")
+                XLogger.shared.log("连接自研设备：\(macAddress)")
             } else {
                 bleSelf.connectBleDevice(model: model)
             }

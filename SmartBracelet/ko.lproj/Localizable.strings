@@ -400,3 +400,11 @@
 "confirm_delete" = "삭제 확인";
 "delete_alarm_confirmation" = "이 알람을 삭제하시겠습니까?";
 "ble_off" = "Bluetooth is not enabled. Please enable it first.";
+
+"delete_device_1" = "기기 삭제";
+"delete_device_2" = "기기가 U-Watch에서 제거되었지만 여전히 휴대폰과 연결되어 있습니다. 이 기기를 완전히 삭제하려면 다음 작업을 완료하세요:";
+"delete_device_3" = "1. 휴대폰의 [설정] > [블루투스] > [내 기기]에서 'e watch'를 찾아 오른쪽의 'i'를 탭합니다.";
+"delete_device_4" = "2. [이 기기 제거]를 선택합니다.";
+"delete_device_5" = "3. 완료 후 'U-Watch' 앱으로 돌아갑니다.";
+"delete_device_6" = "위 작업을 완료했습니다";
+"delete_device_7" = "확인";

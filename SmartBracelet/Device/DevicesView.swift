@@ -92,7 +92,7 @@ class DevicesView: UIView {
             self.isHidden = false
 
             if (cacheDevices.count) > 0 {
-                print("Item already exists at index \(index)")
+                XLogger.shared.log("Item already exists at index \(index)")
                 self.isHidden = false
                 cardImgView.image = UIImage(named: "icon_ewatch")
                 if let device = BluetoothWatchDevice.loadFromSandbox(mac: lastestDeviceMac) {

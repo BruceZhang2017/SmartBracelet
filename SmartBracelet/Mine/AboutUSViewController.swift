@@ -93,7 +93,7 @@ class AboutUSViewController: BaseViewController {
                     }
                 }
             } catch {
-                print("Error parsing JSON: \(error)")
+                XLogger.shared.log("Error parsing JSON: \(error)")
             }
         }
         task.resume()

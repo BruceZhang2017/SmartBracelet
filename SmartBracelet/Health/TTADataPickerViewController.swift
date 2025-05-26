@@ -18,7 +18,7 @@ internal final class TTADataPickerViewController: UIViewController {
     
     deinit {
         #if DEBUG
-        print("\(NSStringFromClass(type(of: self))) deinit")
+        XLogger.shared.log("\(NSStringFromClass(type(of: self))) deinit")
         #endif
     }
     

@@ -221,3 +221,11 @@
 "confirm_delete" = "Staðfesta eyðingu";
 "delete_alarm_confirmation" = "Ertu viss um að eyða þessu hvítandi?";
 "ble_off" = "Bluetooth is not enabled. Please enable it first.";
+
+"delete_device_1" = "Eyða tæki";
+"delete_device_2" = "Tækið hefur verið fjarlægt úr U-Watch en er ennþá tengt við síma þinn. Til að eyða þessu tæki alveg, slökktu á eftirfarandi aðgerðum:";
+"delete_device_3" = "1. Í stillingum síma þíns > Bluetooth > Tæki mín finnurðu 'e watch' og smellir á 'i' hægra megin.";
+"delete_device_4" = "2. Veldu 'Gleyma þessu tæki'.";
+"delete_device_5" = "3. Þegar þú ert búinn skaltu fara aftur í 'U-Watch' forritið.";
+"delete_device_6" = "Ég hef lokið aðgerðum hér að ofan";
+"delete_device_7" = "Staðfesta";

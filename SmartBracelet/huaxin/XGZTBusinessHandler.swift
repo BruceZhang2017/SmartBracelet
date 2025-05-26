@@ -8,11 +8,62 @@
 
 import Foundation
 
-var Bind_first = false // 是否为首次绑定
 var flag_81 = false
+var flag_82 = false
 var flag_5d = false // 5d指令是否成功
+var flag_device_reading = false
 
-class XGZTBusinessHandler {
+class XGZTBusinessHandler: NSObject {
+    
+    override init() {
+        super.init()
+        NotificationCenter.default.addObserver(self, selector: #selector(handleNotif(_:)), name: Notification.Name("XGZTBusinessHandler"), object: nil)
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    @objc private func handleNotif(_ notification: Notification) {
+        let obj = notification.object as? String ?? ""
+        if obj == "1" {
+            set5D()
+        } else if obj == "2" {
+            readDeviceInfo()
+        } else if obj == "3" {
+            readDeviceInfo2()
+        } else if obj == "4" {
+            readDeviceInfo3()
+        } else if obj == "5" {
+            readDeviceInfo4()
+        } else if obj == "6" {
+            readDeviceInfo5()
+        } else if obj == "7" {
+            readDeviceInfo6()
+        } else if obj == "8" {
+            readDeviceInfo7()
+        } else if obj == "9" {
+            readDeviceInfo8()
+        } else if obj == "10" {
+            readDeviceInfo9()
+        } else if obj == "11" {
+            readDeviceInfo10()
+        } else if obj == "12" {
+            readDeviceInfo11()
+        } else if obj == "13" {
+            readDeviceInfo12()
+        } else if obj == "14" {
+            readDeviceInfo13()
+        } else if obj == "15" {
+            readDeviceInfo14()
+        } else if obj == "16" {
+            readDeviceInfo15()
+        } else if obj == "17" {
+            syncDevcieInfo2()
+        } else if obj == "18" {
+            readDeviceInfo17()
+        }
+    }
     
     func handleConnected() {
         DispatchQueue.main.async {
@@ -23,8 +74,7 @@ class XGZTBusinessHandler {
                 NotificationCenter.default.post(name: Notification.Name("DevicesViewController"), object: "1")
             }
             
-            var delayTime = DispatchTime.now() + .milliseconds(300)
-            DispatchQueue.main.asyncAfter(deadline: delayTime) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                 self.syncDevcieInfo()
             }
         }
@@ -33,12 +83,14 @@ class XGZTBusinessHandler {
     
     func handleDisconnected() {
         isXGZT = false
+        flag_device_reading = false
         DispatchQueue.main.async {
             NotificationCenter.default.post(name: Notification.Name("UploadImageViewController"), object: nil)
             Async.main(after: 0.5) {
                 NotificationCenter.default.post(name: Notification.Name("DevicesViewController"), object: "1")
             }
             NotificationCenter.default.post(name: Notification.Name("MTabBarController"), object: "disconnect")
+            
         }
         
     }
@@ -47,7 +99,164 @@ class XGZTBusinessHandler {
     public func syncDevcieInfo() {
         // 1.绑定设备
         XGZTCommand.bindDevice(value: 0)
-        var delayTime = DispatchTime.now() + .milliseconds(30)
+        flag_81 = true
+        DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
+            if !flag_81 {
+                return
+            }
+            XGZTCommand.bindDevice(value: 0)
+        }
+    }
+    
+    public func syncDevcieInfo2() {
+        XGZTCommand.bindDevice(value: 1)
+        flag_82 = true
+        DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
+            if !flag_82 {
+                return
+            }
+            XGZTCommand.bindDevice(value: 1)
+        }
+    }
+    
+    private func set5D() {
+        XGZTCommand.setAppInfo(phoneType: 1)
+        flag_5d = true
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
+            if !flag_5d {
+                return
+            }
+            XGZTCommand.setAppInfo(phoneType: 1)
+        }
+    }
+    
+    private func readDeviceInfo2() {
+        if !flag_device_reading {
+            return
+        }
+        XGZTCommand.getNewestHealthData(type: 0)
+        
+        // 4. 获取步数
+    }
+    
+    private func readDeviceInfo3() {
+        if !flag_device_reading {
+            return
+        }
+        XGZTCommand.getNewestHeartData(type: 0)
+        // 5. 获取心率
+    }
+    
+    private func readDeviceInfo4() {
+        if !flag_device_reading {
+            return
+        }
+        // 6. 获取血氧
+        XGZTCommand.getNewestHeartData(type: 1)
+    }
+    
+    private func readDeviceInfo5() {
+        if !flag_device_reading {
+            return
+        }
+        // 7.获取血压
+        XGZTCommand.getNewestHeartData(type: 2)
+    }
+    
+    private func readDeviceInfo6() {
+        if !flag_device_reading {
+            return
+        }
+        // 8. 获取历史步数
+        XGZTCommand.getStepData()
+    }
+    
+    private func readDeviceInfo7() {
+        if !flag_device_reading {
+            return
+        }
+        XGZTCommand.getSleepMonitoring() // 9.获取当天的睡眠数据
+    }
+    
+    private func readDeviceInfo8() {
+        if !flag_device_reading {
+            return
+        }
+        XGZTCommand.getHistorySleepData()
+        // 10. 获取历史睡眠
+    }
+    
+    private func readDeviceInfo9() {
+        if !flag_device_reading {
+            return
+        }
+        XGZTCommand.getSwitchStatus()
+    }
+    
+    private func readDeviceInfo10() {
+        if !flag_device_reading {
+            return
+        }
+        XGZTCommand.getSwitchTableExtension()
+    }
+    
+    private func readDeviceInfo11() {
+        if !flag_device_reading {
+            return
+        }
+        XGZTCommand.getReminderInfo(eventType: 0)
+    }
+    
+    private func readDeviceInfo12() {
+        if !flag_device_reading {
+            return
+        }
+        XGZTCommand.getReminderInfo(eventType: 1)
+    }
+    
+    private func readDeviceInfo13() {
+        if !flag_device_reading {
+            return
+        }
+        XGZTCommand.get12H24HTimeFormat()
+    }
+    
+    private func readDeviceInfo14() {
+        if !flag_device_reading {
+            return
+        }
+        XGZTCommand.getDeviceUnitFormat()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            NotificationCenter.default.post(name: Notification.Name("DeviceSettings"), object: 200)
+        }
+    }
+    
+    private func readDeviceInfo15() {
+        if !flag_device_reading {
+            return
+        }
+        let code = getLanguageCode()
+        XGZTCommand.getDeviceLanguage(language: code)
+    }
+    
+    private func readDeviceInfo17() {
+        flag_device_reading = false
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            XGZTCommand.getDeviceInfo()
+        }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            [weak self] in
+            self?.setANCS()
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            NotificationCenter.default.post(name: Notification.Name("HealthVCLoading"), object: 2000)
+        }
+    }
+    
+    private func readDeviceInfo() {
+        flag_device_reading = true
         // 2.设置时间
         // 获取当前的时区信息
         let currentTimeZone = TimeZone.current
@@ -63,139 +272,63 @@ class XGZTBusinessHandler {
         let now = Date()
         let utcTimeInterval = now.timeIntervalSince1970
         let utc = UInt32(utcTimeInterval)
-        print("同步时间：\(utc) -- \(timeZoneOffsetInHours)")
-        DispatchQueue.main.asyncAfter(deadline: delayTime) {
-            XGZTCommand.syncTime(timeZone: timeZoneOffsetInHours, utc: utc)
-        }
-        
-        delayTime = DispatchTime.now() + .milliseconds(60)
-        // 3.同步语言
-        let code = getLanguageCode()
-        DispatchQueue.main.asyncAfter(deadline: delayTime) {
-            XGZTCommand.getDeviceLanguage(language: code)
-        }
-        // 4. 获取步数
-        delayTime = DispatchTime.now() + .milliseconds(90)
-        DispatchQueue.main.asyncAfter(deadline: delayTime) {
-            XGZTCommand.getNewestHealthData(type: 0)
-        }
-        // 5. 获取心率
-        delayTime = DispatchTime.now() + .milliseconds(120)
-        DispatchQueue.main.asyncAfter(deadline: delayTime) {
-            XGZTCommand.getNewestHeartData(type: 0)
-        }
-        
-        delayTime = DispatchTime.now() + .milliseconds(150)
-        DispatchQueue.main.asyncAfter(deadline: delayTime) {
-            XGZTCommand.getNewestHeartData(type: 1)
-        }
-        
-        delayTime = DispatchTime.now() + .milliseconds(200)
-        DispatchQueue.main.asyncAfter(deadline: delayTime) {
-            XGZTCommand.getNewestHeartData(type: 2)
-        }
-        
-        // 6. 获取历史步数
-        delayTime = DispatchTime.now() + .milliseconds(250)
-        DispatchQueue.main.asyncAfter(deadline: delayTime) {
-            XGZTCommand.getStepData()
-        }
-        delayTime = DispatchTime.now() + .milliseconds(300)
-        DispatchQueue.main.asyncAfter(deadline: delayTime) {
-            XGZTCommand.getSleepMonitoring() // 获取当天的睡眠数据
-        }
-        // 7. 获取历史睡眠
-        delayTime = DispatchTime.now() + .milliseconds(350)
-        DispatchQueue.main.asyncAfter(deadline: delayTime) {
-            XGZTCommand.getHistorySleepData()
-        }
-        
-        delayTime = DispatchTime.now() + .milliseconds(450)
-        DispatchQueue.main.asyncAfter(deadline: delayTime) {
-            XGZTCommand.get12H24HTimeFormat()
-            XGZTCommand.getDeviceUnitFormat()
-            NotificationCenter.default.post(name: Notification.Name("DeviceSettings"), object: 200)
-        }
-        
-        delayTime = DispatchTime.now() + .milliseconds(500)
-        DispatchQueue.main.asyncAfter(deadline: delayTime) {
-            XGZTCommand.syncTime(timeZone: timeZoneOffsetInHours, utc: utc)
-        }
-        
-        delayTime = DispatchTime.now() + .milliseconds(550)
-        let code2 = getLanguageCode()
-        DispatchQueue.main.asyncAfter(deadline: delayTime) {
-            XGZTCommand.getDeviceLanguage(language: code2)
-        }
-        
-        delayTime = DispatchTime.now() + .milliseconds(2000)
-        DispatchQueue.main.asyncAfter(deadline: delayTime) {
-            XGZTCommand.bindDevice(value: 1)
-            flag_81 = true
-        }
-        
-        delayTime = DispatchTime.now() + .milliseconds(3000)
-        DispatchQueue.main.asyncAfter(deadline: delayTime) {
-            // 这里是你想要延迟执行的代码
-            XGZTCommand.setAppInfo(phoneType: 1)
-            flag_5d = true
-        }
-        
-        delayTime = DispatchTime.now() + .milliseconds(3500)
-        DispatchQueue.main.asyncAfter(deadline: delayTime) {
-            if !flag_81 {
+        XLogger.shared.log("同步时间：\(utc) -- \(timeZoneOffsetInHours)")
+        XGZTCommand.syncTime(timeZone: timeZoneOffsetInHours, utc: utc)
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
+//            XGZTCommand.syncTime(timeZone: timeZoneOffsetInHours, utc: utc)
+//        }
+    }
+    
+    private func setANCS() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+            guard let device = XGZTBlueToothManager.shared.device else {
                 return
             }
-            XGZTCommand.bindDevice(value: 1)
-        }
-        
-        delayTime = DispatchTime.now() + .milliseconds(4000)
-        DispatchQueue.main.asyncAfter(deadline: delayTime) {
-            if !flag_5d {
-                return
-            }
-            XGZTCommand.setAppInfo(phoneType: 1)
-        }
-        delayTime = DispatchTime.now() + .milliseconds(4500)
-        DispatchQueue.main.asyncAfter(deadline: delayTime) {
-            if !flag_81 {
-                return
-            }
-            XGZTCommand.bindDevice(value: 1)
-        }
-        delayTime = DispatchTime.now() + .milliseconds(5000)
-        DispatchQueue.main.asyncAfter(deadline: delayTime) {
-            if !flag_5d {
-                return
-            }
-            XGZTCommand.setAppInfo(phoneType: 1)
-        }
-        delayTime = DispatchTime.now() + .milliseconds(5500)
-        DispatchQueue.main.asyncAfter(deadline: delayTime) {
-            if !flag_81 {
-                return
-            }
-            XGZTCommand.bindDevice(value: 1)
-        }
-        delayTime = DispatchTime.now() + .milliseconds(6000)
-        DispatchQueue.main.asyncAfter(deadline: delayTime) {
-            if !flag_5d {
-                return
-            }
-            XGZTCommand.setAppInfo(phoneType: 1)
-        }
-        delayTime = DispatchTime.now() + .milliseconds(7000)
-        DispatchQueue.main.asyncAfter(deadline: delayTime) {
-            if !flag_5d {
-                return
-            }
-            XGZTCommand.setAppInfo(phoneType: 1)
-        }
-        delayTime = DispatchTime.now() + .milliseconds(7500)
-        DispatchQueue.main.asyncAfter(deadline: delayTime) {
-            XGZTCommand.getDeviceInfo()
+            var p0: UInt8 = 0
+            var p1: UInt8 = 0
+            var p2: UInt8 = 0
+            var p3: UInt8 = 0
+            p0 |= 1 << 0
+            p0 |= device.isIncomingCall ? 1 << 1 : 0
+            p0 |= 1 << 2
+            p0 |= 1 << 3
+            p0 |= 1 << 4
+            p0 |= 1 << 5
+            p0 |= 1 << 6
+            p0 |= 1 << 7
+
+            // 处理 response[8]
+            p1 |= 1 << 0
+            p1 |= 1 << 1
+            p1 |= 1 << 2
+            p1 |= 1 << 3
+            p1 |= 1 << 4
+            p1 |= 1 << 5
+            p1 |= 1 << 6
+            p1 |= 1 << 7
+            
+            // 处理 response[9]
+            p2 |= 1 << 0
+            p2 |= 1 << 1
+            p2 |= 1 << 2
+            p2 |= 1 << 3
+            p2 |= 1 << 4
+            p2 |= 1 << 5
+            p2 |= 1 << 6
+            p2 |= 1 << 7
+            
+            // 处理 response[9]
+            p3 |= 1 << 0
+            p3 |= 1 << 2
+            p3 |= 1 << 3
+            p3 |= 1 << 4
+            p3 |= 1 << 5
+            p3 |= 1 << 6
+            
+            XGZTCommand.setSwitchTableExtension(p0: p0, p1: p1, p2: p2, p3: p3)
         }
     }
+    
     
     private func getLanguageCode() -> Int {
         let languageMap: [String: Int] = [

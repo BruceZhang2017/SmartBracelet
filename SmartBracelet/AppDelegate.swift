@@ -30,11 +30,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         pushToTab()
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { (status, err) in
             if !status {
-                print("当用户不同意授权通知权限，则做其他的判读")
-                guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
-                if UIApplication.shared.canOpenURL(url) {
-                    UIApplication.shared.open(url, completionHandler: nil)
-                }
+                XLogger.shared.log("当用户不同意授权通知权限，则做其他的判读")
                 return
             }
         }
@@ -66,6 +62,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let sb = UIStoryboard(name: "Main", bundle: nil)
         let vc = sb.instantiateViewController(withIdentifier: "MTabBarController")
         window?.rootViewController = vc
+        window?.makeKeyAndVisible()
     }
 
     private func setupConfig() {
@@ -103,9 +100,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let request = UNNotificationRequest(identifier: "notification.id.01", content: content, trigger: trigger)
         UNUserNotificationCenter.current().add(request) { error in
             if let error = error {
-                print("添加本地通知错误: \(error.localizedDescription)")
+                XLogger.shared.log("添加本地通知错误: \(error.localizedDescription)")
             } else {
-                print("添加本地通知成功")
+                XLogger.shared.log("添加本地通知成功")
             }
         }
 
@@ -115,13 +112,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             try audioSession.setCategory(.playAndRecord, options: [.defaultToSpeaker, .mixWithOthers])
             try audioSession.setActive(true)
         } catch {
-            print("设置音频会话失败: \(error)")
+            XLogger.shared.log("设置音频会话失败: \(error)")
             return
         }
 
         // 初始化并播放音频
         guard let soundURL = Bundle.main.url(forResource: "Alarm", withExtension: "mp3") else {
-            print("未找到声音文件")
+            XLogger.shared.log("未找到声音文件")
             return
         }
         
@@ -130,7 +127,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             audioPlayer?.prepareToPlay()
             audioPlayer?.play()
         } catch {
-            print("音频播放初始化失败: \(error)")
+            XLogger.shared.log("音频播放初始化失败: \(error)")
             return
         }
 
@@ -153,7 +150,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     try audioSession.setCategory(.ambient)        // 恢复默认音频模式
                     try audioSession.setActive(true)
                 } catch {
-                    print("恢复音频会话失败: \(error)")
+                    XLogger.shared.log("恢复音频会话失败: \(error)")
                 }
             }))
             
@@ -172,10 +169,10 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         guard let trigger = notification.request.trigger else { return; }
         if trigger.isKind(of: UNTimeIntervalNotificationTrigger.classForCoder()) {
-            print("Notification did receive, Is class UNTimeIntervalNotificationTrigger")
+            XLogger.shared.log("Notification did receive, Is class UNTimeIntervalNotificationTrigger")
             UIApplication.shared.applicationIconBadgeNumber = 0
         } else if trigger.isKind(of: UNCalendarNotificationTrigger.classForCoder()) {
-            print("Notification did receive, Is class UNCalendarNotificationTrigger")
+            XLogger.shared.log("Notification did receive, Is class UNCalendarNotificationTrigger")
             UIApplication.shared.applicationIconBadgeNumber = 0
         }
         // show alert while app is running in foreground
@@ -186,12 +183,12 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         // 判断通知的触发器类型
         // 如果触发器是 UNTimeIntervalNotificationTrigger 类型
         if let trigger = response.notification.request.trigger as? UNTimeIntervalNotificationTrigger {
-            print("Notification did receive, Is class UNTimeIntervalNotificationTrigger2")
+            XLogger.shared.log("Notification did receive, Is class UNTimeIntervalNotificationTrigger2")
             UIApplication.shared.applicationIconBadgeNumber = 0
         }
         // 如果触发器是 UNCalendarNotificationTrigger 类型
         else if let trigger = response.notification.request.trigger as? UNCalendarNotificationTrigger {
-            print("Notification did receive, Is class UNCalendarNotificationTrigger2")
+            XLogger.shared.log("Notification did receive, Is class UNCalendarNotificationTrigger2")
             UIApplication.shared.applicationIconBadgeNumber = 0
         }
         // 调用 completionHandler 表示处理完成
@@ -215,7 +212,7 @@ extension AppDelegate {
         if type == 0 {
             type = bleSelf.bleModel.screenType
         }
-        print("当前连接设备为：\(type == 1 ? "方形" : "圆形")")
+        XLogger.shared.log("当前连接设备为：\(type == 1 ? "方形" : "圆形")")
         return type == 1
     }
 }
