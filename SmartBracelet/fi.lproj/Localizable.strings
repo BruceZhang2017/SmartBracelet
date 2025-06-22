@@ -87,7 +87,7 @@
 "mine_device_ota_fail" = "OTA -päivitys epäonnistui";
 "mine_about" = "noin";
 "mine_version" = "Versio";
-"mine_about_desc" = "Kaikki tulkkausoikeudet kuuluvat u-watchn tulkkaukseen";
+"mine_about_desc" = "Kaikki tulkkausoikeudet kuuluvat Fit-heren tulkkaukseen";
 "mine_account_info" = "Tilitiedot";
 "mine_userinfo" = "henkilökohtaisia ";
 "mine_head_image" = "hahmo";
@@ -269,7 +269,7 @@
 "mine_device_ota_fail" = "OTA-päivitys epäonnistui";
 "mine_about" = "noin";
 "mine_version" = "Versio";
-"mine_about_desc" = "Kaikki tulkkausoikeudet kuuluvat u-watchille";
+"mine_about_desc" = "Kaikki tulkkausoikeudet kuuluvat Fit-hereille";
 "mine_account_info" = "Tilitiedot";
 "mine_userinfo" = "henkilökohtaisia tietoja";
 "mine_head_image" = "hahmo";
@@ -354,8 +354,8 @@
 "feedback_not_null" = "Palautteen sisältö ei voi olla tyhjä";
 "feedback_success" = "palaute onnistumisesta";
 "feedback_failed" = "Palaute epäonnistui";
-"dialog_location_permission_explain_above_s" = "Terveystietojen seurantatoiminnon tukemiseksi u-watch kerää Bluetooth-tietoja ja sijaintitietoja, vaikka hakemusprosessi olisi suljettu tai se ei olisi käytössä, tällaisia tietoja kerätään silti.";
-"dialog_location_permission_explain" = "Terveystietojen seurantatoiminnon tukemiseksi u-watch kerää paikkatietotietoja, vaikka sovellus olisi suljettu tai ei ole käytössä, tällaisia tietoja kerätään silti.";
+"dialog_location_permission_explain_above_s" = "Terveystietojen seurantatoiminnon tukemiseksi Fit-here kerää Bluetooth-tietoja ja sijaintitietoja, vaikka hakemusprosessi olisi suljettu tai se ei olisi käytössä, tällaisia tietoja kerätään silti.";
+"dialog_location_permission_explain" = "Terveystietojen seurantatoiminnon tukemiseksi Fit-here kerää paikkatietotietoja, vaikka sovellus olisi suljettu tai ei ole käytössä, tällaisia tietoja kerätään silti.";
 "go_to_setting_open_permissions" = "Kielletyt käyttöoikeudet aiheuttavat sen, että et voi käyttää tätä sovellusta normaalisti. Voit ottaa yllä olevat luvat käyttöön asetussivulla.";
 "permission_description" = "Luvan kuvaus";
 "add_contact" = "Lisää yhteystieto";
@@ -403,9 +403,14 @@
 "ble_off" = "Bluetooth is not enabled. Please enable it first.";
 
 "delete_device_1" = "Poista laite";
-"delete_device_2" = "Laite on poistettu U-Watchista, mutta se on edelleen yhdistetty puhelimeesi. Poista tämä laite täysin suorittamalla seuraavat vaiheet:";
+"delete_device_2" = "Laite on poistettu Fit-hereista, mutta se on edelleen yhdistetty puhelimeesi. Poista tämä laite täysin suorittamalla seuraavat vaiheet:";
 "delete_device_3" = "1. Puhelimen Asetukset > Bluetooth > Omat laitteet -osiossa etsi 'e watch' ja napsauta oikealla 'i'.";
 "delete_device_4" = "2. Valitse 'Unohda tämä laite'.";
-"delete_device_5" = "3. Kun olet valmis, palaa 'U-Watch'-sovellukseen.";
+"delete_device_5" = "3. Kun olet valmis, palaa 'Fit-here'-sovellukseen.";
 "delete_device_6" = "Olen suorittanut yllä olevat vaiheet";
 "delete_device_7" = "Vahvista";
+
+"select_device_scan" = "Tarkastellaan";
+"select_device_scan_desc" = "Etsitään käytettävissä olevia laitteita";
+"select_device_add_manual" = "Lisää manuaalisesti";
+"select_device_add_automatic" = "Skannata lisättäviksi";

@@ -90,7 +90,7 @@
 "mine_device_ota_fail" = "OTA-uppdatering misslyckades";
 "mine_about" = "Om oss";
 "mine_version" = "Version";
-"mine_about_desc" = "Alla tolkningsrättigheter tillhör u-watch";
+"mine_about_desc" = "Alla tolkningsrättigheter tillhör Fit-here";
 "mine_account_info" = "Kontoinformation";
 "mine_userinfo" = "Personlig information";
 "mine_head_image" = "Avatar";
@@ -238,9 +238,14 @@
 "ble_off" = "Bluetooth is not enabled. Please enable it first.";
 
 "delete_device_1" = "Ta bort enhet";
-"delete_device_2" = "Enheten har tagits bort från U-Watch men är fortfarande ansluten till din telefon. För att helt ta bort denna enhet, följ dessa steg:";
+"delete_device_2" = "Enheten har tagits bort från Fit-here men är fortfarande ansluten till din telefon. För att helt ta bort denna enhet, följ dessa steg:";
 "delete_device_3" = "1. I din telefoninställning > Bluetooth > Mina enheter, hitta 'e watch' och tryck på 'i' till höger.";
 "delete_device_4" = "2. Välj 'Glöm enhet'.";
-"delete_device_5" = "3. När du är klar, gå tillbaka till 'U-Watch'-appen.";
+"delete_device_5" = "3. När du är klar, gå tillbaka till 'Fit-here'-appen.";
 "delete_device_6" = "Jag har utfört ovanstående steg";
 "delete_device_7" = "Bekräfta";
+
+"select_device_scan" = "Skannar";
+"select_device_scan_desc" = "Letar efter tillgängliga enheter";
+"select_device_add_manual" = "Lägg till manuellt";
+"select_device_add_automatic" = "Skanna för att lägga till";

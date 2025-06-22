@@ -87,7 +87,7 @@
 "mine_device_ota_fail" = "OTA yükseltmesi başarısız oldu";
 "mine_about" = "hakkında";
 "mine_version" = "Sürüm";
-"mine_about_desc" = "Tüm yorumlama hakları u-watch yorumlamaya aittir.";
+"mine_about_desc" = "Tüm yorumlama hakları Fit-here yorumlamaya aittir.";
 "mine_account_info" = "Hesap Bilgileri";
 "mine_userinfo" = "kişisel bilgi";
 "mine_head_image" = "avatar";
@@ -269,7 +269,7 @@
 "mine_device_ota_fail" = "OTA yükseltmesi başarısız oldu";
 "mine_about" = "hakkında";
 "mine_version" = "Sürüm";
-"mine_about_desc" = "Tüm yorumlama hakları u-watch'a aittir.";
+"mine_about_desc" = "Tüm yorumlama hakları Fit-here'a aittir.";
 "mine_account_info" = "Hesap Bilgileri";
 "mine_userinfo" = "kişisel bilgi";
 "mine_head_image" = "avatar";
@@ -354,8 +354,8 @@
 "feedback_not_null" = "Geri bildirim içeriği boş olamaz";
 "feedback_success" = "geri bildirim başarısı";
 "feedback_failed" = "Geri bildirim başarısız oldu";
-"dialog_location_permission_explain_above_s" = "Sağlık verileri izleme işlevini desteklemek için u-watch, Bluetooth verilerini ve konum bilgisi verilerini toplayacaktır, başvuru süreci kapatılsa veya kullanımda olmasa bile bu tür veriler toplanmaya devam edecektir.";
-"dialog_location_permission_explain" = "Sağlık verileri izleme işlevini desteklemek için u-watch, uygulama kapalı olsa veya kullanımda olmasa bile konum bilgisi verilerini toplayacaktır, bu tür veriler toplanmaya devam edecektir.";
+"dialog_location_permission_explain_above_s" = "Sağlık verileri izleme işlevini desteklemek için Fit-here, Bluetooth verilerini ve konum bilgisi verilerini toplayacaktır, başvuru süreci kapatılsa veya kullanımda olmasa bile bu tür veriler toplanmaya devam edecektir.";
+"dialog_location_permission_explain" = "Sağlık verileri izleme işlevini desteklemek için Fit-here, uygulama kapalı olsa veya kullanımda olmasa bile konum bilgisi verilerini toplayacaktır, bu tür veriler toplanmaya devam edecektir.";
 "go_to_setting_open_permissions" = "Yasaklanan izinler, bu uygulamayı normal şekilde kullanamamanıza neden olur, yukarıdaki izinleri etkinleştirmek için ayarlar sayfasına gidebilirsiniz.";
 "permission_description" = "İzin Açıklaması";
 "add_contact" = "Kişileri ekleyin";
@@ -402,9 +402,14 @@
 "ble_off" = "Bluetooth is not enabled. Please enable it first.";
 
 "delete_device_1" = "Cihazı Sil";
-"delete_device_2" = "Cihaz U-Watch'ten kaldırıldı ancak hala telefonunuza bağlı. Bu cihazı tamamen silmek için aşağıdaki işlemleri tamamlayın:";
+"delete_device_2" = "Cihaz Fit-here'ten kaldırıldı ancak hala telefonunuza bağlı. Bu cihazı tamamen silmek için aşağıdaki işlemleri tamamlayın:";
 "delete_device_3" = "1. Telefonunuzun Ayarları > Bluetooth > Cihazlarım bölümünde 'e watch'ı bulun ve sağdaki 'i'ye dokunun.";
 "delete_device_4" = "2. 'Bu cihazı unut' seçeneğini belirleyin.";
-"delete_device_5" = "3. Tamamlandıktan sonra 'U-Watch' Uygulamasına geri dönün.";
+"delete_device_5" = "3. Tamamlandıktan sonra 'Fit-here' Uygulamasına geri dönün.";
 "delete_device_6" = "Yukarıdaki işlemleri tamamladım";
 "delete_device_7" = "Onayla";
+
+"select_device_scan" = "Tarama yapılıyor";
+"select_device_scan_desc" = "Kullanılabilir cihazlar aranıyor";
+"select_device_add_manual" = "El ile ekle";
+"select_device_add_automatic" = "Tarayarak ekle";

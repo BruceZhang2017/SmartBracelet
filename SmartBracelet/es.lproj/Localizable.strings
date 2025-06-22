@@ -87,7 +87,7 @@
 "mine_device_ota_fail" = "OTA upgrade failed";
 "mine_about" = "about";
 "mine_version" = "Version";
-"mine_about_desc" = "All interpretation rights belong to u-watch interpretation";
+"mine_about_desc" = "All interpretation rights belong to Fit-here interpretation";
 "mine_account_info" = "account information";
 "mine_userinfo" = "personal information";
 "mine_head_image" = "Avatar";
@@ -269,7 +269,7 @@
 "mine_device_ota_fail" = "Actualización OTA fallida";
 "mine_about" = "acerca de";
 "mine_version" = "Versión";
-"mine_about_desc" = "Todos los derechos de interpretación pertenecen a u-watch";
+"mine_about_desc" = "Todos los derechos de interpretación pertenecen a Fit-here";
 "mine_account_info" = "Información de la cuenta";
 "mine_userinfo" = "informacion personal";
 "mine_head_image" = "avatar";
@@ -354,8 +354,8 @@
 "feedback_not_null" = "El contenido de los comentarios no puede estar vacío";
 "feedback_success" = "retroalimentacion exito";
 "feedback_failed" = "Comentarios fallidos";
-"dialog_location_permission_explain_above_s" = "Para respaldar la función de seguimiento de datos de salud, u-watch recopilará datos de Bluetooth e información de ubicación, incluso si el proceso de aplicación está cerrado o no está en uso, dichos datos aún se recopilarán.";
-"dialog_location_permission_explain" = "Para respaldar la función de seguimiento de datos de salud, u-watch recopilará datos de información de ubicación, incluso si la aplicación está cerrada o no está en uso, dichos datos aún se recopilarán.";
+"dialog_location_permission_explain_above_s" = "Para respaldar la función de seguimiento de datos de salud, Fit-here recopilará datos de Bluetooth e información de ubicación, incluso si el proceso de aplicación está cerrado o no está en uso, dichos datos aún se recopilarán.";
+"dialog_location_permission_explain" = "Para respaldar la función de seguimiento de datos de salud, Fit-here recopilará datos de información de ubicación, incluso si la aplicación está cerrada o no está en uso, dichos datos aún se recopilarán.";
 "go_to_setting_open_permissions" = "Los permisos prohibidos harán que no pueda usar esta aplicación normalmente, puede ir a la página de configuración para habilitar los permisos anteriores.";
 "permission_description" = "Descripción del permiso";
 "add_contact" = "Añadir contactos";
@@ -403,9 +403,14 @@
 "ble_off" = "Bluetooth is not enabled. Please enable it first.";
 
 "delete_device_1" = "Eliminar dispositivo";
-"delete_device_2" = "El dispositivo se ha eliminado de U-Watch pero sigue conectado a tu teléfono. Para eliminar completamente este dispositivo, completa los siguientes pasos:";
+"delete_device_2" = "El dispositivo se ha eliminado de Fit-here pero sigue conectado a tu teléfono. Para eliminar completamente este dispositivo, completa los siguientes pasos:";
 "delete_device_3" = "1. En la configuración de tu teléfono > Bluetooth > Mis dispositivos, encuentra 'e watch' y toca la 'i' de la derecha.";
 "delete_device_4" = "2. Selecciona 'Olvidar este dispositivo'.";
-"delete_device_5" = "3. Después de completar, regresa a la App 'U-Watch'.";
+"delete_device_5" = "3. Después de completar, regresa a la App 'Fit-here'.";
 "delete_device_6" = "He completado los pasos anteriores";
 "delete_device_7" = "Confirmar";
+
+"select_device_scan" = "Scanning";
+"select_device_scan_desc" = "Searching for available devices";
+"select_device_add_manual" = "Add Manually";
+"select_device_add_automatic" = "Scan to Add";

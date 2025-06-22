@@ -87,7 +87,7 @@
 "mine_device_ota_fail" = "OTAアップグレードに失敗しました";
 "mine_about" = "だいたい";
 "mine_version" = "バージョン";
-"mine_about_desc" = "すべての解釈権はu-watch解釈に属します";
+"mine_about_desc" = "すべての解釈権はFit-here解釈に属します";
 "mine_account_info" = "口座情報";
 "mine_userinfo" = "個人情報";
 "mine_head_image" = "アバター";
@@ -269,7 +269,7 @@
 "mine_device_ota_fail" = "OTA アップグレードに失敗しました";
 "mine_about" = "だいたい";
 "mine_version" = "バージョン";
-"mine_about_desc" = "すべての解釈権はu-watchに帰属します";
+"mine_about_desc" = "すべての解釈権はFit-hereに帰属します";
 "mine_account_info" = "口座情報";
 "mine_userinfo" = "個人情報";
 "mine_head_image" = "アバター";
@@ -354,8 +354,8 @@
 "feedback_not_null" = "フィードバックの内容を空にすることはできません";
 "feedback_success" = "フィードバックの成功";
 "feedback_failed" = "フィードバックに失敗しました";
-"dialog_location_permission_explain_above_s" = "健康データの追跡機能をサポートするために、u-watch は Bluetooth データと位置情報データを収集します。アプリケーション プロセスが閉じられている場合や使用されていない場合でも、そのようなデータは引き続き収集されます。";
-"dialog_location_permission_explain" = "健康データの追跡機能をサポートするために、u-watch は位置情報データを収集します。アプリケーションが閉じられている場合や使用されていない場合でも、そのようなデータは引き続き収集されます。";
+"dialog_location_permission_explain_above_s" = "健康データの追跡機能をサポートするために、Fit-here は Bluetooth データと位置情報データを収集します。アプリケーション プロセスが閉じられている場合や使用されていない場合でも、そのようなデータは引き続き収集されます。";
+"dialog_location_permission_explain" = "健康データの追跡機能をサポートするために、Fit-here は位置情報データを収集します。アプリケーションが閉じられている場合や使用されていない場合でも、そのようなデータは引き続き収集されます。";
 "go_to_setting_open_permissions" = "許可が禁止されていると、このアプリを正常に使用できなくなります。設定ページに移動して、上記の許可を有効にすることができます。";
 "permission_description" = "権限の説明";
 "add_contact" = "連絡先を追加";
@@ -402,9 +402,14 @@
 "ble_off" = "Bluetooth is not enabled. Please enable it first.";
 
 "delete_device_1" = "デバイスを削除";
-"delete_device_2" = "デバイスはU-Watchから削除されましたが、引き続き携帯電話に接続されています。このデバイスを完全に削除するには、次の操作を完了してください:";
+"delete_device_2" = "デバイスはFit-hereから削除されましたが、引き続き携帯電話に接続されています。このデバイスを完全に削除するには、次の操作を完了してください:";
 "delete_device_3" = "1. 携帯電話の「設定」>「Bluetooth」>「マイデバイス」で「e watch」を見つけ、右側の「i」をタップします。";
 "delete_device_4" = "2. 「このデバイスを忘れる」を選択します。";
-"delete_device_5" = "3. 完了後、「U-Watch」アプリに戻ります。";
+"delete_device_5" = "3. 完了後、「Fit-here」アプリに戻ります。";
 "delete_device_6" = "上記の操作を完了しました";
 "delete_device_7" = "確定";
+
+"select_device_scan" = "スキャン中";
+"select_device_scan_desc" = "利用可能なデバイスを検索中";
+"select_device_add_manual" = "手動追加";
+"select_device_add_automatic" = "スキャン追加";

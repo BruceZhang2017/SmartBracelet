@@ -86,7 +86,7 @@
 "mine_device_ota_fail" = "OTA frissítés sikertelen";
 "mine_about" = "Rólunk";
 "mine_version" = "Verzió";
-"mine_about_desc" = "Minden értelmezési jog tartozik a u-watchnak";
+"mine_about_desc" = "Minden értelmezési jog tartozik a Fit-herenak";
 "mine_account_info" = "Fiók információi";
 "mine_userinfo" = "Személyes információk";
 "mine_head_image" = "Avatar";
@@ -188,8 +188,8 @@
 "feedback_not_null" = "A visszajelzés tartalma nem lehet üres";
 "feedback_success" = "Sikeres visszajelzés";
 "feedback_failed" = "Visszajelzés sikertelen";
-"dialog_location_permission_explain_above_s" = "Az egészségi adatkezelés funkció támogatása érdekében az u-watch gyűjti a Bluetooth adatokat és a helyzetinformációkat, még akkor is, ha az alkalmazás le van zárva vagy nem használatos.";
-"dialog_location_permission_explain" = "Az egészségi adatkezelés funkció támogatása érdekében az u-watch gyűjti a helyzetinformációkat, még akkor is, ha az alkalmazás le van zárva vagy nem használatos.";
+"dialog_location_permission_explain_above_s" = "Az egészségi adatkezelés funkció támogatása érdekében az Fit-here gyűjti a Bluetooth adatokat és a helyzetinformációkat, még akkor is, ha az alkalmazás le van zárva vagy nem használatos.";
+"dialog_location_permission_explain" = "Az egészségi adatkezelés funkció támogatása érdekében az Fit-here gyűjti a helyzetinformációkat, még akkor is, ha az alkalmazás le van zárva vagy nem használatos.";
 "go_to_setting_open_permissions" = "A tiltott engedélyek megakadályozzák az alkalmazás normális használatát. Menj a beállítások oldalra, hogy engedélyezd a fent említett engedélyeket.";
 "permission_description" = "Engedélyleírás";
 "add_contact" = "Kontakt hozzáadása";
@@ -238,9 +238,14 @@
 "ble_off" = "Bluetooth is not enabled. Please enable it first.";
 
 "delete_device_1" = "Eszköz törlése";
-"delete_device_2" = "Az eszköz törölve lett az U-Watch-ből, de továbbra is csatlakoztatva van a telefonjához. Az eszköz teljes törléséhez hajtsa végre a következőket:";
+"delete_device_2" = "Az eszköz törölve lett az Fit-here-ből, de továbbra is csatlakoztatva van a telefonjához. Az eszköz teljes törléséhez hajtsa végre a következőket:";
 "delete_device_3" = "1. A telefon Beállításai > Bluetooth > Eszközöim menüjében keresse meg az 'e watch' nevet, majd kattintson a jobb oldalon található 'i'-re.";
 "delete_device_4" = "2. Válassza az 'Eszköz elvetése' lehetőséget.";
-"delete_device_5" = "3. A befejezés után térjen vissza az 'U-Watch' alkalmazásba.";
+"delete_device_5" = "3. A befejezés után térjen vissza az 'Fit-here' alkalmazásba.";
 "delete_device_6" = "Elvégeztem a fenti lépéseket";
 "delete_device_7" = "Megerősítés";
+
+"select_device_scan" = "Lecsekkende";
+"select_device_scan_desc" = "Elérhető eszközök keresése";
+"select_device_add_manual" = "Kézzel ad hozzá";
+"select_device_add_automatic" = "Lecsekkent hozzáadás";

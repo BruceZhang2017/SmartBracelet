@@ -83,7 +83,7 @@
 "mine_device_ota_fail" = "עדכון OTA נכשל";
 "mine_about" = "אודות";
 "mine_version" = "גרסה";
-"mine_about_desc" = "כל הזכויות בפרשנות שייכות ל-u-watch";
+"mine_about_desc" = "כל הזכויות בפרשנות שייכות ל-Fit-here";
 "mine_account_info" = "מידע חשבון";
 "mine_userinfo" = "פרטי משתמש";
 "mine_head_image" = "תמונת פרופיל";
@@ -216,9 +216,14 @@
 "ble_off" = "בלוטוooth לא מופעל. נא להפעיל אותו קודם.";
 
 "delete_device_1" = "מחק מכשיר";
-"delete_device_2" = "המכשיר הוסר מU-Watch אך עדיין מחובר לטלפון שלך. כדי למחוק את המכשיר הזה לחלוטין, השלם את השלבים הבאים:";
+"delete_device_2" = "המכשיר הוסר מFit-here אך עדיין מחובר לטלפון שלך. כדי למחוק את המכשיר הזה לחלוטין, השלם את השלבים הבאים:";
 "delete_device_3" = "1. בהגדרות הטלפון שלך > Bluetooth > המכשירים שלי, מצא 'e watch' ו� тисни על ה-'i' מימין.";
 "delete_device_4" = "2. בחר 'שכח מכשיר זה'.";
-"delete_device_5" = "3. לאחר השלמה, חזור לאפליקציה 'U-Watch'.";
+"delete_device_5" = "3. לאחר השלמה, חזור לאפליקציה 'Fit-here'.";
 "delete_device_6" = "סיימתי את השלבים לעיל";
 "delete_device_7" = "אשר";
+
+"select_device_scan" = "טוען בסריקה";
+"select_device_scan_desc" = "מחפשה להתקנים זמינים";
+"select_device_add_manual" = "הוספה ידידית";
+"select_device_add_automatic" = "הסרקה�הוספה";

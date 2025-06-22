@@ -262,6 +262,7 @@ class DevicesViewController: BaseViewController, UIDocumentInteractionController
     private func appDidBecomeActive() {
         XLogger.shared.log("App 进入前台")
         deviceView.refreshData()
+        changeButtonAttr()
     }
     
     private func appWillResignActive() {
@@ -401,7 +402,7 @@ class DevicesViewController: BaseViewController, UIDocumentInteractionController
         } else {
             changeButton.tintColor = UIColor.brand
             changeButton.backgroundColor = .white
-            changeButton.setTitle("解除设备".localized(), for: .normal)
+            changeButton.setTitle("deivce_unbind".localized(), for: .normal)
             if let image = UIImage(named: "icon_change_device") {
                 changeButton.setImage(image, for: .normal)
             }
@@ -527,7 +528,6 @@ class DevicesViewController: BaseViewController, UIDocumentInteractionController
       
                     NotificationCenter.default.post(name: Notification.Name("HealthViewController"), object: "delete", userInfo: ["mac": localMac])
                     NotificationCenter.default.post(name: Notification.Name("DevicesViewController"), object: nil)
-                    NotificationCenter.default.post(name: Notification.Name("DevicesViewController"), object: 1)
                     
                     NotificationCenter.default.post(name: Notification.Name("DeviceList"), object: "3")
                     
@@ -552,6 +552,7 @@ class DevicesViewController: BaseViewController, UIDocumentInteractionController
                 return
             }
             if obj == "5000" {
+                self.bHavenScanResult = false
                 /// 创建二维码扫描
                 let vc = ScannerVC()
                 vc.modalPresentationStyle = .fullScreen
@@ -680,7 +681,7 @@ class DevicesViewController: BaseViewController, UIDocumentInteractionController
 
     /// 表盘管理
     func pushToClockManage(index: Int) {
-        if bleSelf.bleModel.screenWidth == 80 {
+        if bleSelf.bleModel.screenWidth == 80 && !isXGZT {
             let storyboard = UIStoryboard(name: "Device", bundle: nil)
             let myClockVC = storyboard.instantiateViewController(withIdentifier: "MyClockViewController") as! MyClockViewController
             myClockVC.index = index
@@ -706,8 +707,7 @@ class DevicesViewController: BaseViewController, UIDocumentInteractionController
             if count == 0 {
                 let vc = SelectAddActionViewController()
                 vc.modalPresentationStyle = .fullScreen
-                vc.modalTransitionStyle = .coverVertical
-                navigationController?.present(vc, animated: false)
+                self.navigationController?.tabBarController?.present(vc, animated: false)
             } else {
                 let vc = storyboard.instantiateViewController(withIdentifier: "DeviceListViewController")
                 vc.title = "device_change".localized()

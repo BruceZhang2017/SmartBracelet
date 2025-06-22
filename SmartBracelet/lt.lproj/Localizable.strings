@@ -86,7 +86,7 @@
 "mine_device_ota_fail" = "OTA atnaujinimas nepavyko";
 "mine_about" = "Apie";
 "mine_version" = "Versija";
-"mine_about_desc" = "Visi interpretacijos teisės priklauso u-watch";
+"mine_about_desc" = "Visi interpretacijos teisės priklauso Fit-here";
 "mine_account_info" = "Konto informacija";
 "mine_userinfo" = "Asmeninė informacija";
 "mine_head_image" = "Profilis";
@@ -187,8 +187,8 @@
 "feedback_not_null" = "Atsiliepimo turinys negali būti tuščias";
 "feedback_success" = "Atsiliepimas sėkmingas";
 "feedback_failed" = "Atsiliepimas nepavyko";
-"dialog_location_permission_explain_above_s" = "Norėdami palaikyti sveikatos duomenų stebėjimą, u-watch surinks Bluetooth duomenis ir vietovės informaciją, net jei programa yra uždaryta ar nepanaudojama.";
-"dialog_location_permission_explain" = "Norėdami palaikyti sveikatos duomenų stebėjimą, u-watch surinks vietovės informaciją, net jei programa yra uždaryta ar nepanaudojama.";
+"dialog_location_permission_explain_above_s" = "Norėdami palaikyti sveikatos duomenų stebėjimą, Fit-here surinks Bluetooth duomenis ir vietovės informaciją, net jei programa yra uždaryta ar nepanaudojama.";
+"dialog_location_permission_explain" = "Norėdami palaikyti sveikatos duomenų stebėjimą, Fit-here surinks vietovės informaciją, net jei programa yra uždaryta ar nepanaudojama.";
 "go_to_setting_open_permissions" = "Uždarytos leidžimės leis jums nepavyks normaliai naudotis šia programa. Galite eiti į nustatymų puslapį, kad išjungtumėte aukščiau nurodytus leidžimus.";
 "permission_description" = "Leidimų aprašymas";
 "add_contact" = "Pridėti kontaktą";
@@ -237,9 +237,14 @@
 "ble_off" = "Bluetooth is not enabled. Please enable it first.";
 
 "delete_device_1" = "Ištrinti įrenginį";
-"delete_device_2" = "Įrenginys pašalintas iš U-Watch, tačiau vis dar prijungtas prie jūsų telefono. Norėdami visiškai ištrinti šį įrenginį, atlikite šiuos veiksmus:";
+"delete_device_2" = "Įrenginys pašalintas iš Fit-here, tačiau vis dar prijungtas prie jūsų telefono. Norėdami visiškai ištrinti šį įrenginį, atlikite šiuos veiksmus:";
 "delete_device_3" = "1. Jūsų telefono Nustatymuose > Bluetooth > Mano įrenginiai rasti 'e watch' ir paspausti 'i' dešinėje.";
 "delete_device_4" = "2. Pasirinkite 'Pamiršti šį įrenginį'.";
-"delete_device_5" = "3. Po to, kai baigsite, grįžkite į 'U-Watch' programėlę.";
+"delete_device_5" = "3. Po to, kai baigsite, grįžkite į 'Fit-here' programėlę.";
 "delete_device_6" = "Aš atlikau aukščiau nurodytus veiksmus";
 "delete_device_7" = "Patvirtinti";
+
+"select_device_scan" = "Skeneruojama";
+"select_device_scan_desc" = "Ieškoma galimų įrenginių";
+"select_device_add_manual" = "Įdėti rankiniu būdu";
+"select_device_add_automatic" = "Skenuoti, kad įdėtų";

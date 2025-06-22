@@ -88,7 +88,7 @@
 "mine_device_ota_fail" = "OTA uppfinning mistókst";
 "mine_about" = "um";
 "mine_version" = "Útgáfa";
-"mine_about_desc" = "Allar útskýringar réttindi tilhaldi u-watch útskýring";
+"mine_about_desc" = "Allar útskýringar réttindi tilhaldi Fit-here útskýring";
 "mine_account_info" = "Aðgangs upplýsingar";
 "mine_userinfo" = "Notandi upplýsingar";
 "mine_head_image" = "Höfuð mynd";
@@ -173,8 +173,8 @@
 "feedback_not_null" = "Aðstoð efni má ekki vera tómt";
 "feedback_success" = "Aðstoð tókst";
 "feedback_failed" = "Aðstoð mistókst";
-"dialog_location_permission_explain_above_s" = "Til að styrkja heilbrigði gildi spurningar, u-watch mun samla Bluetooth gildi og staðsetning upplýsingar, þó að forritið sé lokað eða ekki notað, þessi gildi eru enn samlaðar.";
-"dialog_location_permission_explain" = "Til að styrkja heilbrigði gildi spurningar, u-watch mun samla staðsetning upplýsingar, þó að forritið sé lokað eða ekki notað, þessi gildi eru enn samlaðar.";
+"dialog_location_permission_explain_above_s" = "Til að styrkja heilbrigði gildi spurningar, Fit-here mun samla Bluetooth gildi og staðsetning upplýsingar, þó að forritið sé lokað eða ekki notað, þessi gildi eru enn samlaðar.";
+"dialog_location_permission_explain" = "Til að styrkja heilbrigði gildi spurningar, Fit-here mun samla staðsetning upplýsingar, þó að forritið sé lokað eða ekki notað, þessi gildi eru enn samlaðar.";
 "go_to_setting_open_permissions" = "Afbrota aðgangur verður að gerðu ekki með því að fara í stillingar síðu og virkja að ofan.";
 "permission_description" = "Aðgangur lýsing";
 "add_contact" = "Bæta við tengslum";
@@ -223,9 +223,14 @@
 "ble_off" = "Bluetooth is not enabled. Please enable it first.";
 
 "delete_device_1" = "Eyða tæki";
-"delete_device_2" = "Tækið hefur verið fjarlægt úr U-Watch en er ennþá tengt við síma þinn. Til að eyða þessu tæki alveg, slökktu á eftirfarandi aðgerðum:";
+"delete_device_2" = "Tækið hefur verið fjarlægt úr Fit-here en er ennþá tengt við síma þinn. Til að eyða þessu tæki alveg, slökktu á eftirfarandi aðgerðum:";
 "delete_device_3" = "1. Í stillingum síma þíns > Bluetooth > Tæki mín finnurðu 'e watch' og smellir á 'i' hægra megin.";
 "delete_device_4" = "2. Veldu 'Gleyma þessu tæki'.";
-"delete_device_5" = "3. Þegar þú ert búinn skaltu fara aftur í 'U-Watch' forritið.";
+"delete_device_5" = "3. Þegar þú ert búinn skaltu fara aftur í 'Fit-here' forritið.";
 "delete_device_6" = "Ég hef lokið aðgerðum hér að ofan";
 "delete_device_7" = "Staðfesta";
+
+"select_device_scan" = "Er að skanna";
+"select_device_scan_desc" = "Er að leita að reikningsþýðum tæki";
+"select_device_add_manual" = " bæta við handvirkt";
+"select_device_add_automatic" = "Skanið til að bæta við";

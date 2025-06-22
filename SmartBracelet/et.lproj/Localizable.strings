@@ -88,7 +88,7 @@
 "mine_device_ota_fail" = "OTA uuendamine ebaõnnestus";
 "mine_about" = "Teave";
 "mine_version" = "Versioon";
-"mine_about_desc" = "Kõik tõlgendusõigused kuuluvad u-watch tõlgendustele";
+"mine_about_desc" = "Kõik tõlgendusõigused kuuluvad Fit-here tõlgendustele";
 "mine_account_info" = "Konto info";
 "mine_userinfo" = "Isiklik info";
 "mine_head_image" = "Profiilpilt";
@@ -178,8 +178,8 @@
 "feedback_not_null" = "Tagasiside sisu ei tohi olla tühi";
 "feedback_success" = "Tagasiside edukas";
 "feedback_failed" = "Tagasiside ebaõnnestus";
-"dialog_location_permission_explain_above_s" = "Teenuse terviseandmete jälgimise toetamiseks kogub u-watch Bluetooth-andmeid ja asukoha teavet, isegi kui rakendus on sulgedud või kasutamata.";
-"dialog_location_permission_explain" = "Teenuse terviseandmete jälgimise toetamiseks kogub u-watch asukoha teavet, isegi kui rakendus on sulgedud või kasutamata.";
+"dialog_location_permission_explain_above_s" = "Teenuse terviseandmete jälgimise toetamiseks kogub Fit-here Bluetooth-andmeid ja asukoha teavet, isegi kui rakendus on sulgedud või kasutamata.";
+"dialog_location_permission_explain" = "Teenuse terviseandmete jälgimise toetamiseks kogub Fit-here asukoha teavet, isegi kui rakendus on sulgedud või kasutamata.";
 "go_to_setting_open_permissions" = "Keelatud õigused takistavad rakenduse normaalsel kasutamisel. Avage seadete leht ja lubage vajalikud õigused.";
 "permission_description" = "Õiguste kirjeldus";
 "add_contact" = "Lisa kontakt";
@@ -228,9 +228,14 @@
 "ble_off" = "Bluetooth is not enabled. Please enable it first.";
 
 "delete_device_1" = "Kustuta seade";
-"delete_device_2" = "Seade on eemaldatud U-Watchist, kuid see on endiselt ühendatud teie telefoniga. Selle seadme täielikuks kustutamiseks tehke järgmist:";
+"delete_device_2" = "Seade on eemaldatud Fit-hereist, kuid see on endiselt ühendatud teie telefoniga. Selle seadme täielikuks kustutamiseks tehke järgmist:";
 "delete_device_3" = "1. Teie telefoni Seaded > Bluetooth > Minu seadmed leiate 'e watch' ja vajutage paremal 'i'.";
 "delete_device_4" = "2. Valige 'Unusta see seade'.";
-"delete_device_5" = "3. Pärast lõpetamist tagasipöördumine 'U-Watch'-rakendusse.";
+"delete_device_5" = "3. Pärast lõpetamist tagasipöördumine 'Fit-here'-rakendusse.";
 "delete_device_6" = "Olen ülaltoodud toimingud tehtud";
 "delete_device_7" = "Kinnita";
+
+"select_device_scan" = "Skannitakse";
+"select_device_scan_desc" = "Otsitakse saadaval olevaid seadmeid";
+"select_device_add_manual" = "Lisa käsitsi";
+"select_device_add_automatic" = "SkanniLisa";

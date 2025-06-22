@@ -109,7 +109,7 @@ class DatabaseManager {
     
     // Create or Update
     func addStepObj(stepObj: StepObj) {
-        DispatchQueue(label: "com.sinophy.uwatch").async {
+        DispatchQueue(label: "com.zhao.herefit").async {
             autoreleasepool {
                 let realm = try! Realm()
                 try? realm.write {
@@ -121,20 +121,23 @@ class DatabaseManager {
     }
     
     // Read
-    func getStepObj(byDate date: String, completion: @escaping (StepObj?) -> Void) {
-        DispatchQueue(label: "com.sinophy.uwatch").async {
+    func getStepObj(byDate date: String, completion: @escaping (Results<StepObj>?) -> Void) {
+        DispatchQueue(label: "com.zhao.herefit").async {
             autoreleasepool {
                 let realm = try! Realm()
-                let obj = realm.object(ofType: StepObj.self, forPrimaryKey: date)
+                let objs = realm.objects(StepObj.self).filter("date == %@", date)
+                let threadSafeResults = ThreadSafeReference(to: objs)
                 DispatchQueue.main.async {
-                    completion(obj)
+                    let realm = try! Realm()
+                    guard let results = realm.resolve(threadSafeResults) else { return }
+                    completion(results)
                 }
             }
         }
     }
     
     func getAllStepObjs(completion: @escaping (Results<StepObj>) -> Void) {
-        DispatchQueue(label: "com.sinophy.uwatch").async {
+        DispatchQueue(label: "com.zhao.herefit").async {
             autoreleasepool {
                 let realm = try! Realm()
                 let objs = realm.objects(StepObj.self)
@@ -147,7 +150,7 @@ class DatabaseManager {
     
     // Create or Update
     func addSleepObj(sleepObj: SleepObj) {
-        DispatchQueue(label: "com.sinophy.uwatch").async {
+        DispatchQueue(label: "com.zhao.herefit").async {
             autoreleasepool {
                 let realm = try! Realm()
                 try? realm.write {
@@ -160,7 +163,7 @@ class DatabaseManager {
     
     // Read
     func getSleepObj(byDate date: String, completion: @escaping (Results<SleepObj>?) -> Void) {
-        DispatchQueue(label: "com.sinophy.uwatch").async {
+        DispatchQueue(label: "com.zhao.herefit").async {
             autoreleasepool {
                 let realm = try! Realm()
                 let objs = realm.objects(SleepObj.self).filter("date == %@", date)
@@ -175,7 +178,7 @@ class DatabaseManager {
     }
     
     func getAllSleepObjs(completion: @escaping (Results<SleepObj>) -> Void) {
-        DispatchQueue(label: "com.sinophy.uwatch").async {
+        DispatchQueue(label: "com.zhao.herefit").async {
             autoreleasepool {
                 let realm = try! Realm()
                 let objs = realm.objects(SleepObj.self)
@@ -188,7 +191,7 @@ class DatabaseManager {
     
     // Create or Update
     func addHeartObj(heartObj: HeartObj) {
-        DispatchQueue(label: "com.sinophy.uwatch").async {
+        DispatchQueue(label: "com.zhao.herefit").async {
             autoreleasepool {
                 let realm = try! Realm()
                 try? realm.write {
@@ -201,7 +204,7 @@ class DatabaseManager {
     
     // Read
     func getHeartObj(byDate date: String, completion: @escaping (Results<HeartObj>?) -> Void) {
-        DispatchQueue(label: "com.sinophy.uwatch").async {
+        DispatchQueue(label: "com.zhao.herefit").async {
             autoreleasepool {
                 let realm = try! Realm()
                 guard let startDate = self.dateFormatter.date(from: date) else {
@@ -225,7 +228,7 @@ class DatabaseManager {
     }
     
     func getAllHeartObjs(completion: @escaping (Results<HeartObj>) -> Void) {
-        DispatchQueue(label: "com.sinophy.uwatch").async {
+        DispatchQueue(label: "com.zhao.herefit").async {
             autoreleasepool {
                 let realm = try! Realm()
                 let objs = realm.objects(HeartObj.self)
@@ -238,7 +241,7 @@ class DatabaseManager {
     
     // Create or Update
     func addBloodObj(bloodObj: BloodObj) {
-        DispatchQueue(label: "com.sinophy.uwatch").async {
+        DispatchQueue(label: "com.zhao.herefit").async {
             autoreleasepool {
                 let realm = try! Realm()
                 try? realm.write {
@@ -251,7 +254,7 @@ class DatabaseManager {
     
     // Read
     func getBloodObj(byDate date: String, completion: @escaping (BloodObj?) -> Void) {
-        DispatchQueue(label: "com.sinophy.uwatch").async {
+        DispatchQueue(label: "com.zhao.herefit").async {
             autoreleasepool {
                 let realm = try! Realm()
                 let obj = realm.object(ofType: BloodObj.self, forPrimaryKey: date)
@@ -263,7 +266,7 @@ class DatabaseManager {
     }
     
     func getAllBloodObjs(completion: @escaping (Results<BloodObj>) -> Void) {
-        DispatchQueue(label: "com.sinophy.uwatch").async {
+        DispatchQueue(label: "com.zhao.herefit").async {
             autoreleasepool {
                 let realm = try! Realm()
                 let objs = realm.objects(BloodObj.self)
@@ -276,7 +279,7 @@ class DatabaseManager {
     
     // Create or Update
     func addOxgenObj(oxgenObj: OxgenObj) {
-        DispatchQueue(label: "com.sinophy.uwatch").async {
+        DispatchQueue(label: "com.zhao.herefit").async {
             autoreleasepool {
                 let realm = try! Realm()
                 try? realm.write {
@@ -289,7 +292,7 @@ class DatabaseManager {
     
     // Read
     func getOxgenObj(byDate date: String, completion: @escaping (Results<OxgenObj>?) -> Void) {
-        DispatchQueue(label: "com.sinophy.uwatch").async {
+        DispatchQueue(label: "com.zhao.herefit").async {
             autoreleasepool {
                 let realm = try! Realm()
                 guard let startDate = self.dateFormatter.date(from: date) else {
@@ -313,7 +316,7 @@ class DatabaseManager {
     }
     
     func getAllOxgenObjs(completion: @escaping (Results<OxgenObj>) -> Void) {
-        DispatchQueue(label: "com.sinophy.uwatch").async {
+        DispatchQueue(label: "com.zhao.herefit").async {
             autoreleasepool {
                 let realm = try! Realm()
                 let objs = realm.objects(OxgenObj.self)

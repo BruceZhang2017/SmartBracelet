@@ -48,7 +48,7 @@ extension UIColor {
     static let k7A61FF = UIColor(hex: 0x7A61FF)
     static let kDC98FF = UIColor(hex: 0xDC98FF)
     
-    static let brand = UIColor(hex: 0x0C77F8)
+    static let brand = UIColor(hex: 0xFF530A)
     static let text_primary = UIColor(hex: 0x050A10)
     static let text_secondary = UIColor(hex: 0x49525E)
     static let text_third = UIColor(hex: 0x050A10, alpha: 0.48)

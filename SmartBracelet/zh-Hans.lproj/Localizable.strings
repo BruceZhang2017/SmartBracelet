@@ -96,7 +96,7 @@
 "mine_device_ota_fail"="OTA升级失败";
 "mine_about"="关于";
 "mine_version"="版本";
-"mine_about_desc"="所有解释权归u-watch解释";
+"mine_about_desc"="所有解释权归Fit-here解释";
 "mine_account_info"="账号信息";
 "mine_userinfo"="个人信息";
 "mine_head_image"="头像";
@@ -276,7 +276,7 @@
 "mine_device_ota_fail" = "OTA升级失败";
 "mine_about" = "关于";
 "mine_version" = "版本";
-"mine_about_desc" = "所有解释权归u-watch解释";
+"mine_about_desc" = "所有解释权归Fit-here解释";
 "mine_account_info" = "账号信息";
 "mine_userinfo" = "个人信息";
 "mine_head_image" = "头像";
@@ -361,8 +361,8 @@
 "feedback_not_null" = "反馈内容不能为空";
 "feedback_success" = "反馈成功";
 "feedback_failed" = "反馈失败";
-"dialog_location_permission_explain_above_s" = "为支持健康数据追踪功能，u-watch会收集蓝牙数据和位置信息数据，即使应用处理关闭或未使用状态，也仍会收集这类数据。";
-"dialog_location_permission_explain" = "为支持健康数据追踪功能，u-watch会收集位置信息数据，即使应用处于关闭或未使用状态，也仍会收集这类数据。";
+"dialog_location_permission_explain_above_s" = "为支持健康数据追踪功能，Fit-here会收集蓝牙数据和位置信息数据，即使应用处理关闭或未使用状态，也仍会收集这类数据。";
+"dialog_location_permission_explain" = "为支持健康数据追踪功能，Fit-here会收集位置信息数据，即使应用处于关闭或未使用状态，也仍会收集这类数据。";
 "go_to_setting_open_permissions" = "禁止权限会导致你无法正常使用本应用，你可以去设置页面开启以上权限。";
 "permission_description" = "权限说明";
 "add_contact" = "添加联系人";
@@ -412,9 +412,14 @@
 "ble_off" = "蓝牙未开启，请先开启蓝牙";
 
 "delete_device_1"="删除设备";
-"delete_device_2"="设备已从U-Watch删除，但仍与手机连接。如需完全删除此设备，请完成以下操作：";
+"delete_device_2"="设备已从Fit-here删除，但仍与手机连接。如需完全删除此设备，请完成以下操作：";
 "delete_device_3"="1. 在手机“设置”>“蓝牙”>“我的设备”中找到“e watch”，点击右侧的“i”。";
 "delete_device_4"="2. 选择“忽略此设备”。";
-"delete_device_5"="3. 完成后，返回“U-Watch”App。";
+"delete_device_5"="3. 完成后，返回“Fit-here”App。";
 "delete_device_6"="已完成上述操作";
 "delete_device_7"="确定";
+
+"select_device_scan" = "正在扫描";
+"select_device_scan_desc" = "正在搜索可用设备";
+"select_device_add_manual" = "手动添加";
+"select_device_add_automatic" = "扫码添加";

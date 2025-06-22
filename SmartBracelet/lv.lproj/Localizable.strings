@@ -86,7 +86,7 @@
 "mine_device_ota_fail" = "OTA atjaunināšana neveiksmīga";
 "mine_about" = "Par";
 "mine_version" = "Versija";
-"mine_about_desc" = "Visi tulkošanas tiesības pieder u-watch";
+"mine_about_desc" = "Visi tulkošanas tiesības pieder Fit-here";
 "mine_account_info" = "Konta informācija";
 "mine_userinfo" = "Personiskā informācija";
 "mine_head_image" = "Profila attēls";
@@ -187,8 +187,8 @@
 "feedback_not_null" = "Atsauksmes saturs nevar būt tukšs";
 "feedback_success" = "Atsauksme veiksmīga";
 "feedback_failed" = "Atsauksme neveiksmīga";
-"dialog_location_permission_explain_above_s" = "Lai atbalstītu veselības datu sekošanu, u-watch ģenerēs Bluetooth datus un atrašanās informāciju, pat ja aplikācija ir aizvērta vai netiek izmantota.";
-"dialog_location_permission_explain" = "Lai atbalstītu veselības datu sekošanu, u-watch ģenerēs atrašanās informāciju, pat ja aplikācija ir aizvērta vai netiek izmantota.";
+"dialog_location_permission_explain_above_s" = "Lai atbalstītu veselības datu sekošanu, Fit-here ģenerēs Bluetooth datus un atrašanās informāciju, pat ja aplikācija ir aizvērta vai netiek izmantota.";
+"dialog_location_permission_explain" = "Lai atbalstītu veselības datu sekošanu, Fit-here ģenerēs atrašanās informāciju, pat ja aplikācija ir aizvērta vai netiek izmantota.";
 "go_to_setting_open_permissions" = "Saižēti atļaujumi木子 jums正常使用 šo aplikāciju. Jūs varat iet uz iestatījumu lapu, lai ieslēgtu augšā norādītos atļaujums.";
 "permission_description" = "Atļauju apraksts";
 "add_contact" = "Pievienot kontaktus";
@@ -237,9 +237,14 @@
 "ble_off" = "Bluetooth is not enabled. Please enable it first.";
 
 "delete_device_1" = "Dzēst ierīci";
-"delete_device_2" = "Ierīce ir dzēsta no U-Watch, taču tā joprojām ir savienota ar jūsu telefonu. Lai pilnībā dzēstu šo ierīci, veiciet šādus soļus:";
+"delete_device_2" = "Ierīce ir dzēsta no Fit-here, taču tā joprojām ir savienota ar jūsu telefonu. Lai pilnībā dzēstu šo ierīci, veiciet šādus soļus:";
 "delete_device_3" = "1. Jūsu telefona Iestatījumos > Bluetooth > Manas ierīces atrodiet 'e watch' un noklikšķiniet uz 'i' pa labi.";
 "delete_device_4" = "2. Atlasiet 'Aizmirst šo ierīci'.";
-"delete_device_5" = "3. Pēc veiksmīgas izpildes atgriezieties uz 'U-Watch' lietotni.";
+"delete_device_5" = "3. Pēc veiksmīgas izpildes atgriezieties uz 'Fit-here' lietotni.";
 "delete_device_6" = "Es esmu veiksmīgi izpildījis augstāk minētos soļus";
 "delete_device_7" = "Apstiprināt";
+
+"select_device_scan" = "Skenerē";
+"select_device_scan_desc" = "Meklē pieejamus ierīkus";
+"select_device_add_manual" = "Pievienot manuāli";
+"select_device_add_automatic" = "Skenēt, lai pievienotu";

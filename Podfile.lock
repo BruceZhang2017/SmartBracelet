@@ -14,7 +14,7 @@ PODS:
   - AFNetworking/Serialization (4.0.1)
   - AFNetworking/UIKit (4.0.1):
     - AFNetworking/NSURLSession
-  - Alamofire (5.4.4)
+  - Alamofire (5.10.2)
   - AMap2DMap (5.6.1):
     - AMapFoundation (~> 1.4)
   - AMapFoundation (1.8.2)
@@ -29,23 +29,23 @@ PODS:
   - IMSLog (1.0.8)
   - IotLinkKit (1.2.1):
     - IMSLog
-  - IQKeyboardManagerSwift (6.3.0)
-  - Kingfisher (8.3.1)
+  - IQKeyboardManagerSwift (6.5.16)
+  - Kingfisher (8.3.2)
   - MJRefresh (3.7.8)
   - Moya (15.0.0):
     - Moya/Core (= 15.0.0)
   - Moya/Core (15.0.0):
     - Alamofire (~> 5.0)
   - ProgressHUD (14.1.1)
-  - Realm (10.13.0):
-    - Realm/Headers (= 10.13.0)
-  - Realm/Headers (10.13.0)
-  - RealmSwift (10.13.0):
-    - Realm (= 10.13.0)
+  - Realm (20.0.2):
+    - Realm/Headers (= 20.0.2)
+  - Realm/Headers (20.0.2)
+  - RealmSwift (20.0.2):
+    - Realm (= 20.0.2)
   - RxSwift (6.9.0)
-  - SDWebImage (5.21.0):
-    - SDWebImage/Core (= 5.21.0)
-  - SDWebImage/Core (5.21.0)
+  - SDWebImage (5.21.1):
+    - SDWebImage/Core (= 5.21.1)
+  - SDWebImage/Core (5.21.1)
   - Segmentio (4.1)
   - SnapKit (5.0.1)
   - SwiftyBeaver (1.9.5)
@@ -60,7 +60,7 @@ PODS:
 
 DEPENDENCIES:
   - AFNetworking
-  - Alamofire (~> 5.4.4)
+  - Alamofire (~> 5.10.2)
   - AMap2DMap
   - AMapLocation
   - AMapSearch
@@ -69,13 +69,13 @@ DEPENDENCIES:
   - CryptoSwift
   - DropDown
   - IotLinkKit (= 1.2.1)
-  - IQKeyboardManagerSwift (= 6.3.0)
+  - IQKeyboardManagerSwift (~> 6.5.0)
   - Kingfisher
   - MJRefresh (= 3.7.8)
   - Moya
   - ProgressHUD
-  - Realm (~> 10.13.0)
-  - RealmSwift (~> 10.13.0)
+  - Realm (~> 20.0.2)
+  - RealmSwift (~> 20.0.2)
   - RxSwift
   - SDWebImage
   - Segmentio
@@ -124,7 +124,7 @@ SPEC REPOS:
 
 SPEC CHECKSUMS:
   AFNetworking: 3bd23d814e976cd148d7d44c3ab78017b744cd58
-  Alamofire: f3b09a368f1582ab751b3fff5460276e0d2cf5c9
+  Alamofire: 7193b3b92c74a07f85569e1a6c4f4237291e7496
   AMap2DMap: cac76bc057de18a1641f34df6b50bf5bc6b23571
   AMapFoundation: 9885c48fc3a78fdfb84a0299a2293e56ea3c9fec
   AMapLocation: 5248aec2455ebb5d104b367813c946430a2ee033
@@ -135,15 +135,15 @@ SPEC CHECKSUMS:
   DropDown: 8a2116376c1981888557f72ec2ffc9a5e0e456ec
   IMSLog: d17ae9fa27c5a31ef5a76ed4e233fd4c89404508
   IotLinkKit: 509ab45c59359880b6b80124687e670d723c6a8c
-  IQKeyboardManagerSwift: a8228c257614af98743b4cd8584637025f36358f
-  Kingfisher: 3204d23de16b5ea53541c44ca5a8efb55741dec3
+  IQKeyboardManagerSwift: 12d89768845bb77b55cc092ecc2b1f9370f06b76
+  Kingfisher: 0621d0ac0c78fecb19f6dc5303bde2b52abaf2f5
   MJRefresh: 4e6e7ba77a6d5fab012426777e32b0a77127c50a
   Moya: 138f0573e53411fb3dc17016add0b748dfbd78ee
   ProgressHUD: abb9136ae23c85204236828562cb9a8ec98efb44
-  Realm: e3a1225aafa7cec96a020dc199201b9d1f9cd59c
-  RealmSwift: 62585b4a934754a9d9117331689f4e8a5b1f6113
+  Realm: 395416e3b150a37ca12fee6477a2ec8c11f8a048
+  RealmSwift: 199fd4d7e86491d1147c662c6a36aa55136a54d0
   RxSwift: 31649ace6aceeb422e16ff71c60804f9c3281ed9
-  SDWebImage: f84b0feeb08d2d11e6a9b843cb06d75ebf5b8868
+  SDWebImage: f29024626962457f3470184232766516dee8dfea
   Segmentio: ab29def64e1bff6e6e9b97671788a99bed3f1d9f
   SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
   SwiftyBeaver: 84069991dd5dca07d7069100985badaca7f0ce82
@@ -154,6 +154,6 @@ SPEC CHECKSUMS:
   TZImagePickerController: 4f6e91cf00d67827ec23bd3c2f849cbd054b4979
   YYImage: 1e1b62a9997399593e4b9c4ecfbbabbf1d3f3b54
 
-PODFILE CHECKSUM: 8d9da53f4e39a868f9a25accee008c85cfc4cd61
+PODFILE CHECKSUM: be0ea344936d1e1740456123515545fc5a3a2cac
 
-COCOAPODS: 1.13.0
+COCOAPODS: 1.16.2

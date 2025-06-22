@@ -86,7 +86,7 @@
 "mine_device_ota_fail" = "OTA-opgradering mislykkedes";
 "mine_about" = "om";
 "mine_version" = "Version";
-"mine_about_desc" = "Alle fortolkningstykkelser tilhører u-watch";
+"mine_about_desc" = "Alle fortolkningstykkelser tilhører Fit-here";
 "mine_account_info" = "Kontoinformation";
 "mine_userinfo" = "Personlige oplysninger";
 "mine_head_image" = "Avatar";
@@ -188,8 +188,8 @@
 "feedback_not_null" = "Feedback-indhold kan ikke være tomt";
 "feedback_success" = "Feedback succeeds";
 "feedback_failed" = "Feedback mislykkedes";
-"dialog_location_permission_explain_above_s" = "For at understøtte sundhedsdata-tracking-funktionen, vil u-watch indsamle Bluetooth-data og placeringsoinformationer, selv hvis applikationsprocessen er lukket eller ikke anvendes.";
-"dialog_location_permission_explain" = "For at understøtte sundhedsdata-tracking-funktionen, vil u-watch indsamle placeringsoinformationer, selv hvis applikationen er lukket eller ikke anvendes.";
+"dialog_location_permission_explain_above_s" = "For at understøtte sundhedsdata-tracking-funktionen, vil Fit-here indsamle Bluetooth-data og placeringsoinformationer, selv hvis applikationsprocessen er lukket eller ikke anvendes.";
+"dialog_location_permission_explain" = "For at understøtte sundhedsdata-tracking-funktionen, vil Fit-here indsamle placeringsoinformationer, selv hvis applikationen er lukket eller ikke anvendes.";
 "go_to_setting_open_permissions" = "Forbudte tilladelser vil forhindre dig i at bruge denne app normalt. Du kan gå til indstillingssiden for at aktivere ovenstående tilladelser.";
 "permission_description" = "Tilladelsesbeskrivelse";
 "add_contact" = "Tilføj kontakter";
@@ -238,9 +238,14 @@
 "ble_off" = "Bluetooth is not enabled. Please enable it first.";
 
 "delete_device_1" = "Slet enhed";
-"delete_device_2" = "Enheden er fjernet fra U-Watch, men er stadig tilsluttet din telefon. For at fuldstændig slette denne enhed, udfør følgende trin:";
+"delete_device_2" = "Enheden er fjernet fra Fit-here, men er stadig tilsluttet din telefon. For at fuldstændig slette denne enhed, udfør følgende trin:";
 "delete_device_3" = "1. I din telefonindstillinger > Bluetooth > Mine enheder, find 'e watch' og tryk på 'i' til højre.";
 "delete_device_4" = "2. Vælg 'Glem enhed'.";
-"delete_device_5" = "3. Når du er færdig, gå tilbage til 'U-Watch'-appen.";
+"delete_device_5" = "3. Når du er færdig, gå tilbage til 'Fit-here'-appen.";
 "delete_device_6" = "Jeg har udført ovenstående trin";
 "delete_device_7" = "Bekræft";
+
+"select_device_scan" = "Scannes";
+"select_device_scan_desc" = "Søges efter tilgængelige enheder";
+"select_device_add_manual" = "Tilføj manuelt";
+"select_device_add_automatic" = "Scan for at tilføje";

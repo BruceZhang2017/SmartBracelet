@@ -1359,6 +1359,11 @@ public class XGZTCommand {
                 XGZTCommand.getAlarmInfo(type: 2)
                 return
             }
+            if response.count == 7 && response[5] == 0x01 && response[6] == 0x00 {
+                XGZTCommand.getAlarmInfo(type: 1)
+                XGZTCommand.getAlarmInfo(type: 2)
+                return
+            }
             if response.count == 14 {
                 let index = Int(response[7])
                 let switchValue = Int(response[8])

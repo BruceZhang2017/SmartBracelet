@@ -87,7 +87,7 @@
 "mine_device_ota_fail" = "Peningkatan OTA gagal";
 "mine_about" = "tentang";
 "mine_version" = "Versi: kapan";
-"mine_about_desc" = "Semua hak interpretasi milik interpretasi u-watch";
+"mine_about_desc" = "Semua hak interpretasi milik interpretasi Fit-here";
 "mine_account_info" = "Informasi Akun";
 "mine_userinfo" = "informasi pribadi";
 "mine_head_image" = "Avatar";
@@ -269,7 +269,7 @@
 "mine_device_ota_fail" = "Pembaruan OTA gagal";
 "mine_about" = "tentang";
 "mine_version" = "Versi: kapan";
-"mine_about_desc" = "Semua hak interpretasi milik u-watch";
+"mine_about_desc" = "Semua hak interpretasi milik Fit-here";
 "mine_account_info" = "Informasi Akun";
 "mine_userinfo" = "informasi pribadi";
 "mine_head_image" = "avatar";
@@ -354,8 +354,8 @@
 "feedback_not_null" = "Konten umpan balik tidak boleh kosong";
 "feedback_success" = "keberhasilan umpan balik";
 "feedback_failed" = "Umpan balik gagal";
-"dialog_location_permission_explain_above_s" = "Untuk mendukung fungsi pelacakan data kesehatan, u-watch akan mengumpulkan data Bluetooth dan data informasi lokasi, meskipun proses aplikasi ditutup atau tidak digunakan, data tersebut akan tetap dikumpulkan.";
-"dialog_location_permission_explain" = "Untuk mendukung fungsi pelacakan data kesehatan, u-watch akan mengumpulkan data informasi lokasi, meskipun aplikasi ditutup atau tidak digunakan, data tersebut akan tetap dikumpulkan.";
+"dialog_location_permission_explain_above_s" = "Untuk mendukung fungsi pelacakan data kesehatan, Fit-here akan mengumpulkan data Bluetooth dan data informasi lokasi, meskipun proses aplikasi ditutup atau tidak digunakan, data tersebut akan tetap dikumpulkan.";
+"dialog_location_permission_explain" = "Untuk mendukung fungsi pelacakan data kesehatan, Fit-here akan mengumpulkan data informasi lokasi, meskipun aplikasi ditutup atau tidak digunakan, data tersebut akan tetap dikumpulkan.";
 "go_to_setting_open_permissions" = "Izin yang dilarang akan menyebabkan Anda tidak dapat menggunakan aplikasi ini secara normal, Anda dapat membuka halaman pengaturan untuk mengaktifkan izin di atas.";
 "permission_description" = "Deskripsi Izin";
 "add_contact" = "Tambahkan kontak";
@@ -402,9 +402,14 @@
 "ble_off" = "Bluetooth is not enabled. Please enable it first.";
 
 "delete_device_1" = "Hapus Perangkat";
-"delete_device_2" = "Perangkat telah dihapus dari U-Watch tetapi masih terhubung ke ponsel Anda. Untuk menghapus perangkat ini sepenuhnya, harap selesaikan langkah-langkah berikut:";
+"delete_device_2" = "Perangkat telah dihapus dari Fit-here tetapi masih terhubung ke ponsel Anda. Untuk menghapus perangkat ini sepenuhnya, harap selesaikan langkah-langkah berikut:";
 "delete_device_3" = "1. Di Pengaturan ponsel Anda > Bluetooth > Perangkat Saya, cari 'e watch' dan ketuk 'i' di sebelah kanan.";
 "delete_device_4" = "2. Pilih 'Lupakan perangkat ini'.";
-"delete_device_5" = "3. Setelah selesai, kembali ke Aplikasi 'U-Watch'.";
+"delete_device_5" = "3. Setelah selesai, kembali ke Aplikasi 'Fit-here'.";
 "delete_device_6" = "Saya telah menyelesaikan langkah-langkah di atas";
 "delete_device_7" = "Konfirmasi";
+
+"select_device_scan" = "Sedang memindai";
+"select_device_scan_desc" = "Mencari perangkat yang tersedia";
+"select_device_add_manual" = "Tambahkan secara manual";
+"select_device_add_automatic" = "Tambahkan dengan scan";

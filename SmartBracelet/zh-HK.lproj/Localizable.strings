@@ -87,7 +87,7 @@
 "mine_device_ota_fail" = "OTA升級失敗";
 "mine_about" = "關於";
 "mine_version" = "版本";
-"mine_about_desc" = "所有解釋權歸u-watch解釋";
+"mine_about_desc" = "所有解釋權歸Fit-here解釋";
 "mine_account_info" = "賬號信息";
 "mine_userinfo" = "個人信息";
 "mine_head_image" = "頭像";
@@ -269,7 +269,7 @@
 "mine_device_ota_fail" = "OTA升級失敗";
 "mine_about" = "關於";
 "mine_version" = "版本";
-"mine_about_desc" = "所有解釋權歸u-watch解釋";
+"mine_about_desc" = "所有解釋權歸Fit-here解釋";
 "mine_account_info" = "賬號信息";
 "mine_userinfo" = "個人信息";
 "mine_head_image" = "頭像";
@@ -354,8 +354,8 @@
 "feedback_not_null" = "反饋內容不能為空";
 "feedback_success" = "反饋成功";
 "feedback_failed" = "反饋失敗";
-"dialog_location_permission_explain_above_s" = "為支持健康數據追踪功能，u-watch會收集藍牙數據和位置信息數據，即使應用處理關閉或未使用狀態，也仍會收集這類數據。";
-"dialog_location_permission_explain" = "為支持健康數據追踪功能，u-watch會收集位置信息數據，即使應用處於關閉或未使用狀態，也仍會收集這類數據。";
+"dialog_location_permission_explain_above_s" = "為支持健康數據追踪功能，Fit-here會收集藍牙數據和位置信息數據，即使應用處理關閉或未使用狀態，也仍會收集這類數據。";
+"dialog_location_permission_explain" = "為支持健康數據追踪功能，Fit-here會收集位置信息數據，即使應用處於關閉或未使用狀態，也仍會收集這類數據。";
 "go_to_setting_open_permissions" = "禁止權限會導致你無法正常使用本應用，你可以去設置頁面開啟以上權限。";
 "permission_description" = "權限說明";
 "add_contact" = "添加聯繫人";
@@ -402,9 +402,14 @@
 "ble_off" = "Bluetooth is not enabled. Please enable it first.";
 
 "delete_device_1" = "刪除裝置";
-"delete_device_2" = "裝置已從U-Watch刪除，但仍與手機連接。若要完全刪除此裝置，請完成以下操作：";
+"delete_device_2" = "裝置已從Fit-here刪除，但仍與手機連接。若要完全刪除此裝置，請完成以下操作：";
 "delete_device_3" = "1. 在手機「設定」>「藍牙」>「我的裝置」中找到「e watch」，點擊右側的「i」。";
 "delete_device_4" = "2. 選擇「忽略此裝置」。";
-"delete_device_5" = "3. 完成後，返回「U-Watch」應用程式。";
+"delete_device_5" = "3. 完成後，返回「Fit-here」應用程式。";
 "delete_device_6" = "已完成上述操作";
 "delete_device_7" = "確定";
+
+"select_device_scan" = "正在掃描";
+"select_device_scan_desc" = "正在搜尋可用設備";
+"select_device_add_manual" = "手動添加";
+"select_device_add_automatic" = "掃碼添加";

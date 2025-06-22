@@ -86,7 +86,7 @@
 "mine_device_ota_fail" = "OTA nadogradit neúspešne";
 "mine_about" = "o nás";
 "mine_version" = "Verzia";
-"mine_about_desc" = "Všetky práva na interpretáciu patria u-watch";
+"mine_about_desc" = "Všetky práva na interpretáciu patria Fit-here";
 "mine_account_info" = "Informácie o účte";
 "mine_userinfo" = "Osobné informácie";
 "mine_head_image" = "Avatar";
@@ -188,8 +188,8 @@
 "feedback_not_null" = "Obsah spätnej informácie nemôže byť prázdny";
 "feedback_success" = "Uspesná spätná informácia";
 "feedback_failed" = "Spätná informácia neúspešna";
-"dialog_location_permission_explain_above_s" = "Aby sa podarilo sledovať zdravé údaje, u-watch zbiera Bluetooth údaje a informácie o polohi, aj keď je aplikácia zatvorená alebo nepoužíva sa.";
-"dialog_location_permission_explain" = "Aby sa podarilo sledovať zdravé údaje, u-watch zbiera informácie o polohi, aj keď je aplikácia zatvorená alebo nepoužíva sa.";
+"dialog_location_permission_explain_above_s" = "Aby sa podarilo sledovať zdravé údaje, Fit-here zbiera Bluetooth údaje a informácie o polohi, aj keď je aplikácia zatvorená alebo nepoužíva sa.";
+"dialog_location_permission_explain" = "Aby sa podarilo sledovať zdravé údaje, Fit-here zbiera informácie o polohi, aj keď je aplikácia zatvorená alebo nepoužíva sa.";
 "go_to_setting_open_permissions" = "Zakázané povolenia spôsobia, že nebudeiete môcť aplikáciu normaálne použiť. Môžete ísť na stránku s nastaveniami a povoliť vyššie uvedené povolenia.";
 "permission_description" = "Popis povolení";
 "add_contact" = "Pridajtekontakt";
@@ -238,9 +238,14 @@
 "ble_off" = "Bluetooth is not enabled. Please enable it first.";
 
 "delete_device_1" = "Zmazať zariadenie";
-"delete_device_2" = "Zariadenie bolo odstránené z U-Watch, ale stále je pripojené k vašej telefóne. Ak chcete toto zariadenie úplne odstrániť, urobte nasledovné:";
+"delete_device_2" = "Zariadenie bolo odstránené z Fit-here, ale stále je pripojené k vašej telefóne. Ak chcete toto zariadenie úplne odstrániť, urobte nasledovné:";
 "delete_device_3" = "1. V nastaveniach vášho telefónu > Bluetooth > Moje zariadenia nájdite 'e watch' a kliknite na 'i' napravo.";
 "delete_device_4" = "2. Vyberte 'Zabudnúť na toto zariadenie'.";
-"delete_device_5" = "3. Po dokončení sa vráťte do aplikácie 'U-Watch'.";
+"delete_device_5" = "3. Po dokončení sa vráťte do aplikácie 'Fit-here'.";
 "delete_device_6" = "Urobil som vyššie uvedené kroky";
 "delete_device_7" = "Potvrdiť";
+
+"select_device_scan" = "Prebieha skenovanie";
+"select_device_scan_desc" = "Hľadanie dostupných zariadení";
+"select_device_add_manual" = "Pridať ručne";
+"select_device_add_automatic" = "Skenovať na pridanie";

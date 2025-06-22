@@ -86,7 +86,7 @@
 "mine_device_ota_fail" = "Actualizare OTA eșuată";
 "mine_about" = " despre";
 "mine_version" = "Versiune";
-"mine_about_desc" = "Toate drepturile de interpretare apartin u-watch";
+"mine_about_desc" = "Toate drepturile de interpretare apartin Fit-here";
 "mine_account_info" = "informații cont";
 "mine_userinfo" = "informații personale";
 "mine_head_image" = "Avatar";
@@ -188,8 +188,8 @@
 "feedback_not_null" = "Conținutul feedback-ului nu poate fi gol";
 "feedback_success" = "feedback reușit";
 "feedback_failed" = "feedback eșuat";
-"dialog_location_permission_explain_above_s" = "Pentru a susține funcția de urmărire a datelor de sănătate, u-watch va colecta date Bluetooth și informații despre locație, chiar dacă procesul aplicației este închis sau nu este folosit.";
-"dialog_location_permission_explain" = "Pentru a susține funcția de urmărire a datelor de sănătate, u-watch va colecta informații despre locație, chiar dacă aplicația este închisă sau nu este folosită.";
+"dialog_location_permission_explain_above_s" = "Pentru a susține funcția de urmărire a datelor de sănătate, Fit-here va colecta date Bluetooth și informații despre locație, chiar dacă procesul aplicației este închis sau nu este folosit.";
+"dialog_location_permission_explain" = "Pentru a susține funcția de urmărire a datelor de sănătate, Fit-here va colecta informații despre locație, chiar dacă aplicația este închisă sau nu este folosită.";
 "go_to_setting_open_permissions" = "Permisiunile interzise vor face ca aplicația să nu poată fi folosită normal. Puteți merge pe pagina de setări pentru a activa permisiunile de mai sus.";
 "permission_description" = "Descriere permisiuni";
 "add_contact" = "Adăugați contacte";
@@ -238,9 +238,14 @@
 "ble_off" = "Bluetooth is not enabled. Please enable it first.";
 
 "delete_device_1" = "Șterge dispozitivul";
-"delete_device_2" = "Dispozitivul a fost eliminat din U-Watch, dar este încă conectat la telefonul dvs. Pentru a șterge complet acest dispozitiv, urmați pașii următori:";
+"delete_device_2" = "Dispozitivul a fost eliminat din Fit-here, dar este încă conectat la telefonul dvs. Pentru a șterge complet acest dispozitiv, urmați pașii următori:";
 "delete_device_3" = "1. În setările telefonului dvs. > Bluetooth > Dispozitivele mele, găsiți 'e watch' și faceți clic pe 'i' din dreapta.";
 "delete_device_4" = "2. Selectați 'Uită-te de acest dispozitiv'.";
-"delete_device_5" = "3. După ce ați terminat, reveniți la aplicația 'U-Watch'.";
+"delete_device_5" = "3. După ce ați terminat, reveniți la aplicația 'Fit-here'.";
 "delete_device_6" = "Am finalizat pașii de mai sus";
 "delete_device_7" = "Confirmă";
+
+"select_device_scan" = "Se scanează";
+"select_device_scan_desc" = "Se caută dispozitive disponibile";
+"select_device_add_manual" = "Adăugare manuală";
+"select_device_add_automatic" = "Scanare pentru a adăuga";

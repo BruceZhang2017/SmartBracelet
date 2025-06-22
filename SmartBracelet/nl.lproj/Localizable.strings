@@ -87,7 +87,7 @@
 "mine_device_ota_fail" = "OTA-upgrade mislukt";
 "mine_about" = "wat betreft";
 "mine_version" = "Versie";
-"mine_about_desc" = "Alle interpretatierechten behoren toe aan u-watch-interpretatie";
+"mine_about_desc" = "Alle interpretatierechten behoren toe aan Fit-here-interpretatie";
 "mine_account_info" = "Account Informatie";
 "mine_userinfo" = "persoonlijke informatie";
 "mine_head_image" = "Avatar";
@@ -269,7 +269,7 @@
 "mine_device_ota_fail" = "OTA-upgrade mislukt";
 "mine_about" = "over";
 "mine_version" = "Versie";
-"mine_about_desc" = "Alle interpretatierechten behoren toe aan u-watch";
+"mine_about_desc" = "Alle interpretatierechten behoren toe aan Fit-here";
 "mine_account_info" = "Account Informatie";
 "mine_userinfo" = "persoonlijke informatie";
 "mine_head_image" = "avatar";
@@ -354,8 +354,8 @@
 "feedback_not_null" = "Feedbackinhoud mag niet leeg zijn";
 "feedback_success" = "feedback succes";
 "feedback_failed" = "Terugkoppeling mislukt";
-"dialog_location_permission_explain_above_s" = "Om de functie voor het volgen van gezondheidsgegevens te ondersteunen, verzamelt u-watch Bluetooth-gegevens en locatie-informatiegegevens, zelfs als het aanvraagproces is afgesloten of niet in gebruik is, zullen dergelijke gegevens nog steeds worden verzameld.";
-"dialog_location_permission_explain" = "Om de functie voor het volgen van gezondheidsgegevens te ondersteunen, verzamelt u-watch locatiegegevens, zelfs als de applicatie is gesloten of niet in gebruik is, zullen dergelijke gegevens nog steeds worden verzameld.";
+"dialog_location_permission_explain_above_s" = "Om de functie voor het volgen van gezondheidsgegevens te ondersteunen, verzamelt Fit-here Bluetooth-gegevens en locatie-informatiegegevens, zelfs als het aanvraagproces is afgesloten of niet in gebruik is, zullen dergelijke gegevens nog steeds worden verzameld.";
+"dialog_location_permission_explain" = "Om de functie voor het volgen van gezondheidsgegevens te ondersteunen, verzamelt Fit-here locatiegegevens, zelfs als de applicatie is gesloten of niet in gebruik is, zullen dergelijke gegevens nog steeds worden verzameld.";
 "go_to_setting_open_permissions" = "Verboden machtigingen zorgen ervoor dat u deze app niet normaal kunt gebruiken. U kunt naar de instellingenpagina gaan om de bovenstaande machtigingen in te schakelen.";
 "permission_description" = "Toestemming Beschrijving";
 "add_contact" = "Contacten toevoegen";
@@ -402,9 +402,14 @@
 "ble_off" = "Bluetooth is not enabled. Please enable it first.";
 
 "delete_device_1" = "Apparaat verwijderen";
-"delete_device_2" = "Het apparaat is verwijderd uit U-Watch maar is nog steeds verbonden met uw telefoon. Om dit apparaat volledig te verwijderen, voltooi de volgende stappen:";
+"delete_device_2" = "Het apparaat is verwijderd uit Fit-here maar is nog steeds verbonden met uw telefoon. Om dit apparaat volledig te verwijderen, voltooi de volgende stappen:";
 "delete_device_3" = "1. In de instellingen van uw telefoon > Bluetooth > Mijn apparaten, zoek 'e watch' en tik op de 'i' rechts.";
 "delete_device_4" = "2. Selecteer 'Vergeet dit apparaat'.";
-"delete_device_5" = "3. Nadat u klaar bent, ga terug naar de 'U-Watch'-app.";
+"delete_device_5" = "3. Nadat u klaar bent, ga terug naar de 'Fit-here'-app.";
 "delete_device_6" = "Ik heb de bovenstaande stappen voltooid";
 "delete_device_7" = "Bevestigen";
+
+"select_device_scan" = "Wordt gescand";
+"select_device_scan_desc" = "Werkbare apparaten worden gezocht";
+"select_device_add_manual" = "Handmatig toevoegen";
+"select_device_add_automatic" = "Scannen om toe te voegen";
