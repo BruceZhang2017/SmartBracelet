@@ -408,3 +408,8 @@
 "delete_device_5" = "3. После завершения вернитесь в приложение 'U-Watch'.";
 "delete_device_6" = "Я выполнил вышеперечисленные действия";
 "delete_device_7" = "Подтвердить";
+
+"select_device_scan" = "Проверка";
+"select_device_scan_desc" = "Идет поиск доступных устройств";
+"select_device_add_manual" = "Добавить вручную";
+"select_device_add_automatic" = "Добавить по скану";

@@ -75,7 +75,9 @@ class MTabBarController: UITabBarController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if lastestDeviceMac.isEmpty || lastestDeviceMac.count == 0 {
-            selectedIndex = 1
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                self.selectedIndex = 1
+            }
         }
     }
     
@@ -135,12 +137,38 @@ class MTabBarController: UITabBarController {
 
     @objc func handleDeviceConnected(_ notification: Notification) {
         let obj = notification.object as? String ?? ""
+        
         if obj == "disconnect" {
-            (selectedViewController as? UINavigationController)?.popToRootViewController(animated: true)
-            selectedIndex = 1
-            return
+            if let navController = selectedViewController as? UINavigationController {
+                navController.popToRootViewController(animated: false)
+            }
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                self.selectedIndex = 1
+                
+                // iOS 17+ 特殊处理
+                if #available(iOS 17.0, *) {
+                    self.tabBar.isHidden = false
+                    self.view.setNeedsLayout()
+                    self.view.layoutIfNeeded()
+                } else {
+                    self.tabBar.isHidden = false
+                }
+            }
+        } else {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                self.selectedIndex = 0
+                
+                // iOS 17+ 特殊处理
+                if #available(iOS 17.0, *) {
+                    self.tabBar.isHidden = false
+                    self.view.setNeedsLayout()
+                    self.view.layoutIfNeeded()
+                } else {
+                    self.tabBar.isHidden = false
+                }
+            }
         }
-        selectedIndex = 0
     }
     
     /// 延迟300ms，执行判断是否需要搜索设备

@@ -409,3 +409,8 @@
 "delete_device_5" = "3. Kun olet valmis, palaa 'U-Watch'-sovellukseen.";
 "delete_device_6" = "Olen suorittanut yllä olevat vaiheet";
 "delete_device_7" = "Vahvista";
+
+"select_device_scan" = "Tarkastellaan";
+"select_device_scan_desc" = "Etsitään käytettävissä olevia laitteita";
+"select_device_add_manual" = "Lisää manuaalisesti";
+"select_device_add_automatic" = "Skannata lisättäviksi";

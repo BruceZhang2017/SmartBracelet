@@ -293,7 +293,32 @@ class XGZTBlueToothManager: NSObject, CBCentralManagerDelegate, CBPeripheralDele
     }
     
     func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: (any Error)?) {
+        // 基础日志
         XLogger.shared.log("蓝牙设备断开连接")
+        
+        // 处理非空错误
+        if let error = error {
+            // 打印基础错误描述
+            XLogger.shared.log("错误描述: \(error.localizedDescription)")
+            
+            // 打印详细错误信息（适用于NSError类型）
+            if let nserror = error as? NSError {
+                XLogger.shared.log("错误域: \(nserror.domain)")
+                XLogger.shared.log("错误码: \(nserror.code)")
+                
+                // 打印用户信息字典（如果有）
+                if let userInfo = nserror.userInfo as? [String: Any], !userInfo.isEmpty {
+                    XLogger.shared.log("错误用户信息: \(userInfo)")
+                }
+            } else {
+                // 非NSError类型的错误（Swift 5.6+的Error类型）
+                XLogger.shared.log("原始错误对象: \(error)")
+                XLogger.shared.log("错误类型: \(type(of: error))")
+            }
+        } else {
+            // 错误为空的情况（通常是主动断开连接）
+            XLogger.shared.log("断开原因: 主动断开连接（无错误）")
+        }
         NotificationCenter.default.post(name: Notification.Name("DevicesViewController"), object: "100")
         if autoDisconnect {
             XLogger.shared.log("蓝牙断开回调方法：autoDisconnect")

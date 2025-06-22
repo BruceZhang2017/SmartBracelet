@@ -408,3 +408,8 @@
 "delete_device_5" = "3. بعد الانتهاء، عد إلى تطبيق 'U-Watch'.";
 "delete_device_6" = "لقد أكملت الخطوات أعلاه";
 "delete_device_7" = "تأكيد";
+
+"select_device_scan" = "جارِ التسْرير";
+"select_device_scan_desc" = "يبحث عن الأجهزة المتاحة";
+"select_device_add_manual" = "إضافة اليدوية";
+"select_device_add_automatic" = "إضافة عن طريق مسح";

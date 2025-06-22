@@ -244,3 +244,8 @@
 "delete_device_5" = "3. Po dokončení sa vráťte do aplikácie 'U-Watch'.";
 "delete_device_6" = "Urobil som vyššie uvedené kroky";
 "delete_device_7" = "Potvrdiť";
+
+"select_device_scan" = "Prebieha skenovanie";
+"select_device_scan_desc" = "Hľadanie dostupných zariadení";
+"select_device_add_manual" = "Pridať ručne";
+"select_device_add_automatic" = "Skenovať na pridanie";

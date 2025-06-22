@@ -410,3 +410,8 @@
 "delete_device_5" = "3. After completing, return to the 'U-Watch' App.";
 "delete_device_6" = "I have completed the above steps";
 "delete_device_7" = "Confirm";
+
+"select_device_scan" = "Scanning";
+"select_device_scan_desc" = "Searching for available devices";
+"select_device_add_manual" = "Add Manually";
+"select_device_add_automatic" = "Scan to Add";

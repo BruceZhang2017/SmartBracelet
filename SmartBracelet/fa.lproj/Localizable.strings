@@ -250,3 +250,8 @@
 "delete_device_5" = "3. پس از تکمیل، به برنامه 'U-Watch' برگردید.";
 "delete_device_6" = "من مراحل فوق را انجام داده‌ام";
 "delete_device_7" = "تأیید";
+
+"select_device_scan" = "در حال اسکن است";
+"select_device_scan_desc" = "در حال جستجو برای دستگاه‌های可用 است";
+"select_device_add_manual" = "افزودنmanuel";
+"select_device_add_automatic" = "اسکن کردن برای افزودن";

@@ -229,3 +229,8 @@
 "delete_device_5" = "3. Þegar þú ert búinn skaltu fara aftur í 'U-Watch' forritið.";
 "delete_device_6" = "Ég hef lokið aðgerðum hér að ofan";
 "delete_device_7" = "Staðfesta";
+
+"select_device_scan" = "Er að skanna";
+"select_device_scan_desc" = "Er að leita að reikningsþýðum tæki";
+"select_device_add_manual" = " bæta við handvirkt";
+"select_device_add_automatic" = "Skanið til að bæta við";

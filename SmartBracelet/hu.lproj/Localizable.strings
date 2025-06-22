@@ -244,3 +244,8 @@
 "delete_device_5" = "3. A befejezés után térjen vissza az 'U-Watch' alkalmazásba.";
 "delete_device_6" = "Elvégeztem a fenti lépéseket";
 "delete_device_7" = "Megerősítés";
+
+"select_device_scan" = "Lecsekkende";
+"select_device_scan_desc" = "Elérhető eszközök keresése";
+"select_device_add_manual" = "Kézzel ad hozzá";
+"select_device_add_automatic" = "Lecsekkent hozzáadás";

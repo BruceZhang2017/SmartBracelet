@@ -408,3 +408,8 @@
 "delete_device_5" = "3. 完成後，返回「U-Watch」應用程式。";
 "delete_device_6" = "已完成上述操作";
 "delete_device_7" = "確定";
+
+"select_device_scan" = "正在掃描";
+"select_device_scan_desc" = "正在搜尋可用設備";
+"select_device_add_manual" = "手動添加";
+"select_device_add_automatic" = "掃碼添加";

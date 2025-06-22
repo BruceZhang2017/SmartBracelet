@@ -408,3 +408,8 @@
 "delete_device_5" = "3. Setelah selesai, kembali ke Aplikasi 'U-Watch'.";
 "delete_device_6" = "Saya telah menyelesaikan langkah-langkah di atas";
 "delete_device_7" = "Konfirmasi";
+
+"select_device_scan" = "Sedang memindai";
+"select_device_scan_desc" = "Mencari perangkat yang tersedia";
+"select_device_add_manual" = "Tambahkan secara manual";
+"select_device_add_automatic" = "Tambahkan dengan scan";

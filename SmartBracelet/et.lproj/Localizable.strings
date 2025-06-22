@@ -234,3 +234,8 @@
 "delete_device_5" = "3. Pärast lõpetamist tagasipöördumine 'U-Watch'-rakendusse.";
 "delete_device_6" = "Olen ülaltoodud toimingud tehtud";
 "delete_device_7" = "Kinnita";
+
+"select_device_scan" = "Skannitakse";
+"select_device_scan_desc" = "Otsitakse saadaval olevaid seadmeid";
+"select_device_add_manual" = "Lisa käsitsi";
+"select_device_add_automatic" = "SkanniLisa";

@@ -21,7 +21,7 @@ class SelectAddActionViewController: UIViewController {
 
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.text = "添加设备"
+        label.text = "device_add".localized()
         label.textColor = .white
         label.font = UIFont.boldSystemFont(ofSize: 22)
         return label
@@ -31,7 +31,7 @@ class SelectAddActionViewController: UIViewController {
 
     private let scanningLabel: UILabel = {
         let label = UILabel()
-        label.text = "正在扫描..."
+        label.text = "\("select_device_scan".localized())..."
         label.textColor = .white
         label.font = UIFont.boldSystemFont(ofSize: 22)
         label.textAlignment = .center
@@ -40,7 +40,7 @@ class SelectAddActionViewController: UIViewController {
 
     private let subLabel: UILabel = {
         let label = UILabel()
-        label.text = "正在搜索可用设备"
+        label.text = "select_device_scan_desc".localized()
         label.textColor = UIColor(white: 1, alpha: 0.6)
         label.font = UIFont.systemFont(ofSize: 16)
         label.textAlignment = .center
@@ -49,7 +49,7 @@ class SelectAddActionViewController: UIViewController {
 
     private let manualButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setTitle("手动添加", for: .normal)
+        button.setTitle("select_device_add_manual".localized(), for: .normal)
         button.setTitleColor(UIColor.brand, for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
         button.backgroundColor = UIColor(white: 1, alpha: 0.08)
@@ -59,7 +59,7 @@ class SelectAddActionViewController: UIViewController {
 
     private let scanButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setTitle("扫码添加", for: .normal)
+        button.setTitle("select_device_add_automatic".localized(), for: .normal)
         button.setTitleColor(.brand, for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
         button.backgroundColor = UIColor(white: 1, alpha: 0.08)

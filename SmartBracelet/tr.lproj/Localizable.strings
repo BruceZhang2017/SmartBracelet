@@ -408,3 +408,8 @@
 "delete_device_5" = "3. Tamamlandıktan sonra 'U-Watch' Uygulamasına geri dönün.";
 "delete_device_6" = "Yukarıdaki işlemleri tamamladım";
 "delete_device_7" = "Onayla";
+
+"select_device_scan" = "Tarama yapılıyor";
+"select_device_scan_desc" = "Kullanılabilir cihazlar aranıyor";
+"select_device_add_manual" = "El ile ekle";
+"select_device_add_automatic" = "Tarayarak ekle";

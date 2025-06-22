@@ -244,3 +244,8 @@
 "delete_device_5" = "3. När du är klar, gå tillbaka till 'U-Watch'-appen.";
 "delete_device_6" = "Jag har utfört ovanstående steg";
 "delete_device_7" = "Bekräfta";
+
+"select_device_scan" = "Skannar";
+"select_device_scan_desc" = "Letar efter tillgängliga enheter";
+"select_device_add_manual" = "Lägg till manuellt";
+"select_device_add_automatic" = "Skanna för att lägga till";

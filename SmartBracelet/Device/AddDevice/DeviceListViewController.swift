@@ -145,7 +145,6 @@ class DeviceListViewController: BaseViewController {
                 NotificationCenter.default.post(name: Notification.Name("DevicesViewController"), object: nil)
                 BLEManager.shared.unbind()
                 UserDefaults.standard.removeObject(forKey: "LastestDeviceMac")
-                NotificationCenter.default.post(name: Notification.Name("DevicesViewController"), object: 1)
                 self?.navigationController?.popViewController(animated: false)
             } else {
                 guard let mac = model?.mac else {
@@ -157,7 +156,6 @@ class DeviceListViewController: BaseViewController {
                     BLEManager.shared.unbind()
                     UserDefaults.standard.removeObject(forKey: "LastestDeviceMac")
                     NotificationCenter.default.post(name: Notification.Name("DevicesViewController"), object: nil)
-                    NotificationCenter.default.post(name: Notification.Name("DevicesViewController"), object: 1)
                     
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                         self?.tableView.reloadData() // 刷新列表

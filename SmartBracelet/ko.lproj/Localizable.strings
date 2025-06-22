@@ -408,3 +408,8 @@
 "delete_device_5" = "3. 완료 후 'U-Watch' 앱으로 돌아갑니다.";
 "delete_device_6" = "위 작업을 완료했습니다";
 "delete_device_7" = "확인";
+
+"select_device_scan" = "스캔 중";
+"select_device_scan_desc" = "사용 가능한 장치를 검색 중";
+"select_device_add_manual" = "수동 추가";
+"select_device_add_automatic" = "스캔 추가";

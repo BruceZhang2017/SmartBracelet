@@ -243,3 +243,8 @@
 "delete_device_5" = "3. Pēc veiksmīgas izpildes atgriezieties uz 'U-Watch' lietotni.";
 "delete_device_6" = "Es esmu veiksmīgi izpildījis augstāk minētos soļus";
 "delete_device_7" = "Apstiprināt";
+
+"select_device_scan" = "Skenerē";
+"select_device_scan_desc" = "Meklē pieejamus ierīkus";
+"select_device_add_manual" = "Pievienot manuāli";
+"select_device_add_automatic" = "Skenēt, lai pievienotu";

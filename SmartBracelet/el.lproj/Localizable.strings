@@ -244,3 +244,8 @@
 "delete_device_5" = "3. Αφού ολοκληρώσετε, επιστρέψτε στην εφαρμογή 'U-Watch'.";
 "delete_device_6" = "Έχω ολοκληρώσει τα παραπάνω βήματα";
 "delete_device_7" = "Επιβεβαίωση";
+
+"select_device_scan" = "Σκαναριστεί";
+"select_device_scan_desc" = "Αναζητεί διαθέσιμα συσκευά";
+"select_device_add_manual" = "Προσθήκη χειροκίνητα";
+"select_device_add_automatic" = "Σκάνηση για προσθήκη";

@@ -243,3 +243,8 @@
 "delete_device_5" = "3. Po to, kai baigsite, grįžkite į 'U-Watch' programėlę.";
 "delete_device_6" = "Aš atlikau aukščiau nurodytus veiksmus";
 "delete_device_7" = "Patvirtinti";
+
+"select_device_scan" = "Skeneruojama";
+"select_device_scan_desc" = "Ieškoma galimų įrenginių";
+"select_device_add_manual" = "Įdėti rankiniu būdu";
+"select_device_add_automatic" = "Skenuoti, kad įdėtų";

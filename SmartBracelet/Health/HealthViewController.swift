@@ -332,6 +332,8 @@ class HealthViewController: BaseViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        // 确保 TabBar 显示
+        tabBarController?.tabBar.isHidden = false
         sexImageView.image = UIImage(named: bleSelf.userInfo.sex == 1 ? "health_boy" : "health_girl")
         if isXGZT {
             sexImageView.image = UIImage(named: XGZTBlueToothManager.shared.device?.sex == 0 ? "health_boy" : "health_girl")

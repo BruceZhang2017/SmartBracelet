@@ -408,3 +408,8 @@
 "delete_device_5" = "3. Nadat u klaar bent, ga terug naar de 'U-Watch'-app.";
 "delete_device_6" = "Ik heb de bovenstaande stappen voltooid";
 "delete_device_7" = "Bevestigen";
+
+"select_device_scan" = "Wordt gescand";
+"select_device_scan_desc" = "Werkbare apparaten worden gezocht";
+"select_device_add_manual" = "Handmatig toevoegen";
+"select_device_add_automatic" = "Scannen om toe te voegen";
