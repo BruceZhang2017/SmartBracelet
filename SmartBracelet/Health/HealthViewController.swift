@@ -29,7 +29,7 @@ class HealthViewController: BaseViewController {
     @IBOutlet weak var footKLabel: UILabel!
     var tableView: UITableView!
     let cellIdentifier = "CustomCell"
-    
+    private var currentModel: BLEModel!
     var xgztCount = 0
     
     var currentDialog: UIView? //记录当前的弹框，在页面异常关闭时移除
@@ -190,6 +190,19 @@ class HealthViewController: BaseViewController {
                                     if m == mac.lowercased() {
                                         bleSelf.connectBleDevice(model: model)
                                         break
+                                    }
+                                }
+                            } else {
+                                BLEManager.shared.startScan()
+                                Async.main(after: 1) {
+                                    if bleSelf.bleModels.count > 0 {
+                                        for model in bleSelf.bleModels {
+                                            let m = model.mac.replacingOccurrences(of: ":", with: "").lowercased()
+                                            if m == mac.lowercased() {
+                                                bleSelf.connectBleDevice(model: model)
+                                                break
+                                            }
+                                        }
                                     }
                                 }
                             }
@@ -615,8 +628,49 @@ class HealthViewController: BaseViewController {
                     return
                 }
             }
+        } else if objc == "scan" {
+            didUpdateBLEModels(models: bleSelf.bleModels)
+        } else if objc == "connected" { // 设备连接成功
+            var bTemp = false
+            if currentModel != nil {
+                if let model = try? BLEModel.er.fromRealm(with: "\(currentModel.mac)"), model.mac.count > 0 {
+                    XLogger.shared.log("数据库已经有该设备")
+                } else {
+                    bTemp = true
+                }
+            } else {
+                bTemp = true
+            }
+            if bTemp {
+                XLogger.shared.log("将设备添加到数据库里面")
+                currentModel = BLEModel()
+                currentModel.isBond = bleSelf.bleModel.isBond
+                currentModel.uuidString = bleSelf.bleModel.uuidString
+                currentModel.name = bleSelf.bleModel.name
+                currentModel.localName = "ITIME"
+                currentModel.rssi = bleSelf.bleModel.rssi
+                currentModel.mac = bleSelf.bleModel.mac
+                currentModel.hardwareVersion = bleSelf.bleModel.hardwareVersion
+                currentModel.firmwareVersion = bleSelf.bleModel.firmwareVersion
+                currentModel.vendorNumberASCII = bleSelf.bleModel.vendorNumberASCII
+                currentModel.vendorNumberString = bleSelf.bleModel.vendorNumberString
+                currentModel.internalNumber = bleSelf.bleModel.internalNumber
+                currentModel.internalNumberString = bleSelf.bleModel.internalNumberString
+                currentModel.imageName = "produce_image_no.2"
+                try? currentModel?.er.save(update: true)
+                DeviceManager.shared.initializeDevices() // 重新刷新绑定的设备
+                NotificationCenter.default.post(name: Notification.Name("DevicesViewController"), object: "1")
+                NotificationCenter.default.post(name: Notification.Name("DeviceList"), object: "1")
+            }
         }
     }
+    
+    // 假设这是你的数据获取回调
+    func didUpdateBLEModels(models: [TJDWristbandSDK.WUBleModel]) {
+        // 过滤掉 mac 为空或者长度为 0 的设备
+        bleSelf.bleModels = models.filter { $0.mac.count > 0 }
+    }
+
     
     @objc private func handleShowLoading(_ notification: Notification) {
         let obj = notification.object as? Int ?? 0

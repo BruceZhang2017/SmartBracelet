@@ -178,13 +178,8 @@ class DevicesView: UIView {
                             bConnected = false
                             btImgView.image = UIImage(named: "content_blueteeth_unlink")
                         } else {
-                            if XGZTBlueToothManager.shared.checkConnectedDevicesIsEmpty() {
-                                bConnected = false
-                                btImgView.image = UIImage(named: "content_blueteeth_unlink")
-                            } else {
-                                bConnected = true
-                                btImgView.image = UIImage(named: "content_blueteeth_link")
-                            }
+                            bConnected = true
+                            btImgView.image = UIImage(named: "content_blueteeth_link")
                         }
                     }
                     

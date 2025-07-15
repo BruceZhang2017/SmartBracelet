@@ -146,6 +146,10 @@ class BLEManager: NSObject {
             if bleFlag == 1 {
                 bleFlag = -1
                 startScanAndConnect() // 开始扫描和连接
+            } else {
+                if bleSelf.bleModel.isBond {
+                    startScanAndConnect() // 开始扫描和连接
+                }
             }
         }
         
@@ -157,7 +161,11 @@ class BLEManager: NSObject {
         
         if notify.name == WUBleManagerNotifyKeys.scan {
             // 如果搜索到设备后，刷新列表
-            NotificationCenter.default.post(name: Notification.Name.SearchDevice, object: "scan") // 搜索页面
+            NotificationCenter.default.post(name: Notification.Name("HealthViewController"), object: "scan") // 搜索页面
+            Async.main(after: 0.1) {
+                NotificationCenter.default.post(name: Notification.Name.SearchDevice, object: "scan") // 搜索页面
+            }
+
         }
         
         if notify.name == WUBleManagerNotifyKeys.connected {
@@ -168,7 +176,11 @@ class BLEManager: NSObject {
             isXGZT = false // 将自研手表设置为断开
             bleSelf.bleModel.isBond = true
             WUBleModel.setModel(bleSelf.bleModel)
-            NotificationCenter.default.post(name: Notification.Name.SearchDevice, object: "connected") // 通知搜索页面
+            NotificationCenter.default.post(name: Notification.Name("HealthViewController"), object: "connected")
+            Async.main(after: 0.1) {
+                NotificationCenter.default.post(name: Notification.Name.SearchDevice, object: "connected") // 通知搜索页面
+            }
+
             NotificationCenter.default.post(name: Notification.Name("MTabBarController"), object: nil) // 通知主控页面
             Async.main(after: 0.5) {
                 NotificationCenter.default.post(name: Notification.Name("DevicesViewController"), object: "1")

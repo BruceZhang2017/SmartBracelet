@@ -21,7 +21,6 @@ class DeviceSearchViewController: BaseViewController {
     @IBOutlet weak var scanButton: UIButton!
     @IBOutlet weak var btScanTipLabel: UILabel!
     @IBOutlet weak var tableView: UITableView!
-    private var currentModel: BLEModel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -75,42 +74,10 @@ class DeviceSearchViewController: BaseViewController {
     @objc private func handleNotification(_ notification: Notification) {
         let objc = notification.object as! String
         if objc == "scan" { // 搜索设备
-            didUpdateBLEModels(models: bleSelf.bleModels)
             tableView.isHidden = bleSelf.bleModels.count == 0
             tableView.reloadData()
         }
         if objc == "connected" { // 设备连接成功
-            var bTemp = false
-            if currentModel != nil {
-                if let model = try? BLEModel.er.fromRealm(with: "\(currentModel.mac)"), model.mac.count > 0 {
-                    XLogger.shared.log("数据库已经有该设备")
-                } else {
-                    bTemp = true
-                }
-            } else {
-                bTemp = true
-            }
-            if bTemp {
-                XLogger.shared.log("将设备添加到数据库里面")
-                currentModel = BLEModel()
-                currentModel.isBond = bleSelf.bleModel.isBond
-                currentModel.uuidString = bleSelf.bleModel.uuidString
-                currentModel.name = bleSelf.bleModel.name
-                currentModel.localName = "ITIME"
-                currentModel.rssi = bleSelf.bleModel.rssi
-                currentModel.mac = bleSelf.bleModel.mac
-                currentModel.hardwareVersion = bleSelf.bleModel.hardwareVersion
-                currentModel.firmwareVersion = bleSelf.bleModel.firmwareVersion
-                currentModel.vendorNumberASCII = bleSelf.bleModel.vendorNumberASCII
-                currentModel.vendorNumberString = bleSelf.bleModel.vendorNumberString
-                currentModel.internalNumber = bleSelf.bleModel.internalNumber
-                currentModel.internalNumberString = bleSelf.bleModel.internalNumberString
-                currentModel.imageName = "produce_image_no.2"
-                try? currentModel?.er.save(update: true)
-                DeviceManager.shared.initializeDevices() // 重新刷新绑定的设备
-                NotificationCenter.default.post(name: Notification.Name("DevicesViewController"), object: "1")
-                NotificationCenter.default.post(name: Notification.Name("DeviceList"), object: "1")
-            }
             ProgressHUD.dismiss()
             navigationController?.popViewController(animated: true)
         }
@@ -137,12 +104,6 @@ class DeviceSearchViewController: BaseViewController {
         // 截取 "mac=" 之后的字符串
         let macValue = string[range.upperBound...]
         return String(macValue)
-    }
-    
-    // 假设这是你的数据获取回调
-    func didUpdateBLEModels(models: [TJDWristbandSDK.WUBleModel]) {
-        // 过滤掉 mac 为空或者长度为 0 的设备
-        bleSelf.bleModels = models.filter { $0.mac.count > 0 }
     }
 }
 

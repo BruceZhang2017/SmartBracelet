@@ -135,13 +135,27 @@ class MineViewController: BaseViewController {
                     if code.count > 0 && code.contains("mac=") {
                         XLogger.shared.log("扫描的结果是旧设备")
                         self?.bHavenScanResult = true
-                        let mac = self?.extractMacValue(from: code)
-                        if bleSelf.bleModels.count > 0 {
-                            for model in bleSelf.bleModels {
-                                let m = model.mac.replacingOccurrences(of: ":", with: "").lowercased()
-                                if m == mac?.lowercased() {
-                                    bleSelf.connectBleDevice(model: model)
-                                    break
+                        if let mac = self?.extractMacValue(from: code) {
+                            if bleSelf.bleModels.count > 0 {
+                                for model in bleSelf.bleModels {
+                                    let m = model.mac.replacingOccurrences(of: ":", with: "").lowercased()
+                                    if m == mac.lowercased() {
+                                        bleSelf.connectBleDevice(model: model)
+                                        break
+                                    }
+                                }
+                            } else {
+                                BLEManager.shared.startScan()
+                                Async.main(after: 1) {
+                                    if bleSelf.bleModels.count > 0 {
+                                        for model in bleSelf.bleModels {
+                                            let m = model.mac.replacingOccurrences(of: ":", with: "").lowercased()
+                                            if m == mac.lowercased() {
+                                                bleSelf.connectBleDevice(model: model)
+                                                break
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         }
