@@ -141,45 +141,76 @@ class MyClockViewController: UIViewController {
     }
     
     private func startupdateCustomImage() {
-        guard var image = currentImage else {
+        guard let originalImage = currentImage else { return }
+        
+        // 固定目标尺寸
+        let targetSize = CGSize(width: width, height: height)
+        
+        // 第一步：调整图片尺寸为 240×240
+        guard let resizedImage = resizeImage(originalImage, to: targetSize) else {
+            XLogger.shared.log("Failed to resize image to \(width)x\(height)")
             return
         }
-        let owidth: CGFloat = image.size.width
-        let oheight: CGFloat = image.size.height
-        while true {
+        
+        // 第二步：尝试压缩到目标大小
+        var image = resizedImage
+        let targetSizeBytes = 120 * 1024
+        var attemptCount = 0
+        let maxAttempts = 10
+        
+        while attemptCount < maxAttempts {
             guard let rawImageData = image.rawImageData else {
+                XLogger.shared.log("Failed to get raw image data")
                 return
             }
-            XLogger.shared.log("rawImageData count: \(rawImageData.count)")
-            var width = Int32(owidth * imageScale)
-            var height = Int32(oheight * imageScale)
+            
+            XLogger.shared.log("Attempt \(attemptCount+1): rawImageData count: \(rawImageData.count)")
+            
+            // 使用固定的 240×240 尺寸
             if let parData = ParTool.par(fromRaw: rawImageData,
-                                    width: width,
-                                    height: height,
-                                    runAlpha: false,
-                                    useFilter: false,
-                                    supportRotate: false) {
-                if parData.count <= 100 * 1024 {
-                    let message = "Convert image to rotate PAR successfully. PAR info: size=\(parData.count) width=\(width) height=\(height)"
-                    XLogger.shared.log(message)
+                                      width: Int32(targetSize.width),
+                                      height: Int32(targetSize.height),
+                                      runAlpha: false,
+                                      useFilter: false,
+                                      supportRotate: false) {
+                if parData.count <= targetSizeBytes {
+                    XLogger.shared.log("Success: PAR size=\(parData.count) width=240 height=240")
                     binData = parData
-                    XGZTCommand.dialMarketQuery(dataType: 0) // 查询 mtu
-                    imageScale = 1.0
+                    XGZTCommand.dialMarketQuery(dataType: 0)
                     break
                 } else {
-                    XLogger.shared.log("parData size exceeds 50K limit, recompressing...")
-                    imageScale -= 0.1
-                    if imageScale <= 0 {
+                    XLogger.shared.log("PAR size \(parData.count) exceeds 120KB, compressing further...")
+                    
+                    // 降低质量继续尝试
+                    let quality = max(0.1, 0.9 - Double(attemptCount) * 0.1)
+                    if let compressedData = image.jpegData(compressionQuality: quality),
+                       let compressedImage = UIImage(data: compressedData) {
+                        image = compressedImage
+                    } else {
+                        XLogger.shared.log("Failed to compress image further")
                         return
                     }
-                    width = Int32(owidth * imageScale)
-                    height = Int32(oheight * imageScale)
-                    image = resizeAndReduceRGB(image: image, targetSize: CGSize(width: CGFloat(width), height: CGFloat(height))) ?? UIImage()
                 }
             } else {
-                XLogger.shared.log("Failed to convert image to PAR format")
+                XLogger.shared.log("Failed to convert to PAR format at 240x240")
                 return
             }
+            
+            attemptCount += 1
+        }
+        
+        if attemptCount >= maxAttempts {
+            XLogger.shared.log("Max attempts reached, final PAR size: \(image.rawImageData?.count ?? 0)")
+        }
+    }
+
+    // 辅助方法：调整图片尺寸
+    private func resizeImage(_ image: UIImage, to targetSize: CGSize) -> UIImage? {
+        let format = UIGraphicsImageRendererFormat.default()
+        format.scale = 1.0 // 避免受设备缩放影响
+        
+        return UIGraphicsImageRenderer(size: targetSize, format: format).image { _ in
+            image.draw(in: CGRect(origin: .zero, size: targetSize))
         }
     }
     

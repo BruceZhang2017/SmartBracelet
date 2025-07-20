@@ -3338,7 +3338,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/SmartBracelet/JL/BLEUsage",
 				);
-				MARKETING_VERSION = 2.5.0;
+				MARKETING_VERSION = 2.5.1;
 				OTHER_SWIFT_FLAGS = "$(inherited) -D WeiZhongYun -D DisplayPrint -D TestMode";
 				PRODUCT_BUNDLE_IDENTIFIER = com.sinophy.uwatch;
 				PRODUCT_NAME = FitDAY;
@@ -3386,7 +3386,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/SmartBracelet/JL/BLEUsage",
 				);
-				MARKETING_VERSION = 2.5.0;
+				MARKETING_VERSION = 2.5.1;
 				OTHER_SWIFT_FLAGS = "$(inherited) -D WeiZhongYun -D DisplayPrint -D TestMode";
 				PRODUCT_BUNDLE_IDENTIFIER = com.sinophy.uwatch;
 				PRODUCT_NAME = FitDAY;

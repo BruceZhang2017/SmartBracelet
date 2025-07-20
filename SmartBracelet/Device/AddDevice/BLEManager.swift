@@ -32,6 +32,9 @@ class BLEManager: NSObject {
     var bleFlag = -1
     public var currentReadProgress = 0 {
         didSet {
+            if currentReadProgress == 0 {
+                return
+            }
             NotificationCenter.default.post(name: Notification.Name("HealthVCLoading"), object: 100, userInfo: ["msg": "\(currentReadProgress)"])
         }
     }
@@ -953,5 +956,21 @@ extension BLEManager {
             currentReadProgress = 8
             bleSelf.aloneGetStep(with: 0) // 第9步：获取历史步行信息
         }
+    }
+    
+    public func needContinueRead() -> Bool {
+        if bleSelf.isConnected {
+            if bleSelf.bleModel.internalNumberString == "ZK41" && bleSelf.bleModel.vendorNumberString == "TJDJ" {
+                return true 
+            }
+        }
+        return false
+    }
+    
+    public func startContinueRead() {
+        if currentReadProgress != 0 {
+            return
+        }
+        bleSelf.getStep()
     }
 }

@@ -37,6 +37,7 @@ class HealthViewController: BaseViewController {
     var flag = 0 // 属性的作用
     private var hud: JGProgressHUD? // loading图标
     private var loadingViewCheckTimer: Timer?
+    private var continueReadFootValueTimer: Timer?
     var header: MJRefreshNormalHeader?
     var isFirst = false
     var indexBigData:Int = 0
@@ -768,6 +769,21 @@ class HealthViewController: BaseViewController {
                 return
             }
             manager.syncTemprature() //  连接成功后，则同步天气。
+            BLEManager.shared.currentReadProgress = 0 
+            if bleSelf.isConnected == false {
+                continueReadFootValueTimer?.invalidate()
+                continueReadFootValueTimer = nil
+            }
+            if continueReadFootValueTimer != nil {
+                return
+            }
+            continueReadFootValueTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: { t in
+                if BLEManager.shared.needContinueRead() {
+                    BLEManager.shared.startContinueRead() // 每秒都读取一下步数
+                }
+            })
+            RunLoop.current.add(continueReadFootValueTimer!, forMode: .common)
+            
         }
         if obj == 100 {
             let userinfo = notification.userInfo as? [String : String]
