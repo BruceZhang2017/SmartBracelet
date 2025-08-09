@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 54;
+	objectVersion = 74;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -17,6 +17,15 @@
 		6358A1BC7537C0FAECF400E2 /* Pods_SmartBracelet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B1F15B2E89955DD6187F274A /* Pods_SmartBracelet.framework */; };
 		9A037E4525BDB1CD0006FB94 /* OTACMD.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A037E4425BDB1CD0006FB94 /* OTACMD.m */; };
 		9A037E4825BDB1EC0006FB94 /* OTA.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A037E4725BDB1EC0006FB94 /* OTA.m */; };
+		9A0697672E4353BD00A74A7A /* CardBagTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A0697662E4353BD00A74A7A /* CardBagTableViewController.swift */; };
+		9A0697692E4357F700A74A7A /* QRBindViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A0697682E4357F700A74A7A /* QRBindViewController.swift */; };
+		9A0697722E435DF600A74A7A /* LBXScanLineAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A06976C2E435DF600A74A7A /* LBXScanLineAnimation.swift */; };
+		9A0697732E435DF600A74A7A /* LBXScanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A06976E2E435DF600A74A7A /* LBXScanView.swift */; };
+		9A0697742E435DF600A74A7A /* LBXScanViewStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A0697702E435DF600A74A7A /* LBXScanViewStyle.swift */; };
+		9A0697752E435DF600A74A7A /* LBXScanNetAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A06976D2E435DF600A74A7A /* LBXScanNetAnimation.swift */; };
+		9A0697762E435DF600A74A7A /* LBXPermissions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A06976B2E435DF600A74A7A /* LBXPermissions.swift */; };
+		9A0697772E435DF600A74A7A /* LBXScanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A06976F2E435DF600A74A7A /* LBXScanViewController.swift */; };
+		9A0697782E435DF600A74A7A /* LBXScanWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A0697712E435DF600A74A7A /* LBXScanWrapper.swift */; };
 		9A08C673262C757A00E178DA /* WeatherTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A08C672262C757A00E178DA /* WeatherTestViewController.swift */; };
 		9A08C6EB262F17D500E178DA /* OTAUpgradeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A08C6EA262F17D500E178DA /* OTAUpgradeViewController.m */; };
 		9A08C6EF262F17FE00E178DA /* OTCModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A08C6ED262F17FE00E178DA /* OTCModel.m */; };
@@ -30,6 +39,8 @@
 		9A0C34962B341D6600E798F1 /* JL_BLEKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A0C34942B341D6600E798F1 /* JL_BLEKit.framework */; };
 		9A127EAE2BC2ACE300126836 /* UIFont+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A127EAD2BC2ACE200126836 /* UIFont+Extension.swift */; };
 		9A1F7CAC2E22932700EB3BBE /* TripleTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A1F7CAB2E22932700EB3BBE /* TripleTableViewController.swift */; };
+		9A1F7EB32E2D068D00EB3BBE /* Clip.app in Embed App Clips */ = {isa = PBXBuildFile; fileRef = 9A1F7E9F2E2D068B00EB3BBE /* Clip.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		9A1F7EBC2E2D0ACA00EB3BBE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 18385EA624517F1A00EA380A /* Assets.xcassets */; };
 		9A2181652557EDBE000330E5 /* apple.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 9A2181622557EDBE000330E5 /* apple.jpeg */; };
 		9A2181662557EDBE000330E5 /* walk.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 9A2181632557EDBE000330E5 /* walk.jpeg */; };
 		9A2181672557EDBE000330E5 /* water.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9A2181642557EDBE000330E5 /* water.jpg */; };
@@ -512,7 +523,28 @@
 		9AFAE87C2A8F21F7005EF8F8 /* JGProgressHUDShadow.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AFAE8702A8F21F7005EF8F8 /* JGProgressHUDShadow.m */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		9A1F7EB12E2D068D00EB3BBE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 18385E9224517F1600EA380A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 9A1F7E9E2E2D068B00EB3BBE;
+			remoteInfo = Clip;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXCopyFilesBuildPhase section */
+		9A1F7EB82E2D068D00EB3BBE /* Embed App Clips */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/AppClips";
+			dstSubfolderSpec = 16;
+			files = (
+				9A1F7EB32E2D068D00EB3BBE /* Clip.app in Embed App Clips */,
+			);
+			name = "Embed App Clips";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		9A99CCEC26CB57DE00D6972A /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -549,6 +581,15 @@
 		9A037E4425BDB1CD0006FB94 /* OTACMD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTACMD.m; sourceTree = "<group>"; };
 		9A037E4625BDB1EC0006FB94 /* OTA.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTA.h; sourceTree = "<group>"; };
 		9A037E4725BDB1EC0006FB94 /* OTA.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTA.m; sourceTree = "<group>"; };
+		9A0697662E4353BD00A74A7A /* CardBagTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardBagTableViewController.swift; sourceTree = "<group>"; };
+		9A0697682E4357F700A74A7A /* QRBindViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRBindViewController.swift; sourceTree = "<group>"; };
+		9A06976B2E435DF600A74A7A /* LBXPermissions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LBXPermissions.swift; sourceTree = "<group>"; };
+		9A06976C2E435DF600A74A7A /* LBXScanLineAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LBXScanLineAnimation.swift; sourceTree = "<group>"; };
+		9A06976D2E435DF600A74A7A /* LBXScanNetAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LBXScanNetAnimation.swift; sourceTree = "<group>"; };
+		9A06976E2E435DF600A74A7A /* LBXScanView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LBXScanView.swift; sourceTree = "<group>"; };
+		9A06976F2E435DF600A74A7A /* LBXScanViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LBXScanViewController.swift; sourceTree = "<group>"; };
+		9A0697702E435DF600A74A7A /* LBXScanViewStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LBXScanViewStyle.swift; sourceTree = "<group>"; };
+		9A0697712E435DF600A74A7A /* LBXScanWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LBXScanWrapper.swift; sourceTree = "<group>"; };
 		9A08C672262C757A00E178DA /* WeatherTestViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeatherTestViewController.swift; sourceTree = "<group>"; };
 		9A08C6E9262F17D500E178DA /* OTAUpgradeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTAUpgradeViewController.h; sourceTree = "<group>"; };
 		9A08C6EA262F17D500E178DA /* OTAUpgradeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTAUpgradeViewController.m; sourceTree = "<group>"; };
@@ -569,6 +610,9 @@
 		9A127EAD2BC2ACE200126836 /* UIFont+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Extension.swift"; sourceTree = "<group>"; };
 		9A1E2D2F2DB6631E00B50C5D /* sv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sv; path = sv.lproj/Localizable.strings; sourceTree = "<group>"; };
 		9A1F7CAB2E22932700EB3BBE /* TripleTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripleTableViewController.swift; sourceTree = "<group>"; };
+		9A1F7E9F2E2D068B00EB3BBE /* Clip.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Clip.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		9A1F7EBA2E2D070D00EB3BBE /* SmartBraceletDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SmartBraceletDebug.entitlements; sourceTree = "<group>"; };
+		9A1F7EBB2E2D0A2C00EB3BBE /* SmartBraceletRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SmartBraceletRelease.entitlements; sourceTree = "<group>"; };
 		9A2181622557EDBE000330E5 /* apple.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = apple.jpeg; sourceTree = "<group>"; };
 		9A2181632557EDBE000330E5 /* walk.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = walk.jpeg; sourceTree = "<group>"; };
 		9A2181642557EDBE000330E5 /* water.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = water.jpg; sourceTree = "<group>"; };
@@ -1166,6 +1210,31 @@
 		D0967DDE3410784139DF5B20 /* Pods-TJDWristbandSDKDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TJDWristbandSDKDemo.release.xcconfig"; path = "Target Support Files/Pods-TJDWristbandSDKDemo/Pods-TJDWristbandSDKDemo.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		9A1F7EB42E2D068D00EB3BBE /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				/Localized/Localizable.strings,
+				Info.plist,
+			);
+			target = 9A1F7E9E2E2D068B00EB3BBE /* Clip */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
+		9A1F7F062E30EF2E00EB3BBE /* PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet;
+			buildPhase = 9A1F7E9B2E2D068B00EB3BBE /* Sources */;
+			membershipExceptions = (
+				/Localized/Localizable.strings,
+			);
+		};
+/* End PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		9A1F7EA02E2D068B00EB3BBE /* Clip */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (9A1F7EB42E2D068D00EB3BBE /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 9A1F7F062E30EF2E00EB3BBE /* PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = Clip; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
+
 /* Begin PBXFrameworksBuildPhase section */
 		18385E9724517F1600EA380A /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
@@ -1191,6 +1260,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		9A1F7E9C2E2D068B00EB3BBE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -1198,6 +1274,7 @@
 			isa = PBXGroup;
 			children = (
 				18385E9C24517F1600EA380A /* SmartBracelet */,
+				9A1F7EA02E2D068B00EB3BBE /* Clip */,
 				18385E9B24517F1600EA380A /* Products */,
 				18385EB124517F7700EA380A /* Frameworks */,
 				CBE553D5D0280A8FD8CC0627 /* Pods */,
@@ -1208,6 +1285,7 @@
 			isa = PBXGroup;
 			children = (
 				18385E9A24517F1600EA380A /* FitDAY.app */,
+				9A1F7E9F2E2D068B00EB3BBE /* Clip.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1215,6 +1293,8 @@
 		18385E9C24517F1600EA380A /* SmartBracelet */ = {
 			isa = PBXGroup;
 			children = (
+				9A1F7EBB2E2D0A2C00EB3BBE /* SmartBraceletRelease.entitlements */,
+				9A1F7EBA2E2D070D00EB3BBE /* SmartBraceletDebug.entitlements */,
 				9A93EE542CFDE78C00C02370 /* huaxin */,
 				9A5E932E2515CC500060AB13 /* Tab */,
 				9A4E624224F7E91F00A0E878 /* Device */,
@@ -1276,6 +1356,20 @@
 				9AAF861B25C83E5000960BDD /* IdleResources.bundle */,
 			);
 			path = Resource;
+			sourceTree = "<group>";
+		};
+		9A06976A2E435DE800A74A7A /* scan */ = {
+			isa = PBXGroup;
+			children = (
+				9A06976B2E435DF600A74A7A /* LBXPermissions.swift */,
+				9A06976C2E435DF600A74A7A /* LBXScanLineAnimation.swift */,
+				9A06976D2E435DF600A74A7A /* LBXScanNetAnimation.swift */,
+				9A06976E2E435DF600A74A7A /* LBXScanView.swift */,
+				9A06976F2E435DF600A74A7A /* LBXScanViewController.swift */,
+				9A0697702E435DF600A74A7A /* LBXScanViewStyle.swift */,
+				9A0697712E435DF600A74A7A /* LBXScanWrapper.swift */,
+			);
+			path = scan;
 			sourceTree = "<group>";
 		};
 		9A08C653262C5A1100E178DA /* lefun */ = {
@@ -1551,6 +1645,7 @@
 		9A4E624224F7E91F00A0E878 /* Device */ = {
 			isa = PBXGroup;
 			children = (
+				9A06976A2E435DE800A74A7A /* scan */,
 				9A5E933125164B2D0060AB13 /* AddDevice */,
 				9A6D092A2501D96500B4972F /* ClockManage */,
 				9A4E624524F8926300A0E878 /* DevicesViewController.swift */,
@@ -1574,6 +1669,8 @@
 				9A4CADF12940941F00B0BDF8 /* JXWebViewController.swift */,
 				9A4CADF32940944300B0BDF8 /* JXLocalizedString.swift */,
 				9A869E0C2D12CCC200B78FDF /* OTAInfoManager.swift */,
+				9A0697662E4353BD00A74A7A /* CardBagTableViewController.swift */,
+				9A0697682E4357F700A74A7A /* QRBindViewController.swift */,
 			);
 			path = Device;
 			sourceTree = "<group>";
@@ -2436,15 +2533,39 @@
 				B0366B58887F6993DD4CCB8B /* [CP] Embed Pods Frameworks */,
 				9AE436382689BDAD006A588F /* ShellScript */,
 				9A99CCEC26CB57DE00D6972A /* Embed Frameworks */,
+				9A1F7EB82E2D068D00EB3BBE /* Embed App Clips */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				9A1F7EB22E2D068D00EB3BBE /* PBXTargetDependency */,
 			);
 			name = SmartBracelet;
 			productName = TJDWristbandSDKDemo;
 			productReference = 18385E9A24517F1600EA380A /* FitDAY.app */;
 			productType = "com.apple.product-type.application";
+		};
+		9A1F7E9E2E2D068B00EB3BBE /* Clip */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9A1F7EB52E2D068D00EB3BBE /* Build configuration list for PBXNativeTarget "Clip" */;
+			buildPhases = (
+				9A1F7E9B2E2D068B00EB3BBE /* Sources */,
+				9A1F7E9C2E2D068B00EB3BBE /* Frameworks */,
+				9A1F7E9D2E2D068B00EB3BBE /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				9A1F7EA02E2D068B00EB3BBE /* Clip */,
+			);
+			name = Clip;
+			packageProductDependencies = (
+			);
+			productName = Clip;
+			productReference = 9A1F7E9F2E2D068B00EB3BBE /* Clip.app */;
+			productType = "com.apple.product-type.application.on-demand-install-capable";
 		};
 /* End PBXNativeTarget section */
 
@@ -2452,7 +2573,7 @@
 		18385E9224517F1600EA380A /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1140;
+				LastSwiftUpdateCheck = 1640;
 				LastUpgradeCheck = 1250;
 				ORGANIZATIONNAME = tjd;
 				TargetAttributes = {
@@ -2460,10 +2581,12 @@
 						CreatedOnToolsVersion = 11.4.1;
 						LastSwiftMigration = 1210;
 					};
+					9A1F7E9E2E2D068B00EB3BBE = {
+						CreatedOnToolsVersion = 16.4;
+					};
 				};
 			};
 			buildConfigurationList = 18385E9524517F1600EA380A /* Build configuration list for PBXProject "SmartBracelet" */;
-			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -2506,11 +2629,13 @@
 				he,
 			);
 			mainGroup = 18385E9124517F1600EA380A;
+			preferredProjectObjectVersion = 50;
 			productRefGroup = 18385E9B24517F1600EA380A /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
 				18385E9924517F1600EA380A /* SmartBracelet */,
+				9A1F7E9E2E2D068B00EB3BBE /* Clip */,
 			);
 		};
 /* End PBXProject section */
@@ -2558,6 +2683,14 @@
 				18385EA724517F1A00EA380A /* Assets.xcassets in Resources */,
 				9AF3F2DB2BCBFF2600AFBC55 /* icon_default.png in Resources */,
 				9A21859E255BBDD9000330E5 /* root.jpg in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9A1F7E9D2E2D068B00EB3BBE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9A1F7EBC2E2D0ACA00EB3BBE /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2801,6 +2934,7 @@
 				9AE1A16B2629465F00B8B10D /* ErrorCode.m in Sources */,
 				9A28DA78251CC6E800F7B260 /* DeviceListViewController.swift in Sources */,
 				9A839C652560F40300714CBE /* SGSportingViewController.m in Sources */,
+				9A0697672E4353BD00A74A7A /* CardBagTableViewController.swift in Sources */,
 				9A8CA51F25272C5200EC01A7 /* CVCalendarViewAnimator.swift in Sources */,
 				9A367B5325BD081D00BFB4C3 /* DeviceTableViewCell.swift in Sources */,
 				9A56D24425216FC60082CC08 /* CombinedChartRenderer.swift in Sources */,
@@ -2979,6 +3113,7 @@
 				9A56D24125216FC60082CC08 /* ChartDataRendererBase.swift in Sources */,
 				9A2185B2255BC7E8000330E5 /* GuideViewController.swift in Sources */,
 				9A56D24D25216FC60082CC08 /* IShapeRenderer.swift in Sources */,
+				9A0697692E4357F700A74A7A /* QRBindViewController.swift in Sources */,
 				9A521069250322E500F64A7A /* ClockCollectionViewCell.swift in Sources */,
 				9A7C31A4276EFFAD00BC1BFB /* UploadImageViewController.swift in Sources */,
 				9A5210712503DB2E00F64A7A /* ClockCCollectionViewCell.swift in Sources */,
@@ -3012,6 +3147,13 @@
 				9AE436372686BF6E006A588F /* CurveView.swift in Sources */,
 				9A8CA51825272C5200EC01A7 /* CVCalendarContentPresentationCoordinator.swift in Sources */,
 				9A56D24F25216FC60082CC08 /* CrossShapeRenderer.swift in Sources */,
+				9A0697722E435DF600A74A7A /* LBXScanLineAnimation.swift in Sources */,
+				9A0697732E435DF600A74A7A /* LBXScanView.swift in Sources */,
+				9A0697742E435DF600A74A7A /* LBXScanViewStyle.swift in Sources */,
+				9A0697752E435DF600A74A7A /* LBXScanNetAnimation.swift in Sources */,
+				9A0697762E435DF600A74A7A /* LBXPermissions.swift in Sources */,
+				9A0697772E435DF600A74A7A /* LBXScanViewController.swift in Sources */,
+				9A0697782E435DF600A74A7A /* LBXScanWrapper.swift in Sources */,
 				9A33D30E26AD9A4F00DF9618 /* SingleImageSaver.swift in Sources */,
 				9A56D25925216FC60082CC08 /* BarHighlighter.swift in Sources */,
 				9A839C5B2560F3FA00714CBE /* SGPolyLine.m in Sources */,
@@ -3097,7 +3239,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		9A1F7E9B2E2D068B00EB3BBE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		9A1F7EB22E2D068D00EB3BBE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 9A1F7E9E2E2D068B00EB3BBE /* Clip */;
+			targetProxy = 9A1F7EB12E2D068D00EB3BBE /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		18385EA824517F1A00EA380A /* LaunchScreen.storyboard */ = {
@@ -3311,10 +3468,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				BUILD_LIBRARY_FOR_DISTRIBUTION = NO;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_ENTITLEMENTS = "";
+				CODE_SIGN_ENTITLEMENTS = SmartBracelet/SmartBraceletDebug.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_ASSET_PATHS = TJDWristbandSDK.framework;
 				DEVELOPMENT_TEAM = 6BTCM549U7;
@@ -3338,7 +3495,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/SmartBracelet/JL/BLEUsage",
 				);
-				MARKETING_VERSION = 2.5.1;
+				MARKETING_VERSION = 2.5.3;
 				OTHER_SWIFT_FLAGS = "$(inherited) -D WeiZhongYun -D DisplayPrint -D TestMode";
 				PRODUCT_BUNDLE_IDENTIFIER = com.sinophy.uwatch;
 				PRODUCT_NAME = FitDAY;
@@ -3360,10 +3517,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				BUILD_LIBRARY_FOR_DISTRIBUTION = NO;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_ENTITLEMENTS = "";
+				CODE_SIGN_ENTITLEMENTS = SmartBracelet/SmartBraceletRelease.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = TJDWristbandSDK.framework;
 				DEVELOPMENT_TEAM = 6BTCM549U7;
 				ENABLE_BITCODE = NO;
@@ -3386,7 +3543,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/SmartBracelet/JL/BLEUsage",
 				);
-				MARKETING_VERSION = 2.5.1;
+				MARKETING_VERSION = 2.5.3;
 				OTHER_SWIFT_FLAGS = "$(inherited) -D WeiZhongYun -D DisplayPrint -D TestMode";
 				PRODUCT_BUNDLE_IDENTIFIER = com.sinophy.uwatch;
 				PRODUCT_NAME = FitDAY;
@@ -3395,6 +3552,81 @@
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_OBJC_BRIDGING_HEADER = "SmartBracelet/Kit/ObjC/SmartBracelet-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		9A1F7EB62E2D068D00EB3BBE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_ENTITLEMENTS = Clip/ClipDebug.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
+				DEVELOPMENT_TEAM = 6BTCM549U7;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Clip/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "U-Watch";
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 2.5.3;
+				PRODUCT_BUNDLE_IDENTIFIER = com.sinophy.uwatch.Clip;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		9A1F7EB72E2D068D00EB3BBE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_ENTITLEMENTS = Clip/Clip.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
+				DEVELOPMENT_TEAM = 6BTCM549U7;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Clip/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "U-Watch";
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 2.5.3;
+				PRODUCT_BUNDLE_IDENTIFIER = com.sinophy.uwatch.Clip;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -3417,6 +3649,15 @@
 			buildConfigurations = (
 				18385EAF24517F1A00EA380A /* Debug */,
 				18385EB024517F1A00EA380A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9A1F7EB52E2D068D00EB3BBE /* Build configuration list for PBXNativeTarget "Clip" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9A1F7EB62E2D068D00EB3BBE /* Debug */,
+				9A1F7EB72E2D068D00EB3BBE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

@@ -54,8 +54,8 @@
 "device_push_settings_wechat"="微信";
 "device_call_amind"="来电提醒";
 "device_hand_up_screen"="抬手亮屏";
-"device_longsit_amind"="久座提醒";
-"device_longsit_amind_time"="久座提醒时间";
+"device_longsit_amind"="久坐提醒";
+"device_longsit_amind_time"="久坐提醒时间";
 "device_weather_push"="天气推送";
 "device_alarm_settings"="闹钟设置";
 "device_search_settings"="查找设置";
@@ -232,8 +232,8 @@
 "device_push_settings_wechat" = "微信";
 "device_call_amind" = "来电提醒";
 "device_hand_up_screen" = "抬手亮屏";
-"device_longsit_amind" = "久座提醒";
-"device_longsit_amind_time" = "久座提醒时间";
+"device_longsit_amind" = "久坐提醒";
+"device_longsit_amind_time" = "久坐提醒时间";
 "drink_water_reminder" = "喝水提醒";
 "drink_water_reminder_time" = "喝水提醒时间";
 "device_weather_push" = "天气推送";

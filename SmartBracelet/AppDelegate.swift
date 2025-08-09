@@ -12,6 +12,7 @@ import RealmSwift
 import AudioToolbox
 import AVKit
 
+let nfcUriTag = "health/"
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -42,7 +43,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         openCount += 1
         UserDefaults.standard.set(openCount, forKey: "APPOPEN")
 
+        if let userActivityDictionary = launchOptions?[.userActivityDictionary] as? [AnyHashable: Any],
+           let userActivity = userActivityDictionary["UIApplicationLaunchOptionsUserActivityKey"] as? NSUserActivity,
+           userActivity.activityType == NSUserActivityTypeBrowsingWeb,
+           let url = userActivity.webpageURL {
+                handerNFCTag(url: url,isColdStart: true)
+            }
+        
         return true
+    }
+    
+    // 处理 NFC 标签跳转
+    private func handerNFCTag(url:URL,isColdStart:Bool ) -> Bool{
+        if(!url.path.contains(nfcUriTag)){
+            return false;
+        }
+        return true;
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {

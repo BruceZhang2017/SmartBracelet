@@ -1,240 +1,453 @@
 import UIKit
-import MJRefresh // 导入 MJRefresh 库
+import MJRefresh
+import Alamofire
+import Kingfisher
+import Toaster
 
 // MARK: - 主视图控制器
 class TripleTableViewController: UIViewController {
     
     // MARK: - 属性
-    private let leftTableView = UITableView()
+    private let segmentControl = UISegmentedControl()
     private let middleTableView = UITableView()
-    private let rightTableView = UITableView()
+    private let rightCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     
-    private let leftViewModel = LeftViewModel()
-    private let middleViewModel = MiddleViewModel()
+    // 记录选中的索引路径
+    private var selectedMiddleIndexPath: IndexPath? = IndexPath(row: 0, section: 0)
+    
     private let rightViewModel = RightViewModel()
+    private var mResponse: Response<OTAData>?
+    var current = 0
     
     // MARK: - 视图生命周期
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
         setupConstraints()
-        setupTableViews()
+        setupSegmentControl()
+        setupMiddleTableView()
+        setupRightCollectionView()
         setupMJRefresh()
-        fetchInitialData()
+        rightCollectionView.isHidden = true
+        downloadStyle()
     }
     
     // MARK: - UI 设置
     private func setupUI() {
         view.backgroundColor = .systemBackground
-        
-        // 添加三个表格视图
-        view.addSubview(leftTableView)
+        view.addSubview(segmentControl)
         view.addSubview(middleTableView)
-        view.addSubview(rightTableView)
+        view.addSubview(rightCollectionView)
     }
     
     private func setupConstraints() {
-        leftTableView.translatesAutoresizingMaskIntoConstraints = false
+        segmentControl.translatesAutoresizingMaskIntoConstraints = false
         middleTableView.translatesAutoresizingMaskIntoConstraints = false
-        rightTableView.translatesAutoresizingMaskIntoConstraints = false
+        rightCollectionView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            // 左边表格视图约束 (宽度80)
-            leftTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            leftTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            leftTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            leftTableView.widthAnchor.constraint(equalToConstant: 80),
+            // 分段控制器约束
+            segmentControl.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 8),
+            segmentControl.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            segmentControl.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            segmentControl.heightAnchor.constraint(equalToConstant: 36),
             
-            // 中间表格视图约束 (宽度100)
-            middleTableView.leadingAnchor.constraint(equalTo: leftTableView.trailingAnchor),
-            middleTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            // 中间表格视图约束
+            middleTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 2),
+            middleTableView.topAnchor.constraint(equalTo: segmentControl.bottomAnchor, constant: 8),
             middleTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            middleTableView.widthAnchor.constraint(equalToConstant: 100),
+            middleTableView.widthAnchor.constraint(equalToConstant: 150),
             
-            // 右边表格视图约束 (填充剩余空间)
-            rightTableView.leadingAnchor.constraint(equalTo: middleTableView.trailingAnchor),
-            rightTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            rightTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            rightTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+            // 右侧集合视图约束
+            rightCollectionView.leadingAnchor.constraint(equalTo: middleTableView.trailingAnchor, constant: 2),
+            rightCollectionView.topAnchor.constraint(equalTo: segmentControl.bottomAnchor, constant: 8),
+            rightCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -2),
+            rightCollectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
     
-    private func setupTableViews() {
-        // 左边表格视图设置
-        leftTableView.delegate = self
-        leftTableView.dataSource = self
-        leftTableView.register(UITableViewCell.self, forCellReuseIdentifier: "LeftCell")
-        leftTableView.tableFooterView = UIView() // 隐藏多余的分隔线
-        
-        // 中间表格视图设置
+    private func setupSegmentControl() {
+        segmentControl.selectedSegmentIndex = 0
+        segmentControl.selectedSegmentTintColor = .systemBlue
+        segmentControl.setTitleTextAttributes([.font: UIFont.systemFont(ofSize: 14)], for: .normal)
+        segmentControl.addTarget(self, action: #selector(segmentValueChanged), for: .valueChanged)
+    }
+    
+    private func setupMiddleTableView() {
         middleTableView.delegate = self
         middleTableView.dataSource = self
         middleTableView.register(UITableViewCell.self, forCellReuseIdentifier: "MiddleCell")
-        middleTableView.tableFooterView = UIView() // 隐藏多余的分隔线
+        middleTableView.tableFooterView = UIView()
+        middleTableView.allowsSelection = true
+        middleTableView.allowsMultipleSelection = false
+        // 支持自动行高以适应两行文字
+        middleTableView.rowHeight = UITableView.automaticDimension
+        middleTableView.estimatedRowHeight = 60
+    }
+    
+    private func setupRightCollectionView() {
+        // 使用流水布局并强制设置滚动方向为垂直
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .vertical
         
-        // 右边表格视图设置
-        rightTableView.delegate = self
-        rightTableView.dataSource = self
-        rightTableView.register(RightTableViewCell.self, forCellReuseIdentifier: "RightCell")
-        rightTableView.tableFooterView = UIView() // 隐藏多余的分隔线
-        rightTableView.separatorStyle = .singleLine
-        rightTableView.separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
+        // 实时计算右侧可用宽度（基于collectionView的实际宽度）
+        // 先获取右侧区域总宽度 = 屏幕宽度 - 中间表宽度 - 左右间距
+        let totalRightWidth = UIScreen.main.bounds.width - 150 - 4 // 150是中间表宽度，4是两边间距(2+2)
+        
+        // 计算每个item宽度：减去列间距(8)后平分给2个item
+        let itemWidth = (totalRightWidth - 8) / 2
+        
+        // 确保item宽度为整数，避免布局异常
+        let fixedItemWidth = floor(itemWidth)
+        
+        layout.itemSize = CGSize(width: fixedItemWidth, height: 140)
+        layout.minimumInteritemSpacing = 8 // 列之间的间距
+        layout.minimumLineSpacing = 12 // 行之间的间距
+        layout.sectionInset = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0) // 移除额外内边距
+        
+        rightCollectionView.collectionViewLayout = layout
+        
+        rightCollectionView.delegate = self
+        rightCollectionView.dataSource = self
+        rightCollectionView.register(RightCollectionCell.self, forCellWithReuseIdentifier: "RightCollectionCell")
+        rightCollectionView.backgroundColor = .systemBackground
+        
+        // 监听布局变化，确保旋转屏幕时也能正确显示2列
+        NotificationCenter.default.addObserver(self, selector: #selector(updateCollectionViewLayout), name: UIDevice.orientationDidChangeNotification, object: nil)
+    }
+    
+    // 屏幕旋转时更新布局
+    @objc private func updateCollectionViewLayout() {
+        guard let layout = rightCollectionView.collectionViewLayout as? UICollectionViewFlowLayout else { return }
+        
+        let totalRightWidth = rightCollectionView.bounds.width
+        let itemWidth = (totalRightWidth - 8) / 2
+        let fixedItemWidth = floor(itemWidth)
+        
+        layout.itemSize = CGSize(width: fixedItemWidth, height: 140)
+        rightCollectionView.collectionViewLayout.invalidateLayout()
+    }
+    
+    // MARK: - 数据处理
+    private func downloadStyle() {
+        // 打印方法开始日志
+        print("🔍 开始执行downloadStyle方法，准备下载样式数据")
+        
+        // 定义要上传的参数
+        let width = XGZTBlueToothManager.shared.device?.screenWidth ?? 240  // 根据实际需求设置
+        let height = 284 //XGZTBlueToothManager.shared.device?.screenHeight ?? 296 // 根据实际需求设置
+        
+        // 打印请求参数日志
+        print("📤 请求参数 - width: \(width), height: \(height)")
+        print("📡 请求URL: https://u-watch.com.cn/api/app/ota/otaType")
+        
+        AF.upload(
+            multipartFormData: { multipartFormData in
+                // 添加width参数
+                if let widthData = "\(width)".data(using: .utf8) {
+                    multipartFormData.append(widthData, withName: "width")
+                    print("✅ 成功添加width参数到表单数据")
+                } else {
+                    print("❌ 转换width为数据失败")
+                }
+                
+                // 添加height参数
+                if let heightData = "\(height)".data(using: .utf8) {
+                    multipartFormData.append(heightData, withName: "height")
+                    print("✅ 成功添加height参数到表单数据")
+                } else {
+                    print("❌ 转换height为数据失败")
+                }
+                
+                // 如果需要添加其他参数，可以在这里继续添加
+                // multipartFormData.append(otherData, withName: "otherParam")
+            },
+            to: "https://u-watch.com.cn/api/app/ota/otaType?width=\(width)&height=\(height)",
+            method: .post
+        )
+        .responseData { [weak self] response in
+            guard let self = self else {
+                print("⚠️ self已释放，无法继续处理响应")
+                return
+            }
+            
+            // 打印响应状态码
+            if let statusCode = response.response?.statusCode {
+                print("📥 收到响应，状态码: \(statusCode)")
+            } else {
+                print("📥 收到响应，但未获取到状态码")
+            }
+            
+            switch response.result {
+            case .success(let data):
+                print("✅ 网络请求成功，数据大小: \(data.count) bytes")
+                
+                // 打印原始JSON用于调试
+                if let jsonString = String(data: data, encoding: .utf8) {
+                    print("📄 原始JSON数据: \(jsonString)")
+                } else {
+                    print("❌ 无法将响应数据转换为UTF-8字符串")
+                }
+                
+                do {
+                    // 禁用蛇形命名转换，使用原始键名
+                    let decoder = JSONDecoder()
+                    decoder.keyDecodingStrategy = .useDefaultKeys
+                    print("🔄 开始解析JSON数据...")
+                    mResponse = try decoder.decode(Response<OTAData>.self, from: data)
+                    print("✅ JSON数据解析成功")
+                    
+                    // 配置分段控制器
+                    if let types = mResponse?.data.otaType, !types.isEmpty {
+                        print("📊 共获取到\(types.count)种OTA类型")
+                        segmentControl.removeAllSegments()
+                        for (index, type) in types.enumerated() {
+                            let typeName = type.dictValue
+                            segmentControl.insertSegment(withTitle: typeName, at: index, animated: false)
+                            print("➕ 添加分段控制器选项: \(typeName)")
+                        }
+                        segmentControl.selectedSegmentIndex = 0
+                        rightViewModel.type = types[0].dictValue
+                        print("🎯 默认选中第一个OTA类型: \(types[0].dictValue)")
+                    } else {
+                        print("⚠️ 未获取到有效的OTA类型数据")
+                    }
+                    
+                    self.middleTableView.reloadData()
+                    print("🔄 刷新中间表格视图")
+                    if mResponse?.data.otaStyle.count ?? 0 > 0 {
+                        self.rightCollectionView.isHidden = false 
+                        rightViewModel.style = mResponse?.data.otaStyle.first?.dictValue ?? ""
+                        self.fetchInitialData()
+                    }
+                    print("🔄 调用fetchInitialData方法获取初始数据")
+                    
+                } catch {
+                    print("❌ 解析错误: \(error)")
+                    if let decodingError = error as? DecodingError {
+                        print("❌ 解码错误详情: \(decodingError.localizedDescription)")
+                        // 更详细的解码错误信息
+                        switch decodingError {
+                        case .typeMismatch(let type, let context):
+                            print("类型不匹配: 期望\(type)，上下文: \(context.debugDescription)")
+                        case .valueNotFound(let type, let context):
+                            print("值未找到: 期望\(type)，上下文: \(context.debugDescription)")
+                        case .keyNotFound(let key, let context):
+                            print("键未找到: \(key.stringValue)，上下文: \(context.debugDescription)")
+                        case .dataCorrupted(let context):
+                            print("数据损坏: \(context.debugDescription)")
+                        @unknown default:
+                            print("未知解码错误")
+                        }
+                    }
+                }
+                
+            case .failure(let error):
+                print("❌ 网络请求失败：\(error.localizedDescription)")
+                // 打印更详细的错误信息
+                if let underlyingError = error.underlyingError {
+                    print("   底层错误: \(underlyingError.localizedDescription)")
+                }
+                // 可以添加错误提示UI
+            }
+            
+            print("📌 downloadStyle方法执行完毕")
+        }
+    }
+
+    private func handleStyleResponse() {
+        self.middleTableView.reloadData()
+        self.fetchInitialData()
     }
     
     // MARK: - MJRefresh 设置
     private func setupMJRefresh() {
-        // 设置下拉刷新
         let header = MJRefreshNormalHeader(refreshingBlock: { [weak self] in
             self?.refreshData()
         })
         header.lastUpdatedTimeLabel?.isHidden = true
         header.stateLabel?.textColor = .systemGray
         header.activityIndicatorViewStyle = .medium
-        header.setTitle("下拉刷新", for: .idle)
-        header.setTitle("释放更新", for: .pulling)
-        header.setTitle("加载中...", for: .refreshing)
-        rightTableView.mj_header = header
+        rightCollectionView.mj_header = header
         
-        // 设置上拉加载更多
         let footer = MJRefreshAutoNormalFooter(refreshingBlock: { [weak self] in
             self?.loadMoreData()
         })
         footer.stateLabel?.textColor = .systemGray
-        footer.setTitle("上拉加载更多", for: .idle)
-        footer.setTitle("加载中...", for: .refreshing)
-        footer.setTitle("没有更多数据", for: .noMoreData)
-        footer.isAutomaticallyHidden = true // 当数据不足一页时自动隐藏footer
-        rightTableView.mj_footer = footer
+        footer.isAutomaticallyHidden = true
+        rightCollectionView.mj_footer = footer
     }
     
     // MARK: - 数据获取
     private func fetchInitialData() {
-        rightTableView.mj_header?.beginRefreshing()
+        rightCollectionView.mj_header?.beginRefreshing()
         refreshData()
     }
     
     @objc private func refreshData() {
+        if rightViewModel.style.count == 0 {
+            return
+        }
         rightViewModel.refreshData { [weak self] success in
             DispatchQueue.main.async {
-                self?.updateRightTableViewAfterRefresh(success: success)
+                self?.updateCollectionViewAfterRefresh(success: success)
             }
         }
     }
     
     @objc private func loadMoreData() {
         guard !rightViewModel.isLoading, rightViewModel.hasMoreData else {
-            rightTableView.mj_footer?.endRefreshing()
+            rightCollectionView.mj_footer?.endRefreshing()
             return
         }
         
         rightViewModel.loadMoreData { [weak self] success in
             DispatchQueue.main.async {
-                self?.updateRightTableViewAfterLoadMore(success: success)
+                self?.updateCollectionViewAfterLoadMore(success: success)
             }
         }
     }
     
     // MARK: - 辅助方法
-    private func updateRightTableViewAfterRefresh(success: Bool) {
-        rightTableView.reloadData()
-        rightTableView.mj_header?.endRefreshing()
+    private func updateCollectionViewAfterRefresh(success: Bool) {
+        rightCollectionView.reloadData()
+        rightCollectionView.mj_header?.endRefreshing()
         
         if success {
             if rightViewModel.items.isEmpty {
                 showEmptyState()
-                rightTableView.mj_footer?.endRefreshingWithNoMoreData()
+                rightCollectionView.mj_footer?.endRefreshingWithNoMoreData()
             } else {
                 hideEmptyState()
-                rightTableView.mj_footer?.resetNoMoreData()
+                rightCollectionView.mj_footer?.resetNoMoreData()
             }
         } else {
             showErrorState()
         }
     }
     
-    private func updateRightTableViewAfterLoadMore(success: Bool) {
-        rightTableView.reloadData()
+    private func updateCollectionViewAfterLoadMore(success: Bool) {
+        rightCollectionView.reloadData()
         
-        // 修复：直接使用 hasMoreData 属性，不需要解包
         if success, rightViewModel.hasMoreData {
-            rightTableView.mj_footer?.endRefreshing()
+            rightCollectionView.mj_footer?.endRefreshing()
         } else if success {
-            rightTableView.mj_footer?.endRefreshingWithNoMoreData()
+            rightCollectionView.mj_footer?.endRefreshingWithNoMoreData()
         } else {
-            rightTableView.mj_footer?.endRefreshing()
+            rightCollectionView.mj_footer?.endRefreshing()
             showErrorState()
         }
     }
     
     private func showEmptyState() {
-        // 这里可以添加空状态视图
         print("显示空状态视图")
     }
     
     private func hideEmptyState() {
-        // 隐藏空状态视图
         print("隐藏空状态视图")
     }
     
     private func showErrorState() {
-        // 这里可以添加错误状态视图
         print("显示错误状态视图")
+    }
+    
+    // 分段控制器值变化
+    @objc private func segmentValueChanged() {
+        guard let selectedIndex = segmentControl.selectedSegmentIndex as? Int,
+              let types = mResponse?.data.otaType,
+              selectedIndex < types.count else { return }
+        
+        rightViewModel.type = types[selectedIndex].dictValue
+        fetchInitialData()
+    }
+    
+    // 更新选中状态
+    private func updateMiddleSelection(at indexPath: IndexPath) {
+        if let previousIndexPath = selectedMiddleIndexPath {
+            middleTableView.deselectRow(at: previousIndexPath, animated: true)
+            if let cell = middleTableView.cellForRow(at: previousIndexPath) {
+                cell.backgroundColor = .clear
+            }
+        }
+        selectedMiddleIndexPath = indexPath
+        rightViewModel.style = mResponse?.data.otaStyle[indexPath.row].dictValue ?? ""
+        fetchInitialData()
+        middleTableView.reloadData()
+    }
+    
+    deinit {
+        // 移除通知监听
+        NotificationCenter.default.removeObserver(self)
     }
 }
 
 // MARK: - UITableViewDelegate & UITableViewDataSource
 extension TripleTableViewController: UITableViewDelegate, UITableViewDataSource {
-    
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if tableView == leftTableView {
-            return leftViewModel.items.count
-        } else if tableView == middleTableView {
-            return middleViewModel.items.count
-        } else {
-            return rightViewModel.items.count
-        }
+        return mResponse?.data.otaStyle.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if tableView == leftTableView {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "LeftCell", for: indexPath)
-            cell.textLabel?.text = leftViewModel.items[indexPath.row]
-            cell.textLabel?.textAlignment = .center
-            return cell
-        } else if tableView == middleTableView {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "MiddleCell", for: indexPath)
-            cell.textLabel?.text = middleViewModel.items[indexPath.row]
-            cell.textLabel?.textAlignment = .center
-            return cell
-        } else {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "RightCell", for: indexPath) as! RightTableViewCell
-            let item = rightViewModel.items[indexPath.row]
-            cell.configure(with: item)
-            return cell
-        }
+        let cell = tableView.dequeueReusableCell(withIdentifier: "MiddleCell", for: indexPath)
+        let styleItem = mResponse?.data.otaStyle[indexPath.row]
+        cell.textLabel?.text = styleItem?.dictValue
+        cell.textLabel?.textAlignment = .left
+        cell.textLabel?.font = UIFont.systemFont(ofSize: 14)
+        // 设置支持两行显示
+        cell.textLabel?.numberOfLines = 2
+        cell.textLabel?.lineBreakMode = .byTruncatingTail
+        cell.backgroundColor = (selectedMiddleIndexPath == indexPath) ? .systemBlue.withAlphaComponent(0.5) : .clear
+        return cell
     }
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if tableView == rightTableView {
-            return 72
-        }
-        return UITableView.automaticDimension
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        updateMiddleSelection(at: indexPath)
     }
 }
 
-// MARK: - 右边表格视图单元格
-class RightTableViewCell: UITableViewCell {
+// MARK: - UICollectionViewDelegate & DataSource
+extension TripleTableViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    // 实现代理方法，确保布局正确
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let totalWidth = collectionView.bounds.width
+        let itemWidth = (totalWidth - 8) / 2 // 减去列间距
+        return CGSize(width: floor(itemWidth), height: 140)
+    }
     
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return rightViewModel.items.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "RightCollectionCell", for: indexPath) as! RightCollectionCell
+        let item = rightViewModel.items[indexPath.row]
+        cell.configure(with: item)
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        // 这里保持原有逻辑不变
+        collectionView.deselectItem(at: indexPath, animated: true)
+        let storyboard = UIStoryboard(name: "Device", bundle: nil)
+        let vc = storyboard.instantiateViewController(withIdentifier: "ClockUseViewController") as? ClockUseViewController
+        let item = rightViewModel.items[indexPath.row]
+        vc?.index = indexPath.row + 1 // 代表什么含义
+        vc?.current = current
+        vc?.currentClock = ClockResponse(previewPic: item.previewImageUrl, resourcesUrl: item.dialBinUrl, resolutionRatio: "\(item.width ?? 0)*\(item.height ?? 0)", isPublish: "true")
+        parent?.navigationController?.pushViewController(vc!, animated: true)
+    }
+}
+
+// MARK: - 集合视图单元格
+class RightCollectionCell: UICollectionViewCell {
     private let itemImageView = UIImageView()
-    private let nameLabel = UILabel()
-    private let valueLabel = UILabel()
     
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
+    override init(frame: CGRect) {
+        super.init(frame: frame)
         setupUI()
     }
     
@@ -244,150 +457,301 @@ class RightTableViewCell: UITableViewCell {
     }
     
     private func setupUI() {
-        // 图片视图设置
-        itemImageView.contentMode = .scaleAspectFill
-        itemImageView.clipsToBounds = true
-        itemImageView.backgroundColor = .systemGray4
-        itemImageView.layer.cornerRadius = 25
+        contentView.backgroundColor = .systemBackground
+        contentView.layer.cornerRadius = 8
+        contentView.layer.masksToBounds = true
+        
+        // 图片视图
+        itemImageView.contentMode = .scaleAspectFit
+        itemImageView.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(itemImageView)
         
-        // 名称标签设置
-        nameLabel.font = .systemFont(ofSize: 16, weight: .medium)
-        nameLabel.numberOfLines = 1
-        contentView.addSubview(nameLabel)
-        
-        // 值标签设置
-        valueLabel.font = .systemFont(ofSize: 14)
-        valueLabel.textColor = .systemGray
-        valueLabel.numberOfLines = 1
-        contentView.addSubview(valueLabel)
-        
-        // 设置约束
-        itemImageView.translatesAutoresizingMaskIntoConstraints = false
-        nameLabel.translatesAutoresizingMaskIntoConstraints = false
-        valueLabel.translatesAutoresizingMaskIntoConstraints = false
-        
         NSLayoutConstraint.activate([
-            // 图片视图约束
-            itemImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            itemImageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            itemImageView.widthAnchor.constraint(equalToConstant: 50),
-            itemImageView.heightAnchor.constraint(equalToConstant: 50),
-            
-            // 名称标签约束
-            nameLabel.leadingAnchor.constraint(equalTo: itemImageView.trailingAnchor, constant: 12),
-            nameLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16),
-            nameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-            
-            // 值标签约束
-            valueLabel.leadingAnchor.constraint(equalTo: itemImageView.trailingAnchor, constant: 12),
-            valueLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 2),
-            valueLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-            valueLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -16)
+            itemImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
+            itemImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
+            itemImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
+            itemImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8)
         ])
     }
     
-    func configure(with item: RightItem) {
-        nameLabel.text = item.name
-        valueLabel.text = item.value
-        
-        // 模拟图片加载
-        DispatchQueue.global().async {
-            // 模拟延迟
-            Thread.sleep(forTimeInterval: 0.3)
-            
-            DispatchQueue.main.async { [weak self] in
-                // 检查单元格是否仍在使用相同的数据
-                if let currentItem = self?.nameLabel.text, currentItem == item.name {
-                    // 使用系统图标作为占位图
-                    self?.itemImageView.image = UIImage(systemName: "photo")
-                }
-            }
+    func configure(with item: ClockItem) {
+        if let url = item.previewImageUrl, let imageUrl = URL(string: url) {
+            itemImageView.kf.setImage(with: imageUrl, placeholder: UIImage(systemName: "photo"))
+        } else {
+            itemImageView.image = UIImage(systemName: "photo")
         }
     }
-}
-
-// MARK: - 数据模型
-struct RightItem {
-    let name: String
-    let value: String
-    let imageUrl: String // 实际项目中使用
 }
 
 // MARK: - 视图模型
-class LeftViewModel {
-    let items = ["数字", "经典"]
-}
-
-class MiddleViewModel {
-    let items: [String] = {
-        return (1...50).map { "Row \($0)" }
-    }()
-}
-
 class RightViewModel {
-    var items: [RightItem] = []
+    var items: [ClockItem] = []
     var currentPage = 1
     var isLoading = false
     var hasMoreData = true
-    
-    func fetchInitialData(completion: @escaping (Bool) -> Void) {
-        loadData(for: 1) { [weak self] success, items in
-            if success, let items = items {
-                self?.items = items
-                self?.currentPage = 1
-                self?.hasMoreData = items.count >= 10 // 假设每页10条数据
-            }
-            completion(success)
-        }
-    }
+    var type = ""
+    var style = ""
     
     func refreshData(completion: @escaping (Bool) -> Void) {
-        loadData(for: 1) { [weak self] success, items in
-            if success, let items = items {
-                self?.items = items
-                self?.currentPage = 1
-                self?.hasMoreData = items.count >= 10
+        let screenWidth = XGZTBlueToothManager.shared.device?.screenWidth ?? 240
+        let screenHeight = XGZTBlueToothManager.shared.device?.screenHeight ?? 284
+        
+        let urlString = "https://u-watch.com.cn/api/app/ota/v3/list"
+        
+        // 打印请求参数
+        print("pageSize: 20")
+        print("width: \(screenWidth)")
+        print("height: \(screenHeight)")
+        print("shape: square")
+        print("type: \(type)")
+        print("style: \(style)")
+        
+        AF.upload(
+            multipartFormData: { multipartFormData in
+                multipartFormData.append("20".data(using: .utf8)!, withName: "pageSize")
+                multipartFormData.append("1".data(using: .utf8)!, withName: "pageNum")
+                multipartFormData.append("\(screenWidth)".data(using: .utf8)!, withName: "width")
+                multipartFormData.append("\(screenHeight)".data(using: .utf8)!, withName: "height")
+                multipartFormData.append("square".data(using: .utf8)!, withName: "shape")
+                multipartFormData.append(self.type.data(using: .utf8)!, withName: "type")
+                multipartFormData.append(self.style.data(using: .utf8)!, withName: "style")
+            },
+            to: urlString,
+            method: .post
+        )
+        .responseData { [weak self] response in
+            guard let self = self else { return }
+            
+            switch response.result {
+            case .success(let data):
+                // 打印原始响应数据
+                if let responseString = String(data: data, encoding: .utf8) {
+                    print("网络请求返回内容：\n\(responseString)")
+                } else {
+                    print("网络请求返回数据无法转换为字符串")
+                }
+                do {
+                    let decoder = JSONDecoder()
+                    decoder.keyDecodingStrategy = .convertFromSnakeCase
+                    let model = try decoder.decode(ClocksResponse.self, from: data)
+                    self.items = model.rows
+                    self.currentPage = 1
+                    self.hasMoreData = model.rows.count >= 20
+                    completion(true)
+                } catch {
+                    print("刷新数据解析错误: \(error)")
+                    completion(false)
+                }
+                
+            case .failure(let error):
+                print("刷新网络请求失败：\(error)")
+                completion(false)
             }
-            completion(success)
         }
     }
     
     func loadMoreData(completion: @escaping (Bool) -> Void) {
         guard !isLoading, hasMoreData else {
+            print("无需加载更多数据：isLoading=\(isLoading), hasMoreData=\(hasMoreData)")
             completion(false)
             return
         }
         
         isLoading = true
         let nextPage = currentPage + 1
+        let screenWidth = XGZTBlueToothManager.shared.device?.screenWidth ?? 240
+        let screenHeight = XGZTBlueToothManager.shared.device?.screenHeight ?? 284
         
-        loadData(for: nextPage) { [weak self] success, items in
-            defer { self?.isLoading = false }
+        // 打印请求参数
+        print("开始加载第\(nextPage)页数据，请求参数：")
+        print("pageSize: 20")
+        print("pageNum: \(nextPage)")
+        print("width: \(screenWidth)")
+        print("height: \(screenHeight)")
+        print("shape: square")
+        print("type: \(type)")
+        print("style: \(style)")
+        
+        AF.upload(
+            multipartFormData: { multipartFormData in
+                multipartFormData.append("20".data(using: .utf8)!, withName: "pageSize")
+                multipartFormData.append("\(nextPage)".data(using: .utf8)!, withName: "pageNum")
+                multipartFormData.append("\(screenWidth)".data(using: .utf8)!, withName: "width")
+                multipartFormData.append("\(screenHeight)".data(using: .utf8)!, withName: "height")
+                multipartFormData.append("square".data(using: .utf8)!, withName: "shape")
+                multipartFormData.append(self.type.data(using: .utf8)!, withName: "type")
+                multipartFormData.append(self.style.data(using: .utf8)!, withName: "style")
+            },
+            to: "https://u-watch.com.cn/api/app/ota/v3/list",
+            method: .post
+        )
+        .responseData { [weak self] response in
+            guard let self = self else { return }
+            self.isLoading = false
             
-            if success, let items = items {
-                self?.items.append(contentsOf: items)
-                self?.currentPage = nextPage
-                self?.hasMoreData = items.count >= 10
+            // 打印响应状态
+            print("请求完成，状态码：\(response.response?.statusCode ?? -1)")
+            
+            switch response.result {
+            case .success(let data):
+                // 打印原始响应数据
+                if let responseString = String(data: data, encoding: .utf8) {
+                    print("网络请求返回内容：\n\(responseString)")
+                } else {
+                    print("网络请求返回数据无法转换为字符串")
+                }
+                
+                do {
+                    let decoder = JSONDecoder()
+                    decoder.keyDecodingStrategy = .convertFromSnakeCase
+                    let model = try decoder.decode(ClocksResponse.self, from: data)
+                    self.items.append(contentsOf: model.rows)
+                    self.currentPage = nextPage
+                    self.hasMoreData = model.rows.count >= 20
+                    print("加载成功，新增\(model.rows.count)条数据，当前总数据量：\(self.items.count)")
+                    completion(true)
+                } catch {
+                    print("加载更多解析错误: \(error)")
+                    // 打印错误时的原始数据，便于调试
+                    if let errorDataString = String(data: data, encoding: .utf8) {
+                        print("解析错误时的原始数据：\(errorDataString)")
+                    }
+                    completion(false)
+                }
+                
+            case .failure(let error):
+                print("加载更多网络请求失败：\(error)")
+                // 打印Alamofire错误详情
+                if let underlyingError = error.underlyingError {
+                    print("底层错误：\(underlyingError)")
+                }
+                completion(false)
             }
-            completion(success)
+        }
+    }
+}
+
+// MARK: - 数据模型
+
+struct ClocksResponse: Codable {
+    let total: Int
+    let rows: [ClockItem]
+    let code: Int
+    let msg: String?
+}
+
+struct ClockItem: Codable {
+    let searchValue: String?
+    let createBy: String?
+    let createTime: String?
+    let updateBy: String?
+    let updateTime: String?
+    let remark: String?
+    let id: Int
+    let uuId: String?
+    let otaName: String?
+    let dialBin: String?
+    let dialBinUrl: String?
+    let previewImage: String?
+    let previewImageUrl: String?
+    let width: Int?
+    let height: Int?
+    let shape: String?
+    let type: String?
+    let style: String?
+    let tags: String?
+    let timePosition: String?
+    let downNum: Int?
+    let gmtCreate: String?
+    let gmtUpdate: String?
+}
+
+struct Response<T: Codable>: Codable {
+    let msg: String
+    let code: Int
+    let data: T
+}
+
+// 关键修复：调整OTAData的编码键映射
+struct OTAData: Codable {
+    let otaType: [OTADictItem]
+    let otaStyle: [OTADictItem]
+    
+    // 明确指定JSON键名，与服务器返回保持一致
+    enum CodingKeys: String, CodingKey {
+        case otaType = "ota_type"
+        case otaStyle = "ota_style"
+    }
+}
+
+struct OTADictItem: Codable {
+    let searchValue: String?
+    let createBy: String?
+    let createTime: String?
+    let updateBy: String?
+    let updateTime: String?
+    let remark: String?
+    let dictCode: Int
+    let dictSort: Int
+    let dictLabel: String
+    let dictValue: String
+    let dictType: String
+    let cssClass: String?
+    let listClass: String?
+    let isDefault: String
+    let status: String
+    let defaultFlag: Bool
+    
+    enum CodingKeys: String, CodingKey {
+        case searchValue, createBy, createTime, updateBy, updateTime, remark
+        case dictCode, dictSort, dictLabel, dictValue, dictType, cssClass, listClass
+        case isDefault, status
+        case defaultFlag = "default"
+    }
+}
+
+// 简化AnyCodable实现，提高兼容性
+struct AnyCodable: Codable {
+    let value: Any
+    
+    init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        
+        if let stringValue = try? container.decode(String.self) {
+            value = stringValue
+        } else if let intValue = try? container.decode(Int.self) {
+            value = intValue
+        } else if let boolValue = try? container.decode(Bool.self) {
+            value = boolValue
+        } else if let doubleValue = try? container.decode(Double.self) {
+            value = doubleValue
+        } else if let arrayValue = try? container.decode([AnyCodable].self) {
+            value = arrayValue.map { $0.value }
+        } else if let dictionaryValue = try? container.decode([String: AnyCodable].self) {
+            value = dictionaryValue.mapValues { $0.value }
+        } else if container.decodeNil() {
+            value = NSNull()
+        } else {
+            throw DecodingError.dataCorruptedError(in: container, debugDescription: "无法解码为AnyCodable")
         }
     }
     
-    private func loadData(for page: Int, completion: @escaping (Bool, [RightItem]?) -> Void) {
-        // 模拟网络请求延迟
-        DispatchQueue.global().asyncAfter(deadline: .now() + 1.0) {
-            // 生成模拟数据
-            let items = (1...10).map { index in
-                let offset = (page - 1) * 10
-                return RightItem(
-                    name: "Item \(offset + index)",
-                    value: "Value for item \(offset + index)",
-                    imageUrl: "https://picsum.photos/200/200?random=\(offset + index)"
-                )
-            }
-            
-            completion(true, items)
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        
+        switch value {
+        case let string as String:
+            try container.encode(string)
+        case let int as Int:
+            try container.encode(int)
+        case let bool as Bool:
+            try container.encode(bool)
+        case let double as Double:
+            try container.encode(double)
+        case is NSNull:
+            try container.encodeNil()
+        default:
+            throw EncodingError.invalidValue(value, EncodingError.Context(codingPath: encoder.codingPath, debugDescription: "不支持的类型"))
         }
     }
-}    
+}

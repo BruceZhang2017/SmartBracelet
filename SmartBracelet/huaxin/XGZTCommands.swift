@@ -66,6 +66,7 @@ enum XGZTCommands: UInt8 {
     case dialMarket = 0xE0
     case setTimePositionAndColor = 0xE1
     case resourceUpgrade = 0xE2
+    case qrCode = 0xE3
 }
 
 // 数据类型定义
@@ -752,6 +753,16 @@ public class XGZTCommand {
         XGZTBlueToothManager.shared.writeCharacteristic(command: command)
     }
     
+    static func setQRCode(type: UInt8, qrString: String) {
+        if let commandData = QRCodeSetCommand.buildCommand(type: type, qrString: qrString) {
+            print("构建的指令数据：\(commandData)")
+            XGZTBlueToothManager.shared.writeCharacteristic(command: commandData.bytes)
+        } else {
+            print("构建指令失败")
+        }
+        
+    }
+    
     // 获取多运动模式数据
     static func getMultiSportModeData() {
         let command = createCommand(with: [
@@ -1092,6 +1103,14 @@ public class XGZTCommand {
             let languageType = Int(response[6])
             XLogger.shared.log("设备语言类型: \(languageType)")
             NotificationCenter.default.post(name: Notification.Name("XGZTBusinessHandler"), object: "18")
+        case.qrCode:
+            guard response.count >= 7 else {
+                XLogger.shared.log("getDeviceLanguage command response error")
+                return
+            }
+            let languageType = Int(response[6])
+            XLogger.shared.log("二维码设置结果: \(languageType)")
+            NotificationCenter.default.post(name: Notification.Name("QRBindViewController"), object: "\(languageType)")
         case.setDeviceUnitFormat:
             guard response.count >= 7 else {
                 XLogger.shared.log("setDeviceUnitFormat command response error")
@@ -1938,5 +1957,47 @@ public class XGZTCommand {
             }
         }
         
+    }
+}
+
+class QRCodeSetCommand {
+    // 指令相关固定字段值
+    static let seqNumAndEnc: UInt8 = 0x00
+    static let cmd: UInt8 = 0xE3
+    static let cmdType: UInt8 = 0x01
+    static let frameSeq: UInt8 = 0x00
+    static let actionCmd: UInt8 = 0x01
+    
+    /// 构建收款码设置指令数据包
+    /// - Parameters:
+    ///   - type: 收款码类型，0x00 为支付宝，0x01 为微信
+    ///   - qrString: 收款码的 URL 字符串（UTF-8 编码，不含末尾\0）
+    /// - Returns: 完整的指令 Data，如果参数不合法返回 nil
+    static func buildCommand(type: UInt8, qrString: String) -> Data? {
+        // 校验收款码类型
+        guard (0x00...0x01).contains(type) else {
+            print("收款码类型不合法，需为 0x00 或 0x01")
+            return nil
+        }
+        let qrData = qrString.data(using: .utf8)
+        guard let qrData = qrData else {
+            print("收款码字符串转 UTF-8 Data 失败")
+            return nil
+        }
+        // 计算 Frame Length：2 + 字符串长度（qrString 的字节数）
+        let frameLength: UInt8 = UInt8(2 + qrData.count)
+        
+        var commandData = Data()
+        // 依次添加各字段
+        commandData.append(seqNumAndEnc)
+        commandData.append(cmd)
+        commandData.append(cmdType)
+        commandData.append(frameSeq)
+        commandData.append(frameLength)
+        commandData.append(actionCmd)
+        commandData.append(type)
+        commandData.append(contentsOf: qrData)
+        
+        return commandData
     }
 }
