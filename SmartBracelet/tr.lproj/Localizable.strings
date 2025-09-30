@@ -413,3 +413,12 @@
 "select_device_scan_desc" = "Kullanılabilir cihazlar aranıyor";
 "select_device_add_manual" = "El ile ekle";
 "select_device_add_automatic" = "Tarayarak ekle";
+"cardbag"="Kart Çanta";
+"alipay"="Alipay";
+"bindtip"="Bağlama Adımları:\n1. Uygulamayı açın, ödeme sayfasına gidin ve toplanma kodunu telefonunuza yerel olarak kaydedin; (Toplanma kodunu kaydetmek için manuel olarak tıklamalısınız, ekran görüntüleri geçersizdir);\n2. Yukarıdaki QR kodu alanına tıklayarak QR kodunu ekleyin veya değiştirin;\n3. Aşağıdaki bağlama düğmesine tıklayarak QR kodunu saate bağlayın; Bana tıkla";
+"gotobind"="Bağlama'ya git";
+"shibie_fail"="Tanıma başarısız";
+"i_know"="Anladım";
+"send_success"="Başarıyla gönderildi";
+"send_fail"="Gönderim başarısız";
+"ota"="Firmware Güncellemesi";

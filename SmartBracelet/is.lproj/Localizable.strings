@@ -234,3 +234,12 @@
 "select_device_scan_desc" = "Er að leita að reikningsþýðum tæki";
 "select_device_add_manual" = " bæta við handvirkt";
 "select_device_add_automatic" = "Skanið til að bæta við";
+"cardbag"="Kortapoki";
+"alipay"="Alipay";
+"bindtip"="Bindisteg:\n1. Opnaðu forritið, farðu á greiðslusíðu og geyma safnkóðann á símann þínum á staðnum; (Þú verður að smella handvirkt til að geyma safnkóðann, skjármyndir eru ógildar);\n2. Smelltu á QR-kóðasvæðið ofan til að bæta við eða skipta um QR-kóðann;\n3. Smelltu á bindistöðuna fyrir neðan til að binda QR-kóðann við klukkunna; Smelltu á mig";
+"gotobind"="Fara til bindingar";
+"shibie_fail"="Greining mistókst";
+"i_know"="Skilja";
+"send_success"="Sent með góðum árangri";
+"send_fail"="Sending mistókst";
+"ota"="Firmware-uppfærsla";

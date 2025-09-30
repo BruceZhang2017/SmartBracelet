@@ -11,8 +11,8 @@ class CardBagTableViewController: BaseViewController {
     
     // 卡片数据列表
     private let cardItems: [CardItem] = [
-        CardItem(title: "微信", imageName: "wechat_icon", identifier: 1),
-        CardItem(title: "支付宝", imageName: "alipay_icon", identifier: 0)
+        CardItem(title: "device_push_settings_wechat".localized(), imageName: "wechat_icon", identifier: 1),
+        CardItem(title: "alipay".localized(), imageName: "alipay_icon", identifier: 0)
     ]
     
     // 表格视图
@@ -26,7 +26,7 @@ class CardBagTableViewController: BaseViewController {
     
     // 设置基础UI
     private func setupUI() {
-        title = "卡包"
+        title = "cardbag".localized()
     }
     
     // 配置表格视图

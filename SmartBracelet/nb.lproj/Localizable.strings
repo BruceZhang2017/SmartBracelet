@@ -244,3 +244,12 @@
 "select_device_scan_desc" = "Letter etter tilgjengelige enheter";
 "select_device_add_manual" = "Legg til manuelt";
 "select_device_add_automatic" = "Skanne for å legge til";
+"cardbag"="Kortpose";
+"alipay"="Alipay";
+"bindtip"="Bindings trinn:\n1. Åpne appen, gå til betalingssiden og lagre innsamlingskoden lokalt på telefonen din; (Du må klikke manuelt for å lagre innsamlingskoden, skjermbilder er ugyldige);\n2. Klikk på QR-kodeområdet ovenfor for å legge til eller erstatte QR-koden;\n3. Klikk på bindingsknappen nedenfor for å binde QR-koden til klokken; Klikk meg";
+"gotobind"="Gå til binding";
+"shibie_fail"="Gjenkjenning mislyktes";
+"i_know"="Forstått";
+"send_success"="Sendt vellykket";
+"send_fail"="Sending mislyktes";
+"ota"="Firmware-oppdatering";

@@ -249,3 +249,12 @@
 "select_device_scan_desc" = "Se caută dispozitive disponibile";
 "select_device_add_manual" = "Adăugare manuală";
 "select_device_add_automatic" = "Scanare pentru a adăuga";
+"cardbag"="Geantă de carduri";
+"alipay"="Alipay";
+"bindtip"="Pași de legare:\n1. Deschideți aplicația, mergeți pe pagina de plată și salvați codul de colectare pe telefonul dvs. local; (Trebuie să faceți clic manual pentru a salva codul de colectare, capturile de ecran nu sunt valide);\n2. Faceți clic pe zona codului QR de mai sus pentru a adăuga sau înlocui codul QR;\n3. Faceți clic pe butonul de legare de mai jos pentru a lega codul QR de ceas; Clickează-mă";
+"gotobind"="Mergeți la legare";
+"shibie_fail"="Recunoașterea a eșuat";
+"i_know"="Știu";
+"send_success"="Trimis cu succes";
+"send_fail"="Trimiterea a eșuat";
+"ota"="Actualizarea firmware-ului";

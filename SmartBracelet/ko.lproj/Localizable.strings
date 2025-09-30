@@ -413,3 +413,12 @@
 "select_device_scan_desc" = "사용 가능한 장치를 검색 중";
 "select_device_add_manual" = "수동 추가";
 "select_device_add_automatic" = "스캔 추가";
+"cardbag"="카드 가방";
+"alipay"="알리페이";
+"bindtip"="바인딩 단계:\n1. 앱을 열고 결제 페이지로 이동하여 수금 코드를 휴대폰에 로컬로 저장하세요. (수금 코드를手動으로 클릭하여 저장해야 합니다. 스크린샷은 유효하지 않습니다);\n2. 위의 QR 코드 영역을 클릭하여 QR 코드를 추가하거나 교체하세요;\n3. 아래의 바인딩 버튼을 클릭하여 QR 코드를 시계에 바인딩하세요; 저를 클릭하세요";
+"gotobind"="바인딩으로 이동";
+"shibie_fail"="인식 실패";
+"i_know"="알겠습니다";
+"send_success"="전송 성공";
+"send_fail"="전송 실패";
+"ota"="펌웨어 업데이트";

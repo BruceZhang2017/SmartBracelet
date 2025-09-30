@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 74;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -39,8 +39,6 @@
 		9A0C34962B341D6600E798F1 /* JL_BLEKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A0C34942B341D6600E798F1 /* JL_BLEKit.framework */; };
 		9A127EAE2BC2ACE300126836 /* UIFont+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A127EAD2BC2ACE200126836 /* UIFont+Extension.swift */; };
 		9A1F7CAC2E22932700EB3BBE /* TripleTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A1F7CAB2E22932700EB3BBE /* TripleTableViewController.swift */; };
-		9A1F7EB32E2D068D00EB3BBE /* Clip.app in Embed App Clips */ = {isa = PBXBuildFile; fileRef = 9A1F7E9F2E2D068B00EB3BBE /* Clip.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		9A1F7EBC2E2D0ACA00EB3BBE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 18385EA624517F1A00EA380A /* Assets.xcassets */; };
 		9A2181652557EDBE000330E5 /* apple.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 9A2181622557EDBE000330E5 /* apple.jpeg */; };
 		9A2181662557EDBE000330E5 /* walk.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 9A2181632557EDBE000330E5 /* walk.jpeg */; };
 		9A2181672557EDBE000330E5 /* water.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9A2181642557EDBE000330E5 /* water.jpg */; };
@@ -380,6 +378,7 @@
 		9A869E0D2D12CCC200B78FDF /* OTAInfoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A869E0C2D12CCC200B78FDF /* OTAInfoManager.swift */; };
 		9A869E112D17DDFB00B78FDF /* ABParTool.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A869E0F2D17DDEB00B78FDF /* ABParTool.xcframework */; };
 		9A869E122D17DDFC00B78FDF /* ABParTool.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9A869E0F2D17DDEB00B78FDF /* ABParTool.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		9A87D62F2E7AD09F00FC509B /* HealthCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A87D62E2E7AD09F00FC509B /* HealthCollectionViewCell.swift */; };
 		9A8CA50725272C5200EC01A7 /* CVCalendarDayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8CA4E725272C5200EC01A7 /* CVCalendarDayView.swift */; };
 		9A8CA50825272C5200EC01A7 /* CVWeekdaySymbolType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8CA4E825272C5200EC01A7 /* CVWeekdaySymbolType.swift */; };
 		9A8CA50925272C5200EC01A7 /* CVRange.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8CA4E925272C5200EC01A7 /* CVRange.swift */; };
@@ -506,7 +505,6 @@
 		9AEC22CD25B707C000DE899A /* BLEModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AEC22CC25B707C000DE899A /* BLEModel.swift */; };
 		9AEC230025B7114500DE899A /* Data+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AEC22FF25B7114500DE899A /* Data+Extension.swift */; };
 		9AF0AA2025AAF1CE000BDAED /* CMDData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF0AA1F25AAF1CE000BDAED /* CMDData.swift */; };
-		9AF3F2D72BCBFA6500AFBC55 /* HealthTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF3F2D62BCBFA6500AFBC55 /* HealthTableViewCell.swift */; };
 		9AF3F2DB2BCBFF2600AFBC55 /* icon_default.png in Resources */ = {isa = PBXBuildFile; fileRef = 9AF3F2DA2BCBFF2600AFBC55 /* icon_default.png */; };
 		9AF3F2DD2BCC229B00AFBC55 /* HNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF3F2DC2BCC229B00AFBC55 /* HNavigationController.swift */; };
 		9AFAE8712A8F21F7005EF8F8 /* JGProgressHUDIndeterminateIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AFAE85A2A8F21F7005EF8F8 /* JGProgressHUDIndeterminateIndicatorView.m */; };
@@ -523,16 +521,6 @@
 		9AFAE87C2A8F21F7005EF8F8 /* JGProgressHUDShadow.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AFAE8702A8F21F7005EF8F8 /* JGProgressHUDShadow.m */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		9A1F7EB12E2D068D00EB3BBE /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 18385E9224517F1600EA380A /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 9A1F7E9E2E2D068B00EB3BBE;
-			remoteInfo = Clip;
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXCopyFilesBuildPhase section */
 		9A1F7EB82E2D068D00EB3BBE /* Embed App Clips */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -540,7 +528,6 @@
 			dstPath = "$(CONTENTS_FOLDER_PATH)/AppClips";
 			dstSubfolderSpec = 16;
 			files = (
-				9A1F7EB32E2D068D00EB3BBE /* Clip.app in Embed App Clips */,
 			);
 			name = "Embed App Clips";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -610,7 +597,6 @@
 		9A127EAD2BC2ACE200126836 /* UIFont+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Extension.swift"; sourceTree = "<group>"; };
 		9A1E2D2F2DB6631E00B50C5D /* sv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sv; path = sv.lproj/Localizable.strings; sourceTree = "<group>"; };
 		9A1F7CAB2E22932700EB3BBE /* TripleTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripleTableViewController.swift; sourceTree = "<group>"; };
-		9A1F7E9F2E2D068B00EB3BBE /* Clip.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Clip.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9A1F7EBA2E2D070D00EB3BBE /* SmartBraceletDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SmartBraceletDebug.entitlements; sourceTree = "<group>"; };
 		9A1F7EBB2E2D0A2C00EB3BBE /* SmartBraceletRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SmartBraceletRelease.entitlements; sourceTree = "<group>"; };
 		9A2181622557EDBE000330E5 /* apple.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = apple.jpeg; sourceTree = "<group>"; };
@@ -992,6 +978,7 @@
 		9A839C6C25611FA900714CBE /* HHCountdowLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HHCountdowLabel.m; sourceTree = "<group>"; };
 		9A869E0C2D12CCC200B78FDF /* OTAInfoManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OTAInfoManager.swift; sourceTree = "<group>"; };
 		9A869E0F2D17DDEB00B78FDF /* ABParTool.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = ABParTool.xcframework; sourceTree = "<group>"; };
+		9A87D62E2E7AD09F00FC509B /* HealthCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthCollectionViewCell.swift; sourceTree = "<group>"; };
 		9A8CA4E725272C5200EC01A7 /* CVCalendarDayView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CVCalendarDayView.swift; sourceTree = "<group>"; };
 		9A8CA4E825272C5200EC01A7 /* CVWeekdaySymbolType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CVWeekdaySymbolType.swift; sourceTree = "<group>"; };
 		9A8CA4E925272C5200EC01A7 /* CVRange.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CVRange.swift; sourceTree = "<group>"; };
@@ -1178,7 +1165,6 @@
 		9AEC22CC25B707C000DE899A /* BLEModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BLEModel.swift; sourceTree = "<group>"; };
 		9AEC22FF25B7114500DE899A /* Data+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+Extension.swift"; sourceTree = "<group>"; };
 		9AF0AA1F25AAF1CE000BDAED /* CMDData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CMDData.swift; sourceTree = "<group>"; };
-		9AF3F2D62BCBFA6500AFBC55 /* HealthTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthTableViewCell.swift; sourceTree = "<group>"; };
 		9AF3F2DA2BCBFF2600AFBC55 /* icon_default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_default.png; sourceTree = "<group>"; };
 		9AF3F2DC2BCC229B00AFBC55 /* HNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HNavigationController.swift; sourceTree = "<group>"; };
 		9AFAE8582A8F21F7005EF8F8 /* JGProgressHUDSuccessIndicatorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JGProgressHUDSuccessIndicatorView.h; sourceTree = "<group>"; };
@@ -1210,31 +1196,6 @@
 		D0967DDE3410784139DF5B20 /* Pods-TJDWristbandSDKDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TJDWristbandSDKDemo.release.xcconfig"; path = "Target Support Files/Pods-TJDWristbandSDKDemo/Pods-TJDWristbandSDKDemo.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
-/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		9A1F7EB42E2D068D00EB3BBE /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				/Localized/Localizable.strings,
-				Info.plist,
-			);
-			target = 9A1F7E9E2E2D068B00EB3BBE /* Clip */;
-		};
-/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
-
-/* Begin PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
-		9A1F7F062E30EF2E00EB3BBE /* PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet */ = {
-			isa = PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet;
-			buildPhase = 9A1F7E9B2E2D068B00EB3BBE /* Sources */;
-			membershipExceptions = (
-				/Localized/Localizable.strings,
-			);
-		};
-/* End PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
-
-/* Begin PBXFileSystemSynchronizedRootGroup section */
-		9A1F7EA02E2D068B00EB3BBE /* Clip */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (9A1F7EB42E2D068D00EB3BBE /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 9A1F7F062E30EF2E00EB3BBE /* PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = Clip; sourceTree = "<group>"; };
-/* End PBXFileSystemSynchronizedRootGroup section */
-
 /* Begin PBXFrameworksBuildPhase section */
 		18385E9724517F1600EA380A /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
@@ -1260,13 +1221,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		9A1F7E9C2E2D068B00EB3BBE /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -1274,7 +1228,6 @@
 			isa = PBXGroup;
 			children = (
 				18385E9C24517F1600EA380A /* SmartBracelet */,
-				9A1F7EA02E2D068B00EB3BBE /* Clip */,
 				18385E9B24517F1600EA380A /* Products */,
 				18385EB124517F7700EA380A /* Frameworks */,
 				CBE553D5D0280A8FD8CC0627 /* Pods */,
@@ -1285,7 +1238,6 @@
 			isa = PBXGroup;
 			children = (
 				18385E9A24517F1600EA380A /* FitDAY.app */,
-				9A1F7E9F2E2D068B00EB3BBE /* Clip.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2083,7 +2035,7 @@
 				9AEBEC3E26DE5AFC008D13AA /* TTADataPickerViewController.swift */,
 				9AEBEC3C26DE5AD0008D13AA /* TTADataPickerView.swift */,
 				9A820B6D24CD06AC00A62C6F /* HealthViewController.swift */,
-				9AF3F2D62BCBFA6500AFBC55 /* HealthTableViewCell.swift */,
+				9A87D62E2E7AD09F00FC509B /* HealthCollectionViewCell.swift */,
 				9A820B7524CEA2A500A62C6F /* HealthDetailViewController.swift */,
 				9A3C55C42BD35EE6007737A2 /* HealthValueView.swift */,
 				9A3C55CC2BD39A5E007737A2 /* FanView.swift */,
@@ -2538,34 +2490,11 @@
 			buildRules = (
 			);
 			dependencies = (
-				9A1F7EB22E2D068D00EB3BBE /* PBXTargetDependency */,
 			);
 			name = SmartBracelet;
 			productName = TJDWristbandSDKDemo;
 			productReference = 18385E9A24517F1600EA380A /* FitDAY.app */;
 			productType = "com.apple.product-type.application";
-		};
-		9A1F7E9E2E2D068B00EB3BBE /* Clip */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 9A1F7EB52E2D068D00EB3BBE /* Build configuration list for PBXNativeTarget "Clip" */;
-			buildPhases = (
-				9A1F7E9B2E2D068B00EB3BBE /* Sources */,
-				9A1F7E9C2E2D068B00EB3BBE /* Frameworks */,
-				9A1F7E9D2E2D068B00EB3BBE /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			fileSystemSynchronizedGroups = (
-				9A1F7EA02E2D068B00EB3BBE /* Clip */,
-			);
-			name = Clip;
-			packageProductDependencies = (
-			);
-			productName = Clip;
-			productReference = 9A1F7E9F2E2D068B00EB3BBE /* Clip.app */;
-			productType = "com.apple.product-type.application.on-demand-install-capable";
 		};
 /* End PBXNativeTarget section */
 
@@ -2581,12 +2510,10 @@
 						CreatedOnToolsVersion = 11.4.1;
 						LastSwiftMigration = 1210;
 					};
-					9A1F7E9E2E2D068B00EB3BBE = {
-						CreatedOnToolsVersion = 16.4;
-					};
 				};
 			};
 			buildConfigurationList = 18385E9524517F1600EA380A /* Build configuration list for PBXProject "SmartBracelet" */;
+			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -2629,13 +2556,11 @@
 				he,
 			);
 			mainGroup = 18385E9124517F1600EA380A;
-			preferredProjectObjectVersion = 50;
 			productRefGroup = 18385E9B24517F1600EA380A /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
 				18385E9924517F1600EA380A /* SmartBracelet */,
-				9A1F7E9E2E2D068B00EB3BBE /* Clip */,
 			);
 		};
 /* End PBXProject section */
@@ -2683,14 +2608,6 @@
 				18385EA724517F1A00EA380A /* Assets.xcassets in Resources */,
 				9AF3F2DB2BCBFF2600AFBC55 /* icon_default.png in Resources */,
 				9A21859E255BBDD9000330E5 /* root.jpg in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		9A1F7E9D2E2D068B00EB3BBE /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				9A1F7EBC2E2D0ACA00EB3BBE /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2903,7 +2820,6 @@
 				9A56D28825216FC60082CC08 /* LegendEntry.swift in Sources */,
 				9A56D23E25216FC60082CC08 /* BubbleChartRenderer.swift in Sources */,
 				9A60DED9252F002400E0D849 /* CurrentCityTableViewCell.swift in Sources */,
-				9AF3F2D72BCBFA6500AFBC55 /* HealthTableViewCell.swift in Sources */,
 				9A8CA52525272C5200EC01A7 /* CVPresent.swift in Sources */,
 				9A93EE552CFDE78C00C02370 /* XGZTSwitchDevice.swift in Sources */,
 				9A93EE562CFDE78C00C02370 /* XGZTBusinessHandler.swift in Sources */,
@@ -3015,6 +2931,7 @@
 				9AC58A1528C37A3800992836 /* ClockResponse.swift in Sources */,
 				9A8CA529252CA8BA00EC01A7 /* DataRecordTableViewCell.swift in Sources */,
 				9AEBEC3426D2A3BE008D13AA /* BLEDeviceNameHandler.swift in Sources */,
+				9A87D62F2E7AD09F00FC509B /* HealthCollectionViewCell.swift in Sources */,
 				9A56D29825216FC70082CC08 /* RadarChartDataEntry.swift in Sources */,
 				9A56D29D25216FC70082CC08 /* LineChartData.swift in Sources */,
 				9AFAE8772A8F21F7005EF8F8 /* JGProgressHUDIndicatorView.m in Sources */,
@@ -3239,22 +3156,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		9A1F7E9B2E2D068B00EB3BBE /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		9A1F7EB22E2D068D00EB3BBE /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 9A1F7E9E2E2D068B00EB3BBE /* Clip */;
-			targetProxy = 9A1F7EB12E2D068D00EB3BBE /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		18385EA824517F1A00EA380A /* LaunchScreen.storyboard */ = {
@@ -3471,7 +3373,7 @@
 				CODE_SIGN_ENTITLEMENTS = SmartBracelet/SmartBraceletDebug.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_ASSET_PATHS = TJDWristbandSDK.framework;
 				DEVELOPMENT_TEAM = 6BTCM549U7;
@@ -3495,7 +3397,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/SmartBracelet/JL/BLEUsage",
 				);
-				MARKETING_VERSION = 2.5.3;
+				MARKETING_VERSION = 2.5.4;
 				OTHER_SWIFT_FLAGS = "$(inherited) -D WeiZhongYun -D DisplayPrint -D TestMode";
 				PRODUCT_BUNDLE_IDENTIFIER = com.sinophy.uwatch;
 				PRODUCT_NAME = FitDAY;
@@ -3520,7 +3422,7 @@
 				CODE_SIGN_ENTITLEMENTS = SmartBracelet/SmartBraceletRelease.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_ASSET_PATHS = TJDWristbandSDK.framework;
 				DEVELOPMENT_TEAM = 6BTCM549U7;
 				ENABLE_BITCODE = NO;
@@ -3543,7 +3445,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/SmartBracelet/JL/BLEUsage",
 				);
-				MARKETING_VERSION = 2.5.3;
+				MARKETING_VERSION = 2.5.4;
 				OTHER_SWIFT_FLAGS = "$(inherited) -D WeiZhongYun -D DisplayPrint -D TestMode";
 				PRODUCT_BUNDLE_IDENTIFIER = com.sinophy.uwatch;
 				PRODUCT_NAME = FitDAY;
@@ -3552,81 +3454,6 @@
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_OBJC_BRIDGING_HEADER = "SmartBracelet/Kit/ObjC/SmartBracelet-Bridging-Header.h";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
-			};
-			name = Release;
-		};
-		9A1F7EB62E2D068D00EB3BBE /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
-				CODE_SIGN_ENTITLEMENTS = Clip/ClipDebug.entitlements;
-				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
-				DEVELOPMENT_TEAM = 6BTCM549U7;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu17;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Clip/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "U-Watch";
-				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 2.5.3;
-				PRODUCT_BUNDLE_IDENTIFIER = com.sinophy.uwatch.Clip;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
-			};
-			name = Debug;
-		};
-		9A1F7EB72E2D068D00EB3BBE /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
-				CODE_SIGN_ENTITLEMENTS = Clip/Clip.entitlements;
-				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
-				DEVELOPMENT_TEAM = 6BTCM549U7;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu17;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Clip/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "U-Watch";
-				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 2.5.3;
-				PRODUCT_BUNDLE_IDENTIFIER = com.sinophy.uwatch.Clip;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -3649,15 +3476,6 @@
 			buildConfigurations = (
 				18385EAF24517F1A00EA380A /* Debug */,
 				18385EB024517F1A00EA380A /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		9A1F7EB52E2D068D00EB3BBE /* Build configuration list for PBXNativeTarget "Clip" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				9A1F7EB62E2D068D00EB3BBE /* Debug */,
-				9A1F7EB72E2D068D00EB3BBE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

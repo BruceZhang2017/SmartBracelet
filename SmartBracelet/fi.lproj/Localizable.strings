@@ -414,3 +414,12 @@
 "select_device_scan_desc" = "Etsitään käytettävissä olevia laitteita";
 "select_device_add_manual" = "Lisää manuaalisesti";
 "select_device_add_automatic" = "Skannata lisättäviksi";
+"cardbag"="Korttipussi";
+"alipay"="Alipay";
+"bindtip"="Sidontavaiheet:\n1. Avaa sovellus, siirry maksusivulle ja tallenna keräyskoodi puhelimellesi paikallisesti; (Sinun on manuaalisesti napsautettava keräyskoodin tallentamiseksi, kuvakaappaukset eivät ole voimassa);\n2. Napsauta yllä olevaa QR-koodialuetta lisätäksesi tai korvataksesi QR-koodin;\n3. Napsauta alla olevaa sidontanappia sidostaaksesi QR-koodin kelloon; Napsauta minua";
+"gotobind"="Siirry sidontaan";
+"shibie_fail"="Tunnistus epäonnistui";
+"i_know"="Ymmärsin";
+"send_success"="Lähetetty onnistuneesti";
+"send_fail"="Lähetys epäonnistui";
+"ota"="Firmwaren päivitys";

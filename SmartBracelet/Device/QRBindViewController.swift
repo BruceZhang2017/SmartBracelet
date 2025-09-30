@@ -8,9 +8,6 @@ class QRBindViewController: BaseViewController, UIImagePickerControllerDelegate,
     // 用于展示二维码区域的视图
     private lazy var qrContainerView: UIView = {
         let view = UIView()
-        view.layer.borderColor = UIColor.lightGray.cgColor
-        view.layer.borderWidth = 1
-        view.layer.cornerRadius = 8
         return view
     }()
     
@@ -29,12 +26,7 @@ class QRBindViewController: BaseViewController, UIImagePickerControllerDelegate,
     private lazy var stepLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
-        label.text = """
-        绑定步骤:
-        1. 打开应用，去支付页面保存收款码到手机本地；(必须手动点击保存收款码进行保存,截图无效);
-        2. 点击上方二维码区域，添加或更换二维码；
-        3. 点击下方绑定按钮，将二维码绑定至手表；点我
-        """
+        label.text = "bindtip".localized()
         label.font = UIFont.systemFont(ofSize: 14)
         return label
     }()
@@ -42,7 +34,7 @@ class QRBindViewController: BaseViewController, UIImagePickerControllerDelegate,
     // 去绑定按钮
     private lazy var bindButton: UIButton = {
         let btn = UIButton(type: .system)
-        btn.setTitle("去绑定", for: .normal)
+        btn.setTitle("gotobind".localized(), for: .normal)
         btn.setTitleColor(.white, for: .normal)
         btn.backgroundColor = .brand
         btn.layer.cornerRadius = 22
@@ -161,7 +153,7 @@ class QRBindViewController: BaseViewController, UIImagePickerControllerDelegate,
                 return
             }
         }
-        showMsg(title: "", message: "识别失败")
+        showMsg(title: "", message: "shibie_fail".localized())
     }
 
     
@@ -169,7 +161,7 @@ class QRBindViewController: BaseViewController, UIImagePickerControllerDelegate,
     {
         let alertController = UIAlertController(title: title, message:message, preferredStyle: UIAlertController.Style.alert)
         
-        let alertAction = UIAlertAction(title:  "知道了", style: UIAlertAction.Style.default) { (alertAction) -> Void in
+        let alertAction = UIAlertAction(title:  "i_know".localized(), style: UIAlertAction.Style.default) { (alertAction) -> Void in
             
 
         }
@@ -195,11 +187,11 @@ class QRBindViewController: BaseViewController, UIImagePickerControllerDelegate,
         if let obj = notification.object as? String, obj.count > 0 {
             if obj == "0" {
                 DispatchQueue.main.async { [weak self] in
-                    self?.showMsg(title: "", message: "发送成功")
+                    self?.showMsg(title: "", message: "send_success".localized())
                 }
             } else {
                 DispatchQueue.main.async { [weak self] in
-                    self?.showMsg(title: "", message: "发送失败")
+                    self?.showMsg(title: "", message: "send_fail".localized())
                 }
             }
         }

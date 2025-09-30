@@ -249,3 +249,12 @@
 "select_device_scan_desc" = "Søges efter tilgængelige enheder";
 "select_device_add_manual" = "Tilføj manuelt";
 "select_device_add_automatic" = "Scan for at tilføje";
+"cardbag"="Kortpose";
+"alipay"="Alipay";
+"bindtip"="Bindings trin:\n1. Åbn appen, gå til betalingssiden og gem indsamlingskoden lokalt på din telefon; (Du skal manuelt klikke for at gemme indsamlingskoden, skærmbilleder er ugyldige);\n2. Klik på QR-kodeområdet ovenfor for at tilføje eller erstatte QR-koden;\n3. Klik på bindingsknappen nedenfor for at binde QR-koden til uret; Klik mig";
+"gotobind"="Gå til binding";
+"shibie_fail"="Genkendelse mislykkedes";
+"i_know"="Forstået";
+"send_success"="Sendt succesfuldt";
+"send_fail"="Sendelse mislykkedes";
+"ota"="Firmware-opdatering";

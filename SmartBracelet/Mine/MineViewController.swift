@@ -146,7 +146,7 @@ class MineViewController: BaseViewController {
                                 }
                             } else {
                                 BLEManager.shared.startScan()
-                                Async.main(after: 1) {
+                                Async.main(after: 1.5) {
                                     if bleSelf.bleModels.count > 0 {
                                         for model in bleSelf.bleModels {
                                             let m = model.mac.replacingOccurrences(of: ":", with: "").lowercased()
@@ -162,28 +162,42 @@ class MineViewController: BaseViewController {
                     } else if code.count > 0 && code.contains("k=") {
                         XLogger.shared.log("扫描的结果是新设备")
                         self?.bHavenScanResult = true
-                        if let url = URL(string: code),
-                           let components = URLComponents(url: url, resolvingAgainstBaseURL: false),
-                           let queryItems = components.queryItems {
-
-                            // 查找名称为 'k' 的查询参数
-                            if let kItem = queryItems.first(where: { $0.name == "k" }),
-                               var macAddress = kItem.value {
-                                
-                                // 如果值中包含 '|'，则截取 '|' 之前的部分
-                                if let pipeIndex = macAddress.firstIndex(of: "|") {
-                                    macAddress = String(macAddress[..<pipeIndex])
-                                    XLogger.shared.log("扫描到的mac地址是：\(macAddress)")
-                                    if XGZTBlueToothManager.shared.isCurrentBleStateOFF() {
-                                        Toast(text: "ble_off".localized()).show()
-                                        XLogger.shared.log("蓝牙没有开启")
-                                    } else {
-                                        XLogger.shared.log("开始连接并搜索指定蓝牙设备")
-                                        XGZTBlueToothManager.shared.connectAndScan(to: macAddress)
-                                    }
-                                }
+                        // 手动解析k参数值（避免URLComponents旧系统兼容问题）
+                        if let kParamStart = code.range(of: "k=")?.upperBound {
+                            // 找到k参数的结束位置（&符号或字符串结尾）
+                            let kParamEnd = code[kParamStart...].range(of: "&")?.lowerBound ?? code.endIndex
+                            let kValueStr = String(code[kParamStart..<kParamEnd])
+                            XLogger.shared.log("解析k参数的原始值：\(kValueStr)")
+                            
+                            // 按|分割字符串，获取所有部分
+                            let components = kValueStr.components(separatedBy: "|")
+                            
+                            // 检查是否有足够的部分
+                            guard components.count >= 2 else {
+                                XLogger.shared.log("扫描的结果有错误1：参数k的值格式不正确，至少需要3个|分隔的部分，实际有\(components.count)个")
+                                self?.dismiss(animated: true, completion: nil)
+                                return
                             }
+                            
+                            // 提取各个部分并去除首尾空格
+                            let macAddress = components[0].trimmingCharacters(in: .whitespacesAndNewlines)
+                            let deviceName = components[1].trimmingCharacters(in: .whitespacesAndNewlines)
+                            
+                            XLogger.shared.log("解析到的mac地址是：\(macAddress)")
+                            XLogger.shared.log("解析到的设备名称是：\(deviceName)")
+                            
+                            if XGZTBlueToothManager.shared.isCurrentBleStateOFF() {
+                                Toast(text: "ble_off".localized()).show()
+                                XLogger.shared.log("蓝牙没有开启")
+                            } else {
+                                // 可以根据需要使用所有解析出的参数
+                                XGZTBlueToothManager.shared.connectAndScan(to: macAddress, deviceName: deviceName)
+                            }
+                        } else {
+                            XLogger.shared.log("扫描的结果有错误2：未找到k参数")
+                            self?.dismiss(animated: true, completion: nil)
                         }
+
                     } else {
                         XLogger.shared.log("扫描的结果是无设备")
                     }

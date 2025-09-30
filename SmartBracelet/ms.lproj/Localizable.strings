@@ -413,3 +413,12 @@
 "select_device_scan_desc" = "Mencari peranti yang可用";
 "select_device_add_manual" = "Tambah secara manual";
 "select_device_add_automatic" = "Tambah dengan imbasan";
+"cardbag"="Beg Kad";
+"alipay"="Alipay";
+"bindtip"="Langkah-langkah Pengikatan:\n1. Buka aplikasi, pergi ke halaman pembayaran dan simpan kod pengumpulan ke telefon anda secara tempatan; (Anda mesti klik secara manual untuk menyimpan kod pengumpulan, tangkapan skrin tidak sah);\n2. Klik kawasan kod QR di atas untuk menambah atau mengganti kod QR;\n3. Klik butang pengikatan di bawah untuk mengikat kod QR kepada jam tangan; Klik saya";
+"gotobind"="Pergi ke Pengikatan";
+"shibie_fail"="Pengenalan Gagal";
+"i_know"="Faham";
+"send_success"="Hantar Berjaya";
+"send_fail"="Hantar Gagal";
+"ota"="Kemas kini Firmware";

@@ -240,3 +240,12 @@
 "select_device_scan_desc" = "Ricerca di dispositivi disponibili";
 "select_device_add_manual" = "Aggiungi manualmente";
 "select_device_add_automatic" = "Scansiona per aggiungere";
+"cardbag"="Borsa per carte";
+"alipay"="Alipay";
+"bindtip"="Passaggi di collegamento:\n1. Apri l'app, vai alla pagina di pagamento e salva il codice di raccolta sul tuo telefono localmente; (Devi fare clic manualmente per salvare il codice di raccolta, gli screenshot non sono validi);\n2. Fai clic sull'area del codice QR sopra per aggiungere o sostituire il codice QR;\n3. Fai clic sul pulsante di collegamento below per collegare il codice QR all'orologio; Cliccami";
+"gotobind"="Vai al collegamento";
+"shibie_fail"="Riconoscimento fallito";
+"i_know"="Capito";
+"send_success"="Inviato con successo";
+"send_fail"="Invio fallito";
+"ota"="Aggiornamento del Firmware";

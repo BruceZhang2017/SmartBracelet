@@ -51,6 +51,8 @@ class MTabBarController: UITabBarController {
         ToastView.appearance().textColor = UIColor.white
         ToastView.appearance().textInsets = UIEdgeInsets(top: 12, left: 20, bottom: 12, right: 20)
         
+        BluetoothWatchDevice.loadAll() // 加载一下缓存信息
+        
     }
     
     // 设置最后连接的设备MAC地址
@@ -107,7 +109,7 @@ class MTabBarController: UITabBarController {
         let and = "and".localized()
         let fullText = "\(pp) \(and) \(up)"
         let attributedString = NSMutableAttributedString(string: fullText)
-        attributedString.SetAsLink(textToFind: pp, linkURL: "http://www.sinophy.com/arc_syzc.html")
+        attributedString.SetAsLink(textToFind: pp, linkURL: "https://u-watch.com.cn/u-watch_privacy_protection.html")
         attributedString.SetAsLink(textToFind: up, linkURL: "http://www.sinophy.com/arc_yhxy.html")
         
         // 优化段落样式和字体属性的设置

@@ -35,8 +35,8 @@ class DevicesView: UIView {
         cardImgView.snp.makeConstraints { make in
             make.width.equalTo(88)
             make.height.equalTo(88)
-            make.centerX.equalToSuperview()
-            make.top.equalTo(20)
+            make.centerY.equalToSuperview()
+            make.leading.equalTo(0)
         }
         
     
@@ -56,8 +56,8 @@ class DevicesView: UIView {
         
         // 设置 stackView 的约束
         NSLayoutConstraint.activate([
-            stackView.topAnchor.constraint(equalTo: cardImgView.bottomAnchor, constant: 10),
-            stackView.centerXAnchor.constraint(equalTo: self.centerXAnchor)
+            stackView.leadingAnchor.constraint(equalTo: cardImgView.trailingAnchor, constant: 5),
+            stackView.topAnchor.constraint(equalTo: cardImgView.topAnchor, constant: 10)
         ])
         
         macLabel.textColor = UIColor.text_primary
@@ -67,8 +67,8 @@ class DevicesView: UIView {
         addSubview(macLabel)
         
         macLabel.snp.makeConstraints { make in
-            make.top.equalTo(stackView.snp.bottom).offset(10)
-            make.centerX.equalTo(stackView)
+            make.leading.equalTo(stackView.snp.trailing).offset(30)
+            make.centerY.equalTo(stackView)
         }
         
         addSubview(btImgView)

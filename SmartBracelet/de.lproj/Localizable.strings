@@ -414,3 +414,12 @@
 "select_device_scan_desc" = "Wird verfügbare Geräte gesucht";
 "select_device_add_manual" = "Manuell hinzufügen";
 "select_device_add_automatic" = "Scannen zum Hinzufügen";
+"cardbag"="Kartentasche";
+"alipay"="Alipay";
+"bindtip"="Bindungsschritte:\n1. Öffnen Sie die App, gehen Sie zur Zahlungsseite und speichern Sie den Sammelcode lokal auf Ihrem Handy; (Sie müssen manuell auf den Sammelcode klicken, um ihn zu speichern, Screenshots sind ungültig);\n2. Klicken Sie auf den QR-Code-Bereich oben, um den QR-Code hinzuzufügen oder zu ersetzen;\n3. Klicken Sie auf die Bindungstaste unten, um den QR-Code mit der Uhr zu verbinden; Klicken Sie mich";
+"gotobind"="Zur Bindung gehen";
+"shibie_fail"="Erkennung fehlgeschlagen";
+"i_know"="Verstanden";
+"send_success"="Erfolgreich gesendet";
+"send_fail"="Senden fehlgeschlagen";
+"ota"="Firmware-Update";

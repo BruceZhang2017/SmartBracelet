@@ -239,3 +239,12 @@
 "select_device_scan_desc" = "Otsitakse saadaval olevaid seadmeid";
 "select_device_add_manual" = "Lisa käsitsi";
 "select_device_add_automatic" = "SkanniLisa";
+"cardbag"="Kaartide kott";
+"alipay"="Alipay";
+"bindtip"="Ühendamisetapid:\n1. Ava rakendus, mine makselehele ja salvesta kogukood lokaalselt oma telefonipeale; (Peate kogukoodi salvestamiseks käsitsi klõpsutama, ekraanipildid ei ole kehtivad);\n2. Klõpsa ülaloleval QR-koodi piirkonnal, et lisada või asendada QR-koodi;\n3. Klõpsa alloleval ühendamisnupul, et ühendada QR-kood kellaga; Klõpsa mind";
+"gotobind"="Mine ühendamiseni";
+"shibie_fail"="Tunnistus ebaõnnestus";
+"i_know"="Sain aru";
+"send_success"="Saadetud edukalt";
+"send_fail"="Saamine ebaõnnestus";
+"ota"="Firmwaren uuendus";

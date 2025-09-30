@@ -413,3 +413,12 @@
 "select_device_scan_desc" = "Werkbare apparaten worden gezocht";
 "select_device_add_manual" = "Handmatig toevoegen";
 "select_device_add_automatic" = "Scannen om toe te voegen";
+"cardbag"="Kaarttas";
+"alipay"="Alipay";
+"bindtip"="Bindstappen:\n1. Open de app, ga naar de betalingspagina en sla de verzamelcode lokaal op je telefoon op; (Je moet handmatig klikken om de verzamelcode op te slaan, screenshots zijn ongeldig);\n2. Klik op het QR-codegebied hierboven om de QR-code toe te voegen of te vervangen;\n3. Klik op de bindknop hieronder om de QR-code aan de watch te binden; Klik me";
+"gotobind"="Ga naar binden";
+"shibie_fail"="Herkenning mislukt";
+"i_know"="Begrepen";
+"send_success"="Succesvol verzonden";
+"send_fail"="Verzending mislukt";
+"ota"="Firmware-update";

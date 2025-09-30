@@ -248,3 +248,12 @@
 "select_device_scan_desc" = "Ieškoma galimų įrenginių";
 "select_device_add_manual" = "Įdėti rankiniu būdu";
 "select_device_add_automatic" = "Skenuoti, kad įdėtų";
+"cardbag"="Kortelių dėžutė";
+"alipay"="Alipay";
+"bindtip"="Prijungimo žingsniai:\n1. Atidarykite programą, eikite į mokėjimo puslapį ir išsaugokite surinkimo kodą lokališkai savo telefonui; (Jūs turite rankiniu būdu spustelėti, kad išsaugotumėte surinkimo kodą, ekrano nuotraukos neteisingos);\n2. Spustelėkite viršutinę QR kodo sritį, kad pridėtumėte arba pakeistumėte QR kodą;\n3. Spustelėkite apatinį prijungimo mygtuką, kad prijungtumėte QR kodą prie laikrodžio; Spustelėkite mane";
+"gotobind"="Eiti į prijungimą";
+"shibie_fail"="Atpažinimas nepavyko";
+"i_know"="Supratau";
+"send_success"="Siųsta sėkmingai";
+"send_fail"="Siuntimas nepavyko";
+"ota"="Firmwaren atnaujinimas";

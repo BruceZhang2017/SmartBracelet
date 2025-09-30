@@ -249,3 +249,12 @@
 "select_device_scan_desc" = "Elérhető eszközök keresése";
 "select_device_add_manual" = "Kézzel ad hozzá";
 "select_device_add_automatic" = "Lecsekkent hozzáadás";
+"cardbag"="Kártyatáska";
+"alipay"="Alipay";
+"bindtip"="Kapcsolási lépések:\n1. Nyissa meg az alkalmazást, menj a fizetési oldalra, és mentsse el a gyűjtő kódot helyileg a telefonján; (Manuálisan kell kattintania a gyűjtő kód mentéséhez, a képernyőképek érvénytelenek);\n2. Kattintson a fenti QR kód területére a QR kód hozzáadásához vagy cseréjéhez;\n3. Kattintson az alsó kapcsolási gombra a QR kód órához való kapcsolásához; Kattints rám";
+"gotobind"="Menjen a kapcsoláshoz";
+"shibie_fail"="Az azonosítás sikertelen";
+"i_know"="Tudom";
+"send_success"="Sikeresen elküldve";
+"send_fail"="A küldés sikertelen";
+"ota"="Firmware frissítése";

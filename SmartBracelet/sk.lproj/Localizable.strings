@@ -249,3 +249,12 @@
 "select_device_scan_desc" = "Hľadanie dostupných zariadení";
 "select_device_add_manual" = "Pridať ručne";
 "select_device_add_automatic" = "Skenovať na pridanie";
+"cardbag"="Kartónka";
+"alipay"="Alipay";
+"bindtip"="Kroky väzby:\n1. Otvorte aplikáciu, prejdite na stránku platby a uložte zhromažďovaciu kód lokálne do vášho telefónu; (Musíte ručne kliknúť, aby ste uložili zhromažďovaciu kód, snímky obrazovky nie sú platné);\n2. Kliknite na oblasť QR kódu vyššie, ak chcete pridať alebo zmeniť QR kód;\n3. Kliknite na tlačidlo väzby nižšie, aby ste naviazali QR kód s hodinami; Kliknite ma";
+"gotobind"="Ísť na väzbu";
+"shibie_fail"="Rozpoznanie zlyhalo";
+"i_know"="Pochopil som";
+"send_success"="Úspešne odoslané";
+"send_fail"="Odosielanie zlyhalo";
+"ota"="Aktualizácia firmware";

@@ -413,3 +413,12 @@
 "select_device_scan_desc" = "正在搜尋可用設備";
 "select_device_add_manual" = "手動添加";
 "select_device_add_automatic" = "掃碼添加";
+"cardbag"="卡包";
+"alipay"="支付寶";
+"bindtip"="綁定步驟:\n1. 打開應用，去支付頁面保存收款碼到手機本地；(必須手動點擊保存收款碼進行保存,截圖無效);\n2. 點擊上方二維碼區域，添加或更換二維碼；\n3. 點擊下方綁定按鈕，將二維碼綁定至手錶；點我";
+"gotobind"="去綁定";
+"shibie_fail"="識別失敗";
+"i_know"="知道了";
+"send_success"="發送成功";
+"send_fail"="發送失敗";
+"ota"="固件更新";

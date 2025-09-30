@@ -249,3 +249,12 @@
 "select_device_scan_desc" = "Letar efter tillgängliga enheter";
 "select_device_add_manual" = "Lägg till manuellt";
 "select_device_add_automatic" = "Skanna för att lägga till";
+"cardbag"="Kortväska";
+"alipay"="Alipay";
+"bindtip"="Bindningssteg:\n1. Öppna appen, gå till betalningssidan och spara insamlingskoden lokalt på din telefon; (Du måste klicka manuellt för att spara insamlingskoden, skärmbilder är ogiltiga);\n2. Klicka på QR-kodområdet ovanför för att lägga till eller ersätta QR-koden;\n3. Klicka på bindningsknappen nedanför för att binda QR-koden till klockan; Klicka mig";
+"gotobind"="Gå till bindning";
+"shibie_fail"="Identifiering misslyckades";
+"i_know"="Förstått";
+"send_success"="Skickat framgångsrikt";
+"send_fail"="Sändning misslyckades";
+"ota"="Firmware-uppdatering";

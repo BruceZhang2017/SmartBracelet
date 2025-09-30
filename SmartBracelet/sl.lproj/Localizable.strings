@@ -249,3 +249,12 @@
 "select_device_scan_desc" = "Iskanje dostopnih naprav";
 "select_device_add_manual" = "Dodaj ročno";
 "select_device_add_automatic" = "Skeniraj za dodajanje";
+"cardbag"="Kartična torba";
+"alipay"="Alipay";
+"bindtip"=" koraki za povezavo:\n1. Odprite aplikacijo, glejte na stran za plačilo in shranite kodo za zbiranje na svoj telefon lokalno; (Morate ročno klikniti, da shranite kodo za zbiranje, posnetki zaslona niso veljavni);\n2. Kliknite na območje QR kode zgoraj, da dodate ali zamenjate QR kodo;\n3. Kliknite na gumb za povezavo spodaj, da povežete QR kodo z urami; Klikni me";
+"gotobind"="Pojdi na povezavo";
+"shibie_fail"="Prepoznavanje ni uspelo";
+"i_know"="Razumem";
+"send_success"="Uspešno poslano";
+"send_fail"="Pošiljanje ni uspelo";
+"ota"="FPosodobitev firmware-a";

@@ -157,6 +157,26 @@ public class BluetoothWatchDevice {
         return device
     }
     
+    // 新增：从沙盒读取指定设备名称的设备信息
+    // 如果存在多个同名设备，返回第一个匹配项
+    static func loadFromSandbox(deviceName: String) -> BluetoothWatchDevice? {
+        let defaults = UserDefaults.standard
+        let dic = defaults.dictionary(forKey: "xgzt") as? [String: String] ?? [:]
+        
+        // 遍历查找名称匹配的设备
+        for (mac, name) in dic {
+            if name == deviceName {
+                let device = BluetoothWatchDevice()
+                device.deviceName = name
+                device.max = mac
+                return device
+            }
+        }
+        
+        // 未找到匹配的设备
+        return nil
+    }
+
     static func deleteFromSandbox(mac: String) {
         let defaults = UserDefaults.standard
         var dic = defaults.dictionary(forKey: "xgzt") as? [String: String] ?? [:]

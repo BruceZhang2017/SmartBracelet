@@ -248,3 +248,12 @@
 "select_device_scan_desc" = "Meklē pieejamus ierīkus";
 "select_device_add_manual" = "Pievienot manuāli";
 "select_device_add_automatic" = "Skenēt, lai pievienotu";
+"cardbag"="Kartīšu soma";
+"alipay"="Alipay";
+"bindtip"="Pievienošanas soļi:\n1. Atveriet lietotni, dodieties uz maksājumu lapu un saglabājiet savienojuma kodu lokāli savā telefonā; (Jums manuāli jāspiež, lai saglabātu savienojuma kodu, ekrāna attēli nav derīgi);\n2. Spiežiet uz augšējo QR koda laukumu, lai pievienotu vai nomainītu QR kodu;\n3. Spiežiet uz apakšējo pievienošanas pogas, lai pievienotu QR kodu pulkstenim; Spiežiet mani";
+"gotobind"="Iet uz pievienošanu";
+"shibie_fail"="Atpazīšana neizdevās";
+"i_know"="Pamanīju";
+"send_success"="Nosūtīts veiksmīgi";
+"send_fail"="Sūtīšana neizdevās";
+"ota"="Firmwaren atjauninājums";

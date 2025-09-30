@@ -136,14 +136,22 @@ class XGZTBlueToothManager: NSObject, CBCentralManagerDelegate, CBPeripheralDele
         }
     }
     
-    func connectAndScan(to macAddress: String) {
-        if let peripheral = centralManager?.retrieveConnectedPeripherals(withServices: [CBUUID(string: "0000FF12-0000-1000-8000-00805F9B34FB")]).first {
-            let peripheralInfo = PeripheralInfo(peripheral: peripheral, macAddress: macAddress)
-            discoveredPeripherals.append(peripheralInfo)
-            XLogger.shared.log("连接指定的mac地址\(macAddress)的蓝牙设备4")
-            centralManager?.connect(peripheral, options: nil)
-            scanMacAddress = ""
-            return
+    func connectAndScan(to macAddress: String, deviceName: String) {
+        if let peripherals = centralManager?.retrieveConnectedPeripherals(withServices: [CBUUID(string: "0000FF12-0000-1000-8000-00805F9B34FB")]) {
+            for peripheral in peripherals {
+                if peripheral.name == deviceName {
+                    if let dd = BluetoothWatchDevice.loadFromSandbox(deviceName: deviceName) {
+                        if dd.max == macAddress {
+                            let peripheralInfo = PeripheralInfo(peripheral: peripheral, macAddress: macAddress)
+                            discoveredPeripherals.append(peripheralInfo)
+                            XLogger.shared.log("连接指定的mac地址\(macAddress)的蓝牙设备4")
+                            centralManager?.connect(peripheral, options: nil)
+                            scanMacAddress = ""
+                            return
+                        }
+                    }
+                }
+            }
         } else {
             XLogger.shared.log("No known peripheral found")
         }
@@ -179,7 +187,7 @@ class XGZTBlueToothManager: NSObject, CBCentralManagerDelegate, CBPeripheralDele
             XLogger.shared.log("终止执行1: \(lastestDeviceMac) \(device != nil) \(mac)")
             return
         }
-        if let peripheral = centralManager?.retrieveConnectedPeripherals(withServices: [CBUUID(string: "0000FF12-0000-1000-8000-00805F9B34FB")]).first {
+        if let peripherals = centralManager?.retrieveConnectedPeripherals(withServices: [CBUUID(string: "0000FF12-0000-1000-8000-00805F9B34FB")]) {
             if mac.count > 0 {
 //                let peripheralInfo = PeripheralInfo(peripheral: peripheral, macAddress: mac)
 //                discoveredPeripherals.append(peripheralInfo)
@@ -191,10 +199,17 @@ class XGZTBlueToothManager: NSObject, CBCentralManagerDelegate, CBPeripheralDele
                     XLogger.shared.log("终止执行2")
                     return
                 }
-                let peripheralInfo = PeripheralInfo(peripheral: peripheral, macAddress: lastestDeviceMac)
-                discoveredPeripherals.append(peripheralInfo)
-                XLogger.shared.log("连接指定的mac地址\(lastestDeviceMac)的蓝牙设备5")
-                centralManager?.connect(peripheral, options: nil)
+                for peripheral in peripherals {
+                    if lastestDeviceMac.count > 0, let d = BluetoothWatchDevice.loadFromSandbox(mac: lastestDeviceMac) {
+                        XLogger.shared.log("设备名称：\(peripheral.name ?? "未知") 和 \(d.deviceName ?? "为空")")
+                        if peripheral.name == d.deviceName ?? "e watch" {
+                            let peripheralInfo = PeripheralInfo(peripheral: peripheral, macAddress: lastestDeviceMac)
+                            discoveredPeripherals.append(peripheralInfo)
+                            XLogger.shared.log("连接指定的mac地址\(lastestDeviceMac)的蓝牙设备5")
+                            centralManager?.connect(peripheral, options: nil)
+                        }
+                    }
+                }
             }
             
         } else {
@@ -331,7 +346,7 @@ class XGZTBlueToothManager: NSObject, CBCentralManagerDelegate, CBPeripheralDele
                 if lastestDeviceMac.count > 0 {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                         [weak self] in
-                        self?.connectAndScan(to: lastestDeviceMac)
+                        self?.connectAndScan(to: lastestDeviceMac, deviceName: peripheral.name ?? "e watch")
                     }
                 }
                 isFromOTASuccess = false
@@ -385,8 +400,10 @@ class XGZTBlueToothManager: NSObject, CBCentralManagerDelegate, CBPeripheralDele
             }
             if scanMacAddress.count > 0 && macAddress.lowercased() == scanMacAddress.lowercased() {
                 XLogger.shared.log("连接指定的mac地址\(scanMacAddress)的蓝牙设备6")
-                centralManager?.connect(peripheral, options: nil)
-                scanMacAddress = ""
+                if (peripheral.name?.count ?? 0) > 0 {
+                    centralManager?.connect(peripheral, options: nil)
+                    scanMacAddress = ""
+                }
             }
         }
     }

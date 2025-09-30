@@ -415,3 +415,12 @@
 "select_device_scan_desc" = "Searching for available devices";
 "select_device_add_manual" = "Add Manually";
 "select_device_add_automatic" = "Scan to Add";
+"cardbag"="Card Wallet";
+"alipay"="Alipay";
+"bindtip"="Binding Steps:\n1. Open the app, go to the payment page and save the collection code to your phone locally; (You must manually click to save the collection code, screenshots are invalid);\n2. Click the QR code area above to add or replace the QR code;\n3. Click the binding button below to bind the QR code to the watch; Click me";
+"gotobind"="Go to Bind";
+"shibie_fail"="Recognition Failed";
+"i_know"="Got it";
+"send_success"="Sent Successfully";
+"send_fail"="Sending Failed";
+"ota"="Firmware Update";

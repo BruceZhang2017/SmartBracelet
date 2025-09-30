@@ -413,3 +413,12 @@
 "select_device_scan_desc" = "Wird verfügbare Geräte gesucht";
 "select_device_add_manual" = "Manuell hinzufügen";
 "select_device_add_automatic" = "Scannen zum Hinzufügen";
+"cardbag"="Sac à cartes";
+"alipay"="Alipay";
+"bindtip"="Étapes de liaison:\n1. Ouvrez l'application, allez à la page de paiement et enregistrez le code de collecte sur votre téléphone localement; (Vous devez cliquer manuellement pour enregistrer le code de collecte, les captures d'écran ne sont pas valides);\n2. Cliquez sur la zone du code QR ci-dessus pour ajouter ou remplacer le code QR;\n3. Cliquez sur le bouton de liaison ci-dessous pour lier le code QR à la montre; Cliquez-moi";
+"gotobind"="Aller lier";
+"shibie_fail"="Reconnaissance échouée";
+"i_know"="Compris";
+"send_success"="Envoyé avec succès";
+"send_fail"="Échec de l'envoi";
+"ota"="Mise à jour du firmware";

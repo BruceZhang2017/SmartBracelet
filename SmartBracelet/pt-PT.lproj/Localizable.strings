@@ -413,3 +413,12 @@
 "select_device_scan_desc" = "Procurando dispositivos disponíveis";
 "select_device_add_manual" = "Adicionar manualmente";
 "select_device_add_automatic" = "Adicionar por scan";
+"cardbag"="Bolsa de cartões";
+"alipay"="Alipay";
+"bindtip"="Passos de vinculação:\n1. Abra o aplicativo, vá para a página de pagamento e salve o código de cobrança no seu telefone localmente; (Você deve clicar manualmente para salvar o código de cobrança, screenshots não são válidos);\n2. Clique na área do código QR acima para adicionar ou substituir o código QR;\n3. Clique no botão de vinculação abaixo para vincular o código QR ao relógio; Clique em mim";
+"gotobind"="Ir para vinculação";
+"shibie_fail"="Reconhecimento falhou";
+"i_know"="Entendi";
+"send_success"="Enviado com sucesso";
+"send_fail"="Falha no envio";
+"ota"="Atualização de Firmware";

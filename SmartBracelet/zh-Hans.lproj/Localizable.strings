@@ -423,3 +423,12 @@
 "select_device_scan_desc" = "正在搜索可用设备";
 "select_device_add_manual" = "手动添加";
 "select_device_add_automatic" = "扫码添加";
+"cardbag"="卡包";
+"alipay"="支付宝";
+"bindtip"="绑定步骤:\n1. 打开应用，去支付页面保存收款码到手机本地；(必须手动点击保存收款码进行保存,截图无效);\n2. 点击上方二维码区域，添加或更换二维码；\n3. 点击下方绑定按钮，将二维码绑定至手表；点我";
+"gotobind"="去绑定";
+"shibie_fail"="识别失败";
+"i_know"="知道了";
+"send_success"="发送成功";
+"send_fail"="发送失败";
+"ota"="固件更新";

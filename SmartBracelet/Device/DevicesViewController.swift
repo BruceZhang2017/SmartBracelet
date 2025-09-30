@@ -23,17 +23,15 @@ class DevicesViewController: BaseViewController, UIDocumentInteractionController
     @IBOutlet weak var dialManagmentLabel: UILabel!
     @IBOutlet weak var bottomLConstraint: NSLayoutConstraint!
     @IBOutlet weak var dialView: UIView!
-    @IBOutlet weak var deviceBGImageView: UIImageView!
     @IBOutlet weak var btView: UIView!
     let changeButton = UIButton(type: .system)
-    let dialButton = VerticalButton(type: .system)
     let btButton = UIButton(type: .system)
     var deviceSettingView: UIView? // 设备设置的视图
     var deviceView: DevicesView!
     var clockArray: [String] = []
     var width: CGFloat = 90
     var height: CGFloat = 150
-    var deviceSettingsViewHeightMultiplier = 13
+    var deviceSettingsViewHeightMultiplier = 10
     var deviceSettingsView: DeviceSettingsViewController?
     var lblTitle: UILabel?
     var refreshTimer: DispatchSourceTimer?
@@ -49,7 +47,6 @@ class DevicesViewController: BaseViewController, UIDocumentInteractionController
                name: AVAudioSession.routeChangeNotification,
                object: nil
            )
-        BluetoothWatchDevice.loadAll() // 加载一下缓存信息
         deviceView = DevicesView().then {
             $0.backgroundColor = UIColor.white
             $0.layer.cornerRadius = 16
@@ -71,11 +68,6 @@ class DevicesViewController: BaseViewController, UIDocumentInteractionController
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: Notification.Name("DevicesViewController"), object: nil)
         dialManagmentLabel.text = "dial_management".localized()
         initializeDeviceSettings()
-        
-        let randomBool = Bool.random()
-        deviceBGImageView.image = UIImage(named: randomBool ? "device_bg1" : "device_bg2")
-        deviceBGImageView.layer.cornerRadius = 16
-        deviceBGImageView.clipsToBounds = true
         
         dialView.layer.cornerRadius = 16
         dialView.clipsToBounds = true
@@ -106,7 +98,6 @@ class DevicesViewController: BaseViewController, UIDocumentInteractionController
         
         
         addChangeButton() // 切换设备
-        addDialButton() // 添加表盘
         changeButtonAttr() // 切换设备入口
         
         width = (ScreenWidth - 60) / 3
@@ -139,7 +130,7 @@ class DevicesViewController: BaseViewController, UIDocumentInteractionController
         documentController = UIDocumentInteractionController(url: fileURL)
         documentController?.delegate = self
         
-//        // 创建按钮
+        // 创建按钮
 //            let button = UIBarButtonItem(
 //                title: "日志",
 //                style: .plain,
@@ -227,13 +218,6 @@ class DevicesViewController: BaseViewController, UIDocumentInteractionController
             clockArray.removeAll()
         }
         collectionView?.reloadData()
-        if checkIsNullForDial() {
-            collectionView?.isHidden = true
-            dialButton.isHidden = false
-        } else {
-            collectionView?.isHidden = false
-            dialButton.isHidden = true
-        }
     }
     
     private func checkIsNullForDial() -> Bool {
@@ -322,36 +306,39 @@ class DevicesViewController: BaseViewController, UIDocumentInteractionController
             $0.height.equalTo(20)
         }
         
-        let storyboard = UIStoryboard(name: "Device", bundle: nil)
-        deviceSettingsView = storyboard.instantiateViewController(withIdentifier: "DeviceSettingsViewController") as? DeviceSettingsViewController
+        deviceSettingsView = DeviceSettingsViewController()
         addChild(deviceSettingsView!)
         deviceSettingView?.addSubview(deviceSettingsView!.view)
         deviceSettingsView?.view.snp.makeConstraints {
             $0.left.equalTo(0)
             $0.top.equalTo(lblTitle!.snp.bottom).offset(10)
             $0.right.equalTo(0)
-            $0.height.equalTo(52 * deviceSettingsViewHeightMultiplier)
+            $0.height.equalTo(80 * deviceSettingsViewHeightMultiplier)
             $0.bottom.equalToSuperview()
         }
-        bottomLConstraint.constant = CGFloat(52 * deviceSettingsViewHeightMultiplier + 70)
+        bottomLConstraint.constant = CGFloat(80 * deviceSettingsViewHeightMultiplier + 70)
     }
     
     public func refreshHeight() {
         // 将 deviceSettingsViewHeightMultiplier 修改为 14
-        deviceSettingsViewHeightMultiplier = 15
+        if ((XGZTBlueToothManager.shared.device?.functioncontrolflags ?? 0) >> 15 & 0x0f) > 0 {
+            deviceSettingsViewHeightMultiplier = 10
+        } else {
+            deviceSettingsViewHeightMultiplier = 9
+        }
             
         deviceSettingsView?.view.snp.remakeConstraints {
             $0.left.equalTo(0)
             $0.top.equalTo(lblTitle!.snp.bottom).offset(10)
             $0.right.equalTo(0)
-            $0.height.equalTo(52 * deviceSettingsViewHeightMultiplier)
+            $0.height.equalTo(80 * deviceSettingsViewHeightMultiplier)
             $0.bottom.equalToSuperview()
         }
         updateDeviceSettingsViewBottomConstraint()
     }
     
     private func updateDeviceSettingsViewBottomConstraint() {
-        bottomLConstraint.constant = CGFloat(52 * deviceSettingsViewHeightMultiplier + 70)
+        bottomLConstraint.constant = CGFloat(80 * deviceSettingsViewHeightMultiplier + 70)
     }
     
     public func addChangeButton() {
@@ -363,7 +350,8 @@ class DevicesViewController: BaseViewController, UIDocumentInteractionController
         changeButton.layer.borderColor = UIColor.brand.cgColor
         changeButton.layer.borderWidth = 1.0
         changeButton.backgroundColor = .white
-        changeButton.layer.cornerRadius = 22
+        changeButton.layer.cornerRadius = 15
+        changeButton.titleLabel?.font = UIFont.systemFont(ofSize: 14)
         // 设置图标的内边距
         changeButton.imageEdgeInsets = UIEdgeInsets(
             top: 0,
@@ -383,8 +371,8 @@ class DevicesViewController: BaseViewController, UIDocumentInteractionController
         topView.addSubview(changeButton)
         changeButton.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.width.equalTo(150)
-            make.height.equalTo(44)
+            make.width.equalTo(120)
+            make.height.equalTo(30)
             make.bottom.equalTo(-20)
         }
         changeButton.addTarget(self, action: #selector(addDevice), for: .touchUpInside)
@@ -392,6 +380,10 @@ class DevicesViewController: BaseViewController, UIDocumentInteractionController
     
     private func changeButtonAttr() {
         if deviceView.isHidden == true {
+            deviceSettingView?.isHidden = true
+            btView.isHidden = true
+            collectionView.isHidden = true
+            dialView.isHidden = true
             changeButton.tintColor = UIColor.white
             changeButton.backgroundColor = .brand
             changeButton.setTitle("device_add".localized(), for: .normal)
@@ -400,6 +392,10 @@ class DevicesViewController: BaseViewController, UIDocumentInteractionController
             }
             changeButton.tag = 1
         } else {
+            deviceSettingView?.isHidden = false
+            btView.isHidden = false
+            collectionView.isHidden = false
+            dialView.isHidden = false
             changeButton.tintColor = UIColor.brand
             changeButton.backgroundColor = .white
             changeButton.setTitle("deivce_unbind".localized(), for: .normal)
@@ -410,27 +406,15 @@ class DevicesViewController: BaseViewController, UIDocumentInteractionController
         }
     }
     
-    // 添加表盘按钮
-    public func addDialButton() {
-        dialButton.setTitle("add_dial".localized(), for: .normal)
-        if let image = UIImage(named: "icon_add2") {
-            dialButton.setImage(image, for: .normal)
-        }
-        dialButton.tintColor = UIColor.brand
-        dialButton.backgroundColor = UIColor.fill
-        dialButton.layer.cornerRadius = 16
-        dialView.addSubview(dialButton)
-        dialButton.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
-            make.width.equalTo(screenWidth - 64)
-            make.height.equalTo(130)
-            make.top.equalTo(44)
-        }
-        dialButton.addTarget(self, action: #selector(pushToDial), for: .touchUpInside)
-    }
-    
     @objc private func handleNotification(_ notification: Notification) {
         if let obj = notification.object as? String, obj.count > 0 {
+            if obj == "1999" {
+                DispatchQueue.main.async {
+                    [weak self] in
+                    self?.refreshHeight()
+                }
+                return
+            }
             if obj == "2000" {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                     guard localMac.count > 0 else {
@@ -587,7 +571,7 @@ class DevicesViewController: BaseViewController, UIDocumentInteractionController
                                 }
                             } else {
                                 BLEManager.shared.startScan()
-                                Async.main(after: 1) {
+                                Async.main(after: 1.5) {
                                     if bleSelf.bleModels.count > 0 {
                                         for model in bleSelf.bleModels {
                                             let m = model.mac.replacingOccurrences(of: ":", with: "").lowercased()
@@ -613,20 +597,27 @@ class DevicesViewController: BaseViewController, UIDocumentInteractionController
                             let kValueStr = String(code[kParamStart..<kParamEnd])
                             XLogger.shared.log("解析k参数的原始值：\(kValueStr)")
                             
-                            guard let pipeIndex = kValueStr.firstIndex(of: "|") else {
-                                XLogger.shared.log("扫描的结果有错误1：参数k的值中未找到|分隔符")
+                            // 按|分割字符串，获取所有部分
+                            let components = kValueStr.components(separatedBy: "|")
+                            
+                            // 检查是否有足够的部分
+                            guard components.count >= 2 else {
+                                XLogger.shared.log("扫描的结果有错误1：参数k的值格式不正确，至少需要3个|分隔的部分，实际有\(components.count)个")
                                 self?.dismiss(animated: true, completion: nil)
                                 return
                             }
                             
-                            let macAddress = String(kValueStr[..<pipeIndex]).trimmingCharacters(in: .whitespacesAndNewlines)
+                            // 提取各个部分并去除首尾空格
+                            let macAddress = components[0].trimmingCharacters(in: .whitespacesAndNewlines)
+                            let deviceName = components[1].trimmingCharacters(in: .whitespacesAndNewlines)
                             XLogger.shared.log("解析到的mac地址是：\(macAddress)")
                             
                             if XGZTBlueToothManager.shared.isCurrentBleStateOFF() {
                                 Toast(text: "ble_off".localized()).show()
                                 XLogger.shared.log("蓝牙没有开启")
                             } else {
-                                XGZTBlueToothManager.shared.connectAndScan(to: macAddress)
+                                // 可以根据需要使用所有解析出的参数
+                                XGZTBlueToothManager.shared.connectAndScan(to: macAddress, deviceName: deviceName)
                             }
                         } else {
                             XLogger.shared.log("扫描的结果有错误2：未找到k参数")
@@ -805,7 +796,7 @@ extension DevicesViewController: UICollectionViewDataSource {
                 cell.clockImageView.isHidden = false
                 cell.addImageView.isHidden = true
                 cell.clockBGView.backgroundColor = UIColor.clear
-                if array[1].contains(".png") || array[1].contains(".jpg") || array[1].contains(".jpeg") {
+                if array[1].contains(".png") || array[1].contains(".jpg") || array[1].contains(".jpeg") || array[1].contains(".webp") {
                     XLogger.shared.log("保存的图片路径：\(array[1])")
                     if array[1].contains("Documents") {
                         cell.clockImageView.image = UIImage(contentsOfFile: array[1])

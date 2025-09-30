@@ -249,3 +249,12 @@
 "select_device_scan_desc" = "Hledání dostupných zařízení";
 "select_device_add_manual" = "Přidat ručně";
 "select_device_add_automatic" = "Skenovat pro přidání";
+"cardbag"="Kartová taška";
+"alipay"="Alipay";
+"bindtip"="Kroky pro spojení:\n1. Otevřete aplikaci, přejděte na stránku platby a uložte sbírkový kód lokálně do vašeho telefonu; (Musíte ručně kliknout, abyste uložili sbírkový kód, snímky obrazovky nejsou platné);\n2. Klikněte na oblast QR kódu výše, chcete-li přidat nebo změnit QR kód;\n3. Klikněte na tlačítko pro spojení níže, chcete-li spojit QR kód s hodinami; Klikněte na mě";
+"gotobind"="Jít na spojení";
+"shibie_fail"="Rozpoznání selhalo";
+"i_know"="Pochopil jsem";
+"send_success"="Úspěšně odesláno";
+"send_fail"="Odesílání selhalo";
+"ota"="Aktualizace firmware";

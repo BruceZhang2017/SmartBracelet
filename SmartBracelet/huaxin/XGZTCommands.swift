@@ -1220,6 +1220,9 @@ public class XGZTCommand {
                 let macAddressData = response[range]
                 let macAddress = macAddressData.map { String(format: "%02x", $0) }.joined(separator: ":").uppercased()
                 XLogger.shared.log("macAddress: \(macAddress)")
+                if !MACAddressComparator.isMatching(lastestDeviceMac, macAddress) {
+                    lastestDeviceMac = macAddress
+                }
                 return
             }
             if response.count >= 21 && response.count < 30 {
@@ -1227,6 +1230,9 @@ public class XGZTCommand {
                 let macAddressData = response[range]
                 let macAddress = macAddressData.map { String(format: "%02x", $0) }.joined(separator: ":").uppercased()
                 XLogger.shared.log("macAddress: \(macAddress)")
+                if !MACAddressComparator.isMatching(lastestDeviceMac, macAddress) {
+                    lastestDeviceMac = macAddress
+                }
                 return
             }
             if response.count == 41 {
@@ -1239,6 +1245,8 @@ public class XGZTCommand {
                 XGZTBlueToothManager.shared.device?.screenHeight = (Int(response[40]) << 8) | Int(response[39])
                 XGZTBlueToothManager.shared.device?.functioncontrolflags = getIntFromBytes(response, 10)
                 XGZTBlueToothManager.shared.device?.healthcontrolflags = getIntFromBytes(response, 14)
+                NotificationCenter.default.post(name: Notification.Name("DevicesViewController"), object: "1999")
+                XLogger.shared.log("firmwareVersion: \(XGZTBlueToothManager.shared.device?.firmwareVersion ?? "")")
             }
             guard response.count >= 45 else {
                 XLogger.shared.log("getDeviceInfo command response error")
@@ -1253,7 +1261,8 @@ public class XGZTCommand {
             XGZTBlueToothManager.shared.device?.screenHeight = (Int(response[44]) << 8) | Int(response[43])
             XGZTBlueToothManager.shared.device?.functioncontrolflags = getIntFromBytes(response, 14)
             XGZTBlueToothManager.shared.device?.healthcontrolflags = getIntFromBytes(response, 18)
-            
+            NotificationCenter.default.post(name: Notification.Name("DevicesViewController"), object: "1999")
+            XLogger.shared.log("firmwareVersion: \(XGZTBlueToothManager.shared.device?.firmwareVersion ?? "")")
         case.setAppInfo:
             guard response.count >= 7 else {
                 XLogger.shared.log("setAppInfo command response error")
@@ -1999,5 +2008,35 @@ class QRCodeSetCommand {
         commandData.append(contentsOf: qrData)
         
         return commandData
+    }
+}
+
+class MACAddressComparator {
+    /// 判断两个MAC地址的特定字节是否相同
+    /// - Parameters:
+    ///   - mac1: 第一个MAC地址字符串（格式如"AA:BB:CC:DD:EE:FF"）
+    ///   - mac2: 第二个MAC地址字符串（格式如"AA:BB:CC:DD:EE:FF"）
+    /// - Returns: 如果第1、2、3、5、6字节相同则返回true，否则返回false；格式不正确也返回false
+    static func isMatching(_ mac1: String, _ mac2: String) -> Bool {
+        // 分割MAC地址为字节数组
+        let components1 = mac1.components(separatedBy: ":")
+        let components2 = mac2.components(separatedBy: ":")
+        
+        // 验证MAC地址格式是否正确（必须包含6个字节）
+        guard components1.count == 6 && components2.count == 6 else {
+            return false
+        }
+        
+        // 需要比较的字节索引（0-based）
+        let indicesToCheck: [Int] = [0, 1, 2, 4, 5]
+        
+        // 检查每个指定索引的字节是否相同
+        for index in indicesToCheck {
+            if components1[index].uppercased() != components2[index].uppercased() {
+                return false
+            }
+        }
+        
+        return true
     }
 }

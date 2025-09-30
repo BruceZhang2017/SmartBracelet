@@ -10,9 +10,9 @@ import Foundation
 
 class XLogger {
     static let shared = XLogger() // 单例模式，方便全局调用
-    //private let logFileURL: URL
-    //private var fileHandle: FileHandle?
-    //private let lock = NSLock()  // 线程安全锁
+//    private let logFileURL: URL
+//    private var fileHandle: FileHandle?
+//    private let lock = NSLock()  // 线程安全锁
     
     private init() {
 //        let documentsDirectory = FileManager.default.urls(

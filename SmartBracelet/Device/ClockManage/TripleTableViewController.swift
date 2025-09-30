@@ -18,6 +18,7 @@ class TripleTableViewController: UIViewController {
     private let rightViewModel = RightViewModel()
     private var mResponse: Response<OTAData>?
     var current = 0
+    var otaStyle: [OTADictItem] = []
     
     // MARK: - 视图生命周期
     override func viewDidLoad() {
@@ -134,36 +135,26 @@ class TripleTableViewController: UIViewController {
         print("🔍 开始执行downloadStyle方法，准备下载样式数据")
         
         // 定义要上传的参数
-        let width = XGZTBlueToothManager.shared.device?.screenWidth ?? 240  // 根据实际需求设置
-        let height = 284 //XGZTBlueToothManager.shared.device?.screenHeight ?? 296 // 根据实际需求设置
+        let width = XGZTBlueToothManager.shared.device?.screenWidth ?? 240
+        let height = XGZTBlueToothManager.shared.device?.screenHeight ?? 284 // 根据实际需求设置的高度值
         
         // 打印请求参数日志
         print("📤 请求参数 - width: \(width), height: \(height)")
-        print("📡 请求URL: https://u-watch.com.cn/api/app/ota/otaType")
+        let urlString = "https://u-watch.com.cn/api/app/ota/otaType"
+        print("📡 请求URL: \(urlString)")
         
-        AF.upload(
-            multipartFormData: { multipartFormData in
-                // 添加width参数
-                if let widthData = "\(width)".data(using: .utf8) {
-                    multipartFormData.append(widthData, withName: "width")
-                    print("✅ 成功添加width参数到表单数据")
-                } else {
-                    print("❌ 转换width为数据失败")
-                }
-                
-                // 添加height参数
-                if let heightData = "\(height)".data(using: .utf8) {
-                    multipartFormData.append(heightData, withName: "height")
-                    print("✅ 成功添加height参数到表单数据")
-                } else {
-                    print("❌ 转换height为数据失败")
-                }
-                
-                // 如果需要添加其他参数，可以在这里继续添加
-                // multipartFormData.append(otherData, withName: "otherParam")
-            },
-            to: "https://u-watch.com.cn/api/app/ota/otaType?width=\(width)&height=\(height)",
-            method: .post
+        // 准备表单参数
+        let parameters: [String: Any] = [
+            "width": width,
+            "height": height
+        ]
+        
+        // 使用x-www-form-urlencoded格式发送POST请求
+        AF.request(
+            urlString,
+            method: .post,
+            parameters: parameters,
+            encoding: URLEncoding.default // 这是x-www-form-urlencoded的默认编码方式
         )
         .responseData { [weak self] response in
             guard let self = self else {
@@ -213,12 +204,23 @@ class TripleTableViewController: UIViewController {
                         print("⚠️ 未获取到有效的OTA类型数据")
                     }
                     
-                    self.middleTableView.reloadData()
                     print("🔄 刷新中间表格视图")
                     if mResponse?.data.otaStyle.count ?? 0 > 0 {
-                        self.rightCollectionView.isHidden = false 
-                        rightViewModel.style = mResponse?.data.otaStyle.first?.dictValue ?? ""
-                        self.fetchInitialData()
+                        let array = mResponse?.data.otaStyle.filter {
+                            (item) in
+                            if let value = item.value2 {
+                                return value.contains(self.rightViewModel.type)
+                            } else {
+                                return false
+                            }
+                        } ?? []
+                        self.otaStyle = array
+                        self.middleTableView.reloadData()
+                        if self.otaStyle.count > 0 {
+                            self.rightCollectionView.isHidden = false
+                            rightViewModel.style = self.otaStyle.first?.dictValue ?? ""
+                            self.fetchInitialData()
+                        }
                     }
                     print("🔄 调用fetchInitialData方法获取初始数据")
                     
@@ -254,6 +256,7 @@ class TripleTableViewController: UIViewController {
             print("📌 downloadStyle方法执行完毕")
         }
     }
+
 
     private func handleStyleResponse() {
         self.middleTableView.reloadData()
@@ -353,12 +356,26 @@ class TripleTableViewController: UIViewController {
     
     // 分段控制器值变化
     @objc private func segmentValueChanged() {
-        guard let selectedIndex = segmentControl.selectedSegmentIndex as? Int,
-              let types = mResponse?.data.otaType,
+        let selectedIndex = segmentControl.selectedSegmentIndex
+        guard let types = mResponse?.data.otaType,
               selectedIndex < types.count else { return }
         
         rightViewModel.type = types[selectedIndex].dictValue
-        fetchInitialData()
+        let array = mResponse?.data.otaStyle.filter {
+            (item) in
+            if let value = item.value2 {
+                return value.contains(rightViewModel.type)
+            } else {
+                return false
+            }
+        } ?? []
+        otaStyle = array
+        if otaStyle.count > 0 {
+            rightViewModel.style = otaStyle.first?.dictValue ?? ""
+            fetchInitialData()
+        }
+        selectedMiddleIndexPath = IndexPath(row: 0, section: 0)
+        middleTableView.reloadData()
     }
     
     // 更新选中状态
@@ -370,7 +387,7 @@ class TripleTableViewController: UIViewController {
             }
         }
         selectedMiddleIndexPath = indexPath
-        rightViewModel.style = mResponse?.data.otaStyle[indexPath.row].dictValue ?? ""
+        rightViewModel.style = otaStyle[indexPath.row].dictValue
         fetchInitialData()
         middleTableView.reloadData()
     }
@@ -388,19 +405,22 @@ extension TripleTableViewController: UITableViewDelegate, UITableViewDataSource 
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return mResponse?.data.otaStyle.count ?? 0
+        if rightViewModel.type.count == 0 {
+            return 0
+        }
+        return otaStyle.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "MiddleCell", for: indexPath)
-        let styleItem = mResponse?.data.otaStyle[indexPath.row]
-        cell.textLabel?.text = styleItem?.dictValue
+        let styleItem = otaStyle[indexPath.row]
+        cell.textLabel?.text = styleItem.dictValue
         cell.textLabel?.textAlignment = .left
         cell.textLabel?.font = UIFont.systemFont(ofSize: 14)
         // 设置支持两行显示
         cell.textLabel?.numberOfLines = 2
         cell.textLabel?.lineBreakMode = .byTruncatingTail
-        cell.backgroundColor = (selectedMiddleIndexPath == indexPath) ? .systemBlue.withAlphaComponent(0.5) : .clear
+        cell.backgroundColor = (selectedMiddleIndexPath == indexPath) ? UIColor.brand.withAlphaComponent(0.5) : .clear
         return cell
     }
     
@@ -426,6 +446,7 @@ extension TripleTableViewController: UICollectionViewDelegate, UICollectionViewD
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "RightCollectionCell", for: indexPath) as! RightCollectionCell
         let item = rightViewModel.items[indexPath.row]
         cell.configure(with: item)
+        cell.tag = indexPath.row
         return cell
     }
     
@@ -437,7 +458,7 @@ extension TripleTableViewController: UICollectionViewDelegate, UICollectionViewD
         let item = rightViewModel.items[indexPath.row]
         vc?.index = indexPath.row + 1 // 代表什么含义
         vc?.current = current
-        vc?.currentClock = ClockResponse(previewPic: item.previewImageUrl, resourcesUrl: item.dialBinUrl, resolutionRatio: "\(item.width ?? 0)*\(item.height ?? 0)", isPublish: "true")
+        vc?.currentClock = ClockResponse(previewPic: item.previewImageUrl?.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed), resourcesUrl: item.dialBinUrl?.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed), resolutionRatio: "\(item.width ?? 0)*\(item.height ?? 0)", isPublish: "true")
         parent?.navigationController?.pushViewController(vc!, animated: true)
     }
 }
@@ -475,10 +496,28 @@ class RightCollectionCell: UICollectionViewCell {
     }
     
     func configure(with item: ClockItem) {
-        if let url = item.previewImageUrl, let imageUrl = URL(string: url) {
-            itemImageView.kf.setImage(with: imageUrl, placeholder: UIImage(systemName: "photo"))
-        } else {
-            itemImageView.image = UIImage(systemName: "photo")
+        itemImageView.kf.cancelDownloadTask() // 取消之前的任务
+        // 设置默认占位图
+        itemImageView.image = UIImage(systemName: "photo")
+        
+        guard let urlString = item.previewImageUrl?.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed), let imageUrl = URL(string: urlString) else {
+            XLogger.shared.log("图片URL无效或为空: \(item.previewImageUrl ?? "nil")")
+            return
+        }
+        // 使用Kingfisher加载图片并处理结果
+        itemImageView.kf.setImage(with: imageUrl, options: [.forceRefresh]) { [weak self] result in
+            guard let self = self else { return }
+            
+            switch result {
+            case .success:
+                // 图片加载成功，无需额外操作
+                break
+            case .failure(let error):
+                // 打印详细的错误信息
+                XLogger.shared.log("图片加载失败 - URL: \(urlString), 原因: \(error.localizedDescription)")
+                // 确保失败时显示占位图
+                self.itemImageView.image = UIImage(systemName: "photo")
+            }
         }
     }
 }
@@ -486,7 +525,7 @@ class RightCollectionCell: UICollectionViewCell {
 // MARK: - 视图模型
 class RightViewModel {
     var items: [ClockItem] = []
-    var currentPage = 1
+    var currentPage = 0
     var isLoading = false
     var hasMoreData = true
     var type = ""
@@ -498,26 +537,27 @@ class RightViewModel {
         
         let urlString = "https://u-watch.com.cn/api/app/ota/v3/list"
         
-        // 打印请求参数
-        print("pageSize: 20")
-        print("width: \(screenWidth)")
-        print("height: \(screenHeight)")
-        print("shape: square")
-        print("type: \(type)")
-        print("style: \(style)")
+        // 构建请求参数字典
+        let parameters: [String: Any] = [
+            "pageSize": 20,
+            "pageNum": 0,
+            "width": screenWidth,
+            "height": screenHeight,
+            "shape": XGZTBlueToothManager.shared.device?.screenType == 1 ? "round" : "square",
+            "type": type,
+            "style": style
+        ]
         
-        AF.upload(
-            multipartFormData: { multipartFormData in
-                multipartFormData.append("20".data(using: .utf8)!, withName: "pageSize")
-                multipartFormData.append("1".data(using: .utf8)!, withName: "pageNum")
-                multipartFormData.append("\(screenWidth)".data(using: .utf8)!, withName: "width")
-                multipartFormData.append("\(screenHeight)".data(using: .utf8)!, withName: "height")
-                multipartFormData.append("square".data(using: .utf8)!, withName: "shape")
-                multipartFormData.append(self.type.data(using: .utf8)!, withName: "type")
-                multipartFormData.append(self.style.data(using: .utf8)!, withName: "style")
-            },
-            to: urlString,
-            method: .post
+        // 打印请求参数
+        print("请求参数:")
+        parameters.forEach { print("\($0.key): \($0.value)") }
+        
+        // 使用AF.request发送POST请求，采用x-www-form-urlencoded编码
+        AF.request(
+            urlString,
+            method: .post,
+            parameters: parameters,
+            encoding: URLEncoding.default // 明确使用x-www-form-urlencoded编码
         )
         .responseData { [weak self] response in
             guard let self = self else { return }
@@ -530,12 +570,13 @@ class RightViewModel {
                 } else {
                     print("网络请求返回数据无法转换为字符串")
                 }
+                
                 do {
                     let decoder = JSONDecoder()
                     decoder.keyDecodingStrategy = .convertFromSnakeCase
                     let model = try decoder.decode(ClocksResponse.self, from: data)
                     self.items = model.rows
-                    self.currentPage = 1
+                    self.currentPage = 0
                     self.hasMoreData = model.rows.count >= 20
                     completion(true)
                 } catch {
@@ -562,28 +603,29 @@ class RightViewModel {
         let screenWidth = XGZTBlueToothManager.shared.device?.screenWidth ?? 240
         let screenHeight = XGZTBlueToothManager.shared.device?.screenHeight ?? 284
         
+        let urlString = "https://u-watch.com.cn/api/app/ota/v3/list"
+        
+        // 构建请求参数字典
+        let parameters: [String: Any] = [
+            "pageSize": 20,
+            "pageNum": nextPage,
+            "width": screenWidth,
+            "height": screenHeight,
+            "shape": XGZTBlueToothManager.shared.device?.screenType == 1 ? "round" : "square",
+            "type": type,
+            "style": style
+        ]
+        
         // 打印请求参数
         print("开始加载第\(nextPage)页数据，请求参数：")
-        print("pageSize: 20")
-        print("pageNum: \(nextPage)")
-        print("width: \(screenWidth)")
-        print("height: \(screenHeight)")
-        print("shape: square")
-        print("type: \(type)")
-        print("style: \(style)")
+        parameters.forEach { print("\($0.key): \($0.value)") }
         
-        AF.upload(
-            multipartFormData: { multipartFormData in
-                multipartFormData.append("20".data(using: .utf8)!, withName: "pageSize")
-                multipartFormData.append("\(nextPage)".data(using: .utf8)!, withName: "pageNum")
-                multipartFormData.append("\(screenWidth)".data(using: .utf8)!, withName: "width")
-                multipartFormData.append("\(screenHeight)".data(using: .utf8)!, withName: "height")
-                multipartFormData.append("square".data(using: .utf8)!, withName: "shape")
-                multipartFormData.append(self.type.data(using: .utf8)!, withName: "type")
-                multipartFormData.append(self.style.data(using: .utf8)!, withName: "style")
-            },
-            to: "https://u-watch.com.cn/api/app/ota/v3/list",
-            method: .post
+        // 使用AF.request发送POST请求，采用x-www-form-urlencoded编码
+        AF.request(
+            urlString,
+            method: .post,
+            parameters: parameters,
+            encoding: URLEncoding.default // x-www-form-urlencoded编码
         )
         .responseData { [weak self] response in
             guard let self = self else { return }
@@ -669,7 +711,7 @@ struct ClockItem: Codable {
 struct Response<T: Codable>: Codable {
     let msg: String
     let code: Int
-    let data: T
+    var data: T
 }
 
 // 关键修复：调整OTAData的编码键映射
@@ -701,12 +743,14 @@ struct OTADictItem: Codable {
     let isDefault: String
     let status: String
     let defaultFlag: Bool
+    let value2: String?
     
     enum CodingKeys: String, CodingKey {
         case searchValue, createBy, createTime, updateBy, updateTime, remark
         case dictCode, dictSort, dictLabel, dictValue, dictType, cssClass, listClass
         case isDefault, status
         case defaultFlag = "default"
+        case value2
     }
 }
 
