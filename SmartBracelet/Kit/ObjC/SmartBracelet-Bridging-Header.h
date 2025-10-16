@@ -38,7 +38,6 @@
 #import "QACircleProgressView.h"
 
 #import <TZImagePickerController/TZImagePickerController.h>
-#import <Bugly/Bugly.h>
 
 #import"AFNetworking.h"
 

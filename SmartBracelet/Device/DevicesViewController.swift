@@ -1,14 +1,14 @@
 //
 // Copyright © 2015-2018 Anker Innovations Technology Limited All Rights Reserved.
 // The program and materials is not free. Without our permission, any use, including but not limited to reproduction, retransmission, communication, display, mirror, download, modification, is expressly prohibited. Otherwise, it will be pursued for legal liability.
-// 
+//
 //  DevicesViewController.swift
 //  SmartBracelet
 //
 //  Created by ANKER on 2020/8/28.
 //  Copyright © 2020 tjd. All rights reserved.
 //
-	
+    
 
 import UIKit
 import TJDWristbandSDK
@@ -25,6 +25,7 @@ class DevicesViewController: BaseViewController, UIDocumentInteractionController
     @IBOutlet weak var dialView: UIView!
     @IBOutlet weak var btView: UIView!
     let changeButton = UIButton(type: .system)
+    let reconnectButton = UIButton(type: .system) // 新增重新连接按钮
     let btButton = UIButton(type: .system)
     var deviceSettingView: UIView? // 设备设置的视图
     var deviceView: DevicesView!
@@ -50,7 +51,7 @@ class DevicesViewController: BaseViewController, UIDocumentInteractionController
         deviceView = DevicesView().then {
             $0.backgroundColor = UIColor.white
             $0.layer.cornerRadius = 16
-            $0.clipsToBounds = true 
+            $0.clipsToBounds = true
         }
         topView.addSubview(deviceView)
         deviceView.snp.makeConstraints { make in
@@ -73,7 +74,7 @@ class DevicesViewController: BaseViewController, UIDocumentInteractionController
         dialView.clipsToBounds = true
         
         btView.layer.cornerRadius = 16
-        btView.clipsToBounds = true 
+        btView.clipsToBounds = true
         btView.addSubview(btButton)
         btButton.snp.makeConstraints { make in
             make.leading.equalToSuperview().offset(15)
@@ -98,6 +99,7 @@ class DevicesViewController: BaseViewController, UIDocumentInteractionController
         
         
         addChangeButton() // 切换设备
+        addReconnectButton() // 新增：添加重新连接按钮
         changeButtonAttr() // 切换设备入口
         
         width = (ScreenWidth - 60) / 3
@@ -198,6 +200,12 @@ class DevicesViewController: BaseViewController, UIDocumentInteractionController
             XLogger.shared.log("每4秒钟刷新一次")
         }
         refreshTimer?.resume()
+        
+        if isXGZT {
+            ContactManager.shared.requestContactsAccess { [weak self] contacts, error in
+                
+            }
+        }
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -370,12 +378,32 @@ class DevicesViewController: BaseViewController, UIDocumentInteractionController
         // 添加按钮到视图中
         topView.addSubview(changeButton)
         changeButton.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
             make.width.equalTo(120)
             make.height.equalTo(30)
             make.bottom.equalTo(-20)
+            make.centerX.equalToSuperview().offset(-10)
         }
         changeButton.addTarget(self, action: #selector(addDevice), for: .touchUpInside)
+    }
+    
+    // 新增：添加重新连接按钮
+    public func addReconnectButton() {
+        reconnectButton.setTitle("reconnect_device".localized(), for: .normal)
+        reconnectButton.tintColor = UIColor.brand
+        reconnectButton.layer.borderColor = UIColor.brand.cgColor
+        reconnectButton.layer.borderWidth = 1.0
+        reconnectButton.backgroundColor = .white
+        reconnectButton.layer.cornerRadius = 15
+        reconnectButton.titleLabel?.font = UIFont.systemFont(ofSize: 14)
+        // 添加按钮到视图中
+        topView.addSubview(reconnectButton)
+        reconnectButton.snp.makeConstraints { make in
+            make.width.equalTo(110)
+            make.height.equalTo(30)
+            make.centerY.equalTo(changeButton)
+            make.leading.equalTo(changeButton.snp.trailing).offset(10)
+        }
+        reconnectButton.addTarget(self, action: #selector(reconnectDevice), for: .touchUpInside)
     }
     
     private func changeButtonAttr() {
@@ -391,6 +419,9 @@ class DevicesViewController: BaseViewController, UIDocumentInteractionController
                 changeButton.setImage(image, for: .normal)
             }
             changeButton.tag = 1
+            
+            // 新增：重新连接按钮隐藏逻辑
+            reconnectButton.isHidden = true
         } else {
             deviceSettingView?.isHidden = false
             btView.isHidden = false
@@ -403,6 +434,29 @@ class DevicesViewController: BaseViewController, UIDocumentInteractionController
                 changeButton.setImage(image, for: .normal)
             }
             changeButton.tag = 2
+            
+            if cacheDevices.count >= 1 && !XGZTBlueToothManager.shared.isconnected() {
+                reconnectButton.isHidden = false
+            } else {
+                reconnectButton.isHidden = true
+            }
+        }
+    }
+    
+    // 新增：重新连接按钮点击事件
+    @objc private func reconnectDevice() {
+        let lastestDeviceMac = UserDefaults.standard.string(forKey: "LastestDeviceMac") ?? ""
+        if lastestDeviceMac.isEmpty {
+            Toast(text: "no_device_to_reconnect".localized()).show()
+            return
+        }
+        
+        Toast(text: "reconnecting_device".localized()).show()
+        
+        for device in cacheDevices {
+            if device.max == lastestDeviceMac {
+                XGZTBlueToothManager.shared.connectAndScan(to: lastestDeviceMac, deviceName: device.deviceName ?? "e watch")
+            }
         }
     }
     
@@ -893,5 +947,3 @@ class VerticalButton: UIButton {
         return CGSize(width: width, height: height)
     }
 }
-
-

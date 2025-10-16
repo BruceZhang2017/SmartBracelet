@@ -105,6 +105,7 @@ class XGZTBusinessHandler: NSObject {
                 return
             }
             XGZTCommand.bindDevice(value: 0)
+            connectFailMessage += "[\(lastestDeviceMac)]指令故障:嵌入式未回复指令81"
         }
     }
     
@@ -116,6 +117,7 @@ class XGZTBusinessHandler: NSObject {
                 return
             }
             XGZTCommand.bindDevice(value: 1)
+            connectFailMessage += "[\(lastestDeviceMac)]指令故障:嵌入式未回复指令82"
         }
     }
     
@@ -128,6 +130,7 @@ class XGZTBusinessHandler: NSObject {
                 return
             }
             XGZTCommand.setAppInfo(phoneType: 1)
+            connectFailMessage += "[\(lastestDeviceMac)]指令故障:嵌入式未回复指令5d"
         }
     }
     

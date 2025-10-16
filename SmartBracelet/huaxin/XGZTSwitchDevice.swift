@@ -12,6 +12,7 @@ import Foundation
 import Foundation
 
 public var cacheDevices = [BluetoothWatchDevice]()
+public var connectFailMessage = ""
 
 public class BluetoothWatchDevice {
     // 手表设备信息属性

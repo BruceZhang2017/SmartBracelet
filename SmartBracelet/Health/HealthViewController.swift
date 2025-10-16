@@ -319,6 +319,13 @@ class HealthViewController: BaseViewController {
                     self?.alertController = nil
                 }
             }
+            if cacheDevices.count >= 1 && !XGZTBlueToothManager.shared.isconnected() {
+                for device in cacheDevices {
+                    if device.max == lastestDeviceMac {
+                        XGZTBlueToothManager.shared.connectAndScan(to: lastestDeviceMac, deviceName: device.deviceName ?? "e watch")
+                    }
+                }
+            }
             return
         }
         if XGZTBlueToothManager.shared.centralManager?.state == .poweredOff {

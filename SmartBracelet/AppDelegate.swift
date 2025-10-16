@@ -37,8 +37,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         UNUserNotificationCenter.current().delegate = self
 
-        Bugly.start(withAppId: "0c6ba8bb6a")
-
         var openCount = UserDefaults.standard.integer(forKey: "APPOPEN")
         openCount += 1
         UserDefaults.standard.set(openCount, forKey: "APPOPEN")

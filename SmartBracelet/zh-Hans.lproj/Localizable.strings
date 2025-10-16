@@ -432,3 +432,6 @@
 "send_success"="发送成功";
 "send_fail"="发送失败";
 "ota"="固件更新";
+"reconnect_device" = "重新连接";
+"reconnecting_device" = "重新连接中...";
+"no_device_to_reconnect" = "没有已连接的设备";
