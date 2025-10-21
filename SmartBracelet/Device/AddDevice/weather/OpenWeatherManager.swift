@@ -99,9 +99,9 @@ public class OpenWeatherManager: NSObject {
             }
             let count = min(3, weather.list.count)
             for i in 0..<count {
-                let temp = Int(tempratureKToC(temp: weather.list[i].temp.day ))
-                let max: Int = Int(tempratureKToC(temp: weather.list[i].temp.max ))
-                let min: Int = Int(tempratureKToC(temp: weather.list[i].temp.min ))
+                let temp = safeConvertTemp(from: weather.list[i].temp.day )
+                let max: Int = safeConvertTemp(from: weather.list[i].temp.max )
+                let min: Int = safeConvertTemp(from: weather.list[i].temp.min )
                 let weather = weather.list[i].weather.first?.icon ?? ""
                 var type = 0
                 if weather.hasPrefix("02") || weather.hasPrefix("03") {
@@ -130,9 +130,9 @@ public class OpenWeatherManager: NSObject {
         if bleSelf.isJLBlue || bk {
             let count = min(3, weather.list.count)
             for i in 0..<count {
-                let temp = Int(tempratureKToC(temp: weather.list[i].temp.day ))
-                let max: Int = Int(tempratureKToC(temp: weather.list[i].temp.max ))
-                let min: Int = Int(tempratureKToC(temp: weather.list[i].temp.min ))
+                let temp = safeConvertTemp(from: weather.list[i].temp.day )
+                let max: Int = safeConvertTemp(from: weather.list[i].temp.max )
+                let min: Int = safeConvertTemp(from: weather.list[i].temp.min )
                 let weather = weather.list[i].weather.first?.icon ?? ""
                 var type = 0
                 if weather.hasPrefix("02") || weather.hasPrefix("03") {
@@ -151,9 +151,9 @@ public class OpenWeatherManager: NSObject {
                 bleSelf.setWeatherForSevenDays(temper: temp, type: UInt8(type), max: max, min: min, day: i, pressure: 1000, altitude: 1000)
             }
         } else {
-            let temp = Int(tempratureKToC(temp: weather.list.first?.temp.day ?? 0))
-            let max: Int = Int(tempratureKToC(temp: weather.list.first?.temp.max ?? 0))
-            let min: Int = Int(tempratureKToC(temp: weather.list.first?.temp.min ?? 0))
+            let temp = safeConvertTemp(from: weather.list.first?.temp.day ?? 0 )
+            let max: Int = safeConvertTemp(from: weather.list.first?.temp.max ?? 0 )
+            let min: Int = safeConvertTemp(from: weather.list.first?.temp.min ?? 0)
             let weather = weather.list.first?.weather.first?.icon ?? ""
             var type = 0
             if weather.hasPrefix("02") || weather.hasPrefix("03") {
@@ -176,8 +176,30 @@ public class OpenWeatherManager: NSObject {
     /// 绝对温度转摄氏度
         /// - Returns: Double 摄氏度
     func tempratureKToC(temp: Double) -> Double {
-            return temp - 273.15
-        }
+        return temp - 273.15
+    }
+    
+    // 1. 定义业务所需的温度范围（根据实际场景调整，如-40°C ~ 80°C）
+    private let minSafeTemp: Int = -40  // 实际支持的最低温度
+    private let maxSafeTemp: Int = 80   // 实际支持的最高温度（避免超过UInt8的255上限）
+
+    // 2. 安全转换温度：开尔文 → 非负Int（确保可转为UInt8）
+    private func safeConvertTemp(from kelvinTemp: Double) -> Int {
+        // 步骤1：开尔文转摄氏度并取整
+        let celsiusTemp = Int(tempratureKToC(temp: kelvinTemp))
+        
+        // 步骤2：限制温度在业务范围内（避免极端值）
+        let clampedTemp = max(celsiusTemp, minSafeTemp)
+        let finalTemp = min(clampedTemp, maxSafeTemp)
+        
+        // 步骤3：确保非负（若低于0，强制设为0，或按偏移量处理，需和手表端同步）
+        // 方案A：简单处理，负数直接设为0（适合手表端不支持负温显示的场景）
+        return max(finalTemp, 0)
+        
+        // 方案B：偏移量处理（适合需要显示负温的场景，需手表端反向计算）
+        // let offset = 40 // 偏移量，-40°C → 0，0°C →40
+        // return finalTemp + offset
+    }
 }
 
 

@@ -267,7 +267,6 @@ class XGZTBlueToothManager: NSObject, CBCentralManagerDelegate, CBPeripheralDele
         } else if central.state == .poweredOff {
             XLogger.shared.log("蓝牙已关闭")
             if device != nil {
-                self.peripheral?.delegate = nil
                 self.peripheral = nil
                 device = nil
             }
@@ -286,8 +285,8 @@ class XGZTBlueToothManager: NSObject, CBCentralManagerDelegate, CBPeripheralDele
         self.peripheral = peripheral
         reconnectTimer?.invalidate()
         reconnectTimer = nil
-        peripheral.delegate = self
-        peripheral.discoverServices(nil)
+        self.peripheral?.delegate = self
+        self.peripheral?.discoverServices(nil)
         UserDefaults.standard.removeObject(forKey: "deleteLastestDeviceMac")
         deletePeripheralInfo = nil
         
@@ -310,7 +309,6 @@ class XGZTBlueToothManager: NSObject, CBCentralManagerDelegate, CBPeripheralDele
     func centralManager(_ central: CBCentralManager, didFailToConnect peripheral: CBPeripheral, error: Error?) {
         XLogger.shared.log("连接蓝牙设备失败: \(error?.localizedDescription ?? "未知错误")")
         connectFailMessage.append("[\(device?.max ?? "")]连接失败: \(error?.localizedDescription ?? "未知错误")")
-        self.peripheral?.delegate = nil
         self.peripheral = nil
         handler.handleDisconnected()
         device = nil
@@ -338,7 +336,6 @@ class XGZTBlueToothManager: NSObject, CBCentralManagerDelegate, CBPeripheralDele
         NotificationCenter.default.post(name: Notification.Name("DevicesViewController"), object: "100")
         if autoDisconnect {
             XLogger.shared.log("蓝牙断开回调方法：autoDisconnect")
-            self.peripheral?.delegate = nil
             self.peripheral = nil
             device = nil
             handler.handleDisconnected()
@@ -356,7 +353,6 @@ class XGZTBlueToothManager: NSObject, CBCentralManagerDelegate, CBPeripheralDele
         }
         if switchAutoDisconnect {
             XLogger.shared.log("蓝牙断开回调方法：switchAutoDisconnect")
-            self.peripheral?.delegate = nil
             self.peripheral = nil
             device = nil
             handler.handleDisconnected()
@@ -367,7 +363,6 @@ class XGZTBlueToothManager: NSObject, CBCentralManagerDelegate, CBPeripheralDele
         if isCancelSystemBLE {
             isCancelSystemBLE = false
             XLogger.shared.log("蓝牙断开回调方法：isCancelSystemBLE")
-            self.peripheral?.delegate = nil
             self.peripheral = nil
             device = nil
             handler.handleDisconnected()

@@ -556,7 +556,9 @@ private extension DeviceSettingsViewController {
     // 页面跳转
     @objc private func navigateToAlarmSettings() {
         let storyboard = UIStoryboard(name: .kDeviceStoryboard, bundle: nil)
-        let vc = storyboard.instantiateViewController(withIdentifier: "AlarmViewController") as! AlarmViewController
+        guard let vc = storyboard.instantiateViewController(withIdentifier: "AlarmViewController") as? AlarmViewController else {
+            return 
+        }
         vc.hidesBottomBarWhenPushed = true
         parent?.navigationController?.pushViewController(vc, animated: true)
     }
@@ -672,6 +674,9 @@ extension DeviceSettingsViewController: UICollectionViewDelegate {
         }
         
         // 获取原始行号
+        if indexPath.item >= displayTitles.count {
+            return
+        }
         let originalRow = titles.firstIndex(of: displayTitles[indexPath.item]) ?? indexPath.item
         handleItemSelection(for: originalRow)
     }
@@ -696,7 +701,10 @@ extension DeviceSettingsViewController: UICollectionViewDelegate {
         case 6: // 喝水时间设置
             DispatchQueue.main.asyncAfter(deadline: .now() + .navigationDelay) { [weak self] in
                 let storyboard = UIStoryboard(name: .kDeviceStoryboard, bundle: nil)
-                let vc = storyboard.instantiateViewController(withIdentifier: "LongsitSettingsViewController") as! LongsitSettingsViewController
+                guard let vc = storyboard.instantiateViewController(withIdentifier: "LongsitSettingsViewController") as? LongsitSettingsViewController else {
+                           print("无法获取 LongsitSettingsViewController 实例")
+                    return
+                }
                 vc.flag = 1
                 vc.hidesBottomBarWhenPushed = true
                 self?.parent?.navigationController?.pushViewController(vc, animated: true)
@@ -753,7 +761,9 @@ extension DeviceSettingsViewController: UICollectionViewDelegate {
             
         case 13: // OTA升级
             let storyboard = UIStoryboard(name: .kOTAStoryboard, bundle: nil)
-            let vc = storyboard.instantiateViewController(withIdentifier: "ABOtaViewController") as! ABOtaViewController
+            guard let vc = storyboard.instantiateViewController(withIdentifier: "ABOtaViewController") as? ABOtaViewController else {
+                return
+            }
             vc.hidesBottomBarWhenPushed = true
             parent?.navigationController?.pushViewController(vc, animated: true)
             
@@ -763,6 +773,7 @@ extension DeviceSettingsViewController: UICollectionViewDelegate {
             parent?.navigationController?.pushViewController(cardVC, animated: true)
             
         default:
+            print("点击的行数不需要处理")
             break
         }
     }

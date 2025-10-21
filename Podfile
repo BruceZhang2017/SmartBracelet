@@ -28,7 +28,7 @@ pod 'TZImagePickerController', '3.4.3'
 pod 'Moya'
 pod 'SDWebImage'
 #pod 'FLAnimatedImage'
-
+pod 'Bugly'
 pod 'SwiftyBeaver'
 pod 'SwiftyJSON'
 pod 'RxSwift'

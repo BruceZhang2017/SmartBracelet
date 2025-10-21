@@ -67,7 +67,7 @@ public class CameraView: UIView {
             if let self = self, self.session.canAddOutput(self.imageOutput) {
                 self.session.addOutput(self.imageOutput)
             }
-
+            
             self?.session.startRunning()
             DispatchQueue.main.async { [weak self] in
                 self?.createPreview()

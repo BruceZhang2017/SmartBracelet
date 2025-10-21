@@ -18,8 +18,7 @@ class ContactManager {
         switch status {
         case .authorized:
             // 已授权，直接获取联系人
-            //fetchContacts(completion: completion)
-            print("已授权")
+            fetchContacts(completion: completion)
         case .notDetermined:
             // 未请求过授权，发起请求
             let store = CNContactStore()

@@ -104,8 +104,11 @@ class DevicesViewController: BaseViewController, UIDocumentInteractionController
         
         width = (ScreenWidth - 60) / 3
         if AppDelegate.IsDeviceNotRound() { // 方形
-            let w = isXGZT ? (XGZTBlueToothManager.shared.device?.screenWidth ?? 0) : bleSelf.bleModel.screenWidth
+            var w = isXGZT ? (XGZTBlueToothManager.shared.device?.screenWidth ?? 0) : bleSelf.bleModel.screenWidth
             let h = isXGZT ? (XGZTBlueToothManager.shared.device?.screenHeight ?? 0) : bleSelf.bleModel.screenHeight
+            if w == 0 {
+                w = 240
+            }
             height = CGFloat(width) * CGFloat(h) / CGFloat(w)
         } else { // 圆形
             height =  width
@@ -328,13 +331,14 @@ class DevicesViewController: BaseViewController, UIDocumentInteractionController
     }
     
     public func refreshHeight() {
+        var tempMultiplier = 9 // 默认乘数
         // 将 deviceSettingsViewHeightMultiplier 修改为 14
         if ((XGZTBlueToothManager.shared.device?.functioncontrolflags ?? 0) >> 15 & 0x0f) > 0 {
-            deviceSettingsViewHeightMultiplier = 10
+            tempMultiplier = 10
         } else {
-            deviceSettingsViewHeightMultiplier = 9
+            tempMultiplier = 9
         }
-            
+        deviceSettingsViewHeightMultiplier = max(tempMultiplier, 1)
         deviceSettingsView?.view.snp.remakeConstraints {
             $0.left.equalTo(0)
             $0.top.equalTo(lblTitle!.snp.bottom).offset(10)
@@ -742,7 +746,9 @@ class DevicesViewController: BaseViewController, UIDocumentInteractionController
     func pushToClockManage(index: Int) {
         if bleSelf.bleModel.screenWidth == 80 {
             let storyboard = UIStoryboard(name: "Device", bundle: nil)
-            let myClockVC = storyboard.instantiateViewController(withIdentifier: "MyClockViewController") as! MyClockViewController
+            guard let myClockVC = storyboard.instantiateViewController(withIdentifier: "MyClockViewController") as? MyClockViewController else {
+                return 
+            }
             myClockVC.index = index
             navigationController?.pushViewController(myClockVC, animated: true)
             return
