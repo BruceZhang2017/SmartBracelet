@@ -369,6 +369,9 @@ class HealthDetailViewController: BaseViewController {
     
     /// 设置图表
     private func setupChart() {
+        if type == 0 && bleSelf.bleModel.isBond == false {
+            valueView.isHidden = true
+        }
         valueView.addSubview(lineChartView)
         lineChartView.snp.makeConstraints { make in
             make.leading.equalTo(15)
@@ -535,78 +538,125 @@ class HealthDetailViewController: BaseViewController {
         }
         
         if type == 0 { // 步数
-            totalValue = 0
-            totalKM = 0
-            let array = readDBStep()
-            var scale = 1000
-            if array.count > 0 {
-                let zero = mDate.zeroTimeStamp()
-                for i in 0..<array.count {
-                    let value = array[i].step
-                    totalValue += value
-                    totalKM += array[i].distance
-                    let x = (array[i].timeStamp - Int(zero)) / 3600
-                    let item = values[x]
-                    values[x] = ChartDataEntry(x: Double(x), y: Double(value) / Double(scale) + item.y)
-                    if value > maxValue {
-                        maxValue = value
+            if isXGZT {
+                totalValue = 0
+                totalKM = 0
+                let dispatchGroup = DispatchGroup()
+                dispatchGroup.enter()
+                readXGZTDBStep { [weak self] stepObj in
+                    var value = 0
+                    if stepObj.count > 0 {
+                        value = stepObj.first?.step ?? 0
+                    }
+                    var distance = Int(XGZTBlueToothManager.shared.device?.height ?? 0) * 415 / 1000
+                    var unit = value * distance
+                    var v = unit * Int(XGZTBlueToothManager.shared.device?.weight ?? 0) * 55
+                    var truncated = (Float(v) / 10000).rounded(.towardZero) / 1000
+
+                    if self?.mDate.isToday() ?? false {
+                        value = XGZTBlueToothManager.shared.device?.currentStep ?? 0
+                        distance = Int(XGZTBlueToothManager.shared.device?.height ?? 0) * 415 / 1000
+                        unit = value * distance
+                        v = unit * Int(XGZTBlueToothManager.shared.device?.weight ?? 0) * 55
+                        truncated = (Float(v) / 10000).rounded(.towardZero) / 1000
+                    }
+                    self?.totalValue = value
+                    let m = NSMutableAttributedString()
+                    m.append(NSAttributedString(string: String(format: "%.3f", Float(unit) / Float(100000)), attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 20, weight: .black)]))
+                    m.append(NSAttributedString(string: "health_walk_unit".localized(), attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 14, weight: .semibold)]))
+                    let c = NSMutableAttributedString()
+                    c.append(NSAttributedString(string: String(format: "%.3f", Float(truncated)), attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 20, weight: .black)]))
+                    c.append(NSAttributedString(string: "health_kilo_calorie".localized(), attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 14, weight: .semibold)]))
+                    let b = NSMutableAttributedString()
+                    b.append(NSAttributedString(string: "\(value)", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 40, weight: .black)]))
+                    b.append(NSAttributedString(string: "health_step_noun".localized(), attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 14, weight: .medium)]))
+
+                    self?.fanView.refreshValue(values: [m, c], value: b)
+                    var goal = UserDefaults.standard.integer(forKey: "Goal")
+                    if goal == 0 {
+                        goal = 8000
+                    }
+                    self?.fanView.setProgress(CGFloat(self?.totalValue ?? 0) / CGFloat(goal))
+                    
+                    dispatchGroup.leave()
+                }
+                dispatchGroup.notify(queue: .main) {
+                    completion(values)
+                }
+            } else {
+                totalValue = 0
+                totalKM = 0
+                let array = readDBStep()
+                var scale = 1000
+                if array.count > 0 {
+                    let zero = mDate.zeroTimeStamp()
+                    for i in 0..<array.count {
+                        let value = array[i].step
+                        totalValue += value
+                        totalKM += array[i].distance
+                        let x = (array[i].timeStamp - Int(zero)) / 3600
+                        let item = values[x]
+                        values[x] = ChartDataEntry(x: Double(x), y: Double(value) / Double(scale) + item.y)
+                        if value > maxValue {
+                            maxValue = value
+                        }
+                    }
+                    if maxValue <= 50 {
+                        lineChartView.rightAxis.axisMaximum = 50
+                        for i in 0..<values.count {
+                            values[i].y *= 100
+                        }
+                        scale = 100
+                    } else if maxValue <= 500 {
+                        lineChartView.rightAxis.axisMaximum = 500
+                        for i in 0..<values.count {
+                            values[i].y *= 10
+                        }
+                        scale = 10
+                    } else {
+                        lineChartView.rightAxis.axisMaximum = 5000
+                        scale = 1000
+                    }
+                    lineChartView.notifyDataSetChanged()
+                }
+
+                var totalValue1 = 0
+                let array1 = readDBStep()
+                if array1.count > 0 {
+                    for i in 0..<array1.count {
+                        let value = array1[i].cal // 热量
+                        totalValue1 += value
                     }
                 }
-                if maxValue <= 50 {
-                    lineChartView.rightAxis.axisMaximum = 50
-                    for i in 0..<values.count {
-                        values[i].y *= 100
-                    }
-                    scale = 100
-                } else if maxValue <= 500 {
-                    lineChartView.rightAxis.axisMaximum = 500
-                    for i in 0..<values.count {
-                        values[i].y *= 10
-                    }
-                    scale = 10
-                } else {
-                    lineChartView.rightAxis.axisMaximum = 5000
-                    scale = 1000
+
+                if array1.count > 0 && bleSelf.step > totalValue && mDate.isToday() {
+                    let zero = mDate.zeroTimeStamp()
+                    let x = (Int(Date().timeIntervalSince1970) - Int(zero)) / 3600
+                    values[x].y += Double((bleSelf.step - totalValue)) / Double(scale)
+                    totalValue = bleSelf.step
+                    totalKM = bleSelf.distance
+                    totalValue1 = bleSelf.cal
+                    lineChartView.notifyDataSetChanged()
                 }
-                lineChartView.notifyDataSetChanged()
-            }
 
-            var totalValue1 = 0
-            let array1 = readDBStep()
-            if array1.count > 0 {
-                for i in 0..<array1.count {
-                    let value = array1[i].cal // 热量
-                    totalValue1 += value
+                let m = NSMutableAttributedString()
+                m.append(NSAttributedString(string: String(format: "%.2f", Float(totalKM) / Float(1000)), attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 20, weight: .black)]))
+                m.append(NSAttributedString(string: "health_walk_unit".localized(), attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 14, weight: .semibold)]))
+                let c = NSMutableAttributedString()
+                c.append(NSAttributedString(string: String(format: "%.2f", Float(totalValue1) / Float(1000)), attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 20, weight: .black)]))
+                c.append(NSAttributedString(string: "health_kilo_calorie".localized(), attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 14, weight: .semibold)]))
+                let b = NSMutableAttributedString()
+                b.append(NSAttributedString(string: "\(totalValue)", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 40, weight: .black)]))
+                b.append(NSAttributedString(string: "health_step_noun".localized(), attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 14, weight: .medium)]))
+
+                fanView.refreshValue(values: [m, c], value: b)
+                var goal = UserDefaults.standard.integer(forKey: "Goal")
+                if goal == 0 {
+                    goal = bleSelf.userInfo.stepGoal
                 }
+                fanView.setProgress(CGFloat(totalValue) / CGFloat(goal))
+                completion(values)
             }
-
-            if array1.count > 0 && bleSelf.step > totalValue && mDate.isToday() {
-                let zero = mDate.zeroTimeStamp()
-                let x = (Int(Date().timeIntervalSince1970) - Int(zero)) / 3600
-                values[x].y += Double((bleSelf.step - totalValue)) / Double(scale)
-                totalValue = bleSelf.step
-                totalKM = bleSelf.distance
-                totalValue1 = bleSelf.cal
-                lineChartView.notifyDataSetChanged()
-            }
-
-            let m = NSMutableAttributedString()
-            m.append(NSAttributedString(string: String(format: "%.2f", Float(totalKM) / Float(1000)), attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 20, weight: .black)]))
-            m.append(NSAttributedString(string: "health_walk_unit".localized(), attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 14, weight: .semibold)]))
-            let c = NSMutableAttributedString()
-            c.append(NSAttributedString(string: String(format: "%.2f", Float(totalValue1) / Float(1000)), attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 20, weight: .black)]))
-            c.append(NSAttributedString(string: "health_kilo_calorie".localized(), attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 14, weight: .semibold)]))
-            let b = NSMutableAttributedString()
-            b.append(NSAttributedString(string: "\(totalValue)", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 40, weight: .black)]))
-            b.append(NSAttributedString(string: "health_step_noun".localized(), attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 14, weight: .medium)]))
-
-            fanView.refreshValue(values: [m, c], value: b)
-            var goal = UserDefaults.standard.integer(forKey: "Goal")
-            if goal == 0 {
-                goal = bleSelf.userInfo.stepGoal
-            }
-            fanView.setProgress(CGFloat(totalValue) / CGFloat(goal))
-            completion(values)
         } else if type == 2 { // 心率
             if isXGZT {
                 var count = 0
@@ -622,7 +672,7 @@ class HealthDetailViewController: BaseViewController {
                             let x = (array[i].time - Int(zero)) / 3660
                             values[x] = ChartDataEntry(x: Double(x), y: Double(value) / Double(40))
                         }
-                        print("获取到数据的数量为：\(array.count)")
+                        XLogger.shared.log("获取到数据的数量为：\(array.count)")
                     }
                     if count > 0 {
                         let b = NSMutableAttributedString()
@@ -653,7 +703,7 @@ class HealthDetailViewController: BaseViewController {
                         let x = (array[i].timeStamp - Int(zero)) / 3660
                         values[x] = ChartDataEntry(x: Double(x), y: Double(value) / Double(40))
                     }
-                    print("获取到数据的数量为：\(array.count)")
+                    XLogger.shared.log("获取到数据的数量为：\(array.count)")
                 }
                 if count > 0 {
                     let b = NSMutableAttributedString()
@@ -681,7 +731,7 @@ class HealthDetailViewController: BaseViewController {
                     let x = (array[i].timeStamp - Int(zero)) / 3660
                     values[x] = ChartDataEntry(x: Double(x), y: Double(value) / Double(40))
                 }
-                print("获取到数据的数量为：\(array.count)")
+                XLogger.shared.log("获取到数据的数量为：\(array.count)")
             }
             if count > 0 {
                 let b = NSMutableAttributedString()
@@ -704,7 +754,7 @@ class HealthDetailViewController: BaseViewController {
                 dispatchGroup.enter()
                 readXGZTBlood { [weak self] oxgenObjs in
                     let array = oxgenObjs
-                    print("从数据库里读取到的血氧数据数量为：\(array.count)")
+                    XLogger.shared.log("从数据库里读取到的血氧数据数量为：\(array.count)")
                     if array.count > 0 {
                         count = array.count
                         let zero = self!.mDate.zeroTimeStamp()
@@ -713,7 +763,7 @@ class HealthDetailViewController: BaseViewController {
                             let x = (array[i].time - Int(zero)) / 3660
                             values[x] = ChartDataEntry(x: Double(x), y: Double(value) / Double(20))
                         }
-                        print("获取到数据的数量为：\(array.count)")
+                        XLogger.shared.log("获取到数据的数量为：\(array.count)")
                     }
                     if count > 0 {
                         let b = NSMutableAttributedString()
@@ -736,7 +786,7 @@ class HealthDetailViewController: BaseViewController {
             } else {
                 var count = 0
                 let array = readBlood()
-                print("从数据库里读取到的血氧数据数量为：\(array.count)")
+                XLogger.shared.log("从数据库里读取到的血氧数据数量为：\(array.count)")
                 if array.count > 0 {
                     count = array.count
                     let zero = mDate.zeroTimeStamp()
@@ -745,7 +795,7 @@ class HealthDetailViewController: BaseViewController {
                         let x = (array[i].timeStamp - Int(zero)) / 3660
                         values[x] = ChartDataEntry(x: Double(x), y: Double(value) / Double(20))
                     }
-                    print("获取到数据的数量为：\(array.count)")
+                    XLogger.shared.log("获取到数据的数量为：\(array.count)")
                 }
                 if count > 0 {
                     let b = NSMutableAttributedString()
@@ -952,10 +1002,17 @@ extension HealthDetailViewController {
 
 extension HealthDetailViewController {
     func readDBStep() -> [DStepModel] {
-        print("你想查询的设备的mac地址是：\(lastestDeviceMac)")
+        XLogger.shared.log("你想查询的设备的mac地址是：\(lastestDeviceMac)")
         let stamp = Int(mDate.zeroTimeStamp())
         let models = try? DStepModel.er.array("timeStamp>\(stamp) AND timeStamp<\(stamp + 24 * 60 * 60) AND mac='\(lastestDeviceMac)'")
         return models?.sorted { $0.timeStamp < $1.timeStamp } ?? []
+    }
+    
+    func readXGZTDBStep(completion: @escaping ([StepObj]) -> Void) {
+        DatabaseManager.shared.getStepObj(byDate: mDate.stringFromYmd()) { results in
+            let objs = results?.map { $0 } ?? []
+            completion(objs)
+        }
     }
     
     
@@ -1021,15 +1078,15 @@ extension HealthDetailViewController: TTADataPickerViewDelegate {
     }
     // when the pickerView  has been changed, this function will be called, and you will get the row and component which changed just now
     func dataPickerView(_ pickerView: TTADataPickerView, didChange row: Int, inComponent component: Int) {
-        print(#function)
+        XLogger.shared.log(#function)
     }
     // when you clicked the cancel button, this function will be called firstly
     func dataPickerViewWillCancel(_ pickerView: TTADataPickerView) {
-        print(#function)
+        XLogger.shared.log(#function)
     }
     // when you clicked the cancel button, this function will be called at the last
     func dataPickerViewDidCancel(_ pickerView: TTADataPickerView) {
-        print(#function)
+        XLogger.shared.log(#function)
     }
 }
 

@@ -318,22 +318,21 @@ class DetailViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
 
     func didSetWristband(userinfo isSuccess: Bool) {
-        print("delegate 执行了")
+        XLogger.shared.log("delegate 执行了")
         if isSuccess {
-            print("set userinfo successfully")
+            XLogger.shared.log("set userinfo successfully")
         }
     }
     
     func didSetWristband(camera isSuccess: Bool, isEnter: Bool) {
         //        if isSuccess {
         //            if isEnter {
-        //                print("camera enter successfully")
+        //                XLogger.shared.log("camera enter successfully")
         //            }
         //            else {
-        //                print("camera exit successfully")
+        //                XLogger.shared.log("camera exit successfully")
         //            }
         //        }
-        print("delegate 执行了")
-        print(#function, "isSuccess", isSuccess, "isEnter", isEnter)
+        XLogger.shared.log("delegate 执行了")
     }
 }

@@ -396,3 +396,29 @@
 "No Update Available" = "Geen update beschikbaar";
 "You are using the latest version." = "U gebruikt de nieuwste versie.";
 "qushi" = "trend";
+"mile" = "mijl";
+"confirm_delete" = "Verwijderen bevestigen";
+"delete_alarm_confirmation" = "Weet je zeker dat je deze wekker wilt verwijderen?";
+"ble_off" = "Bluetooth is not enabled. Please enable it first.";
+
+"delete_device_1" = "Apparaat verwijderen";
+"delete_device_2" = "Het apparaat is verwijderd uit U-Watch maar is nog steeds verbonden met uw telefoon. Om dit apparaat volledig te verwijderen, voltooi de volgende stappen:";
+"delete_device_3" = "1. In de instellingen van uw telefoon > Bluetooth > Mijn apparaten, zoek 'e watch' en tik op de 'i' rechts.";
+"delete_device_4" = "2. Selecteer 'Vergeet dit apparaat'.";
+"delete_device_5" = "3. Nadat u klaar bent, ga terug naar de 'U-Watch'-app.";
+"delete_device_6" = "Ik heb de bovenstaande stappen voltooid";
+"delete_device_7" = "Bevestigen";
+
+"select_device_scan" = "Wordt gescand";
+"select_device_scan_desc" = "Werkbare apparaten worden gezocht";
+"select_device_add_manual" = "Handmatig toevoegen";
+"select_device_add_automatic" = "Scannen om toe te voegen";
+"cardbag"="Kaarttas";
+"alipay"="Alipay";
+"bindtip"="Bindstappen:\n1. Open de app, ga naar de betalingspagina en sla de verzamelcode lokaal op je telefoon op; (Je moet handmatig klikken om de verzamelcode op te slaan, screenshots zijn ongeldig);\n2. Klik op het QR-codegebied hierboven om de QR-code toe te voegen of te vervangen;\n3. Klik op de bindknop hieronder om de QR-code aan de watch te binden; Klik me";
+"gotobind"="Ga naar binden";
+"shibie_fail"="Herkenning mislukt";
+"i_know"="Begrepen";
+"send_success"="Succesvol verzonden";
+"send_fail"="Verzending mislukt";
+"ota"="Firmware-update";

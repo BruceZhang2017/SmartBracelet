@@ -396,3 +396,29 @@
 "No Update Available" = "アップデートはありません";
 "You are using the latest version." = "最新バージョンを使用しています。";
 "qushi" = "トレンド";
+"mile" = "マイル";
+"confirm_delete" = "削除を確認";
+"delete_alarm_confirmation" = "このアラームを削除してもよろしいですか？";
+"ble_off" = "Bluetooth is not enabled. Please enable it first.";
+
+"delete_device_1" = "デバイスを削除";
+"delete_device_2" = "デバイスはU-Watchから削除されましたが、引き続き携帯電話に接続されています。このデバイスを完全に削除するには、次の操作を完了してください:";
+"delete_device_3" = "1. 携帯電話の「設定」>「Bluetooth」>「マイデバイス」で「e watch」を見つけ、右側の「i」をタップします。";
+"delete_device_4" = "2. 「このデバイスを忘れる」を選択します。";
+"delete_device_5" = "3. 完了後、「U-Watch」アプリに戻ります。";
+"delete_device_6" = "上記の操作を完了しました";
+"delete_device_7" = "確定";
+
+"select_device_scan" = "スキャン中";
+"select_device_scan_desc" = "利用可能なデバイスを検索中";
+"select_device_add_manual" = "手動追加";
+"select_device_add_automatic" = "スキャン追加";
+"cardbag"="カードバッグ";
+"alipay"="アリペイ";
+"bindtip"="バインド手順:\n1. アプリを開き、支払いページに移動して、収款コードを携帯電話にローカルで保存してください。(収款コードを手動でクリックして保存する必要があります。スクリーンショットは無効です);\n2. 上のQRコード領域をクリックして、QRコードを追加または交換してください;\n3. 下のバインドボタンをクリックして、QRコードを時計にバインドしてください; 私をクリック";
+"gotobind"="バインドに行く";
+"shibie_fail"="認識に失敗しました";
+"i_know"="わかりました";
+"send_success"="送信成功";
+"send_fail"="送信失敗";
+"ota"="ファームウェア更新";

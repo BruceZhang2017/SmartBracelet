@@ -49,43 +49,43 @@ extension AlarmRepeatViewController: UITableViewDataSource {
         cell.textLabel?.text = titles[indexPath.row]
         if isXGZT {
             if indexPath.row == 0 {
-                if ((alarmCycle >> 1) & 0x01) > 0 {
+                if (alarmCycle & 0x01) > 0 {
                     cell.accessoryView = UIImageView(image: UIImage(named: "content_icon_select"))
                 } else {
                     cell.accessoryView = nil
                 }
             } else if indexPath.row == 1 {
-                if ((alarmCycle >> 2) & 0x01) > 0 {
+                if ((alarmCycle >> 1) & 0x01) > 0 {
                     cell.accessoryView = UIImageView(image: UIImage(named: "content_icon_select"))
                 } else {
                     cell.accessoryView = nil
                 }
             } else if indexPath.row == 2 {
-                if ((alarmCycle >> 3) & 0x01) > 0 {
+                if ((alarmCycle >> 2) & 0x01) > 0 {
                     cell.accessoryView = UIImageView(image: UIImage(named: "content_icon_select"))
                 } else {
                     cell.accessoryView = nil
                 }
             } else if indexPath.row == 3 {
-                if ((alarmCycle >> 4) & 0x01) > 0 {
+                if ((alarmCycle >> 3) & 0x01) > 0 {
                     cell.accessoryView = UIImageView(image: UIImage(named: "content_icon_select"))
                 } else {
                     cell.accessoryView = nil
                 }
             } else if indexPath.row == 4 {
-                if ((alarmCycle >> 5) & 0x01) > 0 {
+                if ((alarmCycle >> 4) & 0x01) > 0 {
                     cell.accessoryView = UIImageView(image: UIImage(named: "content_icon_select"))
                 } else {
                     cell.accessoryView = nil
                 }
             } else if indexPath.row == 5 {
-                if ((alarmCycle >> 6) & 0x01) > 0 {
+                if ((alarmCycle >> 5) & 0x01) > 0 {
                     cell.accessoryView = UIImageView(image: UIImage(named: "content_icon_select"))
                 } else {
                     cell.accessoryView = nil
                 }
             } else {
-                if (alarmCycle & 0x01) > 0 {
+                if ((alarmCycle >> 6) & 0x01) > 0 {
                     cell.accessoryView = UIImageView(image: UIImage(named: "content_icon_select"))
                 } else {
                     cell.accessoryView = nil
@@ -145,46 +145,46 @@ extension AlarmRepeatViewController: UITableViewDelegate {
         tableView.deselectRow(at: indexPath, animated: true)
         if isXGZT {
             if indexPath.row == 0 {
+                if (alarmCycle & 0x01) > 0 {
+                    alarmCycle = alarmCycle - 1
+                } else {
+                    alarmCycle = alarmCycle + 1
+                }
+            } else if indexPath.row == 1 {
                 if ((alarmCycle >> 1) & 0x01) > 0 {
                     alarmCycle = alarmCycle - 2
                 } else {
                     alarmCycle = alarmCycle + 2
                 }
-            } else if indexPath.row == 1 {
+            } else if indexPath.row == 2 {
                 if ((alarmCycle >> 2) & 0x01) > 0 {
                     alarmCycle = alarmCycle - 4
                 } else {
                     alarmCycle = alarmCycle + 4
                 }
-            } else if indexPath.row == 2 {
+            } else if indexPath.row == 3 {
                 if ((alarmCycle >> 3) & 0x01) > 0 {
                     alarmCycle = alarmCycle - 8
                 } else {
                     alarmCycle = alarmCycle + 8
                 }
-            } else if indexPath.row == 3 {
+            } else if indexPath.row == 4 {
                 if ((alarmCycle >> 4) & 0x01) > 0 {
                     alarmCycle = alarmCycle - 16
                 } else {
                     alarmCycle = alarmCycle + 16
                 }
-            } else if indexPath.row == 4 {
+            } else if indexPath.row == 5 {
                 if ((alarmCycle >> 5) & 0x01) > 0 {
                     alarmCycle = alarmCycle - 32
                 } else {
                     alarmCycle = alarmCycle + 32
                 }
-            } else if indexPath.row == 5 {
+            } else {
                 if ((alarmCycle >> 6) & 0x01) > 0 {
                     alarmCycle = alarmCycle - 64
                 } else {
                     alarmCycle = alarmCycle + 64
-                }
-            } else {
-                if (alarmCycle & 0x01) > 0 {
-                    alarmCycle = alarmCycle - 1
-                } else {
-                    alarmCycle = alarmCycle + 1
                 }
             }
         } else {

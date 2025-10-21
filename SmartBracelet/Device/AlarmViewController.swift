@@ -1,17 +1,17 @@
 //
 // Copyright © 2015-2018 Anker Innovations Technology Limited All Rights Reserved.
 // The program and materials is not free. Without our permission, any use, including but not limited to reproduction, retransmission, communication, display, mirror, download, modification, is expressly prohibited. Otherwise, it will be pursued for legal liability.
-// 
+//
 //  AlarmViewController.swift
 //  SmartBracelet
 //
 //  Created by ANKER on 2020/10/8.
 //  Copyright © 2020 tjd. All rights reserved.
 //
-	
 
 import UIKit
 import TJDWristbandSDK
+import ProgressHUD
 
 class AlarmViewController: BaseViewController {
     @IBOutlet weak var tableView: UITableView!
@@ -41,7 +41,6 @@ class AlarmViewController: BaseViewController {
                 }
             }
         }
-        
     }
     
     private func setupNavigationBar() {
@@ -80,6 +79,9 @@ class AlarmViewController: BaseViewController {
     }
     
     @objc private func handleNotification(_ notification: Notification) {
+        if isXGZT {
+            ProgressHUD.dismiss()
+        }
         tableView.reloadData()
     }
     
@@ -88,11 +90,28 @@ class AlarmViewController: BaseViewController {
     }
     
     @objc private func valueChanged(_ sender: Any) {
-        let mSwitch = sender as! UISwitch
+        guard let mSwitch = sender as? UISwitch else {
+            return 
+        }
+        if mSwitch.tag - 999 < 0 {
+            return
+        }
         let isOn = mSwitch.isOn
-        var model = BLEManager.shared.alarmArray[mSwitch.tag - 999]
-        model.isOn = isOn
-        bleSelf.setAlarmForWristband(model)
+        if isXGZT {
+            guard var alarmData = XGZTBlueToothManager.shared.device?.alarms[mSwitch.tag - 999] else {
+                return
+            }
+            ProgressHUD.animate(nil, .activityIndicator, interaction: false)
+            alarmData.mswitch = isOn ? 1 : 0
+            XGZTCommand.setAlarmInfo(setCmd: 1, alarm: alarmData)
+        } else {
+            if BLEManager.shared.alarmArray.count < (mSwitch.tag - 999 + 1) {
+                return
+            }
+            var model = BLEManager.shared.alarmArray[mSwitch.tag - 999]
+            model.isOn = isOn
+            bleSelf.setAlarmForWristband(model)
+        }
     }
     
     private func refreshWeekValue(model: WUAlarmClock) -> String {
@@ -130,25 +149,25 @@ class AlarmViewController: BaseViewController {
     private func refreshWeekValue(alarm: AlarmData?) -> String {
         let weekday = alarm?.alarmCycle ?? 0
         var value = ""
-        if ((weekday >> 1) & 0x01) > 0 {
+        if (weekday & 0x01) > 0 {
             value += "\("mine_monday".localized())、"
         }
-        if ((weekday >> 2) & 0x01) > 0  {
+        if ((weekday >> 1) & 0x01) > 0  {
             value += "\("mine_satuday".localized())、"
         }
-        if ((weekday >> 3) & 0x01) > 0  {
+        if ((weekday >> 2) & 0x01) > 0  {
             value += "\("mine_wednesday".localized())、"
         }
-        if ((weekday >> 4) & 0x01) > 0  {
+        if ((weekday >> 3) & 0x01) > 0  {
             value += "\("mine_thursday".localized())、"
         }
-        if ((weekday >> 5) & 0x01) > 0  {
+        if ((weekday >> 4) & 0x01) > 0  {
             value += "\("mine_friday".localized())、"
         }
-        if ((weekday >> 6) & 0x01) > 0  {
+        if ((weekday >> 5) & 0x01) > 0  {
             value += "\("mine_saturday".localized())、"
         }
-        if (weekday & 0x01) > 0 {
+        if ((weekday >> 6) & 0x01) > 0 {
             value += "\("mine_sunday".localized())、"
         }
         if value.count == 0 {
@@ -215,6 +234,46 @@ extension AlarmViewController: UITableViewDelegate {
             vc.alarm = model
         }
         navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    // 实现侧滑删除功能
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let deleteAction = UIContextualAction(style: .destructive, title: "mine_delete".localized()) { [weak self] (action, view, completionHandler) in
+            guard let self = self else { return }
+            
+            // 第一次确认弹窗
+            let firstAlert = UIAlertController(title: "confirm_delete".localized(), message: "delete_alarm_confirmation".localized(), preferredStyle: .alert)
+            let firstConfirmAction = UIAlertAction(title: "confirm".localized(), style: .destructive) { [weak self] _ in
+                guard let self = self else { return }
+                // 打印被删除的 cell 的索引
+                XLogger.shared.log("Deleting cell at indexPath: \(indexPath)")
+                
+                if isXGZT {
+                    if var alarms = XGZTBlueToothManager.shared.device?.alarms, alarms.indices.contains(indexPath.row) {
+                        XGZTCommand.setAlarmInfo(setCmd: 2, alarm: alarms[indexPath.row])
+                        alarms.remove(at: indexPath.row)
+                        XGZTBlueToothManager.shared.device?.alarms = alarms
+                    }
+                } else {
+                    if BLEManager.shared.alarmArray.indices.contains(indexPath.row) {
+                        BLEManager.shared.alarmArray.remove(at: indexPath.row)
+                    }
+                }
+                
+                // 从表格中删除对应的行
+                tableView.deleteRows(at: [indexPath], with: .automatic)
+                completionHandler(true)
+            }
+            let firstCancelAction = UIAlertAction(title: "Cancel".localized(), style: .cancel) { _ in
+                completionHandler(false)
+            }
+            firstAlert.addAction(firstConfirmAction)
+            firstAlert.addAction(firstCancelAction)
+            self.present(firstAlert, animated: true, completion: nil)
+        }
+        
+        let configuration = UISwipeActionsConfiguration(actions: [deleteAction])
+        return configuration
     }
 }
 

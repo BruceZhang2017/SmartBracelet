@@ -25,36 +25,27 @@ PODS:
   - Bugly (2.6.1)
   - CountryPickerView (3.3.0)
   - CryptoSwift (1.8.4)
-  - FMDB (2.7.12):
-    - FMDB/standard (= 2.7.12)
-  - FMDB/Core (2.7.12)
-  - FMDB/standard (2.7.12):
-    - FMDB/Core
+  - DropDown (2.3.13)
   - IMSLog (1.0.8)
   - IotLinkKit (1.2.1):
     - IMSLog
   - IQKeyboardManagerSwift (6.3.0)
-  - JRDB (2.1.2):
-    - FMDB
-  - Kingfisher (8.1.3)
-  - MJRefresh (3.7.9)
+  - Kingfisher (8.3.1)
+  - MJRefresh (3.7.8)
   - Moya (15.0.0):
     - Moya/Core (= 15.0.0)
   - Moya/Core (15.0.0):
     - Alamofire (~> 5.0)
-  - ObjcExceptionBridging (7.1.5):
-    - ObjcExceptionBridging/ObjcExceptionBridging (= 7.1.5)
-  - ObjcExceptionBridging/ObjcExceptionBridging (7.1.5)
   - ProgressHUD (14.1.1)
   - Realm (10.13.0):
     - Realm/Headers (= 10.13.0)
   - Realm/Headers (10.13.0)
   - RealmSwift (10.13.0):
     - Realm (= 10.13.0)
-  - RxSwift (6.8.0)
-  - SDWebImage (5.20.0):
-    - SDWebImage/Core (= 5.20.0)
-  - SDWebImage/Core (5.20.0)
+  - RxSwift (6.9.0)
+  - SDWebImage (5.21.0):
+    - SDWebImage/Core (= 5.21.0)
+  - SDWebImage/Core (5.21.0)
   - Segmentio (4.1)
   - SnapKit (5.0.1)
   - SwiftyBeaver (1.9.5)
@@ -62,15 +53,7 @@ PODS:
   - Then (3.0.0)
   - Toast (4.1.0)
   - Toaster (2.3.0)
-  - TZImagePickerController (3.8.8):
-    - TZImagePickerController/Basic (= 3.8.8)
-    - TZImagePickerController/Location (= 3.8.8)
-  - TZImagePickerController/Basic (3.8.8)
-  - TZImagePickerController/Location (3.8.8)
-  - XCGLogger (7.1.5):
-    - XCGLogger/Core (= 7.1.5)
-  - XCGLogger/Core (7.1.5):
-    - ObjcExceptionBridging
+  - TZImagePickerController (3.4.3)
   - YYImage (1.0.4):
     - YYImage/Core (= 1.0.4)
   - YYImage/Core (1.0.4)
@@ -84,11 +67,11 @@ DEPENDENCIES:
   - Bugly
   - CountryPickerView
   - CryptoSwift
+  - DropDown
   - IotLinkKit (= 1.2.1)
   - IQKeyboardManagerSwift (= 6.3.0)
-  - JRDB
   - Kingfisher
-  - MJRefresh
+  - MJRefresh (= 3.7.8)
   - Moya
   - ProgressHUD
   - Realm (~> 10.13.0)
@@ -102,8 +85,7 @@ DEPENDENCIES:
   - Then
   - Toast (= 4.1.0)
   - Toaster
-  - TZImagePickerController
-  - XCGLogger
+  - TZImagePickerController (= 3.4.3)
   - YYImage
 
 SPEC REPOS:
@@ -120,13 +102,11 @@ SPEC REPOS:
     - Bugly
     - CountryPickerView
     - CryptoSwift
-    - FMDB
+    - DropDown
     - IQKeyboardManagerSwift
-    - JRDB
     - Kingfisher
     - MJRefresh
     - Moya
-    - ObjcExceptionBridging
     - ProgressHUD
     - Realm
     - RealmSwift
@@ -140,7 +120,6 @@ SPEC REPOS:
     - Toast
     - Toaster
     - TZImagePickerController
-    - XCGLogger
     - YYImage
 
 SPEC CHECKSUMS:
@@ -153,20 +132,18 @@ SPEC CHECKSUMS:
   Bugly: 217ac2ce5f0f2626d43dbaa4f70764c953a26a31
   CountryPickerView: 6322ada32a80b0cd721b0267282a5c24f406f263
   CryptoSwift: e64e11850ede528a02a0f3e768cec8e9d92ecb90
-  FMDB: 728731dd336af3936ce00f91d9d8495f5718a0e6
+  DropDown: 8a2116376c1981888557f72ec2ffc9a5e0e456ec
   IMSLog: d17ae9fa27c5a31ef5a76ed4e233fd4c89404508
   IotLinkKit: 509ab45c59359880b6b80124687e670d723c6a8c
   IQKeyboardManagerSwift: a8228c257614af98743b4cd8584637025f36358f
-  JRDB: 600636d85a7e0006146c349b3e177282766815c0
-  Kingfisher: f2af9028b16baf9dc6c07c570072bc41cbf009ef
-  MJRefresh: ff9e531227924c84ce459338414550a05d2aea78
+  Kingfisher: 3204d23de16b5ea53541c44ca5a8efb55741dec3
+  MJRefresh: 4e6e7ba77a6d5fab012426777e32b0a77127c50a
   Moya: 138f0573e53411fb3dc17016add0b748dfbd78ee
-  ObjcExceptionBridging: d3d37d62981bb7f252ecb31b62d7e23a96bbfb8a
   ProgressHUD: abb9136ae23c85204236828562cb9a8ec98efb44
   Realm: e3a1225aafa7cec96a020dc199201b9d1f9cd59c
   RealmSwift: 62585b4a934754a9d9117331689f4e8a5b1f6113
-  RxSwift: 4e28be97cbcfeee614af26d83415febbf2bf6f45
-  SDWebImage: 73c6079366fea25fa4bb9640d5fb58f0893facd8
+  RxSwift: 31649ace6aceeb422e16ff71c60804f9c3281ed9
+  SDWebImage: f84b0feeb08d2d11e6a9b843cb06d75ebf5b8868
   Segmentio: ab29def64e1bff6e6e9b97671788a99bed3f1d9f
   SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
   SwiftyBeaver: 84069991dd5dca07d7069100985badaca7f0ce82
@@ -174,10 +151,9 @@ SPEC CHECKSUMS:
   Then: 844265ae87834bbe1147d91d5d41a404da2ec27d
   Toast: ec33c32b8688982cecc6348adeae667c1b9938da
   Toaster: c3473963c78e8cabbf6ea6f11ad0fdaae6f54987
-  TZImagePickerController: d084a7b97c82d387e7669dd86dc9a9057500aacf
-  XCGLogger: 399c5885210b4e2ad79d9f7a29b105d672ef724f
+  TZImagePickerController: 4f6e91cf00d67827ec23bd3c2f849cbd054b4979
   YYImage: 1e1b62a9997399593e4b9c4ecfbbabbf1d3f3b54
 
-PODFILE CHECKSUM: 653ff30daf35cf1cd3736f7690a58092fa2387ed
+PODFILE CHECKSUM: 31e8277a325efad61a74a36bca9a2f8b50ea69a7
 
-COCOAPODS: 1.13.0
+COCOAPODS: 1.16.2

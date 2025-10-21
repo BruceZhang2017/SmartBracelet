@@ -112,7 +112,7 @@ extension EditClcokBottomTableViewCell: UICollectionViewDelegateFlowLayout {
         } else {
             index = indexPath.item
         }
-        print("当前点击的是：\(index)")
+        XLogger.shared.log("当前点击的是：\(index)")
         delegate?.callbackForSelectColor(collectionView: collectionView, index: index)
     }
 }
@@ -128,7 +128,7 @@ extension EditClcokBottomTableViewCell: UICollectionViewDataSource {
         cell.smallImageVIew.layer.backgroundColor = colors[indexPath.item].cgColor
         if isXGZT {
             let i = dialColorToIndex(dialColor: index) ?? 0
-            print("当前选中是：\(i)")
+            XLogger.shared.log("当前选中是：\(i)")
             cell.bigImageView.isHidden = i != indexPath.item
         } else {
             cell.bigImageView.isHidden = index != indexPath.item

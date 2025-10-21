@@ -27,22 +27,22 @@ class DeviceManager: NSObject {
             devices = []
             if let models = try? BLEModel.er.all(), models.count > 0 {
                 devices.append(contentsOf: models)
-                print("数据库中的数据数量为: \(models.count)")
+                XLogger.shared.log("数据库中的数据数量为: \(models.count)")
                 return
             }
-            print("数据库中的数据数量为: 0")
+            XLogger.shared.log("数据库中的数据数量为: 0")
             return 
         }
         DispatchQueue.main.async {
             [weak self] in
-            print("当前为主线程：\(Thread.current.isMainThread)")
+            XLogger.shared.log("当前为主线程：\(Thread.current.isMainThread)")
             self?.devices = []
             if let models = try? BLEModel.er.all(), models.count > 0 {
                 self?.devices.append(contentsOf: models)
-                print("数据库中的数据数量为: \(models.count)")
+                XLogger.shared.log("数据库中的数据数量为: \(models.count)")
                 return
             }
-            print("数据库中的数据数量为: 0")
+            XLogger.shared.log("数据库中的数据数量为: 0")
         }
     }
 }

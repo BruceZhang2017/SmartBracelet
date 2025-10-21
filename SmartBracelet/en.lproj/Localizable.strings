@@ -398,4 +398,29 @@
 "qushi" = "trend";
 "age" = "Age";
 "synchronize_data_finish" = "The data synchronization is complete.";
-"delete_connected_device" = "Cannot delete the device in the current connection.";
+"mile" = "mile";
+"confirm_delete" = "Confirm Delete";
+"delete_alarm_confirmation" = "Are you sure you want to delete this alarm?";
+"ble_off" = "Bluetooth is not enabled. Please enable it first.";
+
+"delete_device_1" = "Delete Device";
+"delete_device_2" = "The device has been removed from U-Watch but is still connected to your phone. To completely delete this device, please complete the following steps:";
+"delete_device_3" = "1. In your phone's Settings > Bluetooth > My Devices, find 'e watch' and tap the 'i' on the right.";
+"delete_device_4" = "2. Select 'Forget this device'.";
+"delete_device_5" = "3. After completing, return to the 'U-Watch' App.";
+"delete_device_6" = "I have completed the above steps";
+"delete_device_7" = "Confirm";
+
+"select_device_scan" = "Scanning";
+"select_device_scan_desc" = "Searching for available devices";
+"select_device_add_manual" = "Add Manually";
+"select_device_add_automatic" = "Scan to Add";
+"cardbag"="Card Wallet";
+"alipay"="Alipay";
+"bindtip"="Binding Steps:\n1. Open the app, go to the payment page and save the collection code to your phone locally; (You must manually click to save the collection code, screenshots are invalid);\n2. Click the QR code area above to add or replace the QR code;\n3. Click the binding button below to bind the QR code to the watch; Click me";
+"gotobind"="Go to Bind";
+"shibie_fail"="Recognition Failed";
+"i_know"="Got it";
+"send_success"="Sent Successfully";
+"send_fail"="Sending Failed";
+"ota"="Firmware Update";

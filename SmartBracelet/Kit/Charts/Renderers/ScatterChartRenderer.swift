@@ -103,7 +103,7 @@ open class ScatterChartRenderer: LineScatterCandleRadarRenderer
         }
         else
         {
-            print("There's no IShapeRenderer specified for ScatterDataSet", terminator: "\n")
+            XLogger.shared.log("There's no IShapeRenderer specified for ScatterDataSet")
         }
     }
     

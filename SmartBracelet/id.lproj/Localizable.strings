@@ -396,3 +396,29 @@
 "No Update Available" = "Tidak Ada Pembaruan Tersedia";
 "You are using the latest version." = "Anda menggunakan versi terbaru.";
 "qushi" = "tren";
+"mile" = "mil";
+"confirm_delete" = "Konfirmasi hapus";
+"delete_alarm_confirmation" = "Apakah Anda yakin ingin menghapus alarm ini?";
+"ble_off" = "Bluetooth is not enabled. Please enable it first.";
+
+"delete_device_1" = "Hapus Perangkat";
+"delete_device_2" = "Perangkat telah dihapus dari U-Watch tetapi masih terhubung ke ponsel Anda. Untuk menghapus perangkat ini sepenuhnya, harap selesaikan langkah-langkah berikut:";
+"delete_device_3" = "1. Di Pengaturan ponsel Anda > Bluetooth > Perangkat Saya, cari 'e watch' dan ketuk 'i' di sebelah kanan.";
+"delete_device_4" = "2. Pilih 'Lupakan perangkat ini'.";
+"delete_device_5" = "3. Setelah selesai, kembali ke Aplikasi 'U-Watch'.";
+"delete_device_6" = "Saya telah menyelesaikan langkah-langkah di atas";
+"delete_device_7" = "Konfirmasi";
+
+"select_device_scan" = "Sedang memindai";
+"select_device_scan_desc" = "Mencari perangkat yang tersedia";
+"select_device_add_manual" = "Tambahkan secara manual";
+"select_device_add_automatic" = "Tambahkan dengan scan";
+"cardbag"="Tas Kartu";
+"alipay"="Alipay";
+"bindtip"="Langkah-langkah Pengikatan:\n1. Buka aplikasi, pergi ke halaman pembayaran dan simpan kode koleksi ke ponsel Anda secara lokal; (Anda harus secara manual mengklik untuk menyimpan kode koleksi, tangkapan layar tidak valid);\n2. Klik area kode QR di atas untuk menambahkan atau mengganti kode QR;\n3. Klik tombol pengikatan di bawah untuk mengikat kode QR ke jam tangan; Klik saya";
+"gotobind"="Pergi ke Pengikatan";
+"shibie_fail"="Pengenalan Gagal";
+"i_know"="Mengerti";
+"send_success"="Terkirim Berhasil";
+"send_fail"="Gagal Mengirim";
+"ota"="Pembaruan Firmware";

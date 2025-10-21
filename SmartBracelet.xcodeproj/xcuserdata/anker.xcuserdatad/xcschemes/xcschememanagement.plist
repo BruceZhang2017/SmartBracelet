@@ -4,6 +4,11 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>Clip.xcscheme_^#shared#^_</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>40</integer>
+		</dict>
 		<key>SmartBracelet.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
@@ -13,6 +18,11 @@
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
 		<key>18385E9924517F1600EA380A</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>9A1F7E9E2E2D068B00EB3BBE</key>
 		<dict>
 			<key>primary</key>
 			<true/>

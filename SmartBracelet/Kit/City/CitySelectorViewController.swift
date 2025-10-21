@@ -91,7 +91,7 @@ extension CitySelectorViewController: UITableViewDataSource, UITableViewDelegate
         tableView.deselectRow(at: indexPath, animated: false)
         let cell = tableView.cellForRow(at: indexPath)
         let city = cell?.textLabel?.text ?? ""
-        print("点击了 \(city)")
+        XLogger.shared.log("点击了 \(city)")
         delegate?.callback(city)
         navigationController?.popViewController(animated: true)
     }

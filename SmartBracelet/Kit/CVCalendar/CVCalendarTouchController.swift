@@ -80,11 +80,11 @@ private extension CVCalendarTouchController {
                 calendarView.didSelectDayView(dayView)
                 
             case .range(.started):
-                print("Received start of range selection.")
+                XLogger.shared.log("Received start of range selection.")
             case .range(.changed):
-                print("Received change of range selection.")
+                XLogger.shared.log("Received change of range selection.")
             case .range(.ended):
-                print("Received end of range selection.")
+                XLogger.shared.log("Received end of range selection.")
             }
         }
     }

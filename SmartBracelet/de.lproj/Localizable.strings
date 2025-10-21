@@ -397,3 +397,29 @@
 "No Update Available" = "Kein Update verfügbar";
 "You are using the latest version." = "Sie verwenden die neueste Version.";
 "qushi" = "Trend";
+"mile" = "Meile";
+"confirm_delete" = "Löschen bestätigen";
+"delete_alarm_confirmation" = "Möchten Sie diese Wecker wirklich löschen?";
+"ble_off" = "Bluetooth is not enabled. Please enable it first.";
+
+"delete_device_1" = "Gerät löschen";
+"delete_device_2" = "Das Gerät wurde aus U-Watch entfernt, ist aber immer noch mit Ihrem Telefon verbunden. Um dieses Gerät vollständig zu löschen, führen Sie die folgenden Schritte aus:";
+"delete_device_3" = "1. Suchen Sie in den Einstellungen Ihres Telefons > Bluetooth > Meine Geräte nach 'e watch' und tippen Sie auf das 'i' rechts.";
+"delete_device_4" = "2. Wählen Sie 'Gerät vergessen'.";
+"delete_device_5" = "3. Kehren Sie nach Abschluss zur 'U-Watch'-App zurück.";
+"delete_device_6" = "Ich habe die obigen Schritte ausgeführt";
+"delete_device_7" = "Bestätigen";
+
+"select_device_scan" = "Wird gescannt";
+"select_device_scan_desc" = "Wird verfügbare Geräte gesucht";
+"select_device_add_manual" = "Manuell hinzufügen";
+"select_device_add_automatic" = "Scannen zum Hinzufügen";
+"cardbag"="Kartentasche";
+"alipay"="Alipay";
+"bindtip"="Bindungsschritte:\n1. Öffnen Sie die App, gehen Sie zur Zahlungsseite und speichern Sie den Sammelcode lokal auf Ihrem Handy; (Sie müssen manuell auf den Sammelcode klicken, um ihn zu speichern, Screenshots sind ungültig);\n2. Klicken Sie auf den QR-Code-Bereich oben, um den QR-Code hinzuzufügen oder zu ersetzen;\n3. Klicken Sie auf die Bindungstaste unten, um den QR-Code mit der Uhr zu verbinden; Klicken Sie mich";
+"gotobind"="Zur Bindung gehen";
+"shibie_fail"="Erkennung fehlgeschlagen";
+"i_know"="Verstanden";
+"send_success"="Erfolgreich gesendet";
+"send_fail"="Senden fehlgeschlagen";
+"ota"="Firmware-Update";

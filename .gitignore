@@ -1,3 +1,42 @@
-Pods
-
+# Xcode
+#
+build/
+DerivedData/
+# Xcode project files
+*.pbxuser
+!default.pbxuser
+*.mode1v3
+!default.mode1v3
+*.mode2v3
+!default.mode2v3
+*.perspectivev3
+!default.perspectivev3
+# User-specific workspace files
 xcuserdata/
+# User interface state files
+*.xcuserstate
+# Scheme files
+*.xcscheme
+!sharedData/*.xcscheme
+# Playgrounds
+timeline.xctimeline
+playground.xcworkspace
+# Swift Package Manager
+.build/
+Packages/
+# CocoaPods
+Pods/
+# Carthage
+Carthage/Build/
+# Archives
+*.xcarchive
+# Fastlane
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots
+# Bundle artifacts
+*.ipa
+*.dSYM.zip
+*.dSYM
+# Operating system files
+.DS_Store

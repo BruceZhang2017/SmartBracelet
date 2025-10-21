@@ -55,11 +55,11 @@
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>App may access location information to record your movement track</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>App may use your camera and scan QR Code</string>
+	<string>When adding a device within the app, you can scan the QR code on the device to add it, which requires your authorization to use the camera permission. If you use a custom watch face, you need to access the photo gallery.</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>App may use your camera and save pictures via Bluetooth</string>
+	<string>When adding a device within the app, you can scan the QR code on the device to add it, which requires your authorization to use the camera permission. If you use a custom watch face, you need to access the photo gallery.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>App may use your camera and save pictures via Bluetooth</string>
+	<string>When adding a device within the app, you can scan the QR code on the device to add it, which requires your authorization to use the camera permission. If you use a custom watch face, you need to access the photo gallery.</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>audio</string>

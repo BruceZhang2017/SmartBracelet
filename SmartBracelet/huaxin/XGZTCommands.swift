@@ -39,9 +39,11 @@ enum XGZTCommands: UInt8 {
 
     case switchStatus = 0x80
     case bindDevice = 0x81
+    case unbindDeviceNotif = 0x82
     case alarmInfo = 0x83
     case reminderInfo = 0x85
     case switchTableExtension = 0x86
+    case disconnectBT = 0x87
     case musicControl = 0x90
     case remotePhoto = 0x91
 
@@ -52,6 +54,7 @@ enum XGZTCommands: UInt8 {
 
     case targetSettings = 0xB0
     case multiSportModeData = 0xB3
+    case getSleepMonitoring = 0xB5
     case setAutoSleepMonitoring = 0xB6
     
     case startTest = 0xC5
@@ -61,7 +64,9 @@ enum XGZTCommands: UInt8 {
     case getNewestHeartData = 0xCA
 
     case dialMarket = 0xE0
+    case setTimePositionAndColor = 0xE1
     case resourceUpgrade = 0xE2
+    case qrCode = 0xE3
 }
 
 // 数据类型定义
@@ -322,6 +327,18 @@ public class XGZTCommand {
         XGZTBlueToothManager.shared.writeCharacteristic(command: command)
     }
     
+    static func disconnectBT() {
+        let command = createCommand(with: [
+            0x00,
+            XGZTCommands.disconnectBT.rawValue,
+            0x01,
+            0x00,
+            0x01,
+            0x01
+        ])
+        XGZTBlueToothManager.shared.writeCharacteristic(command: command)
+    }
+    
     // 设置天气单位
     static func setWeatherUnit(unit: Int) {
         let command = createCommand(with: [
@@ -329,6 +346,7 @@ public class XGZTCommand {
             XGZTCommands.setWeatherUnit.rawValue,
             0x01,
             0x00,
+            0x02,
             0x01,
             UInt8(unit)
         ])
@@ -452,7 +470,7 @@ public class XGZTCommand {
     }
     
     // 绑定设备
-    static func bindDevice() {
+    static func bindDevice(value: UInt8) {
         let command = createCommand(with: [
             0x00,
             XGZTCommands.bindDevice.rawValue,
@@ -460,13 +478,13 @@ public class XGZTCommand {
             0x00,
             0x02,
             0x01,
-            0x00
+            value
         ])
         XGZTBlueToothManager.shared.writeCharacteristic(command: command)
     }
     
     // 获取闹钟信息
-    static func getAlarmInfo() {
+    static func getAlarmInfo(type: Int) {
         let command = createCommand(with: [
             0x00,
             XGZTCommands.alarmInfo.rawValue,
@@ -474,7 +492,7 @@ public class XGZTCommand {
             0x00,
             0x02,
             0x00,
-            0x01
+            UInt8(type)
         ])
         XGZTBlueToothManager.shared.writeCharacteristic(command: command)
     }
@@ -523,7 +541,7 @@ public class XGZTCommand {
             0x00,
             0x08,
             0x01,
-            UInt8(response.eventType + 1),
+            UInt8(response.eventType),
             UInt8(response.cycle),
             UInt8(response.startHour),
             UInt8(response.startMinute),
@@ -611,14 +629,14 @@ public class XGZTCommand {
     }
     
     // 设置天气信息（此处仅为示例，根据实际需求完善）
-    static func setWeatherInfo(dateType: Int, weatherType: Int, currTemp: Int, lTemp: Int, hTemp: Int) {
+    static func setWeatherInfo(dateType: Int, weatherType: Int, currTemp: Int, lTemp: Int, hTemp: Int, cmd: Int) {
         let command = createCommand(with: [
             0x00,
             XGZTCommands.setWeatherInfo.rawValue,
             0x01,
             0x00,
             UInt8(14),
-            0x01,
+            UInt8(cmd),
             UInt8(dateType),
             0x00,
             0x01,
@@ -735,6 +753,16 @@ public class XGZTCommand {
         XGZTBlueToothManager.shared.writeCharacteristic(command: command)
     }
     
+    static func setQRCode(type: UInt8, qrString: String) {
+        if let commandData = QRCodeSetCommand.buildCommand(type: type, qrString: qrString) {
+            print("构建的指令数据：\(commandData)")
+            XGZTBlueToothManager.shared.writeCharacteristic(command: commandData.bytes)
+        } else {
+            print("构建指令失败")
+        }
+        
+    }
+    
     // 获取多运动模式数据
     static func getMultiSportModeData() {
         let command = createCommand(with: [
@@ -766,6 +794,18 @@ public class XGZTCommand {
         let command = createCommand(with: [
             0x00,
             XGZTCommands.getHistorySleepData.rawValue,
+            0x01,
+            0x00,
+            0x01,
+            0x01
+        ])
+        XGZTBlueToothManager.shared.writeCharacteristic(command: command)
+    }
+    
+    static func getSleepMonitoring() {
+        let command = createCommand(with: [
+            0x00,
+            XGZTCommands.getSleepMonitoring.rawValue,
             0x01,
             0x00,
             0x01,
@@ -926,6 +966,23 @@ public class XGZTCommand {
         XGZTBlueToothManager.shared.writeCharacteristic(command: command)
     }
     
+    static func setTimePositionAndColor(type: Int, position: Int, color: Int) {
+        let command = createCommand(with: [
+            0x00,
+            XGZTCommands.setTimePositionAndColor.rawValue,
+            0x01,
+            0x00,
+            0x06,
+            0x01,
+            UInt8(type),
+            UInt8(position),
+            UInt8((color >> 16) & 0xFF),
+            UInt8((color >> 8) & 0xFF),
+            UInt8(color & 0xFF)
+        ])
+        XGZTBlueToothManager.shared.writeCharacteristic(command: command)
+    }
+    
     static func getNewestHeartData(type: Int) {
         let command = createCommand(with: [
             0x00,
@@ -1003,144 +1060,158 @@ public class XGZTCommand {
         }
         let commandRawValue = response[1]
         guard let command = XGZTCommands(rawValue: commandRawValue) else {
-            print("Unhandled command response")
+            XLogger.shared.log("Unhandled command response")
             return
         }
         switch command {
         case.syncTime:
             guard response.count >= 7 else {
-                print("syncTime command response error")
+                XLogger.shared.log("syncTime command response error")
                 return
             }
             let success = response[6] == 0x00
             if success {
-                print("时间同步成功")
+                XLogger.shared.log("时间同步成功")
             } else {
-                print("时间同步失败")
+                XLogger.shared.log("时间同步失败")
             }
+            NotificationCenter.default.post(name: Notification.Name("XGZTBusinessHandler"), object: "3")
         case.getBatteryLevel:
             guard response.count >= 7 else {
-                print("getBatteryLevel command response error")
+                XLogger.shared.log("getBatteryLevel command response error")
                 return
             }
             let batteryLevel = Int(response[6] & 0x7F)
             let isCharging = (response[6] & 0x80) != 0
-            print("Battery level: \(batteryLevel), Is charging: \(isCharging)")
+            XLogger.shared.log("Battery level: \(batteryLevel), Is charging: \(isCharging)")
         case.setScreenBrightness:
             guard response.count >= 6 else {
-                print("setScreenBrightness command response error")
+                XLogger.shared.log("setScreenBrightness command response error")
                 return
             }
             let success = response[5] == 0x00
             if success {
-                print("设置屏幕亮度命令执行成功")
+                XLogger.shared.log("设置屏幕亮度命令执行成功")
             } else {
-                print("设置屏幕亮度命令执行失败")
+                XLogger.shared.log("设置屏幕亮度命令执行失败")
             }
         case.getDeviceLanguage:
             guard response.count >= 7 else {
-                print("getDeviceLanguage command response error")
+                XLogger.shared.log("getDeviceLanguage command response error")
                 return
             }
             let languageType = Int(response[6])
-            print("设备语言类型: \(languageType)")
+            XLogger.shared.log("设备语言类型: \(languageType)")
+            NotificationCenter.default.post(name: Notification.Name("XGZTBusinessHandler"), object: "18")
+        case.qrCode:
+            guard response.count >= 7 else {
+                XLogger.shared.log("getDeviceLanguage command response error")
+                return
+            }
+            let languageType = Int(response[6])
+            XLogger.shared.log("二维码设置结果: \(languageType)")
+            NotificationCenter.default.post(name: Notification.Name("QRBindViewController"), object: "\(languageType)")
         case.setDeviceUnitFormat:
             guard response.count >= 7 else {
-                print("setDeviceUnitFormat command response error")
+                XLogger.shared.log("setDeviceUnitFormat command response error")
                 return
             }
             if response[5] == 0x00 {
                 XGZTBlueToothManager.shared.device?.baseUnit = Int(response[6])
+                NotificationCenter.default.post(name: Notification.Name("HealthViewController"), object: "step")
+                NotificationCenter.default.post(name: Notification.Name("XGZTBusinessHandler"), object: "16")
             } else {
                 let success = response[6] == 0x00
                 if success {
-                    print("设置设备单位格式命令执行成功")
+                    XLogger.shared.log("设置设备单位格式命令执行成功")
+                    NotificationCenter.default.post(name: Notification.Name("HealthViewController"), object: "step")
                 } else {
-                    print("设置设备单位格式命令执行失败")
+                    XLogger.shared.log("设置设备单位格式命令执行失败")
                 }
             }
             
         case.resetToFactorySettings:
             guard response.count >= 6 else {
-                print("resetToFactorySettings command response error")
+                XLogger.shared.log("resetToFactorySettings command response error")
                 return
             }
             let success = response[5] == 0x00
             if success {
-                print("重置设备为出厂设置命令执行成功")
+                XLogger.shared.log("重置设备为出厂设置命令执行成功")
             } else {
-                print("重置设备为出厂设置命令执行失败")
+                XLogger.shared.log("重置设备为出厂设置命令执行失败")
             }
         case.setDeviceScreenTimeout:
             guard response.count >= 6 else {
-                print("setDeviceScreenTimeout command response error")
+                XLogger.shared.log("setDeviceScreenTimeout command response error")
                 return
             }
             let success = response[5] == 0x00
             if success {
-                print("设置设备亮屏时间命令执行成功")
+                XLogger.shared.log("设置设备亮屏时间命令执行成功")
             } else {
-                print("设置设备亮屏时间命令执行失败")
+                XLogger.shared.log("设置设备亮屏时间命令执行失败")
             }
         case.setDoNotDisturb:
             guard response.count >= 6 else {
-                print("setDoNotDisturb command response error")
+                XLogger.shared.log("setDoNotDisturb command response error")
                 return
             }
             let success = response[5] == 0x00
             if success {
-                print("设置勿扰功能命令执行成功")
+                XLogger.shared.log("设置勿扰功能命令执行成功")
             } else {
-                print("设置勿扰功能命令执行失败")
+                XLogger.shared.log("设置勿扰功能命令执行失败")
             }
         case.findBand:
             guard response.count >= 7 else {
-            print("findBand command response error")
+            XLogger.shared.log("findBand command response error")
             return
             }
             let success = response[6] == 0x00
             if success {
-                print("查找手环命令执行成功")
+                XLogger.shared.log("查找手环命令执行成功")
             } else {
-                print("查找手环命令执行失败")
+                XLogger.shared.log("查找手环命令执行失败")
             }
         case.findPhone:
             guard response.count >= 6 else {
-                print("findPhone command response error")
+                XLogger.shared.log("findPhone command response error")
                 return
             }
             if response[5] == 0x00 {
-                print("开始查找手机")
+                XLogger.shared.log("开始查找手机")
                 DispatchQueue.main.async {
                     (UIApplication.shared.delegate as? AppDelegate)?.foundphone()
                 }
             } else {
-                print("结束查找手机")
+                XLogger.shared.log("结束查找手机")
             }
         case.setWeatherUnit:
-            guard response.count >= 6 else {
-                print("setWeatherUnit command response error")
+            guard response.count >= 7 else {
+                XLogger.shared.log("setWeatherUnit command response error")
                 return
             }
-            let success = response[5] == 0x00
+            let success = response[6] == 0x00
             if success {
-                print("设置天气单位命令执行成功")
+                XLogger.shared.log("设置天气单位命令执行成功")
             } else {
-                print("设置天气单位命令执行失败")
+                XLogger.shared.log("设置天气单位命令执行失败")
             }
         case.set12H24HTimeFormat:
             guard response.count >= 7 else {
-                print("set12H24HTimeFormat command response error")
+                XLogger.shared.log("set12H24HTimeFormat command response error")
                 return
             }
             if response[5] == 0 {
                 XGZTBlueToothManager.shared.device?.timeUnit = Int(response[6])
+                NotificationCenter.default.post(name: Notification.Name("XGZTBusinessHandler"), object: "15")
             } else {
                 let success = response[6] == 0x00
                 if success {
-                    print("设置12小时/24小时时间制命令执行成功")
+                    XLogger.shared.log("设置12小时/24小时时间制命令执行成功")
                 } else {
-                    print("设置12小时/24小时时间制命令执行失败")
+                    XLogger.shared.log("设置12小时/24小时时间制命令执行失败")
                 }
             }
         case.getDeviceInfo:
@@ -1148,49 +1219,75 @@ public class XGZTCommand {
                 let range = 7..<13 // Convert ClosedRange to Range by adding 1 to the upper bound
                 let macAddressData = response[range]
                 let macAddress = macAddressData.map { String(format: "%02x", $0) }.joined(separator: ":").uppercased()
-                lastestDeviceMac = macAddress
-                XGZTBlueToothManager.shared.device?.max = macAddress
-                UserDefaults.standard.setValue(lastestDeviceMac, forKey: "LastestDeviceMac")
-                UserDefaults.standard.synchronize()
+                XLogger.shared.log("macAddress: \(macAddress)")
+                if !MACAddressComparator.isMatching(lastestDeviceMac, macAddress) {
+                    lastestDeviceMac = macAddress
+                }
                 return
             }
-            guard response.count >= 46 else {
-                print("getDeviceInfo command response error")
+            if response.count >= 21 && response.count < 30 {
+                let range = 15..<21 // Convert ClosedRange to Range by adding 1 to the upper bound
+                let macAddressData = response[range]
+                let macAddress = macAddressData.map { String(format: "%02x", $0) }.joined(separator: ":").uppercased()
+                XLogger.shared.log("macAddress: \(macAddress)")
+                if !MACAddressComparator.isMatching(lastestDeviceMac, macAddress) {
+                    lastestDeviceMac = macAddress
+                }
+                return
+            }
+            if response.count == 41 {
+                XGZTBlueToothManager.shared.device?.screenType = Int(response[5])
+                XGZTBlueToothManager.shared.device?.hardwareVersion = Int(response[30])
+                XGZTBlueToothManager.shared.device?.firmwareVersion = "\(Int(response[35])).\(Int(response[32]))"
+                XGZTBlueToothManager.shared.device?.deviceID = (Int(response[34]) << 8) | Int(response[33])
+                XGZTBlueToothManager.shared.device?.deviceModel = (Int(response[36]) << 8) | Int(response[35])
+                XGZTBlueToothManager.shared.device?.screenWidth = (Int(response[38]) << 8) | Int(response[37])
+                XGZTBlueToothManager.shared.device?.screenHeight = (Int(response[40]) << 8) | Int(response[39])
+                XGZTBlueToothManager.shared.device?.functioncontrolflags = getIntFromBytes(response, 10)
+                XGZTBlueToothManager.shared.device?.healthcontrolflags = getIntFromBytes(response, 14)
+                NotificationCenter.default.post(name: Notification.Name("DevicesViewController"), object: "1999")
+                XLogger.shared.log("firmwareVersion: \(XGZTBlueToothManager.shared.device?.firmwareVersion ?? "")")
+            }
+            guard response.count >= 45 else {
+                XLogger.shared.log("getDeviceInfo command response error")
                 return
             }
             XGZTBlueToothManager.shared.device?.screenType = Int(response[5])
-            XGZTBlueToothManager.shared.device?.hardwareVersion = Int(response[30])
-            XGZTBlueToothManager.shared.device?.firmwareVersion = "\(Int(response[31])).\(Int(response[32]))"
-            XGZTBlueToothManager.shared.device?.deviceID = (Int(response[34]) << 8) | Int(response[33])
-            XGZTBlueToothManager.shared.device?.deviceModel = (Int(response[36]) << 8) | Int(response[35])
-            XGZTBlueToothManager.shared.device?.screenWidth = (Int(response[38]) << 8) | Int(response[37])
-            XGZTBlueToothManager.shared.device?.screenHeight = (Int(response[40]) << 8) | Int(response[39])
-            XGZTBlueToothManager.shared.device?.functioncontrolflags = getIntFromBytes(response, 10)
-            XGZTBlueToothManager.shared.device?.healthcontrolflags = getIntFromBytes(response, 14)
-            
+            XGZTBlueToothManager.shared.device?.hardwareVersion = Int(response[34])
+            XGZTBlueToothManager.shared.device?.firmwareVersion = "\(Int(response[35])).\(Int(response[36]))"
+            XGZTBlueToothManager.shared.device?.deviceID = (Int(response[38]) << 8) | Int(response[37])
+            XGZTBlueToothManager.shared.device?.deviceModel = (Int(response[40]) << 8) | Int(response[39])
+            XGZTBlueToothManager.shared.device?.screenWidth = (Int(response[42]) << 8) | Int(response[41])
+            XGZTBlueToothManager.shared.device?.screenHeight = (Int(response[44]) << 8) | Int(response[43])
+            XGZTBlueToothManager.shared.device?.functioncontrolflags = getIntFromBytes(response, 14)
+            XGZTBlueToothManager.shared.device?.healthcontrolflags = getIntFromBytes(response, 18)
+            NotificationCenter.default.post(name: Notification.Name("DevicesViewController"), object: "1999")
+            XLogger.shared.log("firmwareVersion: \(XGZTBlueToothManager.shared.device?.firmwareVersion ?? "")")
         case.setAppInfo:
             guard response.count >= 7 else {
-                print("setAppInfo command response error")
+                XLogger.shared.log("setAppInfo command response error")
                 return
             }
             let success = response[6] == 0x00
             if success {
-                print("设置应用端信息命令执行成功")
+                XLogger.shared.log("设置应用端信息命令执行成功")
             } else {
-                print("设置应用端信息命令执行失败")
+                XLogger.shared.log("设置应用端信息命令执行失败")
             }
+            flag_5d = false
+            NotificationCenter.default.post(name: Notification.Name("XGZTBusinessHandler"), object: "2")
         case.personalInfo:
             if response.count == 7 {
                 let success = response[6] == 0x00
                 if success {
-                    print("设置用户信息执行成功")
+                    XLogger.shared.log("设置用户信息执行成功")
                 } else {
-                    print("设置用户信息执行失败")
+                    XLogger.shared.log("设置用户信息执行失败")
                 }
                 return
             }
             guard response.count >= 9 else {
-                print("personalInfo command response error")
+                XLogger.shared.log("personalInfo command response error")
                 return
             }
             if response[2] == 3 {
@@ -1198,10 +1295,11 @@ public class XGZTCommand {
                 XGZTBlueToothManager.shared.device?.age = Int(response[6])
                 XGZTBlueToothManager.shared.device?.height = Int(response[7])
                 XGZTBlueToothManager.shared.device?.weight = Int(response[8])
+                NotificationCenter.default.post(name: Notification.Name("HealthViewController"), object: "head")
             }
         case.switchStatus:
             guard response.count >= 7 else {
-                print("switchStatus command response error")
+                XLogger.shared.log("switchStatus command response error")
                 return
             }
             if response.count >= 10 {
@@ -1219,46 +1317,89 @@ public class XGZTCommand {
                 XGZTBlueToothManager.shared.device?.isVibrationswitch = ((response[7] >> 3) & 1) > 0
                 XGZTBlueToothManager.shared.device?.isRegularhealthdatauploadswitch = ((response[7] >> 4) & 1) > 0
                 XGZTBlueToothManager.shared.device?.isMessagevibrationswitch = ((response[7] >> 5) & 1) > 0
+                
+                if response[2] == 3 {
+                    NotificationCenter.default.post(name: Notification.Name("DeviceSettings"), object: 1)
+                } else {
+                    NotificationCenter.default.post(name: Notification.Name("XGZTBusinessHandler"), object: "11")
+                }
             } else {
                 let success = response[6] == 0x00
                 if success {
-                    print("设置开关执行成功")
+                    XLogger.shared.log("设置开关执行成功")
                 } else {
-                    print("设置开关执行失败")
+                    XLogger.shared.log("设置开关执行失败")
                 }
             }
         case.bindDevice:
             guard response.count >= 8 else {
-                print("bindDevice command response error")
+                XLogger.shared.log("bindDevice command response error")
                 return
             }
-            let success = response[7] == 0x01
-            if success {
-                print("绑定设备命令执行成功")
-            } else {
-                print("绑定设备命令执行失败")
+            let control = response[6]
+            if control == 0 {
+                let success = response[7]
+                if success == 0 {
+                    XLogger.shared.log("绑定开始结束命令未被绑定过")
+                } else if success == 1 {
+                    XLogger.shared.log("绑定开始结束命令已被绑定过")
+                }
+                if !flag_81 {
+                    return
+                }
+                flag_81 = false
+                NotificationCenter.default.post(name: Notification.Name("XGZTBusinessHandler"), object: "17")
+            } else if control == 1 {
+                let success = response[7]
+                if success == 0 {
+                    XLogger.shared.log("绑定数据结束命令绑定未完成")
+                } else if success == 1 {
+                    XLogger.shared.log("绑定数据结束命令执行完成")
+                }
+                flag_82 = false
+                NotificationCenter.default.post(name: Notification.Name("XGZTBusinessHandler"), object: "1")
+            } else if control == 2 {
+                let success = response[7]
+                if success == 0 {
+                    XLogger.shared.log("断开绑定命令执行成功")
+                } else if success == 1 {
+                    XLogger.shared.log("断开绑定命令执行未绑定")
+                } else {
+                    XLogger.shared.log("断开绑定命令执行失败")
+                }
             }
+            
         case.alarmInfo:
             guard response.count >= 7 else {
-                print("alarmInfo command response error")
+                XLogger.shared.log("alarmInfo command response error")
                 return
             }
-            if response.count == 7 && response[5] == 0x00 {
+            if response.count == 8 && response[5] == 0x00 && response[6] == 0x00 {
                 XGZTBlueToothManager.shared.device?.alarmcount = Int(response[6])
                 return
             }
-            if response.count == 7 && response[5] == 0x01 && response[6] == 0x00 {
-                XGZTCommand.getAlarmInfo()
+            if response.count == 8 && response[5] == 0x00 && response[6] == 0x02 {
+                XGZTBlueToothManager.shared.device?.alarmCanUse = Int(response[7])
                 return
             }
-            if response.count == 13 {
-                let index = Int(response[6])
-                let switchValue = Int(response[7])
-                let cycle = Int(response[8])
-                let hour = Int(response[9])
-                let minute = Int(response[10])
-                let vibration = Int(response[11])
-                let later = Int(response[12])
+            if response.count == 8 && response[5] == 0x01 && response[7] == 0x00 {
+                XGZTCommand.getAlarmInfo(type: 1)
+                XGZTCommand.getAlarmInfo(type: 2)
+                return
+            }
+            if response.count == 7 && response[5] == 0x01 && response[6] == 0x00 {
+                XGZTCommand.getAlarmInfo(type: 1)
+                XGZTCommand.getAlarmInfo(type: 2)
+                return
+            }
+            if response.count == 14 {
+                let index = Int(response[7])
+                let switchValue = Int(response[8])
+                let cycle = Int(response[9])
+                let hour = Int(response[10])
+                let minute = Int(response[11])
+                let vibration = Int(response[12])
+                let later = Int(response[13])
                 let alarm = AlarmData(alarmIndex: index, mswitch: switchValue, alarmCycle: cycle, alarmHour: hour, alarmMinute: minute, vibrationMode: vibration, remindLater: later)
                 if XGZTBlueToothManager.shared.device?.alarms.count ?? 0 > 0 {
                     var b = false
@@ -1282,12 +1423,12 @@ public class XGZTCommand {
         case.reminderInfo:
             if response.count == 7 {
                 if response[6] == 0 {
-                    print("提醒协议设置成功")
+                    XLogger.shared.log("提醒协议设置成功")
                 }
                 return
             }
             guard response.count >= 12 else {
-                print("reminderInfo command response error")
+                XLogger.shared.log("reminderInfo command response error")
                 return
             }
             let eventType = Int(response[6])
@@ -1299,14 +1440,15 @@ public class XGZTCommand {
             let period = Int(response[12])
             if eventType == 0 {
                 XGZTBlueToothManager.shared.device?.longsit = ReminderInfoResponse(eventType: eventType, cycle: cycle, startHour: startHour, startMinute: startMinute, endHour: endHour, endMinute: endMinute, period: period)
+                NotificationCenter.default.post(name: Notification.Name("XGZTBusinessHandler"), object: "13")
             } else if eventType == 1 {
                 XGZTBlueToothManager.shared.device?.drinkWater = ReminderInfoResponse(eventType: eventType, cycle: cycle, startHour: startHour, startMinute: startMinute, endHour: endHour, endMinute: endMinute, period: period)
-                
+                NotificationCenter.default.post(name: Notification.Name("XGZTBusinessHandler"), object: "14")
                 NotificationCenter.default.post(name: Notification.Name("DeviceSettings"), object: 1)
             }
         case.switchTableExtension:
             guard response.count >= 7 else {
-                print("switchTableExtension command response error")
+                XLogger.shared.log("switchTableExtension command response error")
                 return
             }
             if response.count >= 11 {
@@ -1341,73 +1483,87 @@ public class XGZTCommand {
                 XGZTBlueToothManager.shared.device?.isAlipay = ((response[10] >> 4) & 1) > 0
                 XGZTBlueToothManager.shared.device?.isTiktok = ((response[10] >> 5) & 1) > 0
                 XGZTBlueToothManager.shared.device?.isLinkedIn = ((response[10] >> 6) & 1) > 0
-                
+                NotificationCenter.default.post(name: Notification.Name("XGZTBusinessHandler"), object: "12")
             } else {
                 let success = response[6] == 0x00
                 if success {
-                    print("设置开关执行成功")
+                    XLogger.shared.log("设置开关执行成功")
                 } else {
-                    print("设置开关执行失败")
+                    XLogger.shared.log("设置开关执行失败")
                 }
             }
             
         case.musicControl:
             guard response.count >= 6 else {
-                print("musicControl command response error")
+                XLogger.shared.log("musicControl command response error")
                 return
             }
             let success = response[5] == 0x00
             if success {
-                print("音乐控制命令执行成功")
+                XLogger.shared.log("音乐控制命令执行成功")
             } else {
-                print("音乐控制命令执行失败")
+                XLogger.shared.log("音乐控制命令执行失败")
             }
         case.remotePhoto:
             if response.count == 6 {
                 if response[5] == 0 {
-                    NotificationCenter.default.post(name: Notification.Name("DeviceSettings"), object: nil)
+                    if response[2] == 3 {
+                        NotificationCenter.default.post(name: Notification.Name("HealthVCLoading"), object: 10000)
+                    } else {
+                        NotificationCenter.default.post(name: Notification.Name("DeviceSettings"), object: nil)
+                    }
+                    
                 } else if response[5] == 1 {
-                    NotificationCenter.default.post(name: Notification.Name("DeviceSettings"), object: 3)
+                    if response[2] == 3 {
+                        NotificationCenter.default.post(name: Notification.Name("HealthVCLoading"), object: 10002)
+                    } else {
+                        NotificationCenter.default.post(name: Notification.Name("DeviceSettings"), object: 3)
+                    }
                 } else if response[5] == 2 {
-                    NotificationCenter.default.post(name: Notification.Name("DeviceSettings"), object: 2)
+                    if response[2] == 3 {
+                        NotificationCenter.default.post(name: Notification.Name("HealthVCLoading"), object: 10001)
+                    } else {
+                        NotificationCenter.default.post(name: Notification.Name("DeviceSettings"), object: 2)
+                    }
+                    
                 }
                 return
             }
             guard response.count >= 7 else {
-                print("remotePhoto command response error")
+                XLogger.shared.log("remotePhoto command response error")
                 return
             }
             let success = response[6] == 0x00
             if success {
-                print("远程拍照命令执行成功")
+                XLogger.shared.log("远程拍照命令执行成功")
             } else {
-                print("远程拍照命令执行失败")
+                XLogger.shared.log("远程拍照命令执行失败")
             }
         case.messagePush:
             guard response.count >= 6 else {
-                print("messagePush command response error")
+                XLogger.shared.log("messagePush command response error")
                 return
             }
             let success = response[5] == 0x00
             if success {
-                print("消息推送命令执行成功")
+                XLogger.shared.log("消息推送命令执行成功")
             } else {
-                print("消息推送命令执行失败")
+                XLogger.shared.log("消息推送命令执行失败")
             }
         case.setWeatherInfo:
             guard response.count >= 7 else {
-                print("setWeatherInfo command response error")
+                XLogger.shared.log("setWeatherInfo command response error")
                 return
             }
             let success = response[6] == 0x00
             if success {
-                print("设置天气信息命令执行成功")
+                XLogger.shared.log("设置天气信息命令执行成功")
             } else {
-                print("设置天气信息命令执行失败")
+                XLogger.shared.log("设置天气信息命令执行失败")
             }
         case.contactInfo:
             guard response.count >= 7 else {
-                print("contactInfo command response error")
+                XLogger.shared.log("contactInfo command response error")
                 return
             }
             let contactNum = Int(response[6])
@@ -1429,21 +1585,21 @@ public class XGZTCommand {
                     contacts?.append(ContactData(index: index, name: name, phoneNumber: phoneNumber))
                 }
             }
-            print("联系人数量: \(contactNum), 联系人信息: \(contacts ?? [])")
+            XLogger.shared.log("联系人数量: \(contactNum), 联系人信息: \(contacts ?? [])")
         case.incomingCallMute:
             guard response.count >= 6 else {
-                print("incomingCallMute command response error")
+                XLogger.shared.log("incomingCallMute command response error")
                 return
             }
             let success = response[5] == 0x00
             if success {
-                print("来电静音命令执行成功")
+                XLogger.shared.log("来电静音命令执行成功")
             } else {
-                print("来电静音命令执行失败")
+                XLogger.shared.log("来电静音命令执行失败")
             }
         case.targetSettings:
             guard response.count >= 16 else {
-                print("targetSettings command response error")
+                XLogger.shared.log("targetSettings command response error")
                 return
             }
             let targetSwitch = getShortFromBytes(response, 6)
@@ -1452,15 +1608,15 @@ public class XGZTCommand {
             let calorieTargetValue = getShortFromBytes(response, 10)
             let sleepTargetValue = getShortFromBytes(response, 12)
             let exerciseDurationTargetValue = getShortFromBytes(response, 14)
-            print("目标设置开关: \(targetSwitch)")
-            print("步数目标值: \(stepTargetValue)")
-            print("距离目标值: \(distanceTargetValue)")
-            print("卡路里目标值: \(calorieTargetValue)")
-            print("睡眠目标值: \(sleepTargetValue)")
-            print("运动时长目标值: \(exerciseDurationTargetValue)")
+            XLogger.shared.log("目标设置开关: \(targetSwitch)")
+            XLogger.shared.log("步数目标值: \(stepTargetValue)")
+            XLogger.shared.log("距离目标值: \(distanceTargetValue)")
+            XLogger.shared.log("卡路里目标值: \(calorieTargetValue)")
+            XLogger.shared.log("睡眠目标值: \(sleepTargetValue)")
+            XLogger.shared.log("运动时长目标值: \(exerciseDurationTargetValue)")
         case.multiSportModeData:
             guard response.count >= 8 else {
-                print("multiSportModeData command response error")
+                XLogger.shared.log("multiSportModeData command response error")
                 return
             }
             let numData = getShortFromBytes(response, 6)
@@ -1485,10 +1641,35 @@ public class XGZTCommand {
                 offset += 4
                 sportDataList.append(MultiSportModeData(sportType: sportType, timestamp: timestamp, stepCount: stepCount, calorie: calorie, distance: distance, duration: duration, avgHeartRate: avgHeartRate, staticCalorie: staticCalorie))
             }
-            print("多运动模式数据数量: \(numData), 数据详情: \(sportDataList)")
+            XLogger.shared.log("多运动模式数据数量: \(numData), 数据详情: \(sportDataList)")
+        case.getSleepMonitoring:
+            guard response.count >= 12 else {
+                XLogger.shared.log("setAutoSleepMonitoring command response error")
+                return
+            }
+            if response[2] == 2 {
+                let deep = Int(response[6]) |
+                           (Int(response[7]) << 8)
+                let light = Int(response[8]) |
+                           (Int(response[9]) << 8)
+                let awake = Int(response[10]) |
+                           (Int(response[11]) << 8)
+                XGZTBlueToothManager.shared.device?.currentSleep = light + deep
+                NotificationCenter.default.post(name: Notification.Name("HealthViewController"), object: "sleep")
+            } else if response[2] == 3 {
+                let deep = Int(response[5]) |
+                           (Int(response[6]) << 8)
+                let light = Int(response[7]) |
+                           (Int(response[8]) << 8)
+                let awake = Int(response[9]) |
+                           (Int(response[10]) << 8)
+                XGZTBlueToothManager.shared.device?.currentSleep = light + deep
+                NotificationCenter.default.post(name: Notification.Name("HealthViewController"), object: "sleep")
+            }
+            NotificationCenter.default.post(name: Notification.Name("XGZTBusinessHandler"), object: "9")
         case.setAutoSleepMonitoring:
             guard response.count >= 12 else {
-                print("setAutoSleepMonitoring command response error")
+                XLogger.shared.log("setAutoSleepMonitoring command response error")
                 return
             }
             let startHour = Int(response[6])
@@ -1497,15 +1678,15 @@ public class XGZTCommand {
             let endMinute = Int(response[9])
             let alarmCycle = Int(response[10])
             let responseCode = Int(response[11])
-            print("自动睡眠监测开始时间（小时）: \(startHour)")
-            print("自动睡眠监测开始时间（分钟）: \(startMinute)")
-            print("自动睡眠监测结束时间（小时）: \(endHour)")
-            print("自动睡眠监测结束时间（分钟）: \(endMinute)")
-            print("自动睡眠监测闹钟周期: \(alarmCycle)")
-            print("响应码: \(responseCode)")
+            XLogger.shared.log("自动睡眠监测开始时间（小时）: \(startHour)")
+            XLogger.shared.log("自动睡眠监测开始时间（分钟）: \(startMinute)")
+            XLogger.shared.log("自动睡眠监测结束时间（小时）: \(endHour)")
+            XLogger.shared.log("自动睡眠监测结束时间（分钟）: \(endMinute)")
+            XLogger.shared.log("自动睡眠监测闹钟周期: \(alarmCycle)")
+            XLogger.shared.log("响应码: \(responseCode)")
         case.dialMarket:
             guard response.count >= 7 else {
-                print("dialMarket command response error")
+                XLogger.shared.log("dialMarket command response error")
                 return
             }
             let value = response[5]
@@ -1539,18 +1720,41 @@ public class XGZTCommand {
             }
         case.resourceUpgrade:
             guard response.count >= 6 else {
-                print("resourceUpgrade command response error")
+                XLogger.shared.log("resourceUpgrade command response error")
                 return
             }
             let success = response[5] == 0x00
             if success {
-                print("资源升级相关命令执行成功")
+                XLogger.shared.log("资源升级相关命令执行成功")
             } else {
-                print("资源升级相关命令执行失败")
+                XLogger.shared.log("资源升级相关命令执行失败")
+            }
+        case .unbindDeviceNotif:
+            guard response.count >= 6 else {
+                XLogger.shared.log("resourceUpgrade command response error")
+                return
+            }
+            let success = response[5] == 0x00
+            if success {
+                XLogger.shared.log("设备端发送通知成功")
+            } else {
+                XLogger.shared.log("设备端发送通知失败")
+            }
+        case .disconnectBT:
+            guard response.count >= 7 else {
+                XLogger.shared.log("resourceUpgrade command response error")
+                return
+            }
+            let success = response[6] == 0x00
+            if success {
+                XLogger.shared.log("BT断开执行成功")
+                NotificationCenter.default.post(name: Notification.Name("DevicesViewController"), object: "2000")
+            } else {
+                XLogger.shared.log("BT断开执行失败")
             }
         case .getNewestHealthData:
             guard response.count >= 11 else {
-                print("resourceUpgrade command response error")
+                XLogger.shared.log("resourceUpgrade command response error")
                 return
             }
             
@@ -1562,16 +1766,16 @@ public class XGZTCommand {
                 NotificationCenter.default.post(name: Notification.Name("HealthViewController"), object: "blood")
                 NotificationCenter.default.post(name: Notification.Name("HealthViewController"), object: "oxygen")
                 NotificationCenter.default.post(name: Notification.Name("HealthViewController"), object: "heart")
-            } else if response.count == 19 {
+            } else if response.count >= 19 {
                 XGZTBlueToothManager.shared.device?.currentStep = getIntFromBytes(response, 7)
                 XGZTBlueToothManager.shared.device?.currentCalorie = getIntFromBytes(response, 11)
                 XGZTBlueToothManager.shared.device?.currentDistance = getIntFromBytes(response, 15)
                 NotificationCenter.default.post(name: Notification.Name("HealthViewController"), object: "step")
             }
-            
+            NotificationCenter.default.post(name: Notification.Name("XGZTBusinessHandler"), object: "4")
         case .getStepData:
             guard response.count >= 62 else {
-                print("resourceUpgrade command response error")
+                XLogger.shared.log("resourceUpgrade command response error")
                 return
             }
             let fixedMac = lastestDeviceMac
@@ -1601,11 +1805,12 @@ public class XGZTCommand {
                 stepObj.step = step
 
                 DatabaseManager.shared.addStepObj(stepObj: stepObj)
-                print("历史步数读取成功:\(stepObj)")
+                XLogger.shared.log("历史步数读取成功:\(stepObj)")
             }
+            NotificationCenter.default.post(name: Notification.Name("XGZTBusinessHandler"), object: "8")
         case .getHistorySleepData:
             guard response.count >= 76 else {
-                print("resourceUpgrade command response error")
+                XLogger.shared.log("resourceUpgrade command response error")
                 return
             }
             let fixedMac = lastestDeviceMac
@@ -1639,18 +1844,19 @@ public class XGZTCommand {
                 sleepObj.deep = deep
 
                 DatabaseManager.shared.addSleepObj(sleepObj: sleepObj)
-                print("历史睡眠读取成功:\(sleepObj)")
+                XLogger.shared.log("历史睡眠读取成功:\(sleepObj)")
                 
                 
             }
             NotificationCenter.default.post(name: Notification.Name("HealthViewController"), object: "refresh")
+            NotificationCenter.default.post(name: Notification.Name("XGZTBusinessHandler"), object: "10")
         case .startTest:
             if response.count == 7 {
                 let success = response[6] == 0x00
                 if success {
-                    print("测试命令执行成功")
+                    XLogger.shared.log("测试命令执行成功")
                 } else {
-                    print("测试命令执行失败")
+                    XLogger.shared.log("测试命令执行失败")
                 }
             }
             if response.count >= 11 {
@@ -1660,29 +1866,38 @@ public class XGZTCommand {
                            (Int(response[9]) << 24)
                 let cmdType = Int(response[5])
                 if cmdType == 0 {
+                    if Int(response[10]) == 0 {
+                        return
+                    }
                     XGZTBlueToothManager.shared.device?.currentHeartrate = Int(response[10])
-                    XGZTCommand.startTest(cmdType: 0, control: 0)
+                    //XGZTCommand.startTest(cmdType: 0, control: 0)
                     let heartObj = HeartObj()
                     heartObj.mac = lastestDeviceMac
                     heartObj.time = time
                     heartObj.heart = Int(response[10])
                     DatabaseManager.shared.addHeartObj(heartObj: heartObj)
                     NotificationCenter.default.post(name: Notification.Name("HealthViewController"), object: "heart")
-                    print("获取到的心率为:\(time) --- \(Int(response[10]))")
+                    XLogger.shared.log("获取到的心率为:\(time) --- \(Int(response[10]))")
                 } else if cmdType == 1 {
+                    if Int(response[10]) == 0 {
+                        return
+                    }
                     XGZTBlueToothManager.shared.device?.currentOxygen = Int(response[10])
-                    XGZTCommand.startTest(cmdType: 1, control: 0)
+                    //XGZTCommand.startTest(cmdType: 1, control: 0)
                     let oxgenObj = OxgenObj()
                     oxgenObj.mac = lastestDeviceMac
                     oxgenObj.time = time
                     oxgenObj.oxgen = Int(response[10])
                     DatabaseManager.shared.addOxgenObj(oxgenObj: oxgenObj)
                     NotificationCenter.default.post(name: Notification.Name("HealthViewController"), object: "oxygen")
-                    print("获取到的血氧为:\(time) --- \(Int(response[10]))")
+                    XLogger.shared.log("获取到的血氧为:\(time) --- \(Int(response[10]))")
                 } else {
+                    if Int(response[10]) == 0 {
+                        return
+                    }
                     XGZTBlueToothManager.shared.device?.currentSystolicpressure = Int(response[10])
                     XGZTBlueToothManager.shared.device?.currentDiastolicpressure = Int(response[11])
-                    XGZTCommand.startTest(cmdType: 2, control: 0)
+                    //XGZTCommand.startTest(cmdType: 2, control: 0)
                     let booldObj = BloodObj()
                     booldObj.time = time
                     booldObj.mac = lastestDeviceMac
@@ -1690,7 +1905,7 @@ public class XGZTCommand {
                     booldObj.min = Int(response[11])
                     DatabaseManager.shared.addBloodObj(bloodObj: booldObj)
                     NotificationCenter.default.post(name: Notification.Name("HealthViewController"), object: "blood")
-                    print("获取到的血压为:\(time) --- \(Int(response[10])) --- \(Int(response[11]))")
+                    XLogger.shared.log("获取到的血压为:\(time) --- \(Int(response[10])) --- \(Int(response[11]))")
                 }
                 DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.1) {
                     NotificationCenter.default.post(name: Notification.Name("healthDetail"), object: nil)
@@ -1711,7 +1926,8 @@ public class XGZTCommand {
                     heartObj.heart = Int(response[10])
                     DatabaseManager.shared.addHeartObj(heartObj: heartObj)
                     NotificationCenter.default.post(name: Notification.Name("HealthViewController"), object: "heart")
-                    print("获取到的心率为:\(time) --- \(Int(response[10]))")
+                    XLogger.shared.log("获取到的心率为:\(time) --- \(Int(response[10]))")
+                    NotificationCenter.default.post(name: Notification.Name("XGZTBusinessHandler"), object: "5")
                 } else if cmdType == 1 {
                     XGZTBlueToothManager.shared.device?.currentOxygen = Int(response[10])
                     let oxgenObj = OxgenObj()
@@ -1720,7 +1936,8 @@ public class XGZTCommand {
                     oxgenObj.oxgen = Int(response[10])
                     DatabaseManager.shared.addOxgenObj(oxgenObj: oxgenObj)
                     NotificationCenter.default.post(name: Notification.Name("HealthViewController"), object: "oxygen")
-                    print("获取到的血氧为:\(time) --- \(Int(response[10]))")
+                    XLogger.shared.log("获取到的血氧为:\(time) --- \(Int(response[10]))")
+                    NotificationCenter.default.post(name: Notification.Name("XGZTBusinessHandler"), object: "6")
                 } else {
                     XGZTBlueToothManager.shared.device?.currentSystolicpressure = Int(response[10])
                     XGZTBlueToothManager.shared.device?.currentDiastolicpressure = Int(response[11])
@@ -1731,13 +1948,95 @@ public class XGZTCommand {
                     booldObj.min = Int(response[11])
                     DatabaseManager.shared.addBloodObj(bloodObj: booldObj)
                     NotificationCenter.default.post(name: Notification.Name("HealthViewController"), object: "blood")
-                    print("获取到的血压为:\(time) --- \(Int(response[10])) --- \(Int(response[11]))")
+                    XLogger.shared.log("获取到的血压为:\(time) --- \(Int(response[10])) --- \(Int(response[11]))")
+                    NotificationCenter.default.post(name: Notification.Name("XGZTBusinessHandler"), object: "7")
                 }
                 DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.01) {
                     NotificationCenter.default.post(name: Notification.Name("healthDetail"), object: nil)
                 }
             }
+        case .setTimePositionAndColor:
+            if response.count == 7 {
+                let success = response[6] == 0x00
+                if success {
+                    XLogger.shared.log("设置时间位置和颜色执行成功")
+                } else {
+                    XLogger.shared.log("设置时间位置和颜色执行失败")
+                }
+            }
         }
         
+    }
+}
+
+class QRCodeSetCommand {
+    // 指令相关固定字段值
+    static let seqNumAndEnc: UInt8 = 0x00
+    static let cmd: UInt8 = 0xE3
+    static let cmdType: UInt8 = 0x01
+    static let frameSeq: UInt8 = 0x00
+    static let actionCmd: UInt8 = 0x01
+    
+    /// 构建收款码设置指令数据包
+    /// - Parameters:
+    ///   - type: 收款码类型，0x00 为支付宝，0x01 为微信
+    ///   - qrString: 收款码的 URL 字符串（UTF-8 编码，不含末尾\0）
+    /// - Returns: 完整的指令 Data，如果参数不合法返回 nil
+    static func buildCommand(type: UInt8, qrString: String) -> Data? {
+        // 校验收款码类型
+        guard (0x00...0x01).contains(type) else {
+            print("收款码类型不合法，需为 0x00 或 0x01")
+            return nil
+        }
+        let qrData = qrString.data(using: .utf8)
+        guard let qrData = qrData else {
+            print("收款码字符串转 UTF-8 Data 失败")
+            return nil
+        }
+        // 计算 Frame Length：2 + 字符串长度（qrString 的字节数）
+        let frameLength: UInt8 = UInt8(2 + qrData.count)
+        
+        var commandData = Data()
+        // 依次添加各字段
+        commandData.append(seqNumAndEnc)
+        commandData.append(cmd)
+        commandData.append(cmdType)
+        commandData.append(frameSeq)
+        commandData.append(frameLength)
+        commandData.append(actionCmd)
+        commandData.append(type)
+        commandData.append(contentsOf: qrData)
+        
+        return commandData
+    }
+}
+
+class MACAddressComparator {
+    /// 判断两个MAC地址的特定字节是否相同
+    /// - Parameters:
+    ///   - mac1: 第一个MAC地址字符串（格式如"AA:BB:CC:DD:EE:FF"）
+    ///   - mac2: 第二个MAC地址字符串（格式如"AA:BB:CC:DD:EE:FF"）
+    /// - Returns: 如果第1、2、3、5、6字节相同则返回true，否则返回false；格式不正确也返回false
+    static func isMatching(_ mac1: String, _ mac2: String) -> Bool {
+        // 分割MAC地址为字节数组
+        let components1 = mac1.components(separatedBy: ":")
+        let components2 = mac2.components(separatedBy: ":")
+        
+        // 验证MAC地址格式是否正确（必须包含6个字节）
+        guard components1.count == 6 && components2.count == 6 else {
+            return false
+        }
+        
+        // 需要比较的字节索引（0-based）
+        let indicesToCheck: [Int] = [0, 1, 2, 4, 5]
+        
+        // 检查每个指定索引的字节是否相同
+        for index in indicesToCheck {
+            if components1[index].uppercased() != components2[index].uppercased() {
+                return false
+            }
+        }
+        
+        return true
     }
 }

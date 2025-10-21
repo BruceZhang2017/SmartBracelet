@@ -11,6 +11,9 @@ import Foundation
 
 import Foundation
 
+public var cacheDevices = [BluetoothWatchDevice]()
+public var connectFailMessage = ""
+
 public class BluetoothWatchDevice {
     // 手表设备信息属性
     var deviceName: String?
@@ -36,7 +39,7 @@ public class BluetoothWatchDevice {
     var screenHeight: Int = 240
     var mtu: Int = 0
     
-    var sex: Int = 0
+    var sex: Int = 0 // 性别：0x00：男，0x01：女
     var age: Int = 0
     var height: Int = 0
     var weight: Int = 0
@@ -44,12 +47,14 @@ public class BluetoothWatchDevice {
     var baseUnit: Int = 0 
     
     var alarmcount: Int = 0
+    var alarmCanUse: Int = 0
     var alarms: [AlarmData] = [] // 闹钟
     var longsit: ReminderInfoResponse?
     var drinkWater: ReminderInfoResponse?
     
     // health
     var currentStep: Int = 0
+    var currentSleep: Int = 0
     var currentCalorie: Int = 0
     var currentDistance: Int = 0
     var currentHeartrate: Int = 0
@@ -110,14 +115,35 @@ public class BluetoothWatchDevice {
     // 存储设备信息到沙盒
     static func saveToSandbox(device: BluetoothWatchDevice) {
         let defaults = UserDefaults.standard
-        var dic = defaults.dictionary(forKey: "xgzt") as? [String: String] ?? [:]
-        if dic[device.max!]?.count ?? 0 > 0 {
+        
+        // 1. 安全解包 `device.max`（mac地址），确保键有效
+        guard let macAddress = device.max, macAddress.count > 0 else {
+            XLogger.shared.log("Error: device.max (mac address) is nil")
             return
         }
-        dic[device.max!] = device.deviceName ?? ""
+        
+        // 2. 安全解包 `device.deviceName`，确保不存储空值
+        guard let deviceName = device.deviceName, deviceName.count > 0 else {
+            XLogger.shared.log("Error: deviceName is nil for mac address \(macAddress)")
+            return
+        }
+        
+        var dic = defaults.dictionary(forKey: "xgzt") as? [String: String] ?? [:]
+        
+        // 3. 检查该 `macAddress` 键是否已存在且值不为空
+        if let existingName = dic[macAddress], !existingName.isEmpty {
+            // 键已存在且已有名称，不执行保存操作
+            return
+        }
+        
+        // 4. 存储当前设备的键值对
+        dic[macAddress] = deviceName
         defaults.set(dic, forKey: "xgzt")
-        defaults.synchronize()
+        
+        // 5. 更新缓存（根据业务逻辑保留）
+        BluetoothWatchDevice.loadAll()
     }
+    
     
     // 从沙盒读取设备信息
     static func loadFromSandbox(mac: String) -> BluetoothWatchDevice? {
@@ -132,36 +158,73 @@ public class BluetoothWatchDevice {
         return device
     }
     
+    // 新增：从沙盒读取指定设备名称的设备信息
+    // 如果存在多个同名设备，返回第一个匹配项
+    static func loadFromSandbox(deviceName: String) -> BluetoothWatchDevice? {
+        let defaults = UserDefaults.standard
+        let dic = defaults.dictionary(forKey: "xgzt") as? [String: String] ?? [:]
+        
+        // 遍历查找名称匹配的设备
+        for (mac, name) in dic {
+            if name == deviceName {
+                let device = BluetoothWatchDevice()
+                device.deviceName = name
+                device.max = mac
+                return device
+            }
+        }
+        
+        // 未找到匹配的设备
+        return nil
+    }
+
     static func deleteFromSandbox(mac: String) {
         let defaults = UserDefaults.standard
         var dic = defaults.dictionary(forKey: "xgzt") as? [String: String] ?? [:]
         if dic.count == 0 {
             return
         }
-        var devices = [BluetoothWatchDevice]()
-        for (m, name) in dic {
+
+        for (m, _) in dic {
             if m == mac {
                 dic.removeValue(forKey: m)
                 break
             }
         }
+        XLogger.shared.log("删除设备后：\(dic.keys.count) ")
         defaults.set(dic, forKey: "xgzt")
         defaults.synchronize()
+        
+        BluetoothWatchDevice.loadAll()
     }
     
-    static func loadAll() -> [BluetoothWatchDevice]? {
+    static func loadAll() {
+        cacheDevices.removeAll()
+        cacheDevices = []
         let defaults = UserDefaults.standard
-        let dic = defaults.dictionary(forKey: "xgzt") as? [String: String] ?? [:]
-        if dic.count == 0 {
-            return nil
+        guard let dic = defaults.dictionary(forKey: "xgzt") as? [String: String] else {
+            return
         }
-        var devices = [BluetoothWatchDevice]()
+        
+        if dic.isEmpty || dic.count <= 0 {
+            return
+        }
+        
+        var existingMACs = Set<String>() // 用于记录已存在的 MAC 地址
+        
         for (mac, name) in dic {
-            var device = BluetoothWatchDevice()
+            // 检查 MAC 是否已存在
+            if existingMACs.contains(mac) {
+                continue
+            }
+            
+            existingMACs.insert(mac)
+            
+            let device = BluetoothWatchDevice()
             device.deviceName = name
             device.max = mac
-            devices.append(device)
+            XLogger.shared.log("已经缓存的设备：\(mac) \(name)")
+            cacheDevices.append(device)
         }
-        return devices
     }
 }

@@ -454,7 +454,7 @@ open class ChartData: NSObject
         }
         else
         {
-            print("ChartData.addEntry() - Cannot add Entry because dataSetIndex too high or too low.", terminator: "\n")
+            XLogger.shared.log("ChartData.addEntry() - Cannot add Entry because dataSetIndex too high or too low.")
         }
     }
     

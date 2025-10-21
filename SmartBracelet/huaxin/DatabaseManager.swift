@@ -121,13 +121,16 @@ class DatabaseManager {
     }
     
     // Read
-    func getStepObj(byDate date: String, completion: @escaping (StepObj?) -> Void) {
+    func getStepObj(byDate date: String, completion: @escaping (Results<StepObj>?) -> Void) {
         DispatchQueue(label: "com.sinophy.uwatch").async {
             autoreleasepool {
                 let realm = try! Realm()
-                let obj = realm.object(ofType: StepObj.self, forPrimaryKey: date)
+                let objs = realm.objects(StepObj.self).filter("date == %@", date)
+                let threadSafeResults = ThreadSafeReference(to: objs)
                 DispatchQueue.main.async {
-                    completion(obj)
+                    let realm = try! Realm()
+                    guard let results = realm.resolve(threadSafeResults) else { return }
+                    completion(results)
                 }
             }
         }

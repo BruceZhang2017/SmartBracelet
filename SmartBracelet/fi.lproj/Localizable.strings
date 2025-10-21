@@ -397,3 +397,29 @@
 "No Update Available" = "Ei päivityksiä saatavilla";
 "You are using the latest version." = "Käytät uusinta versiota.";
 "qushi" = "trendi";
+"mile" = "mii";
+"confirm_delete" = "Vahvista poisto";
+"delete_alarm_confirmation" = "Haluatko varmasti poistaa tämän kellon?";
+"ble_off" = "Bluetooth is not enabled. Please enable it first.";
+
+"delete_device_1" = "Poista laite";
+"delete_device_2" = "Laite on poistettu U-Watchista, mutta se on edelleen yhdistetty puhelimeesi. Poista tämä laite täysin suorittamalla seuraavat vaiheet:";
+"delete_device_3" = "1. Puhelimen Asetukset > Bluetooth > Omat laitteet -osiossa etsi 'e watch' ja napsauta oikealla 'i'.";
+"delete_device_4" = "2. Valitse 'Unohda tämä laite'.";
+"delete_device_5" = "3. Kun olet valmis, palaa 'U-Watch'-sovellukseen.";
+"delete_device_6" = "Olen suorittanut yllä olevat vaiheet";
+"delete_device_7" = "Vahvista";
+
+"select_device_scan" = "Tarkastellaan";
+"select_device_scan_desc" = "Etsitään käytettävissä olevia laitteita";
+"select_device_add_manual" = "Lisää manuaalisesti";
+"select_device_add_automatic" = "Skannata lisättäviksi";
+"cardbag"="Korttipussi";
+"alipay"="Alipay";
+"bindtip"="Sidontavaiheet:\n1. Avaa sovellus, siirry maksusivulle ja tallenna keräyskoodi puhelimellesi paikallisesti; (Sinun on manuaalisesti napsautettava keräyskoodin tallentamiseksi, kuvakaappaukset eivät ole voimassa);\n2. Napsauta yllä olevaa QR-koodialuetta lisätäksesi tai korvataksesi QR-koodin;\n3. Napsauta alla olevaa sidontanappia sidostaaksesi QR-koodin kelloon; Napsauta minua";
+"gotobind"="Siirry sidontaan";
+"shibie_fail"="Tunnistus epäonnistui";
+"i_know"="Ymmärsin";
+"send_success"="Lähetetty onnistuneesti";
+"send_fail"="Lähetys epäonnistui";
+"ota"="Firmwaren päivitys";

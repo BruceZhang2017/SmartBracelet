@@ -47,14 +47,14 @@ class ABOtaViewController: UIViewController {
                 OTAInfoManager.shared.downloadOTAFile(from: otaUrl) { [weak self] downloadResult in
                     switch downloadResult {
                     case .success(let fileURL):
-                        print("File downloaded to: \(fileURL)")
+                        XLogger.shared.log("File downloaded to: \(fileURL)")
                         if let data = OTAInfoManager.shared.readSavedOTAFile() {
-                            print("Read saved OTA file with size: \(data.count) bytes")
+                            XLogger.shared.log("Read saved OTA file with size: \(data.count) bytes")
                             self?.abOta.setOtaData(data)
                             
                         }
                     case .failure(let error):
-                        print("Failed to download file: \(error)")
+                        XLogger.shared.log("Failed to download file: \(error)")
                     }
                 }
             }
@@ -162,6 +162,9 @@ class ABOtaViewController: UIViewController {
         progressLabel.text = NSLocalizedString("Update is finished", comment: "")
         updateButton.backgroundColor = .green
         refreshUpdateStatus()
+        XGZTBlueToothManager.shared.isOTAing = false
+        XGZTBlueToothManager.shared.isFromOTASuccess = true
+        XGZTBlueToothManager.shared.disconnectDevice()
     }
     
     func onWaitFinish() {
@@ -170,6 +173,7 @@ class ABOtaViewController: UIViewController {
         progressLabel.text = NSLocalizedString("Data transmission is complete", comment: "")
         updateButton.backgroundColor = .blue
         refreshUpdateStatus()
+        XGZTBlueToothManager.shared.isOTAing = false
     }
     
     func onError(errorCode: Int) {
@@ -202,6 +206,7 @@ class ABOtaViewController: UIViewController {
             break
         }
         statusLabel.text = NSLocalizedString("Error occurred: ", comment: "") + errorReason
+        XGZTBlueToothManager.shared.isOTAing = false
     }
 }
 

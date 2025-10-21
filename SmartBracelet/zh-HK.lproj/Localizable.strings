@@ -45,8 +45,8 @@
 "device_push_settings_wechat" = "微信";
 "device_call_amind" = "來電提醒";
 "device_hand_up_screen" = "抬手亮屏";
-"device_longsit_amind" = "久座提醒";
-"device_longsit_amind_time" = "久座提醒時間";
+"device_longsit_amind" = "久坐提醒";
+"device_longsit_amind_time" = "久坐提醒時間";
 "device_weather_push" = "天氣推送";
 "device_alarm_settings" = "鬧鐘設置";
 "device_search_settings" = "查找設置";
@@ -225,8 +225,8 @@
 "device_push_settings_wechat" = "微信";
 "device_call_amind" = "來電提醒";
 "device_hand_up_screen" = "抬手亮屏";
-"device_longsit_amind" = "久座提醒";
-"device_longsit_amind_time" = "久座提醒時間";
+"device_longsit_amind" = "久坐提醒";
+"device_longsit_amind_time" = "久坐提醒時間";
 "drink_water_reminder" = "喝水提醒";
 "drink_water_reminder_time" = "喝水提醒時間";
 "device_weather_push" = "天氣推送";
@@ -396,3 +396,29 @@
 "No Update Available" = "没有可用更新";
 "You are using the latest version." = "您正在使用最新版本。";
 "qushi" = "趨勢";
+"mile" = "英里";
+"confirm_delete" = "確認刪除";
+"delete_alarm_confirmation" = "您確定要刪除這個鬧鈴嗎？";
+"ble_off" = "Bluetooth is not enabled. Please enable it first.";
+
+"delete_device_1" = "刪除裝置";
+"delete_device_2" = "裝置已從U-Watch刪除，但仍與手機連接。若要完全刪除此裝置，請完成以下操作：";
+"delete_device_3" = "1. 在手機「設定」>「藍牙」>「我的裝置」中找到「e watch」，點擊右側的「i」。";
+"delete_device_4" = "2. 選擇「忽略此裝置」。";
+"delete_device_5" = "3. 完成後，返回「U-Watch」應用程式。";
+"delete_device_6" = "已完成上述操作";
+"delete_device_7" = "確定";
+
+"select_device_scan" = "正在掃描";
+"select_device_scan_desc" = "正在搜尋可用設備";
+"select_device_add_manual" = "手動添加";
+"select_device_add_automatic" = "掃碼添加";
+"cardbag"="卡包";
+"alipay"="支付寶";
+"bindtip"="綁定步驟:\n1. 打開應用，去支付頁面保存收款碼到手機本地；(必須手動點擊保存收款碼進行保存,截圖無效);\n2. 點擊上方二維碼區域，添加或更換二維碼；\n3. 點擊下方綁定按鈕，將二維碼綁定至手錶；點我";
+"gotobind"="去綁定";
+"shibie_fail"="識別失敗";
+"i_know"="知道了";
+"send_success"="發送成功";
+"send_fail"="發送失敗";
+"ota"="固件更新";

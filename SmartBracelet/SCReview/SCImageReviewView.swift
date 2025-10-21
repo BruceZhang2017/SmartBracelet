@@ -33,10 +33,10 @@ class SCImageReviewView: SCReviewView {
                 $0.kf.setImage(with: url) { (result) in
                     switch result {
                     case .success(let value):
-                        print("图片下载成功 \(value)")
+                        XLogger.shared.log("图片下载成功 \(value)")
                         self.isHidden = false
                     case .failure(let error):
-                        print("图片下载失败 \(error)")
+                        XLogger.shared.log("图片下载失败 \(error)")
                     }
                 }
                 

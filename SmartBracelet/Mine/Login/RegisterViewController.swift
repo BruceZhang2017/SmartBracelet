@@ -15,7 +15,7 @@ import Toaster
 import ProgressHUD
 import Alamofire
 
-let UrlPrefix = "https://u-watch.com.cn/sinophy.com/"
+let UrlPrefix = "https://u-watch.com.cn/"
 
 class RegisterViewController: BaseViewController {
     @IBOutlet weak var tipLabel: UILabel!

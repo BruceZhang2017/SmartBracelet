@@ -28,7 +28,7 @@ class MyClockViewController: UIViewController {
     var datetimeTopLocation = 0 ///关闭0 日期1 睡眠2 心率3 计步4
     var datetimeBottomLocation = 0 ///关闭0 日期1 睡眠2 心率3 计步4
     var colorIndex = 0 ///白色0 黑色1 黄色2 橙色3 粉色4 紫色5 蓝色6 青色7
-    var diallocation = 0
+    var diallocation = 5
     final let locations = ["above".localized(), "below".localized()]
     final let xgztlocations = ["无".localized(), "左上".localized(), "左下".localized(), "右上".localized(), "右下".localized(), "居中".localized()]
     final let tops = ["closure".localized(), "date".localized(), "sleep".localized(), "heart_rate".localized(), "step".localized()]
@@ -50,6 +50,7 @@ class MyClockViewController: UIViewController {
     var currentPackage = 0
     var footView: CustomImageFooterView?
     var packageNum = 0
+    var imageScale: CGFloat = 1.0
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -99,15 +100,16 @@ class MyClockViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        //collctionView.reloadData()
+        
     }
     
     deinit {
+        binData = Data()
         itemVC?.dismiss(animated: false, completion: {
             
         })
         needStop = true
-        print("壁纸推送暂停")
+        XLogger.shared.log("壁纸推送暂停")
         imageUploadVc?.dismiss(animated: false, completion: {
             [weak self] in
             self?.imageUploadVc = nil
@@ -118,6 +120,7 @@ class MyClockViewController: UIViewController {
     // 修改自定义设置内容位置
     private func modifyCustomDialSettings() {
         if isXGZT {
+            XGZTCommand.setTimePositionAndColor(type: 2, position: diallocation, color: colorIndex)
             return
         }
         
@@ -138,38 +141,130 @@ class MyClockViewController: UIViewController {
     }
     
     private func startupdateCustomImage() {
-        guard let image = currentImage else {
+        guard let originalImage = currentImage else { return }
+        
+        // 固定目标尺寸
+        let targetSize = CGSize(width: width, height: height)
+        
+        // 第一步：调整图片尺寸为 240×240
+        guard let resizedImage = resizeImage(originalImage, to: targetSize) else {
+            XLogger.shared.log("Failed to resize image to \(width)x\(height)")
             return
         }
-        print("image: width \(image.size.width) height \(image.size.height)")
-        var nImage = compressAndConvertImage(image: image)
-        while true {
-            guard let rawImageData = nImage?.rawImageData else {
+        
+        // 第二步：尝试压缩到目标大小
+        var image = resizedImage
+        let targetSizeBytes = 120 * 1024
+        var attemptCount = 0
+        let maxAttempts = 10
+        
+        while attemptCount < maxAttempts {
+            guard let rawImageData = image.rawImageData else {
+                XLogger.shared.log("Failed to get raw image data")
                 return
             }
-            let width = Int32(nImage!.size.width)
-            let height = Int32(nImage!.size.height)
+            
+            XLogger.shared.log("Attempt \(attemptCount+1): rawImageData count: \(rawImageData.count)")
+            
+            // 使用固定的 240×240 尺寸
             if let parData = ParTool.par(fromRaw: rawImageData,
-                                    width: width,
-                                    height: height,
-                                    runAlpha: false,
-                                    useFilter: false,
-                                    supportRotate: false) {
-                if parData.count <= 65 * 1024 {
-                    var message = "Convert image to rotate PAR successfully. PAR info: size=\(parData.count) width=\(width) height=\(height)"
-                    print(message)
+                                      width: Int32(targetSize.width),
+                                      height: Int32(targetSize.height),
+                                      runAlpha: false,
+                                      useFilter: false,
+                                      supportRotate: false) {
+                if parData.count <= targetSizeBytes {
+                    XLogger.shared.log("Success: PAR size=\(parData.count) width=240 height=240")
                     binData = parData
-                    XGZTCommand.dialMarketQuery(dataType: 0) // 查询 mtu
+                    XGZTCommand.dialMarketQuery(dataType: 0)
                     break
                 } else {
-                    print("parData size exceeds 65K limit, recompressing...")
-                    nImage = compressAndConvertImage(image: image)
+                    XLogger.shared.log("PAR size \(parData.count) exceeds 120KB, compressing further...")
+                    
+                    // 降低质量继续尝试
+                    let quality = max(0.1, 0.9 - Double(attemptCount) * 0.1)
+                    if let compressedData = image.jpegData(compressionQuality: quality),
+                       let compressedImage = UIImage(data: compressedData) {
+                        image = compressedImage
+                    } else {
+                        XLogger.shared.log("Failed to compress image further")
+                        return
+                    }
                 }
             } else {
-                print("Failed to convert image to PAR format")
+                XLogger.shared.log("Failed to convert to PAR format at 240x240")
                 return
             }
+            
+            attemptCount += 1
         }
+        
+        if attemptCount >= maxAttempts {
+            XLogger.shared.log("Max attempts reached, final PAR size: \(image.rawImageData?.count ?? 0)")
+        }
+    }
+
+    // 辅助方法：调整图片尺寸
+    private func resizeImage(_ image: UIImage, to targetSize: CGSize) -> UIImage? {
+        let format = UIGraphicsImageRendererFormat.default()
+        format.scale = 1.0 // 避免受设备缩放影响
+        
+        return UIGraphicsImageRenderer(size: targetSize, format: format).image { _ in
+            image.draw(in: CGRect(origin: .zero, size: targetSize))
+        }
+    }
+    
+    func resizeAndReduceRGB(image: UIImage, targetSize: CGSize) -> UIImage? {
+        // 首先调整图像大小
+        UIGraphicsBeginImageContextWithOptions(targetSize, false, 1.0)
+        image.draw(in: CGRect(origin:.zero, size: targetSize))
+        let resizedImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        guard let cgImage = resizedImage?.cgImage else {
+            return nil
+        }
+        
+        let colorSpace = CGColorSpaceCreateDeviceRGB()
+        let width = cgImage.width
+        let height = cgImage.height
+        let bytesPerPixel = 4
+        let bitsPerComponent = 8
+        let bytesPerRow = bytesPerPixel * width
+        let bitmapInfo = CGImageAlphaInfo.premultipliedLast.rawValue | CGBitmapInfo.byteOrder32Big.rawValue
+        
+        guard let context = CGContext(data: nil, width: width, height: height, bitsPerComponent: bitsPerComponent, bytesPerRow: bytesPerRow, space: colorSpace, bitmapInfo: bitmapInfo) else {
+            return nil
+        }
+        
+        context.draw(cgImage, in: CGRect(x: 0, y: 0, width: width, height: height))
+        
+        if let pixelData = context.data {
+            let data = pixelData.bindMemory(to: UInt8.self, capacity: width * height * bytesPerPixel)
+            for y in 0..<height {
+                for x in 0..<width {
+                    let index = (y * width + x) * bytesPerPixel
+                    var red = data[index]
+                    var green = data[index + 1]
+                    var blue = data[index + 2]
+                    
+                    // 将 RGB 值从 256 降到 64
+                    red = (red / 4) * 4
+                    green = (green / 4) * 4
+                    blue = (blue / 4) * 4
+                    
+                    data[index] = red
+                    data[index + 1] = green
+                    data[index + 2] = blue
+                }
+            }
+        }
+        
+        guard let newCGImage = context.makeImage() else {
+            return nil
+        }
+        
+        return UIImage(cgImage: newCGImage)
     }
 
     private func compressAndConvertImage(image: UIImage) -> UIImage? {
@@ -179,7 +274,7 @@ class MyClockViewController: UIViewController {
         guard let nImage = UIImage(data: data) else {
             return nil
         }
-        print("nImage: width \(nImage.size.width) height \(nImage.size.height)")
+        XLogger.shared.log("nImage: width \(nImage.size.width) height \(nImage.size.height)")
         return nImage
     }
     
@@ -213,7 +308,11 @@ class MyClockViewController: UIViewController {
             let progress = bin * 100 / binData.count
 
             // 计算子数据的范围
-            let range = bin..<min(bin + maxDataLength, binData.count)
+            let a = min(bin + maxDataLength, binData.count)
+            if a <= bin {
+                return
+            }
+            let range = bin..<a
             let subData = binData.subdata(in: range)
             var control = 0
             if bin + maxDataLength >= binData.count {
@@ -232,11 +331,15 @@ class MyClockViewController: UIViewController {
             if binData.count == 0 {
                 return
             }
+            packageNum = 0
             notif()
+            binData = Data()
         } else if obj == 7 {
             if binData.count == 0 {
                 return
             }
+            packageNum = 0
+            binData = Data()
             DispatchQueue.main.async {
                 [weak self] in
                 self?.imageUploadVc?.dismiss(animated: false, completion: {
@@ -250,7 +353,7 @@ class MyClockViewController: UIViewController {
     @objc func handleNotify(_ notify: Notification) {
         if notify.name == WristbandNotifyKeys.startImagePush {
             let any = notify.object as! Int
-            print("收到壁纸推送通知: \(any)")
+            XLogger.shared.log("收到壁纸推送通知: \(any)")
             if any == 1 {
                 var mtuSize = 16
                 let bk = bleSelf.bleModel.internalNumber.hasPrefix("5A4B")
@@ -281,11 +384,11 @@ class MyClockViewController: UIViewController {
                         let d = Float(i * 100) / Float(sSelf.total)
                         self?.imageUploadVc?.refreshProgress(p: String(format: "%.02f%%", d))
                     }
-                    print("for循环推送[\(mtuSize)]: \(i) \(self.total)")
+                    XLogger.shared.log("for循环推送[\(mtuSize)]: \(i) \(self.total)")
                     bleSelf.setImagePush(binData, dataIndex: i, MTU: mtuSize)
                     usleep(30 * 1000)
                     if i + 1 == self.total {
-                        print("执行完成操作")
+                        XLogger.shared.log("执行完成操作")
                         notif()
                     }
                 }
@@ -321,7 +424,7 @@ class MyClockViewController: UIViewController {
                     if bk {
                         currentPackage += 1
                         let mtuSize = bleSelf.bleModel.MTU > 16 ? bleSelf.bleModel.MTU - 4 : 16
-                        print("for循环推送[\(mtuSize)]: \(currentPackage) \(self.total)")
+                        XLogger.shared.log("for循环推送[\(mtuSize)]: \(currentPackage) \(self.total)")
                         bleSelf.setImagePush(binData, dataIndex: currentPackage, MTU: mtuSize)
                         if currentPackage >= self.total {
                             notif()
@@ -402,12 +505,12 @@ class MyClockViewController: UIViewController {
             JLSelf.getJLDataFromImage(image: newImage)
             
             JLSelf.getInfoList()
-           print("执行杰里的壁纸推送逻辑")
+           XLogger.shared.log("执行杰里的壁纸推送逻辑")
         }else{
             var data = bleSelf.getRGBData565FromImage(image: image)!
-            print("执行杰里的壁纸推送逻辑1")
+            XLogger.shared.log("执行杰里的壁纸推送逻辑1")
             if bleSelf.funcCategoryModel.hasJLImagePush {
-                print("执行杰里的壁纸推送逻辑2")
+                XLogger.shared.log("执行杰里的壁纸推送逻辑2")
                 //两个字节互调
                 var i = 0
                 while i < data.count - 1 {
@@ -642,7 +745,7 @@ extension MyClockViewController: TZImagePickerControllerDelegate {
         if photos.count <= 0 {
             return
         }
-        print("选定了图片")
+        XLogger.shared.log("选定了图片")
         if imageUploadVc != nil {
             return
         }
@@ -689,7 +792,7 @@ extension MyClockViewController: UploadImageDelegate {
             self.binData = data
             jlPushInitialize(image: image)
         } else {
-            print("中科设备开始推送数据")
+            XLogger.shared.log("中科设备开始推送数据")
             let bk = bleSelf.bleModel.internalNumber.hasPrefix("5A4B") // 是否为中科
             if bk {
                 let mtuSize = bleSelf.bleModel.MTU > 16 ? bleSelf.bleModel.MTU - 4 : 16
@@ -742,7 +845,7 @@ extension MyClockViewController: CustomImageFooterViewDelegate {
     func callbackForSelectImage(collectionView: UICollectionView, index: Int) {
         let image = UIImage(named: "\(index + 1)_80_160")!
         
-        print("选定了图片")
+        XLogger.shared.log("选定了图片")
         if imageUploadVc != nil {
             return
         }

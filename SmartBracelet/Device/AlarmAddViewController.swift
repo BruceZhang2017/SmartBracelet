@@ -86,7 +86,7 @@ class AlarmAddViewController: BaseViewController {
             alarmData?.mswitch = 1
             alarmData?.vibrationMode = 1
             if isNew {
-                alarmData?.alarmIndex = XGZTBlueToothManager.shared.device?.alarms.count ?? 0
+                alarmData?.alarmIndex = XGZTBlueToothManager.shared.device?.alarmCanUse ?? 0
             }
             XGZTCommand.setAlarmInfo(setCmd: isNew ? 0 : 1, alarm: alarmData!)
         } else {
@@ -144,10 +144,6 @@ class AlarmAddViewController: BaseViewController {
         }
     }
     
-    @objc private func refreshAlarm() {
-        NotificationCenter.default.post(name: Notification.Name.AlarmRefresh, object: nil)
-    }
-    
     @IBAction func timeValueChanged(_ sender: Any) {
         
     }
@@ -188,25 +184,25 @@ class AlarmAddViewController: BaseViewController {
             return 
         }
         var value = ""
-        if ((weekday >> 1) & 0x01) > 0 {
+        if (weekday & 0x01) > 0 {
             value += "\("mine_monday".localized())、"
         }
-        if ((weekday >> 2) & 0x01) > 0 {
+        if ((weekday >> 1) & 0x01) > 0 {
             value += "\("mine_satuday".localized())、"
         }
-        if ((weekday >> 3) & 0x01) > 0 {
+        if ((weekday >> 2) & 0x01) > 0 {
             value += "\("mine_wednesday".localized())、"
         }
-        if ((weekday >> 4) & 0x01) > 0 {
+        if ((weekday >> 3) & 0x01) > 0 {
             value += "\("mine_thursday".localized())、"
         }
-        if ((weekday >> 5) & 0x01) > 0 {
+        if ((weekday >> 4) & 0x01) > 0 {
             value += "\("mine_friday".localized())、"
         }
-        if ((weekday >> 6) & 0x01) > 0 {
+        if ((weekday >> 5) & 0x01) > 0 {
             value += "\("mine_saturday".localized())、"
         }
-        if (weekday & 0x01) > 0  {
+        if ((weekday >> 6) & 0x01) > 0  {
             value += "\("mine_sunday".localized())、"
         }
         if value.count == 0 {

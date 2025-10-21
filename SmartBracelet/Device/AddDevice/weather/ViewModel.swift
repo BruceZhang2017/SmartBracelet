@@ -22,7 +22,7 @@ class ViewModel {
             onCompletion(weather)
             self.currentWeather = weather
         } onError: { error in
-            print(error)
+            XLogger.shared.log("\(error)")
         }
     }
 }

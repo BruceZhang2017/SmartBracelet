@@ -396,3 +396,29 @@
 "No Update Available" = "Aucune mise à jour disponible";
 "You are using the latest version." = "Vous utilisez la dernière version.";
 "qushi" = "tendance";
+"mile" = "mille";
+"confirm_delete" = "Confirmer la suppression";
+"delete_alarm_confirmation" = "êtes-vous sûr de vouloir supprimer cet alarme?";
+"ble_off" = "Bluetooth is not enabled. Please enable it first.";
+
+"delete_device_1" = "Supprimer l'appareil";
+"delete_device_2" = "L'appareil a été supprimé de U-Watch mais est toujours connecté à votre téléphone. Pour supprimer complètement cet appareil, veuillez effectuer les étapes suivantes:";
+"delete_device_3" = "1. Dans les paramètres de votre téléphone > Bluetooth > Mes appareils, trouvez 'e watch' et appuyez sur le 'i' à droite.";
+"delete_device_4" = "2. Sélectionnez 'Oublier cet appareil'.";
+"delete_device_5" = "3. Après avoir terminé, revenez à l'application 'U-Watch'.";
+"delete_device_6" = "J'ai effectué les étapes ci-dessus";
+"delete_device_7" = "Confirmer";
+
+"select_device_scan" = "Wird gescannt";
+"select_device_scan_desc" = "Wird verfügbare Geräte gesucht";
+"select_device_add_manual" = "Manuell hinzufügen";
+"select_device_add_automatic" = "Scannen zum Hinzufügen";
+"cardbag"="Sac à cartes";
+"alipay"="Alipay";
+"bindtip"="Étapes de liaison:\n1. Ouvrez l'application, allez à la page de paiement et enregistrez le code de collecte sur votre téléphone localement; (Vous devez cliquer manuellement pour enregistrer le code de collecte, les captures d'écran ne sont pas valides);\n2. Cliquez sur la zone du code QR ci-dessus pour ajouter ou remplacer le code QR;\n3. Cliquez sur le bouton de liaison ci-dessous pour lier le code QR à la montre; Cliquez-moi";
+"gotobind"="Aller lier";
+"shibie_fail"="Reconnaissance échouée";
+"i_know"="Compris";
+"send_success"="Envoyé avec succès";
+"send_fail"="Échec de l'envoi";
+"ota"="Mise à jour du firmware";

@@ -32,7 +32,7 @@ class RecentCitiesTableViewCell: UITableViewCell {
     }
     
     @objc private func btnClick(btn: UIButton) {
-        print(btn.titleLabel?.text!)
+        XLogger.shared.log("\(btn.titleLabel?.text!)")
     }
 
 

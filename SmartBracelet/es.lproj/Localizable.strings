@@ -397,3 +397,29 @@
 "No Update Available" = "No hay actualizaciones disponibles";
 "You are using the latest version." = "Estás usando la última versión.";
 "qushi" = "tendencia";
+"mile" = "millar";
+"confirm_delete" = "Confirmar eliminación";
+"delete_alarm_confirmation" = "¿Estás seguro de que quieres eliminar esta alarma?";
+"ble_off" = "Bluetooth is not enabled. Please enable it first.";
+
+"delete_device_1" = "Eliminar dispositivo";
+"delete_device_2" = "El dispositivo se ha eliminado de U-Watch pero sigue conectado a tu teléfono. Para eliminar completamente este dispositivo, completa los siguientes pasos:";
+"delete_device_3" = "1. En la configuración de tu teléfono > Bluetooth > Mis dispositivos, encuentra 'e watch' y toca la 'i' de la derecha.";
+"delete_device_4" = "2. Selecciona 'Olvidar este dispositivo'.";
+"delete_device_5" = "3. Después de completar, regresa a la App 'U-Watch'.";
+"delete_device_6" = "He completado los pasos anteriores";
+"delete_device_7" = "Confirmar";
+
+"select_device_scan" = "Scanning";
+"select_device_scan_desc" = "Searching for available devices";
+"select_device_add_manual" = "Add Manually";
+"select_device_add_automatic" = "Scan to Add";
+"cardbag"="Bolsa de tarjetas";
+"alipay"="Alipay";
+"bindtip"="Pasos de vinculación:\n1. Abre la aplicación, ve a la página de pago y guarda el código de cobro en tu teléfono localmente; (Debes hacer clic manualmente para guardar el código de cobro, las capturas de pantalla no son válidas);\n2. Haz clic en el área del código QR de arriba para agregar o reemplazar el código QR;\n3. Haz clic en el botón de vinculación de abajo para vincular el código QR al reloj; Haz clic aquí";
+"gotobind"="Ir a vincular";
+"shibie_fail"="Reconocimiento fallido";
+"i_know"="Entendido";
+"send_success"="Enviado con éxito";
+"send_fail"="Error al enviar";
+"ota"="Actualización de Firmware";
