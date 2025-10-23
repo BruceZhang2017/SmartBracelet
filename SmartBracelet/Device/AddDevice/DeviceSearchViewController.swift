@@ -15,15 +15,23 @@ import Toaster
 import TJDWristbandSDK
 
 class DeviceSearchViewController: BaseViewController {
-    @IBOutlet weak var helpButton: UIButton!
-    @IBOutlet weak var scanCodeTipLabel: UILabel!
-    @IBOutlet weak var scanLabel: UILabel!
-    @IBOutlet weak var scanButton: UIButton!
-    @IBOutlet weak var btScanTipLabel: UILabel!
     @IBOutlet weak var tableView: UITableView!
+    private let radarView = RadarScanView()
+    
+    private let scanButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("select_device_add_automatic".localized(), for: .normal)
+        button.setTitleColor(.white, for: .normal)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
+        button.backgroundColor = UIColor.brand
+        button.layer.cornerRadius = 22
+        return button
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        setupUI()
         
         tableView.isHidden = true
         tableView.separatorStyle = .none
@@ -33,26 +41,45 @@ class DeviceSearchViewController: BaseViewController {
         XGZTBlueToothManager.shared.startScanning(true) // 开始扫描
         BLEManager.shared.startScan()
         
-        
-        btScanTipLabel.text = "device_search".localized()
-        scanLabel.text = "device_scan".localized()
-        scanCodeTipLabel.text = "device_scan_add_device".localized()
-        helpButton.setTitle("device_search_help".localized(), for: .normal)
-        
-        scanLabel.isHidden = true
-        scanButton.isHidden = true
-        btScanTipLabel.isHidden = true
-        scanCodeTipLabel.isHidden = true
-        helpButton.isHidden = true 
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        radarView.startAnimation()
     }
     
     deinit {
         bleSelf.stopFindBleDevices()
         NotificationCenter.default.removeObserver(self)
+    }
+    
+    private func setupUI() {
+
+        // 雷达动画
+        view.addSubview(radarView)
+        radarView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            radarView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            radarView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10),
+            radarView.widthAnchor.constraint(equalToConstant: 280),
+            radarView.heightAnchor.constraint(equalTo: radarView.widthAnchor)
+        ])
+
+        view.addSubview(scanButton)
+        scanButton.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+
+            scanButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -50),
+            scanButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -20),
+            scanButton.heightAnchor.constraint(equalToConstant: 44),
+            scanButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 50)
+        ])
+        scanButton.addTarget(self, action: #selector(qrScanAction), for: .touchUpInside)
+    }
+    
+    @objc private func qrScanAction() {
+        navigationController?.popViewController(animated: false)
+        NotificationCenter.default.post(name: Notification.Name("DevicesViewController"), object: "5000")
     }
     
     public func refreshBackButton() {
@@ -89,10 +116,6 @@ class DeviceSearchViewController: BaseViewController {
             ProgressHUD.dismiss()
             navigationController?.popViewController(animated: true)
         }
-    }
-    
-    @IBAction func scanQRCode(_ sender: Any) {
-        
     }
     
     func extractMacValue(from string: String) -> String? {

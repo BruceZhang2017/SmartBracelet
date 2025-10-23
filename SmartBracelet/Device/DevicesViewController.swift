@@ -136,16 +136,16 @@ class DevicesViewController: BaseViewController, UIDocumentInteractionController
         documentController?.delegate = self
         
         // 创建按钮
-//            let button = UIBarButtonItem(
-//                title: "日志",
-//                style: .plain,
-//                target: self,
-//                action: #selector(didTapRightButton)
-//            )
-//            button.tintColor = .red  // 设置按钮颜色
-//
-//            // 添加到右上角
-//            navigationItem.rightBarButtonItem = button
+            let button = UIBarButtonItem(
+                title: "日志",
+                style: .plain,
+                target: self,
+                action: #selector(didTapRightButton)
+            )
+            button.tintColor = .red  // 设置按钮颜色
+
+            // 添加到右上角
+            navigationItem.rightBarButtonItem = button
     }
     
     // 处理点击事件（注意使用 @objc 标记）
@@ -770,9 +770,10 @@ class DevicesViewController: BaseViewController, UIDocumentInteractionController
             count += cacheDevices.count
             let storyboard = UIStoryboard(name: "Device", bundle: nil)
             if count == 0 {
-                let vc = SelectAddActionViewController()
-                vc.modalPresentationStyle = .fullScreen
-                present(vc, animated: false)
+                let vc = UIStoryboard(name: "Device", bundle: nil).instantiateViewController(withIdentifier: "DeviceSearchViewController")
+                vc.title = "device_add".localized()
+                vc.hidesBottomBarWhenPushed = true
+                navigationController?.pushViewController(vc, animated: true)
             } else {
                 let vc = storyboard.instantiateViewController(withIdentifier: "DeviceListViewController")
                 vc.title = "device_change".localized()

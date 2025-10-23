@@ -217,13 +217,17 @@ class HealthDetailViewController: BaseViewController {
             return
         }
         
-        if (type == 2 && isXGZT) && (XGZTBlueToothManager.shared.device?.brandID ?? 0) == 0 {
+        if isXGZT {
             return
         }
         
-        if (type == 5 && isXGZT) && (XGZTBlueToothManager.shared.device?.brandID ?? 0) == 0  {
-            return
-        }
+//        if (type == 2 && isXGZT) && (XGZTBlueToothManager.shared.device?.brandID ?? 0) == 0 {
+//            return
+//        }
+//        
+//        if (type == 5 && isXGZT) && (XGZTBlueToothManager.shared.device?.brandID ?? 0) == 0  {
+//            return
+//        }
         
         if screenHeight <= 667 {
             // 创建一个UIBarButtonItem
