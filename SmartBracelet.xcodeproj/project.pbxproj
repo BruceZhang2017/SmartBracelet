@@ -38,6 +38,7 @@
 		9A0C34952B341D6600E798F1 /* DFUnits.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A0C34932B341D6100E798F1 /* DFUnits.framework */; };
 		9A0C34962B341D6600E798F1 /* JL_BLEKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A0C34942B341D6600E798F1 /* JL_BLEKit.framework */; };
 		9A127EAE2BC2ACE300126836 /* UIFont+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A127EAD2BC2ACE200126836 /* UIFont+Extension.swift */; };
+		9A1F7CAC2E22932700EB3BBE /* TripleTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A1F7CAB2E22932700EB3BBE /* TripleTableViewController.swift */; };
 		9A20FA322D2A2C3C0027A26F /* WUCalendarManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A20FA2F2D2A2C3C0027A26F /* WUCalendarManager.swift */; };
 		9A20FA342D2A2CA10027A26F /* Int+String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A20FA332D2A2CA10027A26F /* Int+String.swift */; };
 		9A20FA362D2A2CB70027A26F /* Double+String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A20FA352D2A2CB70027A26F /* Double+String.swift */; };
@@ -47,7 +48,6 @@
 		9A20FA422D2A41BE0027A26F /* VerticalLabelsCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A20FA412D2A41BE0027A26F /* VerticalLabelsCollectionCell.swift */; };
 		9A20FA442D2A4B920027A26F /* ImageLabelsCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A20FA432D2A4B920027A26F /* ImageLabelsCollectionCell.swift */; };
 		9A20FA472D2A4D860027A26F /* LocationConverter.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A20FA462D2A4D860027A26F /* LocationConverter.m */; };
-		9A1F7CAC2E22932700EB3BBE /* TripleTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A1F7CAB2E22932700EB3BBE /* TripleTableViewController.swift */; };
 		9A2181652557EDBE000330E5 /* apple.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 9A2181622557EDBE000330E5 /* apple.jpeg */; };
 		9A2181662557EDBE000330E5 /* walk.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 9A2181632557EDBE000330E5 /* walk.jpeg */; };
 		9A2181672557EDBE000330E5 /* water.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9A2181642557EDBE000330E5 /* water.jpg */; };
@@ -592,6 +592,10 @@
 		9A0C34932B341D6100E798F1 /* DFUnits.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = DFUnits.framework; sourceTree = "<group>"; };
 		9A0C34942B341D6600E798F1 /* JL_BLEKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = JL_BLEKit.framework; sourceTree = "<group>"; };
 		9A127EAD2BC2ACE200126836 /* UIFont+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Extension.swift"; sourceTree = "<group>"; };
+		9A1E2D2F2DB6631E00B50C5D /* sv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sv; path = sv.lproj/Localizable.strings; sourceTree = "<group>"; };
+		9A1F7CAB2E22932700EB3BBE /* TripleTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripleTableViewController.swift; sourceTree = "<group>"; };
+		9A1F7EBA2E2D070D00EB3BBE /* SmartBraceletDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SmartBraceletDebug.entitlements; sourceTree = "<group>"; };
+		9A1F7EBB2E2D0A2C00EB3BBE /* SmartBraceletRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SmartBraceletRelease.entitlements; sourceTree = "<group>"; };
 		9A20FA2F2D2A2C3C0027A26F /* WUCalendarManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WUCalendarManager.swift; sourceTree = "<group>"; };
 		9A20FA332D2A2CA10027A26F /* Int+String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+String.swift"; sourceTree = "<group>"; };
 		9A20FA352D2A2CB70027A26F /* Double+String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+String.swift"; sourceTree = "<group>"; };
@@ -602,10 +606,6 @@
 		9A20FA432D2A4B920027A26F /* ImageLabelsCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLabelsCollectionCell.swift; sourceTree = "<group>"; };
 		9A20FA452D2A4D860027A26F /* LocationConverter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LocationConverter.h; sourceTree = "<group>"; };
 		9A20FA462D2A4D860027A26F /* LocationConverter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LocationConverter.m; sourceTree = "<group>"; };
-		9A1E2D2F2DB6631E00B50C5D /* sv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sv; path = sv.lproj/Localizable.strings; sourceTree = "<group>"; };
-		9A1F7CAB2E22932700EB3BBE /* TripleTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripleTableViewController.swift; sourceTree = "<group>"; };
-		9A1F7EBA2E2D070D00EB3BBE /* SmartBraceletDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SmartBraceletDebug.entitlements; sourceTree = "<group>"; };
-		9A1F7EBB2E2D0A2C00EB3BBE /* SmartBraceletRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SmartBraceletRelease.entitlements; sourceTree = "<group>"; };
 		9A2181622557EDBE000330E5 /* apple.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = apple.jpeg; sourceTree = "<group>"; };
 		9A2181632557EDBE000330E5 /* walk.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = walk.jpeg; sourceTree = "<group>"; };
 		9A2181642557EDBE000330E5 /* water.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = water.jpg; sourceTree = "<group>"; };
@@ -2633,13 +2633,9 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-SmartBracelet/Pods-SmartBracelet-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
-			inputPaths = (
-			);
 			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-SmartBracelet/Pods-SmartBracelet-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -2676,13 +2672,9 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-SmartBracelet/Pods-SmartBracelet-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
-			inputPaths = (
-			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-SmartBracelet/Pods-SmartBracelet-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -2718,7 +2710,6 @@
 				9A8CA51C25272C5200EC01A7 /* CVCalendarViewPresentationMode.swift in Sources */,
 				9A56D27925216FC60082CC08 /* Transformer.swift in Sources */,
 				9A410C762DCB5372006240A6 /* XLogger.swift in Sources */,
-				9A2181962558290B000330E5 /* SetTargetCViewController.swift in Sources */,
 				9A56D2A625216FC70082CC08 /* BubbleChartData.swift in Sources */,
 				9A56D24C25216FC60082CC08 /* ChevronDownShapeRenderer.swift in Sources */,
 				9A56D2B025216FC70082CC08 /* LineScatterCandleRadarChartDataSet.swift in Sources */,

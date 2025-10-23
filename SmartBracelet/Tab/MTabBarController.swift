@@ -67,10 +67,15 @@ class MTabBarController: UITabBarController {
     // 设置视图控制器的标题
     private func setupViewControllersTitles() {
         XLogger.shared.log("数据库里面：\(DeviceManager.shared.devices.count)")
-        let titles = ["health_head", "device", "mine"].map { $0.localized() }
+        let titles = ["health_head","运动", "device", "mine"].map { $0.localized() }
         for (index, title) in titles.enumerated() {
             viewControllers?[index].title = title
             
+        }
+        if viewControllers?.count == 4 {
+            if let nav = viewControllers?[1] as? MNavigationController {
+                nav.viewControllers = [SportViewController()]
+            }
         }
     }
     
@@ -78,7 +83,7 @@ class MTabBarController: UITabBarController {
         super.viewWillAppear(animated)
         if lastestDeviceMac.isEmpty || lastestDeviceMac.count == 0 {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                self.selectedIndex = 1
+                self.selectedIndex = 2
             }
         }
     }
@@ -146,7 +151,7 @@ class MTabBarController: UITabBarController {
             }
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                self.selectedIndex = 1
+                self.selectedIndex = 2
                 
                 // iOS 17+ 特殊处理
                 if #available(iOS 17.0, *) {

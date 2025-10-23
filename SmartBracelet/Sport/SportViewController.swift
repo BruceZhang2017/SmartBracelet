@@ -58,6 +58,8 @@ class SportViewController: BaseViewController, UITableViewDelegate, UITableViewD
                 }
             })
         }
+        
+        setupViews()
     }
     
     func setupViews() {
@@ -70,11 +72,7 @@ class SportViewController: BaseViewController, UITableViewDelegate, UITableViewD
         
         view.addSubview(headView)
         headView.snp.makeConstraints { (make) in
-            if let navigationController = self.navigationController {
-                make.top.equalTo(navigationController.navigationBar.snp.bottom)
-            } else {
-                make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
-            }
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
             make.left.equalToSuperview()
             make.right.equalToSuperview()
             make.height.equalTo(180)
@@ -175,7 +173,6 @@ class SportHeadView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = UIColor.red
         
         addSubview(bgView)
         bgView.snp.makeConstraints { (make) in
@@ -183,7 +180,6 @@ class SportHeadView: UIView {
             make.left.right.equalToSuperview().inset(50)
         }
         bgView.layer.cornerRadius = 20
-        bgView.layer.borderColor = UIColor.red.cgColor
         bgView.layer.borderWidth = 2
         
         bgView.addSubview(iconImageView)
@@ -274,7 +270,6 @@ class SportFootView: UIView {
             make.width.equalTo(150)
             }
             .config { (make) in
-                make.backgroundColor = UIColor.red
                 make.layer.cornerRadius = 15
                 make.clipsToBounds = true
         }
@@ -296,7 +291,6 @@ class SportFootView: UIView {
             make.width.equalTo(150)
             }
             .config { (make) in
-                make.backgroundColor = UIColor.red
                 make.layer.cornerRadius = 15
                 make.clipsToBounds = true
         }
@@ -432,12 +426,10 @@ class SportCollectionViewCell: UICollectionViewCell {
         super.init(frame: frame)
         
         backgroundColor = UIColor.clear
-        contentView.backgroundColor = UIColor.red
         bgView.adhere(toSuperView: contentView).layout { (make) in
             make.edges.equalToSuperview()
             }
             .config { (make) in
-                make.backgroundColor = UIColor.red
                 make.layer.cornerRadius = 10
                 make.clipsToBounds = true
         }

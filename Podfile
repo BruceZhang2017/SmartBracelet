@@ -36,7 +36,7 @@ pod 'RxSwift'
 pod 'CryptoSwift'
 pod 'IotLinkKit', '1.2.1'
 
-pod 'JRDB'
+pod 'JRDB', '~> 2.1.2'
 pod 'DropDown'
 
   post_install do |installer|
