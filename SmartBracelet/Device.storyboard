@@ -801,11 +801,8 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="80" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Apr-Ze-ajt">
-                                <rect key="frame" x="0.0" y="300" width="414" height="300"/>
+                                <rect key="frame" x="0.0" y="260" width="414" height="358"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="300" id="bUu-oO-UpQ"/>
-                                </constraints>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" rowHeight="80" id="bxK-tD-72S" customClass="DeviceSearchTableViewCell" customModule="FitDAY" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="50" width="414" height="80"/>
@@ -878,8 +875,9 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="Apr-Ze-ajt" firstAttribute="trailing" secondItem="xES-ZY-ulS" secondAttribute="trailing" id="7DR-fp-zDF"/>
+                            <constraint firstItem="xES-ZY-ulS" firstAttribute="bottom" secondItem="Apr-Ze-ajt" secondAttribute="bottom" constant="70" id="8C1-pD-clS"/>
                             <constraint firstItem="Apr-Ze-ajt" firstAttribute="leading" secondItem="xES-ZY-ulS" secondAttribute="leading" id="nsh-AO-Vxq"/>
-                            <constraint firstItem="Apr-Ze-ajt" firstAttribute="top" secondItem="xES-ZY-ulS" secondAttribute="top" constant="300" id="yje-q1-bxc"/>
+                            <constraint firstItem="Apr-Ze-ajt" firstAttribute="top" secondItem="xES-ZY-ulS" secondAttribute="top" constant="260" id="yje-q1-bxc"/>
                         </constraints>
                     </view>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>

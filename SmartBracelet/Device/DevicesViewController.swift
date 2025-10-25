@@ -136,16 +136,16 @@ class DevicesViewController: BaseViewController, UIDocumentInteractionController
         documentController?.delegate = self
         
         // 创建按钮
-            let button = UIBarButtonItem(
-                title: "日志",
-                style: .plain,
-                target: self,
-                action: #selector(didTapRightButton)
-            )
-            button.tintColor = .red  // 设置按钮颜色
-
-            // 添加到右上角
-            navigationItem.rightBarButtonItem = button
+//            let button = UIBarButtonItem(
+//                title: "日志",
+//                style: .plain,
+//                target: self,
+//                action: #selector(didTapRightButton)
+//            )
+//            button.tintColor = .red  // 设置按钮颜色
+//
+//            // 添加到右上角
+//            navigationItem.rightBarButtonItem = button
     }
     
     // 处理点击事件（注意使用 @objc 标记）
@@ -194,7 +194,15 @@ class DevicesViewController: BaseViewController, UIDocumentInteractionController
             }
         }
         
-        // 创建一个定时器，每 2 秒触发一次，并绑定到主线程队列
+        if isXGZT {
+            ContactManager.shared.requestContactsAccess { [weak self] contacts, error in
+                
+            }
+        }
+        
+        if refreshTimer != nil {
+            return
+        }
         refreshTimer = DispatchSource.makeTimerSource(queue: .main)
         refreshTimer?.schedule(deadline: .now(), repeating: 4.0)
         refreshTimer?.setEventHandler { [weak self] in
@@ -203,12 +211,6 @@ class DevicesViewController: BaseViewController, UIDocumentInteractionController
             XLogger.shared.log("每4秒钟刷新一次")
         }
         refreshTimer?.resume()
-        
-        if isXGZT {
-            ContactManager.shared.requestContactsAccess { [weak self] contacts, error in
-                
-            }
-        }
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -787,13 +789,20 @@ class DevicesViewController: BaseViewController, UIDocumentInteractionController
             }))
             alert.addAction(UIAlertAction(title: "mine_confirm".localized(), style: .default, handler: { (action) in
                 localMac = lastestDeviceMac
+                XLogger.shared.log("删除设备：\(localMac)")
                 if XGZTBlueToothManager.shared.device != nil {
+                    XLogger.shared.log("自研手表，而且device不为空")
                     if XGZTBlueToothManager.shared.isReconnectingNow {
                         NotificationCenter.default.post(name: Notification.Name("DevicesViewController"), object: "2000")
                         return
                     }
+                    
                     XGZTBlueToothManager.shared.switchAutoDisconnect = true
-                    XGZTCommand.bindDevice(value: 2) // 解除绑定
+                    if isXGZT {
+                        XGZTCommand.bindDevice(value: 2) // 解除绑定
+                    } else {
+                        NotificationCenter.default.post(name: Notification.Name("DevicesViewController"), object: "2000")
+                    }
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                         XGZTBlueToothManager.shared.cancelAllConnections()
                     }

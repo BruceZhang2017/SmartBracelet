@@ -61,7 +61,7 @@ class DeviceSearchViewController: BaseViewController {
         NSLayoutConstraint.activate([
             radarView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             radarView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10),
-            radarView.widthAnchor.constraint(equalToConstant: 280),
+            radarView.widthAnchor.constraint(equalToConstant: 240),
             radarView.heightAnchor.constraint(equalTo: radarView.widthAnchor)
         ])
 
