@@ -5,12 +5,11 @@
       "scale" : "1x"
     },
     {
-      "filename" : "image_bg_grade_unup@2x.png",
+      "filename" : "slpb_s@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "image_bg_grade_unup@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

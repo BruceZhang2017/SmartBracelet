@@ -410,6 +410,7 @@
 		9A8CA529252CA8BA00EC01A7 /* DataRecordTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8CA528252CA8BA00EC01A7 /* DataRecordTableViewCell.swift */; };
 		9A8CA52B252CB6E000EC01A7 /* HelpCenterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8CA52A252CB6E000EC01A7 /* HelpCenterViewController.swift */; };
 		9A8D431D250F411800E8D6F7 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8D431C250F411800E8D6F7 /* RegisterViewController.swift */; };
+		9A8FD8562EB0A2C700D953FD /* SportBViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8FD8552EB0A2C700D953FD /* SportBViewController.swift */; };
 		9A93EE552CFDE78C00C02370 /* XGZTSwitchDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A93EE532CFDE78C00C02370 /* XGZTSwitchDevice.swift */; };
 		9A93EE562CFDE78C00C02370 /* XGZTBusinessHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A93EE502CFDE78C00C02370 /* XGZTBusinessHandler.swift */; };
 		9A93EE572CFDE78C00C02370 /* XGZTBlueToothManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A93EE4F2CFDE78C00C02370 /* XGZTBlueToothManager.swift */; };
@@ -1008,6 +1009,7 @@
 		9A8CA528252CA8BA00EC01A7 /* DataRecordTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataRecordTableViewCell.swift; sourceTree = "<group>"; };
 		9A8CA52A252CB6E000EC01A7 /* HelpCenterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpCenterViewController.swift; sourceTree = "<group>"; };
 		9A8D431C250F411800E8D6F7 /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
+		9A8FD8552EB0A2C700D953FD /* SportBViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SportBViewController.swift; sourceTree = "<group>"; };
 		9A93EE4F2CFDE78C00C02370 /* XGZTBlueToothManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XGZTBlueToothManager.swift; sourceTree = "<group>"; };
 		9A93EE502CFDE78C00C02370 /* XGZTBusinessHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XGZTBusinessHandler.swift; sourceTree = "<group>"; };
 		9A93EE512CFDE78C00C02370 /* XGZTCommands.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XGZTCommands.swift; sourceTree = "<group>"; };
@@ -2103,6 +2105,7 @@
 			isa = PBXGroup;
 			children = (
 				9AC2B90C2D2783A80064903C /* SportViewController.swift */,
+				9A8FD8552EB0A2C700D953FD /* SportBViewController.swift */,
 				9AC2B90D2D2783A80064903C /* RunViewController.swift */,
 				9AC2B90E2D2783A80064903C /* GpsView.swift */,
 				9AC2B90F2D2783A80064903C /* RunHistoryViewController.swift */,
@@ -2633,9 +2636,13 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-SmartBracelet/Pods-SmartBracelet-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
+			inputPaths = (
+			);
 			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-SmartBracelet/Pods-SmartBracelet-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -2672,9 +2679,13 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-SmartBracelet/Pods-SmartBracelet-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
+			inputPaths = (
+			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-SmartBracelet/Pods-SmartBracelet-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -2904,6 +2915,7 @@
 				9AE6687D267F8A4F00A8584A /* MAWeatherLiveView.m in Sources */,
 				9AE66889267F8AD700A8584A /* ALView+PureLayout.m in Sources */,
 				9AB7AC4C2767004C00D51DBC /* SelectItemViewController.swift in Sources */,
+				9A8FD8562EB0A2C700D953FD /* SportBViewController.swift in Sources */,
 				9A56D29B25216FC70082CC08 /* CandleChartDataEntry.swift in Sources */,
 				9A60DEEB252F34B700E0D849 /* DeviceInfoTableViewCell.swift in Sources */,
 				9A2185C7255BE42D000330E5 /* GuideCollectionViewCell.swift in Sources */,

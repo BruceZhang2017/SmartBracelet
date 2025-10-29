@@ -74,7 +74,7 @@ class MTabBarController: UITabBarController {
         }
         if viewControllers?.count == 4 {
             if let nav = viewControllers?[1] as? MNavigationController {
-                nav.viewControllers = [SportViewController()]
+                nav.viewControllers = [SportBViewController()]
             }
         }
     }

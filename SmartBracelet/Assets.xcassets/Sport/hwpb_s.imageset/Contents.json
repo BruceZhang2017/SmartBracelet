@@ -5,12 +5,11 @@
       "scale" : "1x"
     },
     {
-      "filename" : "gps_3@2x.png",
+      "filename" : "map_binansuo.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "gps_3@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
