@@ -262,24 +262,16 @@ class XGZTBusinessHandler: NSObject {
         flag_device_reading = true
         // 2.设置时间
         // 获取当前的时区信息
-        let currentTimeZone = TimeZone.current
-        let timeZoneOffsetInSeconds = currentTimeZone.secondsFromGMT()
-        var timeZoneOffsetInHours = timeZoneOffsetInSeconds / 3600
-        if timeZoneOffsetInSeconds >= 0 {
-            timeZoneOffsetInHours = 12 + timeZoneOffsetInHours
-        } else {
-            timeZoneOffsetInHours = 12 - timeZoneOffsetInHours
-        }
+        let timeZoneOffsetInHours = 12
 
         // 获取当前的 UTC 时间
         let now = Date()
         let utcTimeInterval = now.timeIntervalSince1970
         let utc = UInt32(utcTimeInterval)
+        let offset = TimeZone.current.secondsFromGMT(for: now)
         XLogger.shared.log("同步时间：\(utc) -- \(timeZoneOffsetInHours)")
-        XGZTCommand.syncTime(timeZone: timeZoneOffsetInHours, utc: utc)
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
-//            XGZTCommand.syncTime(timeZone: timeZoneOffsetInHours, utc: utc)
-//        }
+        XGZTCommand.syncTime(timeZone: timeZoneOffsetInHours, utc: utc + UInt32(offset))
+
     }
     
     private func setANCS() {

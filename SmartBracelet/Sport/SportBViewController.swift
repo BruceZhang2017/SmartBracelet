@@ -253,13 +253,6 @@ class SportBViewController: BaseViewController {
         return iv
     }()
     
-    private let overlayView: UIView = {
-        let view = UIView()
-        view.backgroundColor = UIColor.black.withAlphaComponent(0.4)
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-    
     // 数据标签
     private let distanceLabel: UILabel = {
         let label = UILabel()
@@ -331,7 +324,6 @@ class SportBViewController: BaseViewController {
         view.addSubview(tabCollectionView)
         view.addSubview(statsContainer)
         statsContainer.addSubview(backgroundImageView)
-        statsContainer.addSubview(overlayView)
         statsContainer.addSubview(distanceLabel)
         statsContainer.addSubview(distanceUnitLabel)
         statsContainer.addSubview(startButton)
@@ -352,15 +344,11 @@ class SportBViewController: BaseViewController {
             statsContainer.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             statsContainer.heightAnchor.constraint(equalToConstant: 300),
             
-            // 背景图和遮罩
+            // 背景图
             backgroundImageView.topAnchor.constraint(equalTo: statsContainer.topAnchor),
             backgroundImageView.bottomAnchor.constraint(equalTo: statsContainer.bottomAnchor),
             backgroundImageView.leadingAnchor.constraint(equalTo: statsContainer.leadingAnchor),
             backgroundImageView.trailingAnchor.constraint(equalTo: statsContainer.trailingAnchor),
-            overlayView.topAnchor.constraint(equalTo: statsContainer.topAnchor),
-            overlayView.bottomAnchor.constraint(equalTo: statsContainer.bottomAnchor),
-            overlayView.leadingAnchor.constraint(equalTo: statsContainer.leadingAnchor),
-            overlayView.trailingAnchor.constraint(equalTo: statsContainer.trailingAnchor),
             
             // 数据标签
             distanceLabel.centerXAnchor.constraint(equalTo: statsContainer.centerXAnchor),
