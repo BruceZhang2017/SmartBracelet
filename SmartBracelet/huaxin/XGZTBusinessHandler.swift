@@ -12,6 +12,7 @@ var flag_81 = false
 var flag_82 = false
 var flag_5d = false // 5d指令是否成功
 var flag_device_reading = false
+var sync_time_single = false 
 
 class XGZTBusinessHandler: NSObject {
     
@@ -258,19 +259,17 @@ class XGZTBusinessHandler: NSObject {
         }
     }
     
-    private func readDeviceInfo() {
+    public func readDeviceInfo() {
         flag_device_reading = true
         // 2.设置时间
-        // 获取当前的时区信息
-        let timeZoneOffsetInHours = 12
-
         // 获取当前的 UTC 时间
         let now = Date()
         let utcTimeInterval = now.timeIntervalSince1970
         let utc = UInt32(utcTimeInterval)
         let offset = TimeZone.current.secondsFromGMT(for: now)
-        XLogger.shared.log("同步时间：\(utc) -- \(timeZoneOffsetInHours)")
-        XGZTCommand.syncTime(timeZone: timeZoneOffsetInHours, utc: utc + UInt32(offset))
+        let correctedUtc = Int64(utc) + Int64(offset)
+        XLogger.shared.log("同步时间：\(correctedUtc) -- \(12)")
+        XGZTCommand.syncTime(timeZone: 12, utc: UInt32(correctedUtc))
 
     }
     

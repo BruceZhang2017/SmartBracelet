@@ -1075,6 +1075,10 @@ public class XGZTCommand {
             } else {
                 XLogger.shared.log("时间同步失败")
             }
+            if sync_time_single { // 如果是因为时区变化同步时间，则不需要往下走
+                sync_time_single = false
+                return
+            }
             NotificationCenter.default.post(name: Notification.Name("XGZTBusinessHandler"), object: "3")
         case.getBatteryLevel:
             guard response.count >= 7 else {

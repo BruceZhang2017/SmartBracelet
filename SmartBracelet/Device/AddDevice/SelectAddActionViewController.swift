@@ -175,19 +175,19 @@ class RadarScanView: UIView {
         // 雷达圆圈
         radarLayer.frame = bounds
         radarLayer.fillColor = UIColor.clear.cgColor
-        radarLayer.strokeColor = UIColor(white: 1, alpha: 0.08).cgColor
+        radarLayer.strokeColor = UIColor(white: 1, alpha: 0.5).cgColor
         radarLayer.lineWidth = 2
         layer.addSublayer(radarLayer)
 
         // 扫描扇形
         scanLayer.frame = bounds
-        scanLayer.fillColor = UIColor(red: 1, green: 0.9, blue: 0.8, alpha: 0.3).cgColor
+        scanLayer.fillColor = UIColor.brand.withAlphaComponent(0.8).cgColor
         scanLayer.strokeColor = UIColor.clear.cgColor
         layer.addSublayer(scanLayer)
         
         // 十字线
         crossLayer.frame = bounds
-        crossLayer.strokeColor = UIColor(white: 1, alpha: 0.1).cgColor
+        crossLayer.strokeColor = UIColor(white: 1, alpha: 0.5).cgColor
         crossLayer.lineWidth = 1
         layer.addSublayer(crossLayer)
     }

@@ -40,3 +40,12 @@ fastlane/screenshots
 *.dSYM
 # Operating system files
 .DS_Store
+
+
+# Xcode
+*.xcuserstate
+*.xcuserdata/
+*.xcworkspace/
+DerivedData/
+build/
+Pods/

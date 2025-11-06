@@ -36,6 +36,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationDidBecomeActive(_ application: UIApplication) {
         application.applicationIconBadgeNumber = 0
         foregroundObserver?(true)
+        NotificationCenter.default.addObserver(
+                    self,
+                    selector: #selector(timeZoneDidChange),
+                    name: UIApplication.significantTimeChangeNotification,
+                    object: nil
+                )
     }
     
     func applicationWillResignActive(_ application: UIApplication) {
@@ -44,6 +50,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func applicationWillTerminate(_ application: UIApplication) {
             
+    }
+    
+    @objc private func timeZoneDidChange() {
+        let newTimeZone = TimeZone.current
+        XLogger.shared.log("时区发生变化：\(newTimeZone.identifier), offset = \(newTimeZone.secondsFromGMT())")
+
+        // 你的逻辑，比如重新同步服务器或设备时间
+        if isXGZT && !sync_time_single {
+            sync_time_single = true
+            XGZTBlueToothManager.shared.handler.readDeviceInfo()
+        }
     }
 
     public func pushToTab() {
