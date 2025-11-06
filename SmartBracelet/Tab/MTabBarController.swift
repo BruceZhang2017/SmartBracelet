@@ -99,7 +99,7 @@ class MTabBarController: UITabBarController {
     }
     
     deinit {
-        
+        NotificationCenter.default.removeObserver(self)
     }
     
     private func showLinkedAlert() {

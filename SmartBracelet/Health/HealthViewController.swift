@@ -366,6 +366,9 @@ class HealthViewController: BaseViewController {
             readDBStep() // 从本地数据库中读取步数数据
         }
         isFirst = true
+        if isXGZT {
+            return
+        }
         readDBHeart() // 从本地数据库中读取心跳数据
         readDBBlood() // 从本地数据库中读取血压数据
         readDBOxygen() // 从本地数据库中读取血氧数据
