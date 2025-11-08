@@ -26,6 +26,7 @@ class RunModel: NSObject {
             dateStr = date.stringFromYmdHms()
         }
     }
+    var type: Int = 0
     var dateStr: String = ""
     var duration: Int = 0
     var distance: Double = 0

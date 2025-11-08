@@ -4,6 +4,7 @@ import RealmSwift
 import AudioToolbox
 import AVKit
 import Bugly
+import JRDB
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -30,6 +31,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         var openCount = UserDefaults.standard.integer(forKey: "APPOPEN")
         openCount += 1
         UserDefaults.standard.set(openCount, forKey: "APPOPEN")
+        
+        let clArray = [RunPoint.self, RunModel.self]
+        JRDBMgr.shareInstance().registerClazzes(clArray)
+        JRDBMgr.shareInstance().debugMode = false
+        J_CreateTable(RunPoint.self)
+        J_UpdateTable(RunPoint.self)
+        J_CreateTable(RunModel.self)
+        J_UpdateTable(RunModel.self)
+        
         return true
     }
 

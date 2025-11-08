@@ -10,7 +10,6 @@ import UIKit
 import TJDWristbandSDK
 
 class CutDownView: UIView {
-    var bgImageView = UIImageView()
     var completeBlock: WUOkHandler!
     var count = 0
     var nameLabel = UILabel()
@@ -22,7 +21,7 @@ class CutDownView: UIView {
                 make.edges.equalToSuperview()
                 }
                 .config { (make) in
-                    
+                    make.backgroundColor = UIColor.brand
             }
         }
     }
@@ -31,12 +30,6 @@ class CutDownView: UIView {
         super.init(frame: .zero)
         self.completeBlock = completeBlock
         self.count = count
-        bgImageView.adhere(toSuperView: self).layout { (make) in
-            make.edges.equalToSuperview()
-            }
-            .config { (make) in
-                make.image = UIImage.init(named: "倒计时背景")
-        }
         
         nameLabel.adhere(toSuperView: self).layout { (make) in
             make.center.equalToSuperview()
@@ -44,7 +37,7 @@ class CutDownView: UIView {
             .config { (make) in
                 make.text = self.count.description
                 make.textColor = UIColor.white
-                make.font = UIFont.systemFont(ofSize: 500)
+                make.font = UIFont.boldSystemFont(ofSize: 500)
         }
         self.showAnimation()
     }
@@ -56,11 +49,11 @@ class CutDownView: UIView {
     func showAnimation() {
         if self.count == 0 {
             nameLabel.text = "GO"
-            nameLabel.font = UIFont.systemFont(ofSize: 200)
+            nameLabel.font = UIFont.boldSystemFont(ofSize: 300)
         }
         else {
             nameLabel.text = self.count.description
-            nameLabel.font = UIFont.systemFont(ofSize: 500)
+            nameLabel.font = UIFont.boldSystemFont(ofSize: 500)
         }
         nameLabel.transform = CGAffineTransform.init(scaleX: 0.1, y: 0.1)
         nameLabel.alpha = 1

@@ -36,14 +36,12 @@ class SportDetailView: UIView, UICollectionViewDelegate, UICollectionViewDataSou
                 make.delegate = self
                 make.dataSource = self
                 make.register(ImageLabelsCollectionCell.self, forCellWithReuseIdentifier: ImageLabelsCollectionCell.wuClassName())
-                if #available(iOS 11.0, *) {
-                    make.contentInsetAdjustmentBehavior = .never
-                }
+                make.contentInsetAdjustmentBehavior = .never
+                
         }
     }
     
     let titleArray = [NSLocalizedString("配速", comment: ""), NSLocalizedString("时长", comment: ""), NSLocalizedString("消耗", comment: "")]
-    let imageArray = ["跑步配速", "跑步时间", "跑步卡路里"]
     // MARK: - collectionView
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return titleArray.count
@@ -51,7 +49,6 @@ class SportDetailView: UIView, UICollectionViewDelegate, UICollectionViewDataSou
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ImageLabelsCollectionCell.wuClassName(), for: indexPath) as! ImageLabelsCollectionCell
-        cell.iconImageView.image = UIImage.init(named: imageArray[indexPath.row])
         cell.nameLabel.text = titleArray[indexPath.row]
         
         if indexPath.row == 0 {

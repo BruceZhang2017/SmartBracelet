@@ -101,7 +101,25 @@ class KRLShimmerView: UIView {
     createAnimation()
   }
   
+  override func layoutSubviews() {
+    super.layoutSubviews()
+
+    // 更新所有layer和label的bounds
+    label.frame = bounds
+    contentLayer.bounds = bounds
+    shimmerLayer.bounds = bounds
+    gradientLayer.bounds = bounds
+
+    // 如果view显示中且bounds有效，自动创建/更新动画
+    if !isHidden && bounds.width > 0 && bounds.height > 0 {
+      createAnimation()
+    }
+  }
+
   func createAnimation() {
+    // 只有在bounds有效时才创建动画
+    guard bounds.width > 0 && bounds.height > 0 else { return }
+
     gradientLayer.removeAllAnimations()
     let animation = CABasicAnimation(keyPath: KRLShimmerViewAnimationKey)
     animation.fromValue = [0, 0, 0.2]
@@ -110,15 +128,15 @@ class KRLShimmerView: UIView {
     animation.repeatCount = HUGE
     gradientLayer.add(animation, forKey: nil)
   }
-    
+
     func removreAnimation() {
         gradientLayer.removeAllAnimations()
     }
-  
+
   private init() {
     super.init(frame: CGRect.zero)
   }
-    
+
   required init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }

@@ -8,6 +8,7 @@
 
 import UIKit
 import TJDWristbandSDK
+import Toaster
 
 class RunHistoryViewController: BaseViewController, UITableViewDelegate, UITableViewDataSource {
     var table = UITableView()
@@ -50,11 +51,9 @@ class RunHistoryViewController: BaseViewController, UITableViewDelegate, UITable
         table.delegate = self
         table.dataSource = self
         table.register(RunHistoryTableViewCell.self, forCellReuseIdentifier: RunHistoryTableViewCell.wuClassName())
-        if #available(iOS 11.0, *) {
-            table.contentInsetAdjustmentBehavior = .never
-        }
+        table.contentInsetAdjustmentBehavior = .never
         table.tableFooterView = UIView()
-        table.separatorColor = UIColor.red
+        table.separatorColor = UIColor.brand
     }
     
     // MARK: - TableView
@@ -84,16 +83,16 @@ class RunHistoryViewController: BaseViewController, UITableViewDelegate, UITable
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 70
+        return 100
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 35
+        return 40
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let cell = tableView.dequeueReusableHeaderFooterView(withIdentifier: "cell") ?? UITableViewHeaderFooterView()
-        cell.contentView.backgroundColor = UIColor.red
+        cell.contentView.backgroundColor = UIColor.brand.withAlphaComponent(0.5)
         let model = dataArray[section][0]
         cell.textLabel?.text = model.timeStamp.dateFromSecond().stringFromYmd()
         
@@ -102,11 +101,15 @@ class RunHistoryViewController: BaseViewController, UITableViewDelegate, UITable
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        let vc = HistoryMapViewController()
-        vc.title = NSLocalizedString("地图", comment: "")
         let model = dataArray[indexPath.section][indexPath.row]
-        vc.runModel = model
-        self.navigationController?.pushViewController(vc, animated: true)
+        if model.type == 1 || model.type == 3 || model.type == 6 {
+            Toast(text: "室内运动，没有地图可查").show()
+        } else {
+            let vc = HistoryMapViewController()
+            vc.runModel = model
+            vc.title = SportType(rawValue: model.type)?.title ?? ""
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
     }
 
     public func image(forEmptyDataSet scrollView: UIScrollView!) -> UIImage! {
@@ -124,8 +127,8 @@ class RunHistoryTableViewCell: UITableViewCell, UICollectionViewDelegate, UIColl
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        backgroundColor = UIColor.red
-        contentView.backgroundColor = UIColor.red
+        backgroundColor = UIColor.clear
+        contentView.backgroundColor = UIColor.clear
         
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
@@ -141,13 +144,11 @@ class RunHistoryTableViewCell: UITableViewCell, UICollectionViewDelegate, UIColl
             make.bottom.equalToSuperview()
             }
             .config { (make) in
-                make.backgroundColor = UIColor.clear
+                make.backgroundColor = UIColor.white
                 make.delegate = self
                 make.dataSource = self
                 make.register(VerticalLabelsCollectionCell.self, forCellWithReuseIdentifier: VerticalLabelsCollectionCell.wuClassName())
-                if #available(iOS 11.0, *) {
-                    make.contentInsetAdjustmentBehavior = .never
-                }
+                make.contentInsetAdjustmentBehavior = .never
                 make.isUserInteractionEnabled = false
         }
     }
@@ -160,8 +161,8 @@ class RunHistoryTableViewCell: UITableViewCell, UICollectionViewDelegate, UIColl
             unit = " km"
         }
         
-        let valueAttr = NSMutableAttributedString(string: valueStr, attributes: [NSAttributedString.Key.font : UIFont.systemFont(ofSize: 30), NSAttributedString.Key.foregroundColor: UIColor.red])
-        let unitAttr = NSMutableAttributedString(string: unit, attributes: [NSAttributedString.Key.font : UIFont.systemFont(ofSize: 10), NSAttributedString.Key.foregroundColor: UIColor.red])
+        let valueAttr = NSMutableAttributedString(string: valueStr, attributes: [NSAttributedString.Key.font : UIFont.systemFont(ofSize: 30), NSAttributedString.Key.foregroundColor: UIColor.black])
+        let unitAttr = NSMutableAttributedString(string: unit, attributes: [NSAttributedString.Key.font : UIFont.systemFont(ofSize: 10), NSAttributedString.Key.foregroundColor: UIColor.black])
         valueAttr.append(unitAttr)
         return valueAttr
     }
@@ -174,7 +175,7 @@ class RunHistoryTableViewCell: UITableViewCell, UICollectionViewDelegate, UIColl
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: VerticalLabelsCollectionCell.wuClassName(), for: indexPath) as! VerticalLabelsCollectionCell
-        cell.labels.nameLabel1.textColor = UIColor.red
+        cell.labels.nameLabel1.textColor = UIColor.black
         cell.labels.nameLabel1.font = UIFont.systemFont(ofSize: 24)
         if indexPath.row == 0 {
             let date = myModel.timeStamp.dateFromSecond()

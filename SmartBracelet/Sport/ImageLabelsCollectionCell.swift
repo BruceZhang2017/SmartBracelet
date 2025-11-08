@@ -9,7 +9,6 @@
 import UIKit
 
 class ImageLabelsCollectionCell: UICollectionViewCell {
-    var iconImageView = UIImageView()
     var nameLabel = UILabel()
     var valueLabel = UILabel()
     
@@ -20,17 +19,11 @@ class ImageLabelsCollectionCell: UICollectionViewCell {
             make.width.height.lessThanOrEqualToSuperview()
             make.center.equalToSuperview()
         }
-        valueLabel.textColor = UIColor.red
+        valueLabel.textColor = UIColor.brand
         valueLabel.font = UIFont.systemFont(ofSize: 22)
         valueLabel.numberOfLines = 0
         valueLabel.lineBreakMode = .byCharWrapping
         valueLabel.textAlignment = .center
-        
-        contentView.addSubview(iconImageView)
-        iconImageView.snp.makeConstraints { (make) in
-            make.centerX.equalToSuperview()
-            make.bottom.equalTo(valueLabel.snp.top).offset(-8)
-        }
         
         contentView.addSubview(nameLabel)
         nameLabel.snp.makeConstraints { (make) in
@@ -38,7 +31,7 @@ class ImageLabelsCollectionCell: UICollectionViewCell {
             make.centerX.equalToSuperview()
             make.top.equalTo(valueLabel.snp.bottom).offset(5)
         }
-        nameLabel.textColor = UIColor.red
+        nameLabel.textColor = UIColor.brand
         nameLabel.font = UIFont.systemFont(ofSize: 12)
         nameLabel.numberOfLines = 0
         nameLabel.lineBreakMode = .byCharWrapping

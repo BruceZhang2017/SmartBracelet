@@ -52,6 +52,7 @@
     _foregroundView = [[UIView alloc] init];
     [self addSubview:_foregroundView];
     _thumbImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
+    _thumbImageView.contentMode = UIViewContentModeScaleAspectFit; // 保持图片比例，不变形
     _thumbImageView.layer.cornerRadius = kCornerRadius;
     _thumbImageView.layer.masksToBounds = YES;
     _thumbImageView.userInteractionEnabled = YES;
@@ -67,7 +68,7 @@
     _thumbImageView.backgroundColor = kThumbColor;
     [self.layer setBorderColor:kBorderColor.CGColor];
     _touchView = _thumbImageView;
-    
+
 }
 
 #pragma mark - Public
@@ -150,10 +151,11 @@
 
 #pragma mark - Private
 - (void)fillForeGroundViewWithPoint:(CGPoint)point{
-    CGFloat thunmbW = kThumbW;
+    // 使用slider的高度作为thumb的宽度，保持正方形，避免变形
+    CGFloat thumbSize = kSliderH - 2 * kBorderWidth;
     CGPoint p = point;
     //修正
-    p.x += thunmbW/2;
+    p.x += thumbSize/2;
     if (p.x > kSliderW) {
         p.x = kSliderW;
     }
@@ -161,24 +163,24 @@
         p.x = 0;
     }
     if (self.finishImage) {
-        _thumbImageView.image = point.x  < (kSliderW - thunmbW/2) ? self.thumbImage : self.finishImage;
+        _thumbImageView.image = point.x  < (kSliderW - thumbSize/2) ? self.thumbImage : self.finishImage;
     }
     self.value = p.x  / kSliderW;
-    
-    
+
+
     _foregroundView.frame = CGRectMake(0, 0, point.x, kSliderH);
-    
-    
+
+
     if (_foregroundView.frame.size.width <= 0) {
-        _thumbImageView.frame = CGRectMake(0, kBorderWidth, thunmbW, _foregroundView.frame.size.height- kBorderWidth);
-        
+        _thumbImageView.frame = CGRectMake(0, kBorderWidth, thumbSize, thumbSize);
+
     }else if (_foregroundView.frame.size.width >= kSliderW) {
-        _thumbImageView.frame = CGRectMake(_foregroundView.frame.size.width - thunmbW, kBorderWidth, thunmbW, _foregroundView.frame.size.height - 2 * kBorderWidth );
-        
+        _thumbImageView.frame = CGRectMake(_foregroundView.frame.size.width - thumbSize, kBorderWidth, thumbSize, thumbSize);
+
     }else{
-        _thumbImageView.frame = CGRectMake(_foregroundView.frame.size.width-thunmbW/2, kBorderWidth, thunmbW, _foregroundView.frame.size.height-kBorderWidth*2);
+        _thumbImageView.frame = CGRectMake(_foregroundView.frame.size.width-thumbSize/2, kBorderWidth, thumbSize, thumbSize);
     }
-    
+
 }
 
 #pragma mark - Touch

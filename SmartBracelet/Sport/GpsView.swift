@@ -15,8 +15,8 @@ class GpsView: UIView {
             self.setNeedsDisplay()
         }
     }
-    private var noSignalColor = UIColor.red.withAlphaComponent(0.3)
-    private let signalColor = UIColor.red
+    private var noSignalColor = UIColor.brand.withAlphaComponent(0.3)
+    private let signalColor = UIColor.brand
     
     init(frame: CGRect, color: UIColor) {
         super.init(frame: frame)
@@ -97,6 +97,7 @@ class GpsManager: NSObject {
     var lastLocation: CLLocation?
     var timerBlock: WUOkHandler?
     var gpsBlock: WUOkHandler?
+    var sportType: SportType = .outdoorRunning
     
     override init() {
         super.init()
@@ -113,6 +114,7 @@ class GpsManager: NSObject {
         currentPath = 0
         lastLocation = nil
         runModel = RunModel()
+        runModel.type = sportType.rawValue
         runModel.timeStamp = Date().secondFromDate()
         runModel.pathCount = currentPath + 1
         WULocationManager.shared.startLocation()

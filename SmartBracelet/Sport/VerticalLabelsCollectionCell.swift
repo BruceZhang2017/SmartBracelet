@@ -9,7 +9,7 @@
 import UIKit
 
 class VerticalLabelsCollectionCell: UICollectionViewCell {
-    var labels = VerticalLabels()
+    var labels = VerticalLabels1()
     
     override init(frame: CGRect) {
         super.init(frame: frame)

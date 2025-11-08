@@ -42,11 +42,11 @@ class VerticalLabels: UIView {
             make.centerX.equalToSuperview()
             make.top.equalToSuperview()
         }
-        nameLabel.textColor = UIColor.red
-        nameLabel.font = UIFont.systemFont(ofSize: 16)
+        nameLabel.textColor = UIColor.brand
+        nameLabel.font = UIFont.boldSystemFont(ofSize: 60)
         nameLabel.numberOfLines = 0
         nameLabel.lineBreakMode = .byCharWrapping
-        
+
         content.addSubview(nameLabel1)
         nameLabel1.snp.makeConstraints { (make) in
             make.width.lessThanOrEqualToSuperview()
@@ -54,8 +54,8 @@ class VerticalLabels: UIView {
             make.bottom.equalToSuperview()
             make.centerX.equalToSuperview()
         }
-        nameLabel1.textColor = UIColor.red
-        nameLabel1.font = UIFont.systemFont(ofSize: 16)
+        nameLabel1.textColor = UIColor.brand
+        nameLabel1.font = UIFont.systemFont(ofSize: 20)
         nameLabel1.numberOfLines = 0
         nameLabel1.lineBreakMode = .byCharWrapping
     }
@@ -135,9 +135,7 @@ class VerticalLabels1: UIView {
     private var content = UIView()
     var nameLabel = UILabel()
     var nameLabel1 = UILabel()
-    var nameLabel2 = UILabel()
     var spaceConstraint: Constraint!
-    var spaceConstraint1: Constraint!
     var alignment = VerticalLabelsAlignment.center {
         didSet {
             setAlignment(alignment)
@@ -161,32 +159,20 @@ class VerticalLabels1: UIView {
             make.top.equalToSuperview()
             }
             .config { (make) in
-                make.textColor = UIColor.red
-                make.font = UIFont.systemFont(ofSize: 16)
+                make.textColor = UIColor.black
+                make.font = UIFont.boldSystemFont(ofSize: 18)
                 make.numberOfLines = 0
                 make.lineBreakMode = .byCharWrapping
         }
         
         nameLabel1.adhere(toSuperView: content).layout { (make) in
             make.width.lessThanOrEqualToSuperview()
-            spaceConstraint = make.top.equalTo(nameLabel.snp.bottom).offset(5).constraint
-            make.centerX.equalToSuperview()
-            }
-            .config { (make) in
-                make.textColor = UIColor.red
-                make.font = UIFont.systemFont(ofSize: 16)
-                make.numberOfLines = 0
-                make.lineBreakMode = .byCharWrapping
-        }
-        
-        nameLabel2.adhere(toSuperView: content).layout { (make) in
-            spaceConstraint1 = make.top.equalTo(nameLabel1.snp.bottom).offset(5).constraint
-            make.width.lessThanOrEqualToSuperview()
+            spaceConstraint = make.top.equalTo(nameLabel.snp.bottom).offset(10).constraint
             make.centerX.equalToSuperview()
             make.bottom.equalToSuperview()
             }
             .config { (make) in
-                make.textColor = UIColor.red
+                make.textColor = UIColor.black
                 make.font = UIFont.systemFont(ofSize: 16)
                 make.numberOfLines = 0
                 make.lineBreakMode = .byCharWrapping
@@ -208,21 +194,9 @@ class VerticalLabels1: UIView {
             
             nameLabel1.layout { (make) in
                 make.width.lessThanOrEqualToSuperview()
-                spaceConstraint = make.top.equalTo(nameLabel.snp.bottom).offset(5).constraint
-                make.centerX.equalToSuperview()
-            }
-            
-            nameLabel2.adhere(toSuperView: content).layout { (make) in
-                spaceConstraint1 = make.top.equalTo(nameLabel1.snp.bottom).offset(5).constraint
-                make.width.lessThanOrEqualToSuperview()
+                spaceConstraint = make.top.equalTo(nameLabel.snp.bottom).offset(10).constraint
                 make.centerX.equalToSuperview()
                 make.bottom.equalToSuperview()
-                }
-                .config { (make) in
-                    make.textColor = UIColor.red
-                    make.font = UIFont.systemFont(ofSize: 16)
-                    make.numberOfLines = 0
-                    make.lineBreakMode = .byCharWrapping
             }
         }
         
@@ -241,21 +215,9 @@ class VerticalLabels1: UIView {
             
             nameLabel1.layout { (make) in
                 make.width.lessThanOrEqualToSuperview()
-                spaceConstraint = make.top.equalTo(nameLabel.snp.bottom).offset(5).constraint
-                make.left.equalToSuperview()
-            }
-            
-            nameLabel2.adhere(toSuperView: content).layout { (make) in
-                spaceConstraint1 = make.top.equalTo(nameLabel1.snp.bottom).offset(5).constraint
-                make.width.lessThanOrEqualToSuperview()
+                spaceConstraint = make.top.equalTo(nameLabel.snp.bottom).offset(10).constraint
                 make.left.equalToSuperview()
                 make.bottom.equalToSuperview()
-                }
-                .config { (make) in
-                    make.textColor = UIColor.red
-                    make.font = UIFont.systemFont(ofSize: 16)
-                    make.numberOfLines = 0
-                    make.lineBreakMode = .byCharWrapping
             }
         }
         
@@ -274,21 +236,9 @@ class VerticalLabels1: UIView {
             
             nameLabel1.layout { (make) in
                 make.width.lessThanOrEqualToSuperview()
-                spaceConstraint = make.top.equalTo(nameLabel.snp.bottom).offset(5).constraint
-                make.right.equalToSuperview()
-            }
-            
-            nameLabel2.adhere(toSuperView: content).layout { (make) in
-                spaceConstraint1 = make.top.equalTo(nameLabel1.snp.bottom).offset(5).constraint
-                make.width.lessThanOrEqualToSuperview()
+                spaceConstraint = make.top.equalTo(nameLabel.snp.bottom).offset(10).constraint
                 make.right.equalToSuperview()
                 make.bottom.equalToSuperview()
-                }
-                .config { (make) in
-                    make.textColor = UIColor.red
-                    make.font = UIFont.systemFont(ofSize: 16)
-                    make.numberOfLines = 0
-                    make.lineBreakMode = .byCharWrapping
             }
         }
     }

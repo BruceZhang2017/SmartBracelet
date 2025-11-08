@@ -37,6 +37,16 @@
 		9A0B86E72DD1CC1000E1E936 /* delete_device1.png in Resources */ = {isa = PBXBuildFile; fileRef = 9A0B86E42DD1CC1000E1E936 /* delete_device1.png */; };
 		9A0C34952B341D6600E798F1 /* DFUnits.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A0C34932B341D6100E798F1 /* DFUnits.framework */; };
 		9A0C34962B341D6600E798F1 /* JL_BLEKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A0C34942B341D6600E798F1 /* JL_BLEKit.framework */; };
+		9A102FED2EBEFC0600FC6758 /* UIImageExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A102FEC2EBEFC0600FC6758 /* UIImageExt.swift */; };
+		9A102FEF2EBF6D4400FC6758 /* SportSetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A102FEE2EBF6D4400FC6758 /* SportSetViewController.swift */; };
+		9A102FF92EBF70D300FC6758 /* Area.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9A102FF02EBF70D300FC6758 /* Area.plist */; };
+		9A102FFA2EBF70D300FC6758 /* City.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9A102FF12EBF70D300FC6758 /* City.plist */; };
+		9A102FFB2EBF70D300FC6758 /* Province.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9A102FF42EBF70D300FC6758 /* Province.plist */; };
+		9A102FFC2EBF70D300FC6758 /* ToolBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A102FF62EBF70D300FC6758 /* ToolBarView.swift */; };
+		9A102FFD2EBF70D300FC6758 /* Picker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A102FF22EBF70D300FC6758 /* Picker.swift */; };
+		9A102FFE2EBF70D300FC6758 /* SelectionTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A102FF52EBF70D300FC6758 /* SelectionTextField.swift */; };
+		9A102FFF2EBF70D300FC6758 /* PickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A102FF32EBF70D300FC6758 /* PickerView.swift */; };
+		9A1030002EBF70D300FC6758 /* UsefulPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A102FF72EBF70D300FC6758 /* UsefulPickerView.swift */; };
 		9A127EAE2BC2ACE300126836 /* UIFont+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A127EAD2BC2ACE200126836 /* UIFont+Extension.swift */; };
 		9A1F7CAC2E22932700EB3BBE /* TripleTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A1F7CAB2E22932700EB3BBE /* TripleTableViewController.swift */; };
 		9A20FA322D2A2C3C0027A26F /* WUCalendarManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A20FA2F2D2A2C3C0027A26F /* WUCalendarManager.swift */; };
@@ -592,6 +602,16 @@
 		9A0B86E52DD1CC1000E1E936 /* delete_device2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = delete_device2.png; sourceTree = "<group>"; };
 		9A0C34932B341D6100E798F1 /* DFUnits.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = DFUnits.framework; sourceTree = "<group>"; };
 		9A0C34942B341D6600E798F1 /* JL_BLEKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = JL_BLEKit.framework; sourceTree = "<group>"; };
+		9A102FEC2EBEFC0600FC6758 /* UIImageExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageExt.swift; sourceTree = "<group>"; };
+		9A102FEE2EBF6D4400FC6758 /* SportSetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SportSetViewController.swift; sourceTree = "<group>"; };
+		9A102FF02EBF70D300FC6758 /* Area.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Area.plist; sourceTree = "<group>"; };
+		9A102FF12EBF70D300FC6758 /* City.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = City.plist; sourceTree = "<group>"; };
+		9A102FF22EBF70D300FC6758 /* Picker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Picker.swift; sourceTree = "<group>"; };
+		9A102FF32EBF70D300FC6758 /* PickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerView.swift; sourceTree = "<group>"; };
+		9A102FF42EBF70D300FC6758 /* Province.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Province.plist; sourceTree = "<group>"; };
+		9A102FF52EBF70D300FC6758 /* SelectionTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionTextField.swift; sourceTree = "<group>"; };
+		9A102FF62EBF70D300FC6758 /* ToolBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolBarView.swift; sourceTree = "<group>"; };
+		9A102FF72EBF70D300FC6758 /* UsefulPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsefulPickerView.swift; sourceTree = "<group>"; };
 		9A127EAD2BC2ACE200126836 /* UIFont+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Extension.swift"; sourceTree = "<group>"; };
 		9A1E2D2F2DB6631E00B50C5D /* sv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sv; path = sv.lproj/Localizable.strings; sourceTree = "<group>"; };
 		9A1F7CAB2E22932700EB3BBE /* TripleTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripleTableViewController.swift; sourceTree = "<group>"; };
@@ -1384,6 +1404,21 @@
 			path = MBProgressHUD;
 			sourceTree = "<group>";
 		};
+		9A102FF82EBF70D300FC6758 /* UsefulPickerVIew */ = {
+			isa = PBXGroup;
+			children = (
+				9A102FF02EBF70D300FC6758 /* Area.plist */,
+				9A102FF12EBF70D300FC6758 /* City.plist */,
+				9A102FF22EBF70D300FC6758 /* Picker.swift */,
+				9A102FF32EBF70D300FC6758 /* PickerView.swift */,
+				9A102FF42EBF70D300FC6758 /* Province.plist */,
+				9A102FF52EBF70D300FC6758 /* SelectionTextField.swift */,
+				9A102FF62EBF70D300FC6758 /* ToolBarView.swift */,
+				9A102FF72EBF70D300FC6758 /* UsefulPickerView.swift */,
+			);
+			path = UsefulPickerVIew;
+			sourceTree = "<group>";
+		};
 		9A2181612557ED9B000330E5 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
@@ -2022,6 +2057,7 @@
 		9A7D5E4025490E850016E4BC /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				9A102FF82EBF70D300FC6758 /* UsefulPickerVIew */,
 				9A73D6F42E9F6DB3004EB209 /* ContactManager.swift */,
 				9A839C6B25611FA900714CBE /* HHCountdowLabel.h */,
 				9A839C6C25611FA900714CBE /* HHCountdowLabel.m */,
@@ -2097,6 +2133,7 @@
 				9A820B8E24D1B15B00A62C6F /* UIButton+Extension.swift */,
 				9AEC22FF25B7114500DE899A /* Data+Extension.swift */,
 				9A127EAD2BC2ACE200126836 /* UIFont+Extension.swift */,
+				9A102FEC2EBEFC0600FC6758 /* UIImageExt.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -2111,6 +2148,7 @@
 				9AC2B90F2D2783A80064903C /* RunHistoryViewController.swift */,
 				9AC2B9102D2783A80064903C /* SportDetailView.swift */,
 				9AC2B9112D2783A80064903C /* HistoryMapViewController.swift */,
+				9A102FEE2EBF6D4400FC6758 /* SportSetViewController.swift */,
 				9AC2B91A2D2788700064903C /* RunModel.swift */,
 				9AC2B91E2D27BB890064903C /* WULocationManager.swift */,
 				9AC2B9202D27BBE10064903C /* CutDownView.swift */,
@@ -2609,6 +2647,9 @@
 				9A2181662557EDBE000330E5 /* walk.jpeg in Resources */,
 				9AB563FD26F6186000D16869 /* Localizable.strings in Resources */,
 				9A2676AC26B1969B0096BC61 /* Alarm.mp3 in Resources */,
+				9A102FF92EBF70D300FC6758 /* Area.plist in Resources */,
+				9A102FFA2EBF70D300FC6758 /* City.plist in Resources */,
+				9A102FFB2EBF70D300FC6758 /* Province.plist in Resources */,
 				9A9E4E15278136E70084CCFF /* 2_80_160.png in Resources */,
 				9A9E4E14278136E70084CCFF /* 4_80_160.png in Resources */,
 				9A2185AE255BC6AA000330E5 /* new1.jpg in Resources */,
@@ -2804,6 +2845,7 @@
 				9AE1A1712629465F00B8B10D /* Partition.m in Sources */,
 				9A56D29C25216FC70082CC08 /* CombinedChartData.swift in Sources */,
 				9A56D26C25216FC60082CC08 /* BarChartView.swift in Sources */,
+				9A102FEF2EBF6D4400FC6758 /* SportSetViewController.swift in Sources */,
 				9A52106F2503A62F00F64A7A /* MarketClockViewController.swift in Sources */,
 				9AB7AC462766425800D51DBC /* EditClcokBottomTableViewCell.swift in Sources */,
 				9A8CA51B25272C5200EC01A7 /* CVCalendarMonthContentViewController.swift in Sources */,
@@ -2865,6 +2907,11 @@
 				9A2185B4255BCDA0000330E5 /* MNavigationController.swift in Sources */,
 				9A56D27525216FC60082CC08 /* IndexAxisValueFormatter.swift in Sources */,
 				9A56D2B325216FC70082CC08 /* IScatterChartDataSet.swift in Sources */,
+				9A102FFC2EBF70D300FC6758 /* ToolBarView.swift in Sources */,
+				9A102FFD2EBF70D300FC6758 /* Picker.swift in Sources */,
+				9A102FFE2EBF70D300FC6758 /* SelectionTextField.swift in Sources */,
+				9A102FFF2EBF70D300FC6758 /* PickerView.swift in Sources */,
+				9A1030002EBF70D300FC6758 /* UsefulPickerView.swift in Sources */,
 				9A56D2C225216FC70082CC08 /* BarLineScatterCandleBubbleChartDataProvider.swift in Sources */,
 				9A7315CC2871B16C00D378A7 /* Constant.swift in Sources */,
 				9AB7AC442766424A00D51DBC /* EidtClockHeadTableViewCell.swift in Sources */,
@@ -2984,6 +3031,7 @@
 				9A037E4825BDB1EC0006FB94 /* OTA.m in Sources */,
 				9A8CA52125272C5200EC01A7 /* CVCalendarWeekday.swift in Sources */,
 				9AE1A16E2629465F00B8B10D /* JCBluetoothManager.m in Sources */,
+				9A102FED2EBEFC0600FC6758 /* UIImageExt.swift in Sources */,
 				1898B72C2451969B00B9E5A5 /* Date+String.swift in Sources */,
 				9A4E624824F8DF3800A0E878 /* DevicesView.swift in Sources */,
 				9A60DEE7252F175600E0D849 /* APNSViewController.swift in Sources */,

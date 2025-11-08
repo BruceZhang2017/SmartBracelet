@@ -54,16 +54,12 @@ class HistoryMapViewController: BaseViewController, MKMapViewDelegate {
         
         let baseView = UIView().adhere(toSuperView: mapBgView).layout { (make) in
             make.centerX.equalToSuperview()
-            make.bottom.equalToSuperview().offset(-8)
+            make.bottom.equalToSuperview().offset(-20)
             make.left.equalToSuperview().offset(16)
             make.height.equalTo(150)
         }
-        baseView.backgroundColor = UIColor.red.withAlphaComponent(0.8)
+        baseView.backgroundColor = UIColor.white
         baseView.layer.cornerRadius = 7
-        baseView.layer.shadowColor = UIColor.black.cgColor
-        baseView.layer.shadowOpacity = 0.25
-        baseView.layer.shadowRadius = 12
-        baseView.layer.shadowOffset = .zero
         
         let content = UIView().adhere(toSuperView: baseView).layout { (make) in
             make.top.equalToSuperview().offset(20)
@@ -80,7 +76,7 @@ class HistoryMapViewController: BaseViewController, MKMapViewDelegate {
             .config { (make) in
                 make.text = "0.00"
                 make.font = UIFont.systemFont(ofSize: 35)
-                make.textColor = UIColor.red
+                make.textColor = UIColor.black
         }
         
         unitLabel.adhere(toSuperView: content).layout { (make) in
@@ -92,7 +88,7 @@ class HistoryMapViewController: BaseViewController, MKMapViewDelegate {
             .config { (make) in
                 make.text = "km"
                 make.font = UIFont.systemFont(ofSize: 20)
-                make.textColor = UIColor.red
+                make.textColor = UIColor.black
         }
         
         detailView.adhere(toSuperView: baseView).layout { (make) in
@@ -158,10 +154,10 @@ class HistoryMapViewController: BaseViewController, MKMapViewDelegate {
         if annotation is MKPointAnnotation {
             let annotationView = MKPinAnnotationView.init(annotation: annotation, reuseIdentifier: MKPinAnnotationView.wuClassName())
             if annotation.isEqual(startPoint) {
-                annotationView.pinColor = .green
+                annotationView.pinTintColor = .green
             }
             else {
-                annotationView.pinColor = .red
+                annotationView.pinTintColor = .red
             }
             return annotationView
         }
@@ -171,7 +167,7 @@ class HistoryMapViewController: BaseViewController, MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         let routeLineView = MKPolylineRenderer.init(overlay: overlay)
         routeLineView.lineWidth = 2
-        routeLineView.strokeColor = UIColor.red
+        routeLineView.strokeColor = UIColor.brand
         return routeLineView
     }
     
@@ -190,15 +186,71 @@ class MapViewController: BaseViewController, MKMapViewDelegate {
     var mapView = MKMapView()
     private var startPoint = MKPointAnnotation()
     private var routeLines = MKPolyline()
-    var leftBtn = UIButton()
     var rightBtn = UIButton()
     var baseView = UIView()
+    
+    // GPS 强度显示视图
+    private let gpsStrengthView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        view.layer.cornerRadius = 15 // 半圆倒角
+        view.clipsToBounds = true
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    var gpsView = GpsView.init(frame: .zero, color: UIColor.white)
+
+    private let gpsStrengthLabel: UILabel = {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 12, weight: .medium)
+        label.textColor = .black
+        label.text = "GPS"
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setupViews()
         displayData()
+        
+        // GPS 强度视图
+        view.addSubview(gpsStrengthView)
+        view.addSubview(gpsStrengthLabel)
+        gpsView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(gpsView)
+        
+        NSLayoutConstraint.activate([
+            // GPS 强度视图（左上角）
+            gpsStrengthView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0),
+            gpsStrengthView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            gpsStrengthView.heightAnchor.constraint(equalToConstant: 30),
+            gpsStrengthView.widthAnchor.constraint(equalToConstant: 90),
+
+            // GPS 强度标签
+            gpsStrengthLabel.leadingAnchor.constraint(equalTo: gpsStrengthView.leadingAnchor, constant: 8),
+            gpsStrengthLabel.centerYAnchor.constraint(equalTo: gpsStrengthView.centerYAnchor),
+            
+            // GPS 图标
+            gpsView.trailingAnchor.constraint(equalTo: gpsStrengthView.trailingAnchor, constant: -8),
+            gpsView.centerYAnchor.constraint(equalTo: gpsStrengthView.centerYAnchor),
+            gpsView.widthAnchor.constraint(equalToConstant: 40),
+            gpsView.heightAnchor.constraint(equalToConstant: 9),
+        ])
+        
+        // 监听位置更新通知
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(locationDidUpdate(_:)),
+            name: WULocationManagerNotifyKey.locationDidUpdate,
+            object: nil
+        )
+    }
+    
+    @objc private func locationDidUpdate(_ notification: Notification) {
+        gpsView.signalState = WULocationManager.shared.signalState
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -239,18 +291,14 @@ class MapViewController: BaseViewController, MKMapViewDelegate {
         }
         
         baseView.adhere(toSuperView: mapBgView).layout { (make) in
-            make.centerX.equalToSuperview()
-            make.bottom.equalToSuperview().offset(-8)
+            make.right.equalToSuperview().offset(-16)
+            make.bottom.equalToSuperview().offset(-20)
             make.left.equalToSuperview().offset(16)
             make.height.equalTo(150)
             }
             .config { (make) in
-                make.backgroundColor = UIColor.red.withAlphaComponent(0.8)
+                make.backgroundColor = UIColor.white
                 make.layer.cornerRadius = 7
-                make.layer.shadowColor = UIColor.black.cgColor
-                make.layer.shadowOpacity = 0.25
-                make.layer.shadowRadius = 12
-                make.layer.shadowOffset = .zero
         }
         
         let content = UIView().adhere(toSuperView: baseView).layout { (make) in
@@ -268,7 +316,7 @@ class MapViewController: BaseViewController, MKMapViewDelegate {
             .config { (make) in
                 make.text = "0.00"
                 make.font = UIFont.systemFont(ofSize: 35)
-                make.textColor = UIColor.red
+                make.textColor = UIColor.black
         }
         
         unitLabel.adhere(toSuperView: content).layout { (make) in
@@ -280,7 +328,7 @@ class MapViewController: BaseViewController, MKMapViewDelegate {
             .config { (make) in
                 make.text = "km"
                 make.font = UIFont.systemFont(ofSize: 20)
-                make.textColor = UIColor.red
+                make.textColor = UIColor.black
         }
         
         detailView.adhere(toSuperView: baseView).layout { (make) in
@@ -292,18 +340,10 @@ class MapViewController: BaseViewController, MKMapViewDelegate {
             .config { (make) in
         }
         
-        leftBtn.adhere(toSuperView: view).layout { (make) in
-            make.left.equalToSuperview().offset(16)
-            make.bottom.equalTo(baseView.snp.top).offset(-8)
-            }
-            .config { (make) in
-                make.addTarget(self, action: #selector(pressBtn(_:)), for: .touchUpInside)
-                make.setBackgroundImage(UIImage.init(named: "map_icon_big"), for: .normal)
-        }
-        
         rightBtn.adhere(toSuperView: view).layout { (make) in
             make.right.equalToSuperview().offset(-16)
-            make.bottom.equalTo(baseView.snp.top).offset(-8)
+            make.bottom.equalTo(baseView.snp.top).offset(-40)
+            make.width.height.equalTo(64)
             }
             .config { (make) in
                 make.addTarget(self, action: #selector(pressBtn(_:)), for: .touchUpInside)
@@ -353,13 +393,7 @@ class MapViewController: BaseViewController, MKMapViewDelegate {
     }
     
     @objc func pressBtn(_ sender: UIButton) {
-        if sender == leftBtn {
-            self.baseView.isHidden = !self.baseView.isHidden
-        }
-        
-        if sender == rightBtn {
-            self.adjustUserLocation()
-        }
+        self.adjustUserLocation()
     }
     
     func adjustUserLocation() {
@@ -388,12 +422,11 @@ class MapViewController: BaseViewController, MKMapViewDelegate {
         if annotation is MKPointAnnotation {
             if annotation.isEqual(startPoint) {
                 let annotationView = MKPinAnnotationView.init(annotation: annotation, reuseIdentifier: MKPinAnnotationView.wuClassName())
-                annotationView.pinColor = .green
+                annotationView.pinTintColor = .green
                 return annotationView
             }
             else {
                 let annotationView = MKAnnotationView.init(annotation: annotation, reuseIdentifier: MKAnnotationView.wuClassName())
-//                annotationView.pinColor = .red
                 annotationView.image = UIImage.init(named: "rStep")
                 return annotationView
             }
@@ -404,7 +437,7 @@ class MapViewController: BaseViewController, MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         let routeLineView = MKPolylineRenderer.init(overlay: overlay)
         routeLineView.lineWidth = 2
-        routeLineView.strokeColor = UIColor.red
+        routeLineView.strokeColor = UIColor.brand
         return routeLineView
     }
     
