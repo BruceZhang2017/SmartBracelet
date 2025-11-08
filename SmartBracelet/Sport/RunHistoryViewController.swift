@@ -54,6 +54,7 @@ class RunHistoryViewController: BaseViewController, UITableViewDelegate, UITable
         table.contentInsetAdjustmentBehavior = .never
         table.tableFooterView = UIView()
         table.separatorColor = UIColor.brand
+        table.separatorStyle = .singleLine
     }
     
     // MARK: - TableView
