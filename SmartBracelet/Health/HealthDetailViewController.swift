@@ -1042,6 +1042,19 @@ extension HealthDetailViewController {
     }
     
     func readXGZTDBSleep(completion: @escaping ([SleepObj]) -> Void) {
+        if mDate.isToday() {
+            let sleep = XGZTBlueToothManager.shared.device?.currentSleepArray ?? [0, 0, 0]
+            if sleep[0] + sleep[1] + sleep[2] > 0 {
+                let sleepObj = SleepObj()
+                sleepObj.date = mDate.stringFromYmd()
+                sleepObj.mac = lastestDeviceMac
+                sleepObj.awake = sleep[0]
+                sleepObj.light = sleep[1]
+                sleepObj.deep = sleep[2]
+                completion([sleepObj])
+                return
+            }
+        }
         DatabaseManager.shared.getSleepObj(byDate: mDate.stringFromYmd()) { results in
             let objs = results?.map { $0 } ?? []
             completion(objs)
