@@ -422,3 +422,4 @@
 "send_success"="送信成功";
 "send_fail"="送信失敗";
 "ota"="ファームウェア更新";
+"please_choose_day" = "曜日を選択してください";

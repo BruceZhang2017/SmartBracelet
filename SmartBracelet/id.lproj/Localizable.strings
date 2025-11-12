@@ -422,3 +422,4 @@
 "send_success"="Terkirim Berhasil";
 "send_fail"="Gagal Mengirim";
 "ota"="Pembaruan Firmware";
+"please_choose_day" = "Silakan pilih hari dalam seminggu";

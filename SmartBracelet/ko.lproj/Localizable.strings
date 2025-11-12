@@ -422,3 +422,4 @@
 "send_success"="전송 성공";
 "send_fail"="전송 실패";
 "ota"="펌웨어 업데이트";
+"please_choose_day" = "요일을 선택해 주세요";

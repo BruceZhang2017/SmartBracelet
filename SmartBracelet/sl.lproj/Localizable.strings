@@ -258,3 +258,4 @@
 "send_success"="Uspešno poslano";
 "send_fail"="Pošiljanje ni uspelo";
 "ota"="FPosodobitev firmware-a";
+"please_choose_day" = "Izberite en dan v tednu, prosim";

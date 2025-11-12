@@ -424,3 +424,4 @@
 "send_success"="Sent Successfully";
 "send_fail"="Sending Failed";
 "ota"="Firmware Update";
+"please_choose_day" = "Pls select \"What day of the week\"?";

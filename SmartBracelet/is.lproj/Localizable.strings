@@ -243,3 +243,4 @@
 "send_success"="Sent með góðum árangri";
 "send_fail"="Sending mistókst";
 "ota"="Firmware-uppfærsla";
+"please_choose_day" = "Veldu einn viku dag, vinsamlegast";

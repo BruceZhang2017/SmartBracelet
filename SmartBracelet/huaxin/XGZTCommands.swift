@@ -1659,6 +1659,7 @@ public class XGZTCommand {
                 let awake = Int(response[10]) |
                            (Int(response[11]) << 8)
                 XGZTBlueToothManager.shared.device?.currentSleep = light + deep
+                XGZTBlueToothManager.shared.device?.currentSleepArray = [awake, light, deep]
                 NotificationCenter.default.post(name: Notification.Name("HealthViewController"), object: "sleep")
             } else if response[2] == 3 {
                 let deep = Int(response[5]) |
@@ -1668,6 +1669,7 @@ public class XGZTCommand {
                 let awake = Int(response[9]) |
                            (Int(response[10]) << 8)
                 XGZTBlueToothManager.shared.device?.currentSleep = light + deep
+                XGZTBlueToothManager.shared.device?.currentSleepArray = [awake, light, deep]
                 NotificationCenter.default.post(name: Notification.Name("HealthViewController"), object: "sleep")
             }
             NotificationCenter.default.post(name: Notification.Name("XGZTBusinessHandler"), object: "9")

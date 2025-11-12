@@ -258,3 +258,4 @@
 "send_success"="Sendt succesfuldt";
 "send_fail"="Sendelse mislykkedes";
 "ota"="Firmware-opdatering";
+"please_choose_day" = "Vælg en ugedag, venligst";

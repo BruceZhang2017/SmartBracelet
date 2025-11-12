@@ -422,3 +422,4 @@
 "send_success"="發送成功";
 "send_fail"="發送失敗";
 "ota"="固件更新";
+"please_choose_day" = "請揀一個星期幾";

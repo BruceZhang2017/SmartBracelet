@@ -435,3 +435,4 @@
 "reconnect_device" = "重新连接";
 "reconnecting_device" = "重新连接中...";
 "no_device_to_reconnect" = "没有已连接的设备";
+"please_choose_day" = "请选择星期几";

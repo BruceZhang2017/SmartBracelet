@@ -423,3 +423,4 @@
 "send_success"="Erfolgreich gesendet";
 "send_fail"="Senden fehlgeschlagen";
 "ota"="Firmware-Update";
+"please_choose_day" = "Bitte wählen Sie einen Wochentag";

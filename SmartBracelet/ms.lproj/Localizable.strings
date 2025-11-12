@@ -422,3 +422,4 @@
 "send_success"="Hantar Berjaya";
 "send_fail"="Hantar Gagal";
 "ota"="Kemas kini Firmware";
+"please_choose_day" = "Sila pilih hari dalam minggu";

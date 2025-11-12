@@ -423,3 +423,4 @@
 "send_success"="Lähetetty onnistuneesti";
 "send_fail"="Lähetys epäonnistui";
 "ota"="Firmwaren päivitys";
+"please_choose_day" = "Valitse yksi viikonpäivä, ole hyvä";

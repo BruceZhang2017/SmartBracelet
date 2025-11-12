@@ -248,3 +248,4 @@
 "send_success"="Saadetud edukalt";
 "send_fail"="Saamine ebaõnnestus";
 "ota"="Firmwaren uuendus";
+"please_choose_day" = "Valige üks nädalapäev, palun";

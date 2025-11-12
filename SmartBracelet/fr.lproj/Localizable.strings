@@ -422,3 +422,4 @@
 "send_success"="Envoyé avec succès";
 "send_fail"="Échec de l'envoi";
 "ota"="Mise à jour du firmware";
+"please_choose_day" = "Veuillez choisir un jour de la semaine";

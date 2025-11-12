@@ -257,3 +257,4 @@
 "send_success"="Siųsta sėkmingai";
 "send_fail"="Siuntimas nepavyko";
 "ota"="Firmwaren atnaujinimas";
+"please_choose_day" = "Pasirinkite vieną savaitės dieną, prašome";

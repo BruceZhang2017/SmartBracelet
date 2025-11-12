@@ -258,3 +258,4 @@
 "send_success"="Sikeresen elküldve";
 "send_fail"="A küldés sikertelen";
 "ota"="Firmware frissítése";
+"please_choose_day" = "Válasszon egy hétnapot, kérem";

@@ -50,6 +50,7 @@ public class CameraVC: UIViewController {
     private let sessionQueue = DispatchQueue(label: "com.yourapp.capturesession")
     private lazy var captureSession = AVCaptureSession()
     private var videoPreviewLayer: AVCaptureVideoPreviewLayer?
+    private var isSessionConfigured = false
 
     /// 视频捕获设备
     private lazy var captureDevice: AVCaptureDevice? = {
@@ -119,10 +120,7 @@ public class CameraVC: UIViewController {
     func setupCamera() {
         sessionQueue.async { [unowned self] in
             self.configureSession()
-
-            DispatchQueue.main.async {
-                self.setupPreviewLayer()
-            }
+            self.setupPreviewLayer()
         }
     }
 
@@ -161,6 +159,7 @@ public class CameraVC: UIViewController {
             }
 
             self.captureSession.commitConfiguration()
+            self.isSessionConfigured = true
 
         } catch {
             DispatchQueue.main.async {
@@ -171,11 +170,16 @@ public class CameraVC: UIViewController {
 
     /// 设置预览图层
     func setupPreviewLayer() {
+        // 在 sessionQueue 上创建预览图层（因为它需要访问 session）
         let videoPreviewLayer = AVCaptureVideoPreviewLayer(session: self.captureSession)
         videoPreviewLayer.videoGravity = .resizeAspectFill
-        videoPreviewLayer.frame = self.view.layer.bounds
-        self.view.layer.insertSublayer(videoPreviewLayer, at: 0)
-        self.videoPreviewLayer = videoPreviewLayer
+        // 在主线程上更新 UI
+        DispatchQueue.main.async {
+            videoPreviewLayer.frame = self.view.layer.bounds
+            self.view.layer.insertSublayer(videoPreviewLayer, at: 0)
+            self.videoPreviewLayer = videoPreviewLayer
+        }
+
     }
 
     /// 设置手电筒按钮
@@ -194,6 +198,10 @@ public class CameraVC: UIViewController {
     /// 开始捕获
     func startCapturing() {
         sessionQueue.async {
+            guard self.isSessionConfigured else {
+                XLogger.shared.log("Cannot start session: not configured yet")
+                return
+            }
             if !self.captureSession.isRunning {
                 self.captureSession.startRunning()
             }

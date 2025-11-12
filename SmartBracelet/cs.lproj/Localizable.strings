@@ -258,3 +258,4 @@
 "send_success"="Úspěšně odesláno";
 "send_fail"="Odesílání selhalo";
 "ota"="Aktualizace firmware";
+"please_choose_day" = "Vyberte jeden den v týdnu, prosím";

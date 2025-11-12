@@ -249,3 +249,4 @@
 "send_success"="Inviato con successo";
 "send_fail"="Invio fallito";
 "ota"="Aggiornamento del Firmware";
+"please_choose_day" = "Scegli un giorno della settimana, per favore";

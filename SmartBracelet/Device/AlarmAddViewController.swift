@@ -12,6 +12,7 @@
 
 import UIKit
 import TJDWristbandSDK
+import Toaster
 
 class AlarmAddViewController: BaseViewController {
     @IBOutlet weak var datePicker: UIDatePicker!
@@ -74,6 +75,12 @@ class AlarmAddViewController: BaseViewController {
     }
     
     @objc private func save() {
+        if isXGZT && isNew {
+            if (alarmData?.alarmCycle ?? 0) <= 0 {
+                Toast(text: "please_choose_day".localized()).show()
+                return
+            }
+        }
         let formatter = DateFormatter()
         formatter.dateFormat = "HH:mm"
         let value = formatter.string(from: datePicker.date)

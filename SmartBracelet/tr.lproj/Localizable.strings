@@ -422,3 +422,4 @@
 "send_success"="Başarıyla gönderildi";
 "send_fail"="Gönderim başarısız";
 "ota"="Firmware Güncellemesi";
+"please_choose_day" = "Lütfen bir hafta günü seçin";

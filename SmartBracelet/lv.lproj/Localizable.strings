@@ -257,3 +257,4 @@
 "send_success"="Nosūtīts veiksmīgi";
 "send_fail"="Sūtīšana neizdevās";
 "ota"="Firmwaren atjauninājums";
+"please_choose_day" = "Izvēlieties vienu nedēļas dienu, lūdzu";
