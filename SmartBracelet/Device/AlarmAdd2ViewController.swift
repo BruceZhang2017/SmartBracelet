@@ -17,12 +17,13 @@ class AlarmAdd2ViewController: BaseViewController {
 
     // MARK: - Properties
     var alarm: WUAlarmClock!
+    var weekday = 0  // 非XGZT模式下的weekday值，与AlarmAddViewController保持一致
     var alarmData: AlarmData?
     var isNew: Bool = false
     private var selectedWeekdays: Int = 0 // 使用位运算存储选中的星期几
-    private var selectedHour: Int = 18
+    private var selectedHour: Int = 0
     private var selectedMinute: Int = 0
-    private var reminderInterval: Int = 10
+    private var reminderInterval: Int = 0
 
     // MARK: - UI Components
     private let scrollView: UIScrollView = {
@@ -83,6 +84,7 @@ class AlarmAdd2ViewController: BaseViewController {
         let stack = UIStackView()
         stack.axis = .horizontal
         stack.distribution = .fillEqually
+        stack.alignment = .center
         stack.spacing = 8
         return stack
     }()
@@ -133,26 +135,6 @@ class AlarmAdd2ViewController: BaseViewController {
         return button
     }()
 
-    // Toast提示视图
-    private let toastView: UIView = {
-        let view = UIView()
-        view.backgroundColor = UIColor(white: 0.2, alpha: 0.95)
-        view.layer.cornerRadius = 8
-        view.clipsToBounds = true
-        view.isHidden = true
-        return view
-    }()
-
-    private let toastLabel: UILabel = {
-        let label = UILabel()
-        label.text = "please_choose_day".localized()
-        label.textColor = .white
-        label.font = UIFont.systemFont(ofSize: 16)
-        label.textAlignment = .center
-        label.numberOfLines = 0
-        return label
-    }()
-
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -198,9 +180,6 @@ class AlarmAdd2ViewController: BaseViewController {
 
         // Setup save button
         setupSaveButton()
-
-        // Setup toast view
-        setupToastView()
     }
 
     private func setupTimeRow() {
@@ -260,7 +239,7 @@ class AlarmAdd2ViewController: BaseViewController {
             weekdayButtonsContainer.heightAnchor.constraint(equalToConstant: 60)
         ])
 
-        let weekdayTitles = ["周一", "周二", "周三", "周四", "周五", "周六", "周日"]
+        let weekdayTitles = ["mine_monday".localized(), "mine_satuday".localized(), "mine_wednesday".localized(), "mine_thursday".localized(), "mine_friday".localized(), "mine_saturday".localized(), "mine_sunday".localized()]
 
         for (index, title) in weekdayTitles.enumerated() {
             let button = UIButton(type: .custom)
@@ -269,7 +248,7 @@ class AlarmAdd2ViewController: BaseViewController {
             button.setTitleColor(.white, for: .selected)
             button.titleLabel?.font = UIFont.systemFont(ofSize: 14)
             button.backgroundColor = .white
-            button.layer.cornerRadius = 30
+            button.layer.cornerRadius = 20
             button.layer.borderWidth = 1
             button.layer.borderColor = UIColor(red: 0.0, green: 0.48, blue: 1.0, alpha: 1.0).cgColor
             button.clipsToBounds = true
@@ -280,7 +259,10 @@ class AlarmAdd2ViewController: BaseViewController {
             weekdayButtonsContainer.addArrangedSubview(button)
 
             button.translatesAutoresizingMaskIntoConstraints = false
-            button.widthAnchor.constraint(equalTo: button.heightAnchor).isActive = true
+            NSLayoutConstraint.activate([
+                button.heightAnchor.constraint(equalToConstant: 40),
+                button.widthAnchor.constraint(equalTo: button.heightAnchor)
+            ])
         }
     }
 
@@ -333,26 +315,6 @@ class AlarmAdd2ViewController: BaseViewController {
         ])
     }
 
-    private func setupToastView() {
-        view.addSubview(toastView)
-        toastView.addSubview(toastLabel)
-
-        toastView.translatesAutoresizingMaskIntoConstraints = false
-        toastLabel.translatesAutoresizingMaskIntoConstraints = false
-
-        NSLayoutConstraint.activate([
-            toastView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            toastView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            toastView.widthAnchor.constraint(greaterThanOrEqualToConstant: 200),
-            toastView.heightAnchor.constraint(greaterThanOrEqualToConstant: 60),
-
-            toastLabel.topAnchor.constraint(equalTo: toastView.topAnchor, constant: 16),
-            toastLabel.leadingAnchor.constraint(equalTo: toastView.leadingAnchor, constant: 24),
-            toastLabel.trailingAnchor.constraint(equalTo: toastView.trailingAnchor, constant: -24),
-            toastLabel.bottomAnchor.constraint(equalTo: toastView.bottomAnchor, constant: -16)
-        ])
-    }
-
     // MARK: - Load Data
     private func loadData() {
         if isXGZT {
@@ -366,10 +328,18 @@ class AlarmAdd2ViewController: BaseViewController {
                 updateWeekdayButtons()
                 updateIntervalDisplay()
             } else {
-                alarmData = AlarmData(alarmIndex: 0, mswitch: 0, alarmCycle: 0, alarmHour: selectedHour, alarmMinute: selectedMinute, vibrationMode: 0, remindLater: reminderInterval)
+                // 新建闹钟时使用0值初始化，与AlarmAddViewController保持一致
+                alarmData = AlarmData(alarmIndex: 0, mswitch: 0, alarmCycle: 0, alarmHour: 0, alarmMinute: 0, vibrationMode: 0, remindLater: 0)
                 isNew = true
+                updateTimeDisplay()
+                updateIntervalDisplay()
             }
         } else {
+            // 非XGZT模式：优先使用weekday属性，与AlarmAddViewController保持一致
+            if weekday >= 0 {
+                selectedWeekdays = weekday
+                updateWeekdayButtons()
+            }
             if alarm != nil {
                 selectedHour = alarm.hour
                 selectedMinute = alarm.minute
@@ -403,30 +373,48 @@ class AlarmAdd2ViewController: BaseViewController {
     }
 
     @objc private func intervalRowTapped() {
-        let vc = storyboard?.instantiateViewController(withIdentifier: "AlarmIntervalViewController") as? AlarmIntervalViewController
-        if isXGZT {
-            var tempAlarmData = alarmData
-            tempAlarmData?.remindLater = reminderInterval
-            vc?.alarmData = tempAlarmData
-        } else {
-            var tempAlarm = alarm
-            tempAlarm?.repeatInterval = reminderInterval
-            vc?.alarm = tempAlarm
+        showIntervalPicker()
+    }
+
+    private func showIntervalPicker() {
+        let alert = UIAlertController(title: "mine_alarm_late_amind".localized(), message: nil, preferredStyle: .actionSheet)
+
+        // 添加9个间隔选项：10分钟到90分钟
+        for index in 1...9 {
+            let intervalValue = index * 10
+            let title = "\(intervalValue)\("minute".localized())"
+            let action = UIAlertAction(title: title, style: .default) { [weak self] _ in
+                self?.reminderInterval = intervalValue
+                self?.updateIntervalDisplay()
+            }
+
+            // 如果是当前选中的值，显示勾选标记
+            if intervalValue == reminderInterval {
+                action.setValue(true, forKey: "checked")
+            }
+
+            alert.addAction(action)
         }
 
-        vc?.callbackBlock = { [weak self] value in
-            self?.reminderInterval = value
-            self?.updateIntervalDisplay()
+        let cancelAction = UIAlertAction(title: "cancel".localized(), style: .cancel, handler: nil)
+        alert.addAction(cancelAction)
+
+        // iPad 适配
+        if let popoverController = alert.popoverPresentationController {
+            popoverController.sourceView = intervalContainerView
+            popoverController.sourceRect = intervalContainerView.bounds
         }
 
-        navigationController?.pushViewController(vc!, animated: true)
+        present(alert, animated: true, completion: nil)
     }
 
     @objc private func saveButtonTapped() {
-        // 验证必须选择至少一个星期几
-        if selectedWeekdays == 0 {
-            showToast()
-            return
+        // 仅在新建XGZT闹钟时验证必须选择星期几，与AlarmAddViewController保持一致
+        if isXGZT && isNew {
+            if selectedWeekdays == 0 {
+                Toast(text: "please_choose_day".localized()).show()
+                return
+            }
         }
 
         if isXGZT {
@@ -448,6 +436,9 @@ class AlarmAdd2ViewController: BaseViewController {
             alarm.weekday = selectedWeekdays
             alarm.repeatInterval = reminderInterval
             alarm.isOn = true
+
+            // 同步weekday属性，与AlarmAddViewController保持一致
+            weekday = selectedWeekdays
 
             bleSelf.setAlarmForWristband(alarm)
         }
@@ -489,7 +480,7 @@ class AlarmAdd2ViewController: BaseViewController {
             }
         }
 
-        let cancelAction = UIAlertAction(title: "cancel".localized(), style: .cancel, handler: nil)
+        let cancelAction = UIAlertAction(title: "Cancel".localized(), style: .cancel, handler: nil)
 
         alert.addAction(confirmAction)
         alert.addAction(cancelAction)
@@ -517,22 +508,5 @@ class AlarmAdd2ViewController: BaseViewController {
 
     private func updateIntervalDisplay() {
         intervalValueLabel.text = "\(reminderInterval)\("minute".localized())"
-    }
-
-    private func showToast() {
-        toastView.isHidden = false
-        toastView.alpha = 0
-
-        UIView.animate(withDuration: 0.3, animations: {
-            self.toastView.alpha = 1.0
-        }) { _ in
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-                UIView.animate(withDuration: 0.3, animations: {
-                    self.toastView.alpha = 0
-                }) { _ in
-                    self.toastView.isHidden = true
-                }
-            }
-        }
     }
 }
