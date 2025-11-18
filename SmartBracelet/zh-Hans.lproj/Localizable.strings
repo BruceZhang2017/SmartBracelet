@@ -70,13 +70,6 @@
 "mine_battery_level_low"="剩余电量不足";
 "mine_device_info"="设备信息";
 "mine_repeat_mode"="重复模式";
-"mine_monday"="周一";
-"mine_satuday"="周二";
-"mine_wednesday"="周三";
-"mine_thursday"="周四";
-"mine_friday"="周五";
-"mine_saturday"="周六";
-"mine_sunday"="周日";
 "mine_delete"="删除";
 "mine_null"="无";
 "mine_alarm_late_amind"="稍后提醒";

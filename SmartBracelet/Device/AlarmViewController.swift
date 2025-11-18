@@ -57,7 +57,8 @@ class AlarmViewController: BaseViewController {
     }
 
     @objc private func rightButtonTapped() {
-        let vc = storyboard?.instantiateViewController(withIdentifier: "AlarmAddViewController") as! AlarmAddViewController
+        //let vc = storyboard?.instantiateViewController(withIdentifier: "AlarmAddViewController") as! AlarmAddViewController
+        let vc = AlarmAdd2ViewController()
         navigationController?.pushViewController(vc, animated: true)
     }
     

@@ -243,13 +243,6 @@
 "mine_battery_level_low" = "剩餘電量不足";
 "mine_device_info" = "設備信息";
 "mine_repeat_mode" = "重複模式";
-"mine_monday" = "週一";
-"mine_satuday" = "週二";
-"mine_wednesday" = "週三";
-"mine_thursday" = "週四";
-"mine_friday" = "週五";
-"mine_saturday" = "週六";
-"mine_sunday" = "週日";
 "mine_delete" = "刪除";
 "mine_null" = "無";
 "mine_alarm_late_amind" = "稍後提醒";
