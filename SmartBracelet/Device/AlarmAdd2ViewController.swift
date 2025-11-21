@@ -85,7 +85,7 @@ class AlarmAdd2ViewController: BaseViewController {
         stack.axis = .horizontal
         stack.distribution = .fillEqually
         stack.alignment = .center
-        stack.spacing = 8
+        stack.spacing = 5
         return stack
     }()
 
@@ -234,8 +234,8 @@ class AlarmAdd2ViewController: BaseViewController {
 
         NSLayoutConstraint.activate([
             weekdayButtonsContainer.topAnchor.constraint(equalTo: repeatLabel.bottomAnchor, constant: 20),
-            weekdayButtonsContainer.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 30),
-            weekdayButtonsContainer.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -30),
+            weekdayButtonsContainer.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            weekdayButtonsContainer.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
             weekdayButtonsContainer.heightAnchor.constraint(equalToConstant: 60)
         ])
 

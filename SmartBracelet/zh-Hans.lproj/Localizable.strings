@@ -113,14 +113,6 @@
 
 // 缺少的文案
 "every_day_goal" = "每日步数目标";
-"week_1" = "星期一";
-"week_2" = "星期二";
-"week_3" = "星期三";
-"week_4" = "星期四";
-"week_5" = "星期五";
-"week_6" = "星期六";
-"week_7" = "星期日";
-"mine_unconnect" = "未连接";
 "device_settings" = "设备设置";
 "health_distance" = "距离";
 "setting_goal" = "设定目标";
@@ -297,7 +289,7 @@
 "week_5" = "星期五";
 "week_6" = "星期六";
 "week_7" = "星期日";
-"mine_unconnect" = "未连接";
+"mine_unconnect" = "无法与 “设备” 进行通信。可能的原因如下：\n1.请确认该蓝牙设备是否已被关闭，或者没有进入配对状态；\n2.与该设备距离过远，请确保两个设备相距在 10 米内；\n3.该蓝牙设备是否已经和其他设备连接，请断开后重试；\n4.已经被手机连接，请在手机设置里面断开连接并忽略此设备。";
 "device_settings" = "设备设置";
 "health_distance" = "距离";
 "setting_goal" = "设定目标";
@@ -374,6 +366,25 @@
 
 "sync_data" = "正在同步...";
 "synchronize_data" = "同步数据";
+"sync_contacts" = "同步联系人";
+"add_contact" = "添加联系人";
+"failed_to_load_contacts" = "加载联系人失败";
+"contacts_permission_required" = "需要访问通讯录";
+"contacts_permission_message" = "请在设置中允许访问通讯录，以便同步联系人到设备";
+"contact_no_phone_number" = "该联系人没有电话号码";
+"syncing_contact" = "正在同步联系人...";
+"contact_synced_successfully" = "联系人同步成功";
+"sync_contact_confirm" = "确认同步";
+"sync_contact_confirm_message" = "确定要将 %@ 同步到设备吗？";
+"confirm" = "确认";
+"cancel" = "取消";
+"settings" = "设置";
+"select_contacts" = "选择联系人";
+"search_placeholder" = "搜索";
+"please_select_contacts" = "请选择联系人";
+"max_contacts_limit" = "最多支持8联系人";
+"exceed_contact_limit" = "最多只能同步%d个联系人";
+"contacts_synced_successfully" = "联系人同步完成";
 "start_uploading" = "开始上传";
 "agree_download_upload" = "您确定要下载并上传吗？";
 "agree_log_out" = "您确定退出该账号？";

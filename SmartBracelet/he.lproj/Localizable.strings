@@ -61,9 +61,9 @@
 "mine_satuday" = "Tue";
 "mine_wednesday" = "Wed";
 "mine_thursday" = "Thu";
-"mine_friday" = "fri";
+"mine_friday" = "Fri";
 "mine_saturday" = "Sat";
-"mine_sunday" = "sun";
+"mine_sunday" = "Sun";
 "mine_delete" = "מחיקה";
 "mine_null" = "ללא";
 "mine_alarm_late_amind" = "תזכורת מאוחרת";

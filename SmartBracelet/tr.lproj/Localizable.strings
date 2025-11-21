@@ -65,9 +65,9 @@
 "mine_satuday" = "Tue";
 "mine_wednesday" = "Wed";
 "mine_thursday" = "Thu";
-"mine_friday" = "fri";
+"mine_friday" = "Fri";
 "mine_saturday" = "Sat";
-"mine_sunday" = "sun";
+"mine_sunday" = "Sun";
 "mine_delete" = "silmek";
 "mine_null" = "olmadan";
 "mine_alarm_late_amind" = "Daha sonra hatırlat";
@@ -109,19 +109,10 @@
 "mine_weight" = "ağırlık";
 "mine_kg_unit" = "KG";
 
-"mine_unconnect" = "bağlı değil";
 "device_settings" = "Cihaz ayarları";
 "health_distance" = "Distance";
 
 "every_day_goal" = "günlük adım hedefi";
-"week_1" = "Pazartesi günü";
-"week_2" = "Salı";
-"week_3" = "Çarşamba günü";
-"week_4" = "Perşembe günü";
-"week_5" = "Cuma";
-"week_6" = "Cumartesi";
-"week_7" = "Pazar";
-"mine_unconnect" = "bağlı değil";
 "device_settings" = "Cihaz ayarları";
 "health_distance" = "mesafe";
 "setting_goal" = "Bir hedef belirleyin";

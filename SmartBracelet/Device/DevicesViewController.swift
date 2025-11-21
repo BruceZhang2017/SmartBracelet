@@ -136,16 +136,16 @@ class DevicesViewController: BaseViewController, UIDocumentInteractionController
         documentController?.delegate = self
         
         // 创建按钮
-//            let button = UIBarButtonItem(
-//                title: "日志",
-//                style: .plain,
-//                target: self,
-//                action: #selector(didTapRightButton)
-//            )
-//            button.tintColor = .red  // 设置按钮颜色
-//
-//            // 添加到右上角
-//            navigationItem.rightBarButtonItem = button
+            let button = UIBarButtonItem(
+                title: "日志",
+                style: .plain,
+                target: self,
+                action: #selector(didTapRightButton)
+            )
+            button.tintColor = .red  // 设置按钮颜色
+
+            // 添加到右上角
+            navigationItem.rightBarButtonItem = button
     }
     
     // 处理点击事件（注意使用 @objc 标记）
@@ -191,12 +191,6 @@ class DevicesViewController: BaseViewController, UIDocumentInteractionController
                     bleSelf.notifyModel.isInstagram = true
                     bleSelf.setAncsSwitchForWristband(bleSelf.notifyModel)
                 }
-            }
-        }
-        
-        if isXGZT {
-            ContactManager.shared.requestContactsAccess { [weak self] contacts, error in
-                
             }
         }
         
@@ -333,12 +327,12 @@ class DevicesViewController: BaseViewController, UIDocumentInteractionController
     }
     
     public func refreshHeight() {
-        var tempMultiplier = 9 // 默认乘数
+        var tempMultiplier = 10 // 默认乘数
         // 将 deviceSettingsViewHeightMultiplier 修改为 14
-        if ((XGZTBlueToothManager.shared.device?.functioncontrolflags ?? 0) >> 15 & 0x0f) > 0 {
-            tempMultiplier = 10
+        if (((XGZTBlueToothManager.shared.device?.functioncontrolflags ?? 0) >> 15) & 0x01) > 0 || (((XGZTBlueToothManager.shared.device?.functioncontrolflags ?? 0) >> 16) & 0x01) > 0 {
+            tempMultiplier = 11
         } else {
-            tempMultiplier = 9
+            tempMultiplier = 10
         }
         deviceSettingsViewHeightMultiplier = max(tempMultiplier, 1)
         deviceSettingsView?.view.snp.remakeConstraints {

@@ -65,9 +65,9 @@
 "mine_satuday" = "Tue";
 "mine_wednesday" = "Wed";
 "mine_thursday" = "Thu";
-"mine_friday" = "fri";
+"mine_friday" = "Fri";
 "mine_saturday" = "Sat";
-"mine_sunday" = "sun";
+"mine_sunday" = "Sun";
 "mine_delete" = "삭제";
 "mine_null" = "없이";
 "mine_alarm_late_amind" = "나중에 알림";
@@ -109,19 +109,10 @@
 "mine_weight" = "무게";
 "mine_kg_unit" = "KG";
 
-"mine_unconnect" = "블루투스가 연결되지 않았습니다";
 "device_settings" = "기기 설정";
 "health_distance" = "Distance";
 
 "every_day_goal" = "일일 걸음 수 목표";
-"week_1" = "월요일";
-"week_2" = "화요일";
-"week_3" = "수요일";
-"week_4" = "목요일";
-"week_5" = "금요일";
-"week_6" = "토요일";
-"week_7" = "일요일";
-"mine_unconnect" = "연결되지 않음";
 "device_settings" = "디바이스 설정";
 "health_distance" = "거리";
 "setting_goal" = "목표를 세우다";

@@ -65,9 +65,9 @@
 "mine_satuday" = "Tue";
 "mine_wednesday" = "Wed";
 "mine_thursday" = "Thu";
-"mine_friday" = "fri";
+"mine_friday" = "Fri";
 "mine_saturday" = "Sat";
-"mine_sunday" = "sun";
+"mine_sunday" = "Sun";
 "mine_delete" = "verwijderen";
 "mine_null" = "zonder";
 "mine_alarm_late_amind" = "Herinner later";
@@ -109,19 +109,10 @@
 "mine_weight" = "gewicht";
 "mine_kg_unit" = "KG";
 
-"mine_unconnect" = "niet verbonden";
 "device_settings" = "Apparaat instellingen";
 "health_distance" = "Distance";
 
 "every_day_goal" = "dagelijks stappendoel";
-"week_1" = "maandag";
-"week_2" = "Dinsdag";
-"week_3" = "woensdag";
-"week_4" = "Donderdag";
-"week_5" = "vrijdag";
-"week_6" = "zaterdag";
-"week_7" = "zondag";
-"mine_unconnect" = "niet verbonden";
 "device_settings" = "Apparaat instellingen";
 "health_distance" = "afstand";
 "setting_goal" = "een doel stellen";

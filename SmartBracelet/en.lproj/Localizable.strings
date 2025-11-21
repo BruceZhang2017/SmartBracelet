@@ -101,20 +101,11 @@
 "mine_cm_unit" = "CM";
 "mine_weight" = "weight";
 "mine_kg_unit" = "KG";
-"mine_unconnect"="not connected";
 
 "device_settings" = "Device settings";
 "health_distance" = "Distance";
 
 "every_day_goal" = "daily step goal";
-"week_1" = "Monday";
-"week_2" = "Tuesday";
-"week_3" = "Wednesday";
-"week_4" = "Thursday";
-"week_5" = "Friday";
-"week_6" = "Saturday";
-"week_7" = "Sunday";
-"mine_unconnect" = "not connected";
 "device_settings" = "Device settings";
 "health_distance" = "distance";
 "setting_goal" = "set goal";
@@ -240,9 +231,9 @@
 "mine_satuday" = "Tue";
 "mine_wednesday" = "Wed";
 "mine_thursday" = "Thu";
-"mine_friday" = "fri";
+"mine_friday" = "Fri";
 "mine_saturday" = "Sat";
-"mine_sunday" = "sun";
+"mine_sunday" = "Sun";
 "mine_delete" = "delete";
 "mine_null" = "none";
 "mine_alarm_late_amind" = "remind later";
@@ -366,6 +357,25 @@
 
 "sync_data" = "Synchronizing...";
 "synchronize_data" = "Synchronize data";
+"sync_contacts" = "Sync contacts";
+"add_contact" = "Add Contact";
+"failed_to_load_contacts" = "Failed to load contacts";
+"contacts_permission_required" = "Contacts Access Required";
+"contacts_permission_message" = "Please allow access to contacts in Settings to sync contacts to your device";
+"contact_no_phone_number" = "This contact has no phone number";
+"syncing_contact" = "Syncing contact...";
+"contact_synced_successfully" = "Contact synced successfully";
+"sync_contact_confirm" = "Confirm Sync";
+"sync_contact_confirm_message" = "Are you sure you want to sync %@ to device?";
+"confirm" = "Confirm";
+"cancel" = "Cancel";
+"settings" = "Settings";
+"select_contacts" = "Select Contacts";
+"search_placeholder" = "Search";
+"please_select_contacts" = "Please select contacts";
+"max_contacts_limit" = "Maximum 8 contacts supported";
+"exceed_contact_limit" = "Maximum %d contacts can be synced";
+"contacts_synced_successfully" = "Contacts synced successfully";
 "start_uploading" = "Start uploading";
 "agree_download_upload" = "Are you sure you want to download and upload?";
 "agree_log_out" = "Are you sure you want to log out of this account?";

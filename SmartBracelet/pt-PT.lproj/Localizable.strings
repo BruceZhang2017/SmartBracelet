@@ -65,9 +65,9 @@
 "mine_satuday" = "Tue";
 "mine_wednesday" = "Wed";
 "mine_thursday" = "Thu";
-"mine_friday" = "fri";
+"mine_friday" = "Fri";
 "mine_saturday" = "Sat";
-"mine_sunday" = "sun";
+"mine_sunday" = "Sun";
 "mine_delete" = "excluir";
 "mine_null" = "sem";
 "mine_alarm_late_amind" = "Lembrar mais tarde";
@@ -109,19 +109,10 @@
 "mine_weight" = "peso";
 "mine_kg_unit" = "KG";
 
-"mine_unconnect" = "não está conectado";
 "device_settings" = "Configurações do dispositivo";
 "health_distance" = "Distance";
 
 "every_day_goal" = "meta de passos diários";
-"week_1" = "Segunda-feira";
-"week_2" = "terça";
-"week_3" = "quarta-feira";
-"week_4" = "quinta-feira";
-"week_5" = "Sexta-feira";
-"week_6" = "sábado";
-"week_7" = "Domingo";
-"mine_unconnect" = "não conectado";
 "device_settings" = "Configurações do dispositivo";
 "health_distance" = "distância";
 "setting_goal" = "determine uma meta";

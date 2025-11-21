@@ -109,19 +109,10 @@
 "mine_weight" = "體重";
 "mine_kg_unit" = "KG";
 
-"mine_unconnect" = "未連接";
 "device_settings" = "設備設置";
 "health_distance" = "Distance";
 
 "every_day_goal" = "每日步數目標";
-"week_1" = "星期一";
-"week_2" = "星期二";
-"week_3" = "星期三";
-"week_4" = "星期四";
-"week_5" = "星期五";
-"week_6" = "星期六";
-"week_7" = "星期日";
-"mine_unconnect" = "未連接";
 "device_settings" = "設備設置";
 "health_distance" = "距離";
 "setting_goal" = "設定目標";

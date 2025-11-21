@@ -339,6 +339,7 @@
 		9A64F0BC25DF50C30073E679 /* DAlarmModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A64F0BB25DF50C30073E679 /* DAlarmModel.swift */; };
 		9A6D092C2501D99400B4972F /* ClockManageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A6D092B2501D99400B4972F /* ClockManageViewController.swift */; };
 		9A7084D62ECC0A690000D83D /* AlarmAdd2ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7084D52ECC0A690000D83D /* AlarmAdd2ViewController.swift */; };
+		9A7084D82ECD54CA0000D83D /* SyncContactsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7084D72ECD54CA0000D83D /* SyncContactsViewController.swift */; };
 		9A7315C22871B0BA00D378A7 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7315C12871B0B900D378A7 /* NetworkManager.swift */; };
 		9A7315C62871B0CA00D378A7 /* CurrentWeatherData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7315C52871B0C900D378A7 /* CurrentWeatherData.swift */; };
 		9A7315C82871B0D000D378A7 /* OpenWeatherViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7315C72871B0D000D378A7 /* OpenWeatherViewController.swift */; };
@@ -922,6 +923,7 @@
 		9A6D092B2501D99400B4972F /* ClockManageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClockManageViewController.swift; sourceTree = "<group>"; };
 		9A6D092D2501E3EC00B4972F /* Device.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Device.md; sourceTree = "<group>"; };
 		9A7084D52ECC0A690000D83D /* AlarmAdd2ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmAdd2ViewController.swift; sourceTree = "<group>"; };
+		9A7084D72ECD54CA0000D83D /* SyncContactsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncContactsViewController.swift; sourceTree = "<group>"; };
 		9A7315C12871B0B900D378A7 /* NetworkManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		9A7315C52871B0C900D378A7 /* CurrentWeatherData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurrentWeatherData.swift; sourceTree = "<group>"; };
 		9A7315C72871B0D000D378A7 /* OpenWeatherViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpenWeatherViewController.swift; sourceTree = "<group>"; };
@@ -1609,6 +1611,7 @@
 				9A869E0C2D12CCC200B78FDF /* OTAInfoManager.swift */,
 				9A0697662E4353BD00A74A7A /* CardBagTableViewController.swift */,
 				9A0697682E4357F700A74A7A /* QRBindViewController.swift */,
+				9A7084D72ECD54CA0000D83D /* SyncContactsViewController.swift */,
 			);
 			path = Device;
 			sourceTree = "<group>";
@@ -3088,6 +3091,7 @@
 				18385F0B2451819E00EA380A /* DetailViewController.swift in Sources */,
 				9AA2E0592B343C9C0008CA56 /* UIViewController+Extensions.swift in Sources */,
 				9A56D2AF25216FC70082CC08 /* BarChartData.swift in Sources */,
+				9A7084D82ECD54CA0000D83D /* SyncContactsViewController.swift in Sources */,
 				9A7D5E4225490EA20016E4BC /* MRGCDTimer.swift in Sources */,
 				9A56D2C025216FC70082CC08 /* CombinedChartDataProvider.swift in Sources */,
 				9AFAE8732A8F21F7005EF8F8 /* JGProgressHUDAnimation.m in Sources */,
@@ -3340,7 +3344,7 @@
 				CODE_SIGN_ENTITLEMENTS = SmartBracelet/SmartBraceletDebug.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 7;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_ASSET_PATHS = TJDWristbandSDK.framework;
 				DEVELOPMENT_TEAM = 6BTCM549U7;
@@ -3389,7 +3393,7 @@
 				CODE_SIGN_ENTITLEMENTS = SmartBracelet/SmartBraceletRelease.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 7;
 				DEVELOPMENT_ASSET_PATHS = TJDWristbandSDK.framework;
 				DEVELOPMENT_TEAM = 6BTCM549U7;
 				ENABLE_BITCODE = NO;

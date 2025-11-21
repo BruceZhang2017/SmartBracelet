@@ -65,9 +65,9 @@
 "mine_satuday" = "Tue";
 "mine_wednesday" = "Wed";
 "mine_thursday" = "Thu";
-"mine_friday" = "fri";
+"mine_friday" = "Fri";
 "mine_saturday" = "Sat";
-"mine_sunday" = "sun";
+"mine_sunday" = "Sun";
 "mine_delete" = "poistaa";
 "mine_null" = "ilman";
 "mine_alarm_late_amind" = "Muistuta myöhemmin";
@@ -109,19 +109,10 @@
 "mine_weight" = "paino";
 "mine_kg_unit" = "KG";
 
-"mine_unconnect" = "jäljellä oleva akku";
 "device_settings" = "Laite asetukset";
 "health_distance" = "Distance";
 
 "every_day_goal" = "päivittäinen askeltavoite";
-"week_1" = "maanantai";
-"week_2" = "tiistai";
-"week_3" = "keskiviikko";
-"week_4" = "torstai";
-"week_5" = "perjantai";
-"week_6" = "lauantaina";
-"week_7" = "sunnuntai";
-"mine_unconnect" = "ei yhteyttä";
 "device_settings" = "Laite asetukset";
 "health_distance" = "etäisyys";
 "setting_goal" = "asettaa tavoite";

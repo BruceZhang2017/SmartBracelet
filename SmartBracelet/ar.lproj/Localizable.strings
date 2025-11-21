@@ -65,9 +65,9 @@
 "mine_satuday" = "Tue";
 "mine_wednesday" = "Wed";
 "mine_thursday" = "Thu";
-"mine_friday" = "fri";
+"mine_friday" = "Fri";
 "mine_saturday" = "Sat";
-"mine_sunday" = "sun";
+"mine_sunday" = "Sun";
 "mine_delete" = "حذف";
 "mine_null" = "بدون";
 "mine_alarm_late_amind" = "تذكر لاحقا";
@@ -109,19 +109,10 @@
 "mine_weight" = "وزن";
 "mine_kg_unit" = "KG";
 
-"mine_unconnect" = "البلوتوث غير متصل";
 "device_settings" = "إعدادات الجهاز";
 "health_distance" = "Distance";
 
 "every_day_goal" = "هدف الخطوة اليومية";
-"week_1" = "الإثنين";
-"week_2" = "يوم الثلاثاء";
-"week_3" = "الأربعاء";
-"week_4" = "يوم الخميس";
-"week_5" = "يوم الجمعة";
-"week_6" = "يوم السبت";
-"week_7" = "الأحد";
-"mine_unconnect" = "غير متصل";
 "device_settings" = "إعدادات الجهاز";
 "health_distance" = "مسافه: بعد";
 "setting_goal" = "ضع هدف";

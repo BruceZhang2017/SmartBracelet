@@ -662,22 +662,26 @@ public class XGZTCommand {
             0x01,
             0x00,
             0x02,
-            0x00
+            0x01,
+            0x03
         ])
         XGZTBlueToothManager.shared.writeCharacteristic(command: command)
     }
     
     // 设置联系人信息
-    static func setContactInfo(type: Int, index: Int, name: String, phoneNumber: String) {
-        let nameData = name.data(using:.utf8)!
+    static func setContactInfo(index: Int, name: String, phoneNumber: String) {
+        // 限制name不超过30个字节
+        let truncatedName = truncateStringToByteLength(name, maxBytes: 30)
+        let nameData = truncatedName.data(using:.utf8)!
         let phoneNumberData = phoneNumberToBytes(phoneNumber)
         var command = createCommand(with: [
             0x00,
             XGZTCommands.contactInfo.rawValue,
             0x01,
             0x00,
-            UInt8(9 + nameData.count + phoneNumberData.count),
-            UInt8(type),
+            UInt8(5 + nameData.count + phoneNumberData.count),
+            0x01,
+            0x00,
             UInt8(index),
             UInt8(nameData.count),
         ])
@@ -685,6 +689,32 @@ public class XGZTCommand {
         command.append(UInt8(phoneNumberData.count))
         command.append(contentsOf: [UInt8](phoneNumberData))
         XGZTBlueToothManager.shared.writeCharacteristic(command: command)
+    }
+
+    // 辅助方法：截断字符串到指定字节数，避免截断多字节字符
+    private static func truncateStringToByteLength(_ string: String, maxBytes: Int) -> String {
+        guard let data = string.data(using: .utf8) else {
+            return string
+        }
+
+        // 如果已经小于等于最大字节数，直接返回
+        if data.count <= maxBytes {
+            return string
+        }
+
+        // 截取前maxBytes字节
+        // 尝试从截断的数据创建字符串
+        // 如果最后一个字符被截断，String初始化会失败，我们需要继续减少字节直到成功
+        var currentLength = maxBytes
+        while currentLength > 0 {
+            let subData = data.prefix(currentLength)
+            if let truncatedString = String(data: subData, encoding: .utf8) {
+                return truncatedString
+            }
+            currentLength -= 1
+        }
+
+        return ""
     }
     
     // 来电静音
@@ -1020,10 +1050,18 @@ public class XGZTCommand {
     // 辅助方法：将电话号码转换为字节数组（根据协议规则）
     private static func phoneNumberToBytes(_ phoneNumber: String) -> [UInt8] {
         var phoneNumber = phoneNumber
+        // 先去除点号和空格
+        phoneNumber = phoneNumber.replacingOccurrences(of: ".", with: "")
+        phoneNumber = phoneNumber.replacingOccurrences(of: "-", with: "")
+        phoneNumber = phoneNumber.replacingOccurrences(of: "(", with: "")
+        phoneNumber = phoneNumber.replacingOccurrences(of: ")", with: "")
+        phoneNumber = phoneNumber.replacingOccurrences(of: "（", with: "")
+        phoneNumber = phoneNumber.replacingOccurrences(of: "）", with: "")
+        phoneNumber = phoneNumber.replacingOccurrences(of: " ", with: "")
         if phoneNumber.count % 2 != 0 {
-            phoneNumber = "0" + phoneNumber
+            phoneNumber = phoneNumber + "f"
         }
-        
+        phoneNumber = phoneNumber.replacingOccurrences(of: "+", with: "a")
         var result: [UInt8] = []
         let characters = Array(phoneNumber)
         for i in stride(from: 0, to: characters.count, by: 2) {
@@ -1250,6 +1288,7 @@ public class XGZTCommand {
                 XGZTBlueToothManager.shared.device?.functioncontrolflags = getIntFromBytes(response, 10)
                 XGZTBlueToothManager.shared.device?.healthcontrolflags = getIntFromBytes(response, 14)
                 NotificationCenter.default.post(name: Notification.Name("DevicesViewController"), object: "1999")
+                XLogger.shared.log("functioncontrolflags: \(XGZTBlueToothManager.shared.device?.functioncontrolflags ?? 0)")
                 XLogger.shared.log("firmwareVersion: \(XGZTBlueToothManager.shared.device?.firmwareVersion ?? "")")
             }
             guard response.count >= 45 else {
@@ -1266,6 +1305,7 @@ public class XGZTCommand {
             XGZTBlueToothManager.shared.device?.functioncontrolflags = getIntFromBytes(response, 14)
             XGZTBlueToothManager.shared.device?.healthcontrolflags = getIntFromBytes(response, 18)
             NotificationCenter.default.post(name: Notification.Name("DevicesViewController"), object: "1999")
+            XLogger.shared.log("functioncontrolflags: \(XGZTBlueToothManager.shared.device?.functioncontrolflags ?? 0)")
             XLogger.shared.log("firmwareVersion: \(XGZTBlueToothManager.shared.device?.firmwareVersion ?? "")")
         case.setAppInfo:
             guard response.count >= 7 else {
@@ -1570,26 +1610,9 @@ public class XGZTCommand {
                 XLogger.shared.log("contactInfo command response error")
                 return
             }
-            let contactNum = Int(response[6])
-            var contacts: [ContactData]? = nil
-            if contactNum > 0 {
-                contacts = []
-                var offset = 7
-                for _ in 0..<contactNum {
-                    let index = Int(response[offset])
-                    offset += 1
-                    let nameLength = Int(response[offset])
-                    offset += 1
-                    let name = getStringFromBytes(response, offset, nameLength)
-                    offset += nameLength
-                    let phoneNumberLength = Int(response[offset])
-                    offset += 1
-                    let phoneNumber = getPhoneNumberFromBytes(response, offset, phoneNumberLength)
-                    offset += phoneNumberLength
-                    contacts?.append(ContactData(index: index, name: name, phoneNumber: phoneNumber))
-                }
-            }
-            XLogger.shared.log("联系人数量: \(contactNum), 联系人信息: \(contacts ?? [])")
+            let result = Int(response[6])
+            XLogger.shared.log("设置联系人：\(result)")
+            NotificationCenter.default.post(name: Notification.Name("SyncContactsViewController"), object: "\(result)")
         case.incomingCallMute:
             guard response.count >= 6 else {
                 XLogger.shared.log("incomingCallMute command response error")

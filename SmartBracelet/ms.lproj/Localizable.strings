@@ -65,9 +65,9 @@
 "mine_satuday" = "Tue";
 "mine_wednesday" = "Wed";
 "mine_thursday" = "Thu";
-"mine_friday" = "fri";
+"mine_friday" = "Fri";
 "mine_saturday" = "Sat";
-"mine_sunday" = "sun";
+"mine_sunday" = "Sun";
 "mine_delete" = "padam";
 "mine_null" = "tanpa";
 "mine_alarm_late_amind" = "Ingatkan kemudian";
@@ -109,7 +109,6 @@
 "mine_weight" = "berat badan";
 "mine_kg_unit" = "KG";
 
-"mine_unconnect" = "tidak tersambung";
 "device_settings" = "Tetapan peranti";
 "health_distance" = "Distance";
 
@@ -121,7 +120,6 @@
 "week_5" = "Jumaat";
 "week_6" = "Sabtu";
 "week_7" = "Ahad";
-"mine_unconnect" = "tidak bersambung";
 "device_settings" = "Tetapan peranti";
 "health_distance" = "jarak";
 "setting_goal" = "tetapkan matlamat";

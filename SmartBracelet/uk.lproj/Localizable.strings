@@ -65,9 +65,9 @@
 "mine_satuday" = "Tue";
 "mine_wednesday" = "Wed";
 "mine_thursday" = "Thu";
-"mine_friday" = "fri";
+"mine_friday" = "Fri";
 "mine_saturday" = "Sat";
-"mine_sunday" = "sun";
+"mine_sunday" = "Sun";
 "mine_delete" = "видалити";
 "mine_null" = "без";
 "mine_alarm_late_amind" = "Нагадайте пізніше";
@@ -109,19 +109,10 @@
 "mine_weight" = "вага";
 "mine_kg_unit" = "KG";
 
-"mine_unconnect" = "не підключено";
 "device_settings" = "Налаштування пристрою";
 "health_distance" = "Distance";
 
 "every_day_goal" = "щоденна мета кроку";
-"week_1" = "понеділок";
-"week_2" = "вівторок";
-"week_3" = "середа";
-"week_4" = "четвер";
-"week_5" = "п\'ятниця";
-"week_6" = "субота";
-"week_7" = "неділя";
-"mine_unconnect" = "не під\'єднано";
 "device_settings" = "Налаштування пристрою";
 "health_distance" = "відстань";
 "setting_goal" = "поставити мету";

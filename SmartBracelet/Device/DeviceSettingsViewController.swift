@@ -161,10 +161,21 @@ class DeviceSettingsViewController: UIViewController {
         if let cached = cachedDisplayTitles {
             return cached
         }
-        let filterCount = isXGZT ?
-            (((XGZTBlueToothManager.shared.device?.functioncontrolflags ?? 0) >> 15 & 0x0f) > 0 ? 0 : 1) : 2
+        let f15 = ((XGZTBlueToothManager.shared.device?.functioncontrolflags ?? 0) >> 15) & 0x01
+        let f16 = ((XGZTBlueToothManager.shared.device?.functioncontrolflags ?? 0) >> 16) & 0x01
+        var filterCount = isXGZT ?
+            (f15 > 0 ? 0 : 1) : 3
+        if isXGZT {
+            if f16 == 0 {
+                filterCount += 1
+            }
+        }
         let result = Array(titles.dropLast(filterCount))
         cachedDisplayTitles = result
+        if isXGZT && f15 == 0 && f16 == 1 && cachedDisplayTitles?.count == 15 {
+            cachedDisplayTitles?[14] = "sync_contacts".localized()
+        }
+        XLogger.shared.log("f15=\(f15) f16=\(f16)")
         return result
     }
     
@@ -184,7 +195,8 @@ class DeviceSettingsViewController: UIViewController {
             "device_shark_photo".localized(),
             "synchronize_data".localized(),
             "ota".localized(),
-            "cardbag".localized()
+            "cardbag".localized(),
+            "sync_contacts".localized()
         ]
     }
     
@@ -758,7 +770,7 @@ extension DeviceSettingsViewController: UICollectionViewDelegate {
                 BLEManager.shared.currentReadProgress = 3
                 bleSelf.getStep()
             }
-            
+
         case 13: // OTA升级
             let storyboard = UIStoryboard(name: .kOTAStoryboard, bundle: nil)
             guard let vc = storyboard.instantiateViewController(withIdentifier: "ABOtaViewController") as? ABOtaViewController else {
@@ -766,11 +778,23 @@ extension DeviceSettingsViewController: UICollectionViewDelegate {
             }
             vc.hidesBottomBarWhenPushed = true
             parent?.navigationController?.pushViewController(vc, animated: true)
-            
+
         case 14: // 卡包
-            let cardVC = CardBagTableViewController()
-            cardVC.hidesBottomBarWhenPushed = true
-            parent?.navigationController?.pushViewController(cardVC, animated: true)
+            let f15 = ((XGZTBlueToothManager.shared.device?.functioncontrolflags ?? 0) >> 15) & 0x01
+            if f15 > 0 {
+                let cardVC = CardBagTableViewController()
+                cardVC.hidesBottomBarWhenPushed = true
+                parent?.navigationController?.pushViewController(cardVC, animated: true)
+            } else {
+                let vc = SyncContactsViewController()
+                vc.hidesBottomBarWhenPushed = true
+                parent?.navigationController?.pushViewController(vc, animated: true)
+            }
+
+        case 15: // 同步联系人
+            let vc = SyncContactsViewController()
+            vc.hidesBottomBarWhenPushed = true
+            parent?.navigationController?.pushViewController(vc, animated: true)
             
         default:
             print("点击的行数不需要处理")
