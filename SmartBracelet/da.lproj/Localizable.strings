@@ -259,3 +259,5 @@
 "send_fail"="Sendelse mislykkedes";
 "ota"="Firmware-opdatering";
 "please_choose_day" = "Vælg en ugedag, venligst";
+"add_contact_fail1" = "Kunne ikke tilføje kontakt, kontroller venligst om enheden har kontaktsynkroniseringsfunktion!";
+"add_contact_fail2" = "Kunne ikke tilføje kontakt, enheden har ikke svaret på kommandoen endnu.";

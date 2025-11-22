@@ -259,3 +259,5 @@
 "send_fail"="A küldés sikertelen";
 "ota"="Firmware frissítése";
 "please_choose_day" = "Válasszon egy hétnapot, kérem";
+"add_contact_fail1" = "Névjegy hozzáadása sikertelen, kérjük, ellenőrizze, hogy az eszköz rendelkezik-e névjegy szinkronizálási funkcióval!";
+"add_contact_fail2" = "Névjegy hozzáadása sikertelen, az eszköz még nem válaszolt a parancsra.";

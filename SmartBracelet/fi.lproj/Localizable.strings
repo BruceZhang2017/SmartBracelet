@@ -408,3 +408,5 @@
 "send_fail"="Lähetys epäonnistui";
 "ota"="Firmwaren päivitys";
 "please_choose_day" = "Valitse yksi viikonpäivä, ole hyvä";
+"add_contact_fail1" = "Yhteystiedon lisääminen epäonnistui, tarkista onko laitteessa yhteystietojen synkronointitoiminto!";
+"add_contact_fail2" = "Yhteystiedon lisääminen epäonnistui, laite ei ole vielä vastannut komentoon.";

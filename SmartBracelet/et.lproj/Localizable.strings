@@ -249,3 +249,5 @@
 "send_fail"="Saamine ebaõnnestus";
 "ota"="Firmwaren uuendus";
 "please_choose_day" = "Valige üks nädalapäev, palun";
+"add_contact_fail1" = "Kontakti lisamine ebaõnnestus, kontrollige palun, kas seadmel on kontaktide sünkroonimise funktsioon!";
+"add_contact_fail2" = "Kontakti lisamine ebaõnnestus, seade pole käsule veel vastanud.";

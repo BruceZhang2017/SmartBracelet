@@ -407,3 +407,5 @@
 "send_fail"="Gönderim başarısız";
 "ota"="Firmware Güncellemesi";
 "please_choose_day" = "Lütfen bir hafta günü seçin";
+"add_contact_fail1" = "Kişi eklenemedi, lütfen cihazın kişi senkronizasyonu özelliğine sahip olup olmadığını kontrol edin!";
+"add_contact_fail2" = "Kişi eklenemedi, cihaz henüz komuta yanıt vermedi.";

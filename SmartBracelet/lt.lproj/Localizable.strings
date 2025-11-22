@@ -258,3 +258,5 @@
 "send_fail"="Siuntimas nepavyko";
 "ota"="Firmwaren atnaujinimas";
 "please_choose_day" = "Pasirinkite vieną savaitės dieną, prašome";
+"add_contact_fail1" = "Nepavyko pridėti kontakto, patikrinkite, ar įrenginys turi kontaktų sinchronizavimo funkciją!";
+"add_contact_fail2" = "Nepavyko pridėti kontakto, įrenginys dar neatsakė į komandą.";

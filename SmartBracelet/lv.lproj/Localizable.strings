@@ -258,3 +258,5 @@
 "send_fail"="Sūtīšana neizdevās";
 "ota"="Firmwaren atjauninājums";
 "please_choose_day" = "Izvēlieties vienu nedēļas dienu, lūdzu";
+"add_contact_fail1" = "Neizdevās pievienot kontaktu, lūdzu pārbaudiet, vai ierīcei ir kontaktu sinhronizācijas funkcija!";
+"add_contact_fail2" = "Neizdevās pievienot kontaktu, ierīce vēl nav atbildējusi uz komandu.";

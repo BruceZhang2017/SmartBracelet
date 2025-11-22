@@ -440,3 +440,5 @@
 "reconnecting_device" = "重新连接中...";
 "no_device_to_reconnect" = "没有已连接的设备";
 "please_choose_day" = "请选择星期几";
+"add_contact_fail1" = "添加联系人失败，请检查设备是否具有同步联系人功能！";
+"add_contact_fail2" = "添加联系人失败，设备端指令暂未回复。";

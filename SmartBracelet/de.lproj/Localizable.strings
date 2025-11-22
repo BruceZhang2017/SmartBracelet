@@ -407,3 +407,5 @@
 "send_fail"="Senden fehlgeschlagen";
 "ota"="Firmware-Update";
 "please_choose_day" = "Bitte wählen Sie einen Wochentag";
+"add_contact_fail1" = "Kontakt hinzufügen fehlgeschlagen, bitte prüfen Sie, ob das Gerät die Kontaktsynchronisierungsfunktion unterstützt!";
+"add_contact_fail2" = "Kontakt hinzufügen fehlgeschlagen, das Gerät hat noch nicht auf den Befehl reagiert.";

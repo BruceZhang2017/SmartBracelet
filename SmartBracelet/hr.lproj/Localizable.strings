@@ -177,3 +177,6 @@
 "OK" = "OK";
 "Password" = "Password";
 "User Name" = "User Name";
+"please_choose_day" = "Odaberite dan u tjednu, molim";
+"add_contact_fail1" = "Dodavanje kontakta nije uspjelo, provjerite ima li uređaj funkciju sinkronizacije kontakata!";
+"add_contact_fail2" = "Dodavanje kontakta nije uspjelo, uređaj još nije odgovorio na naredbu.";

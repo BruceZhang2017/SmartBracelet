@@ -244,3 +244,5 @@
 "send_fail"="Sending mistókst";
 "ota"="Firmware-uppfærsla";
 "please_choose_day" = "Veldu einn viku dag, vinsamlegast";
+"add_contact_fail1" = "Mistókst að bæta við tengilið, vinsamlegast athugaðu hvort tækið hafi samstillingaraðgerð fyrir tengiliði!";
+"add_contact_fail2" = "Mistókst að bæta við tengilið, tækið hefur ekki enn svarað skipuninni.";

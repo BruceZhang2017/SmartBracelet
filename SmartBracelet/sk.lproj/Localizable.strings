@@ -259,3 +259,5 @@
 "send_fail"="Odosielanie zlyhalo";
 "ota"="Aktualizácia firmware";
 "please_choose_day" = "Vyberte jeden deň v týždni, prosím";
+"add_contact_fail1" = "Pridanie kontaktu zlyhalo, skontrolujte prosím, či má zariadenie funkciu synchronizácie kontaktov!";
+"add_contact_fail2" = "Pridanie kontaktu zlyhalo, zariadenie ešte neodpovedalo na príkaz.";

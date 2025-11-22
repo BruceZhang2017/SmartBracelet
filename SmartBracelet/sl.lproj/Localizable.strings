@@ -259,3 +259,5 @@
 "send_fail"="Pošiljanje ni uspelo";
 "ota"="FPosodobitev firmware-a";
 "please_choose_day" = "Izberite en dan v tednu, prosim";
+"add_contact_fail1" = "Dodajanje stika ni uspelo, prosimo preverite, ali ima naprava funkcijo sinhronizacije stikov!";
+"add_contact_fail2" = "Dodajanje stika ni uspelo, naprava še ni odgovorila na ukaz.";

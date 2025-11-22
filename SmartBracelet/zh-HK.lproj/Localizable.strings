@@ -407,3 +407,5 @@
 "send_fail"="發送失敗";
 "ota"="固件更新";
 "please_choose_day" = "請揀一個星期幾";
+"add_contact_fail1" = "新增聯絡人失敗，請檢查裝置是否具有同步聯絡人功能！";
+"add_contact_fail2" = "新增聯絡人失敗，裝置端指令暫未回覆。";

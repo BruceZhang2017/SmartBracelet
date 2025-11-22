@@ -407,3 +407,5 @@
 "send_fail"="Verzending mislukt";
 "ota"="Firmware-update";
 "please_choose_day" = "Kies een dag van de week, alstublieft";
+"add_contact_fail1" = "Toevoegen van contact mislukt, controleer of het apparaat de functie voor contactsynchronisatie heeft!";
+"add_contact_fail2" = "Toevoegen van contact mislukt, het apparaat heeft nog niet op de opdracht gereageerd.";

@@ -408,3 +408,5 @@
 "send_fail"="Error al enviar";
 "ota"="Actualización de Firmware";
 "please_choose_day" = "Por favor, elige un día de la semana";
+"add_contact_fail1" = "Error al agregar contacto, por favor verifique si el dispositivo tiene la función de sincronización de contactos!";
+"add_contact_fail2" = "Error al agregar contacto, el dispositivo aún no ha respondido al comando.";

@@ -407,3 +407,5 @@
 "send_fail"="Falha no envio";
 "ota"="Atualização de Firmware";
 "please_choose_day" = "Por favor, escolha um dia da semana";
+"add_contact_fail1" = "Falha ao adicionar contato, verifique se o dispositivo possui a função de sincronização de contatos!";
+"add_contact_fail2" = "Falha ao adicionar contato, o dispositivo ainda não respondeu ao comando.";

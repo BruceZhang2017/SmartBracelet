@@ -204,7 +204,7 @@ class SyncContactsViewController: BaseViewController {
                         self.syncNextContact(index: self.syncedCount)
                     }
                 } else {
-                    Toast(text: "添加联系人失败，请检查设备是否具有同步联系人功能！".localized()).show()
+                    Toast(text: "add_contact_fail1".localized()).show()
                 }
             }
         }
@@ -483,7 +483,7 @@ class SyncContactsViewController: BaseViewController {
             return
         }
         if syncedCount == -1 {
-            Toast(text: "添加联系人失败，设备端指令暂未回复。".localized()).show()
+            Toast(text: "add_contact_fail2".localized()).show()
             return
         }
         selectedContacts = contacts

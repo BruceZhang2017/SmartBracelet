@@ -407,3 +407,5 @@
 "send_fail"="Échec de l'envoi";
 "ota"="Mise à jour du firmware";
 "please_choose_day" = "Veuillez choisir un jour de la semaine";
+"add_contact_fail1" = "Échec de l'ajout du contact, veuillez vérifier si l'appareil dispose de la fonction de synchronisation des contacts!";
+"add_contact_fail2" = "Échec de l'ajout du contact, l'appareil n'a pas encore répondu à la commande.";

@@ -407,3 +407,5 @@
 "send_fail"="Gagal Mengirim";
 "ota"="Pembaruan Firmware";
 "please_choose_day" = "Silakan pilih hari dalam seminggu";
+"add_contact_fail1" = "Gagal menambahkan kontak, silakan periksa apakah perangkat memiliki fungsi sinkronisasi kontak!";
+"add_contact_fail2" = "Gagal menambahkan kontak, perangkat belum merespons perintah.";

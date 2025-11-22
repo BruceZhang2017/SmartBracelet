@@ -428,3 +428,5 @@
 "send_fail"="Sending Failed";
 "ota"="Firmware Update";
 "please_choose_day" = "Pls select \"What day of the week\"?";
+"add_contact_fail1" = "Failed to add contact, please check if the device supports contact sync function!";
+"add_contact_fail2" = "Failed to add contact, device has not responded to the command yet.";

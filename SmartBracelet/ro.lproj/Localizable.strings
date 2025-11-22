@@ -259,3 +259,5 @@
 "send_fail"="Trimiterea a eșuat";
 "ota"="Actualizarea firmware-ului";
 "please_choose_day" = "Vă rugăm să alegeți o zi a săptămânii";
+"add_contact_fail1" = "Adăugarea contactului a eșuat, vă rugăm să verificați dacă dispozitivul are funcția de sincronizare a contactelor!";
+"add_contact_fail2" = "Adăugarea contactului a eșuat, dispozitivul nu a răspuns încă la comandă.";

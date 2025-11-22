@@ -401,7 +401,7 @@
 "delete_device_7" = "Sahkan";
 
 "select_device_scan" = "Sedang mengimbas";
-"select_device_scan_desc" = "Mencari peranti yang可用";
+"select_device_scan_desc" = "Sedang mencari peranti yang tersedia";
 "select_device_add_manual" = "Tambah secara manual";
 "select_device_add_automatic" = "Tambah dengan imbasan";
 "cardbag"="Beg Kad";
@@ -414,3 +414,5 @@
 "send_fail"="Hantar Gagal";
 "ota"="Kemas kini Firmware";
 "please_choose_day" = "Sila pilih hari dalam minggu";
+"add_contact_fail1" = "Gagal menambah kenalan, sila semak sama ada peranti mempunyai fungsi penyegerakan kenalan!";
+"add_contact_fail2" = "Gagal menambah kenalan, peranti belum membalas arahan.";
