@@ -673,6 +673,15 @@ public class XGZTCommand {
         // 限制name不超过30个字节
         let truncatedName = truncateStringToByteLength(name, maxBytes: 30)
         let nameData = truncatedName.data(using:.utf8)!
+        var phoneNumber = phoneNumber
+        // 先去除点号和空格
+        phoneNumber = phoneNumber.replacingOccurrences(of: ".", with: "")
+        phoneNumber = phoneNumber.replacingOccurrences(of: "-", with: "")
+        phoneNumber = phoneNumber.replacingOccurrences(of: "(", with: "")
+        phoneNumber = phoneNumber.replacingOccurrences(of: ")", with: "")
+        phoneNumber = phoneNumber.replacingOccurrences(of: "（", with: "")
+        phoneNumber = phoneNumber.replacingOccurrences(of: "）", with: "")
+        phoneNumber = phoneNumber.replacingOccurrences(of: " ", with: "")
         let phoneNumberData = phoneNumberToBytes(phoneNumber)
         var command = createCommand(with: [
             0x00,
@@ -686,7 +695,7 @@ public class XGZTCommand {
             UInt8(nameData.count),
         ])
         command.append(contentsOf: [UInt8](nameData))
-        command.append(UInt8(phoneNumberData.count))
+        command.append(UInt8(phoneNumber.count))
         command.append(contentsOf: [UInt8](phoneNumberData))
         XGZTBlueToothManager.shared.writeCharacteristic(command: command)
     }
@@ -1050,14 +1059,6 @@ public class XGZTCommand {
     // 辅助方法：将电话号码转换为字节数组（根据协议规则）
     private static func phoneNumberToBytes(_ phoneNumber: String) -> [UInt8] {
         var phoneNumber = phoneNumber
-        // 先去除点号和空格
-        phoneNumber = phoneNumber.replacingOccurrences(of: ".", with: "")
-        phoneNumber = phoneNumber.replacingOccurrences(of: "-", with: "")
-        phoneNumber = phoneNumber.replacingOccurrences(of: "(", with: "")
-        phoneNumber = phoneNumber.replacingOccurrences(of: ")", with: "")
-        phoneNumber = phoneNumber.replacingOccurrences(of: "（", with: "")
-        phoneNumber = phoneNumber.replacingOccurrences(of: "）", with: "")
-        phoneNumber = phoneNumber.replacingOccurrences(of: " ", with: "")
         if phoneNumber.count % 2 != 0 {
             phoneNumber = phoneNumber + "f"
         }

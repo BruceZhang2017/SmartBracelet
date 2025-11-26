@@ -87,6 +87,32 @@ extension Date {
         return (zeroDate?.timeIntervalSince1970 ?? 0 + 24 * 60 * 60 - 1)
     }
     
+    /// 一天的最初时刻（UTC 时区的 00:00:00）
+    func zeroTimeStampUTC() -> TimeInterval {
+        // 强制使用 UTC 时区，而非本地时区
+        var calendar = Calendar(identifier: .gregorian)
+        calendar.timeZone = TimeZone(identifier: "UTC")!
+        
+        // 只保留 UTC 时区的 年、月、日 组件（忽略时分秒）
+        let components = calendar.dateComponents([.year, .month, .day], from: self)
+        // 生成 UTC 时区的当天 00:00:00
+        let zeroDateUTC = calendar.date(from: components)
+        return zeroDateUTC?.timeIntervalSince1970 ?? 0
+    }
+    
+    /// 一天的最后时刻（UTC 时区的 23:59:59）
+    func lastTimeStampUTC() -> TimeInterval {
+        var calendar = Calendar(identifier: .gregorian)
+        calendar.timeZone = TimeZone(identifier: "UTC")!
+        
+        let components = calendar.dateComponents([.year, .month, .day], from: self)
+        guard let zeroDateUTC = calendar.date(from: components) else {
+            return 0
+        }
+        // 修复运算符优先级问题，正确计算 23:59:59
+        return zeroDateUTC.timeIntervalSince1970 + 24 * 60 * 60 - 1
+    }
+    
     func daysBetweenDate(toDate: Date) -> Int {
         let components = Calendar.current.dateComponents([.day], from: self, to: toDate)
         return components.day ?? 0
