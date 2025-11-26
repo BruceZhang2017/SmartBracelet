@@ -60,13 +60,13 @@
 "mine_battery_level_low" = "Batteri lavt";
 "mine_device_info" = "Enhetsinformasjon";
 "mine_repeat_mode" = "Gjentakelsesmønster";
-"mine_monday" = "Mandag";
-"mine_satuday" = "Tirsdag"; // 注意原key拼写错误，应为Tuesday，但按原key处理
-"mine_wednesday" = "Onsdag";
-"mine_thursday" = "Torsdag";
-"mine_friday" = "Fredag";
-"mine_saturday" = "Lørdag";
-"mine_sunday" = "Søndag";
+"mine_monday" = "Mon";
+"mine_satuday" = "Tue";
+"mine_wednesday" = "Wed";
+"mine_thursday" = "Thu";
+"mine_friday" = "Fri";
+"mine_saturday" = "Sat";
+"mine_sunday" = "Sun";
 "mine_delete" = "Slett";
 "mine_null" = "Ingen";
 "mine_alarm_late_amind" = "Påminn senere";
@@ -253,3 +253,6 @@
 "send_success"="Sendt vellykket";
 "send_fail"="Sending mislyktes";
 "ota"="Firmware-oppdatering";
+"please_choose_day" = "Velg en ukedag, vær så snill";
+"add_contact_fail1" = "Kunne ikke legge til kontakt, vennligst sjekk om enheten har kontaktsynkroniseringsfunksjon!";
+"add_contact_fail2" = "Kunne ikke legge til kontakt, enheten har ikke svart på kommandoen ennå.";

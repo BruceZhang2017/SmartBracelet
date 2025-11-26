@@ -60,13 +60,13 @@
 "mine_battery_level_low" = "Nedostatok batérie";
 "mine_device_info" = "Informácie o zariadení";
 "mine_repeat_mode" = "Opakovací režim";
-"mine_monday" = "pondelok";
-"mine_satuday" = "utorok"; // 原key拼写错误，对应Tuesday
-"mine_wednesday" = "streda";
-"mine_thursday" = "štvrtok";
-"mine_friday" = "piatok";
-"mine_saturday" = "sobota";
-"mine_sunday" = "nedela";
+"mine_monday" = "Mon";
+"mine_satuday" = "Tue";
+"mine_wednesday" = "Wed";
+"mine_thursday" = "Thu";
+"mine_friday" = "Fri";
+"mine_saturday" = "Sat";
+"mine_sunday" = "Sun";
 "mine_delete" = "vymazať";
 "mine_null" = "bez";
 "mine_alarm_late_amind" = "Upozorniť neskôr";
@@ -258,3 +258,6 @@
 "send_success"="Úspešne odoslané";
 "send_fail"="Odosielanie zlyhalo";
 "ota"="Aktualizácia firmware";
+"please_choose_day" = "Vyberte jeden deň v týždni, prosím";
+"add_contact_fail1" = "Pridanie kontaktu zlyhalo, skontrolujte prosím, či má zariadenie funkciu synchronizácie kontaktov!";
+"add_contact_fail2" = "Pridanie kontaktu zlyhalo, zariadenie ešte neodpovedalo na príkaz.";

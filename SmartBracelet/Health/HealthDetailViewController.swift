@@ -670,11 +670,12 @@ class HealthDetailViewController: BaseViewController {
                     let array = heartObjs
                     if array.count > 0 {
                         count = array.count
-                        let zero = self!.mDate.zeroTimeStamp()
+                        let zero = self!.mDate.zeroTimeStampUTC()
                         for i in 0..<array.count {
                             let value = array[i].heart
                             let x = (array[i].time - Int(zero)) / 3660
                             values[x] = ChartDataEntry(x: Double(x), y: Double(value) / Double(40))
+                            XLogger.shared.log("历史心率数据: \(value) \(array[i].time)")
                         }
                         XLogger.shared.log("获取到数据的数量为：\(array.count)")
                     }
@@ -725,32 +726,69 @@ class HealthDetailViewController: BaseViewController {
                 completion(values)
             }
         } else if type == 4 { // 血压
-            var count = 0
-            let array = readPressure()
-            if array.count > 0 {
-                count = array.count
-                let zero = mDate.zeroTimeStamp()
-                for i in 0..<array.count {
-                    let value = array[i].max
-                    let x = (array[i].timeStamp - Int(zero)) / 3660
-                    values[x] = ChartDataEntry(x: Double(x), y: Double(value) / Double(40))
+            if isXGZT {
+                var count = 0
+                let dispatchGroup = DispatchGroup()
+                dispatchGroup.enter()
+                readPressure { [weak self] pressureObjs in
+                    let array = pressureObjs
+                    if array.count > 0 {
+                        count = array.count
+                        let zero = self!.mDate.zeroTimeStampUTC()
+                        for i in 0..<array.count {
+                            let value = array[i].max
+                            let x = (array[i].time - Int(zero)) / 3660
+                            values[x] = ChartDataEntry(x: Double(x), y: Double(value) / Double(40))
+                        }
+                        XLogger.shared.log("获取到数据的数量为：\(array.count)")
+                    }
+                    if count > 0 {
+                        let b = NSMutableAttributedString()
+                        b.append(NSAttributedString(string: "\(array.last?.max ?? 0)/\(array.last?.min ?? 0)", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 30, weight: .black)]))
+                        b.append(NSAttributedString(string: "MMHG", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 12, weight: .medium)]))
+                        self?.roundView.refreshView(value: b)
+                        self?.roundView.setProgress(CGFloat(array.last?.max ?? 0) / 200)
+                    } else {
+                        let b = NSMutableAttributedString()
+                        b.append(NSAttributedString(string: "0", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 30, weight: .black)]))
+                        b.append(NSAttributedString(string: "MMHG", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 12, weight: .medium)]))
+                        self?.roundView.refreshView(value: b)
+                        self?.roundView.setProgress(0)
+                    }
+                    dispatchGroup.leave()
                 }
-                XLogger.shared.log("获取到数据的数量为：\(array.count)")
-            }
-            if count > 0 {
-                let b = NSMutableAttributedString()
-                b.append(NSAttributedString(string: "\(array.last?.max ?? 0)/\(array.last?.min ?? 0)", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 30, weight: .black)]))
-                b.append(NSAttributedString(string: "MMHG", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 12, weight: .medium)]))
-                roundView.refreshView(value: b)
-                roundView.setProgress(CGFloat(array.last?.max ?? 0) / 200)
+                dispatchGroup.notify(queue: .main) {
+                    completion(values)
+                }
             } else {
-                let b = NSMutableAttributedString()
-                b.append(NSAttributedString(string: "0", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 30, weight: .black)]))
-                b.append(NSAttributedString(string: "MMHG", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 12, weight: .medium)]))
-                roundView.refreshView(value: b)
-                roundView.setProgress(0)
+                var count = 0
+                let array = readPressure()
+                if array.count > 0 {
+                    count = array.count
+                    let zero = mDate.zeroTimeStamp()
+                    for i in 0..<array.count {
+                        let value = array[i].max
+                        let x = (array[i].timeStamp - Int(zero)) / 3660
+                        values[x] = ChartDataEntry(x: Double(x), y: Double(value) / Double(40))
+                    }
+                    XLogger.shared.log("获取到数据的数量为：\(array.count)")
+                }
+                if count > 0 {
+                    let b = NSMutableAttributedString()
+                    b.append(NSAttributedString(string: "\(array.last?.max ?? 0)/\(array.last?.min ?? 0)", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 30, weight: .black)]))
+                    b.append(NSAttributedString(string: "MMHG", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 12, weight: .medium)]))
+                    roundView.refreshView(value: b)
+                    roundView.setProgress(CGFloat(array.last?.max ?? 0) / 200)
+                } else {
+                    let b = NSMutableAttributedString()
+                    b.append(NSAttributedString(string: "0", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 30, weight: .black)]))
+                    b.append(NSAttributedString(string: "MMHG", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 12, weight: .medium)]))
+                    roundView.refreshView(value: b)
+                    roundView.setProgress(0)
+                }
+                completion(values)
             }
-            completion(values)
+            
         } else if type == 5 { // 血氧
             if isXGZT {
                 var count = 0
@@ -761,7 +799,7 @@ class HealthDetailViewController: BaseViewController {
                     XLogger.shared.log("从数据库里读取到的血氧数据数量为：\(array.count)")
                     if array.count > 0 {
                         count = array.count
-                        let zero = self!.mDate.zeroTimeStamp()
+                        let zero = self!.mDate.zeroTimeStampUTC()
                         for i in 0..<array.count {
                             let value = array[i].oxgen
                             let x = (array[i].time - Int(zero)) / 3660
@@ -1066,6 +1104,13 @@ extension HealthDetailViewController {
         let stamp = Int(mDate.zeroTimeStamp())
         let models = try? DBloodModel.er.array("timeStamp>\(stamp) AND timeStamp<\(stamp + 24 * 60 * 60) AND mac='\(lastestDeviceMac)'")
         return models?.sorted { $0.timeStamp < $1.timeStamp } ?? []
+    }
+    
+    func readPressure(completion: @escaping ([BloodObj]) -> Void) {
+        DatabaseManager.shared.getBloodObj(byDate: mDate.stringFromYmd()) { results in
+            let objs = results?.map { $0 } ?? []
+            completion(objs)
+        }
     }
     
     func readBlood() -> [DOxygenModel] {

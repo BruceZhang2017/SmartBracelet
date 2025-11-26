@@ -61,13 +61,13 @@
 "mine_battery_level_low" = "Bateria insuficiente";
 "mine_device_info" = "Informação de dispositivo";
 "mine_repeat_mode" = "Repita o padrão";
-"mine_monday" = "na segunda-feira";
-"mine_satuday" = "terça";
-"mine_wednesday" = "quarta-feira";
-"mine_thursday" = "quinta-feira";
-"mine_friday" = "sexta-feira";
-"mine_saturday" = "sábado";
-"mine_sunday" = "Domigo";
+"mine_monday" = "Mon";
+"mine_satuday" = "Tue";
+"mine_wednesday" = "Wed";
+"mine_thursday" = "Thu";
+"mine_friday" = "Fri";
+"mine_saturday" = "Sat";
+"mine_sunday" = "Sun";
 "mine_delete" = "excluir";
 "mine_null" = "sem";
 "mine_alarm_late_amind" = "Lembrar mais tarde";
@@ -109,19 +109,10 @@
 "mine_weight" = "peso";
 "mine_kg_unit" = "KG";
 
-"mine_unconnect" = "não está conectado";
 "device_settings" = "Configurações do dispositivo";
 "health_distance" = "Distance";
 
 "every_day_goal" = "meta de passos diários";
-"week_1" = "Segunda-feira";
-"week_2" = "terça";
-"week_3" = "quarta-feira";
-"week_4" = "quinta-feira";
-"week_5" = "Sexta-feira";
-"week_6" = "sábado";
-"week_7" = "Domingo";
-"mine_unconnect" = "não conectado";
 "device_settings" = "Configurações do dispositivo";
 "health_distance" = "distância";
 "setting_goal" = "determine uma meta";
@@ -243,13 +234,6 @@
 "mine_battery_level_low" = "Bateria insuficiente restante";
 "mine_device_info" = "Informação de dispositivo";
 "mine_repeat_mode" = "padrão de repetição";
-"mine_monday" = "na segunda-feira";
-"mine_satuday" = "Terça-feira";
-"mine_wednesday" = "Quarta-feira";
-"mine_thursday" = "Quinta-feira";
-"mine_friday" = "sexta-feira";
-"mine_saturday" = "Sábado";
-"mine_sunday" = "Domingo";
 "mine_delete" = "excluir";
 "mine_null" = "nenhum";
 "mine_alarm_late_amind" = "lembrar mais tarde";
@@ -422,3 +406,6 @@
 "send_success"="Enviado com sucesso";
 "send_fail"="Falha no envio";
 "ota"="Atualização de Firmware";
+"please_choose_day" = "Por favor, escolha um dia da semana";
+"add_contact_fail1" = "Falha ao adicionar contato, verifique se o dispositivo possui a função de sincronização de contatos!";
+"add_contact_fail2" = "Falha ao adicionar contato, o dispositivo ainda não respondeu ao comando.";

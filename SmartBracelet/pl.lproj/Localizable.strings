@@ -177,3 +177,6 @@
 "OK" = "OK";
 "Password" = "Password";
 "User Name" = "User Name";
+"please_choose_day" = "Proszę wybrać dzień tygodnia";
+"add_contact_fail1" = "Nie udało się dodać kontaktu, sprawdź, czy urządzenie ma funkcję synchronizacji kontaktów!";
+"add_contact_fail2" = "Nie udało się dodać kontaktu, urządzenie nie odpowiedziało jeszcze na polecenie.";

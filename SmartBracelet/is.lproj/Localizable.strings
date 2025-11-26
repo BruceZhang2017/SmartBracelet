@@ -62,13 +62,13 @@
 "mine_battery_level_low" = "Ekki nóg battery";
 "mine_device_info" = "Upplýsingar um vél";
 "mine_repeat_mode" = "Endurtaka aðferð";
-"mine_monday" = "Föstudagur";
-"mine_satuday" = "Mánudagur";
-"mine_wednesday" = "Þriðjudagur";
-"mine_thursday" = "Miðvikudagur";
-"mine_friday" = "Fimmtudagur";
-"mine_saturday" = "Föstudagur";
-"mine_sunday" = "Sunnudagur";
+"mine_monday" = "Mon";
+"mine_satuday" = "Tue";
+"mine_wednesday" = "Wed";
+"mine_thursday" = "Thu";
+"mine_friday" = "Fri";
+"mine_saturday" = "Sat";
+"mine_sunday" = "Sun";
 "mine_delete" = "Eyða";
 "mine_null" = "engin";
 "mine_alarm_late_amind" = "Minni síðar";
@@ -243,3 +243,6 @@
 "send_success"="Sent með góðum árangri";
 "send_fail"="Sending mistókst";
 "ota"="Firmware-uppfærsla";
+"please_choose_day" = "Veldu einn viku dag, vinsamlegast";
+"add_contact_fail1" = "Mistókst að bæta við tengilið, vinsamlegast athugaðu hvort tækið hafi samstillingaraðgerð fyrir tengiliði!";
+"add_contact_fail2" = "Mistókst að bæta við tengilið, tækið hefur ekki enn svarað skipuninni.";

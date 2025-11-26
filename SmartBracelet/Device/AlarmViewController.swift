@@ -57,7 +57,7 @@ class AlarmViewController: BaseViewController {
     }
 
     @objc private func rightButtonTapped() {
-        let vc = storyboard?.instantiateViewController(withIdentifier: "AlarmAddViewController") as! AlarmAddViewController
+        let vc = AlarmAdd2ViewController()
         navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -224,7 +224,7 @@ extension AlarmViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         
-        let vc = storyboard?.instantiateViewController(withIdentifier: "AlarmAddViewController") as! AlarmAddViewController
+        var vc = AlarmAdd2ViewController()
         if isXGZT {
             let alarm = XGZTBlueToothManager.shared.device?.alarms[indexPath.row]
             vc.alarmData = alarm

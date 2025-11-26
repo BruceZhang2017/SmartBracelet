@@ -60,13 +60,13 @@
 "mine_battery_level_low" = "Nepietiekamā batērija";
 "mine_device_info" = "Ierīgas informācija";
 "mine_repeat_mode" = "Atkārtojuma modelis";
-"mine_monday" = "Pirmdiena";
-"mine_satuday" = "Otrdiena"; // 原key拼写错误，对应Tuesday
-"mine_wednesday" = "Trešdiena";
-"mine_thursday" = "Ceturtdiena";
-"mine_friday" = "Piektdiena";
-"mine_saturday" = "Sestdiena";
-"mine_sunday" = "Svētdiena";
+"mine_monday" = "Mon";
+"mine_satuday" = "Tue";
+"mine_wednesday" = "Wed";
+"mine_thursday" = "Thu";
+"mine_friday" = "Fri";
+"mine_saturday" = "Sat";
+"mine_sunday" = "Sun";
 "mine_delete" = "Izdzēst";
 "mine_null" = "bezz";
 "mine_alarm_late_amind" = "Atgādināt vēlāk";
@@ -257,3 +257,6 @@
 "send_success"="Nosūtīts veiksmīgi";
 "send_fail"="Sūtīšana neizdevās";
 "ota"="Firmwaren atjauninājums";
+"please_choose_day" = "Izvēlieties vienu nedēļas dienu, lūdzu";
+"add_contact_fail1" = "Neizdevās pievienot kontaktu, lūdzu pārbaudiet, vai ierīcei ir kontaktu sinhronizācijas funkcija!";
+"add_contact_fail2" = "Neizdevās pievienot kontaktu, ierīce vēl nav atbildējusi uz komandu.";

@@ -61,13 +61,13 @@
 "mine_battery_level_low" = "배터리 부족";
 "mine_device_info" = "장치 정보";
 "mine_repeat_mode" = "반복 패턴";
-"mine_monday" = "월요일에";
-"mine_satuday" = "화요일";
-"mine_wednesday" = "수요일";
-"mine_thursday" = "목요일";
-"mine_friday" = "금요일";
-"mine_saturday" = "토요일";
-"mine_sunday" = "일요일";
+"mine_monday" = "Mon";
+"mine_satuday" = "Tue";
+"mine_wednesday" = "Wed";
+"mine_thursday" = "Thu";
+"mine_friday" = "Fri";
+"mine_saturday" = "Sat";
+"mine_sunday" = "Sun";
 "mine_delete" = "삭제";
 "mine_null" = "없이";
 "mine_alarm_late_amind" = "나중에 알림";
@@ -109,19 +109,10 @@
 "mine_weight" = "무게";
 "mine_kg_unit" = "KG";
 
-"mine_unconnect" = "블루투스가 연결되지 않았습니다";
 "device_settings" = "기기 설정";
 "health_distance" = "Distance";
 
 "every_day_goal" = "일일 걸음 수 목표";
-"week_1" = "월요일";
-"week_2" = "화요일";
-"week_3" = "수요일";
-"week_4" = "목요일";
-"week_5" = "금요일";
-"week_6" = "토요일";
-"week_7" = "일요일";
-"mine_unconnect" = "연결되지 않음";
 "device_settings" = "디바이스 설정";
 "health_distance" = "거리";
 "setting_goal" = "목표를 세우다";
@@ -243,13 +234,6 @@
 "mine_battery_level_low" = "배터리 잔량 부족";
 "mine_device_info" = "장치 정보";
 "mine_repeat_mode" = "반복 패턴";
-"mine_monday" = "월요일에";
-"mine_satuday" = "화요일";
-"mine_wednesday" = "수요일";
-"mine_thursday" = "목요일";
-"mine_friday" = "금요일";
-"mine_saturday" = "토요일";
-"mine_sunday" = "일요일";
 "mine_delete" = "삭제";
 "mine_null" = "없음";
 "mine_alarm_late_amind" = "나중에 상기";
@@ -422,3 +406,6 @@
 "send_success"="전송 성공";
 "send_fail"="전송 실패";
 "ota"="펌웨어 업데이트";
+"please_choose_day" = "요일을 선택해 주세요";
+"add_contact_fail1" = "연락처 추가 실패, 장치에 연락처 동기화 기능이 있는지 확인해 주세요!";
+"add_contact_fail2" = "연락처 추가 실패, 장치가 아직 명령에 응답하지 않았습니다.";

@@ -313,7 +313,6 @@
 		9A56D2C325216FC70082CC08 /* ScatterChartDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A56D23725216FC60082CC08 /* ScatterChartDataProvider.swift */; };
 		9A56D2C425216FC70082CC08 /* BubbleChartDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A56D23825216FC60082CC08 /* BubbleChartDataProvider.swift */; };
 		9A58D8B626ABC4A1006C09A1 /* LongsitSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A58D8B526ABC4A0006C09A1 /* LongsitSettingsViewController.swift */; };
-		9A58D8B826AC1F09006C09A1 /* AlarmIntervalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A58D8B726AC1F09006C09A1 /* AlarmIntervalViewController.swift */; };
 		9A5E932A2515BB630060AB13 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5E93292515BB630060AB13 /* UserModel.swift */; };
 		9A5E932D2515C9710060AB13 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5E932C2515C9710060AB13 /* UserManager.swift */; };
 		9A5E93302515CC700060AB13 /* MTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A5E932F2515CC700060AB13 /* MTabBarController.swift */; };
@@ -340,8 +339,6 @@
 		9A60DEEF252F401100E0D849 /* AlarmViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A60DEEE252F401100E0D849 /* AlarmViewController.swift */; };
 		9A60DEF1252F416E00E0D849 /* AlarmTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A60DEF0252F416E00E0D849 /* AlarmTableViewCell.swift */; };
 		9A60DEF3252F418900E0D849 /* AlarmHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A60DEF2252F418900E0D849 /* AlarmHeaderView.swift */; };
-		9A60DEF5252F49A200E0D849 /* AlarmAddViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A60DEF4252F49A200E0D849 /* AlarmAddViewController.swift */; };
-		9A60DEF7252F50FF00E0D849 /* AlarmRepeatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A60DEF6252F50FF00E0D849 /* AlarmRepeatViewController.swift */; };
 		9A60DEF9252F5B7100E0D849 /* DeviceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A60DEF8252F5B7100E0D849 /* DeviceModel.swift */; };
 		9A60DEFB252F5B8200E0D849 /* AlarmModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A60DEFA252F5B8200E0D849 /* AlarmModel.swift */; };
 		9A60DEFD25301FEE00E0D849 /* DeviceSearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A60DEFC25301FEE00E0D849 /* DeviceSearchTableViewCell.swift */; };
@@ -352,6 +349,8 @@
 		9A64F0BA25DE19B30073E679 /* DHeartRateModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A64F0B925DE19B30073E679 /* DHeartRateModel.swift */; };
 		9A64F0BC25DF50C30073E679 /* DAlarmModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A64F0BB25DF50C30073E679 /* DAlarmModel.swift */; };
 		9A6D092C2501D99400B4972F /* ClockManageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A6D092B2501D99400B4972F /* ClockManageViewController.swift */; };
+		9A7084D62ECC0A690000D83D /* AlarmAdd2ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7084D52ECC0A690000D83D /* AlarmAdd2ViewController.swift */; };
+		9A7084D82ECD54CA0000D83D /* SyncContactsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7084D72ECD54CA0000D83D /* SyncContactsViewController.swift */; };
 		9A7315C22871B0BA00D378A7 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7315C12871B0B900D378A7 /* NetworkManager.swift */; };
 		9A7315C62871B0CA00D378A7 /* CurrentWeatherData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7315C52871B0C900D378A7 /* CurrentWeatherData.swift */; };
 		9A7315C82871B0D000D378A7 /* OpenWeatherViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A7315C72871B0D000D378A7 /* OpenWeatherViewController.swift */; };
@@ -912,7 +911,6 @@
 		9A56D23725216FC60082CC08 /* ScatterChartDataProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScatterChartDataProvider.swift; sourceTree = "<group>"; };
 		9A56D23825216FC60082CC08 /* BubbleChartDataProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BubbleChartDataProvider.swift; sourceTree = "<group>"; };
 		9A58D8B526ABC4A0006C09A1 /* LongsitSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LongsitSettingsViewController.swift; sourceTree = "<group>"; };
-		9A58D8B726AC1F09006C09A1 /* AlarmIntervalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmIntervalViewController.swift; sourceTree = "<group>"; };
 		9A5E93292515BB630060AB13 /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
 		9A5E932B2515BBFC0060AB13 /* User.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = User.md; sourceTree = "<group>"; };
 		9A5E932C2515C9710060AB13 /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
@@ -940,8 +938,6 @@
 		9A60DEEE252F401100E0D849 /* AlarmViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmViewController.swift; sourceTree = "<group>"; };
 		9A60DEF0252F416E00E0D849 /* AlarmTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmTableViewCell.swift; sourceTree = "<group>"; };
 		9A60DEF2252F418900E0D849 /* AlarmHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmHeaderView.swift; sourceTree = "<group>"; };
-		9A60DEF4252F49A200E0D849 /* AlarmAddViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmAddViewController.swift; sourceTree = "<group>"; };
-		9A60DEF6252F50FF00E0D849 /* AlarmRepeatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmRepeatViewController.swift; sourceTree = "<group>"; };
 		9A60DEF8252F5B7100E0D849 /* DeviceModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceModel.swift; sourceTree = "<group>"; };
 		9A60DEFA252F5B8200E0D849 /* AlarmModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmModel.swift; sourceTree = "<group>"; };
 		9A60DEFC25301FEE00E0D849 /* DeviceSearchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceSearchTableViewCell.swift; sourceTree = "<group>"; };
@@ -955,6 +951,8 @@
 		9A64F0BB25DF50C30073E679 /* DAlarmModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DAlarmModel.swift; sourceTree = "<group>"; };
 		9A6D092B2501D99400B4972F /* ClockManageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClockManageViewController.swift; sourceTree = "<group>"; };
 		9A6D092D2501E3EC00B4972F /* Device.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Device.md; sourceTree = "<group>"; };
+		9A7084D52ECC0A690000D83D /* AlarmAdd2ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmAdd2ViewController.swift; sourceTree = "<group>"; };
+		9A7084D72ECD54CA0000D83D /* SyncContactsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncContactsViewController.swift; sourceTree = "<group>"; };
 		9A7315C12871B0B900D378A7 /* NetworkManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		9A7315C52871B0C900D378A7 /* CurrentWeatherData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurrentWeatherData.swift; sourceTree = "<group>"; };
 		9A7315C72871B0D000D378A7 /* OpenWeatherViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpenWeatherViewController.swift; sourceTree = "<group>"; };
@@ -1655,9 +1653,7 @@
 				9A60DEEE252F401100E0D849 /* AlarmViewController.swift */,
 				9A60DEF0252F416E00E0D849 /* AlarmTableViewCell.swift */,
 				9A60DEF2252F418900E0D849 /* AlarmHeaderView.swift */,
-				9A60DEF4252F49A200E0D849 /* AlarmAddViewController.swift */,
-				9A58D8B726AC1F09006C09A1 /* AlarmIntervalViewController.swift */,
-				9A60DEF6252F50FF00E0D849 /* AlarmRepeatViewController.swift */,
+				9A7084D52ECC0A690000D83D /* AlarmAdd2ViewController.swift */,
 				9A64F0BB25DF50C30073E679 /* DAlarmModel.swift */,
 				9A4CADEF29406E6E00B0BDF8 /* QuestionItemResponse.swift */,
 				9A4CADF12940941F00B0BDF8 /* JXWebViewController.swift */,
@@ -1665,6 +1661,7 @@
 				9A869E0C2D12CCC200B78FDF /* OTAInfoManager.swift */,
 				9A0697662E4353BD00A74A7A /* CardBagTableViewController.swift */,
 				9A0697682E4357F700A74A7A /* QRBindViewController.swift */,
+				9A7084D72ECD54CA0000D83D /* SyncContactsViewController.swift */,
 			);
 			path = Device;
 			sourceTree = "<group>";
@@ -2764,6 +2761,7 @@
 				9A410C762DCB5372006240A6 /* XLogger.swift in Sources */,
 				9A56D2A625216FC70082CC08 /* BubbleChartData.swift in Sources */,
 				9A56D24C25216FC60082CC08 /* ChevronDownShapeRenderer.swift in Sources */,
+				9A7084D62ECC0A690000D83D /* AlarmAdd2ViewController.swift in Sources */,
 				9A56D2B025216FC70082CC08 /* LineScatterCandleRadarChartDataSet.swift in Sources */,
 				9A56D29725216FC70082CC08 /* BarChartDataSet.swift in Sources */,
 				9A56D26325216FC60082CC08 /* CandleStickChartView.swift in Sources */,
@@ -2824,7 +2822,6 @@
 				9A56D27F25216FC60082CC08 /* Platform.swift in Sources */,
 				9A56D28525216FC60082CC08 /* IMarker.swift in Sources */,
 				9A5E933325164B410060AB13 /* DeviceSearchViewController.swift in Sources */,
-				9A58D8B826AC1F09006C09A1 /* AlarmIntervalViewController.swift in Sources */,
 				9AA2E0602B343C9C0008CA56 /* TorchMode.swift in Sources */,
 				9A4CADF22940941F00B0BDF8 /* JXWebViewController.swift in Sources */,
 				9A56D2A325216FC70082CC08 /* ChartDataEntryBase.swift in Sources */,
@@ -2886,7 +2883,6 @@
 				9A56D2B925216FC70082CC08 /* ICandleChartDataSet.swift in Sources */,
 				9AE66876267E491A00A8584A /* DOxygenModel.swift in Sources */,
 				9A8CA50A25272C5200EC01A7 /* CVCalendarMonthView.swift in Sources */,
-				9A60DEF5252F49A200E0D849 /* AlarmAddViewController.swift in Sources */,
 				9A32B06B2543C5C7008F0E26 /* BLEManager.swift in Sources */,
 				9AE1A16B2629465F00B8B10D /* ErrorCode.m in Sources */,
 				9A28DA78251CC6E800F7B260 /* DeviceListViewController.swift in Sources */,
@@ -3175,6 +3171,7 @@
 				18385F0B2451819E00EA380A /* DetailViewController.swift in Sources */,
 				9AA2E0592B343C9C0008CA56 /* UIViewController+Extensions.swift in Sources */,
 				9A56D2AF25216FC70082CC08 /* BarChartData.swift in Sources */,
+				9A7084D82ECD54CA0000D83D /* SyncContactsViewController.swift in Sources */,
 				9A7D5E4225490EA20016E4BC /* MRGCDTimer.swift in Sources */,
 				9A56D2C025216FC70082CC08 /* CombinedChartDataProvider.swift in Sources */,
 				9AFAE8732A8F21F7005EF8F8 /* JGProgressHUDAnimation.m in Sources */,
@@ -3203,7 +3200,6 @@
 				9A5E932D2515C9710060AB13 /* UserManager.swift in Sources */,
 				9A7315C22871B0BA00D378A7 /* NetworkManager.swift in Sources */,
 				9AB5BE472A164CFA00680757 /* SCFloatingWindowReviewView.swift in Sources */,
-				9A60DEF7252F50FF00E0D849 /* AlarmRepeatViewController.swift in Sources */,
 				9A56D27125216FC60082CC08 /* IAxisValueFormatter.swift in Sources */,
 				9A8CA50B25272C5200EC01A7 /* CVCalendarViewAppearance.swift in Sources */,
 			);
@@ -3450,7 +3446,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/SmartBracelet/JL/BLEUsage",
 				);
-				MARKETING_VERSION = 2.5.7;
+				MARKETING_VERSION = 2.5.8;
 				OTHER_SWIFT_FLAGS = "$(inherited) -D WeiZhongYun -D DisplayPrint -D TestMode";
 				PRODUCT_BUNDLE_IDENTIFIER = com.sinophy.uwatch;
 				PRODUCT_NAME = FitDAY;
@@ -3498,7 +3494,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/SmartBracelet/JL/BLEUsage",
 				);
-				MARKETING_VERSION = 2.5.7;
+				MARKETING_VERSION = 2.5.8;
 				OTHER_SWIFT_FLAGS = "$(inherited) -D WeiZhongYun -D DisplayPrint -D TestMode";
 				PRODUCT_BUNDLE_IDENTIFIER = com.sinophy.uwatch;
 				PRODUCT_NAME = FitDAY;

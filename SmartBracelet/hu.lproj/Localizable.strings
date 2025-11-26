@@ -60,13 +60,13 @@
 "mine_battery_level_low" = "Insufficient battery"; // 此处英文重复，匈牙利语应为 "Hiányzó batteria"
 "mine_device_info" = "Eszköz információi";
 "mine_repeat_mode" = "Ismétlődési módszer";
-"mine_monday" = "Hétfő";
-"mine_satuday" = "Kedd"; // 原key拼写错误，对应Tuesday
-"mine_wednesday" = "Szerda";
-"mine_thursday" = "Csütörtök";
-"mine_friday" = "Péntek";
-"mine_saturday" = "Szombat";
-"mine_sunday" = "Vasárnap";
+"mine_monday" = "Mon";
+"mine_satuday" = "Tue";
+"mine_wednesday" = "Wed";
+"mine_thursday" = "Thu";
+"mine_friday" = "Fri";
+"mine_saturday" = "Sat";
+"mine_sunday" = "Sun";
 "mine_delete" = "Törölj";
 "mine_null" = "k nélkül";
 "mine_alarm_late_amind" = "Emlékeztet később";
@@ -258,3 +258,6 @@
 "send_success"="Sikeresen elküldve";
 "send_fail"="A küldés sikertelen";
 "ota"="Firmware frissítése";
+"please_choose_day" = "Válasszon egy hétnapot, kérem";
+"add_contact_fail1" = "Névjegy hozzáadása sikertelen, kérjük, ellenőrizze, hogy az eszköz rendelkezik-e névjegy szinkronizálási funkcióval!";
+"add_contact_fail2" = "Névjegy hozzáadása sikertelen, az eszköz még nem válaszolt a parancsra.";

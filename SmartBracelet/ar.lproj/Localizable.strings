@@ -61,13 +61,13 @@
 "mine_battery_level_low" = "بطارية غير كافية";
 "mine_device_info" = "معلومات الجهاز";
 "mine_repeat_mode" = "كرر النمط";
-"mine_monday" = "في يوم الاثنين";
-"mine_satuday" = "يوم الثلاثاء";
-"mine_wednesday" = "الأربعاء";
-"mine_thursday" = "يوم الخميس";
-"mine_friday" = "جمعة";
-"mine_saturday" = "السبت";
-"mine_sunday" = "يوم الأحد";
+"mine_monday" = "Mon";
+"mine_satuday" = "Tue";
+"mine_wednesday" = "Wed";
+"mine_thursday" = "Thu";
+"mine_friday" = "Fri";
+"mine_saturday" = "Sat";
+"mine_sunday" = "Sun";
 "mine_delete" = "حذف";
 "mine_null" = "بدون";
 "mine_alarm_late_amind" = "تذكر لاحقا";
@@ -109,19 +109,10 @@
 "mine_weight" = "وزن";
 "mine_kg_unit" = "KG";
 
-"mine_unconnect" = "البلوتوث غير متصل";
 "device_settings" = "إعدادات الجهاز";
 "health_distance" = "Distance";
 
 "every_day_goal" = "هدف الخطوة اليومية";
-"week_1" = "الإثنين";
-"week_2" = "يوم الثلاثاء";
-"week_3" = "الأربعاء";
-"week_4" = "يوم الخميس";
-"week_5" = "يوم الجمعة";
-"week_6" = "يوم السبت";
-"week_7" = "الأحد";
-"mine_unconnect" = "غير متصل";
 "device_settings" = "إعدادات الجهاز";
 "health_distance" = "مسافه: بعد";
 "setting_goal" = "ضع هدف";
@@ -243,13 +234,6 @@
 "mine_battery_level_low" = "البطارية المتبقية غير كافية";
 "mine_device_info" = "معلومات الجهاز";
 "mine_repeat_mode" = "تكرار النمط";
-"mine_monday" = "في يوم الاثنين";
-"mine_satuday" = "يوم الثلاثاء";
-"mine_wednesday" = "الأربعاء";
-"mine_thursday" = "يوم الخميس";
-"mine_friday" = "جمعة";
-"mine_saturday" = "السبت";
-"mine_sunday" = "الأحد";
 "mine_delete" = "يمسح";
 "mine_null" = "لا أحد";
 "mine_alarm_late_amind" = "تذكر لاحقا";
@@ -422,3 +406,6 @@
 "send_success"="أرسل بنجاح";
 "send_fail"="فشل الإرسال";
 "ota"="تحديث البرامج الثابتة";
+"please_choose_day" = "اختر يومًا من الأيام الأسبوعية من فضلك";
+"add_contact_fail1" = "فشل في إضافة جهة الاتصال، يرجى التحقق من وجود وظيفة مزامنة جهات الاتصال على الجهاز!";
+"add_contact_fail2" = "فشل في إضافة جهة الاتصال، لم يستجب الجهاز للأمر بعد.";

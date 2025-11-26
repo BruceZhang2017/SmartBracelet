@@ -61,13 +61,13 @@
 "mine_battery_level_low" = "Недостатня батарея";
 "mine_device_info" = "Інформація про пристрій";
 "mine_repeat_mode" = "Повторити візерунок";
-"mine_monday" = "в понеділок";
-"mine_satuday" = "Вівторок";
-"mine_wednesday" = "Середа";
-"mine_thursday" = "Четвер";
-"mine_friday" = "П'ятниця";
-"mine_saturday" = "Субота";
-"mine_sunday" = "Неділя";
+"mine_monday" = "Mon";
+"mine_satuday" = "Tue";
+"mine_wednesday" = "Wed";
+"mine_thursday" = "Thu";
+"mine_friday" = "Fri";
+"mine_saturday" = "Sat";
+"mine_sunday" = "Sun";
 "mine_delete" = "видалити";
 "mine_null" = "без";
 "mine_alarm_late_amind" = "Нагадайте пізніше";
@@ -109,19 +109,10 @@
 "mine_weight" = "вага";
 "mine_kg_unit" = "KG";
 
-"mine_unconnect" = "не підключено";
 "device_settings" = "Налаштування пристрою";
 "health_distance" = "Distance";
 
 "every_day_goal" = "щоденна мета кроку";
-"week_1" = "понеділок";
-"week_2" = "вівторок";
-"week_3" = "середа";
-"week_4" = "четвер";
-"week_5" = "п\'ятниця";
-"week_6" = "субота";
-"week_7" = "неділя";
-"mine_unconnect" = "не під\'єднано";
 "device_settings" = "Налаштування пристрою";
 "health_distance" = "відстань";
 "setting_goal" = "поставити мету";
@@ -243,13 +234,6 @@
 "mine_battery_level_low" = "Недостатньо заряду батареї";
 "mine_device_info" = "Інформація про пристрій";
 "mine_repeat_mode" = "повторюваний візерунок";
-"mine_monday" = "в понеділок";
-"mine_satuday" = "вівторок";
-"mine_wednesday" = "Середа";
-"mine_thursday" = "четвер";
-"mine_friday" = "п'ятниця";
-"mine_saturday" = "Субота";
-"mine_sunday" = "неділя";
 "mine_delete" = "видалити";
 "mine_null" = "немає";
 "mine_alarm_late_amind" = "нагадати пізніше";
@@ -422,3 +406,6 @@
 "send_success"="Відправлено успішно";
 "send_fail"="Помилка відправки";
 "ota"="Оновлення прошивки";
+"please_choose_day" = "Будь ласка, оберіть день тижня";
+"add_contact_fail1" = "Не вдалося додати контакт, перевірте, чи має пристрій функцію синхронізації контактів!";
+"add_contact_fail2" = "Не вдалося додати контакт, пристрій ще не відповів на команду.";

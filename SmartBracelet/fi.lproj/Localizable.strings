@@ -61,13 +61,13 @@
 "mine_battery_level_low" = "Akku ei riitä";
 "mine_device_info" = "Laitteen informaatio";
 "mine_repeat_mode" = "Toista kuvio";
-"mine_monday" = "maanantaina";
-"mine_satuday" = "tiistai";
-"mine_wednesday" = "keskiviikko";
-"mine_thursday" = "torstai";
-"mine_friday" = "Jumaat";
-"mine_saturday" = "Lauantai";
-"mine_sunday" = "sunnuntai";
+"mine_monday" = "Mon";
+"mine_satuday" = "Tue";
+"mine_wednesday" = "Wed";
+"mine_thursday" = "Thu";
+"mine_friday" = "Fri";
+"mine_saturday" = "Sat";
+"mine_sunday" = "Sun";
 "mine_delete" = "poistaa";
 "mine_null" = "ilman";
 "mine_alarm_late_amind" = "Muistuta myöhemmin";
@@ -109,19 +109,10 @@
 "mine_weight" = "paino";
 "mine_kg_unit" = "KG";
 
-"mine_unconnect" = "jäljellä oleva akku";
 "device_settings" = "Laite asetukset";
 "health_distance" = "Distance";
 
 "every_day_goal" = "päivittäinen askeltavoite";
-"week_1" = "maanantai";
-"week_2" = "tiistai";
-"week_3" = "keskiviikko";
-"week_4" = "torstai";
-"week_5" = "perjantai";
-"week_6" = "lauantaina";
-"week_7" = "sunnuntai";
-"mine_unconnect" = "ei yhteyttä";
 "device_settings" = "Laite asetukset";
 "health_distance" = "etäisyys";
 "setting_goal" = "asettaa tavoite";
@@ -243,13 +234,6 @@
 "mine_battery_level_low" = "Akun varaus ei riitä";
 "mine_device_info" = "Laitteen informaatio";
 "mine_repeat_mode" = "toistuva kuvio";
-"mine_monday" = "maanantaina";
-"mine_satuday" = "tiistai";
-"mine_wednesday" = "keskiviikko";
-"mine_thursday" = "torstai";
-"mine_friday" = "perjantai";
-"mine_saturday" = "lauantai";
-"mine_sunday" = "sunnuntai";
 "mine_delete" = "poistaa";
 "mine_null" = "ei mitään";
 "mine_alarm_late_amind" = "Muistuta myöhemmin";
@@ -423,3 +407,6 @@
 "send_success"="Lähetetty onnistuneesti";
 "send_fail"="Lähetys epäonnistui";
 "ota"="Firmwaren päivitys";
+"please_choose_day" = "Valitse yksi viikonpäivä, ole hyvä";
+"add_contact_fail1" = "Yhteystiedon lisääminen epäonnistui, tarkista onko laitteessa yhteystietojen synkronointitoiminto!";
+"add_contact_fail2" = "Yhteystiedon lisääminen epäonnistui, laite ei ole vielä vastannut komentoon.";

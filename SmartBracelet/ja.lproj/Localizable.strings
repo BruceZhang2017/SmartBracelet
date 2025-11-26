@@ -61,13 +61,13 @@
 "mine_battery_level_low" = "バッテリーが不足しています";
 "mine_device_info" = "デバイス情報";
 "mine_repeat_mode" = "パターンを繰り返す";
-"mine_monday" = "月曜日に";
-"mine_satuday" = "火曜日";
-"mine_wednesday" = "水曜日";
-"mine_thursday" = "木曜日";
-"mine_friday" = "金曜日";
-"mine_saturday" = "土曜日";
-"mine_sunday" = "日曜日";
+"mine_monday" = "Mon";
+"mine_satuday" = "Tue";
+"mine_wednesday" = "Wed";
+"mine_thursday" = "Thu";
+"mine_friday" = "Fri";
+"mine_saturday" = "Sat";
+"mine_sunday" = "Sun";
 "mine_delete" = "消去";
 "mine_null" = "それなし";
 "mine_alarm_late_amind" = "後で思い出させる";
@@ -109,19 +109,10 @@
 "mine_weight" = "重さ";
 "mine_kg_unit" = "KG";
 
-"mine_unconnect" = "が接続されていません";
 "device_settings" = "デバイスの設定";
 "health_distance" = "Distance";
 
 "every_day_goal" = "毎日の歩数目標";
-"week_1" = "月曜";
-"week_2" = "火曜日";
-"week_3" = "水曜日";
-"week_4" = "木曜日";
-"week_5" = "金曜日";
-"week_6" = "土曜日";
-"week_7" = "日曜日";
-"mine_unconnect" = "接続されていません";
 "device_settings" = "デバイスの設定";
 "health_distance" = "距離";
 "setting_goal" = "目標を設定します";
@@ -243,13 +234,6 @@
 "mine_battery_level_low" = "電池残量が少ない";
 "mine_device_info" = "デバイス情報";
 "mine_repeat_mode" = "繰り返しパターン";
-"mine_monday" = "月曜日に";
-"mine_satuday" = "火曜日";
-"mine_wednesday" = "水曜日";
-"mine_thursday" = "木曜日";
-"mine_friday" = "金曜日";
-"mine_saturday" = "土曜日";
-"mine_sunday" = "日曜日";
 "mine_delete" = "消去";
 "mine_null" = "なし";
 "mine_alarm_late_amind" = "後で思い出させる";
@@ -422,3 +406,6 @@
 "send_success"="送信成功";
 "send_fail"="送信失敗";
 "ota"="ファームウェア更新";
+"please_choose_day" = "曜日を選択してください";
+"add_contact_fail1" = "連絡先の追加に失敗しました。デバイスに連絡先同期機能があるかご確認ください！";
+"add_contact_fail2" = "連絡先の追加に失敗しました。デバイス側のコマンドがまだ応答していません。";

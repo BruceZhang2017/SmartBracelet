@@ -60,13 +60,13 @@
 "mine_battery_level_low" = "Baterie insuficientă";
 "mine_device_info" = "Informații dispozitiv";
 "mine_repeat_mode" = "mod repetitiv";
-"mine_monday" = "luni";
-"mine_satuday" = "marți"; // 原key拼写错误，对应Tuesday
-"mine_wednesday" = "miercuri";
-"mine_thursday" = "joi";
-"mine_friday" = "vineri";
-"mine_saturday" = "sâmbătă";
-"mine_sunday" = "duminică";
+"mine_monday" = "Mon";
+"mine_satuday" = "Tue";
+"mine_wednesday" = "Wed";
+"mine_thursday" = "Thu";
+"mine_friday" = "Fri";
+"mine_saturday" = "Sat";
+"mine_sunday" = "Sun";
 "mine_delete" = "șterge";
 "mine_null" = "fără";
 "mine_alarm_late_amind" = "Avertizează mai târziu";
@@ -258,3 +258,6 @@
 "send_success"="Trimis cu succes";
 "send_fail"="Trimiterea a eșuat";
 "ota"="Actualizarea firmware-ului";
+"please_choose_day" = "Vă rugăm să alegeți o zi a săptămânii";
+"add_contact_fail1" = "Adăugarea contactului a eșuat, vă rugăm să verificați dacă dispozitivul are funcția de sincronizare a contactelor!";
+"add_contact_fail2" = "Adăugarea contactului a eșuat, dispozitivul nu a răspuns încă la comandă.";

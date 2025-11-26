@@ -62,13 +62,13 @@
 "mine_battery_level_low" = "Baterii ei piisa";
 "mine_device_info" = "Seadme info";
 "mine_repeat_mode" = "Korduvus režiim";
-"mine_monday" = "Esmaspäev";
-"mine_satuday" = "Teisipäev";
-"mine_wednesday" = "Kolmapäev";
-"mine_thursday" = "Neljapäev";
-"mine_friday" = "Reede";
-"mine_saturday" = "Laupäev";
-"mine_sunday" = "Pühapäev";
+"mine_monday" = "Mon";
+"mine_satuday" = "Tue";
+"mine_wednesday" = "Wed";
+"mine_thursday" = "Thu";
+"mine_friday" = "Fri";
+"mine_saturday" = "Sat";
+"mine_sunday" = "Sun";
 "mine_delete" = "Kustuta";
 "mine_null" = "puudub";
 "mine_alarm_late_amind" = "Meeldetuletus hiljem";
@@ -248,3 +248,6 @@
 "send_success"="Saadetud edukalt";
 "send_fail"="Saamine ebaõnnestus";
 "ota"="Firmwaren uuendus";
+"please_choose_day" = "Valige üks nädalapäev, palun";
+"add_contact_fail1" = "Kontakti lisamine ebaõnnestus, kontrollige palun, kas seadmel on kontaktide sünkroonimise funktsioon!";
+"add_contact_fail2" = "Kontakti lisamine ebaõnnestus, seade pole käsule veel vastanud.";

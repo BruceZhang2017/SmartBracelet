@@ -60,13 +60,13 @@
 "mine_battery_level_unknown" = "مقدار باتری نامشخص است";
 "mine_battery_level_low" = "مقدار باتری کمتر از حد مجاز است";
 "mine_repeat_mode" = "وضعیت تکرار";
-"mine_monday" = "هفته نامه یکشنبه";
-"mine_satuday" = "دوشنبه";
-"mine_wednesday" = "سه شنبه";
-"mine_thursday" = "چهارشنبه";
-"mine_friday" = "پنج شنبه";
-"mine_saturday" = "جمعه";
-"mine_sunday" = "شنبه";
+"mine_monday" = "Mon";
+"mine_satuday" = "Tue";
+"mine_wednesday" = "Wed";
+"mine_thursday" = "Thu";
+"mine_friday" = "Fri";
+"mine_saturday" = "Sat";
+"mine_sunday" = "Sun";
 "mine_delete" = "حذف";
 "mine_null" = "خالی";
 "mine_alarm_late_amind" = "یادآوری بعد";
@@ -252,7 +252,7 @@
 "delete_device_7" = "تأیید";
 
 "select_device_scan" = "در حال اسکن است";
-"select_device_scan_desc" = "در حال جستجو برای دستگاه‌های可用 است";
+"select_device_scan_desc" = "در حال جستجوی دستگاه‌های قابل استفاده است";
 "select_device_add_manual" = "افزودنmanuel";
 "select_device_add_automatic" = "اسکن کردن برای افزودن";
 "cardbag"="کیسه کارت";
@@ -264,3 +264,6 @@
 "send_success"="با موفقیت ارسال شد";
 "send_fail"="ارسال ناموفق";
 "ota"="به‌روزرسانی فرم‌ویر";
+"please_choose_day" = "لطفاً یک روز از هفته انتخاب کنید";
+"add_contact_fail1" = "افزودن مخاطب ناموفق بود، لطفاً بررسی کنید که آیا دستگاه دارای قابلیت همگام‌سازی مخاطبین است!";
+"add_contact_fail2" = "افزودن مخاطب ناموفق بود، دستگاه هنوز به دستور پاسخ نداده است.";

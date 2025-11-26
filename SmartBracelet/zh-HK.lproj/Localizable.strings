@@ -109,19 +109,10 @@
 "mine_weight" = "體重";
 "mine_kg_unit" = "KG";
 
-"mine_unconnect" = "未連接";
 "device_settings" = "設備設置";
 "health_distance" = "Distance";
 
 "every_day_goal" = "每日步數目標";
-"week_1" = "星期一";
-"week_2" = "星期二";
-"week_3" = "星期三";
-"week_4" = "星期四";
-"week_5" = "星期五";
-"week_6" = "星期六";
-"week_7" = "星期日";
-"mine_unconnect" = "未連接";
 "device_settings" = "設備設置";
 "health_distance" = "距離";
 "setting_goal" = "設定目標";
@@ -243,13 +234,6 @@
 "mine_battery_level_low" = "剩餘電量不足";
 "mine_device_info" = "設備信息";
 "mine_repeat_mode" = "重複模式";
-"mine_monday" = "週一";
-"mine_satuday" = "週二";
-"mine_wednesday" = "週三";
-"mine_thursday" = "週四";
-"mine_friday" = "週五";
-"mine_saturday" = "週六";
-"mine_sunday" = "週日";
 "mine_delete" = "刪除";
 "mine_null" = "無";
 "mine_alarm_late_amind" = "稍後提醒";
@@ -422,3 +406,6 @@
 "send_success"="發送成功";
 "send_fail"="發送失敗";
 "ota"="固件更新";
+"please_choose_day" = "請揀一個星期幾";
+"add_contact_fail1" = "新增聯絡人失敗，請檢查裝置是否具有同步聯絡人功能！";
+"add_contact_fail2" = "新增聯絡人失敗，裝置端指令暫未回覆。";

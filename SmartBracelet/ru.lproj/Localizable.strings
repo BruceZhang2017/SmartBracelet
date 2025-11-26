@@ -61,13 +61,13 @@
 "mine_battery_level_low" = "Недастатковы акумулятар";
 "mine_device_info" = "Інфармацыя пра прыладу";
 "mine_repeat_mode" = "Паўтарыце ўзор";
-"mine_monday" = "у панядзелак";
-"mine_satuday" = "Аўторак";
-"mine_wednesday" = "Серада";
-"mine_thursday" = "Чацвер";
-"mine_friday" = "Пятніца";
-"mine_saturday" = "Субота";
-"mine_sunday" = "Нядзеля";
+"mine_monday" = "Mon";
+"mine_satuday" = "Tue";
+"mine_wednesday" = "Wed";
+"mine_thursday" = "Thu";
+"mine_friday" = "Fri";
+"mine_saturday" = "Sat";
+"mine_sunday" = "Sun";
 "mine_delete" = "выдаліць";
 "mine_null" = "без";
 "mine_alarm_late_amind" = "Нагадаць пазней";
@@ -109,19 +109,10 @@
 "mine_weight" = "вага";
 "mine_kg_unit" = "KG";
 
-"mine_unconnect" = "не падлучаны";
 "device_settings" = "Настройки устройства";
 "health_distance" = "Distance";
 
 "every_day_goal" = "meta de passos diários";
-"week_1" = "Segunda-feira";
-"week_2" = "terça";
-"week_3" = "quarta-feira";
-"week_4" = "quinta-feira";
-"week_5" = "Sexta-feira";
-"week_6" = "sábado";
-"week_7" = "Domingo";
-"mine_unconnect" = "não conectado";
 "device_settings" = "Configurações do dispositivo";
 "health_distance" = "distância";
 "setting_goal" = "determine uma meta";
@@ -243,13 +234,6 @@
 "mine_battery_level_low" = "Недостаточно заряда батареи";
 "mine_device_info" = "Информация об устройстве";
 "mine_repeat_mode" = "повторяющийся узор";
-"mine_monday" = "в понедельник";
-"mine_satuday" = "Вторник";
-"mine_wednesday" = "Среда";
-"mine_thursday" = "Четверг";
-"mine_friday" = "пятница";
-"mine_saturday" = "Суббота";
-"mine_sunday" = "воскресенье";
 "mine_delete" = "удалить";
 "mine_null" = "никто";
 "mine_alarm_late_amind" = "напомнить позже";
@@ -422,3 +406,6 @@
 "send_success"="Отправлено успешно";
 "send_fail"="Ошибка отправки";
 "ota"="Обновление прошивки";
+"please_choose_day" = "Пожалуйста, выберите день недели";
+"add_contact_fail1" = "Не удалось добавить контакт, проверьте, есть ли у устройства функция синхронизации контактов!";
+"add_contact_fail2" = "Не удалось добавить контакт, устройство еще не ответило на команду.";

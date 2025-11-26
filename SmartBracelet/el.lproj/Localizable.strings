@@ -60,13 +60,13 @@
 "mine_battery_level_low" = "Λιμάνιο μπαταρία";
 "mine_device_info" = "Πληροφορίες συσκευής";
 "mine_repeat_mode" = "Διαίρεση επανάληψης";
-"mine_monday" = "Δευτέρα";
-"mine_satuday" = "Τρίτη"; // 原key拼写错误，对应Tuesday
-"mine_wednesday" = "Τέταρτη";
-"mine_thursday" = "Πέμπτη";
-"mine_friday" = "Παρασκευή";
-"mine_saturday" = "Σάββατο";
-"mine_sunday" = "Κυριακή";
+"mine_monday" = "Mon";
+"mine_satuday" = "Tue";
+"mine_wednesday" = "Wed";
+"mine_thursday" = "Thu";
+"mine_friday" = "Fri";
+"mine_saturday" = "Sat";
+"mine_sunday" = "Sun";
 "mine_delete" = "διαγραφή";
 "mine_null" = "χωρίς";
 "mine_alarm_late_amind" = "Υπενθύμιση αργότερα";
@@ -258,3 +258,6 @@
 "send_success"="Αποστάλθηκε με επιτυχία";
 "send_fail"="Η αποστολή απέτυχε";
 "ota"="Ενημέρωση Firmware";
+"please_choose_day" = "Επιλέξτε μια μέρα της εβδομάδας, παρακαλώ";
+"add_contact_fail1" = "Αποτυχία προσθήκης επαφής, παρακαλώ ελέγξτε αν η συσκευή διαθέτει λειτουργία συγχρονισμού επαφών!";
+"add_contact_fail2" = "Αποτυχία προσθήκης επαφής, η συσκευή δεν έχει ακόμα απαντήσει στην εντολή.";

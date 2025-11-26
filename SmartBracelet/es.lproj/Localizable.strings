@@ -61,13 +61,13 @@
 "mine_battery_level_low" = "Insufficient battery";
 "mine_device_info" = "Device Information";
 "mine_repeat_mode" = "Repeat pattern";
-"mine_monday" = "Monday";
-"mine_satuday" = "Tuesday";
-"mine_wednesday" = "Wednesday";
-"mine_thursday" = "Thursday";
-"mine_friday" = "Friday";
-"mine_saturday" = "Saturday";
-"mine_sunday" = "Sunday";
+"mine_monday" = "Mon";
+"mine_satuday" = "Tue";
+"mine_wednesday" = "Wed";
+"mine_thursday" = "Thu";
+"mine_friday" = "Fri";
+"mine_saturday" = "Sat";
+"mine_sunday" = "Sun";
 "mine_delete" = "delete";
 "mine_null" = "without";
 "mine_alarm_late_amind" = "Remind later";
@@ -108,20 +108,11 @@
 "mine_cm_unit" = "CM";
 "mine_weight" = "weight";
 "mine_kg_unit" = "KG";
-"mine_unconnect" = "no está conectado";
 
 "device_settings" = "Configuración de dispositivo";
 "health_distance" = "Distance";
 
 "every_day_goal" = "objetivo de pasos diarios";
-"week_1" = "lunes";
-"week_2" = "martes";
-"week_3" = "miércoles";
-"week_4" = "jueves";
-"week_5" = "viernes";
-"week_6" = "sábado";
-"week_7" = "domingo";
-"mine_unconnect" = "no conectado";
 "device_settings" = "Configuración de dispositivo";
 "health_distance" = "distancia";
 "setting_goal" = "Pon una meta";
@@ -243,13 +234,6 @@
 "mine_battery_level_low" = "Batería restante insuficiente";
 "mine_device_info" = "Información del dispositivo";
 "mine_repeat_mode" = "patrón repetitivo";
-"mine_monday" = "los lunes";
-"mine_satuday" = "Martes";
-"mine_wednesday" = "Miércoles";
-"mine_thursday" = "Jueves";
-"mine_friday" = "viernes";
-"mine_saturday" = "Sábado";
-"mine_sunday" = "domingo";
 "mine_delete" = "borrar";
 "mine_null" = "ninguno";
 "mine_alarm_late_amind" = "recordar más tarde";
@@ -423,3 +407,6 @@
 "send_success"="Enviado con éxito";
 "send_fail"="Error al enviar";
 "ota"="Actualización de Firmware";
+"please_choose_day" = "Por favor, elige un día de la semana";
+"add_contact_fail1" = "Error al agregar contacto, por favor verifique si el dispositivo tiene la función de sincronización de contactos!";
+"add_contact_fail2" = "Error al agregar contacto, el dispositivo aún no ha respondido al comando.";

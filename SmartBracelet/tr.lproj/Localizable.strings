@@ -61,13 +61,13 @@
 "mine_battery_level_low" = "Yetersiz pil";
 "mine_device_info" = "Cihaz bilgisi";
 "mine_repeat_mode" = "deseni tekrarla";
-"mine_monday" = "Pazartesi gününde";
-"mine_satuday" = "Salı";
-"mine_wednesday" = "Çarşamba";
-"mine_thursday" = "Perşembe";
-"mine_friday" = "Cuma";
-"mine_saturday" = "Cumartesi";
-"mine_sunday" = "Pazar";
+"mine_monday" = "Mon";
+"mine_satuday" = "Tue";
+"mine_wednesday" = "Wed";
+"mine_thursday" = "Thu";
+"mine_friday" = "Fri";
+"mine_saturday" = "Sat";
+"mine_sunday" = "Sun";
 "mine_delete" = "silmek";
 "mine_null" = "olmadan";
 "mine_alarm_late_amind" = "Daha sonra hatırlat";
@@ -109,19 +109,10 @@
 "mine_weight" = "ağırlık";
 "mine_kg_unit" = "KG";
 
-"mine_unconnect" = "bağlı değil";
 "device_settings" = "Cihaz ayarları";
 "health_distance" = "Distance";
 
 "every_day_goal" = "günlük adım hedefi";
-"week_1" = "Pazartesi günü";
-"week_2" = "Salı";
-"week_3" = "Çarşamba günü";
-"week_4" = "Perşembe günü";
-"week_5" = "Cuma";
-"week_6" = "Cumartesi";
-"week_7" = "Pazar";
-"mine_unconnect" = "bağlı değil";
 "device_settings" = "Cihaz ayarları";
 "health_distance" = "mesafe";
 "setting_goal" = "Bir hedef belirleyin";
@@ -243,13 +234,6 @@
 "mine_battery_level_low" = "Yetersiz pil kaldı";
 "mine_device_info" = "Cihaz bilgisi";
 "mine_repeat_mode" = "yinelenen desen";
-"mine_monday" = "Pazartesi gününde";
-"mine_satuday" = "Salı";
-"mine_wednesday" = "Çarşamba";
-"mine_thursday" = "Perşembe";
-"mine_friday" = "cuma";
-"mine_saturday" = "Cumartesi";
-"mine_sunday" = "Pazar";
 "mine_delete" = "silmek";
 "mine_null" = "hiçbiri";
 "mine_alarm_late_amind" = "Daha sonra hatırlat";
@@ -422,3 +406,6 @@
 "send_success"="Başarıyla gönderildi";
 "send_fail"="Gönderim başarısız";
 "ota"="Firmware Güncellemesi";
+"please_choose_day" = "Lütfen bir hafta günü seçin";
+"add_contact_fail1" = "Kişi eklenemedi, lütfen cihazın kişi senkronizasyonu özelliğine sahip olup olmadığını kontrol edin!";
+"add_contact_fail2" = "Kişi eklenemedi, cihaz henüz komuta yanıt vermedi.";

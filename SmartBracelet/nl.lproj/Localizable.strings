@@ -61,13 +61,13 @@
 "mine_battery_level_low" = "Onvoldoende batterij";
 "mine_device_info" = "Apparaat informatie";
 "mine_repeat_mode" = "Herhaal patroon";
-"mine_monday" = "op maandag";
-"mine_satuday" = "Dinsdag";
-"mine_wednesday" = "woensdag";
-"mine_thursday" = "donderdag";
-"mine_friday" = "vrijdag";
-"mine_saturday" = "zaterdag";
-"mine_sunday" = "zondag";
+"mine_monday" = "Mon";
+"mine_satuday" = "Tue";
+"mine_wednesday" = "Wed";
+"mine_thursday" = "Thu";
+"mine_friday" = "Fri";
+"mine_saturday" = "Sat";
+"mine_sunday" = "Sun";
 "mine_delete" = "verwijderen";
 "mine_null" = "zonder";
 "mine_alarm_late_amind" = "Herinner later";
@@ -109,19 +109,10 @@
 "mine_weight" = "gewicht";
 "mine_kg_unit" = "KG";
 
-"mine_unconnect" = "niet verbonden";
 "device_settings" = "Apparaat instellingen";
 "health_distance" = "Distance";
 
 "every_day_goal" = "dagelijks stappendoel";
-"week_1" = "maandag";
-"week_2" = "Dinsdag";
-"week_3" = "woensdag";
-"week_4" = "Donderdag";
-"week_5" = "vrijdag";
-"week_6" = "zaterdag";
-"week_7" = "zondag";
-"mine_unconnect" = "niet verbonden";
 "device_settings" = "Apparaat instellingen";
 "health_distance" = "afstand";
 "setting_goal" = "een doel stellen";
@@ -243,13 +234,6 @@
 "mine_battery_level_low" = "Onvoldoende resterende batterij";
 "mine_device_info" = "Apparaat informatie";
 "mine_repeat_mode" = "herhalend patroon";
-"mine_monday" = "op maandag";
-"mine_satuday" = "Dinsdag";
-"mine_wednesday" = "Woensdag";
-"mine_thursday" = "Donderdag";
-"mine_friday" = "vrijdag";
-"mine_saturday" = "Zaterdag";
-"mine_sunday" = "zondag";
 "mine_delete" = "verwijderen";
 "mine_null" = "geen";
 "mine_alarm_late_amind" = "herinner later";
@@ -422,3 +406,6 @@
 "send_success"="Succesvol verzonden";
 "send_fail"="Verzending mislukt";
 "ota"="Firmware-update";
+"please_choose_day" = "Kies een dag van de week, alstublieft";
+"add_contact_fail1" = "Toevoegen van contact mislukt, controleer of het apparaat de functie voor contactsynchronisatie heeft!";
+"add_contact_fail2" = "Toevoegen van contact mislukt, het apparaat heeft nog niet op de opdracht gereageerd.";

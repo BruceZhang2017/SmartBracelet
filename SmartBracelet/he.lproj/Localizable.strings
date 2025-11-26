@@ -57,13 +57,13 @@
 "mine_battery_level_low" = "מצב בطارיה נמוך";
 "mine_device_info" = "מידע על המכשיר";
 "mine_repeat_mode" = "режим повтора";
-"mine_monday" = "יום שני";
-"mine_satuday" = "יום שלישי";
-"mine_wednesday" = "יום רביעי";
-"mine_thursday" = "יום חמישי";
-"mine_friday" = "יום שישי";
-"mine_saturday" = "שבת";
-"mine_sunday" = "ראשון";
+"mine_monday" = "Mon";
+"mine_satuday" = "Tue";
+"mine_wednesday" = "Wed";
+"mine_thursday" = "Thu";
+"mine_friday" = "Fri";
+"mine_saturday" = "Sat";
+"mine_sunday" = "Sun";
 "mine_delete" = "מחיקה";
 "mine_null" = "ללא";
 "mine_alarm_late_amind" = "תזכורת מאוחרת";
@@ -236,3 +236,6 @@
 "send_success"="נשלח בהצלחה";
 "send_fail"="שליחה נכשלה";
 "ota"="עדכון פרמ�ווייר";
+"please_choose_day" = "אנא בחר יום מהשבוע";
+"add_contact_fail1" = "הוספת איש קשר נכשלה, אנא בדוק אם למכשיר יש פונקציית סנכרון אנשי קשר!";
+"add_contact_fail2" = "הוספת איש קשר נכשלה, המכשיר עדיין לא הגיב לפקודה.";

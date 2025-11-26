@@ -62,13 +62,13 @@
 "mine_battery_level_low" = "Batteria insufficiente";
 "mine_device_info" = "Informazioni sul dispositivo";
 "mine_repeat_mode" = "Ripeti il";
-"mine_monday" = "Lunedì";
-"mine_satuday" = "Martedì";
-"mine_wednesday" = "Mercoledì";
-"mine_thursday" = "Giovedì";
-"mine_friday" = "Venerdì";
-"mine_saturday" = "Sabato";
-"mine_sunday" = "Domenica";
+"mine_monday" = "Mon";
+"mine_satuday" = "Tue";
+"mine_wednesday" = "Wed";
+"mine_thursday" = "Thu";
+"mine_friday" = "Fri";
+"mine_saturday" = "Sat";
+"mine_sunday" = "Sun";
 "mine_delete" = "Elimina";
 "mine_null" = "Nessun dato";
 "mine_alarm_late_amind" = "Ricorda più tardi";
@@ -249,3 +249,6 @@
 "send_success"="Inviato con successo";
 "send_fail"="Invio fallito";
 "ota"="Aggiornamento del Firmware";
+"please_choose_day" = "Scegli un giorno della settimana, per favore";
+"add_contact_fail1" = "Impossibile aggiungere il contatto, verificare se il dispositivo ha la funzione di sincronizzazione dei contatti!";
+"add_contact_fail2" = "Impossibile aggiungere il contatto, il dispositivo non ha ancora risposto al comando.";

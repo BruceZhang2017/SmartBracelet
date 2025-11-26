@@ -61,13 +61,13 @@
 "mine_battery_level_low" = "Batterie insuffisante";
 "mine_device_info" = "Informations sur l'appareil";
 "mine_repeat_mode" = "Répéter le motif";
-"mine_monday" = "le lundi";
-"mine_satuday" = "Mardi";
-"mine_wednesday" = "Mercredi";
-"mine_thursday" = "jeudi";
-"mine_friday" = "vendredi";
-"mine_saturday" = "samedi";
-"mine_sunday" = "dimanche";
+"mine_monday" = "Mon";
+"mine_satuday" = "Tue";
+"mine_wednesday" = "Wed";
+"mine_thursday" = "Thu";
+"mine_friday" = "Fri";
+"mine_saturday" = "Sat";
+"mine_sunday" = "Sun";
 "mine_delete" = "effacer";
 "mine_null" = "sans pour autant";
 "mine_alarm_late_amind" = "Rappeler plus tard";
@@ -109,19 +109,10 @@
 "mine_weight" = "poids";
 "mine_kg_unit" = "KG";
 
-"mine_unconnect"="n'est pas connecté";
 "device_settings" = "Réglages de l'appareil";
 "health_distance" = "Distance";
 
 "every_day_goal" = "objectif de pas quotidien";
-"week_1" = "Lundi";
-"week_2" = "mardi";
-"week_3" = "Mercredi";
-"week_4" = "jeudi";
-"week_5" = "vendredi";
-"week_6" = "samedi";
-"week_7" = "dimanche";
-"mine_unconnect" = "pas connecté";
 "device_settings" = "Réglages de l\'appareil";
 "health_distance" = "distance";
 "setting_goal" = "fixer un objectif";
@@ -243,13 +234,6 @@
 "mine_battery_level_low" = "Batterie restante insuffisante";
 "mine_device_info" = "Informations sur l'appareil";
 "mine_repeat_mode" = "motif répétitif";
-"mine_monday" = "lundi";
-"mine_satuday" = "Mardi";
-"mine_wednesday" = "Mercredi";
-"mine_thursday" = "Jeudi";
-"mine_friday" = "vendredi";
-"mine_saturday" = "Samedi";
-"mine_sunday" = "dimanche";
 "mine_delete" = "supprimer";
 "mine_null" = "aucun";
 "mine_alarm_late_amind" = "rappeler plus tard";
@@ -422,3 +406,6 @@
 "send_success"="Envoyé avec succès";
 "send_fail"="Échec de l'envoi";
 "ota"="Mise à jour du firmware";
+"please_choose_day" = "Veuillez choisir un jour de la semaine";
+"add_contact_fail1" = "Échec de l'ajout du contact, veuillez vérifier si l'appareil dispose de la fonction de synchronisation des contacts!";
+"add_contact_fail2" = "Échec de l'ajout du contact, l'appareil n'a pas encore répondu à la commande.";
