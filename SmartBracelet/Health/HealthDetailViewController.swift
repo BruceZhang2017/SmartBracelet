@@ -674,7 +674,9 @@ class HealthDetailViewController: BaseViewController {
                         for i in 0..<array.count {
                             let value = array[i].heart
                             let x = (array[i].time - Int(zero)) / 3660
-                            values[x] = ChartDataEntry(x: Double(x), y: Double(value) / Double(40))
+                            if x >= 0 && x < 24 {
+                                values[x] = ChartDataEntry(x: Double(x), y: Double(value) / Double(40))
+                            }
                             XLogger.shared.log("历史心率数据: \(value) \(array[i].time)")
                         }
                         XLogger.shared.log("获取到数据的数量为：\(array.count)")
@@ -706,7 +708,9 @@ class HealthDetailViewController: BaseViewController {
                     for i in 0..<array.count {
                         let value = array[i].heartRate
                         let x = (array[i].timeStamp - Int(zero)) / 3660
-                        values[x] = ChartDataEntry(x: Double(x), y: Double(value) / Double(40))
+                        if x >= 0 && x < 24 {
+                            values[x] = ChartDataEntry(x: Double(x), y: Double(value) / Double(40))
+                        }
                     }
                     XLogger.shared.log("获取到数据的数量为：\(array.count)")
                 }
@@ -738,7 +742,9 @@ class HealthDetailViewController: BaseViewController {
                         for i in 0..<array.count {
                             let value = array[i].max
                             let x = (array[i].time - Int(zero)) / 3660
-                            values[x] = ChartDataEntry(x: Double(x), y: Double(value) / Double(40))
+                            if x >= 0 && x < 24 {
+                                values[x] = ChartDataEntry(x: Double(x), y: Double(value) / Double(40))
+                            }
                         }
                         XLogger.shared.log("获取到数据的数量为：\(array.count)")
                     }
@@ -769,7 +775,9 @@ class HealthDetailViewController: BaseViewController {
                     for i in 0..<array.count {
                         let value = array[i].max
                         let x = (array[i].timeStamp - Int(zero)) / 3660
-                        values[x] = ChartDataEntry(x: Double(x), y: Double(value) / Double(40))
+                        if x >= 0 && x < 24 {
+                            values[x] = ChartDataEntry(x: Double(x), y: Double(value) / Double(40))
+                        }
                     }
                     XLogger.shared.log("获取到数据的数量为：\(array.count)")
                 }
@@ -803,7 +811,9 @@ class HealthDetailViewController: BaseViewController {
                         for i in 0..<array.count {
                             let value = array[i].oxgen
                             let x = (array[i].time - Int(zero)) / 3660
-                            values[x] = ChartDataEntry(x: Double(x), y: Double(value) / Double(20))
+                            if x >= 0 && x < 24 {
+                                values[x] = ChartDataEntry(x: Double(x), y: Double(value) / Double(20))
+                            }
                         }
                         XLogger.shared.log("获取到数据的数量为：\(array.count)")
                     }
@@ -835,7 +845,9 @@ class HealthDetailViewController: BaseViewController {
                     for i in 0..<array.count {
                         let value = array[i].oxygen
                         let x = (array[i].timeStamp - Int(zero)) / 3660
-                        values[x] = ChartDataEntry(x: Double(x), y: Double(value) / Double(20))
+                        if x >= 0 && x < 24 {
+                            values[x] = ChartDataEntry(x: Double(x), y: Double(value) / Double(20))
+                        }
                     }
                     XLogger.shared.log("获取到数据的数量为：\(array.count)")
                 }
