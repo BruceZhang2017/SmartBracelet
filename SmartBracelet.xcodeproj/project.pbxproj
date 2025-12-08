@@ -478,6 +478,7 @@
 		9AC58A1528C37A3800992836 /* ClockResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AC58A1428C37A3800992836 /* ClockResponse.swift */; };
 		9AC961822DA5531D00699C7F /* AliIotConnectKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AC961802DA5527900699C7F /* AliIotConnectKit.framework */; };
 		9AC961832DA5531D00699C7F /* AliIotConnectKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9AC961802DA5527900699C7F /* AliIotConnectKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		9AD6A5242EE1C7B000BAC61B /* FemaleHealthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD6A5232EE1C7B000BAC61B /* FemaleHealthViewController.swift */; };
 		9AE1A16B2629465F00B8B10D /* ErrorCode.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AE1A1552629465F00B8B10D /* ErrorCode.m */; };
 		9AE1A16C2629465F00B8B10D /* JCBlutoothInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AE1A1582629465F00B8B10D /* JCBlutoothInfoModel.m */; };
 		9AE1A16D2629465F00B8B10D /* OTAManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AE1A1592629465F00B8B10D /* OTAManager.m */; };
@@ -1111,6 +1112,7 @@
 		9AD43219271B2B33001A6E8F /* zh-HK */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-HK"; path = "zh-HK.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		9AD4321A271B2B52001A6E8F /* ms */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ms; path = ms.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		9AD4321B271B2B52001A6E8F /* ms */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ms; path = ms.lproj/Localizable.strings; sourceTree = "<group>"; };
+		9AD6A5232EE1C7B000BAC61B /* FemaleHealthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FemaleHealthViewController.swift; sourceTree = "<group>"; };
 		9AE1A1542629465F00B8B10D /* ErrorCode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ErrorCode.h; sourceTree = "<group>"; };
 		9AE1A1552629465F00B8B10D /* ErrorCode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ErrorCode.m; sourceTree = "<group>"; };
 		9AE1A1582629465F00B8B10D /* JCBlutoothInfoModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCBlutoothInfoModel.m; sourceTree = "<group>"; };
@@ -2036,6 +2038,7 @@
 				9A5613F425248BFC00C43C6A /* AudioButtonView.swift */,
 				9AE1A180262AB9F900B8B10D /* HeartRateView.swift */,
 				9AE1A182262AF69400B8B10D /* HeartRateCollectionViewCell.swift */,
+				9AD6A5232EE1C7B000BAC61B /* FemaleHealthViewController.swift */,
 			);
 			path = Health;
 			sourceTree = "<group>";
@@ -3117,6 +3120,7 @@
 				9A56D28B25216FC60082CC08 /* XAxis.swift in Sources */,
 				9A56D25A25216FC60082CC08 /* RadarHighlighter.swift in Sources */,
 				9A56D26825216FC60082CC08 /* HorizontalBarChartView.swift in Sources */,
+				9AD6A5242EE1C7B000BAC61B /* FemaleHealthViewController.swift in Sources */,
 				9A3C55CD2BD39A5E007737A2 /* FanView.swift in Sources */,
 				9A33D31026AD9A4F00DF9618 /* PhotoLibraryAuthorizer.swift in Sources */,
 				9A5E932D2515C9710060AB13 /* UserManager.swift in Sources */,

@@ -28,6 +28,50 @@ class HealthViewController: BaseViewController {
     var collectionView: UICollectionView!
     let cellIdentifier = "CustomCell"
     private var currentModel: BLEModel!
+
+    // 女性健康入口视图
+    private let femaleHealthContainerView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        view.layer.cornerRadius = 12
+        view.layer.shadowColor = UIColor.black.cgColor
+        view.layer.shadowOffset = CGSize(width: 0, height: 2)
+        view.layer.shadowOpacity = 0.1
+        view.layer.shadowRadius = 4
+        return view
+    }()
+
+    private let femaleHealthIconImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage(systemName: "heart.circle.fill")
+        imageView.tintColor = UIColor(red: 1.0, green: 0.4, blue: 0.6, alpha: 1.0)
+        imageView.contentMode = .scaleAspectFit
+        return imageView
+    }()
+
+    private let femaleHealthTitleLabel: UILabel = {
+        let label = UILabel()
+        label.text = "生理周期"
+        label.font = UIFont.systemFont(ofSize: 16, weight: .semibold)
+        label.textColor = .black
+        return label
+    }()
+
+    private let femaleHealthSubtitleLabel: UILabel = {
+        let label = UILabel()
+        label.text = "记录和预测月经周期"
+        label.font = UIFont.systemFont(ofSize: 12, weight: .regular)
+        label.textColor = UIColor(red: 0.56, green: 0.59, blue: 0.63, alpha: 1.0)
+        return label
+    }()
+
+    private let femaleHealthArrowImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage(systemName: "chevron.right")
+        imageView.tintColor = UIColor(red: 0.56, green: 0.59, blue: 0.63, alpha: 1.0)
+        imageView.contentMode = .scaleAspectFit
+        return imageView
+    }()
     var xgztCount = 0
     
     var currentDialog: UIView? //记录当前的弹框，在页面异常关闭时移除
@@ -118,13 +162,54 @@ class HealthViewController: BaseViewController {
         // 注册自定义的UICollectionViewCell类
         collectionView.register(HealthCollectionViewCell.self, forCellWithReuseIdentifier: cellIdentifier)
         
+        // 添加女性健康入口
+        self.view.addSubview(femaleHealthContainerView)
+        femaleHealthContainerView.snp.makeConstraints { make in
+            make.leading.equalToSuperview().offset(10)
+            make.trailing.equalToSuperview().offset(-10)
+            make.bottom.equalTo(view.safeAreaLayoutGuide).offset(-10)
+            make.height.equalTo(70)
+        }
+
+        femaleHealthContainerView.addSubview(femaleHealthIconImageView)
+        femaleHealthIconImageView.snp.makeConstraints { make in
+            make.leading.equalToSuperview().offset(16)
+            make.centerY.equalToSuperview()
+            make.width.height.equalTo(40)
+        }
+
+        femaleHealthContainerView.addSubview(femaleHealthArrowImageView)
+        femaleHealthArrowImageView.snp.makeConstraints { make in
+            make.trailing.equalToSuperview().offset(-16)
+            make.centerY.equalToSuperview()
+            make.width.height.equalTo(20)
+        }
+
+        femaleHealthContainerView.addSubview(femaleHealthTitleLabel)
+        femaleHealthTitleLabel.snp.makeConstraints { make in
+            make.leading.equalTo(femaleHealthIconImageView.snp.trailing).offset(12)
+            make.top.equalToSuperview().offset(16)
+            make.trailing.equalTo(femaleHealthArrowImageView.snp.leading).offset(-12)
+        }
+
+        femaleHealthContainerView.addSubview(femaleHealthSubtitleLabel)
+        femaleHealthSubtitleLabel.snp.makeConstraints { make in
+            make.leading.equalTo(femaleHealthIconImageView.snp.trailing).offset(12)
+            make.top.equalTo(femaleHealthTitleLabel.snp.bottom).offset(4)
+            make.trailing.equalTo(femaleHealthArrowImageView.snp.leading).offset(-12)
+        }
+
+        let femaleHealthTap = UITapGestureRecognizer(target: self, action: #selector(handleFemaleHealthTapped))
+        femaleHealthContainerView.addGestureRecognizer(femaleHealthTap)
+        femaleHealthContainerView.isUserInteractionEnabled = true
+
         // 添加UICollectionView到当前视图
         self.view.addSubview(collectionView)
-        
+
         collectionView.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview()
             make.top.equalTo(320)
-            make.bottom.equalToSuperview()
+            make.bottom.equalTo(femaleHealthContainerView.snp.top).offset(-10)
         }
         
         // 设置 DropDown 数据源
@@ -881,7 +966,13 @@ class HealthViewController: BaseViewController {
         vc.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(vc, animated: true)
     }
-    
+
+    @objc func handleFemaleHealthTapped() {
+        let vc = FemaleHealthViewController()
+        vc.hidesBottomBarWhenPushed = true
+        navigationController?.pushViewController(vc, animated: true)
+    }
+
     @IBAction func addDevice(_ sender: Any) {
         
         // 获取导航栏按钮的视图
