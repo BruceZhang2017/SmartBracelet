@@ -146,7 +146,8 @@ class TripleTableViewController: UIViewController {
         // 准备表单参数
         let parameters: [String: Any] = [
             "width": width,
-            "height": height
+            "height": height,
+            "lang": LanguageManager.getInterfaceLang()
         ]
         
         // 使用x-www-form-urlencoded格式发送POST请求
@@ -545,7 +546,8 @@ class RightViewModel {
             "height": screenHeight,
             "shape": XGZTBlueToothManager.shared.device?.screenType == 1 ? "round" : "square",
             "type": type,
-            "style": style
+            "style": style,
+            "lang": LanguageManager.getInterfaceLang()
         ]
         
         // 打印请求参数
@@ -613,7 +615,8 @@ class RightViewModel {
             "height": screenHeight,
             "shape": XGZTBlueToothManager.shared.device?.screenType == 1 ? "round" : "square",
             "type": type,
-            "style": style
+            "style": style,
+            "lang": LanguageManager.getInterfaceLang()
         ]
         
         // 打印请求参数
@@ -797,5 +800,131 @@ struct AnyCodable: Codable {
         default:
             throw EncodingError.invalidValue(value, EncodingError.Context(codingPath: encoder.codingPath, debugDescription: "不支持的类型"))
         }
+    }
+}
+
+import Foundation
+
+/// 语种工具类：统一管理接口lang字段的赋值逻辑
+class LanguageManager {
+    /// 获取接口需要的lang字段值（自动适配系统语言，兼容iOS 13+）
+    static func getInterfaceLang() -> String {
+        // 获取设备首选语言（iOS系统返回格式如"zh-Hans-CN"、"en-US"、"ja-JP"等）
+        let preferredLang = Locale.preferredLanguages.first ?? "en"
+        let locale = Locale(identifier: preferredLang)
+        
+        // 1. 兼容获取语言码（iOS 13+通用）
+        let langCode: String
+        if #available(iOS 16, *) {
+            langCode = locale.language.languageCode?.identifier ?? "en"
+        } else {
+            // iOS 13-15：使用旧版API获取语言码
+            langCode = locale.languageCode ?? "en"
+        }
+        
+        // 2. 映射iOS语言码到接口要求的lang字段值
+        switch langCode {
+        case "zh":
+            // 区分简体/繁体中文（兼容iOS 13+）
+            let scriptCode: String?
+            if #available(iOS 16, *) {
+                scriptCode = locale.language.script?.identifier
+            } else {
+                // iOS 13-15：从语言标识字符串中解析脚本类型（zh-Hans -> Hans，zh-Hant -> Hant）
+                scriptCode = parseScriptCode(from: preferredLang)
+            }
+            return scriptCode == "Hant" ? "chinese_traditional" : "chinese_sim"
+            
+        case "ja":
+            return "japanese"
+            
+        case "en":
+            // 区分美式/英式英语（兼容iOS 13+）
+            let regionCode = locale.regionCode
+            return regionCode == "GB" ? "english_uk" : "english_us"
+            
+        case "pt":
+            // 区分巴西葡语/欧洲葡语（兼容iOS 13+）
+            let regionCode = locale.regionCode
+            return regionCode == "BR" ? "portuguese_br" : "portuguese_pt"
+            
+        case "ko":
+            return "korean"
+        case "fr":
+            return "french"
+        case "de":
+            return "german"
+        case "es":
+            // 区分西班牙语（西班牙/墨西哥）
+            let regionCode = locale.regionCode
+            return regionCode == "MX" ? "spanish_mx" : "spanish"
+        case "ru":
+            return "russian"
+        case "ar":
+            return "arabic"
+        case "it":
+            return "italian"
+        case "nl":
+            return "dutch"
+        case "th":
+            return "thai"
+        case "vi":
+            return "vietnamese"
+        case "id":
+            return "indonesian"
+        case "ms":
+            return "malay"
+        case "tr":
+            return "turkish"
+        case "pl":
+            return "polish"
+            
+        default:
+            // 未匹配的语言默认返回英语
+            return "english"
+        }
+    }
+    
+    /// 手动指定语种获取lang字段值（适用于用户手动切换语言的场景）
+    /// - Parameter language: 自定义语种枚举
+    /// - Returns: 接口需要的lang字段值
+    static func getInterfaceLang(by language: CustomLanguage) -> String {
+        switch language {
+        case .simplifiedChinese: return "chinese_sim"
+        case .traditionalChinese: return "chinese_traditional"
+        case .english: return "english"
+        case .japanese: return "japanese"
+        case .portuguese: return "portuguese"
+        case .polish: return "polish"
+        // 可扩展更多语种
+        }
+    }
+    
+    // MARK: - 私有工具方法
+    /// 解析语言标识中的脚本类型（兼容iOS 13-15）
+    /// - Parameter langIdentifier: 系统语言标识（如zh-Hans-CN、zh-Hant-TW）
+    /// - Returns: 脚本码（Hans/Hant）
+    private static func parseScriptCode(from langIdentifier: String) -> String? {
+        let components = langIdentifier.components(separatedBy: "-")
+        // 语言标识格式：语言码-脚本码-地区码（如zh-Hans-CN） 或 语言码-地区码（如en-US）
+        if components.count >= 2 {
+            let secondComponent = components[1]
+            if secondComponent == "Hans" || secondComponent == "Hant" {
+                return secondComponent
+            }
+        }
+        // 默认返回简体（适配无脚本码的中文标识，如zh-CN）
+        return "Hans"
+    }
+    
+    /// 自定义语种枚举（适配用户手动切换语言的场景）
+    enum CustomLanguage {
+        case simplifiedChinese    // 简体中文
+        case traditionalChinese   // 繁体中文
+        case english              // 英语
+        case japanese             // 日语
+        case portuguese           // 葡萄牙语
+        case polish               // 波兰语
+        // 可根据需求添加其他语种
     }
 }

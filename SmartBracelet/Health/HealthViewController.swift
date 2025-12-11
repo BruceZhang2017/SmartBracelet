@@ -462,6 +462,11 @@ class HealthViewController: BaseViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        if XGZTBlueToothManager.shared.device?.sex == 1 {
+            femaleHealthContainerView.isHidden = false
+        } else {
+            femaleHealthContainerView.isHidden = true
+        }
         collectionView.reloadData()
     }
     
@@ -912,6 +917,11 @@ class HealthViewController: BaseViewController {
             DispatchQueue.main.async {
                 [weak self] in
                 self?.hud?.dismiss(animated: false)
+                if XGZTBlueToothManager.shared.device?.sex == 1 {
+                    self?.femaleHealthContainerView.isHidden = false
+                } else {
+                    self?.femaleHealthContainerView.isHidden = true
+                }
             }
             DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                 [weak self] in
@@ -968,9 +978,26 @@ class HealthViewController: BaseViewController {
     }
 
     @objc func handleFemaleHealthTapped() {
-        let vc = FemaleHealthViewController()
-        vc.hidesBottomBarWhenPushed = true
-        navigationController?.pushViewController(vc, animated: true)
+        // 从数据管理器获取周期配置
+        let config = FemaleCycleDataManager.shared.getCycleConfiguration()
+
+        // 判断是否已经设置过经期数据
+        // 如果经期天数和周期长度都大于0，说明已经设置过
+        let hasConfigured = config.periodDays > 0 && config.cycleLength > 0
+
+        if hasConfigured {
+            // 已设置：跳转到日历页面
+            XLogger.shared.log("女性健康已配置，跳转到日历页面")
+            let vc = FemaleCycleCalendarViewController()
+            vc.hidesBottomBarWhenPushed = true
+            navigationController?.pushViewController(vc, animated: true)
+        } else {
+            // 未设置：跳转到设置页面
+            XLogger.shared.log("女性健康未配置，跳转到设置页面")
+            let vc = FemaleHealthViewController()
+            vc.hidesBottomBarWhenPushed = true
+            navigationController?.pushViewController(vc, animated: true)
+        }
     }
 
     @IBAction func addDevice(_ sender: Any) {

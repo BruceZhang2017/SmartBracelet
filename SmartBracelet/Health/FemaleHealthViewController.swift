@@ -14,6 +14,19 @@ import SnapKit
 
 class FemaleHealthViewController: BaseViewController {
 
+    // MARK: - Properties
+
+    /// 是否隐藏最后一次月经日期选项（从周期设置进入时隐藏）
+    var hideLastPeriodDateOption: Bool = false {
+        didSet {
+            if hideLastPeriodDateOption {
+                startPredictionButton.setTitle("保存", for: .normal)
+            } else {
+                startPredictionButton.setTitle("开始预测", for: .normal)
+            }
+        }
+    }
+
     // MARK: - UI Components
 
     private let questionLabel1: UILabel = {
@@ -184,6 +197,11 @@ class FemaleHealthViewController: BaseViewController {
 
         setupUI()
         loadFemaleHealthData()
+
+        // 根据进入方式设置按钮文本
+        if hideLastPeriodDateOption {
+            startPredictionButton.setTitle("保存", for: .normal)
+        }
     }
 
     // MARK: - Setup UI
@@ -269,44 +287,47 @@ class FemaleHealthViewController: BaseViewController {
         let cycleLengthTap = UITapGestureRecognizer(target: self, action: #selector(cycleLengthTapped))
         cycleLengthContainerView.addGestureRecognizer(cycleLengthTap)
 
-        // Add question label 3
-        view.addSubview(questionLabel3)
-        questionLabel3.snp.makeConstraints { make in
-            make.top.equalTo(cycleLengthContainerView.snp.bottom).offset(32)
-            make.leading.equalToSuperview().offset(16)
-            make.trailing.equalToSuperview().offset(-16)
-        }
+        // Add question label 3 and last period container (conditionally)
+        if !hideLastPeriodDateOption {
+            // Add question label 3
+            view.addSubview(questionLabel3)
+            questionLabel3.snp.makeConstraints { make in
+                make.top.equalTo(cycleLengthContainerView.snp.bottom).offset(32)
+                make.leading.equalToSuperview().offset(16)
+                make.trailing.equalToSuperview().offset(-16)
+            }
 
-        // Add last period container
-        view.addSubview(lastPeriodContainerView)
-        lastPeriodContainerView.snp.makeConstraints { make in
-            make.top.equalTo(questionLabel3.snp.bottom).offset(12)
-            make.leading.equalToSuperview().offset(16)
-            make.trailing.equalToSuperview().offset(-16)
-            make.height.equalTo(56)
-        }
+            // Add last period container
+            view.addSubview(lastPeriodContainerView)
+            lastPeriodContainerView.snp.makeConstraints { make in
+                make.top.equalTo(questionLabel3.snp.bottom).offset(12)
+                make.leading.equalToSuperview().offset(16)
+                make.trailing.equalToSuperview().offset(-16)
+                make.height.equalTo(56)
+            }
 
-        lastPeriodContainerView.addSubview(lastPeriodTitleLabel)
-        lastPeriodTitleLabel.snp.makeConstraints { make in
-            make.leading.equalToSuperview().offset(16)
-            make.centerY.equalToSuperview()
-        }
+            lastPeriodContainerView.addSubview(lastPeriodTitleLabel)
+            lastPeriodTitleLabel.snp.makeConstraints { make in
+                make.leading.equalToSuperview().offset(16)
+                make.centerY.equalToSuperview()
+            }
 
-        lastPeriodContainerView.addSubview(lastPeriodArrowImageView)
-        lastPeriodArrowImageView.snp.makeConstraints { make in
-            make.trailing.equalToSuperview().offset(-16)
-            make.centerY.equalToSuperview()
-            make.width.height.equalTo(16)
-        }
+            lastPeriodContainerView.addSubview(lastPeriodArrowImageView)
+            lastPeriodArrowImageView.snp.makeConstraints { make in
+                make.trailing.equalToSuperview().offset(-16)
+                make.centerY.equalToSuperview()
+                make.width.height.equalTo(16)
+            }
 
-        lastPeriodContainerView.addSubview(lastPeriodValueLabel)
-        lastPeriodValueLabel.snp.makeConstraints { make in
-            make.trailing.equalTo(lastPeriodArrowImageView.snp.leading).offset(-8)
-            make.centerY.equalToSuperview()
-        }
+            lastPeriodContainerView.addSubview(lastPeriodValueLabel)
+            lastPeriodValueLabel.snp.makeConstraints { make in
+                make.trailing.equalTo(lastPeriodArrowImageView.snp.leading).offset(-8)
+                make.centerY.equalToSuperview()
+            }
 
-        let lastPeriodTap = UITapGestureRecognizer(target: self, action: #selector(lastPeriodTapped))
-        lastPeriodContainerView.addGestureRecognizer(lastPeriodTap)
+            let lastPeriodTap = UITapGestureRecognizer(target: self, action: #selector(lastPeriodTapped))
+            lastPeriodContainerView.addGestureRecognizer(lastPeriodTap)
+        }
 
         // Add start prediction button
         view.addSubview(startPredictionButton)
@@ -372,36 +393,46 @@ class FemaleHealthViewController: BaseViewController {
     }
 
     @objc private func startPredictionTapped() {
-        // TODO: 实现开始预测逻辑
-        let alert = UIAlertController(title: "开始预测", message: "预测功能正在开发中", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "确定", style: .default, handler: nil))
-        present(alert, animated: true, completion: nil)
+        if hideLastPeriodDateOption {
+            // 从周期设置进入，点击保存后返回
+            saveFemaleHealthData()
+            navigationController?.popViewController(animated: true)
+        } else {
+            // 正常流程，跳转到日历页面
+            let vc = FemaleCycleCalendarViewController()
+            vc.hidesBottomBarWhenPushed = true
+            navigationController?.pushViewController(vc, animated: true)
+        }
     }
 
     // MARK: - Data Management
 
     private func saveFemaleHealthData() {
-        UserDefaults.standard.set(periodDays, forKey: "FemaleHealth_PeriodDays")
-        UserDefaults.standard.set(cycleLength, forKey: "FemaleHealth_CycleLength")
-        UserDefaults.standard.set(lastPeriodDate.timeIntervalSince1970, forKey: "FemaleHealth_LastPeriodDate")
-        UserDefaults.standard.synchronize()
+        // 使用数据管理器保存配置
+        FemaleCycleDataManager.shared.updateCycleConfiguration(
+            periodDays: periodDays,
+            cycleLength: cycleLength,
+            lastPeriodDate: lastPeriodDate
+        )
+        XLogger.shared.log("保存女性健康配置: periodDays=\(periodDays), cycleLength=\(cycleLength), lastPeriodDate=\(lastPeriodDate)")
     }
 
     private func loadFemaleHealthData() {
-        let savedPeriodDays = UserDefaults.standard.integer(forKey: "FemaleHealth_PeriodDays")
-        if savedPeriodDays > 0 {
-            periodDays = savedPeriodDays
+        // 从数据管理器加载配置
+        let config = FemaleCycleDataManager.shared.getCycleConfiguration()
+
+        if config.periodDays > 0 {
+            periodDays = config.periodDays
         }
 
-        let savedCycleLength = UserDefaults.standard.integer(forKey: "FemaleHealth_CycleLength")
-        if savedCycleLength > 0 {
-            cycleLength = savedCycleLength
+        if config.cycleLength > 0 {
+            cycleLength = config.cycleLength
         }
 
-        let savedLastPeriodDate = UserDefaults.standard.double(forKey: "FemaleHealth_LastPeriodDate")
-        if savedLastPeriodDate > 0 {
-            lastPeriodDate = Date(timeIntervalSince1970: savedLastPeriodDate)
-        }
+        // 总是加载最后一次经期日期
+        lastPeriodDate = config.lastPeriodDate
+
+        XLogger.shared.log("加载女性健康配置: periodDays=\(periodDays), cycleLength=\(cycleLength), lastPeriodDate=\(lastPeriodDate)")
     }
 }
 
