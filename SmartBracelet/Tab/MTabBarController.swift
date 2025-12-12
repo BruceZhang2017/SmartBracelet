@@ -144,37 +144,48 @@ class MTabBarController: UITabBarController {
 
     @objc func handleDeviceConnected(_ notification: Notification) {
         let obj = notification.object as? String ?? ""
-        
+
         if obj == "disconnect" {
             if let navController = selectedViewController as? UINavigationController {
                 navController.popToRootViewController(animated: false)
             }
-            
+
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                 self.selectedIndex = 2
-                
-                // iOS 17+ 特殊处理
-                if #available(iOS 17.0, *) {
-                    self.tabBar.isHidden = false
-                    self.view.setNeedsLayout()
-                    self.view.layoutIfNeeded()
-                } else {
-                    self.tabBar.isHidden = false
-                }
+                self.updateTabBarVisibility()
             }
         } else {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                 self.selectedIndex = 0
-                
-                // iOS 17+ 特殊处理
-                if #available(iOS 17.0, *) {
-                    self.tabBar.isHidden = false
-                    self.view.setNeedsLayout()
-                    self.view.layoutIfNeeded()
-                } else {
-                    self.tabBar.isHidden = false
-                }
+                self.updateTabBarVisibility()
             }
+        }
+    }
+
+    /// 根据当前选中的 NavigationController 层级更新 TabBar 的显示状态
+    /// - 如果 viewControllers.count == 1（根视图），显示 TabBar
+    /// - 如果 viewControllers.count > 1（子页面），隐藏 TabBar
+    private func updateTabBarVisibility() {
+        guard let navController = selectedViewController as? UINavigationController else {
+            // 如果不是 NavigationController，默认显示 TabBar
+            setTabBarHidden(false)
+            return
+        }
+
+        // 根据导航栈层级决定 TabBar 显示状态
+        let shouldHideTabBar = navController.viewControllers.count > 1
+        setTabBarHidden(shouldHideTabBar)
+    }
+
+    /// 设置 TabBar 的显示/隐藏状态，兼容 iOS 17+
+    /// - Parameter hidden: 是否隐藏 TabBar
+    private func setTabBarHidden(_ hidden: Bool) {
+        tabBar.isHidden = hidden
+
+        // iOS 17+ 需要额外的布局更新
+        if #available(iOS 17.0, *) {
+            view.setNeedsLayout()
+            view.layoutIfNeeded()
         }
     }
     

@@ -667,10 +667,14 @@ class HealthDetailViewController: BaseViewController {
                 let dispatchGroup = DispatchGroup()
                 dispatchGroup.enter()
                 readXGZTDBHeart { [weak self] heartObjs in
+                    guard let self = self else {
+                        dispatchGroup.leave()
+                        return
+                    }
                     let array = heartObjs
                     if array.count > 0 {
                         count = array.count
-                        let zero = self!.mDate.zeroTimeStampUTC()
+                        let zero = self.mDate.zeroTimeStampUTC()
                         for i in 0..<array.count {
                             let value = array[i].heart
                             let x = (array[i].time - Int(zero)) / 3660
@@ -685,14 +689,14 @@ class HealthDetailViewController: BaseViewController {
                         let b = NSMutableAttributedString()
                         b.append(NSAttributedString(string: "\(array.last?.heart ?? 0)", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 40, weight: .black)]))
                         b.append(NSAttributedString(string: "health_value_p_minute".localized(), attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 14, weight: .medium)]))
-                        self?.roundView.refreshView(value: b)
-                        self?.roundView.setProgress(CGFloat(array.last?.heart ?? 0) / 200)
+                        self.roundView.refreshView(value: b)
+                        self.roundView.setProgress(CGFloat(array.last?.heart ?? 0) / 200)
                     } else {
                         let b = NSMutableAttributedString()
                         b.append(NSAttributedString(string: "0", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 40, weight: .black)]))
                         b.append(NSAttributedString(string: "health_value_p_minute".localized(), attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 14, weight: .medium)]))
-                        self?.roundView.refreshView(value: b)
-                        self?.roundView.setProgress(0)
+                        self.roundView.refreshView(value: b)
+                        self.roundView.setProgress(0)
                     }
                     dispatchGroup.leave()
                 }
@@ -735,10 +739,14 @@ class HealthDetailViewController: BaseViewController {
                 let dispatchGroup = DispatchGroup()
                 dispatchGroup.enter()
                 readPressure { [weak self] pressureObjs in
+                    guard let self = self else {
+                        dispatchGroup.leave()
+                        return
+                    }
                     let array = pressureObjs
                     if array.count > 0 {
                         count = array.count
-                        let zero = self!.mDate.zeroTimeStampUTC()
+                        let zero = self.mDate.zeroTimeStampUTC()
                         for i in 0..<array.count {
                             let value = array[i].max
                             let x = (array[i].time - Int(zero)) / 3660
@@ -752,14 +760,14 @@ class HealthDetailViewController: BaseViewController {
                         let b = NSMutableAttributedString()
                         b.append(NSAttributedString(string: "\(array.last?.max ?? 0)/\(array.last?.min ?? 0)", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 30, weight: .black)]))
                         b.append(NSAttributedString(string: "MMHG", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 12, weight: .medium)]))
-                        self?.roundView.refreshView(value: b)
-                        self?.roundView.setProgress(CGFloat(array.last?.max ?? 0) / 200)
+                        self.roundView.refreshView(value: b)
+                        self.roundView.setProgress(CGFloat(array.last?.max ?? 0) / 200)
                     } else {
                         let b = NSMutableAttributedString()
                         b.append(NSAttributedString(string: "0", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 30, weight: .black)]))
                         b.append(NSAttributedString(string: "MMHG", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 12, weight: .medium)]))
-                        self?.roundView.refreshView(value: b)
-                        self?.roundView.setProgress(0)
+                        self.roundView.refreshView(value: b)
+                        self.roundView.setProgress(0)
                     }
                     dispatchGroup.leave()
                 }
@@ -803,11 +811,15 @@ class HealthDetailViewController: BaseViewController {
                 let dispatchGroup = DispatchGroup()
                 dispatchGroup.enter()
                 readXGZTBlood { [weak self] oxgenObjs in
+                    guard let self = self else {
+                        dispatchGroup.leave()
+                        return
+                    }
                     let array = oxgenObjs
                     XLogger.shared.log("从数据库里读取到的血氧数据数量为：\(array.count)")
                     if array.count > 0 {
                         count = array.count
-                        let zero = self!.mDate.zeroTimeStampUTC()
+                        let zero = self.mDate.zeroTimeStampUTC()
                         for i in 0..<array.count {
                             let value = array[i].oxgen
                             let x = (array[i].time - Int(zero)) / 3660
@@ -821,14 +833,14 @@ class HealthDetailViewController: BaseViewController {
                         let b = NSMutableAttributedString()
                         b.append(NSAttributedString(string: "\(array.last?.oxgen ?? 0)", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 40, weight: .black)]))
                         b.append(NSAttributedString(string: "SPO2", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 14, weight: .medium)]))
-                        self?.roundView.refreshView(value: b)
-                        self?.roundView.setProgress(CGFloat(array.last?.oxgen ?? 0) / 200)
+                        self.roundView.refreshView(value: b)
+                        self.roundView.setProgress(CGFloat(array.last?.oxgen ?? 0) / 200)
                     } else {
                         let b = NSMutableAttributedString()
                         b.append(NSAttributedString(string: "0", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 40, weight: .black)]))
                         b.append(NSAttributedString(string: "SPO2", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 14, weight: .medium)]))
-                        self?.roundView.refreshView(value: b)
-                        self?.roundView.setProgress(0)
+                        self.roundView.refreshView(value: b)
+                        self.roundView.setProgress(0)
                     }
                     dispatchGroup.leave()
                 }

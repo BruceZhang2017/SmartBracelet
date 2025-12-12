@@ -150,6 +150,11 @@
 		9A410C762DCB5372006240A6 /* XLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A410C752DCB5368006240A6 /* XLogger.swift */; };
 		9A46063D2DD5FF580011017F /* delete_device20.png in Resources */ = {isa = PBXBuildFile; fileRef = 9A46063C2DD5FF580011017F /* delete_device20.png */; };
 		9A46063E2DD5FF580011017F /* delete_device10.png in Resources */ = {isa = PBXBuildFile; fileRef = 9A46063B2DD5FF580011017F /* delete_device10.png */; };
+		9A48CE522EE7CB7D00F4E5E4 /* FemaleCycleCalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A48CE512EE7CB7D00F4E5E4 /* FemaleCycleCalendarViewController.swift */; };
+		9A48CE542EE815F500F4E5E4 /* BodySymptomsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A48CE532EE815F500F4E5E4 /* BodySymptomsViewController.swift */; };
+		9A48CE572EE8218C00F4E5E4 /* DataDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A48CE562EE8218C00F4E5E4 /* DataDetailViewController.swift */; };
+		9A48CE582EE8218C00F4E5E4 /* AllDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A48CE552EE8218C00F4E5E4 /* AllDataViewController.swift */; };
+		9A48CE5A2EEA664000F4E5E4 /* FemaleCycleDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A48CE592EEA664000F4E5E4 /* FemaleCycleDataManager.swift */; };
 		9A4B80A72DE1F5BB0001817F /* SelectAddActionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A4B80A62DE1F5BB0001817F /* SelectAddActionViewController.swift */; };
 		9A4CADEE294032F200B0BDF8 /* CommonResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A4CADED294032F100B0BDF8 /* CommonResponse.swift */; };
 		9A4CADF029406E6E00B0BDF8 /* QuestionItemResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A4CADEF29406E6E00B0BDF8 /* QuestionItemResponse.swift */; };
@@ -495,6 +500,7 @@
 		9AC58A1528C37A3800992836 /* ClockResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AC58A1428C37A3800992836 /* ClockResponse.swift */; };
 		9AC961822DA5531D00699C7F /* AliIotConnectKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AC961802DA5527900699C7F /* AliIotConnectKit.framework */; };
 		9AC961832DA5531D00699C7F /* AliIotConnectKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9AC961802DA5527900699C7F /* AliIotConnectKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		9AD6A5242EE1C7B000BAC61B /* FemaleHealthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD6A5232EE1C7B000BAC61B /* FemaleHealthViewController.swift */; };
 		9AE1A16B2629465F00B8B10D /* ErrorCode.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AE1A1552629465F00B8B10D /* ErrorCode.m */; };
 		9AE1A16C2629465F00B8B10D /* JCBlutoothInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AE1A1582629465F00B8B10D /* JCBlutoothInfoModel.m */; };
 		9AE1A16D2629465F00B8B10D /* OTAManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AE1A1592629465F00B8B10D /* OTAManager.m */; };
@@ -718,6 +724,11 @@
 		9A410C752DCB5368006240A6 /* XLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XLogger.swift; sourceTree = "<group>"; };
 		9A46063B2DD5FF580011017F /* delete_device10.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = delete_device10.png; sourceTree = "<group>"; };
 		9A46063C2DD5FF580011017F /* delete_device20.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = delete_device20.png; sourceTree = "<group>"; };
+		9A48CE512EE7CB7D00F4E5E4 /* FemaleCycleCalendarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FemaleCycleCalendarViewController.swift; sourceTree = "<group>"; };
+		9A48CE532EE815F500F4E5E4 /* BodySymptomsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BodySymptomsViewController.swift; sourceTree = "<group>"; };
+		9A48CE552EE8218C00F4E5E4 /* AllDataViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllDataViewController.swift; sourceTree = "<group>"; };
+		9A48CE562EE8218C00F4E5E4 /* DataDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataDetailViewController.swift; sourceTree = "<group>"; };
+		9A48CE592EEA664000F4E5E4 /* FemaleCycleDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FemaleCycleDataManager.swift; sourceTree = "<group>"; };
 		9A4B80A62DE1F5BB0001817F /* SelectAddActionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectAddActionViewController.swift; sourceTree = "<group>"; };
 		9A4CADED294032F100B0BDF8 /* CommonResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonResponse.swift; sourceTree = "<group>"; };
 		9A4CADEF29406E6E00B0BDF8 /* QuestionItemResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionItemResponse.swift; sourceTree = "<group>"; };
@@ -1146,6 +1157,7 @@
 		9AD43219271B2B33001A6E8F /* zh-HK */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-HK"; path = "zh-HK.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		9AD4321A271B2B52001A6E8F /* ms */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ms; path = ms.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		9AD4321B271B2B52001A6E8F /* ms */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ms; path = ms.lproj/Localizable.strings; sourceTree = "<group>"; };
+		9AD6A5232EE1C7B000BAC61B /* FemaleHealthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FemaleHealthViewController.swift; sourceTree = "<group>"; };
 		9AE1A1542629465F00B8B10D /* ErrorCode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ErrorCode.h; sourceTree = "<group>"; };
 		9AE1A1552629465F00B8B10D /* ErrorCode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ErrorCode.m; sourceTree = "<group>"; };
 		9AE1A1582629465F00B8B10D /* JCBlutoothInfoModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCBlutoothInfoModel.m; sourceTree = "<group>"; };
@@ -2069,6 +2081,10 @@
 		9A820B6C24CD066E00A62C6F /* Health */ = {
 			isa = PBXGroup;
 			children = (
+				9A48CE592EEA664000F4E5E4 /* FemaleCycleDataManager.swift */,
+				9A48CE552EE8218C00F4E5E4 /* AllDataViewController.swift */,
+				9A48CE562EE8218C00F4E5E4 /* DataDetailViewController.swift */,
+				9A48CE532EE815F500F4E5E4 /* BodySymptomsViewController.swift */,
 				9A3C55CA2BD36A18007737A2 /* SCBreathAnimationView.swift */,
 				9A3C55C82BD36981007737A2 /* SCBreathAnimationView.xib */,
 				9AEBEC4126DE5B03008D13AA /* TTADataPickerTitleBarButtonItem.swift */,
@@ -2077,16 +2093,18 @@
 				9AEBEC3C26DE5AD0008D13AA /* TTADataPickerView.swift */,
 				9A820B6D24CD06AC00A62C6F /* HealthViewController.swift */,
 				9A87D62E2E7AD09F00FC509B /* HealthCollectionViewCell.swift */,
-				9A820B7524CEA2A500A62C6F /* HealthDetailViewController.swift */,
 				9A3C55C42BD35EE6007737A2 /* HealthValueView.swift */,
 				9A3C55CC2BD39A5E007737A2 /* FanView.swift */,
 				9A3C55CE2BD3ECA3007737A2 /* RoundView.swift */,
 				9A3C55D02BD3F41B007737A2 /* TestView.swift */,
 				9A5613F02524875400C43C6A /* CommonCalendarView.swift */,
+				9A820B7524CEA2A500A62C6F /* HealthDetailViewController.swift */,
 				9A5613F22524879600C43C6A /* CommonCalendarView.xib */,
 				9A5613F425248BFC00C43C6A /* AudioButtonView.swift */,
 				9AE1A180262AB9F900B8B10D /* HeartRateView.swift */,
 				9AE1A182262AF69400B8B10D /* HeartRateCollectionViewCell.swift */,
+				9AD6A5232EE1C7B000BAC61B /* FemaleHealthViewController.swift */,
+				9A48CE512EE7CB7D00F4E5E4 /* FemaleCycleCalendarViewController.swift */,
 			);
 			path = Health;
 			sourceTree = "<group>";
@@ -2738,6 +2756,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9A56D26525216FC60082CC08 /* BarLineChartViewBase.swift in Sources */,
+				9A48CE522EE7CB7D00F4E5E4 /* FemaleCycleCalendarViewController.swift in Sources */,
 				9A367B7B25BD208100BFB4C3 /* Variable.swift in Sources */,
 				9A8CA51225272C5200EC01A7 /* CVCalendarViewDelegate.swift in Sources */,
 				9A60DED2252EBDC700E0D849 /* InputHeightViewController.swift in Sources */,
@@ -2968,6 +2987,8 @@
 				9A350BEF24EB5DE0004CEE6A /* DataRecordViewController.swift in Sources */,
 				9A8CA52325272C5200EC01A7 /* CVShape.swift in Sources */,
 				9A56D29925216FC70082CC08 /* BarLineScatterCandleBubbleChartDataSet.swift in Sources */,
+				9A48CE572EE8218C00F4E5E4 /* DataDetailViewController.swift in Sources */,
+				9A48CE582EE8218C00F4E5E4 /* AllDataViewController.swift in Sources */,
 				9AC58A1528C37A3800992836 /* ClockResponse.swift in Sources */,
 				9A8CA529252CA8BA00EC01A7 /* DataRecordTableViewCell.swift in Sources */,
 				9AEBEC3426D2A3BE008D13AA /* BLEDeviceNameHandler.swift in Sources */,
@@ -3113,6 +3134,7 @@
 				9A820B8024CEDCDA00A62C6F /* UIColor+Extension.swift in Sources */,
 				9AE436372686BF6E006A588F /* CurveView.swift in Sources */,
 				9A8CA51825272C5200EC01A7 /* CVCalendarContentPresentationCoordinator.swift in Sources */,
+				9A48CE5A2EEA664000F4E5E4 /* FemaleCycleDataManager.swift in Sources */,
 				9A56D24F25216FC60082CC08 /* CrossShapeRenderer.swift in Sources */,
 				9A0697722E435DF600A74A7A /* LBXScanLineAnimation.swift in Sources */,
 				9A0697732E435DF600A74A7A /* LBXScanView.swift in Sources */,
@@ -3125,6 +3147,7 @@
 				9A56D25925216FC60082CC08 /* BarHighlighter.swift in Sources */,
 				9A839C5B2560F3FA00714CBE /* SGPolyLine.m in Sources */,
 				9A58D8B626ABC4A1006C09A1 /* LongsitSettingsViewController.swift in Sources */,
+				9A48CE542EE815F500F4E5E4 /* BodySymptomsViewController.swift in Sources */,
 				9A56D29425216FC70082CC08 /* AnimatedMoveViewJob.swift in Sources */,
 				9A56D25B25216FC60082CC08 /* Highlight.swift in Sources */,
 				9A820B6E24CD06AC00A62C6F /* HealthViewController.swift in Sources */,
@@ -3195,6 +3218,7 @@
 				9A56D28B25216FC60082CC08 /* XAxis.swift in Sources */,
 				9A56D25A25216FC60082CC08 /* RadarHighlighter.swift in Sources */,
 				9A56D26825216FC60082CC08 /* HorizontalBarChartView.swift in Sources */,
+				9AD6A5242EE1C7B000BAC61B /* FemaleHealthViewController.swift in Sources */,
 				9A3C55CD2BD39A5E007737A2 /* FanView.swift in Sources */,
 				9A33D31026AD9A4F00DF9618 /* PhotoLibraryAuthorizer.swift in Sources */,
 				9A5E932D2515C9710060AB13 /* UserManager.swift in Sources */,
@@ -3446,7 +3470,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/SmartBracelet/JL/BLEUsage",
 				);
-				MARKETING_VERSION = 2.5.8;
+				MARKETING_VERSION = 2.5.9;
 				OTHER_SWIFT_FLAGS = "$(inherited) -D WeiZhongYun -D DisplayPrint -D TestMode";
 				PRODUCT_BUNDLE_IDENTIFIER = com.sinophy.uwatch;
 				PRODUCT_NAME = FitDAY;
@@ -3494,7 +3518,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/SmartBracelet/JL/BLEUsage",
 				);
-				MARKETING_VERSION = 2.5.8;
+				MARKETING_VERSION = 2.5.9;
 				OTHER_SWIFT_FLAGS = "$(inherited) -D WeiZhongYun -D DisplayPrint -D TestMode";
 				PRODUCT_BUNDLE_IDENTIFIER = com.sinophy.uwatch;
 				PRODUCT_NAME = FitDAY;
