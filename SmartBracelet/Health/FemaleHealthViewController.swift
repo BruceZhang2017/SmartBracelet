@@ -20,9 +20,9 @@ class FemaleHealthViewController: BaseViewController {
     var hideLastPeriodDateOption: Bool = false {
         didSet {
             if hideLastPeriodDateOption {
-                startPredictionButton.setTitle("保存", for: .normal)
+                startPredictionButton.setTitle("female_cycle_save".localized(), for: .normal)
             } else {
-                startPredictionButton.setTitle("开始预测", for: .normal)
+                startPredictionButton.setTitle("female_cycle_start_prediction".localized(), for: .normal)
             }
         }
     }
@@ -31,7 +31,7 @@ class FemaleHealthViewController: BaseViewController {
 
     private let questionLabel1: UILabel = {
         let label = UILabel()
-        label.text = "您的月经一般持续几天?"
+        label.text = "female_cycle_question_period_days".localized()
         label.font = UIFont.systemFont(ofSize: 14, weight: .regular)
         label.textColor = UIColor.white
         label.numberOfLines = 0
@@ -47,7 +47,7 @@ class FemaleHealthViewController: BaseViewController {
 
     private let periodDaysTitleLabel: UILabel = {
         let label = UILabel()
-        label.text = "经期天数"
+        label.text = "female_cycle_period_days".localized()
         label.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         label.textColor = UIColor.black
         return label
@@ -55,7 +55,7 @@ class FemaleHealthViewController: BaseViewController {
 
     private let periodDaysValueLabel: UILabel = {
         let label = UILabel()
-        label.text = "7天"
+        label.text = "7" + "female_cycle_days_unit".localized()
         label.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         label.textColor = UIColor(hex: 0x9097A0, alpha: 1)
         label.textAlignment = .right
@@ -72,7 +72,7 @@ class FemaleHealthViewController: BaseViewController {
 
     private let questionLabel2: UILabel = {
         let label = UILabel()
-        label.text = "您的两次月经一般间隔多久?"
+        label.text = "female_cycle_question_cycle_length".localized()
         label.font = UIFont.systemFont(ofSize: 14, weight: .regular)
         label.textColor = UIColor.white
         label.numberOfLines = 0
@@ -88,7 +88,7 @@ class FemaleHealthViewController: BaseViewController {
 
     private let cycleLengthTitleLabel: UILabel = {
         let label = UILabel()
-        label.text = "周期长度"
+        label.text = "female_cycle_cycle_length".localized()
         label.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         label.textColor = UIColor.black
         return label
@@ -96,7 +96,7 @@ class FemaleHealthViewController: BaseViewController {
 
     private let cycleLengthValueLabel: UILabel = {
         let label = UILabel()
-        label.text = "28天"
+        label.text = "28" + "female_cycle_days_unit".localized()
         label.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         label.textColor = UIColor(hex: 0x9097A0, alpha: 1)
         label.textAlignment = .right
@@ -113,7 +113,7 @@ class FemaleHealthViewController: BaseViewController {
 
     private let questionLabel3: UILabel = {
         let label = UILabel()
-        label.text = "您的最近一次月经是哪天开始的呢?"
+        label.text = "female_cycle_question_last_period".localized()
         label.font = UIFont.systemFont(ofSize: 14, weight: .regular)
         label.textColor = UIColor.white
         label.numberOfLines = 0
@@ -129,7 +129,7 @@ class FemaleHealthViewController: BaseViewController {
 
     private let lastPeriodTitleLabel: UILabel = {
         let label = UILabel()
-        label.text = "最近一次月经开始日"
+        label.text = "female_cycle_last_period_start_date".localized()
         label.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         label.textColor = UIColor.black
         return label
@@ -154,7 +154,7 @@ class FemaleHealthViewController: BaseViewController {
 
     private let startPredictionButton: UIButton = {
         let button = UIButton(type: .custom)
-        button.setTitle("开始预测", for: .normal)
+        button.setTitle("female_cycle_start_prediction".localized(), for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
         button.backgroundColor = UIColor.brand
@@ -166,14 +166,14 @@ class FemaleHealthViewController: BaseViewController {
 
     private var periodDays: Int = 7 {
         didSet {
-            periodDaysValueLabel.text = "\(periodDays)天"
+            periodDaysValueLabel.text = "\(periodDays)" + "female_cycle_days_unit".localized()
             saveFemaleHealthData()
         }
     }
 
     private var cycleLength: Int = 28 {
         didSet {
-            cycleLengthValueLabel.text = "\(cycleLength)天"
+            cycleLengthValueLabel.text = "\(cycleLength)" + "female_cycle_days_unit".localized()
             saveFemaleHealthData()
         }
     }
@@ -193,14 +193,14 @@ class FemaleHealthViewController: BaseViewController {
         bStyle = 1
         super.viewDidLoad()
 
-        title = "生理周期"
+        title = "female_cycle_title".localized()
 
         setupUI()
         loadFemaleHealthData()
 
         // 根据进入方式设置按钮文本
         if hideLastPeriodDateOption {
-            startPredictionButton.setTitle("保存", for: .normal)
+            startPredictionButton.setTitle("female_cycle_save".localized(), for: .normal)
         }
     }
 
@@ -344,16 +344,16 @@ class FemaleHealthViewController: BaseViewController {
     // MARK: - Actions
 
     @objc private func periodDaysTapped() {
-        let alert = UIAlertController(title: "选择经期天数", message: nil, preferredStyle: .actionSheet)
+        let alert = UIAlertController(title: "female_cycle_select_period_days".localized(), message: nil, preferredStyle: .actionSheet)
 
         for days in 3...10 {
-            let action = UIAlertAction(title: "\(days)天", style: .default) { [weak self] _ in
+            let action = UIAlertAction(title: "\(days)" + "female_cycle_days_unit".localized(), style: .default) { [weak self] _ in
                 self?.periodDays = days
             }
             alert.addAction(action)
         }
 
-        alert.addAction(UIAlertAction(title: "取消", style: .cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: "female_cycle_cancel".localized(), style: .cancel, handler: nil))
 
         if let popoverController = alert.popoverPresentationController {
             popoverController.sourceView = periodDaysContainerView
@@ -364,16 +364,16 @@ class FemaleHealthViewController: BaseViewController {
     }
 
     @objc private func cycleLengthTapped() {
-        let alert = UIAlertController(title: "选择周期长度", message: nil, preferredStyle: .actionSheet)
+        let alert = UIAlertController(title: "female_cycle_select_cycle_length".localized(), message: nil, preferredStyle: .actionSheet)
 
         for days in 21...35 {
-            let action = UIAlertAction(title: "\(days)天", style: .default) { [weak self] _ in
+            let action = UIAlertAction(title: "\(days)" + "female_cycle_days_unit".localized(), style: .default) { [weak self] _ in
                 self?.cycleLength = days
             }
             alert.addAction(action)
         }
 
-        alert.addAction(UIAlertAction(title: "取消", style: .cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: "female_cycle_cancel".localized(), style: .cancel, handler: nil))
 
         if let popoverController = alert.popoverPresentationController {
             popoverController.sourceView = cycleLengthContainerView
@@ -384,7 +384,7 @@ class FemaleHealthViewController: BaseViewController {
     }
 
     @objc private func lastPeriodTapped() {
-        let pickerView = TTADataPickerView(title: "选择日期", type: .date, delegate: self)
+        let pickerView = TTADataPickerView(title: "female_cycle_select_date".localized(), type: .date, delegate: self)
         pickerView.show {
             UIView.animate(withDuration: 0.3, animations: {
                 self.view.backgroundColor = UIColor(white: 1.0, alpha: 0.01)
@@ -398,10 +398,17 @@ class FemaleHealthViewController: BaseViewController {
             saveFemaleHealthData()
             navigationController?.popViewController(animated: true)
         } else {
-            // 正常流程，跳转到日历页面
+            // 正常流程，跳转到日历页面，并从导航栈中移除当前设置页面
             let vc = FemaleCycleCalendarViewController()
             vc.hidesBottomBarWhenPushed = true
-            navigationController?.pushViewController(vc, animated: true)
+
+            if var viewControllers = navigationController?.viewControllers {
+                // 移除当前的 FemaleHealthViewController
+                viewControllers.removeLast()
+                // 添加新的 FemaleCycleCalendarViewController
+                viewControllers.append(vc)
+                navigationController?.setViewControllers(viewControllers, animated: true)
+            }
         }
     }
 

@@ -982,8 +982,8 @@ class HealthViewController: BaseViewController {
         let config = FemaleCycleDataManager.shared.getCycleConfiguration()
 
         // 判断是否已经设置过经期数据
-        // 如果经期天数和周期长度都大于0，说明已经设置过
-        let hasConfigured = config.periodDays > 0 && config.cycleLength > 0
+        // 使用 isConfigured 字段来判断用户是否已配置过，而不是仅检查默认值
+        let hasConfigured = config.isConfigured
 
         if hasConfigured {
             // 已设置：跳转到日历页面

@@ -32,13 +32,50 @@ class BodySymptomsViewController: BaseViewController {
     private var selectedSymptoms: Set<String> = []
 
     private let categories: [BodySymptomCategory] = [
-        BodySymptomCategory(title: "全身", symptoms: ["正常", "抽筋", "疲劳", "浮肿"]),
-        BodySymptomCategory(title: "头部", symptoms: ["头痛", "眩晕", "呕吐", "失眠"]),
-        BodySymptomCategory(title: "腹部", symptoms: ["腹泻", "小腹坠痛", "腹部肿痛", "腹部较痛"]),
-        BodySymptomCategory(title: "腿部", symptoms: ["大腿酸胀", "大腿痉挛", "小腿酸胀", "小腿痉挛"]),
-        BodySymptomCategory(title: "其他", symptoms: ["乳房胀痛", "腰酸背痛", "潮热", "虚寒"]),
-        BodySymptomCategory(title: "分泌物", symptoms: ["干燥", "黏稠", "蛋清状", "水状", "乳液状"]),
-        BodySymptomCategory(title: "皮肤", symptoms: ["正常", "出油", "干燥", "粉刺", "冒痘"])
+        BodySymptomCategory(title: "female_cycle_symptom_category_whole_body".localized(), symptoms: [
+            "female_cycle_symptom_normal".localized(),
+            "female_cycle_symptom_cramps".localized(),
+            "female_cycle_symptom_fatigue".localized(),
+            "female_cycle_symptom_edema".localized()
+        ]),
+        BodySymptomCategory(title: "female_cycle_symptom_category_head".localized(), symptoms: [
+            "female_cycle_symptom_headache".localized(),
+            "female_cycle_symptom_dizziness".localized(),
+            "female_cycle_symptom_vomiting".localized(),
+            "female_cycle_symptom_insomnia".localized()
+        ]),
+        BodySymptomCategory(title: "female_cycle_symptom_category_abdomen".localized(), symptoms: [
+            "female_cycle_symptom_diarrhea".localized(),
+            "female_cycle_symptom_lower_abdominal_pain".localized(),
+            "female_cycle_symptom_abdominal_swelling".localized(),
+            "female_cycle_symptom_abdominal_pain".localized()
+        ]),
+        BodySymptomCategory(title: "female_cycle_symptom_category_legs".localized(), symptoms: [
+            "female_cycle_symptom_thigh_soreness".localized(),
+            "female_cycle_symptom_thigh_spasm".localized(),
+            "female_cycle_symptom_calf_soreness".localized(),
+            "female_cycle_symptom_calf_spasm".localized()
+        ]),
+        BodySymptomCategory(title: "female_cycle_symptom_category_other".localized(), symptoms: [
+            "female_cycle_symptom_breast_tenderness".localized(),
+            "female_cycle_symptom_backache".localized(),
+            "female_cycle_symptom_hot_flash".localized(),
+            "female_cycle_symptom_cold_deficiency".localized()
+        ]),
+        BodySymptomCategory(title: "female_cycle_symptom_category_discharge".localized(), symptoms: [
+            "female_cycle_symptom_dry".localized(),
+            "female_cycle_symptom_sticky".localized(),
+            "female_cycle_symptom_egg_white".localized(),
+            "female_cycle_symptom_watery".localized(),
+            "female_cycle_symptom_milky".localized()
+        ]),
+        BodySymptomCategory(title: "female_cycle_symptom_category_skin".localized(), symptoms: [
+            "female_cycle_symptom_normal".localized(),
+            "female_cycle_symptom_oily".localized(),
+            "female_cycle_symptom_dry".localized(),
+            "female_cycle_symptom_blackhead".localized(),
+            "female_cycle_symptom_acne".localized()
+        ])
     ]
 
     // MARK: - UI Components
@@ -53,7 +90,7 @@ class BodySymptomsViewController: BaseViewController {
 
     private let confirmButton: UIButton = {
         let button = UIButton(type: .custom)
-        button.setTitle("确定", for: .normal)
+        button.setTitle("female_cycle_confirm".localized(), for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
         button.backgroundColor = UIColor.brand
@@ -67,7 +104,7 @@ class BodySymptomsViewController: BaseViewController {
         bStyle = 1
         super.viewDidLoad()
 
-        title = "身体症状"
+        title = "female_cycle_body_symptoms".localized()
 
         setupUI()
         loadSelectedSymptoms()

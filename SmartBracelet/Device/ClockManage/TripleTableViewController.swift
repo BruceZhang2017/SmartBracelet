@@ -146,8 +146,8 @@ class TripleTableViewController: UIViewController {
         // 准备表单参数
         let parameters: [String: Any] = [
             "width": width,
-            "height": height,
-            "lang": LanguageManager.getInterfaceLang()
+            "height": height
+//            "lang": LanguageManager.getInterfaceLang()
         ]
         
         // 使用x-www-form-urlencoded格式发送POST请求
@@ -546,8 +546,8 @@ class RightViewModel {
             "height": screenHeight,
             "shape": XGZTBlueToothManager.shared.device?.screenType == 1 ? "round" : "square",
             "type": type,
-            "style": style,
-            "lang": LanguageManager.getInterfaceLang()
+            "style": style
+//            "lang": LanguageManager.getInterfaceLang()
         ]
         
         // 打印请求参数
@@ -615,8 +615,8 @@ class RightViewModel {
             "height": screenHeight,
             "shape": XGZTBlueToothManager.shared.device?.screenType == 1 ? "round" : "square",
             "type": type,
-            "style": style,
-            "lang": LanguageManager.getInterfaceLang()
+            "style": style
+//            "lang": LanguageManager.getInterfaceLang()
         ]
         
         // 打印请求参数

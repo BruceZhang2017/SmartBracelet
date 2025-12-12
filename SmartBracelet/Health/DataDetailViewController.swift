@@ -39,7 +39,7 @@ class DataDetailViewController: BaseViewController {
         bStyle = 1
         super.viewDidLoad()
 
-        title = "数据详情"
+        title = "female_cycle_data_detail".localized()
 
         setupUI()
         loadDetailData()
@@ -69,9 +69,9 @@ class DataDetailViewController: BaseViewController {
 
         // 周期天数
         if record.isPeriod {
-            detailItems.append(("第\(record.cycleDay)天", "经期"))
+            detailItems.append(("female_cycle_day_n".localized(with: record.cycleDay), "female_cycle_period".localized()))
         } else {
-            detailItems.append(("日常记录", "周期"))
+            detailItems.append(("female_cycle_daily_record".localized(), "female_cycle_cycle".localized()))
         }
 
         // 从数据管理器获取该日期的症状数据
@@ -81,65 +81,65 @@ class DataDetailViewController: BaseViewController {
         let flowText: String
         switch symptomData.flowLevel {
         case 1:
-            flowText = "少"
+            flowText = "female_cycle_flow_light".localized()
         case 2:
-            flowText = "中"
+            flowText = "female_cycle_flow_medium".localized()
         case 3:
-            flowText = "多"
+            flowText = "female_cycle_flow_heavy".localized()
         default:
-            flowText = "无"
+            flowText = "female_cycle_none".localized()
         }
-        detailItems.append((flowText, "流量"))
+        detailItems.append((flowText, "female_cycle_flow".localized()))
 
         // 痛经
         let painText: String
         switch symptomData.painLevel {
         case 1:
-            painText = "轻微"
+            painText = "female_cycle_pain_mild".localized()
         case 2:
-            painText = "中等"
+            painText = "female_cycle_pain_moderate".localized()
         case 3:
-            painText = "严重"
+            painText = "female_cycle_pain_severe".localized()
         default:
-            painText = "无"
+            painText = "female_cycle_none".localized()
         }
-        detailItems.append((painText, "痛经"))
+        detailItems.append((painText, "female_cycle_pain".localized()))
 
         // 性行为
         let sexualText: String
         switch symptomData.sexualActivity {
         case 1:
-            sexualText = "保护性行为"
+            sexualText = "female_cycle_protected_sex".localized()
         case 2:
-            sexualText = "无保护性行为"
+            sexualText = "female_cycle_unprotected_sex".localized()
         default:
-            sexualText = "无"
+            sexualText = "female_cycle_none".localized()
         }
-        detailItems.append((sexualText, "性行为"))
+        detailItems.append((sexualText, "female_cycle_sexual_activity".localized()))
 
         // 心情
         let moodText: String
         switch symptomData.mood {
         case 1:
-            moodText = "平静"
+            moodText = "female_cycle_mood_calm".localized()
         case 2:
-            moodText = "开心"
+            moodText = "female_cycle_mood_happy".localized()
         case 3:
-            moodText = "放松"
+            moodText = "female_cycle_mood_relaxed".localized()
         case 4:
-            moodText = "活力满满"
+            moodText = "female_cycle_mood_energetic".localized()
         case 5:
-            moodText = "敏感"
+            moodText = "female_cycle_mood_sensitive".localized()
         case 6:
-            moodText = "焦躁"
+            moodText = "female_cycle_mood_anxious".localized()
         case 7:
-            moodText = "易怒"
+            moodText = "female_cycle_mood_irritable".localized()
         case 8:
-            moodText = "悲伤"
+            moodText = "female_cycle_mood_sad".localized()
         default:
-            moodText = "无"
+            moodText = "female_cycle_none".localized()
         }
-        detailItems.append((moodText, "心情"))
+        detailItems.append((moodText, "female_cycle_mood".localized()))
 
         // 身体症状
         let bodySymptoms = symptomData.bodySymptoms
@@ -153,16 +153,16 @@ class DataDetailViewController: BaseViewController {
                     return symptom
                 }
             }.joined(separator: "、")
-            detailItems.append((symptomsText, "身体症状"))
+            detailItems.append((symptomsText, "female_cycle_body_symptoms".localized()))
         } else {
-            detailItems.append(("无", "身体症状"))
+            detailItems.append(("female_cycle_none".localized(), "female_cycle_body_symptoms".localized()))
         }
 
         // 记录时间
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy/MM/dd HH:mm"
         let timeString = dateFormatter.string(from: record.recordTime)
-        detailItems.append((timeString, "记录到'U-Watch'的时间"))
+        detailItems.append((timeString, "female_cycle_record_time".localized()))
 
         XLogger.shared.log("加载数据详情: 日期=\(record.date), 流量=\(flowText), 痛经=\(painText), 性行为=\(sexualText), 心情=\(moodText), 身体症状数=\(bodySymptoms.count)")
 

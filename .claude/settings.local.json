@@ -2,7 +2,8 @@
   "permissions": {
     "allow": [
       "Bash(xcodebuild -scheme SmartBracelet -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 15' clean build)",
-      "Bash(xcodebuild -scheme SmartBracelet -sdk iphonesimulator clean build)"
+      "Bash(xcodebuild -scheme SmartBracelet -sdk iphonesimulator clean build)",
+      "Bash(LC_ALL=C grep:*)"
     ]
   }
 }
