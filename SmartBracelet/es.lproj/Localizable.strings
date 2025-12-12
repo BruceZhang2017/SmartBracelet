@@ -413,6 +413,7 @@
 
 // MARK: - Female Cycle / Ciclo menstrual
 "female_cycle_title" = "Ciclo Menstrual";
+"female_cycle_subtitle" = "Registra y predice el ciclo menstrual";
 "female_cycle_question_period_days" = "¿Cuántos días suele durar su período?";
 "female_cycle_period_days" = "Días del período";
 "female_cycle_days_unit" = "días";
