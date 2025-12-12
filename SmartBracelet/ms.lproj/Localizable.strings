@@ -372,6 +372,21 @@
 "push_to_bt_settings" = "Sila pergi ke Tetapan - Bluetooth dan sambungkan Bluetooth secara manual.";
 "today_step" = "Bilangan langkah hari ini";
 "consumption" = "Penggunaan";
+
+// MARK: - Sport
+"sport_outdoor_running" = "Berlari Luar";
+"sport_indoor_running" = "Berlari Dalam";
+"sport_outdoor_walking" = "Berjalan Luar";
+"sport_indoor_walking" = "Berjalan Dalam";
+"sport_hiking" = "Mendaki";
+"sport_outdoor_cycling" = "Berbasikal Luar";
+"sport_indoor_cycling" = "Berbasikal Dalam";
+"sport_history" = "Sejarah Senaman";
+"sport_pace" = "Kadar";
+"sport_duration" = "Tempoh";
+"sport_countdown_settings" = "Tetapan Kira Detik";
+"sport_total_distance_km" = "Jumlah Jarak (km)";
+"location_permission_settings" = "Tetapan Kebenaran Lokasi";
 "heart_desc" = "Kadar denyutan jantung normal manusia 60-100 degupan setiap minit";
 "blood_pressure_desc" = "Tekanan darah normal manusia: <130/85 mmHg";
 "null_data" = "Tiada data";

@@ -365,6 +365,21 @@
 "push_to_bt_settings" = "설정 - 블루투스로 이동하여 블루투스를 수동으로 연결하세요.";
 "today_step" = "오늘의 걸음 수";
 "consumption" = "소비";
+
+// MARK: - Sport
+"sport_outdoor_running" = "야외 달리기";
+"sport_indoor_running" = "실내 달리기";
+"sport_outdoor_walking" = "야외 걷기";
+"sport_indoor_walking" = "실내 걷기";
+"sport_hiking" = "하이킹";
+"sport_outdoor_cycling" = "야외 사이클링";
+"sport_indoor_cycling" = "실내 사이클링";
+"sport_history" = "운동 기록";
+"sport_pace" = "페이스";
+"sport_duration" = "시간";
+"sport_countdown_settings" = "카운트다운 설정";
+"sport_total_distance_km" = "총 거리(km)";
+"location_permission_settings" = "위치 권한 설정";
 "heart_desc" = "정상적인 인간 심박수 분당 60-100회";
 "blood_pressure_desc" = "정상적인 인체 혈압: <130/85mmHg";
 "null_data" = "데이터 없음";

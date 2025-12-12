@@ -365,6 +365,21 @@
 "push_to_bt_settings" = "請前往設定 - 藍牙，手動連接藍牙。";
 "today_step" = "今日步數";
 "consumption" = "消耗";
+
+// MARK: - Sport
+"sport_outdoor_running" = "戶外跑步";
+"sport_indoor_running" = "室內跑步";
+"sport_outdoor_walking" = "戶外步行";
+"sport_indoor_walking" = "室內步行";
+"sport_hiking" = "徒步";
+"sport_outdoor_cycling" = "戶外騎行";
+"sport_indoor_cycling" = "室內騎行";
+"sport_history" = "運動歷史";
+"sport_pace" = "配速";
+"sport_duration" = "時長";
+"sport_countdown_settings" = "倒數設置";
+"sport_total_distance_km" = "累計距離(公里)";
+"location_permission_settings" = "定位權限設置";
 "heart_desc" = "人體正常心率60-100次/每分鐘";
 "blood_pressure_desc" = "人體正常血壓：<130/85 mmHg";
 "null_data" = "暫無數據";

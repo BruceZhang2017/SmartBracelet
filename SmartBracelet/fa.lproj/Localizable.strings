@@ -172,6 +172,21 @@
 "push_to_bt_settings" = "برای اتصال بلوتوث به تنظیمات بلوتوث مراجعه کنید";
 "today_step" = "گام های امروز";
 "consumption" = "مصرف";
+
+// MARK: - Sport
+"sport_outdoor_running" = "دویدن در فضای باز";
+"sport_indoor_running" = "دویدن در داخل";
+"sport_outdoor_walking" = "پیاده‌روی در فضای باز";
+"sport_indoor_walking" = "پیاده‌روی در داخل";
+"sport_hiking" = "کوهنوردی";
+"sport_outdoor_cycling" = "دوچرخه‌سواری در فضای باز";
+"sport_indoor_cycling" = "دوچرخه‌سواری در داخل";
+"sport_history" = "تاریخچه تمرین";
+"sport_pace" = "سرعت";
+"sport_duration" = "مدت زمان";
+"sport_countdown_settings" = "تنظیمات شمارش معکوس";
+"sport_total_distance_km" = "فاصله کل (کیلومتر)";
+"location_permission_settings" = "تنظیمات مجوز مکان";
 "heart_desc" = "معدل پولس انسان ۶۰ تا ۱۰۰ بیت در دقیقه است";
 "blood_pressure_desc" = "معدل فشار خون انسان: کمتر از ۱۳۰/۸۵ مم HG";
 "null_data" = "داده ای وجود ندارد";

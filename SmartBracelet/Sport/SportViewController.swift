@@ -21,7 +21,7 @@ class SportViewController: BaseViewController, UITableViewDelegate, UITableViewD
         
         footView.leftBlock = { [unowned self] in
             let vc = RunHistoryViewController()
-            vc.title = NSLocalizedString("运动历史", comment: "")
+            vc.title = "sport_history".localized()
             self.navigationController?.pushViewController(vc, animated: true)
         }
         
@@ -39,16 +39,16 @@ class SportViewController: BaseViewController, UITableViewDelegate, UITableViewD
                 }
                 
             }, denied: {
-                let alert = UIAlertController.init(title: NSLocalizedString("定位权限设置", comment: ""), message: nil, preferredStyle: .alert)
-                let action = UIAlertAction.init(title: NSLocalizedString("取消", comment: ""), style: .default, handler: { (_) in
+                let alert = UIAlertController.init(title: "location_permission_settings".localized(), message: nil, preferredStyle: .alert)
+                let action = UIAlertAction.init(title: "Cancel".localized(), style: .default, handler: { (_) in
                     self.dismiss(animated: true, completion: nil)
                 })
                 alert.addAction(action)
-                let action1 = UIAlertAction.init(title: NSLocalizedString("确定", comment: ""), style: .default, handler: { (_) in
+                let action1 = UIAlertAction.init(title: "mine_confirm".localized(), style: .default, handler: { (_) in
                     self.dismiss(animated: true, completion: nil)
                     let settings = URL.init(string: UIApplication.openSettingsURLString)!
                     UIApplication.shared.openURL(settings)
-                    
+
                 })
                 alert.addAction(action1)
                 DispatchQueue.main.async {
@@ -106,11 +106,11 @@ class SportViewController: BaseViewController, UITableViewDelegate, UITableViewD
         }()
         title = model.timeStamp.dateFromSecond().stringFromYmd()
         headView.labels.nameLabel1.text = (model.distance/1000).stringFloor(2)
-        headView.labels.nameLabel.text = "公里"
+        headView.labels.nameLabel.text = "health_walk_unit".localized()
         var speed = (model.distance > 0) ? Double(model.duration)/model.distance*1000 : 0
         if bleSelf.userInfo.unit == 1 {
             headView.labels.nameLabel1.text = (model.distance/1000).kmToMi().stringFloor(2)
-            headView.labels.nameLabel.text = "英里"
+            headView.labels.nameLabel.text = "mile".localized()
             speed = (model.distance > 0) ? (Double(model.duration)/model.distance*1000).miToKm() : 0
         }
         
@@ -164,7 +164,7 @@ class SportHeadView: UIView {
             make.right.equalToSuperview()
         }
         labels.nameLabel.text = "0.00"
-        labels.nameLabel1.text = "公里"
+        labels.nameLabel1.text = "health_walk_unit".localized()
         
     }
 
@@ -335,7 +335,7 @@ class SportTableViewCell: UITableViewCell, UICollectionViewDelegate, UICollectio
     }
     
     // MARK: - collectionView
-    private let titleArray = [NSLocalizedString("配速", comment: ""), NSLocalizedString("时长", comment: ""), NSLocalizedString("消耗", comment: "")]
+    private let titleArray = ["sport_pace".localized(), "sport_duration".localized(), "consumption".localized()]
     private let imageArray = ["move_icon_km", "move_icon_time", "move_icon_calories"]
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 3

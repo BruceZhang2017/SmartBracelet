@@ -214,6 +214,21 @@
 "push_to_bt_settings" = "Prašome eiti į Nustatymai - Bluetooth ir manueliai prisijungti prie Bluetooth.";
 "today_step" = "Šiandienos žingsniai";
 "consumption" = "Naudojimas";
+
+// MARK: - Sport
+"sport_outdoor_running" = "Bėgimas lauke";
+"sport_indoor_running" = "Bėgimas viduje";
+"sport_outdoor_walking" = "Vaikščiojimas lauke";
+"sport_indoor_walking" = "Vaikščiojimas viduje";
+"sport_hiking" = "Žygis";
+"sport_outdoor_cycling" = "Dviračių sportas lauke";
+"sport_indoor_cycling" = "Dviračių sportas viduje";
+"sport_history" = "Pratybų istorija";
+"sport_pace" = "Tempas";
+"sport_duration" = "Trukmė";
+"sport_countdown_settings" = "Atgalinio skaičiavimo nustatymai";
+"sport_total_distance_km" = "Bendras atstumas (km)";
+"location_permission_settings" = "Vietos leidimo nustatymai";
 "heart_desc" = "Normalus žmogaus širdies taktis: 60-100 slūgčių per minutę";
 "blood_pressure_desc" = "Normalus žmogaus kraujospūdis: <130/85 mmHg";
 "null_data" = "Duomenų nėra";

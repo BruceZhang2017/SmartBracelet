@@ -50,12 +50,12 @@ class SportSetViewController: BaseViewController, UITableViewDelegate, UITableVi
         cell.contentView.backgroundColor = UIColor.clear
         cell.selectionStyle = .none
         cell.imageView?.image = UIImage.init(named: "movement_icon_funnel")?.add(UIColor.black)
-        cell.textLabel?.text = NSLocalizedString("倒数设置", comment: "")
+        cell.textLabel?.text = "sport_countdown_settings".localized()
         cell.detailTextLabel?.text = "\(countDown)s"
         cell.textLabel?.textColor = UIColor.black
         cell.detailTextLabel?.textColor = UIColor.black
         cell.accessoryType = .disclosureIndicator
-        
+
         return cell
     }
     
@@ -66,13 +66,13 @@ class SportSetViewController: BaseViewController, UITableViewDelegate, UITableVi
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         let counts = [3, 5, 10]
-        
+
         let defaultCount = counts.map { (temp) -> String in
             return temp.description
         }
-        
+
         let defaultIndex = defaultCount.firstIndex(of: countDown.description) ?? 0
-        UsefulPickerView.showSingleColPicker(NSLocalizedString("倒数设置", comment: ""), data: defaultCount, defaultSelectedIndex: defaultIndex) { (index, value) in
+        UsefulPickerView.showSingleColPicker("sport_countdown_settings".localized(), data: defaultCount, defaultSelectedIndex: defaultIndex) { (index, value) in
             countDown = defaultCount[index]
             UserDefaults.standard.set(countDown, forKey: "countDown")
             self.table.reloadData()

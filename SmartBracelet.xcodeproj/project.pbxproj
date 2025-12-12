@@ -2692,13 +2692,9 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-SmartBracelet/Pods-SmartBracelet-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
-			inputPaths = (
-			);
 			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-SmartBracelet/Pods-SmartBracelet-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -2735,13 +2731,9 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-SmartBracelet/Pods-SmartBracelet-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
-			inputPaths = (
-			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-SmartBracelet/Pods-SmartBracelet-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -3446,7 +3438,7 @@
 				CODE_SIGN_ENTITLEMENTS = SmartBracelet/SmartBraceletDebug.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 21;
+				CURRENT_PROJECT_VERSION = 22;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_ASSET_PATHS = TJDWristbandSDK.framework;
 				DEVELOPMENT_TEAM = 6BTCM549U7;
@@ -3495,7 +3487,7 @@
 				CODE_SIGN_ENTITLEMENTS = SmartBracelet/SmartBraceletRelease.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 21;
+				CURRENT_PROJECT_VERSION = 22;
 				DEVELOPMENT_ASSET_PATHS = TJDWristbandSDK.framework;
 				DEVELOPMENT_TEAM = 6BTCM549U7;
 				ENABLE_BITCODE = NO;

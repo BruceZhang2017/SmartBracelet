@@ -214,6 +214,21 @@
 "push_to_bt_settings" = "Lūdzu, iet uz Iestatījumus -> Bluetooth un mānualīgi savienojiet ar Bluetooth.";
 "today_step" = "Šodienas solījumi";
 "consumption" = "Patērēšana";
+
+// MARK: - Sport
+"sport_outdoor_running" = "Skrējiens ārā";
+"sport_indoor_running" = "Skrējiens iekštelpās";
+"sport_outdoor_walking" = "Staigāšana ārā";
+"sport_indoor_walking" = "Staigāšana iekštelpās";
+"sport_hiking" = "Pārgājiens";
+"sport_outdoor_cycling" = "Braukšana ar velosipēdu ārā";
+"sport_indoor_cycling" = "Braukšana ar velosipēdu iekštelpās";
+"sport_history" = "Vingrinājumu vēsture";
+"sport_pace" = "Temps";
+"sport_duration" = "Ilgums";
+"sport_countdown_settings" = "Atpakaļskaitīšanas iestatījumi";
+"sport_total_distance_km" = "Kopējais attālums (km)";
+"location_permission_settings" = "Atrašanās vietas atļaujas iestatījumi";
 "heart_desc" = "Normāls cilvēka sirdsritmis: 60-100 slāgieni par minūti";
 "blood_pressure_desc" = "Normāls cilvēka asinsspiediens: <130/85 mmHg";
 "null_data" = "Datu nav";

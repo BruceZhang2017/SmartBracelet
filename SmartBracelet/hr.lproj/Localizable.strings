@@ -286,3 +286,17 @@
 "female_cycle_symptom_blackhead" = "Blackheads";
 "female_cycle_symptom_acne" = "Acne";
 
+// MARK: - Sport
+"sport_outdoor_running" = "Trčanje na otvorenom";
+"sport_indoor_running" = "Trčanje u zatvorenom";
+"sport_outdoor_walking" = "Hodanje na otvorenom";
+"sport_indoor_walking" = "Hodanje u zatvorenom";
+"sport_hiking" = "Planinarenje";
+"sport_outdoor_cycling" = "Biciklizam na otvorenom";
+"sport_indoor_cycling" = "Biciklizam u zatvorenom";
+"sport_history" = "Povijest vježbanja";
+"sport_pace" = "Tempo";
+"sport_duration" = "Trajanje";
+"sport_countdown_settings" = "Postavke odbrojavanja";
+"sport_total_distance_km" = "Ukupna udaljenost (km)";
+"location_permission_settings" = "Postavke dozvole lokacije";

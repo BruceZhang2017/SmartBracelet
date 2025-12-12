@@ -365,6 +365,21 @@
 "push_to_bt_settings" = "Lütfen Ayarlar - Bluetooth'a gidin ve Bluetooth'a manuel olarak bağlanın.";
 "today_step" = "Bugünkü adım sayısı";
 "consumption" = "Tüketim";
+
+// MARK: - Sport
+"sport_outdoor_running" = "Dış Mekan Koşusu";
+"sport_indoor_running" = "İç Mekan Koşusu";
+"sport_outdoor_walking" = "Dış Mekan Yürüyüşü";
+"sport_indoor_walking" = "İç Mekan Yürüyüşü";
+"sport_hiking" = "Yürüyüş";
+"sport_outdoor_cycling" = "Dış Mekan Bisiklet";
+"sport_indoor_cycling" = "İç Mekan Bisiklet";
+"sport_history" = "Egzersiz Geçmişi";
+"sport_pace" = "Tempo";
+"sport_duration" = "Süre";
+"sport_countdown_settings" = "Geri Sayım Ayarları";
+"sport_total_distance_km" = "Toplam Mesafe (km)";
+"location_permission_settings" = "Konum İzni Ayarları";
 "heart_desc" = "İnsanlarda normal kalp atış hızı dakikada 60-100 atış";
 "blood_pressure_desc" = "Normal insan kan basıncı: <130/85 mmHg";
 "null_data" = "Veri yok";

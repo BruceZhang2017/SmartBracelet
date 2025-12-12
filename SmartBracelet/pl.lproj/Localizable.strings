@@ -286,3 +286,17 @@
 "female_cycle_symptom_blackhead" = "Blackheads";
 "female_cycle_symptom_acne" = "Acne";
 
+// MARK: - Sport
+"sport_outdoor_running" = "Bieganie na zewnątrz";
+"sport_indoor_running" = "Bieganie w pomieszczeniu";
+"sport_outdoor_walking" = "Chodzenie na zewnątrz";
+"sport_indoor_walking" = "Chodzenie w pomieszczeniu";
+"sport_hiking" = "Wędrówki";
+"sport_outdoor_cycling" = "Jazda na rowerze na zewnątrz";
+"sport_indoor_cycling" = "Jazda na rowerze w pomieszczeniu";
+"sport_history" = "Historia ćwiczeń";
+"sport_pace" = "Tempo";
+"sport_duration" = "Czas trwania";
+"sport_countdown_settings" = "Ustawienia odliczania";
+"sport_total_distance_km" = "Całkowity dystans (km)";
+"location_permission_settings" = "Ustawienia uprawnień lokalizacji";

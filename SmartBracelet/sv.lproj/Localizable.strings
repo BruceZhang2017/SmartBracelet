@@ -200,6 +200,21 @@
 "push_to_bt_settings" = "Gå till Blåtand-inställningar och anslut.";
 "today_step" = "Idag's steg";
 "consumption" = "Användning";
+
+// MARK: - Sport
+"sport_outdoor_running" = "Utomhuslöpning";
+"sport_indoor_running" = "Inomhuslöpning";
+"sport_outdoor_walking" = "Utomhusgång";
+"sport_indoor_walking" = "Inomhusgång";
+"sport_hiking" = "Vandring";
+"sport_outdoor_cycling" = "Utomhuscykling";
+"sport_indoor_cycling" = "Inomhuscykling";
+"sport_history" = "Träningshistorik";
+"sport_pace" = "Tempo";
+"sport_duration" = "Varaktighet";
+"sport_countdown_settings" = "Nedräkningsinställningar";
+"sport_total_distance_km" = "Total sträcka (km)";
+"location_permission_settings" = "Inställningar för platstillstånd";
 "heart_desc" = "Normal puls: 60-100 slag/ minut";
 "blood_pressure_desc" = "Normal blodtryck: <130/85 mmHG";
 "null_data" = "Inga data";

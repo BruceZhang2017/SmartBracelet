@@ -365,6 +365,21 @@
 "push_to_bt_settings" = "يرجى الذهاب إلى الإعدادات - البلوتوث والاتصال يدويًا بالبلوتوث.";
 "today_step" = "عدد الخطوات اليوم";
 "consumption" = "استهلاك";
+
+// MARK: - Sport
+"sport_outdoor_running" = "الجري في الهواء الطلق";
+"sport_indoor_running" = "الجري الداخلي";
+"sport_outdoor_walking" = "المشي في الهواء الطلق";
+"sport_indoor_walking" = "المشي الداخلي";
+"sport_hiking" = "المشي لمسافات طويلة";
+"sport_outdoor_cycling" = "ركوب الدراجات في الهواء الطلق";
+"sport_indoor_cycling" = "ركوب الدراجات الداخلي";
+"sport_history" = "سجل التمارين";
+"sport_pace" = "الوتيرة";
+"sport_duration" = "المدة";
+"sport_countdown_settings" = "إعدادات العد التنازلي";
+"sport_total_distance_km" = "المسافة الإجمالية (كم)";
+"location_permission_settings" = "إعدادات إذن الموقع";
 "heart_desc" = "معدل ضربات القلب الطبيعي للإنسان 60-100 نبضة في الدقيقة";
 "blood_pressure_desc" = "الضغط الدموي الطبيعي للإنسان: <130/85 ملم زئبق";
 "null_data" = "لا توجد بيانات";

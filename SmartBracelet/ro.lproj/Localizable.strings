@@ -215,6 +215,21 @@
 "push_to_bt_settings" = "Vă rugăm să mergeți în Setări -> Bluetooth și să vă conectați manual la Bluetooth.";
 "today_step" = "Pasii de azi";
 "consumption" = "consum";
+
+// MARK: - Sport
+"sport_outdoor_running" = "Alergare în aer liber";
+"sport_indoor_running" = "Alergare în interior";
+"sport_outdoor_walking" = "Mers în aer liber";
+"sport_indoor_walking" = "Mers în interior";
+"sport_hiking" = "Drumeții";
+"sport_outdoor_cycling" = "Ciclism în aer liber";
+"sport_indoor_cycling" = "Ciclism în interior";
+"sport_history" = "Istoric exerciții";
+"sport_pace" = "Ritm";
+"sport_duration" = "Durată";
+"sport_countdown_settings" = "Setări numărătoare inversă";
+"sport_total_distance_km" = "Distanță totală (km)";
+"location_permission_settings" = "Setări permisiune locație";
 "heart_desc" = "Ritm cardiac normal: 60-100 bpm";
 "blood_pressure_desc" = "Tensiune arterială normală: <130/85 mmHg";
 "null_data" = "Nu există date";

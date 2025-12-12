@@ -41,7 +41,7 @@ class SportDetailView: UIView, UICollectionViewDelegate, UICollectionViewDataSou
         }
     }
     
-    let titleArray = [NSLocalizedString("配速", comment: ""), NSLocalizedString("时长", comment: ""), NSLocalizedString("消耗", comment: "")]
+    let titleArray = ["sport_pace".localized(), "sport_duration".localized(), "consumption".localized()]
     // MARK: - collectionView
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return titleArray.count

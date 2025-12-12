@@ -200,6 +200,21 @@
 "push_to_bt_settings" = "Vinsamlegast farðu í stillingar - Bluetooth og manuelt tengd Bluetooth.";
 "today_step" = "Í dag stæða";
 "consumption" = "Nálgun";
+
+// MARK: - Sport
+"sport_outdoor_running" = "Útihlaup";
+"sport_indoor_running" = "Innihlaup";
+"sport_outdoor_walking" = "Útiganga";
+"sport_indoor_walking" = "Inniganga";
+"sport_hiking" = "Göngutúr";
+"sport_outdoor_cycling" = "Útihjólreiðar";
+"sport_indoor_cycling" = "Innihjólreiðar";
+"sport_history" = "Æfingasaga";
+"sport_pace" = "Hraði";
+"sport_duration" = "Tímalengd";
+"sport_countdown_settings" = "Stillingar niðurteljara";
+"sport_total_distance_km" = "Heildarfjarlægð (km)";
+"location_permission_settings" = "Stillingar fyrir staðsetningarleyfi";
 "heart_desc" = "Náttúrulegur hjartaferð 60-100 sinnum per mínútu";
 "blood_pressure_desc" = "Náttúrulegur blóðhráði: <130/85 mmHg";
 "null_data" = "Engin gildi";

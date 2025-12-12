@@ -215,6 +215,21 @@
 "push_to_bt_settings" = "Prosimo, odite v Nastavitve -> Bluetooth in ročno povežite z Bluetooth.";
 "today_step" = "Danesnji koraki";
 "consumption" = "Potreba";
+
+// MARK: - Sport
+"sport_outdoor_running" = "Tek na prostem";
+"sport_indoor_running" = "Tek v zaprtem prostoru";
+"sport_outdoor_walking" = "Hoja na prostem";
+"sport_indoor_walking" = "Hoja v zaprtem prostoru";
+"sport_hiking" = "Pohodništvo";
+"sport_outdoor_cycling" = "Kolesarjenje na prostem";
+"sport_indoor_cycling" = "Kolesarjenje v zaprtem prostoru";
+"sport_history" = "Zgodovina vadbe";
+"sport_pace" = "Tempo";
+"sport_duration" = "Trajanje";
+"sport_countdown_settings" = "Nastavitve odštevanja";
+"sport_total_distance_km" = "Skupna razdalja (km)";
+"location_permission_settings" = "Nastavitve dovoljenja za lokacijo";
 "heart_desc" = "Normalen človeški srčni temp: 60–100 utripov na minuto";
 "blood_pressure_desc" = "Normalen človeški krvni tlak: <130/85 mmHg";
 "null_data" = "Podatkov ni";

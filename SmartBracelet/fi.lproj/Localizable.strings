@@ -366,6 +366,21 @@
 "push_to_bt_settings" = "Siirry Asetuksiin - Bluetooth ja yhdistä Bluetoothiin manuaalisesti.";
 "today_step" = "Askelmäärä tänään";
 "consumption" = "Kulutus";
+
+// MARK: - Sport
+"sport_outdoor_running" = "Ulkojuoksu";
+"sport_indoor_running" = "Sisäjuoksu";
+"sport_outdoor_walking" = "Ulkokävely";
+"sport_indoor_walking" = "Sisäkävely";
+"sport_hiking" = "Vaellus";
+"sport_outdoor_cycling" = "Ulkopyöräily";
+"sport_indoor_cycling" = "Sisäpyöräily";
+"sport_history" = "Harjoitushistoria";
+"sport_pace" = "Vauhti";
+"sport_duration" = "Kesto";
+"sport_countdown_settings" = "Lähtölaskennan asetukset";
+"sport_total_distance_km" = "Kokonaismatka (km)";
+"location_permission_settings" = "Sijaintioikeuden asetukset";
 "heart_desc" = "Ihmisen normaali sydämen syke 60-100 lyöntiä minuutissa";
 "blood_pressure_desc" = "Normaali ihmisen verenpaine: <130/85 mmHg";
 "null_data" = "Ei tietoja saatavilla";

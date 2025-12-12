@@ -215,6 +215,21 @@
 "push_to_bt_settings" = "Παρακαλώ πηγαίνετε στις Ρυθμίσεις -> Bluetooth και συνδεθείτε με το Bluetooth χειροκίνητα.";
 "today_step" = "Τα βήματα της ημέρας";
 "consumption" = "Κατανάλωση";
+
+// MARK: - Sport
+"sport_outdoor_running" = "Τρέξιμο σε εξωτερικό χώρο";
+"sport_indoor_running" = "Τρέξιμο σε εσωτερικό χώρο";
+"sport_outdoor_walking" = "Περπάτημα σε εξωτερικό χώρο";
+"sport_indoor_walking" = "Περπάτημα σε εσωτερικό χώρο";
+"sport_hiking" = "Πεζοπορία";
+"sport_outdoor_cycling" = "Ποδηλασία σε εξωτερικό χώρο";
+"sport_indoor_cycling" = "Ποδηλασία σε εσωτερικό χώρο";
+"sport_history" = "Ιστορικό άσκησης";
+"sport_pace" = "Ρυθμός";
+"sport_duration" = "Διάρκεια";
+"sport_countdown_settings" = "Ρυθμίσεις αντίστροφης μέτρησης";
+"sport_total_distance_km" = "Συνολική απόσταση (χλμ)";
+"location_permission_settings" = "Ρυθμίσεις άδειας τοποθεσίας";
 "heart_desc" = "Κανονική καρδιακή ταχύτητα ανθρώπου: 60-100 συσπώσεις ανά λεπτό";
 "blood_pressure_desc" = "Κανονικός αρтеріικός πίεση άνθρωπου: <130/85 mmHg";
 "null_data" = "Δεν υπάρχουν δεδομένα";

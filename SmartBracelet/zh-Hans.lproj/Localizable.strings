@@ -393,6 +393,21 @@
 "push_to_bt_settings" = "请前往设置-蓝牙，手动连接蓝牙";
 "today_step" = "今日步数";
 "consumption" = "消耗";
+
+// MARK: - Sport
+"sport_outdoor_running" = "户外跑步";
+"sport_indoor_running" = "室内跑步";
+"sport_outdoor_walking" = "户外步行";
+"sport_indoor_walking" = "室内步行";
+"sport_hiking" = "徒步";
+"sport_outdoor_cycling" = "户外骑行";
+"sport_indoor_cycling" = "室内骑行";
+"sport_history" = "运动历史";
+"sport_pace" = "配速";
+"sport_duration" = "时长";
+"sport_countdown_settings" = "倒数设置";
+"sport_total_distance_km" = "累计距离(公里)";
+"location_permission_settings" = "定位权限设置";
 "heart_desc" = "人体正常心率60-100次/每分钟";
 "blood_pressure_desc" = "人体正常血压：<130/85mmHg";
 "null_data" = "暂无数据";

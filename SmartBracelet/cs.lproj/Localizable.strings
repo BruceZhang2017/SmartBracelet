@@ -215,6 +215,21 @@
 "push_to_bt_settings" = "Prosím, přejděte do Nastavení -> Bluetooth a ručně připojte se k Bluetooth.";
 "today_step" = "Dnešní kroky";
 "consumption" = "spotřeba";
+
+// MARK: - Sport
+"sport_outdoor_running" = "Běh venku";
+"sport_indoor_running" = "Běh uvnitř";
+"sport_outdoor_walking" = "Chůze venku";
+"sport_indoor_walking" = "Chůze uvnitř";
+"sport_hiking" = "Turistika";
+"sport_outdoor_cycling" = "Cyklistika venku";
+"sport_indoor_cycling" = "Cyklistika uvnitř";
+"sport_history" = "Historie cvičení";
+"sport_pace" = "Tempo";
+"sport_duration" = "Trvání";
+"sport_countdown_settings" = "Nastavení odpočítávání";
+"sport_total_distance_km" = "Celková vzdálenost (km)";
+"location_permission_settings" = "Nastavení oprávnění k poloze";
 "heart_desc" = "Normální srdeční frekvence člověka: 60–100 bicích za minutu";
 "blood_pressure_desc" = "Normální krvní tlak člověka: <130/85 mmHg";
 "null_data" = "Žádná data";

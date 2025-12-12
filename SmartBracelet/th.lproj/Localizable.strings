@@ -366,6 +366,21 @@
 "push_to_bt_settings" = "กรุณาไปที่การตั้งค่า - บลูทูธ และเชื่อมต่อบลูทูธด้วยตนเอง.";
 "today_step" = "จำนวนก้าววันนี้";
 "consumption" = "การบริโภค";
+
+// MARK: - Sport
+"sport_outdoor_running" = "วิ่งกลางแจ้ง";
+"sport_indoor_running" = "วิ่งในร่ม";
+"sport_outdoor_walking" = "เดินกลางแจ้ง";
+"sport_indoor_walking" = "เดินในร่ม";
+"sport_hiking" = "เดินป่า";
+"sport_outdoor_cycling" = "ปั่นจักรยานกลางแจ้ง";
+"sport_indoor_cycling" = "ปั่นจักรยานในร่ม";
+"sport_history" = "ประวัติการออกกำลังกาย";
+"sport_pace" = "จังหวะ";
+"sport_duration" = "ระยะเวลา";
+"sport_countdown_settings" = "การตั้งค่าการนับถอยหลัง";
+"sport_total_distance_km" = "ระยะทางรวม (กม.)";
+"location_permission_settings" = "การตั้งค่าสิทธิ์ตำแหน่ง";
 "heart_desc" = "อัตราการเต้นของหัวใจปกติของมนุษย์ 60-100 ครั้งต่อนาที";
 "blood_pressure_desc" = "ความดันโลหิตปกติของมนุษย์: <130/85 มม.ปรอท";
 "null_data" = "ไม่มีข้อมูล";

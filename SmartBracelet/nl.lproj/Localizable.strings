@@ -365,6 +365,21 @@
 "push_to_bt_settings" = "Ga naar Instellingen - Bluetooth en maak handmatig verbinding met Bluetooth.";
 "today_step" = "Aantal stappen vandaag";
 "consumption" = "Verbruik";
+
+// MARK: - Sport
+"sport_outdoor_running" = "Hardlopen buiten";
+"sport_indoor_running" = "Hardlopen binnen";
+"sport_outdoor_walking" = "Wandelen buiten";
+"sport_indoor_walking" = "Wandelen binnen";
+"sport_hiking" = "Wandelen";
+"sport_outdoor_cycling" = "Fietsen buiten";
+"sport_indoor_cycling" = "Fietsen binnen";
+"sport_history" = "Trainingsgeschiedenis";
+"sport_pace" = "Tempo";
+"sport_duration" = "Duur";
+"sport_countdown_settings" = "Aftellingssinstellingen";
+"sport_total_distance_km" = "Totale afstand (km)";
+"location_permission_settings" = "Locatietoestemmingsinstellingen";
 "heart_desc" = "Normale hartslag bij mensen 60-100 slagen per minuut";
 "blood_pressure_desc" = "Normale bloeddruk bij mensen: <130/85 mmHg";
 "null_data" = "Geen gegevens beschikbaar";

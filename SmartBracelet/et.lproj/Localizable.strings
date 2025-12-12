@@ -205,6 +205,21 @@
 "push_to_bt_settings" = "Palun avage seadetes -> Bluetooth ja ühendage Bluetooth käsitsi.";
 "today_step" = "Täna sammud";
 "consumption" = "Kulu";
+
+// MARK: - Sport
+"sport_outdoor_running" = "Väljas jooksmine";
+"sport_indoor_running" = "Siseruumides jooksmine";
+"sport_outdoor_walking" = "Väljas kõndimine";
+"sport_indoor_walking" = "Siseruumides kõndimine";
+"sport_hiking" = "Matkamine";
+"sport_outdoor_cycling" = "Väljas rattasõit";
+"sport_indoor_cycling" = "Siseruumides rattasõit";
+"sport_history" = "Treeningu ajalugu";
+"sport_pace" = "Tempo";
+"sport_duration" = "Kestus";
+"sport_countdown_settings" = "Tagasiloenduse seaded";
+"sport_total_distance_km" = "Kogukaugus (km)";
+"location_permission_settings" = "Asukoha loa seaded";
 "heart_desc" = "Normaalne inimese südametell 60-100 kordi per minut";
 "blood_pressure_desc" = "Normaalne veretaht: <130/85 mmHg";
 "null_data" = "Andmeid puudub";

@@ -365,6 +365,21 @@
 "push_to_bt_settings" = "Por favor, vá para Configurações - Bluetooth e conecte manualmente ao Bluetooth.";
 "today_step" = "Contagem de passos de hoje";
 "consumption" = "Consumo";
+
+// MARK: - Sport
+"sport_outdoor_running" = "Corrida ao ar livre";
+"sport_indoor_running" = "Corrida em interior";
+"sport_outdoor_walking" = "Caminhada ao ar livre";
+"sport_indoor_walking" = "Caminhada em interior";
+"sport_hiking" = "Caminhadas";
+"sport_outdoor_cycling" = "Ciclismo ao ar livre";
+"sport_indoor_cycling" = "Ciclismo em interior";
+"sport_history" = "Histórico de exercícios";
+"sport_pace" = "Ritmo";
+"sport_duration" = "Duração";
+"sport_countdown_settings" = "Configurações de contagem regressiva";
+"sport_total_distance_km" = "Distância total (km)";
+"location_permission_settings" = "Configurações de permissão de localização";
 "heart_desc" = "Frequência cardíaca normal humana 60-100 batimentos por minuto";
 "blood_pressure_desc" = "Pressão arterial normal humana: <130/85 mmHg";
 "null_data" = "Sem dados disponíveis";

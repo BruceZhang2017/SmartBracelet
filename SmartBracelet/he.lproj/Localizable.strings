@@ -193,6 +193,21 @@
 "push_to_bt_settings" = "נא ללחוץ על Settings -> Bluetooth ולהתחבר לבלוטוooth ידנית.";
 "today_step" = "צעדים היום";
 "consumption" = "צריכה";
+
+// MARK: - Sport
+"sport_outdoor_running" = "ריצה בחוץ";
+"sport_indoor_running" = "ריצה בפנים";
+"sport_outdoor_walking" = "הליכה בחוץ";
+"sport_indoor_walking" = "הליכה בפנים";
+"sport_hiking" = "טיול רגלי";
+"sport_outdoor_cycling" = "רכיבה על אופניים בחוץ";
+"sport_indoor_cycling" = "רכיבה על אופניים בפנים";
+"sport_history" = "היסטוריית אימונים";
+"sport_pace" = "קצב";
+"sport_duration" = "משך זמן";
+"sport_countdown_settings" = "הגדרות ספירה לאחור";
+"sport_total_distance_km" = "מרחק כולל (ק"מ)";
+"location_permission_settings" = "הגדרות הרשאת מיקום";
 "heart_desc" = "קצב לב רגיל: 60-100 פעימות לדקה";
 "blood_pressure_desc" = "לחץ דם רגיל: מתחת ל- 130/85 מ\"מ ר\"ג";
 "null_data" = "אין נתונים";

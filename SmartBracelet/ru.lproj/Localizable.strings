@@ -365,6 +365,21 @@
 "push_to_bt_settings" = "Пожалуйста, перейдите в Настройки - Bluetooth и вручную подключитесь к Bluetooth.";
 "today_step" = "оличество шагов сегодня";
 "consumption" = "Потребление";
+
+// MARK: - Sport
+"sport_outdoor_running" = "Бег на улице";
+"sport_indoor_running" = "Бег в помещении";
+"sport_outdoor_walking" = "Ходьба на улице";
+"sport_indoor_walking" = "Ходьба в помещении";
+"sport_hiking" = "Пеший туризм";
+"sport_outdoor_cycling" = "Велоспорт на улице";
+"sport_indoor_cycling" = "Велоспорт в помещении";
+"sport_history" = "История упражнений";
+"sport_pace" = "Темп";
+"sport_duration" = "Продолжительность";
+"sport_countdown_settings" = "Настройки обратного отсчета";
+"sport_total_distance_km" = "Общее расстояние (км)";
+"location_permission_settings" = "Настройки разрешения местоположения";
 "heart_desc" = "Нормальная частота сердечных сокращений у человека 60-100 ударов в минуту";
 "blood_pressure_desc" = "Нормальное кровяное давление человека: <130/85 мм рт. ст.";
 "null_data" = "Нет данных";

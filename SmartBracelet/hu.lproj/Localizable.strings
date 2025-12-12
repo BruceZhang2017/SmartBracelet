@@ -215,6 +215,21 @@
 "push_to_bt_settings" = "Kérem, menj a Beállítások -> Bluetooth-be és manualisan csatlakozz Bluetooth-hez.";
 "today_step" = "Ma的 lépések";
 "consumption" = "Fogyasztás";
+
+// MARK: - Sport
+"sport_outdoor_running" = "Kültéri futás";
+"sport_indoor_running" = "Beltéri futás";
+"sport_outdoor_walking" = "Kültéri séta";
+"sport_indoor_walking" = "Beltéri séta";
+"sport_hiking" = "Túrázás";
+"sport_outdoor_cycling" = "Kültéri kerékpározás";
+"sport_indoor_cycling" = "Beltéri kerékpározás";
+"sport_history" = "Edzéstörténet";
+"sport_pace" = "Tempó";
+"sport_duration" = "Időtartam";
+"sport_countdown_settings" = "Visszaszámlálás beállításai";
+"sport_total_distance_km" = "Teljes távolság (km)";
+"location_permission_settings" = "Helymeghatározási engedély beállításai";
 "heart_desc" = "Normál emberi szívtávolság: 60-100 bpm";
 "blood_pressure_desc" = "Normál emberi vérnyomás: <130/85 mmHg";
 "null_data" = "Nincs adat";

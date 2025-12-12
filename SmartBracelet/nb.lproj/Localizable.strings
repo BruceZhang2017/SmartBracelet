@@ -211,6 +211,21 @@
 "push_to_bt_settings" = "Vennligst gå til Innstillinger - Bluetooth og koble manuelt til Bluetooth.";
 "today_step" = "I dagens trinn";
 "consumption" = "Forbruk";
+
+// MARK: - Sport
+"sport_outdoor_running" = "Utendørs løping";
+"sport_indoor_running" = "Innendørs løping";
+"sport_outdoor_walking" = "Utendørs gange";
+"sport_indoor_walking" = "Innendørs gange";
+"sport_hiking" = "Fotturer";
+"sport_outdoor_cycling" = "Utendørs sykling";
+"sport_indoor_cycling" = "Innendørs sykling";
+"sport_history" = "Treningshistorikk";
+"sport_pace" = "Tempo";
+"sport_duration" = "Varighet";
+"sport_countdown_settings" = "Nedtellingsinnstillinger";
+"sport_total_distance_km" = "Total distanse (km)";
+"location_permission_settings" = "Innstillinger for posisjonstillatelse";
 "heart_desc" = "Normal menneskelig hjertetrate 60-100 slår per minutt";
 "blood_pressure_desc" = "Normal menneskelig blodtrykk: <130/85 mmHg";
 "null_data" = "Ingen data";

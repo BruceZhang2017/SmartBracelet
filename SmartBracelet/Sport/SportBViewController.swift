@@ -21,13 +21,13 @@ enum SportType: Int, CaseIterable {
     
     var title: String {
         switch self {
-        case .outdoorRunning: return "户外跑步"
-        case .indoorRunning: return "室内跑步"
-        case .outdoorWalking: return "户外步行"
-        case .indoorWalking: return "室内步行"
-        case .hiking: return "徒步"
-        case .outdoorCycling: return "室外骑行"
-        case .indoorCycling: return "室内骑行"
+        case .outdoorRunning: return "sport_outdoor_running".localized()
+        case .indoorRunning: return "sport_indoor_running".localized()
+        case .outdoorWalking: return "sport_outdoor_walking".localized()
+        case .indoorWalking: return "sport_indoor_walking".localized()
+        case .hiking: return "sport_hiking".localized()
+        case .outdoorCycling: return "sport_outdoor_cycling".localized()
+        case .indoorCycling: return "sport_indoor_cycling".localized()
         }
     }
     
@@ -271,7 +271,7 @@ class SportBViewController: BaseViewController {
     private let distanceUnitLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 14, weight: .medium)
-        label.text = "累计距离(公里)"
+        label.text = "sport_total_distance_km".localized()
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()

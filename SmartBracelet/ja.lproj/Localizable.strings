@@ -365,6 +365,21 @@
 "push_to_bt_settings" = "設定 - Bluetoothに移動し、Bluetoothを手動で接続してください。";
 "today_step" = "今日の歩数";
 "consumption" = "消費";
+
+// MARK: - Sport
+"sport_outdoor_running" = "屋外ランニング";
+"sport_indoor_running" = "屋内ランニング";
+"sport_outdoor_walking" = "屋外ウォーキング";
+"sport_indoor_walking" = "屋内ウォーキング";
+"sport_hiking" = "ハイキング";
+"sport_outdoor_cycling" = "屋外サイクリング";
+"sport_indoor_cycling" = "屋内サイクリング";
+"sport_history" = "運動履歴";
+"sport_pace" = "ペース";
+"sport_duration" = "時間";
+"sport_countdown_settings" = "カウントダウン設定";
+"sport_total_distance_km" = "累計距離(km)";
+"location_permission_settings" = "位置情報許可設定";
 "heart_desc" = "人の正常な心拍数 60-100回/分";
 "blood_pressure_desc" = "人の正常な血圧：<130/85mmHg";
 "null_data" = "データなし";
