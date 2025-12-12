@@ -413,6 +413,7 @@
 
 // MARK: - Female Cycle / วงจรประจำเดือน
 "female_cycle_title" = "วงจรประจำเดือน";
+"female_cycle_subtitle" = "บันทึกและคาดการณ์รอบเดือน";
 "female_cycle_question_period_days" = "ประจำเดือนของคุณมักจะมากี่วัน?";
 "female_cycle_period_days" = "วันประจำเดือน";
 "female_cycle_days_unit" = "วัน";

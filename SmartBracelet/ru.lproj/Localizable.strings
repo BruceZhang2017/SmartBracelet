@@ -412,6 +412,7 @@
 
 // MARK: - Female Cycle / Менструальный цикл
 "female_cycle_title" = "Менструальный цикл";
+"female_cycle_subtitle" = "Записывайте и прогнозируйте менструальный цикл";
 "female_cycle_question_period_days" = "Сколько дней обычно длится ваша менструация?";
 "female_cycle_period_days" = "Дни менструации";
 "female_cycle_days_unit" = "дней";

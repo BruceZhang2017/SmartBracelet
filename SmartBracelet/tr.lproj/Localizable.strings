@@ -412,6 +412,7 @@
 
 // MARK: - Female Cycle / Adet döngüsü
 "female_cycle_title" = "Adet Döngüsü";
+"female_cycle_subtitle" = "Adet döngüsünü kaydedin ve tahmin edin";
 "female_cycle_question_period_days" = "Adetiniz genellikle kaç gün sürer?";
 "female_cycle_period_days" = "Adet günleri";
 "female_cycle_days_unit" = "gün";

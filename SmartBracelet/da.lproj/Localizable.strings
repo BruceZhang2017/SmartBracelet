@@ -264,6 +264,7 @@
 
 // MARK: - Female Cycle
 "female_cycle_title" = "Menstrual Cycle";
+"female_cycle_subtitle" = "Registrer og forudsig menstruationscyklus";
 "female_cycle_question_period_days" = "How many days does your period usually last?";
 "female_cycle_period_days" = "Period Days";
 "female_cycle_days_unit" = "days";

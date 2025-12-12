@@ -412,6 +412,7 @@
 
 // MARK: - Female Cycle / Cycle menstruel
 "female_cycle_title" = "Cycle Menstruel";
+"female_cycle_subtitle" = "Enregistrez et prédisez le cycle menstruel";
 "female_cycle_question_period_days" = "Combien de jours durent généralement vos règles ?";
 "female_cycle_period_days" = "Durée des règles";
 "female_cycle_days_unit" = "jours";

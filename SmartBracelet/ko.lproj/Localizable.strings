@@ -412,6 +412,7 @@
 
 // MARK: - Female Cycle / 생리 주기
 "female_cycle_title" = "생리 주기";
+"female_cycle_subtitle" = "생리 주기를 기록하고 예측하기";
 "female_cycle_question_period_days" = "생리는 보통 며칠 동안 지속됩니까?";
 "female_cycle_period_days" = "생리 기간";
 "female_cycle_days_unit" = "일";

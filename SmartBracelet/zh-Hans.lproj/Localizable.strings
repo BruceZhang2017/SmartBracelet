@@ -445,6 +445,7 @@
 
 // MARK: - Female Cycle / 生理周期
 "female_cycle_title" = "生理周期";
+"female_cycle_subtitle" = "记录和预测月经周期";
 "female_cycle_question_period_days" = "您的月经一般持续几天?";
 "female_cycle_period_days" = "经期天数";
 "female_cycle_days_unit" = "天";

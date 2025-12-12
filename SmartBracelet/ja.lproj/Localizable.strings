@@ -412,6 +412,7 @@
 
 // MARK: - Female Cycle / 生理周期
 "female_cycle_title" = "生理周期";
+"female_cycle_subtitle" = "月経周期を記録して予測する";
 "female_cycle_question_period_days" = "生理は通常何日間続きますか？";
 "female_cycle_period_days" = "生理日数";
 "female_cycle_days_unit" = "日";

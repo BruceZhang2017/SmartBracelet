@@ -412,6 +412,7 @@
 
 // MARK: - Female Cycle / 生理週期
 "female_cycle_title" = "生理週期";
+"female_cycle_subtitle" = "記錄和預測月經週期";
 "female_cycle_question_period_days" = "您的月經一般持續幾天?";
 "female_cycle_period_days" = "經期天數";
 "female_cycle_days_unit" = "天";

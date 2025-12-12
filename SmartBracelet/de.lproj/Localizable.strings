@@ -412,6 +412,7 @@
 
 // MARK: - Female Cycle / Menstruationszyklus
 "female_cycle_title" = "Menstruationszyklus";
+"female_cycle_subtitle" = "Menstruationszyklus aufzeichnen und vorhersagen";
 "female_cycle_question_period_days" = "Wie viele Tage dauert Ihre Periode normalerweise?";
 "female_cycle_period_days" = "Periodendauer";
 "female_cycle_days_unit" = "Tage";

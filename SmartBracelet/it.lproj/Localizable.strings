@@ -255,6 +255,7 @@
 
 // MARK: - Female Cycle / Ciclo mestruale
 "female_cycle_title" = "Ciclo Mestruale";
+"female_cycle_subtitle" = "Registra e prevedi il ciclo mestruale";
 "female_cycle_question_period_days" = "Quanti giorni dura di solito il tuo ciclo?";
 "female_cycle_period_days" = "Giorni del ciclo";
 "female_cycle_days_unit" = "giorni";
