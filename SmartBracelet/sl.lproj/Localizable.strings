@@ -1,5 +1,6 @@
 "start_experience" = "Iskušite zdaj";
 "health_head" = "zdravje";
+"sport" = "Šport";
 "health_step" = "Stevilo korakov";
 "health_step_noun" = "Korak";
 "health_walk_unit" = "kilometer";
@@ -225,8 +226,15 @@
 "sport_outdoor_cycling" = "Kolesarjenje na prostem";
 "sport_indoor_cycling" = "Kolesarjenje v zaprtem prostoru";
 "sport_history" = "Zgodovina vadbe";
+"sport_start" = "Začni";
+"sport_go" = "GO";
 "sport_pace" = "Tempo";
 "sport_duration" = "Trajanje";
+"sport_slide_to_unlock" = "Slide right to unlock";
+"sport_indoor_no_map" = "Indoor sport, no map available";
+"sport_duration_too_short" = "Exercise duration too short, save failed!";
+"unit_km" = "km";
+"unit_miles" = "miles";
 "sport_countdown_settings" = "Nastavitve odštevanja";
 "sport_total_distance_km" = "Skupna razdalja (km)";
 "location_permission_settings" = "Nastavitve dovoljenja za lokacijo";

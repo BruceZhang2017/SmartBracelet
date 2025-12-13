@@ -48,7 +48,7 @@ class CutDownView: UIView {
     
     func showAnimation() {
         if self.count == 0 {
-            nameLabel.text = "GO"
+            nameLabel.text = "sport_go".localized()
             nameLabel.font = UIFont.boldSystemFont(ofSize: 300)
         }
         else {

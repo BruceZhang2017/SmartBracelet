@@ -43,7 +43,7 @@ class VerticalLabels: UIView {
             make.top.equalToSuperview()
         }
         nameLabel.textColor = UIColor.brand
-        nameLabel.font = UIFont.boldSystemFont(ofSize: 60)
+        nameLabel.font = UIFont.boldSystemFont(ofSize: 50)
         nameLabel.numberOfLines = 0
         nameLabel.lineBreakMode = .byCharWrapping
 
@@ -55,7 +55,7 @@ class VerticalLabels: UIView {
             make.centerX.equalToSuperview()
         }
         nameLabel1.textColor = UIColor.brand
-        nameLabel1.font = UIFont.systemFont(ofSize: 20)
+        nameLabel1.font = UIFont.systemFont(ofSize: 18)
         nameLabel1.numberOfLines = 0
         nameLabel1.lineBreakMode = .byCharWrapping
     }
@@ -160,7 +160,7 @@ class VerticalLabels1: UIView {
             }
             .config { (make) in
                 make.textColor = UIColor.black
-                make.font = UIFont.boldSystemFont(ofSize: 18)
+                make.font = UIFont.boldSystemFont(ofSize: 16)
                 make.numberOfLines = 0
                 make.lineBreakMode = .byCharWrapping
         }
@@ -173,7 +173,7 @@ class VerticalLabels1: UIView {
             }
             .config { (make) in
                 make.textColor = UIColor.black
-                make.font = UIFont.systemFont(ofSize: 16)
+                make.font = UIFont.systemFont(ofSize: 14)
                 make.numberOfLines = 0
                 make.lineBreakMode = .byCharWrapping
         }

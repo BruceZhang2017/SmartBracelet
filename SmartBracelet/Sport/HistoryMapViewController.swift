@@ -86,7 +86,7 @@ class HistoryMapViewController: BaseViewController, MKMapViewDelegate {
             make.height.lessThanOrEqualToSuperview()
             }
             .config { (make) in
-                make.text = "km"
+                make.text = "unit_km".localized()
                 make.font = UIFont.systemFont(ofSize: 20)
                 make.textColor = UIColor.black
         }
@@ -326,7 +326,7 @@ class MapViewController: BaseViewController, MKMapViewDelegate {
             make.height.lessThanOrEqualToSuperview()
             }
             .config { (make) in
-                make.text = "km"
+                make.text = "unit_km".localized()
                 make.font = UIFont.systemFont(ofSize: 20)
                 make.textColor = UIColor.black
         }

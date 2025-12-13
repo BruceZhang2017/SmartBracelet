@@ -104,7 +104,7 @@ class RunHistoryViewController: BaseViewController, UITableViewDelegate, UITable
         tableView.deselectRow(at: indexPath, animated: true)
         let model = dataArray[indexPath.section][indexPath.row]
         if model.type == 1 || model.type == 3 || model.type == 6 {
-            Toast(text: "室内运动，没有地图可查").show()
+            Toast(text: "sport_indoor_no_map".localized()).show()
         } else {
             let vc = HistoryMapViewController()
             vc.runModel = model
@@ -157,18 +157,18 @@ class RunHistoryTableViewCell: UITableViewCell, UICollectionViewDelegate, UIColl
     func stepAttr(with valueStr: String) -> NSMutableAttributedString {
         let unit: String
         if bleSelf.userInfo.unit == 1 {
-            unit = " miles"
+            unit = " " + "unit_miles".localized()
         } else {
-            unit = " km"
+            unit = " " + "unit_km".localized()
         }
-        
+
         let valueAttr = NSMutableAttributedString(string: valueStr, attributes: [NSAttributedString.Key.font : UIFont.systemFont(ofSize: 30), NSAttributedString.Key.foregroundColor: UIColor.black])
         let unitAttr = NSMutableAttributedString(string: unit, attributes: [NSAttributedString.Key.font : UIFont.systemFont(ofSize: 10), NSAttributedString.Key.foregroundColor: UIColor.black])
         valueAttr.append(unitAttr)
         return valueAttr
     }
     
-    private let titleArray = [NSLocalizedString("配速", comment: ""), NSLocalizedString("时长", comment: ""), NSLocalizedString("消耗", comment: "")]
+    private let titleArray = ["sport_pace".localized(), "sport_duration".localized(), "consumption".localized()]
     // MARK: - collectionView
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 4

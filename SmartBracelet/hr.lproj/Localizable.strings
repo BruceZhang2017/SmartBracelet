@@ -1,6 +1,7 @@
 "Key" = "克罗地亚";
 "start_experience" = "Iskustvo sada";
 "health_head" = "zdrav";
+"sport" = "Sport";
 "health_step" = "Brojanje koraka";
 "health_step_noun" = "korak";
 "health_walk_unit" = "kilometar";
@@ -295,8 +296,15 @@
 "sport_outdoor_cycling" = "Biciklizam na otvorenom";
 "sport_indoor_cycling" = "Biciklizam u zatvorenom";
 "sport_history" = "Povijest vježbanja";
+"sport_start" = "Pokreni";
+"sport_go" = "GO";
 "sport_pace" = "Tempo";
 "sport_duration" = "Trajanje";
+"sport_slide_to_unlock" = "Slide right to unlock";
+"sport_indoor_no_map" = "Indoor sport, no map available";
+"sport_duration_too_short" = "Exercise duration too short, save failed!";
+"unit_km" = "km";
+"unit_miles" = "miles";
 "sport_countdown_settings" = "Postavke odbrojavanja";
 "sport_total_distance_km" = "Ukupna udaljenost (km)";
 "location_permission_settings" = "Postavke dozvole lokacije";

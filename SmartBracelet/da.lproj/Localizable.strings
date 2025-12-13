@@ -1,5 +1,6 @@
 "start_experience" = "Prøv nu";
 "health_head" = "sundhed";
+"sport" = "Sport";
 "health_step" = "Antal trin";
 "health_step_noun" = "Trin";
 "health_walk_unit" = "kilometer";
@@ -225,8 +226,15 @@
 "sport_outdoor_cycling" = "Udendørs cykling";
 "sport_indoor_cycling" = "Indendørs cykling";
 "sport_history" = "Træningshistorik";
+"sport_start" = "Start";
+"sport_go" = "GO";
 "sport_pace" = "Tempo";
 "sport_duration" = "Varighed";
+"sport_slide_to_unlock" = "Slide right to unlock";
+"sport_indoor_no_map" = "Indoor sport, no map available";
+"sport_duration_too_short" = "Exercise duration too short, save failed!";
+"unit_km" = "km";
+"unit_miles" = "miles";
 "sport_countdown_settings" = "Nedtællingsindstillinger";
 "sport_total_distance_km" = "Samlet distance (km)";
 "location_permission_settings" = "Indstillinger for placeringstilladelse";

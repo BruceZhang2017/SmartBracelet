@@ -1,6 +1,7 @@
 "Key" = "繁体中文";
 "start_experience" = "立即體驗";
 "health_head" = "健康";
+"sport" = "運動";
 "health_step" = "步數";
 "health_step_noun" = "步";
 "health_walk_unit" = "公里";
@@ -375,8 +376,15 @@
 "sport_outdoor_cycling" = "戶外騎行";
 "sport_indoor_cycling" = "室內騎行";
 "sport_history" = "運動歷史";
+"sport_start" = "開始";
+"sport_go" = "GO";
 "sport_pace" = "配速";
 "sport_duration" = "時長";
+"sport_slide_to_unlock" = "Slide right to unlock";
+"sport_indoor_no_map" = "Indoor sport, no map available";
+"sport_duration_too_short" = "Exercise duration too short, save failed!";
+"unit_km" = "km";
+"unit_miles" = "miles";
 "sport_countdown_settings" = "倒數設置";
 "sport_total_distance_km" = "累計距離(公里)";
 "location_permission_settings" = "定位權限設置";

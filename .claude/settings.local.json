@@ -8,7 +8,12 @@
       "Bash(do echo \"=== $lang ===\" grep -A1 '\"\"\"\"female_cycle_title\"\"\"\"' \"/Users/anker/Downloads/SmartBracelet/SmartBracelet/$lang.lproj/Localizable.strings\")",
       "Bash(python3:*)",
       "Bash(pod install:*)",
-      "Bash(xcodebuild:*)"
+      "Bash(xcodebuild:*)",
+      "Bash(plutil:*)",
+      "Bash(grep:*)",
+      "Bash(find:*)",
+      "Bash(for lang in de ja ru zh-HK)",
+      "Bash(do echo \"=== $lang ===\" grep -E \"^\"\"(Cancel|mine_finish)\"\"\" \"/Users/anker/Downloads/SmartBracelet/SmartBracelet/$lang.lproj/Localizable.strings\")"
     ]
   }
 }

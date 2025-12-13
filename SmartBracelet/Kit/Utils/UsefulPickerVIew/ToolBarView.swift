@@ -62,16 +62,16 @@ open class ToolBarView: UIView {
     // 取消按钮
     fileprivate lazy var cancleBtn: UIButton = {
         let btn = UIButton()
-        btn.setTitle(NSLocalizedString("取消", comment: ""), for: UIControl.State())
+        btn.setTitle("Cancel".localized(), for: UIControl.State())
         btn.setTitleColor(UIColor.black, for: UIControl.State())
         btn.titleLabel?.font = UIFont.systemFont(ofSize: 15)
         return btn
     }()
-    
+
     // 完成按钮
     fileprivate lazy var doneBtn: UIButton = {
         let donebtn = UIButton()
-        donebtn.setTitle(NSLocalizedString("完成", comment: ""), for: UIControl.State())
+        donebtn.setTitle("mine_finish".localized(), for: UIControl.State())
         donebtn.setTitleColor(UIColor.black, for: UIControl.State())
         donebtn.titleLabel?.font = UIFont.systemFont(ofSize: 15)
         return donebtn

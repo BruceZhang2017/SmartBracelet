@@ -1,5 +1,6 @@
 "start_experience" = "Alusta kohe";
 "health_head" = "Tervis";
+"sport" = "Sport";
 "health_step" = "Sammu arv";
 "health_step_noun" = "Samm";
 "health_walk_unit" = "kilomeeter";
@@ -215,8 +216,15 @@
 "sport_outdoor_cycling" = "Väljas rattasõit";
 "sport_indoor_cycling" = "Siseruumides rattasõit";
 "sport_history" = "Treeningu ajalugu";
+"sport_start" = "Alusta";
+"sport_go" = "GO";
 "sport_pace" = "Tempo";
 "sport_duration" = "Kestus";
+"sport_slide_to_unlock" = "Slide right to unlock";
+"sport_indoor_no_map" = "Indoor sport, no map available";
+"sport_duration_too_short" = "Exercise duration too short, save failed!";
+"unit_km" = "km";
+"unit_miles" = "miles";
 "sport_countdown_settings" = "Tagasiloenduse seaded";
 "sport_total_distance_km" = "Kogukaugus (km)";
 "location_permission_settings" = "Asukoha loa seaded";

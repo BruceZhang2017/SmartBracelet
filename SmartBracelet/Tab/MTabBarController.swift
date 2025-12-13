@@ -67,7 +67,7 @@ class MTabBarController: UITabBarController {
     // 设置视图控制器的标题
     private func setupViewControllersTitles() {
         XLogger.shared.log("数据库里面：\(DeviceManager.shared.devices.count)")
-        let titles = ["health_head","运动", "device", "mine"].map { $0.localized() }
+        let titles = ["health_head","sport", "device", "mine"].map { $0.localized() }
         for (index, title) in titles.enumerated() {
             viewControllers?[index].title = title
             

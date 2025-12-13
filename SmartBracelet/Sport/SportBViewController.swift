@@ -301,7 +301,7 @@ class SportBViewController: BaseViewController {
     // 控制按钮
     private let startButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setTitle("开始", for: .normal)
+        button.setTitle("sport_start".localized(), for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.backgroundColor = .brand
         button.titleLabel?.font = .systemFont(ofSize: 18, weight: .semibold)
@@ -325,7 +325,7 @@ class SportBViewController: BaseViewController {
     // MARK: - 生命周期
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "运动".localized()
+        title = "sport".localized()
         setupView()
         setupHierarchy()
         setupConstraints()
@@ -471,8 +471,8 @@ class SportBViewController: BaseViewController {
     // MARK: - 功能按钮设置
     private func setupFeatureButtons() {
         let features = [
-            ("历史记录", "clock.fill"),
-            ("设置", "gear")
+            ("sport_history".localized(), "clock.fill"),
+            ("settings".localized(), "gear")
         ]
 
         features.forEach { (title, iconName) in
@@ -598,16 +598,16 @@ class SportBViewController: BaseViewController {
             }
 
         }, denied: {
-            let alert = UIAlertController.init(title: NSLocalizedString("定位权限设置", comment: ""), message: nil, preferredStyle: .alert)
-            let action = UIAlertAction.init(title: NSLocalizedString("取消", comment: ""), style: .default, handler: { (_) in
+            let alert = UIAlertController.init(title: "location_permission_settings".localized(), message: nil, preferredStyle: .alert)
+            let action = UIAlertAction.init(title: "Cancel".localized(), style: .default, handler: { (_) in
                 self.dismiss(animated: true, completion: nil)
             })
             alert.addAction(action)
-            let action1 = UIAlertAction.init(title: NSLocalizedString("确定", comment: ""), style: .default, handler: { (_) in
+            let action1 = UIAlertAction.init(title: "mine_confirm".localized(), style: .default, handler: { (_) in
                 self.dismiss(animated: true, completion: nil)
                 let settings = URL.init(string: UIApplication.openSettingsURLString)!
                 UIApplication.shared.open(settings)
-                
+
             })
             alert.addAction(action1)
             DispatchQueue.main.async {
@@ -619,14 +619,14 @@ class SportBViewController: BaseViewController {
     @objc private func featureButtonTapped(_ sender: FeatureButton) {
         print("点击了功能按钮: \(sender.buttonTitle)")
         // 这里可以添加对应功能的跳转逻辑
-        if sender.buttonTitle == "历史记录" {
+        if sender.buttonTitle == "sport_history".localized() {
             let vc = RunHistoryViewController()
-            vc.title = NSLocalizedString("历史记录", comment: "")
+            vc.title = "sport_history".localized()
             vc.hidesBottomBarWhenPushed = true
             self.navigationController?.pushViewController(vc, animated: true)
         } else {
             let vc = SportSetViewController()
-            vc.title = NSLocalizedString("设置", comment: "")
+            vc.title = "settings".localized()
             vc.hidesBottomBarWhenPushed = true
             self.navigationController?.pushViewController(vc, animated: true)
         }

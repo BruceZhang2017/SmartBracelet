@@ -1,6 +1,7 @@
 "Key" = "俄文";
 "start_experience" = "Вопыт зараз";
 "health_head" = "здаровы";
+"sport" = "Спорт";
 "health_step" = "Падлік крокаў";
 "health_step_noun" = "крок";
 "health_walk_unit" = "кіламетр";
@@ -375,8 +376,15 @@
 "sport_outdoor_cycling" = "Велоспорт на улице";
 "sport_indoor_cycling" = "Велоспорт в помещении";
 "sport_history" = "История упражнений";
+"sport_start" = "Начать";
+"sport_go" = "GO";
 "sport_pace" = "Темп";
 "sport_duration" = "Продолжительность";
+"sport_slide_to_unlock" = "Slide right to unlock";
+"sport_indoor_no_map" = "Indoor sport, no map available";
+"sport_duration_too_short" = "Exercise duration too short, save failed!";
+"unit_km" = "km";
+"unit_miles" = "miles";
 "sport_countdown_settings" = "Настройки обратного отсчета";
 "sport_total_distance_km" = "Общее расстояние (км)";
 "location_permission_settings" = "Настройки разрешения местоположения";

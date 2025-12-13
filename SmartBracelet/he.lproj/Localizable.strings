@@ -1,5 +1,6 @@
 "start_experience" = "התנסות עכשיו";
 "health_head" = "בריאות";
+"sport" = "ספורט";
 "health_step" = "ספירת צעדים";
 "health_step_noun" = "צעד";
 "health_walk_unit" = "קילומטר";
@@ -203,10 +204,17 @@
 "sport_outdoor_cycling" = "רכיבה על אופניים בחוץ";
 "sport_indoor_cycling" = "רכיבה על אופניים בפנים";
 "sport_history" = "היסטוריית אימונים";
+"sport_start" = "התחל";
+"sport_go" = "GO";
 "sport_pace" = "קצב";
 "sport_duration" = "משך זמן";
+"sport_slide_to_unlock" = "Slide right to unlock";
+"sport_indoor_no_map" = "Indoor sport, no map available";
+"sport_duration_too_short" = "Exercise duration too short, save failed!";
+"unit_km" = "km";
+"unit_miles" = "miles";
 "sport_countdown_settings" = "הגדרות ספירה לאחור";
-"sport_total_distance_km" = "מרחק כולל (ק"מ)";
+"sport_total_distance_km" = "מרחק כולל (ק\"מ)";
 "location_permission_settings" = "הגדרות הרשאת מיקום";
 "heart_desc" = "קצב לב רגיל: 60-100 פעימות לדקה";
 "blood_pressure_desc" = "לחץ דם רגיל: מתחת ל- 130/85 מ\"מ ר\"ג";

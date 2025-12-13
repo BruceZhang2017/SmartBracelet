@@ -157,7 +157,7 @@ class GpsManager: NSObject {
             self.saveRun()
         }
         else {
-            self.showHud(NSLocalizedString("运动时长太短,保存失败!", comment: ""))
+            self.showHud("sport_duration_too_short".localized())
         }
     }
     

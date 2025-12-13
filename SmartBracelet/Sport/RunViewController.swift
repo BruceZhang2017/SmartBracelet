@@ -148,7 +148,7 @@ class RunViewController: BaseViewController, UICollectionViewDelegate, UICollect
         shimmerView.isHidden = true
         shimmerView.shimmerColors = [UIColor.white, UIColor.black, UIColor.white]
         shimmerView.textColor = UIColor.white
-        shimmerView.text = NSLocalizedString("向右滑动解锁", comment: "")
+        shimmerView.text = "sport_slide_to_unlock".localized()
         shimmerView.backgroundColor = UIColor.brand
 
         collection.backgroundColor = UIColor.clear
@@ -239,7 +239,7 @@ class RunViewController: BaseViewController, UICollectionViewDelegate, UICollect
     }
     
     // MARK: - CollectionView
-    private let titleArray = [NSLocalizedString("配速", comment: ""), NSLocalizedString("时长", comment: ""), NSLocalizedString("消耗", comment: "")]
+    private let titleArray = ["sport_pace".localized(), "sport_duration".localized(), "consumption".localized()]
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 3
