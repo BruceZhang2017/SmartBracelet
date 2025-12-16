@@ -514,3 +514,7 @@
 "female_cycle_symptom_oily" = "出油";
 "female_cycle_symptom_blackhead" = "粉刺";
 "female_cycle_symptom_acne" = "冒痘";
+
+
+"digital" = "數字";
+"analog" = "指針";

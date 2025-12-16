@@ -144,11 +144,14 @@ class TripleTableViewController: UIViewController {
         print("📡 请求URL: \(urlString)")
         
         // 准备表单参数
-        let parameters: [String: Any] = [
+        var parameters: [String: Any] = [
             "width": width,
             "height": height
-//            "lang": LanguageManager.getInterfaceLang()
         ]
+        let lang = LanguageManager.getInterfaceLang()
+        if lang != "English" {
+            parameters["lang"] = lang
+        }
         
         // 使用x-www-form-urlencoded格式发送POST请求
         AF.request(
@@ -194,13 +197,12 @@ class TripleTableViewController: UIViewController {
                         print("📊 共获取到\(types.count)种OTA类型")
                         segmentControl.removeAllSegments()
                         for (index, type) in types.enumerated() {
-                            let typeName = type.dictValue
+                            let typeName = NSLocalizedString(type.dictValue ?? "", comment: type.dictValue ?? "")
                             segmentControl.insertSegment(withTitle: typeName, at: index, animated: false)
                             print("➕ 添加分段控制器选项: \(typeName)")
                         }
                         segmentControl.selectedSegmentIndex = 0
-                        rightViewModel.type = types[0].dictValue
-                        print("🎯 默认选中第一个OTA类型: \(types[0].dictValue)")
+                        rightViewModel.type = types[0].dictValue ?? ""
                     } else {
                         print("⚠️ 未获取到有效的OTA类型数据")
                     }
@@ -211,6 +213,8 @@ class TripleTableViewController: UIViewController {
                             (item) in
                             if let value = item.value2 {
                                 return value.contains(self.rightViewModel.type)
+                            } else if let value = item.type {
+                                return value.contains(self.rightViewModel.type)
                             } else {
                                 return false
                             }
@@ -219,7 +223,11 @@ class TripleTableViewController: UIViewController {
                         self.middleTableView.reloadData()
                         if self.otaStyle.count > 0 {
                             self.rightCollectionView.isHidden = false
-                            rightViewModel.style = self.otaStyle.first?.dictValue ?? ""
+                            if let style = otaStyle.first?.dictValue {
+                                rightViewModel.style = style
+                            } else if let style = otaStyle.first?.style {
+                                rightViewModel.style = style
+                            }
                             self.fetchInitialData()
                         }
                     }
@@ -361,19 +369,28 @@ class TripleTableViewController: UIViewController {
         guard let types = mResponse?.data.otaType,
               selectedIndex < types.count else { return }
         
-        rightViewModel.type = types[selectedIndex].dictValue
+        rightViewModel.type = types[selectedIndex].dictValue ?? ""
         let array = mResponse?.data.otaStyle.filter {
             (item) in
             if let value = item.value2 {
                 return value.contains(rightViewModel.type)
+            } else if let value = item.type {
+                return value.contains(self.rightViewModel.type)
             } else {
                 return false
             }
         } ?? []
         otaStyle = array
         if otaStyle.count > 0 {
-            rightViewModel.style = otaStyle.first?.dictValue ?? ""
+            if let style = otaStyle.first?.dictValue {
+                rightViewModel.style = style
+            } else if let style = otaStyle.first?.style {
+                rightViewModel.style = style
+            }
             fetchInitialData()
+        } else {
+            rightViewModel.items = []
+            rightCollectionView.reloadData()
         }
         selectedMiddleIndexPath = IndexPath(row: 0, section: 0)
         middleTableView.reloadData()
@@ -388,7 +405,11 @@ class TripleTableViewController: UIViewController {
             }
         }
         selectedMiddleIndexPath = indexPath
-        rightViewModel.style = otaStyle[indexPath.row].dictValue
+        if let style = otaStyle[indexPath.row].dictValue {
+            rightViewModel.style = style
+        } else if let style = otaStyle.first?.style {
+            rightViewModel.style = style
+        }
         fetchInitialData()
         middleTableView.reloadData()
     }
@@ -415,7 +436,11 @@ extension TripleTableViewController: UITableViewDelegate, UITableViewDataSource 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "MiddleCell", for: indexPath)
         let styleItem = otaStyle[indexPath.row]
-        cell.textLabel?.text = styleItem.dictValue
+        if let style = styleItem.dictValue {
+            cell.textLabel?.text = style
+        } else if let style = styleItem.style {
+            cell.textLabel?.text = style
+        }
         cell.textLabel?.textAlignment = .left
         cell.textLabel?.font = UIFont.systemFont(ofSize: 14)
         // 设置支持两行显示
@@ -539,7 +564,7 @@ class RightViewModel {
         let urlString = "https://u-watch.com.cn/api/app/ota/v3/list"
         
         // 构建请求参数字典
-        let parameters: [String: Any] = [
+        var parameters: [String: Any] = [
             "pageSize": 20,
             "pageNum": 0,
             "width": screenWidth,
@@ -547,8 +572,11 @@ class RightViewModel {
             "shape": XGZTBlueToothManager.shared.device?.screenType == 1 ? "round" : "square",
             "type": type,
             "style": style
-//            "lang": LanguageManager.getInterfaceLang()
         ]
+        let lang = LanguageManager.getInterfaceLang()
+        if lang != "English" {
+            parameters["lang"] = lang
+        }
         
         // 打印请求参数
         print("请求参数:")
@@ -608,7 +636,7 @@ class RightViewModel {
         let urlString = "https://u-watch.com.cn/api/app/ota/v3/list"
         
         // 构建请求参数字典
-        let parameters: [String: Any] = [
+        var parameters: [String: Any] = [
             "pageSize": 20,
             "pageNum": nextPage,
             "width": screenWidth,
@@ -616,8 +644,11 @@ class RightViewModel {
             "shape": XGZTBlueToothManager.shared.device?.screenType == 1 ? "round" : "square",
             "type": type,
             "style": style
-//            "lang": LanguageManager.getInterfaceLang()
         ]
+        let lang = LanguageManager.getInterfaceLang()
+        if lang != "English" {
+            parameters["lang"] = lang
+        }
         
         // 打印请求参数
         print("开始加载第\(nextPage)页数据，请求参数：")
@@ -736,24 +767,96 @@ struct OTADictItem: Codable {
     let updateBy: String?
     let updateTime: String?
     let remark: String?
-    let dictCode: Int
-    let dictSort: Int
-    let dictLabel: String
-    let dictValue: String
-    let dictType: String
+    let params: [String: AnyCodable]?
+    let id: Int?
+    let uuId: String?
+    let otaName: String?
+    let dialBin: String?
+    let dialBinUrl: String?
+    let previewImage: String?
+    let previewImageUrl: String?
+    let width: Int?
+    let height: Int?
+    let shape: String?
+    let type: String?
+    let style: String?
+    let tags: String?
+    let timePosition: String?
+    let downNum: Int?
+    let isTop: Int?
+    let lang: String?
+    let gmtCreate: String?
+    let gmtUpdate: String?
+
+    // 原有字段
+    let dictCode: Int?
+    let dictSort: Int?
+    let dictLabel: String?
+    let dictValue: String?
+    let dictType: String?
     let cssClass: String?
     let listClass: String?
-    let isDefault: String
-    let status: String
-    let defaultFlag: Bool
+    let isDefault: String?
+    let status: String?
+    let defaultFlag: Bool?
     let value2: String?
-    
+
+    // 多语言 style 字段
+    let styleChineseSim: String?
+    let styleItalian: String?
+    let styleSpanish: String?
+    let stylePortuguese: String?
+    let styleRussian: String?
+    let styleJapanese: String?
+    let styleGerman: String?
+    let styleThai: String?
+    let styleArabic: String?
+    let styleTurkish: String?
+    let styleFrench: String?
+    let styleVietnamese: String?
+    let stylePolish: String?
+    let styleDutch: String?
+    let styleHebrew: String?
+    let stylePersian: String?
+    let styleGreek: String?
+    let styleMalay: String?
+    let styleDanish: String?
+    let styleSwedish: String?
+    let styleIndonesian: String?
+    let styleCzech: String?
+    let styleHungarian: String?
+    let styleRomanian: String?
+    let styleBulgarian: String?
+    let styleCroatian: String?
+    let styleSlovak: String?
+    let styleSlovenian: String?
+    let styleLatvian: String?
+    let styleLithuanian: String?
+    let styleFinnish: String?
+    let styleNorwegian: String?
+    let styleEstonian: String?
+    let styleIcelandic: String?
+
     enum CodingKeys: String, CodingKey {
         case searchValue, createBy, createTime, updateBy, updateTime, remark
+        case params
+        case id, uuId, otaName, dialBin, dialBinUrl
+        case previewImage, previewImageUrl
+        case width, height, shape, type, style, tags, timePosition
+        case downNum, isTop, lang, gmtCreate, gmtUpdate
         case dictCode, dictSort, dictLabel, dictValue, dictType, cssClass, listClass
         case isDefault, status
         case defaultFlag = "default"
         case value2
+        case styleChineseSim, styleItalian, styleSpanish, stylePortuguese
+        case styleRussian, styleJapanese, styleGerman, styleThai
+        case styleArabic, styleTurkish, styleFrench, styleVietnamese
+        case stylePolish, styleDutch, styleHebrew, stylePersian
+        case styleGreek, styleMalay, styleDanish, styleSwedish
+        case styleIndonesian, styleCzech, styleHungarian, styleRomanian
+        case styleBulgarian, styleCroatian, styleSlovak, styleSlovenian
+        case styleLatvian, styleLithuanian, styleFinnish, styleNorwegian
+        case styleEstonian, styleIcelandic
     }
 }
 
@@ -803,8 +906,6 @@ struct AnyCodable: Codable {
     }
 }
 
-import Foundation
-
 /// 语种工具类：统一管理接口lang字段的赋值逻辑
 class LanguageManager {
     /// 获取接口需要的lang字段值（自动适配系统语言，兼容iOS 13+）
@@ -833,55 +934,93 @@ class LanguageManager {
                 // iOS 13-15：从语言标识字符串中解析脚本类型（zh-Hans -> Hans，zh-Hant -> Hant）
                 scriptCode = parseScriptCode(from: preferredLang)
             }
-            return scriptCode == "Hant" ? "chinese_traditional" : "chinese_sim"
-            
+            return scriptCode == "Hant" ? "Chinese_tra" : "Chinese_sim"
+
         case "ja":
-            return "japanese"
-            
+            return "Japanese"
+
         case "en":
             // 区分美式/英式英语（兼容iOS 13+）
             let regionCode = locale.regionCode
-            return regionCode == "GB" ? "english_uk" : "english_us"
-            
+            return regionCode == "GB" ? "English" : "English"
+
         case "pt":
             // 区分巴西葡语/欧洲葡语（兼容iOS 13+）
             let regionCode = locale.regionCode
-            return regionCode == "BR" ? "portuguese_br" : "portuguese_pt"
-            
+            return regionCode == "BR" ? "Portuguese" : "Portuguese"
+
         case "ko":
-            return "korean"
+            return "Korean"
         case "fr":
-            return "french"
+            return "French"
         case "de":
-            return "german"
+            return "German"
         case "es":
             // 区分西班牙语（西班牙/墨西哥）
             let regionCode = locale.regionCode
-            return regionCode == "MX" ? "spanish_mx" : "spanish"
+            return regionCode == "MX" ? "Spanish_mx" : "Spanish"
         case "ru":
-            return "russian"
+            return "Russian"
         case "ar":
-            return "arabic"
+            return "Arabic"
         case "it":
-            return "italian"
+            return "Italian"
         case "nl":
-            return "dutch"
+            return "Dutch"
         case "th":
-            return "thai"
+            return "Thai"
         case "vi":
-            return "vietnamese"
+            return "Vietnamese"
         case "id":
-            return "indonesian"
+            return "Indonesian"
         case "ms":
-            return "malay"
+            return "Malay"
         case "tr":
-            return "turkish"
+            return "Turkish"
         case "pl":
-            return "polish"
-            
+            return "Polish"
+        case "he":
+            return "Hebrew"
+        case "fa":
+            return "Persian"
+        case "el":
+            return "Greek"
+        case "da":
+            return "Danish"
+        case "sv":
+            return "Swedish"
+        case "cs":
+            return "Czech"
+        case "hu":
+            return "Hungarian"
+        case "ro":
+            return "Romanian"
+        case "bg":
+            return "Bulgarian"
+        case "hr":
+            return "Croatian"
+        case "sk":
+            return "Slovak"
+        case "sl":
+            return "Slovenian"
+        case "lv":
+            return "Latvian"
+        case "lt":
+            return "Lithuanian"
+        case "fi":
+            return "Finnish"
+        case "nb", "nn", "no":
+            return "Norwegian"
+        case "et":
+            return "Estonian"
+        case "is":
+            return "Icelandic"
+        case "uk":
+            return "Ukrainian"
+
         default:
             // 未匹配的语言默认返回英语
-            return "english"
+            return "English"
         }
     }
     
@@ -890,13 +1029,49 @@ class LanguageManager {
     /// - Returns: 接口需要的lang字段值
     static func getInterfaceLang(by language: CustomLanguage) -> String {
         switch language {
-        case .simplifiedChinese: return "chinese_sim"
-        case .traditionalChinese: return "chinese_traditional"
-        case .english: return "english"
-        case .japanese: return "japanese"
-        case .portuguese: return "portuguese"
-        case .polish: return "polish"
-        // 可扩展更多语种
+        case .simplifiedChinese: return "Chinese_sim"
+        case .traditionalChinese: return "Chinese_tra"
+        case .english: return "English"
+        case .englishUS: return "English"
+        case .englishUK: return "English"
+        case .japanese: return "Japanese"
+        case .korean: return "Korean"
+        case .german: return "German"
+        case .french: return "French"
+        case .spanish: return "Spanish"
+        case .spanishMX: return "Spanish_mx"
+        case .italian: return "Italian"
+        case .portuguese: return "Portuguese"
+        case .portugueseBR: return "Portuguese"
+        case .portuguesePT: return "Portuguese"
+        case .russian: return "Russian"
+        case .arabic: return "Arabic"
+        case .turkish: return "Turkish"
+        case .thai: return "Thai"
+        case .vietnamese: return "Vietnamese"
+        case .indonesian: return "Indonesian"
+        case .malay: return "Malay"
+        case .dutch: return "Dutch"
+        case .polish: return "Polish"
+        case .hebrew: return "Hebrew"
+        case .persian: return "Persian"
+        case .greek: return "Greek"
+        case .danish: return "Danish"
+        case .swedish: return "Swedish"
+        case .czech: return "Czech"
+        case .hungarian: return "Hungarian"
+        case .romanian: return "Romanian"
+        case .bulgarian: return "Bulgarian"
+        case .croatian: return "Croatian"
+        case .slovak: return "Slovak"
+        case .slovenian: return "Slovenian"
+        case .latvian: return "Latvian"
+        case .lithuanian: return "Lithuanian"
+        case .finnish: return "Finnish"
+        case .norwegian: return "Norwegian"
+        case .estonian: return "Estonian"
+        case .icelandic: return "Icelandic"
+        case .ukrainian: return "Ukrainian"
         }
     }
     
@@ -919,12 +1094,48 @@ class LanguageManager {
     
     /// 自定义语种枚举（适配用户手动切换语言的场景）
     enum CustomLanguage {
-        case simplifiedChinese    // 简体中文
-        case traditionalChinese   // 繁体中文
-        case english              // 英语
-        case japanese             // 日语
-        case portuguese           // 葡萄牙语
-        case polish               // 波兰语
-        // 可根据需求添加其他语种
+        case simplifiedChinese      // 简体中文
+        case traditionalChinese     // 繁体中文
+        case english                // 英语
+        case englishUS              // 美式英语
+        case englishUK              // 英式英语
+        case japanese               // 日语
+        case korean                 // 韩语
+        case german                 // 德语
+        case french                 // 法语
+        case spanish                // 西班牙语
+        case spanishMX              // 墨西哥西班牙语
+        case italian                // 意大利语
+        case portuguese             // 葡萄牙语
+        case portugueseBR           // 巴西葡萄牙语
+        case portuguesePT           // 欧洲葡萄牙语
+        case russian                // 俄语
+        case arabic                 // 阿拉伯语
+        case turkish                // 土耳其语
+        case thai                   // 泰语
+        case vietnamese             // 越南语
+        case indonesian             // 印度尼西亚语
+        case malay                  // 马来语
+        case dutch                  // 荷兰语
+        case polish                 // 波兰语
+        case hebrew                 // 希伯来语
+        case persian                // 波斯语
+        case greek                  // 希腊语
+        case danish                 // 丹麦语
+        case swedish                // 瑞典语
+        case czech                  // 捷克语
+        case hungarian              // 匈牙利语
+        case romanian               // 罗马尼亚语
+        case bulgarian              // 保加利亚语
+        case croatian               // 克罗地亚语
+        case slovak                 // 斯洛伐克语
+        case slovenian              // 斯洛文尼亚语
+        case latvian                // 拉脱维亚语
+        case lithuanian             // 立陶宛语
+        case finnish                // 芬兰语
+        case norwegian              // 挪威语
+        case estonian               // 爱沙尼亚语
+        case icelandic              // 冰岛语
+        case ukrainian              // 乌克兰语
     }
 }

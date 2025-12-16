@@ -514,3 +514,7 @@
 "female_cycle_symptom_oily" = "脂性";
 "female_cycle_symptom_blackhead" = "黒ずみ";
 "female_cycle_symptom_acne" = "ニキビ";
+
+
+"digital" = "デジタル";
+"analog" = "アナログ";
