@@ -4,6 +4,8 @@ import Alamofire
 import Kingfisher
 import Toaster
 
+var isUsrEnglish = false // 是否默认使用英文
+
 // MARK: - 主视图控制器
 class TripleTableViewController: UIViewController {
     
@@ -149,7 +151,7 @@ class TripleTableViewController: UIViewController {
             "height": height
         ]
         let lang = LanguageManager.getInterfaceLang()
-        if lang != "English" {
+        if lang != "English" && !isUsrEnglish {
             parameters["lang"] = lang
         }
         
@@ -191,7 +193,11 @@ class TripleTableViewController: UIViewController {
                     print("🔄 开始解析JSON数据...")
                     mResponse = try decoder.decode(Response<OTAData>.self, from: data)
                     print("✅ JSON数据解析成功")
-                    
+                    if mResponse?.data.otaStyle.count ?? 0 == 0 {
+                        isUsrEnglish = true
+                        self.downloadStyle()
+                        return
+                    }
                     // 配置分段控制器
                     if let types = mResponse?.data.otaType, !types.isEmpty {
                         print("📊 共获取到\(types.count)种OTA类型")
@@ -574,7 +580,7 @@ class RightViewModel {
             "style": style
         ]
         let lang = LanguageManager.getInterfaceLang()
-        if lang != "English" {
+        if lang != "English" && !isUsrEnglish {
             parameters["lang"] = lang
         }
         
@@ -646,7 +652,7 @@ class RightViewModel {
             "style": style
         ]
         let lang = LanguageManager.getInterfaceLang()
-        if lang != "English" {
+        if lang != "English" && !isUsrEnglish {
             parameters["lang"] = lang
         }
         
