@@ -390,3 +390,11 @@
 "female_cycle_symptom_blackhead" = "Blackheads";
 "female_cycle_symptom_acne" = "Acne";
 
+
+
+"digital" = "Digitális";
+"analog" = "Analóg";
+
+"reconnect_device" = "Újracsatlakozás";
+"reconnecting_device" = "Újracsatlakozás...";
+"no_device_to_reconnect" = "Nincs csatlakoztatott eszköz";

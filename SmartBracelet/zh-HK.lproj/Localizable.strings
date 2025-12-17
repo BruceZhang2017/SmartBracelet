@@ -537,3 +537,11 @@
 "female_cycle_symptom_oily" = "出油";
 "female_cycle_symptom_blackhead" = "粉刺";
 "female_cycle_symptom_acne" = "冒痘";
+
+
+"digital" = "數字";
+"analog" = "指針";
+
+"reconnect_device" = "重新連接";
+"reconnecting_device" = "重新連接中...";
+"no_device_to_reconnect" = "沒有已連接的設備";

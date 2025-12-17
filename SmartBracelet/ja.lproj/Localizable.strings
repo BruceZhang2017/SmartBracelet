@@ -537,3 +537,11 @@
 "female_cycle_symptom_oily" = "脂性";
 "female_cycle_symptom_blackhead" = "黒ずみ";
 "female_cycle_symptom_acne" = "ニキビ";
+
+
+"digital" = "デジタル";
+"analog" = "アナログ";
+
+"reconnect_device" = "再接続";
+"reconnecting_device" = "再接続中...";
+"no_device_to_reconnect" = "接続されたデバイスがありません";

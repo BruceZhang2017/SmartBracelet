@@ -390,3 +390,11 @@
 "female_cycle_symptom_blackhead" = "Blackheads";
 "female_cycle_symptom_acne" = "Acne";
 
+
+
+"digital" = "Цифров";
+"analog" = "Аналогов";
+
+"reconnect_device" = "Повторно свързване";
+"reconnecting_device" = "Повторно свързване...";
+"no_device_to_reconnect" = "Няма свързано устройство";

@@ -308,3 +308,11 @@
 "sport_countdown_settings" = "Postavke odbrojavanja";
 "sport_total_distance_km" = "Ukupna udaljenost (km)";
 "location_permission_settings" = "Postavke dozvole lokacije";
+
+
+"digital" = "Digitalni";
+"analog" = "Analogni";
+
+"reconnect_device" = "Ponovno poveži";
+"reconnecting_device" = "Ponovno povezivanje...";
+"no_device_to_reconnect" = "Nema povezanog uređaja";

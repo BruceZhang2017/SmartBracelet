@@ -368,3 +368,11 @@
 "female_cycle_symptom_blackhead" = "Blackheads";
 "female_cycle_symptom_acne" = "Acne";
 
+
+
+"digital" = "דיגיטלי";
+"analog" = "אנלוגי";
+
+"reconnect_device" = "התחבר מחדש";
+"reconnecting_device" = "מתחבר מחדש...";
+"no_device_to_reconnect" = "אין מכשיר מחובר";

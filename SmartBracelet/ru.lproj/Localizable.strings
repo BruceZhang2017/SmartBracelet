@@ -538,3 +538,11 @@
 "female_cycle_symptom_blackhead" = "Черные точки";
 "female_cycle_symptom_acne" = "Акне";
 
+
+
+"digital" = "Цифровой";
+"analog" = "Аналоговый";
+
+"reconnect_device" = "Переподключить";
+"reconnecting_device" = "Переподключение...";
+"no_device_to_reconnect" = "Нет подключенного устройства";

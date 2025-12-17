@@ -537,3 +537,11 @@
 "female_cycle_symptom_oily" = "기름짐";
 "female_cycle_symptom_blackhead" = "블랙헤드";
 "female_cycle_symptom_acne" = "여드름";
+
+
+"digital" = "디지털";
+"analog" = "아날로그";
+
+"reconnect_device" = "재연결";
+"reconnecting_device" = "재연결 중...";
+"no_device_to_reconnect" = "연결된 기기 없음";

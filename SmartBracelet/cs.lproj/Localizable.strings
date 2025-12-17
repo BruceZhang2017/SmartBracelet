@@ -390,3 +390,11 @@
 "female_cycle_symptom_blackhead" = "Blackheads";
 "female_cycle_symptom_acne" = "Acne";
 
+
+
+"digital" = "Digitální";
+"analog" = "Analogový";
+
+"reconnect_device" = "Znovu připojit";
+"reconnecting_device" = "Připojování...";
+"no_device_to_reconnect" = "Žádné připojené zařízení";

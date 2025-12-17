@@ -538,3 +538,11 @@
 "female_cycle_symptom_blackhead" = "Siyah noktalar";
 "female_cycle_symptom_acne" = "Akne";
 
+
+
+"digital" = "Dijital";
+"analog" = "Analog";
+
+"reconnect_device" = "Yeniden bağlan";
+"reconnecting_device" = "Yeniden bağlanılıyor...";
+"no_device_to_reconnect" = "Bağlı cihaz yok";

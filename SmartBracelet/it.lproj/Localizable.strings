@@ -381,3 +381,11 @@
 "female_cycle_symptom_blackhead" = "Punti neri";
 "female_cycle_symptom_acne" = "Acne";
 
+
+
+"digital" = "Digitale";
+"analog" = "Analogico";
+
+"reconnect_device" = "Riconnetti";
+"reconnecting_device" = "Riconnessione...";
+"no_device_to_reconnect" = "Nessun dispositivo collegato";

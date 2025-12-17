@@ -390,3 +390,11 @@
 "female_cycle_symptom_blackhead" = "Blackheads";
 "female_cycle_symptom_acne" = "Acne";
 
+
+
+"digital" = "Ψηφιακό";
+"analog" = "Αναλογικό";
+
+"reconnect_device" = "Επανασύνδεση";
+"reconnecting_device" = "Επανασύνδεση...";
+"no_device_to_reconnect" = "Δεν υπάρχει συνδεδεμένη συσκευή";

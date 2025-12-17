@@ -545,3 +545,11 @@
 "female_cycle_symptom_blackhead" = "Blackheads";
 "female_cycle_symptom_acne" = "Acne";
 
+
+
+"digital" = "Digital";
+"analog" = "Analog";
+
+"reconnect_device" = "Sambung semula";
+"reconnecting_device" = "Menyambung semula...";
+"no_device_to_reconnect" = "Tiada peranti disambungkan";

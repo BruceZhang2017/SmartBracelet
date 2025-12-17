@@ -375,3 +375,11 @@
 "female_cycle_symptom_blackhead" = "Blackheads";
 "female_cycle_symptom_acne" = "Acne";
 
+
+
+"digital" = "Stafrænn";
+"analog" = "Hliðrænn";
+
+"reconnect_device" = "Endurtengja";
+"reconnecting_device" = "Endurtengir...";
+"no_device_to_reconnect" = "Ekkert tengt tæki";

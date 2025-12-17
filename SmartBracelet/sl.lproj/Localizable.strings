@@ -390,3 +390,11 @@
 "female_cycle_symptom_blackhead" = "Blackheads";
 "female_cycle_symptom_acne" = "Acne";
 
+
+
+"digital" = "Digitalni";
+"analog" = "Analogni";
+
+"reconnect_device" = "Ponovno poveži";
+"reconnecting_device" = "Ponovno povezovanje...";
+"no_device_to_reconnect" = "Ni povezane naprave";

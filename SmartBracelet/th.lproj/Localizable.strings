@@ -539,3 +539,11 @@
 "female_cycle_symptom_blackhead" = "หัวดำ";
 "female_cycle_symptom_acne" = "สิว";
 
+
+
+"digital" = "ดิจิทัล";
+"analog" = "อนาล็อก";
+
+"reconnect_device" = "เชื่อมต่ออีกครั้ง";
+"reconnecting_device" = "กำลังเชื่อมต่ออีกครั้ง...";
+"no_device_to_reconnect" = "ไม่มีอุปกรณ์ที่เชื่อมต่อ";

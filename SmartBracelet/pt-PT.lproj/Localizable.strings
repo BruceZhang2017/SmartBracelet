@@ -538,3 +538,11 @@
 "female_cycle_symptom_blackhead" = "Pontos negros";
 "female_cycle_symptom_acne" = "Acne";
 
+
+
+"digital" = "Digital";
+"analog" = "Analógico";
+
+"reconnect_device" = "Reconectar";
+"reconnecting_device" = "Reconectando...";
+"no_device_to_reconnect" = "Sem dispositivo ligado";

@@ -390,3 +390,11 @@
 "female_cycle_symptom_blackhead" = "Blackheads";
 "female_cycle_symptom_acne" = "Acne";
 
+
+
+"digital" = "Digital";
+"analog" = "Analog";
+
+"reconnect_device" = "Återanslut";
+"reconnecting_device" = "Återansluter...";
+"no_device_to_reconnect" = "Ingen ansluten enhet";

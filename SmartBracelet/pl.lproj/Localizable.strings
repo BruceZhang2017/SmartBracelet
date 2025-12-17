@@ -308,3 +308,10 @@
 "sport_countdown_settings" = "Ustawienia odliczania";
 "sport_total_distance_km" = "Całkowity dystans (km)";
 "location_permission_settings" = "Ustawienia uprawnień lokalizacji";
+
+"digital" = "Cyfrowy";
+"analog" = "Analogowy";
+
+"reconnect_device" = "Połącz ponownie";
+"reconnecting_device" = "Ponowne łączenie...";
+"no_device_to_reconnect" = "Brak podłączonego urządzenia";
