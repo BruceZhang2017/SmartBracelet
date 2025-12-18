@@ -398,3 +398,10 @@
 "reconnect_device" = "Επανασύνδεση";
 "reconnecting_device" = "Επανασύνδεση...";
 "no_device_to_reconnect" = "Δεν υπάρχει συνδεδεμένη συσκευή";
+
+// Position
+"position_top_left" = "Kiri Atas";
+"position_bottom_left" = "Kiri Bawah";
+"position_top_right" = "Kanan Atas";
+"position_bottom_right" = "Kanan Bawah";
+"position_center" = "Tengah";

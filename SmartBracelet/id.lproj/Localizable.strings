@@ -546,3 +546,10 @@
 "reconnect_device" = "Sambungkan kembali";
 "reconnecting_device" = "Menyambungkan kembali...";
 "no_device_to_reconnect" = "Tidak ada perangkat terhubung";
+
+// Position
+"position_top_left" = "Kiri Atas";
+"position_bottom_left" = "Kiri Bawah";
+"position_top_right" = "Kanan Atas";
+"position_bottom_right" = "Kanan Bawah";
+"position_center" = "Tengah";

@@ -546,3 +546,10 @@
 "reconnect_device" = "Yeniden bağlan";
 "reconnecting_device" = "Yeniden bağlanılıyor...";
 "no_device_to_reconnect" = "Bağlı cihaz yok";
+
+// Position
+"position_top_left" = "Sol Üst";
+"position_bottom_left" = "Sol Alt";
+"position_top_right" = "Sağ Üst";
+"position_bottom_right" = "Sağ Alt";
+"position_center" = "Merkez";

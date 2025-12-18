@@ -1979,7 +1979,7 @@ class CalendarDayCell: UICollectionViewCell {
         }
 
         // 如果是今天，显示"今"；否则显示日期数字
-        dayLabel.text = isToday ? "female_cycle_today".localized() : "\(day)"
+        dayLabel.text = "\(day)"
 
         // 重置样式
         backgroundCircleView.backgroundColor = .clear

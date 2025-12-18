@@ -404,3 +404,10 @@
 "reconnect_device" = "اتصال مجدد";
 "reconnecting_device" = "در حال اتصال مجدد...";
 "no_device_to_reconnect" = "دستگاه متصلی وجود ندارد";
+
+// Position
+"position_top_left" = "Kiri Atas";
+"position_bottom_left" = "Kiri Bawah";
+"position_top_right" = "Kanan Atas";
+"position_bottom_right" = "Kanan Bawah";
+"position_center" = "Tengah";

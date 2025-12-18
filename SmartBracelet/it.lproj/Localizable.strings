@@ -389,3 +389,10 @@
 "reconnect_device" = "Riconnetti";
 "reconnecting_device" = "Riconnessione...";
 "no_device_to_reconnect" = "Nessun dispositivo collegato";
+
+// Position
+"position_top_left" = "In alto a sinistra";
+"position_bottom_left" = "In basso a sinistra";
+"position_top_right" = "In alto a destra";
+"position_bottom_right" = "In basso a destra";
+"position_center" = "Centro";

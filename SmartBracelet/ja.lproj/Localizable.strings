@@ -545,3 +545,10 @@
 "reconnect_device" = "再接続";
 "reconnecting_device" = "再接続中...";
 "no_device_to_reconnect" = "接続されたデバイスがありません";
+
+// Position
+"position_top_left" = "左上";
+"position_bottom_left" = "左下";
+"position_top_right" = "右上";
+"position_bottom_right" = "右下";
+"position_center" = "中央";

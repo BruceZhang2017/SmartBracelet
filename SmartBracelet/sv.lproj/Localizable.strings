@@ -398,3 +398,10 @@
 "reconnect_device" = "Återanslut";
 "reconnecting_device" = "Återansluter...";
 "no_device_to_reconnect" = "Ingen ansluten enhet";
+
+// Position
+"position_top_left" = "Uppe till vänster";
+"position_bottom_left" = "Nere till vänster";
+"position_top_right" = "Uppe till höger";
+"position_bottom_right" = "Nere till höger";
+"position_center" = "Centrum";

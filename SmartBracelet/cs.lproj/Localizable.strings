@@ -398,3 +398,10 @@
 "reconnect_device" = "Znovu připojit";
 "reconnecting_device" = "Připojování...";
 "no_device_to_reconnect" = "Žádné připojené zařízení";
+
+// Position
+"position_top_left" = "Kiri Atas";
+"position_bottom_left" = "Kiri Bawah";
+"position_top_right" = "Kanan Atas";
+"position_bottom_right" = "Kanan Bawah";
+"position_center" = "Tengah";

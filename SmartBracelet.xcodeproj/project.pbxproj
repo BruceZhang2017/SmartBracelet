@@ -47,6 +47,7 @@
 		9A102FFE2EBF70D300FC6758 /* SelectionTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A102FF52EBF70D300FC6758 /* SelectionTextField.swift */; };
 		9A102FFF2EBF70D300FC6758 /* PickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A102FF32EBF70D300FC6758 /* PickerView.swift */; };
 		9A1030002EBF70D300FC6758 /* UsefulPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A102FF72EBF70D300FC6758 /* UsefulPickerView.swift */; };
+		9A11E0952EF2E26E00B020A5 /* CircleCropUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A11E0942EF2E26E00B020A5 /* CircleCropUtils.swift */; };
 		9A127EAE2BC2ACE300126836 /* UIFont+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A127EAD2BC2ACE200126836 /* UIFont+Extension.swift */; };
 		9A1F7CAC2E22932700EB3BBE /* TripleTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A1F7CAB2E22932700EB3BBE /* TripleTableViewController.swift */; };
 		9A20FA322D2A2C3C0027A26F /* WUCalendarManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A20FA2F2D2A2C3C0027A26F /* WUCalendarManager.swift */; };
@@ -617,6 +618,7 @@
 		9A102FF52EBF70D300FC6758 /* SelectionTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionTextField.swift; sourceTree = "<group>"; };
 		9A102FF62EBF70D300FC6758 /* ToolBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolBarView.swift; sourceTree = "<group>"; };
 		9A102FF72EBF70D300FC6758 /* UsefulPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsefulPickerView.swift; sourceTree = "<group>"; };
+		9A11E0942EF2E26E00B020A5 /* CircleCropUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleCropUtils.swift; sourceTree = "<group>"; };
 		9A127EAD2BC2ACE200126836 /* UIFont+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Extension.swift"; sourceTree = "<group>"; };
 		9A1E2D2F2DB6631E00B50C5D /* sv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sv; path = sv.lproj/Localizable.strings; sourceTree = "<group>"; };
 		9A1F7CAB2E22932700EB3BBE /* TripleTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripleTableViewController.swift; sourceTree = "<group>"; };
@@ -2046,6 +2048,7 @@
 				9A64F08125DD50D70073E679 /* ClockUseViewController.swift */,
 				9AEBEC3326D2A3BE008D13AA /* BLEDeviceNameHandler.swift */,
 				9A4CADED294032F100B0BDF8 /* CommonResponse.swift */,
+				9A11E0942EF2E26E00B020A5 /* CircleCropUtils.swift */,
 			);
 			path = ClockManage;
 			sourceTree = "<group>";
@@ -3082,6 +3085,7 @@
 				9A820B7424CEA1CC00A62C6F /* BaseViewController.swift in Sources */,
 				9A56D28425216FC60082CC08 /* Description.swift in Sources */,
 				9A367B7925BD208100BFB4C3 /* EasyRealm.swift in Sources */,
+				9A11E0952EF2E26E00B020A5 /* CircleCropUtils.swift in Sources */,
 				9A33D31526AD9A4F00DF9618 /* CameraViewControllerConstraint.swift in Sources */,
 				9A8CA527252CA05E00EC01A7 /* DataRecordReuseSectionHeadView.swift in Sources */,
 				9AB5BE1A2A06644500680757 /* JLFileTransferHelper.m in Sources */,
@@ -3446,7 +3450,7 @@
 				CODE_SIGN_ENTITLEMENTS = SmartBracelet/SmartBraceletDebug.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 11;
+				CURRENT_PROJECT_VERSION = 13;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_ASSET_PATHS = TJDWristbandSDK.framework;
 				DEVELOPMENT_TEAM = 6BTCM549U7;
@@ -3495,7 +3499,7 @@
 				CODE_SIGN_ENTITLEMENTS = SmartBracelet/SmartBraceletRelease.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 11;
+				CURRENT_PROJECT_VERSION = 13;
 				DEVELOPMENT_ASSET_PATHS = TJDWristbandSDK.framework;
 				DEVELOPMENT_TEAM = 6BTCM549U7;
 				ENABLE_BITCODE = NO;

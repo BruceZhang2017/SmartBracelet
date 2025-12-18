@@ -546,3 +546,10 @@
 "reconnect_device" = "Opnieuw verbinden";
 "reconnecting_device" = "Opnieuw verbinden...";
 "no_device_to_reconnect" = "Geen aangesloten apparaat";
+
+// Position
+"position_top_left" = "Linksboven";
+"position_bottom_left" = "Linksonder";
+"position_top_right" = "Rechtsboven";
+"position_bottom_right" = "Rechtsonder";
+"position_center" = "Midden";

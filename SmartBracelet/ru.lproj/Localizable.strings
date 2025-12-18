@@ -546,3 +546,10 @@
 "reconnect_device" = "Переподключить";
 "reconnecting_device" = "Переподключение...";
 "no_device_to_reconnect" = "Нет подключенного устройства";
+
+// Position
+"position_top_left" = "Вверху слева";
+"position_bottom_left" = "Внизу слева";
+"position_top_right" = "Вверху справа";
+"position_bottom_right" = "Внизу справа";
+"position_center" = "По центру";

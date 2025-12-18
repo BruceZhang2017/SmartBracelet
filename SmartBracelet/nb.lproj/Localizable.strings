@@ -393,3 +393,10 @@
 "reconnect_device" = "Koble til igjen";
 "reconnecting_device" = "Kobler til igjen...";
 "no_device_to_reconnect" = "Ingen tilkoblet enhet";
+
+// Position
+"position_top_left" = "Kiri Atas";
+"position_bottom_left" = "Kiri Bawah";
+"position_top_right" = "Kanan Atas";
+"position_bottom_right" = "Kanan Bawah";
+"position_center" = "Tengah";

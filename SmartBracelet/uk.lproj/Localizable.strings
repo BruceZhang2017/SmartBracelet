@@ -546,3 +546,10 @@
 "reconnect_device" = "Перепідключити";
 "reconnecting_device" = "Перепідключення...";
 "no_device_to_reconnect" = "Немає підключеного пристрою";
+
+// Position
+"position_top_left" = "Kiri Atas";
+"position_bottom_left" = "Kiri Bawah";
+"position_top_right" = "Kanan Atas";
+"position_bottom_right" = "Kanan Bawah";
+"position_center" = "Tengah";

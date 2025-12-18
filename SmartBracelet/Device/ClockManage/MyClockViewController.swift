@@ -30,7 +30,7 @@ class MyClockViewController: UIViewController {
     var colorIndex = 0 ///白色0 黑色1 黄色2 橙色3 粉色4 紫色5 蓝色6 青色7
     var diallocation = 5
     final let locations = ["above".localized(), "below".localized()]
-    final let xgztlocations = ["无".localized(), "左上".localized(), "左下".localized(), "右上".localized(), "右下".localized(), "居中".localized()]
+    final let xgztlocations = ["mine_null".localized(), "position_top_left".localized(), "position_bottom_left".localized(), "position_top_right".localized(), "position_bottom_right".localized(), "position_center".localized()]
     final let tops = ["closure".localized(), "date".localized(), "sleep".localized(), "heart_rate".localized(), "step".localized()]
     var topTap = false
     final var colors: [UIColor] = [UIColor.white, UIColor.black, UIColor.yellow,
@@ -754,7 +754,12 @@ extension MyClockViewController: TZImagePickerControllerDelegate {
         imageUploadVc?.modalTransitionStyle = .crossDissolve
         imageUploadVc?.view.backgroundColor = UIColor.black.withAlphaComponent(0.5)
         imageUploadVc?.delegate = self
-        imageUploadVc?.image = photos.first
+        if isXGZT && !AppDelegate.IsDeviceNotRound() {
+            imageUploadVc?.image = photos.first?.croppedToCircleSmooth()
+        } else {
+            imageUploadVc?.image = photos.first
+        }
+
         imageUploadVc?.imgView.contentMode = .scaleAspectFit
         self.present(imageUploadVc!, animated: false) {
             

@@ -315,3 +315,10 @@
 "reconnect_device" = "Połącz ponownie";
 "reconnecting_device" = "Ponowne łączenie...";
 "no_device_to_reconnect" = "Brak podłączonego urządzenia";
+
+// Position
+"position_top_left" = "Lewy Górny";
+"position_bottom_left" = "Lewy Dolny";
+"position_top_right" = "Prawy Górny";
+"position_bottom_right" = "Prawy Dolny";
+"position_center" = "Środek";

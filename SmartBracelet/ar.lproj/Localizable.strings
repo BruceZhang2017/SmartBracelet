@@ -546,3 +546,10 @@
 "reconnect_device" = "إعادة الاتصال";
 "reconnecting_device" = "جارٍ إعادة الاتصال...";
 "no_device_to_reconnect" = "لا توجد أجهزة متصلة";
+
+// Position
+"position_top_left" = "Kiri Atas";
+"position_bottom_left" = "Kiri Bawah";
+"position_top_right" = "Kanan Atas";
+"position_bottom_right" = "Kanan Bawah";
+"position_center" = "Tengah";

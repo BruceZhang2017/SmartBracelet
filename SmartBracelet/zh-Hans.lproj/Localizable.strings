@@ -574,3 +574,10 @@
 
 "digital" = "数字";
 "analog" = "指针";
+
+// Position
+"position_top_left" = "左上";
+"position_bottom_left" = "左下";
+"position_top_right" = "右上";
+"position_bottom_right" = "右下";
+"position_center" = "居中";

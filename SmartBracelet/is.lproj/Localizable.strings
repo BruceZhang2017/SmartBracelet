@@ -383,3 +383,10 @@
 "reconnect_device" = "Endurtengja";
 "reconnecting_device" = "Endurtengir...";
 "no_device_to_reconnect" = "Ekkert tengt tæki";
+
+// Position
+"position_top_left" = "Kiri Atas";
+"position_bottom_left" = "Kiri Bawah";
+"position_top_right" = "Kanan Atas";
+"position_bottom_right" = "Kanan Bawah";
+"position_center" = "Tengah";

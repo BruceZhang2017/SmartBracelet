@@ -546,3 +546,10 @@
 "reconnect_device" = "Erneut verbinden";
 "reconnecting_device" = "Verbinde erneut...";
 "no_device_to_reconnect" = "Kein Gerät verbunden";
+
+// Position
+"position_top_left" = "Oben Links";
+"position_bottom_left" = "Unten Links";
+"position_top_right" = "Oben Rechts";
+"position_bottom_right" = "Unten Rechts";
+"position_center" = "Mitte";

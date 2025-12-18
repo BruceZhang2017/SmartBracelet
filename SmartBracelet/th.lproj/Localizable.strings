@@ -547,3 +547,10 @@
 "reconnect_device" = "เชื่อมต่ออีกครั้ง";
 "reconnecting_device" = "กำลังเชื่อมต่ออีกครั้ง...";
 "no_device_to_reconnect" = "ไม่มีอุปกรณ์ที่เชื่อมต่อ";
+
+// Position
+"position_top_left" = "บนซ้าย";
+"position_bottom_left" = "ล่างซ้าย";
+"position_top_right" = "บนขวา";
+"position_bottom_right" = "ล่างขวา";
+"position_center" = "ตรงกลาง";
