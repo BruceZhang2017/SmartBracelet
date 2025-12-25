@@ -161,6 +161,12 @@
 		9A4CADF029406E6E00B0BDF8 /* QuestionItemResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A4CADEF29406E6E00B0BDF8 /* QuestionItemResponse.swift */; };
 		9A4CADF22940941F00B0BDF8 /* JXWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A4CADF12940941F00B0BDF8 /* JXWebViewController.swift */; };
 		9A4CADF42940944300B0BDF8 /* JXLocalizedString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A4CADF32940944300B0BDF8 /* JXLocalizedString.swift */; };
+		9A4E11612EFCE1CD008AE0A8 /* WeatherRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A4E11602EFCE1CD008AE0A8 /* WeatherRouter.swift */; };
+		9A4E11622EFCE1CD008AE0A8 /* OpenMeteoProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A4E115B2EFCE1CD008AE0A8 /* OpenMeteoProvider.swift */; };
+		9A4E11632EFCE1CD008AE0A8 /* QWeatherProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A4E115D2EFCE1CD008AE0A8 /* QWeatherProvider.swift */; };
+		9A4E11642EFCE1CD008AE0A8 /* OpenWeatherManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A4E115C2EFCE1CD008AE0A8 /* OpenWeatherManager.swift */; };
+		9A4E11652EFCE1CD008AE0A8 /* WeatherProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A4E115F2EFCE1CD008AE0A8 /* WeatherProvider.swift */; };
+		9A4E11662EFCE1CD008AE0A8 /* WeatherAPIConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A4E115E2EFCE1CD008AE0A8 /* WeatherAPIConfig.swift */; };
 		9A4E624424F7E94E00A0E878 /* Device.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9A4E624324F7E94E00A0E878 /* Device.storyboard */; };
 		9A4E624624F8926300A0E878 /* DevicesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A4E624524F8926300A0E878 /* DevicesViewController.swift */; };
 		9A4E624824F8DF3800A0E878 /* DevicesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A4E624724F8DF3800A0E878 /* DevicesView.swift */; };
@@ -452,7 +458,6 @@
 		9AA2E0642B343C9C0008CA56 /* HeaderVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9AA2E0532B343C9B0008CA56 /* HeaderVC.xib */; };
 		9AA2E0652B343C9C0008CA56 /* ScannerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA2E0542B343C9B0008CA56 /* ScannerVC.swift */; };
 		9AA2E0662B343C9C0008CA56 /* ScanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA2E0562B343C9B0008CA56 /* ScanView.swift */; };
-		9AAE66F52B5B9B8900C01351 /* OpenWeatherManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAE66F42B5B9B8900C01351 /* OpenWeatherManager.swift */; };
 		9AAF85CC25C6D42000960BDD /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AAF85CB25C6D42000960BDD /* MapKit.framework */; };
 		9AAF861C25C83E5000960BDD /* IdleResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 9AAF861B25C83E5000960BDD /* IdleResources.bundle */; };
 		9AB563FD26F6186000D16869 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9AB563FF26F6186000D16869 /* Localizable.strings */; };
@@ -736,6 +741,12 @@
 		9A4CADEF29406E6E00B0BDF8 /* QuestionItemResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionItemResponse.swift; sourceTree = "<group>"; };
 		9A4CADF12940941F00B0BDF8 /* JXWebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JXWebViewController.swift; sourceTree = "<group>"; };
 		9A4CADF32940944300B0BDF8 /* JXLocalizedString.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JXLocalizedString.swift; sourceTree = "<group>"; };
+		9A4E115B2EFCE1CD008AE0A8 /* OpenMeteoProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenMeteoProvider.swift; sourceTree = "<group>"; };
+		9A4E115C2EFCE1CD008AE0A8 /* OpenWeatherManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenWeatherManager.swift; sourceTree = "<group>"; };
+		9A4E115D2EFCE1CD008AE0A8 /* QWeatherProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QWeatherProvider.swift; sourceTree = "<group>"; };
+		9A4E115E2EFCE1CD008AE0A8 /* WeatherAPIConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherAPIConfig.swift; sourceTree = "<group>"; };
+		9A4E115F2EFCE1CD008AE0A8 /* WeatherProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherProvider.swift; sourceTree = "<group>"; };
+		9A4E11602EFCE1CD008AE0A8 /* WeatherRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherRouter.swift; sourceTree = "<group>"; };
 		9A4E624324F7E94E00A0E878 /* Device.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Device.storyboard; sourceTree = "<group>"; };
 		9A4E624524F8926300A0E878 /* DevicesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DevicesViewController.swift; sourceTree = "<group>"; };
 		9A4E624724F8DF3800A0E878 /* DevicesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DevicesView.swift; sourceTree = "<group>"; };
@@ -1066,7 +1077,6 @@
 		9AA2E0532B343C9B0008CA56 /* HeaderVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HeaderVC.xib; sourceTree = "<group>"; };
 		9AA2E0542B343C9B0008CA56 /* ScannerVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScannerVC.swift; sourceTree = "<group>"; };
 		9AA2E0562B343C9B0008CA56 /* ScanView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScanView.swift; sourceTree = "<group>"; };
-		9AAE66F42B5B9B8900C01351 /* OpenWeatherManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenWeatherManager.swift; sourceTree = "<group>"; };
 		9AAF85CB25C6D42000960BDD /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		9AAF861B25C83E5000960BDD /* IdleResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = IdleResources.bundle; sourceTree = "<group>"; };
 		9AB563FC26F6185500D16869 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
@@ -1648,6 +1658,19 @@
 			path = EasyRealm;
 			sourceTree = "<group>";
 		};
+		9A4E11672EFD6180008AE0A8 /* Female */ = {
+			isa = PBXGroup;
+			children = (
+				9A48CE532EE815F500F4E5E4 /* BodySymptomsViewController.swift */,
+				9A48CE592EEA664000F4E5E4 /* FemaleCycleDataManager.swift */,
+				9A48CE552EE8218C00F4E5E4 /* AllDataViewController.swift */,
+				9A48CE562EE8218C00F4E5E4 /* DataDetailViewController.swift */,
+				9AD6A5232EE1C7B000BAC61B /* FemaleHealthViewController.swift */,
+				9A48CE512EE7CB7D00F4E5E4 /* FemaleCycleCalendarViewController.swift */,
+			);
+			path = Female;
+			sourceTree = "<group>";
+		};
 		9A4E624224F7E91F00A0E878 /* Device */ = {
 			isa = PBXGroup;
 			children = (
@@ -2061,7 +2084,12 @@
 				9A7315C52871B0C900D378A7 /* CurrentWeatherData.swift */,
 				9A7315C72871B0D000D378A7 /* OpenWeatherViewController.swift */,
 				9A7315C92871B0DD00D378A7 /* ViewModel.swift */,
-				9AAE66F42B5B9B8900C01351 /* OpenWeatherManager.swift */,
+				9A4E115B2EFCE1CD008AE0A8 /* OpenMeteoProvider.swift */,
+				9A4E115C2EFCE1CD008AE0A8 /* OpenWeatherManager.swift */,
+				9A4E115D2EFCE1CD008AE0A8 /* QWeatherProvider.swift */,
+				9A4E115E2EFCE1CD008AE0A8 /* WeatherAPIConfig.swift */,
+				9A4E115F2EFCE1CD008AE0A8 /* WeatherProvider.swift */,
+				9A4E11602EFCE1CD008AE0A8 /* WeatherRouter.swift */,
 			);
 			path = weather;
 			sourceTree = "<group>";
@@ -2084,10 +2112,7 @@
 		9A820B6C24CD066E00A62C6F /* Health */ = {
 			isa = PBXGroup;
 			children = (
-				9A48CE592EEA664000F4E5E4 /* FemaleCycleDataManager.swift */,
-				9A48CE552EE8218C00F4E5E4 /* AllDataViewController.swift */,
-				9A48CE562EE8218C00F4E5E4 /* DataDetailViewController.swift */,
-				9A48CE532EE815F500F4E5E4 /* BodySymptomsViewController.swift */,
+				9A4E11672EFD6180008AE0A8 /* Female */,
 				9A3C55CA2BD36A18007737A2 /* SCBreathAnimationView.swift */,
 				9A3C55C82BD36981007737A2 /* SCBreathAnimationView.xib */,
 				9AEBEC4126DE5B03008D13AA /* TTADataPickerTitleBarButtonItem.swift */,
@@ -2106,8 +2131,6 @@
 				9A5613F425248BFC00C43C6A /* AudioButtonView.swift */,
 				9AE1A180262AB9F900B8B10D /* HeartRateView.swift */,
 				9AE1A182262AF69400B8B10D /* HeartRateCollectionViewCell.swift */,
-				9AD6A5232EE1C7B000BAC61B /* FemaleHealthViewController.swift */,
-				9A48CE512EE7CB7D00F4E5E4 /* FemaleCycleCalendarViewController.swift */,
 			);
 			path = Health;
 			sourceTree = "<group>";
@@ -2821,7 +2844,6 @@
 				9A56D25525216FC60082CC08 /* YAxisRendererRadarChart.swift in Sources */,
 				9A56D28725216FC60082CC08 /* Legend.swift in Sources */,
 				9A56D26725216FC60082CC08 /* CombinedChartView.swift in Sources */,
-				9AAE66F52B5B9B8900C01351 /* OpenWeatherManager.swift in Sources */,
 				9A4E624E24F8DF6B00A0E878 /* CyclicCardFlowLayout.swift in Sources */,
 				9AFAE87B2A8F21F7005EF8F8 /* JGProgressHUDPieIndicatorView.m in Sources */,
 				9A56D27025216FC60082CC08 /* Animator.swift in Sources */,
@@ -3060,6 +3082,12 @@
 				9A56D28E25216FC60082CC08 /* ComponentBase.swift in Sources */,
 				9A56D24A25216FC60082CC08 /* XShapeRenderer.swift in Sources */,
 				9A56D2A725216FC70082CC08 /* ChartDataSet.swift in Sources */,
+				9A4E11612EFCE1CD008AE0A8 /* WeatherRouter.swift in Sources */,
+				9A4E11622EFCE1CD008AE0A8 /* OpenMeteoProvider.swift in Sources */,
+				9A4E11632EFCE1CD008AE0A8 /* QWeatherProvider.swift in Sources */,
+				9A4E11642EFCE1CD008AE0A8 /* OpenWeatherManager.swift in Sources */,
+				9A4E11652EFCE1CD008AE0A8 /* WeatherProvider.swift in Sources */,
+				9A4E11662EFCE1CD008AE0A8 /* WeatherAPIConfig.swift in Sources */,
 				9AC2B9132D2783A80064903C /* SportViewController.swift in Sources */,
 				9AC2B9142D2783A80064903C /* GpsView.swift in Sources */,
 				9AC2B91F2D27BB890064903C /* WULocationManager.swift in Sources */,
@@ -3450,7 +3478,7 @@
 				CODE_SIGN_ENTITLEMENTS = SmartBracelet/SmartBraceletDebug.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 13;
+				CURRENT_PROJECT_VERSION = 15;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_ASSET_PATHS = TJDWristbandSDK.framework;
 				DEVELOPMENT_TEAM = 6BTCM549U7;
@@ -3499,7 +3527,7 @@
 				CODE_SIGN_ENTITLEMENTS = SmartBracelet/SmartBraceletRelease.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 13;
+				CURRENT_PROJECT_VERSION = 15;
 				DEVELOPMENT_ASSET_PATHS = TJDWristbandSDK.framework;
 				DEVELOPMENT_TEAM = 6BTCM549U7;
 				ENABLE_BITCODE = NO;

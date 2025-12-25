@@ -14,8 +14,10 @@ public class OpenWeatherManager: NSObject {
     
     var callback: ((CurrentWeatherData) -> Void)?
     var flag = 0
-    
-    private let viewModel = ViewModel()
+
+    // 使用新的天气路由器（自动选择最佳数据源）
+    private let weatherRouter = WeatherRouter.shared
+
     lazy var locationManager: CLLocationManager = {
         let location = CLLocationManager()
         location.delegate = self
@@ -183,22 +185,17 @@ public class OpenWeatherManager: NSObject {
     private let minSafeTemp: Int = -40  // 实际支持的最低温度
     private let maxSafeTemp: Int = 80   // 实际支持的最高温度（避免超过UInt8的255上限）
 
-    // 2. 安全转换温度：开尔文 → 非负Int（确保可转为UInt8）
+    // 2. 安全转换温度：开尔文 → Int（支持负温度显示）
     private func safeConvertTemp(from kelvinTemp: Double) -> Int {
         // 步骤1：开尔文转摄氏度并取整
         let celsiusTemp = Int(tempratureKToC(temp: kelvinTemp))
-        
-        // 步骤2：限制温度在业务范围内（避免极端值）
+
+        // 步骤2：限制温度在业务范围内（-40°C ~ 80°C，避免极端值）
         let clampedTemp = max(celsiusTemp, minSafeTemp)
         let finalTemp = min(clampedTemp, maxSafeTemp)
-        
-        // 步骤3：确保非负（若低于0，强制设为0，或按偏移量处理，需和手表端同步）
-        // 方案A：简单处理，负数直接设为0（适合手表端不支持负温显示的场景）
-        return max(finalTemp, 0)
-        
-        // 方案B：偏移量处理（适合需要显示负温的场景，需手表端反向计算）
-        // let offset = 40 // 偏移量，-40°C → 0，0°C →40
-        // return finalTemp + offset
+
+        // 返回温度值（支持负数，设备端蓝牙命令使用Int类型参数）
+        return finalTemp
     }
 }
 
@@ -210,11 +207,21 @@ extension OpenWeatherManager: CLLocationManagerDelegate {
         guard let location = locations.last else { return }
         let latitude = location.coordinate.latitude
         let longitude = location.coordinate.longitude
-        viewModel.fetchWeather(requestType: .coordinate(latitude: latitude, longitude: longitude)) { [weak self] weather in
-            //self.updateInterface(weather: weather)
-            self?.syncTemprature(weather: weather)
-            self?.callback?(weather)
-        }
+
+        XLogger.shared.log("📍 获取到位置: lat=\(latitude), lon=\(longitude)")
+
+        // 使用智能天气路由器获取天气数据（自动选择最佳数据源）
+        weatherRouter.fetchWeather(
+            latitude: latitude,
+            longitude: longitude,
+            onSuccess: { [weak self] weather in
+                self?.syncTemprature(weather: weather)
+                self?.callback?(weather)
+            },
+            onError: { error in
+                XLogger.shared.log("❌ 天气数据获取失败: \(error.localizedDescription)")
+            }
+        )
     }
 
     public func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
