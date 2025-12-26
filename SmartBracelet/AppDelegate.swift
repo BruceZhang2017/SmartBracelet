@@ -263,7 +263,8 @@ extension UIApplication {
         } else if let tabBarController = viewController as? UITabBarController {
             return topMostViewController(for: tabBarController.selectedViewController)
         } else if viewController is UIAlertController {
-            return topMostViewController(for: viewController?.presentingViewController)
+            // Return presenting controller directly (no recursion to avoid infinite loop)
+            return viewController?.presentingViewController
         } else if let presentedViewController = viewController?.presentedViewController {
             return topMostViewController(for: presentedViewController)
         }

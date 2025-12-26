@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 女性生理周期模块 - 尺寸资源 -->
+
+    <!-- 通用间距 -->
+    <dimen name="female_cycle_page_padding">16dp</dimen>
+    <dimen name="female_cycle_section_spacing">24dp</dimen>
+    <dimen name="female_cycle_row_spacing">12dp</dimen>
+    <dimen name="female_cycle_item_spacing">8dp</dimen>
+
+    <!-- 卡片 -->
+    <dimen name="female_cycle_card_corner_radius">8dp</dimen>
+    <dimen name="female_cycle_card_elevation">0dp</dimen>
+    <dimen name="female_cycle_card_padding">16dp</dimen>
+
+    <!-- 按钮 -->
+    <dimen name="female_cycle_button_height">44dp</dimen>
+    <dimen name="female_cycle_button_corner_radius_small">6dp</dimen>
+    <dimen name="female_cycle_button_corner_radius_large">22dp</dimen>
+    <dimen name="female_cycle_button_padding_horizontal">24dp</dimen>
+
+    <!-- 日历 -->
+    <dimen name="calendar_cell_height">52dp</dimen>
+    <dimen name="calendar_cell_width">52dp</dimen>
+    <dimen name="calendar_day_text_size">16sp</dimen>
+    <dimen name="calendar_weekday_text_size">14sp</dimen>
+    <dimen name="calendar_selected_stroke_width">2dp</dimen>
+    <dimen name="calendar_special_dot_radius">4dp</dimen>
+    <dimen name="calendar_record_dot_radius">2.5dp</dimen>
+    <dimen name="calendar_record_dot_margin">8dp</dimen>
+
+    <!-- 流量按钮组 -->
+    <dimen name="flow_button_size">48dp</dimen>
+    <dimen name="flow_button_padding">12dp</dimen>
+    <dimen name="flow_button_spacing">16dp</dimen>
+
+    <!-- 痛经按钮组 -->
+    <dimen name="pain_button_size">48dp</dimen>
+    <dimen name="pain_button_padding">12dp</dimen>
+    <dimen name="pain_button_spacing">16dp</dimen>
+
+    <!-- Chip -->
+    <dimen name="female_cycle_chip_height">32dp</dimen>
+    <dimen name="female_cycle_chip_spacing">8dp</dimen>
+
+    <!-- 记录图标 -->
+    <dimen name="record_icon_size">20dp</dimen>
+    <dimen name="record_icon_spacing">8dp</dimen>
+
+    <!-- 分隔线 -->
+    <dimen name="female_cycle_divider_height">1dp</dimen>
+
+    <!-- 文字大小 -->
+    <dimen name="female_cycle_text_size_title">18sp</dimen>
+    <dimen name="female_cycle_text_size_body">16sp</dimen>
+    <dimen name="female_cycle_text_size_secondary">14sp</dimen>
+    <dimen name="female_cycle_text_size_small">12sp</dimen>
+
+    <!-- Header高度 -->
+    <dimen name="female_cycle_header_height">56dp</dimen>
+</resources>

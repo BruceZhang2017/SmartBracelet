@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--
+        女性生理周期模块 - 字符串资源
+        完全对应iOS端的.localized()字符串
+     -->
+
+    <!-- 通用 -->
+    <string name="female_cycle_title">女性健康</string>
+    <string name="female_cycle_cancel">取消</string>
+    <string name="female_cycle_confirm">确认</string>
+    <string name="female_cycle_save">保存</string>
+    <string name="female_cycle_none">无</string>
+    <string name="female_cycle_days_unit">天</string>
+    <string name="female_cycle_days_format">%d天</string>
+    <string name="female_cycle_days_suffix">天</string>
+    <string name="female_cycle_total_prefix">共</string>
+
+    <!-- 配置页面 -->
+    <string name="female_cycle_question_period_days">你的经期通常持续多少天?</string>
+    <string name="female_cycle_period_days">经期天数</string>
+    <string name="female_cycle_select_period_days">选择经期天数</string>
+
+    <string name="female_cycle_question_cycle_length">你的周期长度通常是多少天?</string>
+    <string name="female_cycle_cycle_length">周期长度</string>
+    <string name="female_cycle_select_cycle_length">选择周期长度</string>
+
+    <string name="female_cycle_question_last_period">你上一次月经是什么时候开始的?</string>
+    <string name="female_cycle_last_period_start_date">最后一次经期开始日期</string>
+    <string name="female_cycle_select_date">选择日期</string>
+
+    <string name="female_cycle_start_prediction">开始预测</string>
+
+    <!-- 日历页面 -->
+    <string name="female_cycle_overview">周期概览</string>
+    <string name="female_cycle_period">经期</string>
+    <string name="female_cycle_ovulation">排卵期</string>
+    <string name="female_cycle_safe_period">安全期</string>
+    <string name="female_cycle_predicted_period">预测经期</string>
+    <string name="female_cycle_has_record">有记录</string>
+    <string name="female_cycle_cycle">周期</string>
+    <string name="female_cycle_description">记录症状数据,让预测更准确</string>
+    <string name="female_cycle_future_warning">未来日期暂不支持记录</string>
+    <string name="female_cycle_day_n">第%d天</string>
+
+    <!-- 日历图例 -->
+    <string name="female_cycle_period_desc">经期阶段,注意休息和保暖</string>
+    <string name="female_cycle_ovulation_desc">排卵期,受孕几率较高</string>
+
+    <!-- 星期 -->
+    <string name="female_cycle_weekday_sun">日</string>
+    <string name="female_cycle_weekday_mon">一</string>
+    <string name="female_cycle_weekday_tue">二</string>
+    <string name="female_cycle_weekday_wed">三</string>
+    <string name="female_cycle_weekday_thu">四</string>
+    <string name="female_cycle_weekday_fri">五</string>
+    <string name="female_cycle_weekday_sat">六</string>
+
+    <!-- 症状记录 -->
+    <string name="female_cycle_record_symptoms">记录症状</string>
+    <string name="female_cycle_period_started">经期开始了吗?</string>
+    <string name="female_cycle_flow">流量</string>
+    <string name="female_cycle_flow_light">少</string>
+    <string name="female_cycle_flow_medium">中</string>
+    <string name="female_cycle_flow_heavy">多</string>
+
+    <string name="female_cycle_pain">痛经</string>
+    <string name="female_cycle_pain_mild">轻微</string>
+    <string name="female_cycle_pain_moderate">中等</string>
+    <string name="female_cycle_pain_severe">严重</string>
+
+    <string name="female_cycle_sexual_activity">性行为</string>
+    <string name="female_cycle_protected_sex">保护性行为</string>
+    <string name="female_cycle_unprotected_sex">无保护性行为</string>
+
+    <string name="female_cycle_mood">心情</string>
+    <string name="female_cycle_mood_calm">平静</string>
+    <string name="female_cycle_mood_happy">开心</string>
+    <string name="female_cycle_mood_relaxed">放松</string>
+    <string name="female_cycle_mood_energetic">活力满满</string>
+    <string name="female_cycle_mood_sensitive">敏感</string>
+    <string name="female_cycle_mood_anxious">焦躁</string>
+    <string name="female_cycle_mood_irritable">易怒</string>
+    <string name="female_cycle_mood_sad">悲伤</string>
+
+    <string name="female_cycle_body_symptoms">身体症状</string>
+
+    <!-- 身体症状分类 -->
+    <string name="female_cycle_symptom_category_whole_body">全身</string>
+    <string name="female_cycle_symptom_category_head">头部</string>
+    <string name="female_cycle_symptom_category_abdomen">腹部</string>
+    <string name="female_cycle_symptom_category_legs">腿部</string>
+    <string name="female_cycle_symptom_category_other">其他</string>
+    <string name="female_cycle_symptom_category_discharge">分泌物</string>
+    <string name="female_cycle_symptom_category_skin">皮肤</string>
+
+    <!-- 身体症状 - 全身 -->
+    <string name="female_cycle_symptom_normal">正常</string>
+    <string name="female_cycle_symptom_cramps">痉挛</string>
+    <string name="female_cycle_symptom_fatigue">疲劳</string>
+    <string name="female_cycle_symptom_edema">水肿</string>
+
+    <!-- 身体症状 - 头部 -->
+    <string name="female_cycle_symptom_headache">头痛</string>
+    <string name="female_cycle_symptom_dizziness">头晕</string>
+    <string name="female_cycle_symptom_vomiting">恶心呕吐</string>
+    <string name="female_cycle_symptom_insomnia">失眠</string>
+
+    <!-- 身体症状 - 腹部 -->
+    <string name="female_cycle_symptom_diarrhea">腹泻</string>
+    <string name="female_cycle_symptom_lower_abdominal_pain">下腹痛</string>
+    <string name="female_cycle_symptom_abdominal_swelling">腹胀</string>
+    <string name="female_cycle_symptom_abdominal_pain">腹痛</string>
+
+    <!-- 身体症状 - 腿部 -->
+    <string name="female_cycle_symptom_thigh_soreness">大腿酸痛</string>
+    <string name="female_cycle_symptom_thigh_spasm">大腿痉挛</string>
+    <string name="female_cycle_symptom_calf_soreness">小腿酸痛</string>
+    <string name="female_cycle_symptom_calf_spasm">小腿痉挛</string>
+
+    <!-- 身体症状 - 其他 -->
+    <string name="female_cycle_symptom_breast_tenderness">乳房胀痛</string>
+    <string name="female_cycle_symptom_backache">腰酸背痛</string>
+    <string name="female_cycle_symptom_hot_flash">燥热</string>
+    <string name="female_cycle_symptom_cold_deficiency">虚寒</string>
+
+    <!-- 身体症状 - 分泌物 -->
+    <string name="female_cycle_symptom_dry">干燥</string>
+    <string name="female_cycle_symptom_sticky">粘稠</string>
+    <string name="female_cycle_symptom_egg_white">蛋清状</string>
+    <string name="female_cycle_symptom_watery">水样</string>
+    <string name="female_cycle_symptom_milky">乳白色</string>
+
+    <!-- 身体症状 - 皮肤 -->
+    <string name="female_cycle_symptom_oily">油性</string>
+    <string name="female_cycle_symptom_blackhead">黑头</string>
+    <string name="female_cycle_symptom_acne">痘痘</string>
+
+    <!-- 数据列表 -->
+    <string name="female_cycle_all_data">所有数据</string>
+    <string name="female_cycle_settings">周期设置</string>
+    <string name="female_cycle_daily_record">日常记录</string>
+    <string name="female_cycle_month_year_format">yyyy年MM月</string>
+
+    <!-- 数据详情 -->
+    <string name="female_cycle_data_detail">数据详情</string>
+    <string name="female_cycle_record_time">记录时间</string>
+
+    <!-- 格式化字符串 -->
+    <string name="female_cycle_day_format">第%d天</string>
+    <string name="female_cycle_month_format">%d月</string>
+
+    <!-- 错误提示 -->
+    <string name="female_cycle_error_invalid_config">配置参数无效</string>
+    <string name="female_cycle_error_load_data">加载数据失败</string>
+    <string name="female_cycle_error_save_data">保存数据失败</string>
+
+    <!-- 权限提示 -->
+    <string name="female_cycle_permission_calendar">需要日历权限来设置提醒</string>
+    <string name="female_cycle_permission_notification">需要通知权限来提醒你记录症状</string>
+</resources>
