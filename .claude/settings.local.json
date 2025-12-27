@@ -14,7 +14,10 @@
       "Bash(find:*)",
       "Bash(for lang in de ja ru zh-HK)",
       "Bash(do echo \"=== $lang ===\" grep -E \"^\"\"(Cancel|mine_finish)\"\"\" \"/Users/anker/Downloads/SmartBracelet/SmartBracelet/$lang.lproj/Localizable.strings\")",
-      "Bash(rm:*)"
+      "Bash(rm:*)",
+      "Bash(cat:*)",
+      "Bash(./prepare-framework.sh)",
+      "Bash(git add:*)"
     ]
   }
 }

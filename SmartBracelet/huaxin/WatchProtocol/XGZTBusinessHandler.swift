@@ -8,11 +8,8 @@
 
 import Foundation
 
-var flag_81 = false
-var flag_82 = false
-var flag_5d = false // 5d指令是否成功
-var flag_device_reading = false
-var sync_time_single = false 
+// MARK: - 全局变量已迁移到 XGZTCommandStateManager
+// 这些全局变量已被线程安全的管理器替代，详见 XGZTCommandStateManager.swift
 
 class XGZTBusinessHandler: NSObject {
     
@@ -74,78 +71,87 @@ class XGZTBusinessHandler: NSObject {
             Async.main(after: 0.5) {
                 NotificationCenter.default.post(name: Notification.Name("DevicesViewController"), object: "1")
             }
-            
+
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                 self.syncDevcieInfo()
             }
         }
-        isXGZT = true 
+        // 标记XGZT设备已连接（MAC地址由连接层设置）
+        XGZTConnectionStateManager.shared.setDeviceType(.xgzt)
     }
     
     func handleDisconnected() {
-        isXGZT = false
-        flag_device_reading = false
+        // 标记设备已断开（但不清除MAC，以便重连）
+        XGZTConnectionStateManager.shared.markDisconnected(clearMac: false)
+        // 清理指令状态
+        XGZTCommandStateManager.shared.handleDisconnected()
+
         DispatchQueue.main.async {
             NotificationCenter.default.post(name: Notification.Name("UploadImageViewController"), object: nil)
             Async.main(after: 0.5) {
                 NotificationCenter.default.post(name: Notification.Name("DevicesViewController"), object: "1")
             }
             NotificationCenter.default.post(name: Notification.Name("MTabBarController"), object: "disconnect")
-            
+
         }
-        
+
     }
     
     // 设备同步信息
     public func syncDevcieInfo() {
         // 1.绑定设备
         XGZTCommand.bindDevice(value: 0)
-        flag_81 = true
+        XGZTCommandStateManager.shared.setCommandPending(.bind81)
+
         DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
-            if !flag_81 {
+            if !XGZTCommandStateManager.shared.isCommandPending(.bind81) {
                 return
             }
             XGZTCommand.bindDevice(value: 0)
-            connectFailMessage += "[\(lastestDeviceMac)]指令故障:嵌入式未回复指令81"
+            let mac = XGZTConnectionStateManager.shared.lastDeviceMac
+            XGZTDeviceManager.shared.appendFailMessage("[\(mac)]指令故障:嵌入式未回复指令81")
         }
     }
     
     public func syncDevcieInfo2() {
         XGZTCommand.bindDevice(value: 1)
-        flag_82 = true
+        XGZTCommandStateManager.shared.setCommandPending(.bind82)
+
         DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
-            if !flag_82 {
+            if !XGZTCommandStateManager.shared.isCommandPending(.bind82) {
                 return
             }
             XGZTCommand.bindDevice(value: 1)
-            connectFailMessage += "[\(lastestDeviceMac)]指令故障:嵌入式未回复指令82"
+            let mac = XGZTConnectionStateManager.shared.lastDeviceMac
+            XGZTDeviceManager.shared.appendFailMessage("[\(mac)]指令故障:嵌入式未回复指令82")
         }
     }
     
     private func set5D() {
         XGZTCommand.setAppInfo(phoneType: 1)
-        flag_5d = true
-        
+        XGZTCommandStateManager.shared.setCommandPending(.setAppInfo5D)
+
         DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
-            if !flag_5d {
+            if !XGZTCommandStateManager.shared.isCommandPending(.setAppInfo5D) {
                 return
             }
             XGZTCommand.setAppInfo(phoneType: 1)
-            connectFailMessage += "[\(lastestDeviceMac)]指令故障:嵌入式未回复指令5d"
+            let mac = XGZTConnectionStateManager.shared.lastDeviceMac
+            XGZTDeviceManager.shared.appendFailMessage("[\(mac)]指令故障:嵌入式未回复指令5d")
         }
     }
     
     private func readDeviceInfo2() {
-        if !flag_device_reading {
+        if !XGZTCommandStateManager.shared.isDeviceReading {
             return
         }
         XGZTCommand.getNewestHealthData(type: 0)
-        
+
         // 4. 获取步数
     }
     
     private func readDeviceInfo3() {
-        if !flag_device_reading {
+        if !XGZTCommandStateManager.shared.isDeviceReading {
             return
         }
         XGZTCommand.getNewestHeartData(type: 0)
@@ -153,7 +159,7 @@ class XGZTBusinessHandler: NSObject {
     }
     
     private func readDeviceInfo4() {
-        if !flag_device_reading {
+        if !XGZTCommandStateManager.shared.isDeviceReading {
             return
         }
         // 6. 获取血氧
@@ -161,7 +167,7 @@ class XGZTBusinessHandler: NSObject {
     }
     
     private func readDeviceInfo5() {
-        if !flag_device_reading {
+        if !XGZTCommandStateManager.shared.isDeviceReading {
             return
         }
         // 7.获取血压
@@ -169,7 +175,7 @@ class XGZTBusinessHandler: NSObject {
     }
     
     private func readDeviceInfo6() {
-        if !flag_device_reading {
+        if !XGZTCommandStateManager.shared.isDeviceReading {
             return
         }
         // 8. 获取历史步数
@@ -177,14 +183,14 @@ class XGZTBusinessHandler: NSObject {
     }
     
     private func readDeviceInfo7() {
-        if !flag_device_reading {
+        if !XGZTCommandStateManager.shared.isDeviceReading {
             return
         }
         XGZTCommand.getSleepMonitoring() // 9.获取当天的睡眠数据
     }
     
     private func readDeviceInfo8() {
-        if !flag_device_reading {
+        if !XGZTCommandStateManager.shared.isDeviceReading {
             return
         }
         XGZTCommand.getHistorySleepData()
@@ -192,42 +198,42 @@ class XGZTBusinessHandler: NSObject {
     }
     
     private func readDeviceInfo9() {
-        if !flag_device_reading {
+        if !XGZTCommandStateManager.shared.isDeviceReading {
             return
         }
         XGZTCommand.getSwitchStatus()
     }
     
     private func readDeviceInfo10() {
-        if !flag_device_reading {
+        if !XGZTCommandStateManager.shared.isDeviceReading {
             return
         }
         XGZTCommand.getSwitchTableExtension()
     }
     
     private func readDeviceInfo11() {
-        if !flag_device_reading {
+        if !XGZTCommandStateManager.shared.isDeviceReading {
             return
         }
         XGZTCommand.getReminderInfo(eventType: 0)
     }
     
     private func readDeviceInfo12() {
-        if !flag_device_reading {
+        if !XGZTCommandStateManager.shared.isDeviceReading {
             return
         }
         XGZTCommand.getReminderInfo(eventType: 1)
     }
     
     private func readDeviceInfo13() {
-        if !flag_device_reading {
+        if !XGZTCommandStateManager.shared.isDeviceReading {
             return
         }
         XGZTCommand.get12H24HTimeFormat()
     }
     
     private func readDeviceInfo14() {
-        if !flag_device_reading {
+        if !XGZTCommandStateManager.shared.isDeviceReading {
             return
         }
         XGZTCommand.getDeviceUnitFormat()
@@ -237,7 +243,7 @@ class XGZTBusinessHandler: NSObject {
     }
     
     private func readDeviceInfo15() {
-        if !flag_device_reading {
+        if !XGZTCommandStateManager.shared.isDeviceReading {
             return
         }
         let code = getLanguageCode()
@@ -245,11 +251,12 @@ class XGZTBusinessHandler: NSObject {
     }
     
     private func readDeviceInfo17() {
-        flag_device_reading = false
+        XGZTCommandStateManager.shared.stopDeviceReading()
+
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
             XGZTCommand.getDeviceInfo()
         }
-        
+
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             [weak self] in
             self?.setANCS()
@@ -260,7 +267,8 @@ class XGZTBusinessHandler: NSObject {
     }
     
     public func readDeviceInfo() {
-        flag_device_reading = true
+        XGZTCommandStateManager.shared.startDeviceReading()
+
         // 2.设置时间
         // 获取当前的 UTC 时间
         let now = Date()

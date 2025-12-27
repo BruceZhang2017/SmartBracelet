@@ -14,8 +14,9 @@ import UIKit
 import TJDWristbandSDK
 import Toaster
 
-var lastestDeviceMac: String = "" // 最后连接的设备mac地址
-var isXGZT = false // 自研手表
+// MARK: - 全局变量已迁移到 XGZTConnectionStateManager
+// 这些全局变量已被线程安全的管理器替代，详见 XGZTConnectionStateManager.swift
+// 为保持兼容性，旧代码仍然可以使用这些变量（已标记为 deprecated）
 
 class MTabBarController: UITabBarController {
     
@@ -57,9 +58,10 @@ class MTabBarController: UITabBarController {
     
     // 设置最后连接的设备MAC地址
     private func setupLastestDeviceMac() {
-        lastestDeviceMac = UserDefaults.standard.string(forKey: "LastestDeviceMac") ?? ""
-        XLogger.shared.log("最后连接的设备MAC地址为：\(lastestDeviceMac)")
-        if !lastestDeviceMac.isEmpty {
+        // XGZTConnectionStateManager 已在初始化时自动加载MAC地址
+        let mac = XGZTConnectionStateManager.shared.lastDeviceMac
+        XLogger.shared.log("最后连接的设备MAC地址为：\(mac)")
+        if !mac.isEmpty {
             perform(#selector(checkIfNeedScanDevice), with: nil, afterDelay: 1)
         }
     }
@@ -81,7 +83,8 @@ class MTabBarController: UITabBarController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        if lastestDeviceMac.isEmpty || lastestDeviceMac.count == 0 {
+        let mac = XGZTConnectionStateManager.shared.lastDeviceMac
+        if mac.isEmpty || mac.count == 0 {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                 self.selectedIndex = 2
             }

@@ -615,12 +615,3 @@ extension XGZTBlueToothManager: ABOtaSendDelegate {
         peripheral?.writeValue(data, for: dataOutCharacteristic, type:.withoutResponse)
     }
 }
-
-extension DateFormatter {
-    static let logDateFormatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "HH:mm:ss.SSS" // 例如："14:05:23.456"
-        formatter.locale = Locale(identifier: "en_US_POSIX") // 确保格式一致
-        return formatter
-    }()
-}

@@ -8,11 +8,7 @@
 
 import Foundation
 
-
-import Foundation
-
-public var cacheDevices = [BluetoothWatchDevice]()
-public var connectFailMessage = ""
+// MARK: - 设备模型
 
 public class BluetoothWatchDevice {
     // 手表设备信息属性
@@ -141,8 +137,8 @@ public class BluetoothWatchDevice {
         dic[macAddress] = deviceName
         defaults.set(dic, forKey: "xgzt")
         
-        // 5. 更新缓存（根据业务逻辑保留）
-        BluetoothWatchDevice.loadAll()
+        // 5. 更新缓存（使用新的管理器）
+        XGZTDeviceManager.shared.reloadDevices()
     }
     
     
@@ -195,37 +191,13 @@ public class BluetoothWatchDevice {
         XLogger.shared.log("删除设备后：\(dic.keys.count) ")
         defaults.set(dic, forKey: "xgzt")
         defaults.synchronize()
-        
-        BluetoothWatchDevice.loadAll()
+
+        // 更新缓存
+        XGZTDeviceManager.shared.reloadDevices()
     }
     
+    /// 加载所有设备到缓存（使用新的线程安全管理器）
     static func loadAll() {
-        cacheDevices.removeAll()
-        cacheDevices = []
-        let defaults = UserDefaults.standard
-        guard let dic = defaults.dictionary(forKey: "xgzt") as? [String: String] else {
-            return
-        }
-        
-        if dic.isEmpty || dic.count <= 0 {
-            return
-        }
-        
-        var existingMACs = Set<String>() // 用于记录已存在的 MAC 地址
-        
-        for (mac, name) in dic {
-            // 检查 MAC 是否已存在
-            if existingMACs.contains(mac) {
-                continue
-            }
-            
-            existingMACs.insert(mac)
-            
-            let device = BluetoothWatchDevice()
-            device.deviceName = name
-            device.max = mac
-            XLogger.shared.log("已经缓存的设备：\(mac) \(name)")
-            cacheDevices.append(device)
-        }
+        XGZTDeviceManager.shared.reloadDevices()
     }
 }

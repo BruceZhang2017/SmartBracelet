@@ -167,6 +167,9 @@
 		9A4E11642EFCE1CD008AE0A8 /* OpenWeatherManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A4E115C2EFCE1CD008AE0A8 /* OpenWeatherManager.swift */; };
 		9A4E11652EFCE1CD008AE0A8 /* WeatherProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A4E115F2EFCE1CD008AE0A8 /* WeatherProvider.swift */; };
 		9A4E11662EFCE1CD008AE0A8 /* WeatherAPIConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A4E115E2EFCE1CD008AE0A8 /* WeatherAPIConfig.swift */; };
+		9A4E11A42EFF9E0F008AE0A8 /* XGZTDeviceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A4E11A32EFF9E0F008AE0A8 /* XGZTDeviceManager.swift */; };
+		9A4E11A62EFFA022008AE0A8 /* XGZTCommandStateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A4E11A52EFFA022008AE0A8 /* XGZTCommandStateManager.swift */; };
+		9A4E11A82EFFC551008AE0A8 /* XGZTConnectionStateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A4E11A72EFFC551008AE0A8 /* XGZTConnectionStateManager.swift */; };
 		9A4E624424F7E94E00A0E878 /* Device.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9A4E624324F7E94E00A0E878 /* Device.storyboard */; };
 		9A4E624624F8926300A0E878 /* DevicesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A4E624524F8926300A0E878 /* DevicesViewController.swift */; };
 		9A4E624824F8DF3800A0E878 /* DevicesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A4E624724F8DF3800A0E878 /* DevicesView.swift */; };
@@ -747,6 +750,9 @@
 		9A4E115E2EFCE1CD008AE0A8 /* WeatherAPIConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherAPIConfig.swift; sourceTree = "<group>"; };
 		9A4E115F2EFCE1CD008AE0A8 /* WeatherProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherProvider.swift; sourceTree = "<group>"; };
 		9A4E11602EFCE1CD008AE0A8 /* WeatherRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherRouter.swift; sourceTree = "<group>"; };
+		9A4E11A32EFF9E0F008AE0A8 /* XGZTDeviceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XGZTDeviceManager.swift; sourceTree = "<group>"; };
+		9A4E11A52EFFA022008AE0A8 /* XGZTCommandStateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XGZTCommandStateManager.swift; sourceTree = "<group>"; };
+		9A4E11A72EFFC551008AE0A8 /* XGZTConnectionStateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XGZTConnectionStateManager.swift; sourceTree = "<group>"; };
 		9A4E624324F7E94E00A0E878 /* Device.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Device.storyboard; sourceTree = "<group>"; };
 		9A4E624524F8926300A0E878 /* DevicesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DevicesViewController.swift; sourceTree = "<group>"; };
 		9A4E624724F8DF3800A0E878 /* DevicesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DevicesView.swift; sourceTree = "<group>"; };
@@ -1671,6 +1677,22 @@
 			path = Female;
 			sourceTree = "<group>";
 		};
+		9A4E11A22EFF960F008AE0A8 /* WatchProtocol */ = {
+			isa = PBXGroup;
+			children = (
+				9A4E11A72EFFC551008AE0A8 /* XGZTConnectionStateManager.swift */,
+				9A410C752DCB5368006240A6 /* XLogger.swift */,
+				9A93EE4F2CFDE78C00C02370 /* XGZTBlueToothManager.swift */,
+				9A93EE502CFDE78C00C02370 /* XGZTBusinessHandler.swift */,
+				9A93EE512CFDE78C00C02370 /* XGZTCommands.swift */,
+				9A93EE532CFDE78C00C02370 /* XGZTSwitchDevice.swift */,
+				9A3919D02D1E9547003B8646 /* DatabaseManager.swift */,
+				9A4E11A32EFF9E0F008AE0A8 /* XGZTDeviceManager.swift */,
+				9A4E11A52EFFA022008AE0A8 /* XGZTCommandStateManager.swift */,
+			);
+			path = WatchProtocol;
+			sourceTree = "<group>";
+		};
 		9A4E624224F7E91F00A0E878 /* Device */ = {
 			isa = PBXGroup;
 			children = (
@@ -2309,14 +2331,9 @@
 		9A93EE542CFDE78C00C02370 /* huaxin */ = {
 			isa = PBXGroup;
 			children = (
+				9A4E11A22EFF960F008AE0A8 /* WatchProtocol */,
 				9A0B86E22DD1C3D500E1E936 /* RemoveDeviceViewController.swift */,
-				9A410C752DCB5368006240A6 /* XLogger.swift */,
 				9A93EE4D2CFDE78C00C02370 /* OTA */,
-				9A93EE4F2CFDE78C00C02370 /* XGZTBlueToothManager.swift */,
-				9A93EE502CFDE78C00C02370 /* XGZTBusinessHandler.swift */,
-				9A93EE512CFDE78C00C02370 /* XGZTCommands.swift */,
-				9A93EE532CFDE78C00C02370 /* XGZTSwitchDevice.swift */,
-				9A3919D02D1E9547003B8646 /* DatabaseManager.swift */,
 			);
 			path = huaxin;
 			sourceTree = "<group>";
@@ -2899,6 +2916,7 @@
 				9A60DEF3252F418900E0D849 /* AlarmHeaderView.swift in Sources */,
 				9A4CADF029406E6E00B0BDF8 /* QuestionItemResponse.swift in Sources */,
 				9A56D28825216FC60082CC08 /* LegendEntry.swift in Sources */,
+				9A4E11A62EFFA022008AE0A8 /* XGZTCommandStateManager.swift in Sources */,
 				9A56D23E25216FC60082CC08 /* BubbleChartRenderer.swift in Sources */,
 				9A60DED9252F002400E0D849 /* CurrentCityTableViewCell.swift in Sources */,
 				9A8CA52525272C5200EC01A7 /* CVPresent.swift in Sources */,
@@ -3015,6 +3033,7 @@
 				9A48CE572EE8218C00F4E5E4 /* DataDetailViewController.swift in Sources */,
 				9A48CE582EE8218C00F4E5E4 /* AllDataViewController.swift in Sources */,
 				9AC58A1528C37A3800992836 /* ClockResponse.swift in Sources */,
+				9A4E11A42EFF9E0F008AE0A8 /* XGZTDeviceManager.swift in Sources */,
 				9A8CA529252CA8BA00EC01A7 /* DataRecordTableViewCell.swift in Sources */,
 				9AEBEC3426D2A3BE008D13AA /* BLEDeviceNameHandler.swift in Sources */,
 				9A87D62F2E7AD09F00FC509B /* HealthCollectionViewCell.swift in Sources */,
@@ -3203,6 +3222,7 @@
 				9A56D2BE25216FC70082CC08 /* ChartDataProvider.swift in Sources */,
 				9A56D28325216FC60082CC08 /* ChartUtils.swift in Sources */,
 				9A0B86E32DD1C3E100E1E936 /* RemoveDeviceViewController.swift in Sources */,
+				9A4E11A82EFFC551008AE0A8 /* XGZTConnectionStateManager.swift in Sources */,
 				9A56D26F25216FC60082CC08 /* ChartAnimationEasing.swift in Sources */,
 				9A56D2A225216FC70082CC08 /* BubbleChartDataEntry.swift in Sources */,
 				9A4B80A72DE1F5BB0001817F /* SelectAddActionViewController.swift in Sources */,
