@@ -39,6 +39,12 @@ pod 'IotLinkKit', '1.2.1'
 pod 'JRDB', '~> 2.1.2'
 pod 'DropDown'
 
+  # WatchProtocolSDK Framework Target（嵌套配置）
+  target 'WatchProtocolSDK' do
+    inherit! :search_paths
+    # 继承父 target 的所有搜索路径，包括 RealmSwift
+  end
+
   post_install do |installer|
     #调用移除函数
 #    remove_swift_ui()

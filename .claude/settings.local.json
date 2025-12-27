@@ -17,7 +17,12 @@
       "Bash(rm:*)",
       "Bash(cat:*)",
       "Bash(./prepare-framework.sh)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(chmod:*)",
+      "Bash(./verify-framework-target.sh:*)",
+      "Bash(gem install:*)",
+      "Bash(pod deintegrate:*)"
     ]
   }
 }
