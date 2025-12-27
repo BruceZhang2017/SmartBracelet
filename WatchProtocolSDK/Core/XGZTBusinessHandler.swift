@@ -66,9 +66,9 @@ class XGZTBusinessHandler: NSObject {
     func handleConnected() {
         DispatchQueue.main.async {
             NotificationCenter.default.post(name: Notification.Name("HealthVCLoading"), object: 1000)
-            NotificationCenter.default.post(name: Notification.Name.SearchDevice, object: "connected_xgzt") // 通知搜索页面
+            NotificationCenter.default.post(name: Notification.Name("SearchDevice"), object: "connected_xgzt") // 通知搜索页面
             NotificationCenter.default.post(name: Notification.Name("MTabBarController"), object: nil) // 通知主控页面
-            Async.main(after: 0.5) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                 NotificationCenter.default.post(name: Notification.Name("DevicesViewController"), object: "1")
             }
 
@@ -88,7 +88,7 @@ class XGZTBusinessHandler: NSObject {
 
         DispatchQueue.main.async {
             NotificationCenter.default.post(name: Notification.Name("UploadImageViewController"), object: nil)
-            Async.main(after: 0.5) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                 NotificationCenter.default.post(name: Notification.Name("DevicesViewController"), object: "1")
             }
             NotificationCenter.default.post(name: Notification.Name("MTabBarController"), object: "disconnect")

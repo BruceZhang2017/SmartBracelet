@@ -1225,10 +1225,14 @@ public class XGZTCommand {
             if response[5] == 0x00 {
                 XLogger.shared.log("开始查找手机")
                 DispatchQueue.main.async {
-                    (UIApplication.shared.delegate as? AppDelegate)?.foundphone()
+                    // 发送通知让主应用处理查找手机功能
+                    NotificationCenter.default.post(name: Notification.Name("FindPhone"), object: "start")
                 }
             } else {
                 XLogger.shared.log("结束查找手机")
+                DispatchQueue.main.async {
+                    NotificationCenter.default.post(name: Notification.Name("FindPhone"), object: "stop")
+                }
             }
         case.setWeatherUnit:
             guard response.count >= 7 else {
@@ -1462,7 +1466,7 @@ public class XGZTCommand {
                     XGZTBlueToothManager.shared.device?.alarms.append(alarm)
                 }
                 DispatchQueue.main.async { // 返回主线程刷新
-                    NotificationCenter.default.post(name: Notification.Name.Alarm, object: nil)
+                    NotificationCenter.default.post(name: Notification.Name("Alarm"), object: nil)
                 }
             }
         case.reminderInfo:

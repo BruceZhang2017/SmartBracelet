@@ -123,7 +123,7 @@ class XGZTBlueToothManager: NSObject, CBCentralManagerDelegate, CBPeripheralDele
         XLogger.shared.log("停止扫描")
         isScanning = false
         centralManager?.stopScan()
-        BLEManager.shared.stopScan() // 停止扫描
+        // BLEManager.shared.stopScan() // 注释掉 - BLEManager 来自主应用
     }
 
     func connectFunc(to device: CBPeripheral) {
@@ -422,11 +422,14 @@ class XGZTBlueToothManager: NSObject, CBCentralManagerDelegate, CBPeripheralDele
                 XLogger.shared.log("Service UUID: \(service.uuid) characteristic UUID: \(characteristic.uuid.uuidString)")
                 XLogger.shared.log("Service UUID: \(service.uuid) characteristic.properties: \(characteristicPropertiesToString(characteristic.properties))")
                 XLogger.shared.log("Service UUID: \(service.uuid) characteristic.isNotifying: \(characteristic.isNotifying)")
-                if OTAService.dataInUuid == characteristic.uuid || characteristic.uuid.uuidString == "0000FF14-0000-1000-8000-00805F9B34FB" {
-                    Logger.n(self, "Data In characteristic found")
+
+                // OTA Data In characteristic (0000FF14-0000-1000-8000-00805F9B34FB)
+                if characteristic.uuid.uuidString == "0000FF14-0000-1000-8000-00805F9B34FB" {
+                    XLogger.shared.log("Data In characteristic found")
                     dataInCharacteristic = characteristic
-                } else if OTAService.dataOutUuid == characteristic.uuid {
-                    Logger.n(self, "Data Out characteristic found")
+                // OTA Data Out characteristic
+                } else if characteristic.uuid.uuidString == "0000FF15-0000-1000-8000-00805F9B34FB" {
+                    XLogger.shared.log("Data Out characteristic found")
                     dataOutCharacteristic = characteristic
                 } else if characteristic.uuid.uuidString == "FF13" || characteristic.uuid.uuidString == "0000FF13-0000-1000-8000-00805F9B34FB"  { // write
                     self.characteristic = characteristic
@@ -604,6 +607,8 @@ class XGZTBlueToothManager: NSObject, CBCentralManagerDelegate, CBPeripheralDele
     }
 }
 
+// MARK: - OTA Support (Commented out - requires ABOtaSendDelegate from main app)
+/*
 extension XGZTBlueToothManager: ABOtaSendDelegate {
     func sendData(_ data: Data) {
         guard let dataOutCharacteristic else { return }
@@ -615,3 +620,4 @@ extension XGZTBlueToothManager: ABOtaSendDelegate {
         peripheral?.writeValue(data, for: dataOutCharacteristic, type:.withoutResponse)
     }
 }
+*/
