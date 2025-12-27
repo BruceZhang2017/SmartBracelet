@@ -12,101 +12,101 @@ import Foundation
 
 public class BluetoothWatchDevice {
     // 手表设备信息属性
-    var deviceName: String?
-    var deviceModel: Int?
-    var deviceID: Int?
-    var brandID: Int? // 品牌id
-    var max: String?
-    var batteryLevel: Int?
-    var isCharging: Bool?
-    var deviceLanguage: Int?
-    var deviceUnitFormat: Int?
+    public var deviceName: String?
+    public var deviceModel: Int?
+    public var deviceID: Int?
+    public var brandID: Int? // 品牌id
+    public var max: String?
+    public var batteryLevel: Int?
+    public var isCharging: Bool?
+    public var deviceLanguage: Int?
+    public var deviceUnitFormat: Int?
     /// 硬件版本
     /// hardware version
-    var hardwareVersion: Int?
+    public var hardwareVersion: Int?
     /// 固件版本
     /// Firmware version
-    var firmwareVersion: String?
+    public var firmwareVersion: String?
     /// 1 方形， 2 圆形,  自定义：屏幕形状: 0x00: 正⽅形, 0x01: 圆形, 0x02: ⻓⽅形
-    var screenType: Int = 1
+    public var screenType: Int = 1
     /// 表盘宽 默认240
-    var screenWidth: Int = 240
+    public var screenWidth: Int = 240
     /// 表盘高 默认240
-    var screenHeight: Int = 240
-    var mtu: Int = 0
+    public var screenHeight: Int = 240
+    public var mtu: Int = 0
     
-    var sex: Int = 0 // 性别：0x00：男，0x01：女
-    var age: Int = 0
-    var height: Int = 0
-    var weight: Int = 0
-    var timeUnit: Int = 0 // 返回时间制：0x00:12h 0x01:24h
-    var baseUnit: Int = 0 
+    public var sex: Int = 0 // 性别：0x00：男，0x01：女
+    public var age: Int = 0
+    public var height: Int = 0
+    public var weight: Int = 0
+    public var timeUnit: Int = 0 // 返回时间制：0x00:12h 0x01:24h
+    public var baseUnit: Int = 0 
     
-    var alarmcount: Int = 0
-    var alarmCanUse: Int = 0
-    var alarms: [AlarmData] = [] // 闹钟
-    var longsit: ReminderInfoResponse?
-    var drinkWater: ReminderInfoResponse?
+    public var alarmcount: Int = 0
+    public var alarmCanUse: Int = 0
+    public var alarms: [AlarmData] = [] // 闹钟
+    public var longsit: ReminderInfoResponse?
+    public var drinkWater: ReminderInfoResponse?
     
     // health
-    var currentStep: Int = 0
-    var currentSleep: Int = 0
-    var currentSleepArray: [Int] = [0,0,0]
-    var currentCalorie: Int = 0
-    var currentDistance: Int = 0
-    var currentHeartrate: Int = 0
-    var currentOxygen: Int = 0
-    var currentSystolicpressure: Int = 0 // 收缩压（单位：mmHg）
-    var currentDiastolicpressure: Int = 0 // 舒张压（单位：mmHg）
+    public var currentStep: Int = 0
+    public var currentSleep: Int = 0
+    public var currentSleepArray: [Int] = [0,0,0]
+    public var currentCalorie: Int = 0
+    public var currentDistance: Int = 0
+    public var currentHeartrate: Int = 0
+    public var currentOxygen: Int = 0
+    public var currentSystolicpressure: Int = 0 // 收缩压（单位：mmHg）
+    public var currentDiastolicpressure: Int = 0 // 舒张压（单位：mmHg）
     
-    var functioncontrolflags: Int = 0 // [0] 是否⽀持表盘市场 [1] 是否⽀持消息提醒 [2] 是否⽀持天⽓功能 等
-    var healthcontrolflags: Int = 0 // [0] 是否⽀持⼼率检测 [1] 是否⽀持⾎氧检测 等
+    public var functioncontrolflags: Int = 0 // [0] 是否⽀持表盘市场 [1] 是否⽀持消息提醒 [2] 是否⽀持天⽓功能 等
+    public var healthcontrolflags: Int = 0 // [0] 是否⽀持⼼率检测 [1] 是否⽀持⾎氧检测 等
     
     // 开关类
-    var isAntilostSwitch: Bool = false // 防丢开关
-    var isRaisehandtobrightenscreen: Bool = false // 抬⼿亮屏开关
-    var isAutoSyncSwitch: Bool = false // ⾃动同步开关
-    var isSleepmonitoringSwitch: Bool = false // Sleep monitoring Switch
-    var isMessageremindermainswitch: Bool = false // 消息提醒总开关
-    var isRegularexercisedatauploadswitch: Bool = false // 整点上传运动数据开关
-    var isGoalachievementswitch: Bool = false // ⽬标达成开关
-    var isMessagescreendisplayswitch: Bool = false // 消息提醒亮屏开关
-    var isSoundswitch: Bool = false // 声⾳开关
-    var isVibrationswitch: Bool = false // 震动总开关
-    var isRegularhealthdatauploadswitch: Bool = false // 整点上传健康数据开关
-    var isMessagevibrationswitch: Bool = false // 消息提醒震动开关
+    public var isAntilostSwitch: Bool = false // 防丢开关
+    public var isRaisehandtobrightenscreen: Bool = false // 抬⼿亮屏开关
+    public var isAutoSyncSwitch: Bool = false // ⾃动同步开关
+    public var isSleepmonitoringSwitch: Bool = false // Sleep monitoring Switch
+    public var isMessageremindermainswitch: Bool = false // 消息提醒总开关
+    public var isRegularexercisedatauploadswitch: Bool = false // 整点上传运动数据开关
+    public var isGoalachievementswitch: Bool = false // ⽬标达成开关
+    public var isMessagescreendisplayswitch: Bool = false // 消息提醒亮屏开关
+    public var isSoundswitch: Bool = false // 声⾳开关
+    public var isVibrationswitch: Bool = false // 震动总开关
+    public var isRegularhealthdatauploadswitch: Bool = false // 整点上传健康数据开关
+    public var isMessagevibrationswitch: Bool = false // 消息提醒震动开关
     
     // 通知类
-    var isNullMessage: Bool = true // 五消息
-    var isIncomingCall: Bool = false // 来电
-    var isMissedCall: Bool = false // 未接来电
-    var isMessages: Bool = true // 短信
-    var isEmail: Bool = true // 邮件
-    var isSchedule: Bool = true // ⽇程
-    var isFacetime: Bool = true // Facetime
-    var isQQ: Bool = true // qq
-    var isSkype: Bool = true // Skype
-    var isWechat: Bool = true // Wechat
-    var isWhatsapp: Bool = true // Whatsapp
-    var isGmail: Bool = true // Gmail
-    var isHangout: Bool = true // Hangout
-    var isInbox: Bool = true // Inbox
-    var isLine: Bool = true // Line
-    var isTwitter: Bool = true
-    var isFacebook: Bool = true
-    var isFacebookMessenger: Bool = true
-    var isInstagram: Bool = true
-    var isWeibo: Bool = true
-    var isKakaotalk: Bool = true
-    var isFacebookpagemanager: Bool = true
-    var isViber: Bool = true
-    var isVkclient: Bool = true
-    var isTelegram: Bool = true
-    var isSnapchat: Bool = true
-    var isDingTalk: Bool = true
-    var isAlipay: Bool = true
-    var isTiktok: Bool = true
-    var isLinkedIn: Bool = true
+    public var isNullMessage: Bool = true // 五消息
+    public var isIncomingCall: Bool = false // 来电
+    public var isMissedCall: Bool = false // 未接来电
+    public var isMessages: Bool = true // 短信
+    public var isEmail: Bool = true // 邮件
+    public var isSchedule: Bool = true // ⽇程
+    public var isFacetime: Bool = true // Facetime
+    public var isQQ: Bool = true // qq
+    public var isSkype: Bool = true // Skype
+    public var isWechat: Bool = true // Wechat
+    public var isWhatsapp: Bool = true // Whatsapp
+    public var isGmail: Bool = true // Gmail
+    public var isHangout: Bool = true // Hangout
+    public var isInbox: Bool = true // Inbox
+    public var isLine: Bool = true // Line
+    public var isTwitter: Bool = true
+    public var isFacebook: Bool = true
+    public var isFacebookMessenger: Bool = true
+    public var isInstagram: Bool = true
+    public var isWeibo: Bool = true
+    public var isKakaotalk: Bool = true
+    public var isFacebookpagemanager: Bool = true
+    public var isViber: Bool = true
+    public var isVkclient: Bool = true
+    public var isTelegram: Bool = true
+    public var isSnapchat: Bool = true
+    public var isDingTalk: Bool = true
+    public var isAlipay: Bool = true
+    public var isTiktok: Bool = true
+    public var isLinkedIn: Bool = true
     
     
     // 存储设备信息到沙盒

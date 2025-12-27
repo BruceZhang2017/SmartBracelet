@@ -8,8 +8,8 @@
 
 import Foundation
 
-class XLogger {
-    static let shared = XLogger() // 单例模式，方便全局调用
+public class XLogger {
+    public static let shared = XLogger() // 单例模式，方便全局调用
     private let logFileURL: URL
     private var fileHandle: FileHandle?
     private let lock = NSLock()  // 线程安全锁
@@ -42,7 +42,7 @@ class XLogger {
         }
     }
     
-    func log(_ message: String) {
+    public func log(_ message: String) {
         // 1. 输出到控制台
         print(message)
         

@@ -356,6 +356,7 @@
 		9A60DEFD25301FEE00E0D849 /* DeviceSearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A60DEFC25301FEE00E0D849 /* DeviceSearchTableViewCell.swift */; };
 		9A61683825DA192900918EFC /* CircleProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A61683725DA192900918EFC /* CircleProgressView.m */; };
 		9A61685625DA502F00918EFC /* HBLockSliderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A61685525DA502F00918EFC /* HBLockSliderView.m */; };
+		9A61BC082F001F6200FB67B3 /* WatchProtocolSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A4E11AE2F0003EC008AE0A8 /* WatchProtocolSDK.framework */; };
 		9A64F08225DD50D70073E679 /* ClockUseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A64F08125DD50D70073E679 /* ClockUseViewController.swift */; };
 		9A64F0B825DE18CD0073E679 /* DBloodModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A64F0B725DE18CD0073E679 /* DBloodModel.swift */; };
 		9A64F0BA25DE19B30073E679 /* DHeartRateModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A64F0B925DE19B30073E679 /* DHeartRateModel.swift */; };
@@ -545,6 +546,16 @@
 		9AFAE87B2A8F21F7005EF8F8 /* JGProgressHUDPieIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AFAE86F2A8F21F7005EF8F8 /* JGProgressHUDPieIndicatorView.m */; };
 		9AFAE87C2A8F21F7005EF8F8 /* JGProgressHUDShadow.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AFAE8702A8F21F7005EF8F8 /* JGProgressHUDShadow.m */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		9A61BC0A2F001F6200FB67B3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 18385E9224517F1600EA380A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 9A4E11AD2F0003EC008AE0A8;
+			remoteInfo = WatchProtocolSDK;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		9A99CCEC26CB57DE00D6972A /* Embed Frameworks */ = {
@@ -1261,6 +1272,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9A61BC082F001F6200FB67B3 /* WatchProtocolSDK.framework in Frameworks */,
 				9AB5BE252A06648E00680757 /* ZipZap.framework in Frameworks */,
 				9A0C34952B341D6600E798F1 /* DFUnits.framework in Frameworks */,
 				9A218423255A3351000330E5 /* CoreTelephony.framework in Frameworks */,
@@ -1693,13 +1705,6 @@
 				9A48CE512EE7CB7D00F4E5E4 /* FemaleCycleCalendarViewController.swift */,
 			);
 			path = Female;
-			sourceTree = "<group>";
-		};
-		9A4E11A22EFF960F008AE0A8 /* WatchProtocol */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = WatchProtocol;
 			sourceTree = "<group>";
 		};
 		9A4E624224F7E91F00A0E878 /* Device */ = {
@@ -2340,7 +2345,6 @@
 		9A93EE542CFDE78C00C02370 /* huaxin */ = {
 			isa = PBXGroup;
 			children = (
-				9A4E11A22EFF960F008AE0A8 /* WatchProtocol */,
 				9A0B86E22DD1C3D500E1E936 /* RemoveDeviceViewController.swift */,
 				9A93EE4D2CFDE78C00C02370 /* OTA */,
 			);
@@ -2612,6 +2616,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				9A61BC0B2F001F6200FB67B3 /* PBXTargetDependency */,
 			);
 			name = SmartBracelet;
 			productName = TJDWristbandSDKDemo;
@@ -3257,6 +3262,14 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		9A61BC0B2F001F6200FB67B3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 9A4E11AD2F0003EC008AE0A8 /* WatchProtocolSDK */;
+			targetProxy = 9A61BC0A2F001F6200FB67B3 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		18385EA824517F1A00EA380A /* LaunchScreen.storyboard */ = {

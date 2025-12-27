@@ -9,7 +9,7 @@
 import Foundation
 
 // MARK: - Data Extension for Hex Conversion
-extension Data {
+public extension Data {
     /// 将 Data 转换为十六进制字符串
     /// 例如: Data([0x01, 0x02, 0xFF]) -> "0102FF"
     var hex: String {

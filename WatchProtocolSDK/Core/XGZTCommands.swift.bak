@@ -189,7 +189,7 @@ public class XGZTCommand {
     }
     
     // 获取电池电量
-    public static func getBatteryLevel() {
+    static func getBatteryLevel() {
         let command = createCommand(with: [
             0x00,
             XGZTCommands.getBatteryLevel.rawValue,
@@ -202,7 +202,7 @@ public class XGZTCommand {
     }
     
     // 设置屏幕亮度
-    public static func setScreenBrightness(brightnessValue: Int){
+    static func setScreenBrightness(brightnessValue: Int){
         let command = createCommand(with: [
             0x00,
             XGZTCommands.setScreenBrightness.rawValue,
@@ -215,7 +215,7 @@ public class XGZTCommand {
     }
     
     // 获取设备语言
-    public static func getDeviceLanguage(language: Int) {
+    static func getDeviceLanguage(language: Int) {
         let command = createCommand(with: [
             0x00,
             XGZTCommands.getDeviceLanguage.rawValue,
@@ -228,7 +228,7 @@ public class XGZTCommand {
         XGZTBlueToothManager.shared.writeCharacteristic(command: command)
     }
     
-    public static func getDeviceUnitFormat() {
+    static func getDeviceUnitFormat() {
         let command = createCommand(with: [
             0x00,
             XGZTCommands.setDeviceUnitFormat.rawValue,
@@ -241,7 +241,7 @@ public class XGZTCommand {
     }
     
     // 设置设备单位格式
-    public static func setDeviceUnitFormat(unitType: Int) {
+    static func setDeviceUnitFormat(unitType: Int) {
         let command = createCommand(with: [
             0x00,
             XGZTCommands.setDeviceUnitFormat.rawValue,
@@ -255,7 +255,7 @@ public class XGZTCommand {
     }
     
     // 重置设备为出厂设置
-    public static func resetToFactorySettings() {
+    static func resetToFactorySettings() {
         let command = createCommand(with: [
             0x00,
             XGZTCommands.resetToFactorySettings.rawValue,
@@ -268,7 +268,7 @@ public class XGZTCommand {
     }
     
     // 设置设备亮屏时间
-    public static func setDeviceScreenTimeout(screenTimeout: Int) {
+    static func setDeviceScreenTimeout(screenTimeout: Int) {
         let command = createCommand(with: [
             0x00,
             XGZTCommands.setDeviceScreenTimeout.rawValue,
@@ -285,7 +285,7 @@ public class XGZTCommand {
     }
     
     // 设置勿扰功能
-    public static func setDoNotDisturb(startHour: Int, startMinute: Int, endHour: Int, endMinute: Int) {
+    static func setDoNotDisturb(startHour: Int, startMinute: Int, endHour: Int, endMinute: Int) {
         let command = createCommand(with: [
             0x00,
             XGZTCommands.setDoNotDisturb.rawValue,
@@ -302,7 +302,7 @@ public class XGZTCommand {
     }
     
     // 查找手环
-    public static func findBand(p0: Int){
+    static func findBand(p0: Int){
         let command = createCommand(with: [
             0x00,
             XGZTCommands.findBand.rawValue,
@@ -315,7 +315,7 @@ public class XGZTCommand {
     }
     
     // 查找手机
-    public static func findPhone() {
+    static func findPhone() {
         let command = createCommand(with: [
             0x00,
             XGZTCommands.findPhone.rawValue,
@@ -327,7 +327,7 @@ public class XGZTCommand {
         XGZTBlueToothManager.shared.writeCharacteristic(command: command)
     }
     
-    public static func disconnectBT() {
+    static func disconnectBT() {
         let command = createCommand(with: [
             0x00,
             XGZTCommands.disconnectBT.rawValue,
@@ -340,7 +340,7 @@ public class XGZTCommand {
     }
     
     // 设置天气单位
-    public static func setWeatherUnit(unit: Int) {
+    static func setWeatherUnit(unit: Int) {
         let command = createCommand(with: [
             0x00,
             XGZTCommands.setWeatherUnit.rawValue,
@@ -354,7 +354,7 @@ public class XGZTCommand {
     }
     
     // 12小时/24小时时间制
-    public static func get12H24HTimeFormat() {
+    static func get12H24HTimeFormat() {
         let command = createCommand(with: [
             0x00,
             XGZTCommands.set12H24HTimeFormat.rawValue,
@@ -367,7 +367,7 @@ public class XGZTCommand {
     }
     
     // 设置12小时/24小时时间制
-    public static func set12H24HTimeFormat(format: Int) {
+    static func set12H24HTimeFormat(format: Int) {
         let command = createCommand(with: [
             0x00,
             XGZTCommands.set12H24HTimeFormat.rawValue,
@@ -381,7 +381,7 @@ public class XGZTCommand {
     }
     
     // 获取设备信息
-    public static func getDeviceInfo() {
+    static func getDeviceInfo() {
         let command = createCommand(with: [
             0x00,
             XGZTCommands.getDeviceInfo.rawValue,
@@ -395,7 +395,7 @@ public class XGZTCommand {
     }
     
     // 设置应用端信息
-    public static func setAppInfo(phoneType: Int) {
+    static func setAppInfo(phoneType: Int) {
         let command = createCommand(with: [
             0x00,
             XGZTCommands.setAppInfo.rawValue,
@@ -410,7 +410,7 @@ public class XGZTCommand {
     }
     
     // 获取个人信息
-    public static func getPersonalInfo() {
+    static func getPersonalInfo() {
         let command = createCommand(with: [
             0x00,
             XGZTCommands.personalInfo.rawValue,
@@ -423,7 +423,7 @@ public class XGZTCommand {
     }
     
     // 设置个人信息
-    public static func setPersonalInfo(sex: Int, age: Int, height: Int, weight: Int) {
+    static func setPersonalInfo(sex: Int, age: Int, height: Int, weight: Int) {
         let command = createCommand(with: [
             0x00,
             XGZTCommands.personalInfo.rawValue,
@@ -440,7 +440,7 @@ public class XGZTCommand {
     }
     
     // 获取开关状态
-    public static func getSwitchStatus() {
+    static func getSwitchStatus() {
         let command = createCommand(with: [
             0x00,
             XGZTCommands.switchStatus.rawValue,
@@ -453,7 +453,7 @@ public class XGZTCommand {
     }
     
     // 设置开关状态
-    public static func setSwitchStatus(p0: UInt8, p1: UInt8) {
+    static func setSwitchStatus(p0: UInt8, p1: UInt8) {
         let command = createCommand(with: [
             0x00,
             XGZTCommands.switchStatus.rawValue,
@@ -470,7 +470,7 @@ public class XGZTCommand {
     }
     
     // 绑定设备
-    public static func bindDevice(value: UInt8) {
+    static func bindDevice(value: UInt8) {
         let command = createCommand(with: [
             0x00,
             XGZTCommands.bindDevice.rawValue,
@@ -484,7 +484,7 @@ public class XGZTCommand {
     }
     
     // 获取闹钟信息
-    public static func getAlarmInfo(type: Int) {
+    static func getAlarmInfo(type: Int) {
         let command = createCommand(with: [
             0x00,
             XGZTCommands.alarmInfo.rawValue,
@@ -498,7 +498,7 @@ public class XGZTCommand {
     }
     
     // 设置闹钟信息
-    public static func setAlarmInfo(setCmd: Int, alarm: AlarmData) {
+    static func setAlarmInfo(setCmd: Int, alarm: AlarmData) {
         let command = createCommand(with: [
             0x00,
             XGZTCommands.alarmInfo.rawValue,
@@ -519,7 +519,7 @@ public class XGZTCommand {
     }
     
     // 获取提醒信息
-    public static func getReminderInfo(eventType: Int) {
+    static func getReminderInfo(eventType: Int) {
         let command = createCommand(with: [
             0x00,
             XGZTCommands.reminderInfo.rawValue,
@@ -533,7 +533,7 @@ public class XGZTCommand {
     }
     
     // 设置提醒信息
-    public static func setReminderInfo(response: ReminderInfoResponse) {
+    static func setReminderInfo(response: ReminderInfoResponse) {
         let command = createCommand(with: [
             0x00,
             XGZTCommands.reminderInfo.rawValue,
@@ -553,7 +553,7 @@ public class XGZTCommand {
     }
     
     // 获取开关表扩展
-    public static func getSwitchTableExtension() {
+    static func getSwitchTableExtension() {
         let command = createCommand(with: [
             0x00,
             XGZTCommands.switchTableExtension.rawValue,
@@ -567,7 +567,7 @@ public class XGZTCommand {
     }
     
     // 设置开关表扩展
-    public static func setSwitchTableExtension(p0: UInt8, p1: UInt8, p2: UInt8, p3: UInt8) {
+    static func setSwitchTableExtension(p0: UInt8, p1: UInt8, p2: UInt8, p3: UInt8) {
         let command = createCommand(with: [
             0x00,
             XGZTCommands.switchTableExtension.rawValue,
@@ -585,7 +585,7 @@ public class XGZTCommand {
     }
     
     // 音乐控制（此处仅为示例，根据实际需求完善）
-    public static func musicControl(action: Int, dataType: Int) {
+    static func musicControl(action: Int, dataType: Int) {
         let command = createCommand(with: [
             0x00,
             XGZTCommands.musicControl.rawValue,
@@ -599,7 +599,7 @@ public class XGZTCommand {
     }
     
     // 远程拍照
-    public static func remotePhoto(action: Int) {
+    static func remotePhoto(action: Int) {
         let command = createCommand(with: [
             0x00,
             XGZTCommands.remotePhoto.rawValue,
@@ -613,7 +613,7 @@ public class XGZTCommand {
     }
     
     // 消息推送（此处仅为示例，根据实际需求完善）
-    public static func messagePush(action: Int, control: Int, messageType: Int, messageContent: Data) {
+    static func messagePush(action: Int, control: Int, messageType: Int, messageContent: Data) {
         var command = createCommand(with: [
             0x00,
             XGZTCommands.messagePush.rawValue,
@@ -629,7 +629,7 @@ public class XGZTCommand {
     }
     
     // 设置天气信息（此处仅为示例，根据实际需求完善）
-    public static func setWeatherInfo(dateType: Int, weatherType: Int, currTemp: Int, lTemp: Int, hTemp: Int, cmd: Int) {
+    static func setWeatherInfo(dateType: Int, weatherType: Int, currTemp: Int, lTemp: Int, hTemp: Int, cmd: Int) {
         let command = createCommand(with: [
             0x00,
             XGZTCommands.setWeatherInfo.rawValue,
@@ -655,7 +655,7 @@ public class XGZTCommand {
     }
     
     // 获取联系人信息
-    public static func getContactInfo() {
+    static func getContactInfo() {
         let command = createCommand(with: [
             0x00,
             XGZTCommands.contactInfo.rawValue,
@@ -669,7 +669,7 @@ public class XGZTCommand {
     }
     
     // 设置联系人信息
-    public static func setContactInfo(index: Int, name: String, phoneNumber: String) {
+    static func setContactInfo(index: Int, name: String, phoneNumber: String) {
         // 限制name不超过30个字节
         let truncatedName = truncateStringToByteLength(name, maxBytes: 30)
         let nameData = truncatedName.data(using:.utf8)!
@@ -727,7 +727,7 @@ public class XGZTCommand {
     }
     
     // 来电静音
-    public static func incomingCallMute(mute: Int) {
+    static func incomingCallMute(mute: Int) {
         let command = createCommand(with: [
             0x00,
             XGZTCommands.incomingCallMute.rawValue,
@@ -740,7 +740,7 @@ public class XGZTCommand {
     }
     
     // 获取目标设置
-    public static func getTargetSettings() {
+    static func getTargetSettings() {
         let command = createCommand(with: [
             0x00,
             XGZTCommands.targetSettings.rawValue,
@@ -752,7 +752,7 @@ public class XGZTCommand {
         XGZTBlueToothManager.shared.writeCharacteristic(command: command)
     }
     
-    public static func getNewestHealthData(type: Int) {
+    static func getNewestHealthData(type: Int) {
         let command = createCommand(with: [
             0x00,
             XGZTCommands.getNewestHealthData.rawValue,
@@ -765,7 +765,7 @@ public class XGZTCommand {
         XGZTBlueToothManager.shared.writeCharacteristic(command: command)
     }
     
-    public static func getStepData() {
+    static func getStepData() {
         let command = createCommand(with: [
             0x00,
             XGZTCommands.getStepData.rawValue,
@@ -778,7 +778,7 @@ public class XGZTCommand {
     }
     
     // 设置目标设置
-    public static func setTargetSettings(targetSwitch: Int, targetType: Int, targetLength: Int) {
+    static func setTargetSettings(targetSwitch: Int, targetType: Int, targetLength: Int) {
         let command = createCommand(with: [
             0x00,
             XGZTCommands.targetSettings.rawValue,
@@ -792,7 +792,7 @@ public class XGZTCommand {
         XGZTBlueToothManager.shared.writeCharacteristic(command: command)
     }
     
-    public static func setQRCode(type: UInt8, qrString: String) {
+    static func setQRCode(type: UInt8, qrString: String) {
         if let commandData = QRCodeSetCommand.buildCommand(type: type, qrString: qrString) {
             print("构建的指令数据：\(commandData)")
             XGZTBlueToothManager.shared.writeCharacteristic(command: commandData.bytes)
@@ -803,7 +803,7 @@ public class XGZTCommand {
     }
     
     // 获取多运动模式数据
-    public static func getMultiSportModeData() {
+    static func getMultiSportModeData() {
         let command = createCommand(with: [
             0x00,
             XGZTCommands.multiSportModeData.rawValue,
@@ -816,7 +816,7 @@ public class XGZTCommand {
     }
     
     // 删除运动模式数据
-    public static func deleteSportModeData() {
+    static func deleteSportModeData() {
         let command = createCommand(with: [
             0x00,
             XGZTCommands.multiSportModeData.rawValue,
@@ -829,7 +829,7 @@ public class XGZTCommand {
     }
     
     // 获取睡眠数据
-    public static func getHistorySleepData() {
+    static func getHistorySleepData() {
         let command = createCommand(with: [
             0x00,
             XGZTCommands.getHistorySleepData.rawValue,
@@ -841,7 +841,7 @@ public class XGZTCommand {
         XGZTBlueToothManager.shared.writeCharacteristic(command: command)
     }
     
-    public static func getSleepMonitoring() {
+    static func getSleepMonitoring() {
         let command = createCommand(with: [
             0x00,
             XGZTCommands.getSleepMonitoring.rawValue,
@@ -854,7 +854,7 @@ public class XGZTCommand {
     }
     
     // 设置自动睡眠监测
-    public static func setAutoSleepMonitoring(startHour: Int, startMinute: Int, endHour: Int, endMinute: Int, alarmCycle: Int) {
+    static func setAutoSleepMonitoring(startHour: Int, startMinute: Int, endHour: Int, endMinute: Int, alarmCycle: Int) {
         let command = createCommand(with: [
             0x00,
             XGZTCommands.setAutoSleepMonitoring.rawValue,
@@ -871,7 +871,7 @@ public class XGZTCommand {
     }
     
     // 表盘市场相关操作（此处仅为示例，根据实际需求完善）
-    public static func dialMarketQuery(dataType: Int) {
+    static func dialMarketQuery(dataType: Int) {
         let command = createCommand(with: [
             0x00,
             XGZTCommands.dialMarket.rawValue,
@@ -884,7 +884,7 @@ public class XGZTCommand {
         XGZTBlueToothManager.shared.writeCharacteristic(command: command)
     }
     
-    public static func dialMarketSetTransferConfig(packageTotal: Int, binSize: Int, mtu: Int, dialType: Int, dialNum: Int, local: Int, typeValue: Int,  dialTypeValue: Int) {
+    static func dialMarketSetTransferConfig(packageTotal: Int, binSize: Int, mtu: Int, dialType: Int, dialNum: Int, local: Int, typeValue: Int,  dialTypeValue: Int) {
         let command = createCommand(with: [
             0x00,
             XGZTCommands.dialMarket.rawValue,
@@ -912,7 +912,7 @@ public class XGZTCommand {
         XGZTBlueToothManager.shared.writeCharacteristic(command: command)
     }
     
-    public static func dialMarketTransferData(packageNum: Int, binNum: Int, progressBar: Int, control: Int, data: Data) {
+    static func dialMarketTransferData(packageNum: Int, binNum: Int, progressBar: Int, control: Int, data: Data) {
         // Create an array to hold the command data
         var commandData: [UInt8] = [
             0x00,
@@ -946,7 +946,7 @@ public class XGZTCommand {
     }
     
     // 资源升级相关操作（此处仅为示例，根据实际需求完善）
-    public static func resourceUpgradeQuery() {
+    static func resourceUpgradeQuery() {
         let command = createCommand(with: [
             0x00,
             XGZTCommands.resourceUpgrade.rawValue,
@@ -958,7 +958,7 @@ public class XGZTCommand {
         XGZTBlueToothManager.shared.writeCharacteristic(command: command)
     }
     
-    public static func resourceUpgradeSetTransferConfig(packageTotal: Int, binSize: Int, mtu: Int) {
+    static func resourceUpgradeSetTransferConfig(packageTotal: Int, binSize: Int, mtu: Int) {
         let command = createCommand(with: [
             0x00,
             XGZTCommands.resourceUpgrade.rawValue,
@@ -978,7 +978,7 @@ public class XGZTCommand {
         XGZTBlueToothManager.shared.writeCharacteristic(command: command)
     }
     
-    public static func resourceUpgradeTransferData(data: Data) {
+    static func resourceUpgradeTransferData(data: Data) {
         var command = createCommand(with: [
             0x00,
             XGZTCommands.resourceUpgrade.rawValue,
@@ -991,7 +991,7 @@ public class XGZTCommand {
         XGZTBlueToothManager.shared.writeCharacteristic(command: command)
     }
     
-    public static func startTest(cmdType: Int, control: Int) {
+    static func startTest(cmdType: Int, control: Int) {
         let command = createCommand(with: [
             0x00,
             XGZTCommands.startTest.rawValue,
@@ -1005,7 +1005,7 @@ public class XGZTCommand {
         XGZTBlueToothManager.shared.writeCharacteristic(command: command)
     }
     
-    public static func setTimePositionAndColor(type: Int, position: Int, color: Int) {
+    static func setTimePositionAndColor(type: Int, position: Int, color: Int) {
         let command = createCommand(with: [
             0x00,
             XGZTCommands.setTimePositionAndColor.rawValue,
@@ -1022,7 +1022,7 @@ public class XGZTCommand {
         XGZTBlueToothManager.shared.writeCharacteristic(command: command)
     }
     
-    public static func getNewestHeartData(type: Int) {
+    static func getNewestHeartData(type: Int) {
         let command = createCommand(with: [
             0x00,
             XGZTCommands.getNewestHeartData.rawValue,
@@ -2016,7 +2016,7 @@ class QRCodeSetCommand {
     ///   - type: 收款码类型，0x00 为支付宝，0x01 为微信
     ///   - qrString: 收款码的 URL 字符串（UTF-8 编码，不含末尾\0）
     /// - Returns: 完整的指令 Data，如果参数不合法返回 nil
-    public static func buildCommand(type: UInt8, qrString: String) -> Data? {
+    static func buildCommand(type: UInt8, qrString: String) -> Data? {
         // 校验收款码类型
         guard (0x00...0x01).contains(type) else {
             print("收款码类型不合法，需为 0x00 或 0x01")
@@ -2051,7 +2051,7 @@ class MACAddressComparator {
     ///   - mac1: 第一个MAC地址字符串（格式如"AA:BB:CC:DD:EE:FF"）
     ///   - mac2: 第二个MAC地址字符串（格式如"AA:BB:CC:DD:EE:FF"）
     /// - Returns: 如果第1、2、3、5、6字节相同则返回true，否则返回false；格式不正确也返回false
-    public static func isMatching(_ mac1: String, _ mac2: String) -> Bool {
+    static func isMatching(_ mac1: String, _ mac2: String) -> Bool {
         // 分割MAC地址为字节数组
         let components1 = mac1.components(separatedBy: ":")
         let components2 = mac2.components(separatedBy: ":")

@@ -10,81 +10,81 @@ import Foundation
 import RealmSwift
 
 // 定义 StepObj 模型
-public class StepObj: Object {
+class StepObj: Object {
     @objc dynamic var date: String = ""
     @objc dynamic var mac: String = ""
     @objc dynamic var step: Int = 0
 
-    public override static func primaryKey() -> String? {
+    override static func primaryKey() -> String? {
         return "date"
     }
 
-    public override var description: String {
+    override var description: String {
         return "StepObj(date: \(String(describing: date)), mac: \(String(describing: mac)), step: \(String(describing: step)))"
     }
 }
 
-public class HeartObj: Object {
+class HeartObj: Object {
     @objc dynamic var time: Int = 0
     @objc dynamic var mac: String = ""
     @objc dynamic var heart: Int = 0
 
-    public override static func primaryKey() -> String? {
+    override static func primaryKey() -> String? {
         return "time"
     }
 
-    public override var description: String {
+    override var description: String {
         return "HeartObj(time: \(String(describing: time)), mac: \(String(describing: mac)), heart: \(String(describing: heart)))"
     }
 }
 
-public class BloodObj: Object {
+class BloodObj: Object {
     @objc dynamic var time: Int = 0
     @objc dynamic var mac: String = ""
     @objc dynamic var max: Int = 0
     @objc dynamic var min: Int = 0
 
-    public override static func primaryKey() -> String? {
+    override static func primaryKey() -> String? {
         return "time"
     }
 
-    public override var description: String {
+    override var description: String {
         return "BloodObj(time: \(String(describing: time)), mac: \(String(describing: mac)), max: \(String(describing: max)), min: \(String(describing: min)))"
     }
 }
 
-public class OxgenObj: Object {
+class OxgenObj: Object {
     @objc dynamic var time: Int = 0
     @objc dynamic var mac: String = ""
     @objc dynamic var oxgen: Int = 0
 
-    public override static func primaryKey() -> String? {
+    override static func primaryKey() -> String? {
         return "time"
     }
 
-    public override var description: String {
+    override var description: String {
         return "OxgenObj(time: \(String(describing: time)), mac: \(String(describing: mac)), oxgen: \(String(describing: oxgen)))"
     }
 }
 
-public class SleepObj: Object {
+class SleepObj: Object {
     @objc dynamic var date: String = ""
     @objc dynamic var mac: String = ""
     @objc dynamic var awake: Int = 0
     @objc dynamic var light: Int = 0
     @objc dynamic var deep: Int = 0
 
-    public override static func primaryKey() -> String? {
+    override static func primaryKey() -> String? {
         return "date"
     }
 
-    public override var description: String {
+    override var description: String {
         return "SleepObj(date: \(String(describing: date)), mac: \(String(describing: mac)), awake: \(String(describing: awake)), light: \(String(describing: light)), deep: \(String(describing: deep)))"
     }
 }
 
-public class DatabaseManager {
-    public static let shared = DatabaseManager()
+class DatabaseManager {
+    static let shared = DatabaseManager()
     private var dateFormatter: DateFormatter {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd"

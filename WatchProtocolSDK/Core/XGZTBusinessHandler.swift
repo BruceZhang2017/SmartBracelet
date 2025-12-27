@@ -11,8 +11,10 @@ import Foundation
 // MARK: - 全局变量已迁移到 XGZTCommandStateManager
 // 这些全局变量已被线程安全的管理器替代，详见 XGZTCommandStateManager.swift
 
-class XGZTBusinessHandler: NSObject {
-    
+public class XGZTBusinessHandler: NSObject {
+
+    public static let shared = XGZTBusinessHandler()
+
     override init() {
         super.init()
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotif(_:)), name: Notification.Name("XGZTBusinessHandler"), object: nil)
