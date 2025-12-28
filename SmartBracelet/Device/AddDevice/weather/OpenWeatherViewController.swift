@@ -7,6 +7,7 @@
 
 import UIKit
 import CoreLocation
+import WatchProtocolSDK
 
 class OpenWeatherViewController: UIViewController {
 

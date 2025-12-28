@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import WatchProtocolSDK
 
 class EditClcokBottomTableViewCell: UITableViewCell {
     @IBOutlet weak var colorLabel: UILabel!

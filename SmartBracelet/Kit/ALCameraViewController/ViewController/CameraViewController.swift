@@ -9,6 +9,7 @@
 import UIKit
 import AVFoundation
 import Photos
+import WatchProtocolSDK
 
 public typealias CameraViewCompletion = (UIImage?, PHAsset?) -> Void
 

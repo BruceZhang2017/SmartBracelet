@@ -3,6 +3,7 @@ import MJRefresh
 import Alamofire
 import Kingfisher
 import Toaster
+import WatchProtocolSDK
 
 var isUsrEnglish = false // 是否默认使用英文
 

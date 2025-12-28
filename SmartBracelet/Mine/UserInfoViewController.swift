@@ -15,6 +15,7 @@ import Kingfisher
 import Alamofire
 import TJDWristbandSDK
 import Toaster
+import WatchProtocolSDK
 
 class UserInfoViewController: BaseViewController {
     @IBOutlet weak var tableView: UITableView!

@@ -14,6 +14,7 @@ import UIKit
 import Toaster
 import Alamofire
 import ProgressHUD
+import WatchProtocolSDK
 
 class HelpCenterViewController: BaseViewController {
     @IBOutlet weak var contentTextView: UITextView!
@@ -55,7 +56,7 @@ class HelpCenterViewController: BaseViewController {
             localVersion = v
         }
         ProgressHUD.animate(nil, .activityIndicator, interaction: false)
-        let parameters = ["title": "iOS-\(localVersion)", "content": "\(content)---\(connectFailMessage)" , "byCountry": getLocaleCountryCode()]
+        let parameters = ["title": "iOS-\(localVersion)", "content": "\(content)---\(XGZTDeviceManager.shared.connectFailMessage)" , "byCountry": getLocaleCountryCode()]
         AF.request("https://u-watch.com.cn/api/app/question", method: .post, parameters: parameters, encoder: JSONParameterEncoder.default).response { [weak self] (response) in
             debugPrint("Response: \(response.debugDescription)")
             ProgressHUD.dismiss()
@@ -73,7 +74,7 @@ class HelpCenterViewController: BaseViewController {
             } else {
                 Toast(text: "help_center_submit_fail".localized()).show()
             }
-            connectFailMessage = ""
+            XGZTDeviceManager.shared.clearFailMessages()
         }
     }
     

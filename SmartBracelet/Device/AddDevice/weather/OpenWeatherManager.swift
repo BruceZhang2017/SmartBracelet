@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import WatchProtocolSDK
 
 var flag_time: TimeInterval = 0
 

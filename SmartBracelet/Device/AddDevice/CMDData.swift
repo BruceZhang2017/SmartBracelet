@@ -11,6 +11,7 @@
 	
 
 import UIKit
+import WatchProtocolSDK
 
 let MPU_MS1001_SERVICE_UUID = "CC00"
 let MPU_DEVICE_INFO_UUID = "CC02"

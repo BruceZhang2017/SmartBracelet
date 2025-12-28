@@ -8,6 +8,7 @@
 
 import SDWebImage
 import UIKit
+import WatchProtocolSDK
 
 var floatingViewCenter = CGPoint.zero
 var isShowBigView = false

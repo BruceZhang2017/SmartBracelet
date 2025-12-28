@@ -11,6 +11,7 @@
 	
 
 import UIKit
+import WatchProtocolSDK
 
 class APNSViewController: BaseViewController {
     @IBOutlet weak var tableView: UITableView!

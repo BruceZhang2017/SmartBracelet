@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import WatchProtocolSDK
 
 extension UIColor {
     class func hexStr ( hexStr : NSString, alpha : CGFloat) -> UIColor {

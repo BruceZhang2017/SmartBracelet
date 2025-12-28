@@ -12,6 +12,7 @@
 import UIKit
 import Contacts
 import Toaster
+import WatchProtocolSDK
 
 // MARK: - 联系人模型
 struct ContactItem {

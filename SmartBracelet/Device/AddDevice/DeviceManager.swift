@@ -11,6 +11,7 @@
 	
 
 import Foundation
+import WatchProtocolSDK
 
 class DeviceManager: NSObject {
     static let shared = DeviceManager()

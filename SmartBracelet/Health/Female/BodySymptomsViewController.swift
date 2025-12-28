@@ -11,6 +11,7 @@
 
 import UIKit
 import SnapKit
+import WatchProtocolSDK
 
 // 身体症状数据模型
 struct BodySymptomCategory {

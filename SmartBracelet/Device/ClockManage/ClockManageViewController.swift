@@ -1,6 +1,7 @@
 import UIKit
 import Segmentio
 import SnapKit
+import WatchProtocolSDK
 
 class ClockManageViewController: BaseViewController {
     @IBOutlet weak var segmentio: Segmentio!

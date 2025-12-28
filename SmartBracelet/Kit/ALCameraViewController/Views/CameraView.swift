@@ -9,6 +9,7 @@
 
 import UIKit
 import AVFoundation
+import WatchProtocolSDK
 
 
 public class CameraView: UIView {

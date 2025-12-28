@@ -13,6 +13,7 @@
 import UIKit
 import TJDWristbandSDK
 import Toaster
+import WatchProtocolSDK
 
 let bleSelf = WUBleManager.shared
 

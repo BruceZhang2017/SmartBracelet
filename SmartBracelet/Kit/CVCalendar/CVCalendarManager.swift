@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import WatchProtocolSDK
 
 private let yearUnit = NSCalendar.Unit.year
 private let monthUnit = NSCalendar.Unit.month

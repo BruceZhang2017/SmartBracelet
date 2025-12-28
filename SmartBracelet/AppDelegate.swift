@@ -5,6 +5,7 @@ import AudioToolbox
 import AVKit
 import Bugly
 import JRDB
+import WatchProtocolSDK
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -15,6 +16,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         configRealm()
+
+        // 设置 SDK 数据存储委托
+        XGZTBlueToothManager.shared.storageDelegate = DatabaseManager.shared
+
         AMapServices.shared().apiKey = "0ed08fc41dc5bd1adc43b9189af816f7"
         window?.backgroundColor = UIColor.white
         IQKeyboardManager.shared.enable = true

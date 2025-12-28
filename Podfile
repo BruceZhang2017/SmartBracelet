@@ -39,12 +39,6 @@ pod 'IotLinkKit', '1.2.1'
 pod 'JRDB', '~> 2.1.2'
 pod 'DropDown'
 
-  # WatchProtocolSDK Framework Target（嵌套配置）
-  target 'WatchProtocolSDK' do
-    inherit! :search_paths
-    # 继承父 target 的所有搜索路径，包括 RealmSwift
-  end
-
   post_install do |installer|
     #调用移除函数
 #    remove_swift_ui()
@@ -59,16 +53,3 @@ pod 'DropDown'
   end
 
 end
-
-
-# 添加以下函数
-#def remove_swift_ui
-#  system("rm -rf ./Pods/Kingfisher/Sources/SwiftUI")
-#  code_file = "./Pods/Kingfisher/Sources/General/KFOptionsSetter.swift"
-#  code_text = File.read(code_file)
-#  code_text.gsub!(/#if canImport\(SwiftUI\) \&\& canImport\(Combine\)(.|\n)+#endif/,'')
-#  system("rm -rf " + code_file)
-#  aFile = File.new(code_file, 'w+')
-#  aFile.syswrite(code_text)
-#  aFile.close()
-#end

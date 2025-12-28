@@ -11,6 +11,7 @@
 
 import UIKit
 import SnapKit
+import WatchProtocolSDK
 
 class FemaleHealthViewController: BaseViewController {
 

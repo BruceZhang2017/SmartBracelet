@@ -11,6 +11,7 @@
 	
 
 import UIKit
+import WatchProtocolSDK
 
 class DeviceFoundViewController: BaseViewController {
     @IBOutlet weak var deviceImageView: UIImageView!

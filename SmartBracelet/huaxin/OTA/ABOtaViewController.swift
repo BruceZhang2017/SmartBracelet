@@ -7,6 +7,7 @@
 
 import UIKit
 import CoreBluetooth
+import WatchProtocolSDK
 
 class ABOtaViewController: UIViewController {
     
@@ -267,5 +268,13 @@ extension ABOtaViewController: ABOtaEventListener {
     
     func onReceiveChannel(_ isLeftChannel: Bool) {
         channelLabel.text = isLeftChannel ? NSLocalizedString("Left", comment: "") : NSLocalizedString("Right", comment: "")
+    }
+}
+
+// MARK: - XGZTBlueToothManager + ABOtaSendDelegate
+extension XGZTBlueToothManager: ABOtaSendDelegate {
+    public func sendData(_ data: Data) {
+        // 调用 WatchProtocolSDK 中的公开方法来发送 OTA 数据
+        sendOTAData(data)
     }
 }

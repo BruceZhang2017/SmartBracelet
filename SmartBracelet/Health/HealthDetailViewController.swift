@@ -13,6 +13,7 @@
 import UIKit
 import TJDWristbandSDK
 import RealmSwift
+import WatchProtocolSDK
 
 class HealthDetailViewController: BaseViewController {
     let lineChartView: LineChartView = LineChartView()

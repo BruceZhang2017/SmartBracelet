@@ -13,6 +13,7 @@ import UIKit
 import Kingfisher
 import Toaster
 import Alamofire
+import WatchProtocolSDK
 
 class ModifyHeadViewController: BaseViewController {
     @IBOutlet weak var headImageView: UIImageView!

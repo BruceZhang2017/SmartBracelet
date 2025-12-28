@@ -13,6 +13,7 @@
 import UIKit
 import TJDWristbandSDK
 import Toaster
+import WatchProtocolSDK
 
 var localMac = ""
 

@@ -12,6 +12,7 @@
 import UIKit
 import TJDWristbandSDK
 import Toaster
+import WatchProtocolSDK
 
 class AlarmAdd2ViewController: BaseViewController {
 

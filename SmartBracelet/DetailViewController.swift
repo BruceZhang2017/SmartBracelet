@@ -8,6 +8,7 @@
 
 import UIKit
 import TJDWristbandSDK
+import WatchProtocolSDK
 
 class DetailViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     var table = UITableView()

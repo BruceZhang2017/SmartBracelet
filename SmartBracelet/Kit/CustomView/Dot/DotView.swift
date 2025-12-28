@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import WatchProtocolSDK
 
 class DotView: UIView {
     private let expandRate: CGFloat = 2.0

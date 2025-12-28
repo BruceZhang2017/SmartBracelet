@@ -15,6 +15,7 @@ import Toaster
 import Kingfisher
 import Alamofire
 import ProgressHUD
+import WatchProtocolSDK
 
 class ClockUseViewController: BaseViewController {
     @IBOutlet weak var ivWidthLC: NSLayoutConstraint!

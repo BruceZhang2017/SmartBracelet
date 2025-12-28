@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import WatchProtocolSDK
 
 public class DotsLoadingView: UIView {
     private let delay = 0.25

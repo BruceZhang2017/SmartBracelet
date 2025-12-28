@@ -22,7 +22,17 @@
       "Bash(chmod:*)",
       "Bash(./verify-framework-target.sh:*)",
       "Bash(gem install:*)",
-      "Bash(pod deintegrate:*)"
+      "Bash(pod deintegrate:*)",
+      "Bash(for file in SmartBracelet/AppDelegate.swift SmartBracelet/Device/DeviceManager.swift SmartBracelet/Device/BLEManager.swift SmartBracelet/Device/DevicesViewController.swift SmartBracelet/Device/DeviceSettingsViewController.swift SmartBracelet/Health/HealthViewController.swift SmartBracelet/Health/HealthDetailViewController.swift SmartBracelet/Device/AlarmViewController.swift SmartBracelet/Device/AddDevice/DeviceSearchViewController.swift)",
+      "Bash(do echo \"=== $file ===\" head -30 \"$file\")",
+      "Bash(while read file)",
+      "Bash(do if grep -q \"XLogger\\\\|XGZTBlueToothManager\\\\|XGZTDeviceManager\\\\|DatabaseManager\\\\|BluetoothWatchDevice\\\\|XGZTCommand\\\\|XGZTBusinessHandler\" $file)",
+      "Bash(then if ! grep -q 'import WatchProtocolSDK' $file)",
+      "Bash(then echo $file fi fi done)",
+      "Bash(do if ! grep -q \"import WatchProtocolSDK\" \"$file\")",
+      "Bash(then echo \"$file\")",
+      "Bash(fi)",
+      "Bash(done)"
     ]
   }
 }

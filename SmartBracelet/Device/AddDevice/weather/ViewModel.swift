@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import WatchProtocolSDK
 
 class ViewModel {
     private var currentWeather: CurrentWeatherData?

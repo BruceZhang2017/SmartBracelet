@@ -11,6 +11,7 @@
 	
 
 import UIKit
+import WatchProtocolSDK
 
 class DevicesView: UIView {
     weak var currentModel: BLEModel?

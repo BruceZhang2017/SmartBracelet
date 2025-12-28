@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import WatchProtocolSDK
 
 private let nomalCell = "nomalCell"
 private let hotCityCell = "hotCityCell"

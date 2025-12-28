@@ -13,6 +13,7 @@ import UIKit
 import ProgressHUD
 import Toaster
 import TJDWristbandSDK
+import WatchProtocolSDK
 
 class DeviceSearchViewController: BaseViewController {
     @IBOutlet weak var tableView: UITableView!

@@ -13,6 +13,7 @@
 import UIKit
 import Toaster
 import AVFoundation
+import WatchProtocolSDK
 
 class DeviceListViewController: BaseViewController {
     @IBOutlet weak var tableView: UITableView!

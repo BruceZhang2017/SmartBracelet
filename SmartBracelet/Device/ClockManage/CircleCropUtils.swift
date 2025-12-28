@@ -1,5 +1,6 @@
 import UIKit
 import CoreImage
+import WatchProtocolSDK
 
 extension UIImage {
 

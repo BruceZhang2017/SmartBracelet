@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import WatchProtocolSDK
 
 public final class CVCalendarTouchController {
     fileprivate unowned let calendarView: CalendarView

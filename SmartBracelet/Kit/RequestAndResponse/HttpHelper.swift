@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import WatchProtocolSDK
 
 typealias successBlock = (Any) -> ()
 typealias failureBlock = (Error) -> ()

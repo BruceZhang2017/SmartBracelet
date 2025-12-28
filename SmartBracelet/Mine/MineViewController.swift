@@ -13,6 +13,7 @@
 import UIKit
 import Toaster
 import DropDown
+import WatchProtocolSDK
 
 class MineViewController: BaseViewController {
     

@@ -1,6 +1,7 @@
 import UIKit
 import TJDWristbandSDK
 import Toaster
+import WatchProtocolSDK
 
 // MARK: - 常量定义
 private extension String {

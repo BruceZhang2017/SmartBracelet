@@ -10,6 +10,7 @@
 //
 
 import Foundation
+import WatchProtocolSDK
 
 open class CombinedChartData: BarLineScatterCandleBubbleChartData
 {

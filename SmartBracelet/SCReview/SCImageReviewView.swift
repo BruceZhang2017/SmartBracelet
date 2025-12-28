@@ -11,6 +11,7 @@
 
 import Kingfisher
 import UIKit
+import WatchProtocolSDK
 
 class SCImageReviewView: SCReviewView {
 

@@ -11,6 +11,7 @@ import AVFoundation
 import AssetsLibrary
 import MobileCoreServices
 import Photos
+import WatchProtocolSDK
 
 enum HStatus{
     case success, canceled, cameraDisable, photoLibDisable, notImage

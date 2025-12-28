@@ -13,6 +13,7 @@
 import UIKit
 import TJDWristbandSDK
 import Toaster
+import WatchProtocolSDK
 
 // MARK: - 全局变量已迁移到 XGZTConnectionStateManager
 // 这些全局变量已被线程安全的管理器替代，详见 XGZTConnectionStateManager.swift

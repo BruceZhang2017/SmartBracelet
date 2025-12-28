@@ -1,4 +1,5 @@
 import UIKit
+import WatchProtocolSDK
 
 class QRBindViewController: BaseViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     

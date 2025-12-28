@@ -8,6 +8,7 @@
 
 import UIKit
 import Toaster
+import WatchProtocolSDK
 
 class UploadImageViewController: UIViewController {
     

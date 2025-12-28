@@ -19,6 +19,7 @@ import StoreKit
 import AliIotConnectKit
 import JL_BLEKit
 import DropDown
+import WatchProtocolSDK
 
 class HealthViewController: BaseViewController {
     @IBOutlet weak var footView: UIView!

@@ -146,6 +146,7 @@
 		9A3C55CF2BD3ECA3007737A2 /* RoundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3C55CE2BD3ECA3007737A2 /* RoundView.swift */; };
 		9A3C55D12BD3F41B007737A2 /* TestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3C55D02BD3F41B007737A2 /* TestView.swift */; };
 		9A40E02C25D37477001879B3 /* DStepModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A40E02B25D37477001879B3 /* DStepModel.swift */; };
+		9A453A522F00E476006E24A4 /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A453A332F0032B9006E24A4 /* DatabaseManager.swift */; };
 		9A46063D2DD5FF580011017F /* delete_device20.png in Resources */ = {isa = PBXBuildFile; fileRef = 9A46063C2DD5FF580011017F /* delete_device20.png */; };
 		9A46063E2DD5FF580011017F /* delete_device10.png in Resources */ = {isa = PBXBuildFile; fileRef = 9A46063B2DD5FF580011017F /* delete_device10.png */; };
 		9A48CE522EE7CB7D00F4E5E4 /* FemaleCycleCalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A48CE512EE7CB7D00F4E5E4 /* FemaleCycleCalendarViewController.swift */; };
@@ -357,6 +358,7 @@
 		9A61683825DA192900918EFC /* CircleProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A61683725DA192900918EFC /* CircleProgressView.m */; };
 		9A61685625DA502F00918EFC /* HBLockSliderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A61685525DA502F00918EFC /* HBLockSliderView.m */; };
 		9A61BC082F001F6200FB67B3 /* WatchProtocolSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A4E11AE2F0003EC008AE0A8 /* WatchProtocolSDK.framework */; };
+		9A61BC092F001F6200FB67B3 /* WatchProtocolSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9A4E11AE2F0003EC008AE0A8 /* WatchProtocolSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9A64F08225DD50D70073E679 /* ClockUseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A64F08125DD50D70073E679 /* ClockUseViewController.swift */; };
 		9A64F0B825DE18CD0073E679 /* DBloodModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A64F0B725DE18CD0073E679 /* DBloodModel.swift */; };
 		9A64F0BA25DE19B30073E679 /* DHeartRateModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A64F0B925DE19B30073E679 /* DHeartRateModel.swift */; };
@@ -545,6 +547,7 @@
 		9AFAE87A2A8F21F7005EF8F8 /* JGProgressHUDRingIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AFAE86E2A8F21F7005EF8F8 /* JGProgressHUDRingIndicatorView.m */; };
 		9AFAE87B2A8F21F7005EF8F8 /* JGProgressHUDPieIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AFAE86F2A8F21F7005EF8F8 /* JGProgressHUDPieIndicatorView.m */; };
 		9AFAE87C2A8F21F7005EF8F8 /* JGProgressHUDShadow.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AFAE8702A8F21F7005EF8F8 /* JGProgressHUDShadow.m */; };
+		F3220A75A4A4E6D36B2B4370 /* Pods_SmartBracelet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A50CCD798FFB43DD706CAAA6 /* Pods_SmartBracelet.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -570,6 +573,7 @@
 				9A869E122D17DDFC00B78FDF /* ABParTool.xcframework in Embed Frameworks */,
 				9AB5BE2A2A06649700680757 /* RTKOTASDK.framework in Embed Frameworks */,
 				9AB5BE282A06649300680757 /* RTKLEFoundation.framework in Embed Frameworks */,
+				9A61BC092F001F6200FB67B3 /* WatchProtocolSDK.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -587,6 +591,8 @@
 		18385F12245181D900EA380A /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		1898B72B2451969B00B9E5A5 /* Date+String.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Date+String.swift"; sourceTree = "<group>"; };
 		18C2820C246A8D13009A60C0 /* TJDWristbandSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TJDWristbandSDK.framework; sourceTree = "<group>"; };
+		2709A95AF29B4B7040839917 /* Pods-SmartBracelet.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SmartBracelet.release.xcconfig"; path = "Target Support Files/Pods-SmartBracelet/Pods-SmartBracelet.release.xcconfig"; sourceTree = "<group>"; };
+		9587018D5422258F4AD51E37 /* Pods-SmartBracelet.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SmartBracelet.debug.xcconfig"; path = "Target Support Files/Pods-SmartBracelet/Pods-SmartBracelet.debug.xcconfig"; sourceTree = "<group>"; };
 		9A037E4325BDB1CD0006FB94 /* OTACMD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTACMD.h; sourceTree = "<group>"; };
 		9A037E4425BDB1CD0006FB94 /* OTACMD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTACMD.m; sourceTree = "<group>"; };
 		9A037E4625BDB1EC0006FB94 /* OTA.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTA.h; sourceTree = "<group>"; };
@@ -731,6 +737,7 @@
 		9A3C55CE2BD3ECA3007737A2 /* RoundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundView.swift; sourceTree = "<group>"; };
 		9A3C55D02BD3F41B007737A2 /* TestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestView.swift; sourceTree = "<group>"; };
 		9A40E02B25D37477001879B3 /* DStepModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DStepModel.swift; sourceTree = "<group>"; };
+		9A453A332F0032B9006E24A4 /* DatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
 		9A46063B2DD5FF580011017F /* delete_device10.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = delete_device10.png; sourceTree = "<group>"; };
 		9A46063C2DD5FF580011017F /* delete_device20.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = delete_device20.png; sourceTree = "<group>"; };
 		9A48CE512EE7CB7D00F4E5E4 /* FemaleCycleCalendarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FemaleCycleCalendarViewController.swift; sourceTree = "<group>"; };
@@ -1243,28 +1250,11 @@
 		9AFAE86E2A8F21F7005EF8F8 /* JGProgressHUDRingIndicatorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JGProgressHUDRingIndicatorView.m; sourceTree = "<group>"; };
 		9AFAE86F2A8F21F7005EF8F8 /* JGProgressHUDPieIndicatorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JGProgressHUDPieIndicatorView.m; sourceTree = "<group>"; };
 		9AFAE8702A8F21F7005EF8F8 /* JGProgressHUDShadow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JGProgressHUDShadow.m; sourceTree = "<group>"; };
+		A50CCD798FFB43DD706CAAA6 /* Pods_SmartBracelet.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SmartBracelet.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
-/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		9A4E11CB2F0009E0008AE0A8 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				Core/XGZTBlueToothManager.swift,
-				Core/XGZTBusinessHandler.swift,
-				Core/XGZTCommands.swift,
-				Core/XGZTCommandStateManager.swift,
-				Core/XGZTConnectionStateManager.swift,
-				Core/XGZTDeviceManager.swift,
-				Models/DatabaseManager.swift,
-				Models/XGZTSwitchDevice.swift,
-				Utils/XLogger.swift,
-			);
-			target = 18385E9924517F1600EA380A /* SmartBracelet */;
-		};
-/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
-
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		9A4E11AF2F0003EC008AE0A8 /* WatchProtocolSDK */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (9A4E11CB2F0009E0008AE0A8 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = WatchProtocolSDK; sourceTree = "<group>"; };
+		9A4E11AF2F0003EC008AE0A8 /* WatchProtocolSDK */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = WatchProtocolSDK; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1289,6 +1279,7 @@
 				9AAF85CC25C6D42000960BDD /* MapKit.framework in Frameworks */,
 				9AB5BE292A06649700680757 /* RTKOTASDK.framework in Frameworks */,
 				9A0C34962B341D6600E798F1 /* JL_BLEKit.framework in Frameworks */,
+				F3220A75A4A4E6D36B2B4370 /* Pods_SmartBracelet.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1375,6 +1366,7 @@
 				9A218422255A3351000330E5 /* CoreTelephony.framework */,
 				9A218420255A3335000330E5 /* libresolv.tbd */,
 				18C2820C246A8D13009A60C0 /* TJDWristbandSDK.framework */,
+				A50CCD798FFB43DD706CAAA6 /* Pods_SmartBracelet.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -1692,6 +1684,14 @@
 				9A367B7225BD208000BFB4C3 /* Variable.swift */,
 			);
 			path = EasyRealm;
+			sourceTree = "<group>";
+		};
+		9A453A512F00E45B006E24A4 /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				9A453A332F0032B9006E24A4 /* DatabaseManager.swift */,
+			);
+			path = Protocol;
 			sourceTree = "<group>";
 		};
 		9A4E11672EFD6180008AE0A8 /* Female */ = {
@@ -2347,6 +2347,7 @@
 			children = (
 				9A0B86E22DD1C3D500E1E936 /* RemoveDeviceViewController.swift */,
 				9A93EE4D2CFDE78C00C02370 /* OTA */,
+				9A453A512F00E45B006E24A4 /* Protocol */,
 			);
 			path = huaxin;
 			sourceTree = "<group>";
@@ -2587,6 +2588,8 @@
 		CBE553D5D0280A8FD8CC0627 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
+				9587018D5422258F4AD51E37 /* Pods-SmartBracelet.debug.xcconfig */,
+				2709A95AF29B4B7040839917 /* Pods-SmartBracelet.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -2608,10 +2611,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 18385EAE24517F1A00EA380A /* Build configuration list for PBXNativeTarget "SmartBracelet" */;
 			buildPhases = (
+				884C5797E774C722AE2D08D7 /* [CP] Check Pods Manifest.lock */,
 				18385E9624517F1600EA380A /* Sources */,
 				18385E9724517F1600EA380A /* Frameworks */,
 				18385E9824517F1600EA380A /* Resources */,
 				9A99CCEC26CB57DE00D6972A /* Embed Frameworks */,
+				65024A2C1AB9903E824034A7 /* [CP] Embed Pods Frameworks */,
+				C26AB3B7C9B87D9A9E39C58F /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -2775,6 +2781,73 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		65024A2C1AB9903E824034A7 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-SmartBracelet/Pods-SmartBracelet-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-SmartBracelet/Pods-SmartBracelet-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-SmartBracelet/Pods-SmartBracelet-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		884C5797E774C722AE2D08D7 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-SmartBracelet-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C26AB3B7C9B87D9A9E39C58F /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-SmartBracelet/Pods-SmartBracelet-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-SmartBracelet/Pods-SmartBracelet-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-SmartBracelet/Pods-SmartBracelet-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		18385E9624517F1600EA380A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -2812,6 +2885,7 @@
 				9AFAE8742A8F21F7005EF8F8 /* JGProgressHUDFadeZoomAnimation.m in Sources */,
 				9A350BEB24EA7A83004CEE6A /* UserInfoTableViewCell.swift in Sources */,
 				9A56D25125216FC60082CC08 /* ChevronUpShapeRenderer.swift in Sources */,
+				9A453A522F00E476006E24A4 /* DatabaseManager.swift in Sources */,
 				9A64F0B825DE18CD0073E679 /* DBloodModel.swift in Sources */,
 				9A56D27E25216FC60082CC08 /* Platform+Accessibility.swift in Sources */,
 				9A60DEED252F381100E0D849 /* DeviceFoundViewController.swift in Sources */,
@@ -3478,6 +3552,7 @@
 		};
 		18385EAF24517F1A00EA380A /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9587018D5422258F4AD51E37 /* Pods-SmartBracelet.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				BUILD_LIBRARY_FOR_DISTRIBUTION = NO;
@@ -3526,6 +3601,7 @@
 		};
 		18385EB024517F1A00EA380A /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2709A95AF29B4B7040839917 /* Pods-SmartBracelet.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				BUILD_LIBRARY_FOR_DISTRIBUTION = NO;
@@ -3585,18 +3661,10 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_MODULE_VERIFIER = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/RealmSwift",
-					"$(inherited)",
-					"$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/Realm",
-				);
+				FRAMEWORK_SEARCH_PATHS = "";
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
-				HEADER_SEARCH_PATHS = (
-					"$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/RealmSwift/RealmSwift.framework/Headers",
-					"$(inherited)",
-					"$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/Realm/Realm.framework/Headers",
-				);
+				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2025 huaxin. All rights reserved.";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 13;
@@ -3605,17 +3673,16 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${TOOLCHAIN_DIR}/usr/lib/swift/${PLATFORM_NAME}\"",
+					/usr/lib/swift,
+				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MARKETING_VERSION = 1.0;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu17 gnu++20";
-				OTHER_LDFLAGS = (
-					"-framework",
-					"\"RealmSwift\"",
-					"$(inherited)",
-					"-framework",
-					"\"Realm\"",
-				);
+				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.sinophy.WatchProtocolSDK;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = NO;
@@ -3649,18 +3716,10 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_MODULE_VERIFIER = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/RealmSwift",
-					"$(inherited)",
-					"$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/Realm",
-				);
+				FRAMEWORK_SEARCH_PATHS = "";
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
-				HEADER_SEARCH_PATHS = (
-					"$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/RealmSwift/RealmSwift.framework/Headers",
-					"$(inherited)",
-					"$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/Realm/Realm.framework/Headers",
-				);
+				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2025 huaxin. All rights reserved.";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 13;
@@ -3669,17 +3728,16 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${TOOLCHAIN_DIR}/usr/lib/swift/${PLATFORM_NAME}\"",
+					/usr/lib/swift,
+				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MARKETING_VERSION = 1.0;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu17 gnu++20";
-				OTHER_LDFLAGS = (
-					"-framework",
-					"\"RealmSwift\"",
-					"$(inherited)",
-					"-framework",
-					"\"Realm\"",
-				);
+				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.sinophy.WatchProtocolSDK;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = NO;

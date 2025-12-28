@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import WatchProtocolSDK
 
 class CustomImageFooterView: UIView {
     var collectionView: UICollectionView!

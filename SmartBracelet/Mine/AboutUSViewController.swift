@@ -11,6 +11,7 @@
 	
 
 import UIKit
+import WatchProtocolSDK
 
 class AboutUSViewController: BaseViewController {
     @IBOutlet weak var versionLabel: UILabel!

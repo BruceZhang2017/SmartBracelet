@@ -1,5 +1,6 @@
 import UIKit
 import AVFoundation
+import WatchProtocolSDK
 
 protocol CameraViewControllerDelegate: AnyObject {
     func didOutput(_ code: String)

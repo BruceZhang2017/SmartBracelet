@@ -11,6 +11,7 @@
 
 import UIKit
 import SnapKit
+import WatchProtocolSDK
 
 // 数据记录模型
 struct DailyRecord {

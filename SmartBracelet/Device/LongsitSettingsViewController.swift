@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import WatchProtocolSDK
 
 class LongsitSettingsViewController: BaseViewController {
     @IBOutlet weak var tableView: UITableView!

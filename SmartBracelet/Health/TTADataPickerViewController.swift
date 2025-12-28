@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import WatchProtocolSDK
 
 /// This Controller is used for SHOW and DISMISS the DataPickerView instance
 /// User should NOT use it to show or dismiss

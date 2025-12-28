@@ -12,6 +12,7 @@
 import UIKit
 import TJDWristbandSDK
 import ProgressHUD
+import WatchProtocolSDK
 
 class AlarmViewController: BaseViewController {
     @IBOutlet weak var tableView: UITableView!

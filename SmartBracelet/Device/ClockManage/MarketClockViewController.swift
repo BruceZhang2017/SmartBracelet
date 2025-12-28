@@ -14,6 +14,7 @@ import UIKit
 import Toaster
 import ProgressHUD
 import Alamofire
+import WatchProtocolSDK
 
 class MarketClockViewController: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!

@@ -10,6 +10,7 @@
 //
 
 import Foundation
+import WatchProtocolSDK
 
 // MARK: - 日期症状数据模型
 
