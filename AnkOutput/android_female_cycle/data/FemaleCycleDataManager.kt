@@ -61,6 +61,10 @@ class FemaleCycleDataManager private constructor(private val context: Context) {
     private val _dailyDataChanged = MutableLiveData<Pair<String, DailySymptomData>>()
     val dailyDataChanged: LiveData<Pair<String, DailySymptomData>> = _dailyDataChanged
 
+    // Alias for symptomDataChanged to match iOS naming
+    private val _symptomDataChanged = MutableLiveData<String>()
+    val symptomDataChanged: LiveData<String> = _symptomDataChanged
+
     init {
         loadAllData()
     }
@@ -207,6 +211,7 @@ class FemaleCycleDataManager private constructor(private val context: Context) {
         dailyDataDict[dateString] = data
         saveAllData()
         _dailyDataChanged.postValue(Pair(dateString, data))
+        _symptomDataChanged.postValue(dateString)
     }
 
     /**
@@ -311,6 +316,93 @@ class FemaleCycleDataManager private constructor(private val context: Context) {
         }
 
         return result
+    }
+
+    /**
+     * 获取所有记录（转换为DailyRecord列表）
+     * 用于AllDataActivity显示
+     */
+    fun getAllRecords(): List<com.yourapp.health.female.data.model.DailyRecord> {
+        val records = mutableListOf<com.yourapp.health.female.data.model.DailyRecord>()
+
+        for ((dateString, symptomData) in dailyDataDict) {
+            try {
+                val date = dateFormatter.parse(dateString)
+                val timestamp = date?.time ?: continue
+
+                // 计算周期天数
+                val cycleDay = calculateCycleDay(timestamp)
+
+                // 创建DailyRecord
+                val record = com.yourapp.health.female.data.model.DailyRecord(
+                    date = dateString,
+                    cycleDay = cycleDay,
+                    isPeriod = cycleDay > 0,
+                    hasFlow = symptomData.flowLevel > 0,
+                    hasPain = symptomData.painLevel > 0,
+                    hasTemp = false, // 暂未支持体温
+                    hasSexual = symptomData.sexualActivity > 0,
+                    hasMood = symptomData.mood > 0,
+                    hasBodySymptoms = symptomData.bodySymptoms.isNotEmpty(),
+                    recordTime = timestamp
+                )
+                records.add(record)
+            } catch (e: Exception) {
+                // 跳过无效日期
+            }
+        }
+
+        // 按日期倒序排列
+        return records.sortedByDescending { it.date }
+    }
+
+    /**
+     * 检查指定日期是否有症状记录
+     */
+    fun hasSymptomRecord(dateString: String): Boolean {
+        val symptomData = dailyDataDict[dateString] ?: return false
+
+        // 检查是否有任何症状数据
+        return symptomData.flowLevel > 0 ||
+               symptomData.painLevel > 0 ||
+               symptomData.sexualActivity > 0 ||
+               symptomData.mood > 0 ||
+               symptomData.bodySymptoms.isNotEmpty() ||
+               symptomData.isPeriodStarted
+    }
+
+    // ==================== 别名方法（兼容iOS命名） ====================
+
+    /**
+     * 获取症状数据（别名方法，匹配iOS命名）
+     */
+    fun getSymptomData(dateString: String): DailySymptomData {
+        return getDailyData(dateString)
+    }
+
+    /**
+     * 保存症状数据（别名方法，匹配iOS命名）
+     */
+    fun saveSymptomData(data: DailySymptomData) {
+        try {
+            val date = dateFormatter.parse(data.date)
+            if (date != null) {
+                updateDailyData(date.time, data)
+            }
+        } catch (e: Exception) {
+            // 解析失败，直接保存
+            dailyDataDict[data.date] = data
+            saveAllData()
+            _dailyDataChanged.postValue(Pair(data.date, data))
+            _symptomDataChanged.postValue(data.date)
+        }
+    }
+
+    /**
+     * 获取周期天数（别名方法，匹配iOS命名）
+     */
+    fun getCycleDayNumber(date: Long): Int {
+        return calculateCycleDay(date)
     }
 
     // ==================== 周期计算 ====================
