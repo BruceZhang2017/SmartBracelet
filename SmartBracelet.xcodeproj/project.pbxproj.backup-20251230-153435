@@ -73,10 +73,7 @@
 		9A1824912F03B5B70010B5B3 /* PacketManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A18247F2F03B5B70010B5B3 /* PacketManager.swift */; };
 		9A1824922F03B5B70010B5B3 /* XGZTDialProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A1824802F03B5B70010B5B3 /* XGZTDialProtocol.swift */; };
 		9A1824932F03B5B70010B5B3 /* WatchFaceSDK.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A1824822F03B5B70010B5B3 /* WatchFaceSDK.swift */; };
-		9A1824952F03B8BD0010B5B3 /* WatchProtocolSDK.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A1824472F02A8AE0010B5B3 /* WatchProtocolSDK.xcframework */; };
-		9A1824962F03B8BD0010B5B3 /* WatchProtocolSDK.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9A1824472F02A8AE0010B5B3 /* WatchProtocolSDK.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		9A1824982F03B8C00010B5B3 /* ABParTool.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A869E0F2D17DDEB00B78FDF /* ABParTool.xcframework */; };
-		9A1824992F03B8C00010B5B3 /* ABParTool.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9A869E0F2D17DDEB00B78FDF /* ABParTool.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		9A1824942F03B5B70010B5B3 /* WatchFaceSDK.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A1824862F03B5B70010B5B3 /* WatchFaceSDK.swift */; };
 		9A1F7CAC2E22932700EB3BBE /* TripleTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A1F7CAB2E22932700EB3BBE /* TripleTableViewController.swift */; };
 		9A20FA322D2A2C3C0027A26F /* WUCalendarManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A20FA2F2D2A2C3C0027A26F /* WUCalendarManager.swift */; };
 		9A20FA342D2A2CA10027A26F /* Int+String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A20FA332D2A2CA10027A26F /* Int+String.swift */; };
@@ -578,18 +575,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		9A1824972F03B8BD0010B5B3 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				9A1824992F03B8C00010B5B3 /* ABParTool.xcframework in Embed Frameworks */,
-				9A1824962F03B8BD0010B5B3 /* WatchProtocolSDK.xcframework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		9A99CCEC26CB57DE00D6972A /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -689,6 +674,7 @@
 		9A1824822F03B5B70010B5B3 /* WatchFaceSDK.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchFaceSDK.swift; sourceTree = "<group>"; };
 		9A1824842F03B5B70010B5B3 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		9A1824852F03B5B70010B5B3 /* USAGE_EXAMPLES.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = USAGE_EXAMPLES.md; sourceTree = "<group>"; };
+		9A1824862F03B5B70010B5B3 /* WatchFaceSDK.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchFaceSDK.swift; sourceTree = "<group>"; };
 		9A1E2D2F2DB6631E00B50C5D /* sv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sv; path = sv.lproj/Localizable.strings; sourceTree = "<group>"; };
 		9A1F7CAB2E22932700EB3BBE /* TripleTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripleTableViewController.swift; sourceTree = "<group>"; };
 		9A1F7EBA2E2D070D00EB3BBE /* SmartBraceletDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SmartBraceletDebug.entitlements; sourceTree = "<group>"; };
@@ -1337,8 +1323,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9A1824982F03B8C00010B5B3 /* ABParTool.xcframework in Frameworks */,
-				9A1824952F03B8BD0010B5B3 /* WatchProtocolSDK.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1635,6 +1619,7 @@
 				9A1824832F03B5B70010B5B3 /* WatchFaceSDK */,
 				9A1824842F03B5B70010B5B3 /* README.md */,
 				9A1824852F03B5B70010B5B3 /* USAGE_EXAMPLES.md */,
+				9A1824862F03B5B70010B5B3 /* WatchFaceSDK.swift */,
 			);
 			path = WatchFaceSDK;
 			sourceTree = "<group>";
@@ -2814,7 +2799,6 @@
 				9A18244B2F03B5A30010B5B3 /* Sources */,
 				9A18244C2F03B5A30010B5B3 /* Frameworks */,
 				9A18244D2F03B5A30010B5B3 /* Resources */,
-				9A1824972F03B8BD0010B5B3 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -3551,6 +3535,7 @@
 				9A1824912F03B5B70010B5B3 /* PacketManager.swift in Sources */,
 				9A1824922F03B5B70010B5B3 /* XGZTDialProtocol.swift in Sources */,
 				9A1824932F03B5B70010B5B3 /* WatchFaceSDK.swift in Sources */,
+				9A1824942F03B5B70010B5B3 /* WatchFaceSDK.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
