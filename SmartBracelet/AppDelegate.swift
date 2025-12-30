@@ -17,8 +17,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         configRealm()
 
-        // 设置 SDK 数据存储委托
-        XGZTBlueToothManager.shared.storageDelegate = DatabaseManager.shared
+        // 配置健康数据存储桥接
+        XGZTCommand.healthDataStorage = HealthDataStorageBridge()
 
         AMapServices.shared().apiKey = "0ed08fc41dc5bd1adc43b9189af816f7"
         window?.backgroundColor = UIColor.white

@@ -275,6 +275,6 @@ extension ABOtaViewController: ABOtaEventListener {
 extension XGZTBlueToothManager: ABOtaSendDelegate {
     public func sendData(_ data: Data) {
         // 调用 WatchProtocolSDK 中的公开方法来发送 OTA 数据
-        sendOTAData(data)
+        self.writeCharacteristic(command: [UInt8](data))
     }
 }

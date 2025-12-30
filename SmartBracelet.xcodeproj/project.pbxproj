@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 70;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -48,6 +48,19 @@
 		9A1030002EBF70D300FC6758 /* UsefulPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A102FF72EBF70D300FC6758 /* UsefulPickerView.swift */; };
 		9A11E0952EF2E26E00B020A5 /* CircleCropUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A11E0942EF2E26E00B020A5 /* CircleCropUtils.swift */; };
 		9A127EAE2BC2ACE300126836 /* UIFont+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A127EAD2BC2ACE200126836 /* UIFont+Extension.swift */; };
+		9A1823FF2F0265D10010B5B3 /* XGZTBlueToothManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A1823EA2F0265D10010B5B3 /* XGZTBlueToothManager.swift */; };
+		9A1824002F0265D10010B5B3 /* XGZTBusinessHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A1823EB2F0265D10010B5B3 /* XGZTBusinessHandler.swift */; };
+		9A1824012F0265D10010B5B3 /* XGZTCommands.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A1823EC2F0265D10010B5B3 /* XGZTCommands.swift */; };
+		9A1824022F0265D10010B5B3 /* XGZTCommandStateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A1823EE2F0265D10010B5B3 /* XGZTCommandStateManager.swift */; };
+		9A1824032F0265D10010B5B3 /* XGZTConnectionStateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A1823EF2F0265D10010B5B3 /* XGZTConnectionStateManager.swift */; };
+		9A1824042F0265D10010B5B3 /* XGZTDeviceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A1823F02F0265D10010B5B3 /* XGZTDeviceManager.swift */; };
+		9A1824062F0265D10010B5B3 /* XGZTSwitchDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A1823F42F0265D10010B5B3 /* XGZTSwitchDevice.swift */; };
+		9A1824072F0265D10010B5B3 /* DataExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A1823F72F0265D10010B5B3 /* DataExtensions.swift */; };
+		9A1824082F0265D10010B5B3 /* XLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A1823F82F0265D10010B5B3 /* XLogger.swift */; };
+		9A1824092F0265D10010B5B3 /* WatchProtocolSDK.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A1823FA2F0265D10010B5B3 /* WatchProtocolSDK.swift */; };
+		9A1824422F0293440010B5B3 /* HealthDataStorageBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A1824412F0293440010B5B3 /* HealthDataStorageBridge.swift */; };
+		9A1824482F02A8AE0010B5B3 /* WatchProtocolSDK.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A1824472F02A8AE0010B5B3 /* WatchProtocolSDK.xcframework */; };
+		9A1824492F02A8AE0010B5B3 /* WatchProtocolSDK.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9A1824472F02A8AE0010B5B3 /* WatchProtocolSDK.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9A1F7CAC2E22932700EB3BBE /* TripleTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A1F7CAB2E22932700EB3BBE /* TripleTableViewController.swift */; };
 		9A20FA322D2A2C3C0027A26F /* WUCalendarManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A20FA2F2D2A2C3C0027A26F /* WUCalendarManager.swift */; };
 		9A20FA342D2A2CA10027A26F /* Int+String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A20FA332D2A2CA10027A26F /* Int+String.swift */; };
@@ -357,8 +370,6 @@
 		9A60DEFD25301FEE00E0D849 /* DeviceSearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A60DEFC25301FEE00E0D849 /* DeviceSearchTableViewCell.swift */; };
 		9A61683825DA192900918EFC /* CircleProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A61683725DA192900918EFC /* CircleProgressView.m */; };
 		9A61685625DA502F00918EFC /* HBLockSliderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A61685525DA502F00918EFC /* HBLockSliderView.m */; };
-		9A61BC082F001F6200FB67B3 /* WatchProtocolSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A4E11AE2F0003EC008AE0A8 /* WatchProtocolSDK.framework */; };
-		9A61BC092F001F6200FB67B3 /* WatchProtocolSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9A4E11AE2F0003EC008AE0A8 /* WatchProtocolSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9A64F08225DD50D70073E679 /* ClockUseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A64F08125DD50D70073E679 /* ClockUseViewController.swift */; };
 		9A64F0B825DE18CD0073E679 /* DBloodModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A64F0B725DE18CD0073E679 /* DBloodModel.swift */; };
 		9A64F0BA25DE19B30073E679 /* DHeartRateModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A64F0B925DE19B30073E679 /* DHeartRateModel.swift */; };
@@ -550,16 +561,6 @@
 		F3220A75A4A4E6D36B2B4370 /* Pods_SmartBracelet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A50CCD798FFB43DD706CAAA6 /* Pods_SmartBracelet.framework */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		9A61BC0A2F001F6200FB67B3 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 18385E9224517F1600EA380A /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 9A4E11AD2F0003EC008AE0A8;
-			remoteInfo = WatchProtocolSDK;
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXCopyFilesBuildPhase section */
 		9A99CCEC26CB57DE00D6972A /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -570,10 +571,10 @@
 				9AC961832DA5531D00699C7F /* AliIotConnectKit.framework in Embed Frameworks */,
 				9AB5BE262A06648E00680757 /* ZipZap.framework in Embed Frameworks */,
 				9A99CCEB26CB57DE00D6972A /* TJDWristbandSDK.framework in Embed Frameworks */,
+				9A1824492F02A8AE0010B5B3 /* WatchProtocolSDK.xcframework in Embed Frameworks */,
 				9A869E122D17DDFC00B78FDF /* ABParTool.xcframework in Embed Frameworks */,
 				9AB5BE2A2A06649700680757 /* RTKOTASDK.framework in Embed Frameworks */,
 				9AB5BE282A06649300680757 /* RTKLEFoundation.framework in Embed Frameworks */,
-				9A61BC092F001F6200FB67B3 /* WatchProtocolSDK.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -635,6 +636,18 @@
 		9A102FF72EBF70D300FC6758 /* UsefulPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsefulPickerView.swift; sourceTree = "<group>"; };
 		9A11E0942EF2E26E00B020A5 /* CircleCropUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleCropUtils.swift; sourceTree = "<group>"; };
 		9A127EAD2BC2ACE200126836 /* UIFont+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Extension.swift"; sourceTree = "<group>"; };
+		9A1823EA2F0265D10010B5B3 /* XGZTBlueToothManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XGZTBlueToothManager.swift; sourceTree = "<group>"; };
+		9A1823EB2F0265D10010B5B3 /* XGZTBusinessHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XGZTBusinessHandler.swift; sourceTree = "<group>"; };
+		9A1823EC2F0265D10010B5B3 /* XGZTCommands.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XGZTCommands.swift; sourceTree = "<group>"; };
+		9A1823EE2F0265D10010B5B3 /* XGZTCommandStateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XGZTCommandStateManager.swift; sourceTree = "<group>"; };
+		9A1823EF2F0265D10010B5B3 /* XGZTConnectionStateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XGZTConnectionStateManager.swift; sourceTree = "<group>"; };
+		9A1823F02F0265D10010B5B3 /* XGZTDeviceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XGZTDeviceManager.swift; sourceTree = "<group>"; };
+		9A1823F42F0265D10010B5B3 /* XGZTSwitchDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XGZTSwitchDevice.swift; sourceTree = "<group>"; };
+		9A1823F72F0265D10010B5B3 /* DataExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataExtensions.swift; sourceTree = "<group>"; };
+		9A1823F82F0265D10010B5B3 /* XLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XLogger.swift; sourceTree = "<group>"; };
+		9A1823FA2F0265D10010B5B3 /* WatchProtocolSDK.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchProtocolSDK.swift; sourceTree = "<group>"; };
+		9A1824412F0293440010B5B3 /* HealthDataStorageBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthDataStorageBridge.swift; sourceTree = "<group>"; };
+		9A1824472F02A8AE0010B5B3 /* WatchProtocolSDK.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = WatchProtocolSDK.xcframework; path = "build/WatchProtocolSDK-Release/WatchProtocolSDK.xcframework"; sourceTree = "<group>"; };
 		9A1E2D2F2DB6631E00B50C5D /* sv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sv; path = sv.lproj/Localizable.strings; sourceTree = "<group>"; };
 		9A1F7CAB2E22932700EB3BBE /* TripleTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripleTableViewController.swift; sourceTree = "<group>"; };
 		9A1F7EBA2E2D070D00EB3BBE /* SmartBraceletDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SmartBraceletDebug.entitlements; sourceTree = "<group>"; };
@@ -1253,16 +1266,11 @@
 		A50CCD798FFB43DD706CAAA6 /* Pods_SmartBracelet.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SmartBracelet.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
-/* Begin PBXFileSystemSynchronizedRootGroup section */
-		9A4E11AF2F0003EC008AE0A8 /* WatchProtocolSDK */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = WatchProtocolSDK; sourceTree = "<group>"; };
-/* End PBXFileSystemSynchronizedRootGroup section */
-
 /* Begin PBXFrameworksBuildPhase section */
 		18385E9724517F1600EA380A /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9A61BC082F001F6200FB67B3 /* WatchProtocolSDK.framework in Frameworks */,
 				9AB5BE252A06648E00680757 /* ZipZap.framework in Frameworks */,
 				9A0C34952B341D6600E798F1 /* DFUnits.framework in Frameworks */,
 				9A218423255A3351000330E5 /* CoreTelephony.framework in Frameworks */,
@@ -1279,6 +1287,7 @@
 				9AAF85CC25C6D42000960BDD /* MapKit.framework in Frameworks */,
 				9AB5BE292A06649700680757 /* RTKOTASDK.framework in Frameworks */,
 				9A0C34962B341D6600E798F1 /* JL_BLEKit.framework in Frameworks */,
+				9A1824482F02A8AE0010B5B3 /* WatchProtocolSDK.xcframework in Frameworks */,
 				F3220A75A4A4E6D36B2B4370 /* Pods_SmartBracelet.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1300,7 +1309,7 @@
 			isa = PBXGroup;
 			children = (
 				18385E9C24517F1600EA380A /* SmartBracelet */,
-				9A4E11AF2F0003EC008AE0A8 /* WatchProtocolSDK */,
+				9A1823FB2F0265D10010B5B3 /* WatchProtocolSDK */,
 				18385E9B24517F1600EA380A /* Products */,
 				18385EB124517F7700EA380A /* Frameworks */,
 				CBE553D5D0280A8FD8CC0627 /* Pods */,
@@ -1352,6 +1361,7 @@
 		18385EB124517F7700EA380A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				9A1824472F02A8AE0010B5B3 /* WatchProtocolSDK.xcframework */,
 				9A4E11C02F000771008AE0A8 /* UIKit.framework */,
 				9A4E11BE2F00076A008AE0A8 /* CoreBluetooth.framework */,
 				9A4E11BC2F000762008AE0A8 /* Foundation.framework */,
@@ -1467,6 +1477,47 @@
 				9A102FF72EBF70D300FC6758 /* UsefulPickerView.swift */,
 			);
 			path = UsefulPickerVIew;
+			sourceTree = "<group>";
+		};
+		9A1823F12F0265D10010B5B3 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				9A1823EA2F0265D10010B5B3 /* XGZTBlueToothManager.swift */,
+				9A1823EB2F0265D10010B5B3 /* XGZTBusinessHandler.swift */,
+				9A1823EC2F0265D10010B5B3 /* XGZTCommands.swift */,
+				9A1823EE2F0265D10010B5B3 /* XGZTCommandStateManager.swift */,
+				9A1823EF2F0265D10010B5B3 /* XGZTConnectionStateManager.swift */,
+				9A1823F02F0265D10010B5B3 /* XGZTDeviceManager.swift */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		9A1823F62F0265D10010B5B3 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				9A1823F42F0265D10010B5B3 /* XGZTSwitchDevice.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		9A1823F92F0265D10010B5B3 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				9A1823F72F0265D10010B5B3 /* DataExtensions.swift */,
+				9A1823F82F0265D10010B5B3 /* XLogger.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		9A1823FB2F0265D10010B5B3 /* WatchProtocolSDK */ = {
+			isa = PBXGroup;
+			children = (
+				9A1823F12F0265D10010B5B3 /* Core */,
+				9A1823F62F0265D10010B5B3 /* Models */,
+				9A1823F92F0265D10010B5B3 /* Utils */,
+				9A1823FA2F0265D10010B5B3 /* WatchProtocolSDK.swift */,
+			);
+			path = WatchProtocolSDK;
 			sourceTree = "<group>";
 		};
 		9A2181612557ED9B000330E5 /* Resource */ = {
@@ -1690,6 +1741,7 @@
 			isa = PBXGroup;
 			children = (
 				9A453A332F0032B9006E24A4 /* DatabaseManager.swift */,
+				9A1824412F0293440010B5B3 /* HealthDataStorageBridge.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -2622,7 +2674,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				9A61BC0B2F001F6200FB67B3 /* PBXTargetDependency */,
 			);
 			name = SmartBracelet;
 			productName = TJDWristbandSDKDemo;
@@ -2641,9 +2692,6 @@
 			buildRules = (
 			);
 			dependencies = (
-			);
-			fileSystemSynchronizedGroups = (
-				9A4E11AF2F0003EC008AE0A8 /* WatchProtocolSDK */,
 			);
 			name = WatchProtocolSDK;
 			productName = WatchProtocolSDK;
@@ -3113,6 +3161,7 @@
 				9A56D2BA25216FC70082CC08 /* ILineScatterCandleRadarChartDataSet.swift in Sources */,
 				9A839C0325602BB700714CBE /* BaseResponse.swift in Sources */,
 				9A33D31B26AD9A4F00DF9618 /* CropOverlay.swift in Sources */,
+				9A1824422F0293440010B5B3 /* HealthDataStorageBridge.swift in Sources */,
 				9A56D2B225216FC70082CC08 /* IPieChartDataSet.swift in Sources */,
 				9A56D26225216FC60082CC08 /* CombinedHighlighter.swift in Sources */,
 				9A56D2AC25216FC70082CC08 /* LineChartDataSet.swift in Sources */,
@@ -3332,18 +3381,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9A1823FF2F0265D10010B5B3 /* XGZTBlueToothManager.swift in Sources */,
+				9A1824002F0265D10010B5B3 /* XGZTBusinessHandler.swift in Sources */,
+				9A1824012F0265D10010B5B3 /* XGZTCommands.swift in Sources */,
+				9A1824022F0265D10010B5B3 /* XGZTCommandStateManager.swift in Sources */,
+				9A1824032F0265D10010B5B3 /* XGZTConnectionStateManager.swift in Sources */,
+				9A1824042F0265D10010B5B3 /* XGZTDeviceManager.swift in Sources */,
+				9A1824062F0265D10010B5B3 /* XGZTSwitchDevice.swift in Sources */,
+				9A1824072F0265D10010B5B3 /* DataExtensions.swift in Sources */,
+				9A1824082F0265D10010B5B3 /* XLogger.swift in Sources */,
+				9A1824092F0265D10010B5B3 /* WatchProtocolSDK.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		9A61BC0B2F001F6200FB67B3 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 9A4E11AD2F0003EC008AE0A8 /* WatchProtocolSDK */;
-			targetProxy = 9A61BC0A2F001F6200FB67B3 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		18385EA824517F1A00EA380A /* LaunchScreen.storyboard */ = {

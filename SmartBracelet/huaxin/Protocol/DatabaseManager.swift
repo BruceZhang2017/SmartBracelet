@@ -416,9 +416,9 @@ public class DatabaseManager {
     }
 }
 
-// MARK: - WatchDataStorageDelegate Implementation
+// MARK: - HealthDataStorageProtocol Implementation
 
-extension DatabaseManager: WatchDataStorageDelegate {
+extension DatabaseManager: HealthDataStorageProtocol {
 
     public func saveStepData(_ data: WatchProtocolSDK.StepData) {
         let stepObj = StepObj()
@@ -438,11 +438,11 @@ extension DatabaseManager: WatchDataStorageDelegate {
         addSleepObj(sleepObj: sleepObj)
     }
 
-    public func saveHeartRateData(_ data: WatchProtocolSDK.HeartRateData) {
+    public func saveHeartData(_ data: WatchProtocolSDK.HeartData) {
         let heartObj = HeartObj()
         heartObj.time = data.time
         heartObj.mac = data.mac
-        heartObj.heart = data.heartRate
+        heartObj.heart = data.heart
         addHeartObj(heartObj: heartObj)
     }
 
@@ -458,8 +458,8 @@ extension DatabaseManager: WatchDataStorageDelegate {
         let bloodObj = BloodObj()
         bloodObj.time = data.time
         bloodObj.mac = data.mac
-        bloodObj.max = data.systolic
-        bloodObj.min = data.diastolic
+        bloodObj.max = data.max
+        bloodObj.min = data.min
         addBloodObj(bloodObj: bloodObj)
     }
 }
