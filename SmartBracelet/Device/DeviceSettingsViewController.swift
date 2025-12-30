@@ -399,18 +399,6 @@ private extension DeviceSettingsViewController {
         }
     }
     
-    private func reloadCell(atRow originalRow: Int) {
-        guard let targetIndex = getCollectionViewIndex(fromOriginalRow: originalRow) else { return }
-        DispatchQueue.main.async { [weak self] in
-            self?.collectionView.reloadItems(at: [targetIndex])
-        }
-    }
-    
-    private func getCollectionViewIndex(fromOriginalRow originalRow: Int) -> IndexPath? {
-        guard let filteredIndex = displayTitles.firstIndex(of: titles[originalRow]) else { return nil }
-        return IndexPath(item: filteredIndex, section: 0)
-    }
-    
     // 开关事件处理
     private func handleCallReminderSwitch(_ isOn: Bool) {
         if isXGZT {
@@ -464,7 +452,9 @@ private extension DeviceSettingsViewController {
                 
                 if device.longsit?.period == 0 {
                     device.longsit?.period = 0x0a
-                    reloadCell(atRow: 4)
+                    DispatchQueue.main.async { [weak self] in
+                        self?.collectionView.reloadData()
+                    }
                 }
             } else {
                 device.longsit?.cycle = 0b01111111
@@ -498,7 +488,9 @@ private extension DeviceSettingsViewController {
                 
                 if device.drinkWater?.period == 0 {
                     device.drinkWater?.period = 0x0a
-                    reloadCell(atRow: 6)
+                    DispatchQueue.main.async { [weak self] in
+                        self?.collectionView.reloadData()
+                    }
                 }
             } else {
                 device.drinkWater?.cycle = 0b01111111
