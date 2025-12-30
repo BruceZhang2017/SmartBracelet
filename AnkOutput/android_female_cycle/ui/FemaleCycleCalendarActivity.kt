@@ -12,6 +12,7 @@ import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.yourapp.health.female.data.FemaleCycleDataManager
 import com.yourapp.health.female.data.model.DailySymptomData
+import com.yourapp.health.female.data.model.MoodLevel
 import com.yourapp.health.female.ui.adapter.CalendarAdapter
 import com.yourapp.health.female.ui.view.FlowButtonGroup
 import com.yourapp.health.female.ui.view.PainButtonGroup
@@ -221,15 +222,15 @@ class FemaleCycleCalendarActivity : AppCompatActivity() {
         // 心情Chip
         moodChipGroup.setOnCheckedStateChangeListener { group, checkedIds ->
             val mood = when {
-                checkedIds.contains(R.id.moodCalmChip) -> 1
-                checkedIds.contains(R.id.moodHappyChip) -> 2
-                checkedIds.contains(R.id.moodRelaxedChip) -> 3
-                checkedIds.contains(R.id.moodEnergeticChip) -> 4
-                checkedIds.contains(R.id.moodSensitiveChip) -> 5
-                checkedIds.contains(R.id.moodAnxiousChip) -> 6
-                checkedIds.contains(R.id.moodIrritableChip) -> 7
-                checkedIds.contains(R.id.moodSadChip) -> 8
-                else -> 0
+                checkedIds.contains(R.id.moodCalmChip) -> MoodLevel.CALM
+                checkedIds.contains(R.id.moodHappyChip) -> MoodLevel.HAPPY
+                checkedIds.contains(R.id.moodRelaxedChip) -> MoodLevel.RELAXED
+                checkedIds.contains(R.id.moodEnergeticChip) -> MoodLevel.ENERGETIC
+                checkedIds.contains(R.id.moodSensitiveChip) -> MoodLevel.SENSITIVE
+                checkedIds.contains(R.id.moodAnxiousChip) -> MoodLevel.ANXIOUS
+                checkedIds.contains(R.id.moodIrritableChip) -> MoodLevel.IRRITABLE
+                checkedIds.contains(R.id.moodSadChip) -> MoodLevel.SAD
+                else -> MoodLevel.NONE
             }
             saveSymptom { it.mood = mood }
         }
@@ -386,7 +387,7 @@ class FemaleCycleCalendarActivity : AppCompatActivity() {
             flowLevel = 0,
             painLevel = 0,
             sexualActivity = 0,
-            mood = 0,
+            mood = MoodLevel.NONE,
             bodySymptoms = mutableListOf()
         )
 

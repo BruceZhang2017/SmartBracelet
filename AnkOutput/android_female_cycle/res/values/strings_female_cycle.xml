@@ -11,10 +11,13 @@
     <string name="female_cycle_confirm">确认</string>
     <string name="female_cycle_save">保存</string>
     <string name="female_cycle_none">无</string>
+    <string name="female_cycle_yes">是</string>
     <string name="female_cycle_days_unit">天</string>
     <string name="female_cycle_days_format">%d天</string>
     <string name="female_cycle_days_suffix">天</string>
     <string name="female_cycle_total_prefix">共</string>
+    <string name="female_cycle_detail">详情</string>
+    <string name="female_cycle_tap_to_select">点击选择</string>
 
     <!-- 配置页面 -->
     <string name="female_cycle_question_period_days">你的经期通常持续多少天?</string>
@@ -41,11 +44,17 @@
     <string name="female_cycle_cycle">周期</string>
     <string name="female_cycle_description">记录症状数据,让预测更准确</string>
     <string name="female_cycle_future_warning">未来日期暂不支持记录</string>
+    <string name="female_cycle_future_date_tip">未来日期暂不支持记录</string>
     <string name="female_cycle_day_n">第%d天</string>
+    <string name="female_cycle_day_1">第1天</string>
+    <string name="female_cycle_previous_month">上一个月</string>
+    <string name="female_cycle_next_month">下一个月</string>
 
     <!-- 日历图例 -->
     <string name="female_cycle_period_desc">经期阶段,注意休息和保暖</string>
+    <string name="female_cycle_period_legend">经期</string>
     <string name="female_cycle_ovulation_desc">排卵期,受孕几率较高</string>
+    <string name="female_cycle_ovulation_legend">排卵期</string>
 
     <!-- 星期 -->
     <string name="female_cycle_weekday_sun">日</string>
@@ -55,21 +64,32 @@
     <string name="female_cycle_weekday_thu">四</string>
     <string name="female_cycle_weekday_fri">五</string>
     <string name="female_cycle_weekday_sat">六</string>
+    <string name="female_cycle_sunday">日</string>
+    <string name="female_cycle_monday">一</string>
+    <string name="female_cycle_tuesday">二</string>
+    <string name="female_cycle_wednesday">三</string>
+    <string name="female_cycle_thursday">四</string>
+    <string name="female_cycle_friday">五</string>
+    <string name="female_cycle_saturday">六</string>
 
     <!-- 症状记录 -->
     <string name="female_cycle_record_symptoms">记录症状</string>
     <string name="female_cycle_period_started">经期开始了吗?</string>
     <string name="female_cycle_flow">流量</string>
+    <string name="female_cycle_flow_level">流量等级</string>
     <string name="female_cycle_flow_light">少</string>
     <string name="female_cycle_flow_medium">中</string>
     <string name="female_cycle_flow_heavy">多</string>
 
     <string name="female_cycle_pain">痛经</string>
+    <string name="female_cycle_pain_level">痛经等级</string>
     <string name="female_cycle_pain_mild">轻微</string>
     <string name="female_cycle_pain_moderate">中等</string>
     <string name="female_cycle_pain_severe">严重</string>
 
     <string name="female_cycle_sexual_activity">性行为</string>
+    <string name="female_cycle_protected">保护性行为</string>
+    <string name="female_cycle_unprotected">无保护性行为</string>
     <string name="female_cycle_protected_sex">保护性行为</string>
     <string name="female_cycle_unprotected_sex">无保护性行为</string>
 
@@ -139,6 +159,7 @@
     <!-- 数据列表 -->
     <string name="female_cycle_all_data">所有数据</string>
     <string name="female_cycle_settings">周期设置</string>
+    <string name="female_cycle_cycle_settings">周期设置</string>
     <string name="female_cycle_daily_record">日常记录</string>
     <string name="female_cycle_month_year_format">yyyy年MM月</string>
 
