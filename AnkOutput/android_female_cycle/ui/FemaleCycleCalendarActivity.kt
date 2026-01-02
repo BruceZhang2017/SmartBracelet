@@ -12,7 +12,6 @@ import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.yourapp.health.female.data.FemaleCycleDataManager
 import com.yourapp.health.female.data.model.DailySymptomData
-import com.yourapp.health.female.data.model.MoodLevel
 import com.yourapp.health.female.ui.adapter.CalendarAdapter
 import com.yourapp.health.female.ui.view.FlowButtonGroup
 import com.yourapp.health.female.ui.view.PainButtonGroup
@@ -222,15 +221,15 @@ class FemaleCycleCalendarActivity : AppCompatActivity() {
         // 心情Chip
         moodChipGroup.setOnCheckedStateChangeListener { group, checkedIds ->
             val mood = when {
-                checkedIds.contains(R.id.moodCalmChip) -> MoodLevel.CALM
-                checkedIds.contains(R.id.moodHappyChip) -> MoodLevel.HAPPY
-                checkedIds.contains(R.id.moodRelaxedChip) -> MoodLevel.RELAXED
-                checkedIds.contains(R.id.moodEnergeticChip) -> MoodLevel.ENERGETIC
-                checkedIds.contains(R.id.moodSensitiveChip) -> MoodLevel.SENSITIVE
-                checkedIds.contains(R.id.moodAnxiousChip) -> MoodLevel.ANXIOUS
-                checkedIds.contains(R.id.moodIrritableChip) -> MoodLevel.IRRITABLE
-                checkedIds.contains(R.id.moodSadChip) -> MoodLevel.SAD
-                else -> MoodLevel.NONE
+                checkedIds.contains(R.id.moodCalmChip) -> 1
+                checkedIds.contains(R.id.moodHappyChip) -> 2
+                checkedIds.contains(R.id.moodRelaxedChip) -> 3
+                checkedIds.contains(R.id.moodEnergeticChip) -> 4
+                checkedIds.contains(R.id.moodSensitiveChip) -> 5
+                checkedIds.contains(R.id.moodAnxiousChip) -> 6
+                checkedIds.contains(R.id.moodIrritableChip) -> 7
+                checkedIds.contains(R.id.moodSadChip) -> 8
+                else -> 0
             }
             saveSymptom { it.mood = mood }
         }
@@ -326,16 +325,16 @@ class FemaleCycleCalendarActivity : AppCompatActivity() {
     /**
      * 更新症状UI
      */
-    private fun updateSymptomUI(symptomData: DailySymptomData?, isInPeriod: Boolean) {
+    private fun updateSymptomUI(symptomData: DailySymptomData, isInPeriod: Boolean) {
         // 经期开始开关
-        periodStartedSwitch.isChecked = symptomData?.isPeriodStarted ?: false
+        periodStartedSwitch.isChecked = symptomData.isPeriodStarted
 
         // 流量和痛经(只在经期显示)
-        if (isInPeriod || symptomData?.isPeriodStarted == true) {
+        if (isInPeriod || symptomData.isPeriodStarted) {
             flowRow.visibility = View.VISIBLE
             painRow.visibility = View.VISIBLE
-            flowButtonGroup.setLevel(symptomData?.flowLevel ?: 0)
-            painButtonGroup.setLevel(symptomData?.painLevel ?: 0)
+            flowButtonGroup.setLevel(symptomData.flowLevel)
+            painButtonGroup.setLevel(symptomData.painLevel)
         } else {
             flowRow.visibility = View.GONE
             painRow.visibility = View.GONE
@@ -343,14 +342,14 @@ class FemaleCycleCalendarActivity : AppCompatActivity() {
 
         // 性行为
         sexualActivityChipGroup.clearCheck()
-        when (symptomData?.sexualActivity) {
+        when (symptomData.sexualActivity) {
             1 -> protectedChip.isChecked = true
             2 -> unprotectedChip.isChecked = true
         }
 
         // 心情
         moodChipGroup.clearCheck()
-        val moodChipId = when (symptomData?.mood) {
+        val moodChipId = when (symptomData.mood) {
             1 -> R.id.moodCalmChip
             2 -> R.id.moodHappyChip
             3 -> R.id.moodRelaxedChip
@@ -364,7 +363,7 @@ class FemaleCycleCalendarActivity : AppCompatActivity() {
         moodChipId?.let { findViewById<Chip>(it)?.isChecked = true }
 
         // 身体症状
-        val symptoms = symptomData?.bodySymptoms ?: emptyList()
+        val symptoms = symptomData.bodySymptoms
         if (symptoms.isEmpty()) {
             bodySymptomsText.text = getString(R.string.female_cycle_none)
             bodySymptomsText.setTextColor(getColor(R.color.female_cycle_text_hint))
@@ -381,15 +380,7 @@ class FemaleCycleCalendarActivity : AppCompatActivity() {
      */
     private fun saveSymptom(modifier: (DailySymptomData) -> Unit) {
         val dateString = DateUtils.formatDate(selectedDate)
-        var symptomData = dataManager.getSymptomData(dateString) ?: DailySymptomData(
-            date = dateString,
-            isPeriodStarted = false,
-            flowLevel = 0,
-            painLevel = 0,
-            sexualActivity = 0,
-            mood = MoodLevel.NONE,
-            bodySymptoms = mutableListOf()
-        )
+        var symptomData = dataManager.getSymptomData(dateString)
 
         modifier(symptomData)
         dataManager.saveSymptomData(symptomData)
@@ -450,7 +441,7 @@ class FemaleCycleCalendarActivity : AppCompatActivity() {
         intent.putExtra("date", dateString)
 
         // 传递当前已选中的症状
-        val currentSymptoms = dataManager.getSymptomData(dateString)?.bodySymptoms ?: emptyList()
+        val currentSymptoms = dataManager.getSymptomData(dateString).bodySymptoms
         intent.putStringArrayListExtra("selectedSymptoms", ArrayList(currentSymptoms))
 
         startActivityForResult(intent, REQUEST_CODE_BODY_SYMPTOMS)

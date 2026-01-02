@@ -381,7 +381,65 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
-                    app:singleSelection="true" />
+                    app:singleSelection="true">
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/moodCalmChip"
+                        style="@style/Widget.MaterialComponents.Chip.Choice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/female_cycle_mood_calm" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/moodHappyChip"
+                        style="@style/Widget.MaterialComponents.Chip.Choice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/female_cycle_mood_happy" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/moodRelaxedChip"
+                        style="@style/Widget.MaterialComponents.Chip.Choice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/female_cycle_mood_relaxed" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/moodEnergeticChip"
+                        style="@style/Widget.MaterialComponents.Chip.Choice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/female_cycle_mood_energetic" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/moodSensitiveChip"
+                        style="@style/Widget.MaterialComponents.Chip.Choice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/female_cycle_mood_sensitive" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/moodAnxiousChip"
+                        style="@style/Widget.MaterialComponents.Chip.Choice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/female_cycle_mood_anxious" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/moodIrritableChip"
+                        style="@style/Widget.MaterialComponents.Chip.Choice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/female_cycle_mood_irritable" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/moodSadChip"
+                        style="@style/Widget.MaterialComponents.Chip.Choice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/female_cycle_mood_sad" />
+
+                </com.google.android.material.chip.ChipGroup>
             </LinearLayout>
 
             <!-- 身体症状 -->

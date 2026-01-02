@@ -566,8 +566,15 @@ class HealthDetailViewController: BaseViewController {
                     }
                     self?.totalValue = value
                     let m = NSMutableAttributedString()
-                    m.append(NSAttributedString(string: String(format: "%.3f", Float(unit) / Float(100000)), attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 20, weight: .black)]))
-                    m.append(NSAttributedString(string: "health_walk_unit".localized(), attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 14, weight: .semibold)]))
+                    if XGZTBlueToothManager.shared.device?.baseUnit ?? 0 > 0 {
+                        let new = (Float(unit) / Float(100000)) * 62 / 100
+                        let truncated = (new * 1000).rounded(.towardZero)/1000
+                        m.append(NSAttributedString(string: String(format: "%.3f", Float(truncated)), attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 20, weight: .black)]))
+                        m.append(NSAttributedString(string: "mile".localized(), attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 14, weight: .semibold)]))
+                    } else {
+                        m.append(NSAttributedString(string: String(format: "%.3f", Float(unit) / Float(100000)), attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 20, weight: .black)]))
+                        m.append(NSAttributedString(string: "health_walk_unit".localized(), attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 14, weight: .semibold)]))
+                    }
                     let c = NSMutableAttributedString()
                     c.append(NSAttributedString(string: String(format: "%.3f", Float(truncated)), attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 20, weight: .black)]))
                     c.append(NSAttributedString(string: "health_kilo_calorie".localized(), attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 14, weight: .semibold)]))
@@ -644,8 +651,16 @@ class HealthDetailViewController: BaseViewController {
                 }
 
                 let m = NSMutableAttributedString()
-                m.append(NSAttributedString(string: String(format: "%.2f", Float(totalKM) / Float(1000)), attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 20, weight: .black)]))
-                m.append(NSAttributedString(string: "health_walk_unit".localized(), attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 14, weight: .semibold)]))
+                if XGZTBlueToothManager.shared.device?.baseUnit ?? 0 > 0 {
+                    let new = (Float(totalKM) / Float(1000)) * 62 / 100
+                    let truncated = (new * 1000).rounded(.towardZero)/1000
+                    m.append(NSAttributedString(string: String(format: "%.2f", Float(truncated)), attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 20, weight: .black)]))
+                    m.append(NSAttributedString(string: "mile".localized(), attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 14, weight: .semibold)]))
+                } else {
+                    m.append(NSAttributedString(string: String(format: "%.2f", Float(totalKM) / Float(1000)), attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 20, weight: .black)]))
+                    m.append(NSAttributedString(string: "health_walk_unit".localized(), attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 14, weight: .semibold)]))
+                }
+                
                 let c = NSMutableAttributedString()
                 c.append(NSAttributedString(string: String(format: "%.2f", Float(totalValue1) / Float(1000)), attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 20, weight: .black)]))
                 c.append(NSAttributedString(string: "health_kilo_calorie".localized(), attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 14, weight: .semibold)]))
