@@ -1,0 +1,578 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 6.1.2 effective-5.10 (swiftlang-6.1.2.1.2 clang-1700.0.13.5)
+// swift-module-flags: -target arm64-apple-ios13-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -enable-experimental-feature DebugDescriptionMacro -enable-bare-slash-regex -module-name WatchProtocolSDK
+// swift-module-flags-ignorable:  -interface-compiler-version 6.1.2
+import CoreBluetooth
+import Foundation
+import Swift
+import UIKit
+import _Concurrency
+import _StringProcessing
+import _SwiftConcurrencyShims
+public struct PeripheralInfo {
+  public let peripheral: CoreBluetooth.CBPeripheral
+  public let macAddress: Swift.String
+  public init(peripheral: CoreBluetooth.CBPeripheral, macAddress: Swift.String)
+}
+extension WatchProtocolSDK.PeripheralInfo : Swift.Equatable {
+  public static func == (lhs: WatchProtocolSDK.PeripheralInfo, rhs: WatchProtocolSDK.PeripheralInfo) -> Swift.Bool
+}
+public protocol BleManagerDelegate : AnyObject {
+  func onBleReady()
+  func receiveData(_ data: Foundation.Data)
+  func sentData()
+}
+@objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers public class XGZTBlueToothManager : ObjectiveC.NSObject, CoreBluetooth.CBCentralManagerDelegate, CoreBluetooth.CBPeripheralDelegate {
+  public static let shared: WatchProtocolSDK.XGZTBlueToothManager
+  public var discoveredPeripherals: [WatchProtocolSDK.PeripheralInfo]
+  public var deletePeripheralInfo: WatchProtocolSDK.PeripheralInfo?
+  public var brands: [Swift.String : Swift.Int]
+  public var centralManager: CoreBluetooth.CBCentralManager?
+  public var characteristic: CoreBluetooth.CBCharacteristic?
+  public var dataInCharacteristic: CoreBluetooth.CBCharacteristic?
+  public var dataOutCharacteristic: CoreBluetooth.CBCharacteristic?
+  public var isScanning: Swift.Bool
+  public var device: WatchProtocolSDK.BluetoothWatchDevice?
+  public var handler: WatchProtocolSDK.XGZTBusinessHandler
+  weak public var delegate: (any WatchProtocolSDK.BleManagerDelegate)?
+  public var isOTAing: Swift.Bool
+  public var isFromOTASuccess: Swift.Bool
+  public var switchAutoDisconnect: Swift.Bool
+  public var isReconnectingNow: Swift.Bool
+  public func isconnected() -> Swift.Bool
+  public func isCurrentBleStateOFF() -> Swift.Bool
+  public func initCentral()
+  public func cancelAllConnections()
+  public func startScanning(_ deleteCache: Swift.Bool = false)
+  public func stopScanning()
+  public func connectFunc(to device: CoreBluetooth.CBPeripheral)
+  public func connectFunc(to macAddress: Swift.String)
+  public func connectAndScan(to macAddress: Swift.String, deviceName: Swift.String)
+  public func disconnectDevice()
+  public func isReadyOTA()
+  public func getDeviceName(mac: Swift.String) -> Swift.String
+  public func checkConnectedDevicesIsEmpty() -> Swift.Bool
+  @objc public func centralManagerDidUpdateState(_ central: CoreBluetooth.CBCentralManager)
+  @objc public func centralManager(_ central: CoreBluetooth.CBCentralManager, didConnect peripheral: CoreBluetooth.CBPeripheral)
+  @objc public func centralManager(_ central: CoreBluetooth.CBCentralManager, didFailToConnect peripheral: CoreBluetooth.CBPeripheral, error: (any Swift.Error)?)
+  @objc public func centralManager(_ central: CoreBluetooth.CBCentralManager, didDisconnectPeripheral peripheral: CoreBluetooth.CBPeripheral, error: (any Swift.Error)?)
+  @objc public func centralManager(_ central: CoreBluetooth.CBCentralManager, didDiscover peripheral: CoreBluetooth.CBPeripheral, advertisementData: [Swift.String : Any], rssi: Foundation.NSNumber)
+  @objc public func peripheral(_ peripheral: CoreBluetooth.CBPeripheral, didDiscoverServices error: (any Swift.Error)?)
+  @objc public func peripheral(_ peripheral: CoreBluetooth.CBPeripheral, didDiscoverCharacteristicsFor service: CoreBluetooth.CBService, error: (any Swift.Error)?)
+  @objc public func peripheral(_ peripheral: CoreBluetooth.CBPeripheral, didWriteValueFor characteristic: CoreBluetooth.CBCharacteristic, error: (any Swift.Error)?)
+  @objc public func peripheral(_ peripheral: CoreBluetooth.CBPeripheral, didUpdateNotificationStateFor characteristic: CoreBluetooth.CBCharacteristic, error: (any Swift.Error)?)
+  @objc public func peripheral(_ peripheral: CoreBluetooth.CBPeripheral, didUpdateValueFor characteristic: CoreBluetooth.CBCharacteristic, error: (any Swift.Error)?)
+  public func writeCharacteristic(command: [Swift.UInt8])
+  @objc public func peripheralIsReady(toSendWriteWithoutResponse peripheral: CoreBluetooth.CBPeripheral)
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers public class XGZTBusinessHandler : ObjectiveC.NSObject {
+  public static let shared: WatchProtocolSDK.XGZTBusinessHandler
+  @objc deinit
+  public func syncDevcieInfo()
+  public func syncDevcieInfo2()
+  public func readDeviceInfo()
+}
+public enum XGZTCommands : Swift.UInt8 {
+  case syncTime
+  case getBatteryLevel
+  case setScreenBrightness
+  case getDeviceLanguage
+  case setDeviceUnitFormat
+  case resetToFactorySettings
+  case setDeviceScreenTimeout
+  case setDoNotDisturb
+  case findBand
+  case findPhone
+  case setWeatherUnit
+  case set12H24HTimeFormat
+  case getDeviceInfo
+  case setAppInfo
+  case personalInfo
+  case switchStatus
+  case bindDevice
+  case unbindDeviceNotif
+  case alarmInfo
+  case reminderInfo
+  case switchTableExtension
+  case disconnectBT
+  case musicControl
+  case remotePhoto
+  case messagePush
+  case setWeatherInfo
+  case contactInfo
+  case incomingCallMute
+  case targetSettings
+  case multiSportModeData
+  case getSleepMonitoring
+  case setAutoSleepMonitoring
+  case startTest
+  case getNewestHealthData
+  case getStepData
+  case getHistorySleepData
+  case getNewestHeartData
+  case dialMarket
+  case setTimePositionAndColor
+  case resourceUpgrade
+  case qrCode
+  public init?(rawValue: Swift.UInt8)
+  public typealias RawValue = Swift.UInt8
+  public var rawValue: Swift.UInt8 {
+    get
+  }
+}
+public struct BatteryLevelResponse {
+  public let batteryLevel: Swift.Int
+  public let isCharging: Swift.Bool
+}
+public struct DeviceLanguageResponse {
+  public let languageType: Swift.Int
+}
+public struct DeviceUnitFormatResponse {
+  public let unitFormat: Swift.Int
+}
+public struct SwitchStatusResponse {
+  public let switchSettings: Swift.Int
+}
+public struct AlarmInfoResponse {
+  public let alarmNum: Swift.Int
+  public let alarms: [WatchProtocolSDK.AlarmData]?
+}
+public struct AlarmData {
+  public var alarmIndex: Swift.Int
+  public var mswitch: Swift.Int
+  public var alarmCycle: Swift.Int
+  public var alarmHour: Swift.Int
+  public var alarmMinute: Swift.Int
+  public var vibrationMode: Swift.Int
+  public var remindLater: Swift.Int
+  public init(alarmIndex: Swift.Int, mswitch: Swift.Int, alarmCycle: Swift.Int, alarmHour: Swift.Int, alarmMinute: Swift.Int, vibrationMode: Swift.Int, remindLater: Swift.Int)
+}
+public struct ReminderInfoResponse {
+  public var eventType: Swift.Int
+  public var cycle: Swift.Int
+  public var startHour: Swift.Int
+  public var startMinute: Swift.Int
+  public var endHour: Swift.Int
+  public var endMinute: Swift.Int
+  public var period: Swift.Int
+  public init(eventType: Swift.Int, cycle: Swift.Int, startHour: Swift.Int, startMinute: Swift.Int, endHour: Swift.Int, endMinute: Swift.Int, period: Swift.Int)
+}
+public struct ContactInfoResponse {
+  public let contactNum: Swift.Int
+  public let contacts: [WatchProtocolSDK.ContactData]?
+}
+public struct ContactData {
+  public let index: Swift.Int
+  public let name: Swift.String
+  public let phoneNumber: Swift.String
+}
+public struct TargetSettingsResponse {
+  public let targetSwitch: Swift.Int
+  public let stepTargetValue: Swift.Int
+  public let distanceTargetValue: Swift.Int
+  public let calorieTargetValue: Swift.Int
+  public let sleepTargetValue: Swift.Int
+  public let exerciseDurationTargetValue: Swift.Int
+}
+public struct MultiSportModeData {
+  public let sportType: Swift.Int
+  public let timestamp: Swift.UInt32
+  public let stepCount: Swift.UInt32
+  public let calorie: Swift.UInt32
+  public let distance: Swift.UInt32
+  public let duration: Swift.UInt32
+  public let avgHeartRate: Swift.Int
+  public let staticCalorie: Swift.UInt32
+}
+public struct SleepDataResponse {
+  public let shallowSleepHour: Swift.Int
+  public let deepSleepHour: Swift.Int
+  public let wakeUpNumber: Swift.Int
+}
+public struct AutoSleepMonitoringResponse {
+  public let startHour: Swift.Int
+  public let startMinute: Swift.Int
+  public let endHour: Swift.Int
+  public let endMinute: Swift.Int
+  public let alarmCycle: Swift.Int
+  public let response: Swift.Int
+}
+public struct DeviceInfoResponse {
+  public let watchType: Swift.Int
+  public let supportLanguage: Swift.Int
+  public let serialNumber: Swift.String
+  public let firmwareMajorVersion: Swift.Int
+  public let firmwareMinorVersion: Swift.Int
+}
+@_hasMissingDesignatedInitializers public class XGZTCommand {
+  public static var healthDataStorage: any WatchProtocolSDK.HealthDataStorageProtocol
+  public static let methods: [Swift.String]
+  public static func syncTime(timeZone: Swift.Int, utc: Swift.UInt32)
+  public static func getBatteryLevel()
+  public static func setScreenBrightness(brightnessValue: Swift.Int)
+  public static func getDeviceLanguage()
+  public static func setDeviceLanguage(language: Swift.Int)
+  public static func getDeviceUnitFormat()
+  public static func setDeviceUnitFormat(unitType: Swift.Int)
+  public static func resetToFactorySettings()
+  public static func setDeviceScreenTimeout(screenTimeout: Swift.Int)
+  public static func setDoNotDisturb(startHour: Swift.Int, startMinute: Swift.Int, endHour: Swift.Int, endMinute: Swift.Int)
+  public static func findBand(p0: Swift.Int)
+  public static func findPhone()
+  public static func disconnectBT()
+  public static func setWeatherUnit(unit: Swift.Int)
+  public static func get12H24HTimeFormat()
+  public static func set12H24HTimeFormat(format: Swift.Int)
+  public static func getDeviceInfo()
+  public static func setAppInfo(phoneType: Swift.Int)
+  public static func getPersonalInfo()
+  public static func setPersonalInfo(sex: Swift.Int, age: Swift.Int, height: Swift.Int, weight: Swift.Int)
+  public static func getSwitchStatus()
+  public static func setSwitchStatus(p0: Swift.UInt8, p1: Swift.UInt8)
+  public static func bindDevice(value: Swift.UInt8)
+  public static func getAlarmInfo(type: Swift.Int)
+  public static func setAlarmInfo(setCmd: Swift.Int, alarm: WatchProtocolSDK.AlarmData)
+  public static func getReminderInfo(eventType: Swift.Int)
+  public static func setReminderInfo(response: WatchProtocolSDK.ReminderInfoResponse)
+  public static func getSwitchTableExtension()
+  public static func setSwitchTableExtension(p0: Swift.UInt8, p1: Swift.UInt8, p2: Swift.UInt8, p3: Swift.UInt8)
+  public static func musicControl(action: Swift.Int, dataType: Swift.Int)
+  public static func remotePhoto(action: Swift.Int)
+  public static func messagePush(action: Swift.Int, control: Swift.Int, messageType: Swift.Int, messageContent: Foundation.Data)
+  public static func setWeatherInfo(dateType: Swift.Int, weatherType: Swift.Int, currTemp: Swift.Int, lTemp: Swift.Int, hTemp: Swift.Int, cmd: Swift.Int)
+  public static func getContactInfo()
+  public static func setContactInfo(index: Swift.Int, name: Swift.String, phoneNumber: Swift.String)
+  public static func incomingCallMute(mute: Swift.Int)
+  public static func getTargetSettings()
+  public static func getNewestHealthData(type: Swift.Int)
+  public static func getStepData()
+  public static func setTargetSettings(targetSwitch: Swift.Int, targetType: Swift.Int, targetLength: Swift.Int)
+  public static func setQRCode(type: Swift.UInt8, qrString: Swift.String)
+  public static func getMultiSportModeData()
+  public static func deleteSportModeData()
+  public static func getHistorySleepData()
+  public static func getSleepMonitoring()
+  public static func setAutoSleepMonitoring(startHour: Swift.Int, startMinute: Swift.Int, endHour: Swift.Int, endMinute: Swift.Int, alarmCycle: Swift.Int)
+  public static func dialMarketQuery(dataType: Swift.Int)
+  public static func dialMarketSetTransferConfig(packageTotal: Swift.Int, binSize: Swift.Int, mtu: Swift.Int, dialType: Swift.Int, dialNum: Swift.Int, local: Swift.Int, typeValue: Swift.Int, dialTypeValue: Swift.Int)
+  public static func dialMarketTransferData(packageNum: Swift.Int, binNum: Swift.Int, progressBar: Swift.Int, control: Swift.Int, data: Foundation.Data)
+  public static func resourceUpgradeQuery()
+  public static func resourceUpgradeSetTransferConfig(packageTotal: Swift.Int, binSize: Swift.Int, mtu: Swift.Int)
+  public static func resourceUpgradeTransferData(data: Foundation.Data)
+  public static func startTest(cmdType: Swift.Int, control: Swift.Int)
+  public static func setTimePositionAndColor(type: Swift.Int, position: Swift.Int, color: Swift.Int)
+  public static func getNewestHeartData(type: Swift.Int)
+  public static func handleResponse(response: [Swift.UInt8])
+  @objc deinit
+}
+public enum XGZTCommandType : Swift.String {
+  case bind81
+  case bind82
+  case setAppInfo5D
+  public init?(rawValue: Swift.String)
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public enum DeviceReadingState {
+  case idle
+  case reading
+  case completed
+  public static func == (a: WatchProtocolSDK.DeviceReadingState, b: WatchProtocolSDK.DeviceReadingState) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+@_hasMissingDesignatedInitializers public class XGZTCommandStateManager {
+  public static let shared: WatchProtocolSDK.XGZTCommandStateManager
+  public func setCommandPending(_ command: WatchProtocolSDK.XGZTCommandType)
+  public func clearCommandFlag(_ command: WatchProtocolSDK.XGZTCommandType)
+  public func isCommandPending(_ command: WatchProtocolSDK.XGZTCommandType) -> Swift.Bool
+  public func clearAllCommandFlags()
+  public var deviceReadingState: WatchProtocolSDK.DeviceReadingState {
+    get
+  }
+  public var isDeviceReading: Swift.Bool {
+    get
+  }
+  public func startDeviceReading()
+  public func stopDeviceReading()
+  public func resetDeviceReadingState()
+  public var isSyncTimeSingle: Swift.Bool {
+    get
+    set
+  }
+  public func handleDisconnected()
+  @objc deinit
+}
+@available(*, deprecated, message: "请使用 XGZTCommandStateManager.shared.setCommandPending(.bind81) / .clearCommandFlag(.bind81)")
+public var flag_81: Swift.Bool {
+  get
+  set
+}
+@available(*, deprecated, message: "请使用 XGZTCommandStateManager.shared.setCommandPending(.bind82) / .clearCommandFlag(.bind82)")
+public var flag_82: Swift.Bool {
+  get
+  set
+}
+@available(*, deprecated, message: "请使用 XGZTCommandStateManager.shared.setCommandPending(.setAppInfo5D) / .clearCommandFlag(.setAppInfo5D)")
+public var flag_5d: Swift.Bool {
+  get
+  set
+}
+@available(*, deprecated, message: "请使用 XGZTCommandStateManager.shared.isDeviceReading")
+public var flag_device_reading: Swift.Bool {
+  get
+  set
+}
+@available(*, deprecated, message: "请使用 XGZTCommandStateManager.shared.isSyncTimeSingle")
+public var sync_time_single: Swift.Bool {
+  get
+  set
+}
+public enum DeviceType {
+  case none
+  case standard
+  case xgzt
+  public static func == (a: WatchProtocolSDK.DeviceType, b: WatchProtocolSDK.DeviceType) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+@_hasMissingDesignatedInitializers public class XGZTConnectionStateManager {
+  public static let shared: WatchProtocolSDK.XGZTConnectionStateManager
+  public var currentDeviceType: WatchProtocolSDK.DeviceType {
+    get
+  }
+  public var isXGZTDevice: Swift.Bool {
+    get
+  }
+  public var isStandardDevice: Swift.Bool {
+    get
+  }
+  public var isDeviceConnected: Swift.Bool {
+    get
+  }
+  public func setDeviceType(_ type: WatchProtocolSDK.DeviceType)
+  public var lastDeviceMac: Swift.String {
+    get
+    set
+  }
+  public func clearLastDeviceMac()
+  public func markXGZTConnected(mac: Swift.String)
+  public func markStandardConnected(mac: Swift.String)
+  public func markDisconnected(clearMac: Swift.Bool = false)
+  public func isCurrentDevice(mac: Swift.String) -> Swift.Bool
+  public var statusDescription: Swift.String {
+    get
+  }
+  public func printStatus()
+  @objc deinit
+}
+@available(*, deprecated, message: "请使用 XGZTConnectionStateManager.shared.isXGZTDevice")
+public var isXGZT: Swift.Bool {
+  get
+  set
+}
+@available(*, deprecated, message: "请使用 XGZTConnectionStateManager.shared.lastDeviceMac")
+public var lastestDeviceMac: Swift.String {
+  get
+  set
+}
+@_hasMissingDesignatedInitializers public class XGZTDeviceManager {
+  public static let shared: WatchProtocolSDK.XGZTDeviceManager
+  public var cacheDevices: [WatchProtocolSDK.BluetoothWatchDevice] {
+    get
+  }
+  public var deviceCount: Swift.Int {
+    get
+  }
+  public func addDevice(_ device: WatchProtocolSDK.BluetoothWatchDevice)
+  public func removeDevice(mac: Swift.String)
+  public func findDevice(mac: Swift.String) -> WatchProtocolSDK.BluetoothWatchDevice?
+  public func lastDevice() -> WatchProtocolSDK.BluetoothWatchDevice?
+  public func clearDeviceCache()
+  public func reloadDevices()
+  public var connectFailMessage: Swift.String {
+    get
+  }
+  public var recentFailMessages: [Swift.String] {
+    get
+  }
+  public func appendFailMessage(_ message: Swift.String)
+  public func clearFailMessages()
+  public func getRecentFailMessages(count: Swift.Int) -> [Swift.String]
+  @objc deinit
+}
+@available(*, deprecated, message: "请使用 XGZTDeviceManager.shared.cacheDevices")
+public var cacheDevices: [WatchProtocolSDK.BluetoothWatchDevice] {
+  get
+}
+@available(*, deprecated, message: "请使用 XGZTDeviceManager.shared.appendFailMessage() 和 .connectFailMessage")
+public var connectFailMessage: Swift.String {
+  get
+  set
+}
+@_hasMissingDesignatedInitializers public class BluetoothWatchDevice {
+  public var deviceName: Swift.String?
+  public var deviceModel: Swift.Int?
+  public var deviceID: Swift.Int?
+  public var brandID: Swift.Int?
+  public var max: Swift.String?
+  public var batteryLevel: Swift.Int?
+  public var isCharging: Swift.Bool?
+  public var deviceLanguage: Swift.Int?
+  public var deviceUnitFormat: Swift.Int?
+  public var hardwareVersion: Swift.Int?
+  public var firmwareVersion: Swift.String?
+  public var screenType: Swift.Int
+  public var screenWidth: Swift.Int
+  public var screenHeight: Swift.Int
+  public var mtu: Swift.Int
+  public var sex: Swift.Int
+  public var age: Swift.Int
+  public var height: Swift.Int
+  public var weight: Swift.Int
+  public var timeUnit: Swift.Int
+  public var baseUnit: Swift.Int
+  public var alarmcount: Swift.Int
+  public var alarmCanUse: Swift.Int
+  public var alarms: [WatchProtocolSDK.AlarmData]
+  public var longsit: WatchProtocolSDK.ReminderInfoResponse?
+  public var drinkWater: WatchProtocolSDK.ReminderInfoResponse?
+  public var currentStep: Swift.Int
+  public var currentSleep: Swift.Int
+  public var currentSleepArray: [Swift.Int]
+  public var currentCalorie: Swift.Int
+  public var currentDistance: Swift.Int
+  public var currentHeartrate: Swift.Int
+  public var currentOxygen: Swift.Int
+  public var currentSystolicpressure: Swift.Int
+  public var currentDiastolicpressure: Swift.Int
+  public var functioncontrolflags: Swift.Int
+  public var healthcontrolflags: Swift.Int
+  public var isAntilostSwitch: Swift.Bool
+  public var isRaisehandtobrightenscreen: Swift.Bool
+  public var isAutoSyncSwitch: Swift.Bool
+  public var isSleepmonitoringSwitch: Swift.Bool
+  public var isMessageremindermainswitch: Swift.Bool
+  public var isRegularexercisedatauploadswitch: Swift.Bool
+  public var isGoalachievementswitch: Swift.Bool
+  public var isMessagescreendisplayswitch: Swift.Bool
+  public var isSoundswitch: Swift.Bool
+  public var isVibrationswitch: Swift.Bool
+  public var isRegularhealthdatauploadswitch: Swift.Bool
+  public var isMessagevibrationswitch: Swift.Bool
+  public var isNullMessage: Swift.Bool
+  public var isIncomingCall: Swift.Bool
+  public var isMissedCall: Swift.Bool
+  public var isMessages: Swift.Bool
+  public var isEmail: Swift.Bool
+  public var isSchedule: Swift.Bool
+  public var isFacetime: Swift.Bool
+  public var isQQ: Swift.Bool
+  public var isSkype: Swift.Bool
+  public var isWechat: Swift.Bool
+  public var isWhatsapp: Swift.Bool
+  public var isGmail: Swift.Bool
+  public var isHangout: Swift.Bool
+  public var isInbox: Swift.Bool
+  public var isLine: Swift.Bool
+  public var isTwitter: Swift.Bool
+  public var isFacebook: Swift.Bool
+  public var isFacebookMessenger: Swift.Bool
+  public var isInstagram: Swift.Bool
+  public var isWeibo: Swift.Bool
+  public var isKakaotalk: Swift.Bool
+  public var isFacebookpagemanager: Swift.Bool
+  public var isViber: Swift.Bool
+  public var isVkclient: Swift.Bool
+  public var isTelegram: Swift.Bool
+  public var isSnapchat: Swift.Bool
+  public var isDingTalk: Swift.Bool
+  public var isAlipay: Swift.Bool
+  public var isTiktok: Swift.Bool
+  public var isLinkedIn: Swift.Bool
+  public static func loadFromSandbox(mac: Swift.String) -> WatchProtocolSDK.BluetoothWatchDevice?
+  public static func loadFromSandbox(deviceName: Swift.String) -> WatchProtocolSDK.BluetoothWatchDevice?
+  public static func deleteFromSandbox(mac: Swift.String)
+  public static func loadAll()
+  @objc deinit
+}
+extension Foundation.Data {
+  public var hex: Swift.String {
+    get
+  }
+  public func hexEncodedString(separator: Swift.String = ":") -> Swift.String
+  public var bytes: [Swift.UInt8] {
+    get
+  }
+}
+@_hasMissingDesignatedInitializers public class XLogger {
+  public static let shared: WatchProtocolSDK.XLogger
+  public func log(_ message: Swift.String)
+  @objc deinit
+}
+public struct StepData {
+  public let date: Swift.String
+  public let mac: Swift.String
+  public let step: Swift.Int
+  public init(date: Swift.String, mac: Swift.String, step: Swift.Int)
+}
+public struct SleepData {
+  public let date: Swift.String
+  public let mac: Swift.String
+  public let awake: Swift.Int
+  public let light: Swift.Int
+  public let deep: Swift.Int
+  public init(date: Swift.String, mac: Swift.String, awake: Swift.Int, light: Swift.Int, deep: Swift.Int)
+}
+public struct HeartData {
+  public let mac: Swift.String
+  public let time: Swift.Int
+  public let heart: Swift.Int
+  public init(mac: Swift.String, time: Swift.Int, heart: Swift.Int)
+}
+public struct OxygenData {
+  public let mac: Swift.String
+  public let time: Swift.Int
+  public let oxygen: Swift.Int
+  public init(mac: Swift.String, time: Swift.Int, oxygen: Swift.Int)
+}
+public struct BloodPressureData {
+  public let mac: Swift.String
+  public let time: Swift.Int
+  public let max: Swift.Int
+  public let min: Swift.Int
+  public init(mac: Swift.String, time: Swift.Int, max: Swift.Int, min: Swift.Int)
+}
+public protocol HealthDataStorageProtocol : AnyObject {
+  func saveStepData(_ data: WatchProtocolSDK.StepData)
+  func saveSleepData(_ data: WatchProtocolSDK.SleepData)
+  func saveHeartData(_ data: WatchProtocolSDK.HeartData)
+  func saveOxygenData(_ data: WatchProtocolSDK.OxygenData)
+  func saveBloodPressureData(_ data: WatchProtocolSDK.BloodPressureData)
+}
+public class EmptyHealthDataStorage : WatchProtocolSDK.HealthDataStorageProtocol {
+  public init()
+  public func saveStepData(_ data: WatchProtocolSDK.StepData)
+  public func saveSleepData(_ data: WatchProtocolSDK.SleepData)
+  public func saveHeartData(_ data: WatchProtocolSDK.HeartData)
+  public func saveOxygenData(_ data: WatchProtocolSDK.OxygenData)
+  public func saveBloodPressureData(_ data: WatchProtocolSDK.BloodPressureData)
+  @objc deinit
+}
+extension WatchProtocolSDK.XGZTCommands : Swift.Equatable {}
+extension WatchProtocolSDK.XGZTCommands : Swift.Hashable {}
+extension WatchProtocolSDK.XGZTCommands : Swift.RawRepresentable {}
+extension WatchProtocolSDK.XGZTCommandType : Swift.Equatable {}
+extension WatchProtocolSDK.XGZTCommandType : Swift.Hashable {}
+extension WatchProtocolSDK.XGZTCommandType : Swift.RawRepresentable {}
+extension WatchProtocolSDK.DeviceReadingState : Swift.Equatable {}
+extension WatchProtocolSDK.DeviceReadingState : Swift.Hashable {}
+extension WatchProtocolSDK.DeviceType : Swift.Equatable {}
+extension WatchProtocolSDK.DeviceType : Swift.Hashable {}

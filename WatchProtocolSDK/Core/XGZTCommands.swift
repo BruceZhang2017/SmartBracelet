@@ -237,8 +237,21 @@ public class XGZTCommand {
         XGZTBlueToothManager.shared.writeCharacteristic(command: command)
     }
     
+    // 查询设备语言
+    public static func getDeviceLanguage() {
+        let command = createCommand(with: [
+            0x00,
+            XGZTCommands.getDeviceLanguage.rawValue,
+            0x01,
+            0x00,
+            0x02,
+            0x00
+        ])
+        XGZTBlueToothManager.shared.writeCharacteristic(command: command)
+    }
+    
     // 获取设备语言
-    public static func getDeviceLanguage(language: Int) {
+    public static func setDeviceLanguage(language: Int) {
         let command = createCommand(with: [
             0x00,
             XGZTCommands.getDeviceLanguage.rawValue,

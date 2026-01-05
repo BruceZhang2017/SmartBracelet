@@ -1,0 +1,18 @@
+WatchProtocolSDK
+Version: 1.0.1
+Build Date: 2026-01-03
+Platform: iOS 13.0+
+Swift Version: 5.0+
+
+Contents:
+- Bluetooth device connection management
+- Health data synchronization (steps, sleep, heart rate, blood oxygen, blood pressure)
+- Protocol-based storage interface
+- Device command handling
+- Modular architecture for easy integration
+
+Release Notes:
+- Initial release v1.0.1
+- Complete protocol implementation
+- Protocol-based data storage design
+- Full health data support
