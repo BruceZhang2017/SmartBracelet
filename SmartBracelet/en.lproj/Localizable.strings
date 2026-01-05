@@ -52,7 +52,7 @@
 "device_alarm_settings" = "Alarm setting";
 "device_search_settings" = "Find settings";
 "device_device_info" = "Device Information";
-"device_shark_photo" = "Shake to take a photo";
+"device_shark_photo" = "Remote Photo";
 "device_change" = "Device switching";
 "mine" = "mine";
 "mine_bluetooth_connect" = "Bluetooth is connected";
@@ -218,7 +218,7 @@
 "device_alarm_settings" = "alarm clock setting";
 "device_search_settings" = "find settings";
 "device_device_info" = "Device Information";
-"device_shark_photo" = "shake to take a photo";
+"device_shark_photo" = "Remote Photo";
 "device_change" = "device switching";
 "mine" = "mine";
 "mine_bluetooth_connect" = "bluetooth connected";

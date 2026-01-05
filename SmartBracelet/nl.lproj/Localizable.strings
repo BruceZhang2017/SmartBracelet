@@ -52,7 +52,7 @@
 "device_alarm_settings" = "Alarminstelling";
 "device_search_settings" = "Instellingen zoeken";
 "device_device_info" = "Apparaat informatie";
-"device_shark_photo" = "Schud om een ";
+"device_shark_photo" = "Foto op afstand";
 "device_change" = "Schakelen tussen apparaten";
 "mine" = "de mijne";
 "mine_bluetooth_connect" = "Bluetooth is verbonden";
@@ -225,7 +225,7 @@
 "device_alarm_settings" = "wekker instellen";
 "device_search_settings" = "instellingen vinden";
 "device_device_info" = "Apparaat informatie";
-"device_shark_photo" = "schudden om een foto te maken";
+"device_shark_photo" = "Foto op afstand";
 "device_change" = "schakelen tussen apparaten";
 "mine" = "de mijne";
 "mine_bluetooth_connect" = "bluetooth verbonden";

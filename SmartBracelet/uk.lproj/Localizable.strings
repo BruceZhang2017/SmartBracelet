@@ -52,7 +52,7 @@
 "device_alarm_settings" = "Налаштування будильника";
 "device_search_settings" = "Знайдіть налаштування";
 "device_device_info" = "Інформація про пристрій";
-"device_shark_photo" = "Потрясіть, щоб зробити фотографію";
+"device_shark_photo" = "Віддалене фото";
 "device_change" = "Перемикання пристрою";
 "mine" = "Шахта";
 "mine_bluetooth_connect" = "Bluetooth підключено";
@@ -225,7 +225,7 @@
 "device_alarm_settings" = "налаштування будильника";
 "device_search_settings" = "знайти налаштування";
 "device_device_info" = "Інформація про пристрій";
-"device_shark_photo" = "струсіть, щоб зробити фото";
+"device_shark_photo" = "Віддалене фото";
 "device_change" = "перемикання пристрою";
 "mine" = "Шахта";
 "mine_bluetooth_connect" = "Bluetooth підключено";

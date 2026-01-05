@@ -52,7 +52,7 @@
 "device_alarm_settings" = "Tetapan penggera";
 "device_search_settings" = "Cari tetapan";
 "device_device_info" = "Maklumat Peranti";
-"device_shark_photo" = "Goncang untuk mengambil gambar";
+"device_shark_photo" = "Foto Jauh";
 "device_change" = "Pertukaran peranti";
 "mine" = "lombong";
 "mine_bluetooth_connect" = "Bluetooth disambungkan";
@@ -232,7 +232,7 @@
 "device_alarm_settings" = "tetapan jam penggera";
 "device_search_settings" = "cari tetapan";
 "device_device_info" = "Maklumat Peranti";
-"device_shark_photo" = "goncang untuk mengambil gambar";
+"device_shark_photo" = "Foto Jauh";
 "device_change" = "penukaran peranti";
 "mine" = "saya";
 "mine_bluetooth_connect" = "bluetooth disambungkan";

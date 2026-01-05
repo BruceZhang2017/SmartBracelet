@@ -52,7 +52,7 @@
 "device_alarm_settings" = "Hälytysasetus";
 "device_search_settings" = "Etsi asetukset";
 "device_device_info" = "Laitteen informaatio";
-"device_shark_photo" = "Ota valokuva ravistamalla";
+"device_shark_photo" = "Kaukokuvaus";
 "device_change" = "Laitteen vaihto";
 "mine" = "Kaivos";
 "mine_bluetooth_connect" = "Bluetooth on yhdistetty";
@@ -225,7 +225,7 @@
 "device_alarm_settings" = "herätyskellon asetus";
 "device_search_settings" = "löytää asetukset";
 "device_device_info" = "Laitteen informaatio";
-"device_shark_photo" = "ravista ottaaksesi kuvan";
+"device_shark_photo" = "Kaukokuvaus";
 "device_change" = "laitteen vaihto";
 "mine" = "Kaivos";
 "mine_bluetooth_connect" = "Bluetooth yhdistetty";

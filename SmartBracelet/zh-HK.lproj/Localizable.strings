@@ -52,7 +52,7 @@
 "device_alarm_settings" = "鬧鐘設置";
 "device_search_settings" = "查找設置";
 "device_device_info" = "設備信息";
-"device_shark_photo" = "搖一搖拍照";
+"device_shark_photo" = "遙控拍照";
 "device_change" = "設備切換";
 "mine" = "我的";
 "mine_bluetooth_connect" = "藍牙已連接";
@@ -225,7 +225,7 @@
 "device_alarm_settings" = "鬧鐘設置";
 "device_search_settings" = "查找設置";
 "device_device_info" = "設備信息";
-"device_shark_photo" = "搖一搖拍照";
+"device_shark_photo" = "遙控拍照";
 "device_change" = "設備切換";
 "mine" = "我的";
 "mine_bluetooth_connect" = "藍牙已連接";

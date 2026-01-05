@@ -52,7 +52,7 @@
 "device_alarm_settings" = "إعدادات المنبه";
 "device_search_settings" = "ابحث عن الإعدادات";
 "device_device_info" = "معلومات الجهاز";
-"device_shark_photo" = "هز لالتقاط صورة";
+"device_shark_photo" = "تصوير عن بعد";
 "device_change" = "تبديل الجهاز";
 "mine" = "الخاص بي";
 "mine_bluetooth_connect" = "تم توصيل البلوتوث";
@@ -225,7 +225,7 @@
 "device_alarm_settings" = "ضبط المنبه";
 "device_search_settings" = "ابحث عن الإعدادات";
 "device_device_info" = "معلومات الجهاز";
-"device_shark_photo" = "هز لالتقاط صورة";
+"device_shark_photo" = "تصوير عن بعد";
 "device_change" = "تبديل الجهاز";
 "mine" = "مِلكِي";
 "mine_bluetooth_connect" = "بلوتوث متصل";

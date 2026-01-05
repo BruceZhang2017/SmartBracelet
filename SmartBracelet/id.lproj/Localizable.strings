@@ -52,7 +52,7 @@
 "device_alarm_settings" = "Pengaturan alarm";
 "device_search_settings" = "Temukan pengaturan";
 "device_device_info" = "Informasi Perangkat";
-"device_shark_photo" = "Kocok untuk mengambil foto";
+"device_shark_photo" = "Foto Jarak Jauh";
 "device_change" = "Pergantian perangkat";
 "mine" = "Milikku";
 "mine_bluetooth_connect" = "Bluetooth terhubung";
@@ -225,7 +225,7 @@
 "device_alarm_settings" = "pengaturan jam alarm";
 "device_search_settings" = "menemukan pengaturan";
 "device_device_info" = "Informasi Perangkat";
-"device_shark_photo" = "kocok untuk mengambil foto";
+"device_shark_photo" = "Foto Jarak Jauh";
 "device_change" = "peralihan perangkat";
 "mine" = "milikku";
 "mine_bluetooth_connect" = "bluetooth terhubung";

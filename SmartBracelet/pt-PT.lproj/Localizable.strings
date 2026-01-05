@@ -52,7 +52,7 @@
 "device_alarm_settings" = "Configuração de alarme";
 "device_search_settings" = "Encontrar configurações";
 "device_device_info" = "Informação de dispositivo";
-"device_shark_photo" = "Agite para tirar uma foto";
+"device_shark_photo" = "Fotografia remota";
 "device_change" = "Troca de dispositivo";
 "mine" = "minha";
 "mine_bluetooth_connect" = "Bluetooth está conectado";
@@ -225,7 +225,7 @@
 "device_alarm_settings" = "configuração do despertador";
 "device_search_settings" = "encontrar configurações";
 "device_device_info" = "Informação de dispositivo";
-"device_shark_photo" = "agite para tirar uma foto";
+"device_shark_photo" = "Fotografia remota";
 "device_change" = "troca de dispositivo";
 "mine" = "meu";
 "mine_bluetooth_connect" = "bluetooth conectado";

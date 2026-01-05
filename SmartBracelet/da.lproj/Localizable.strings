@@ -51,7 +51,7 @@
 "device_alarm_settings" = "Alarm-indstillinger";
 "device_search_settings" = "Find indstillinger";
 "device_device_info" = "Enhedsinformation";
-"device_shark_photo" = "Skænk for at tage et foto";
+"device_shark_photo" = "Fjernstyret foto";
 "device_change" = "Skift enhed";
 "mine" = "min";
 "mine_bluetooth_connect" = "Bluetooth er forbundet";

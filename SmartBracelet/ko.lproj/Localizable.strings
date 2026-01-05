@@ -52,7 +52,7 @@
 "device_alarm_settings" = "알람 설정";
 "device_search_settings" = "설정 찾기";
 "device_device_info" = "장치 정보";
-"device_shark_photo" = "사진을 찍기 위해 흔들어";
+"device_shark_photo" = "원격 사진";
 "device_change" = "장치 전환";
 "mine" = "나의 것";
 "mine_bluetooth_connect" = "블루투스가 연결되었습니다";
@@ -225,7 +225,7 @@
 "device_alarm_settings" = "알람 시계 설정";
 "device_search_settings" = "설정 찾기";
 "device_device_info" = "장치 정보";
-"device_shark_photo" = "사진을 찍기 위해 흔들어";
+"device_shark_photo" = "원격 사진";
 "device_change" = "장치 전환";
 "mine" = "내 거";
 "mine_bluetooth_connect" = "블루투스 연결됨";

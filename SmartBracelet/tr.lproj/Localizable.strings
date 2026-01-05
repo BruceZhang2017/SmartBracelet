@@ -52,7 +52,7 @@
 "device_alarm_settings" = "Alarm ayarı";
 "device_search_settings" = "Ayarları bul";
 "device_device_info" = "Cihaz bilgisi";
-"device_shark_photo" = "Fotoğraf çekmek için sallayın";
+"device_shark_photo" = "Uzaktan Fotoğraf";
 "device_change" = "Cihaz değiştirme";
 "mine" = "benim";
 "mine_bluetooth_connect" = "Bluetooth bağlandı";
@@ -225,7 +225,7 @@
 "device_alarm_settings" = "çalar saat ayarı";
 "device_search_settings" = "ayarları bul";
 "device_device_info" = "Cihaz bilgisi";
-"device_shark_photo" = "fotoğraf çekmek için sallayın";
+"device_shark_photo" = "Uzaktan Fotoğraf";
 "device_change" = "cihaz değiştirme";
 "mine" = "bana ait";
 "mine_bluetooth_connect" = "bluetooth bağlı";

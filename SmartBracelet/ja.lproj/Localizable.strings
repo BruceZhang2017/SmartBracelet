@@ -52,7 +52,7 @@
 "device_alarm_settings" = "アラーム設定";
 "device_search_settings" = "設定を探す";
 "device_device_info" = "デバイス情報";
-"device_shark_photo" = "写真を撮るために振る";
+"device_shark_photo" = "リモート撮影";
 "device_change" = "デバイスの切り替え";
 "mine" = "私の";
 "mine_bluetooth_connect" = "Bluetoothが接続されています";
@@ -225,7 +225,7 @@
 "device_alarm_settings" = "目覚まし時計の設定";
 "device_search_settings" = "設定を見つける";
 "device_device_info" = "デバイス情報";
-"device_shark_photo" = "振って写真を撮る";
+"device_shark_photo" = "リモート撮影";
 "device_change" = "デバイスの切り替え";
 "mine" = "私の";
 "mine_bluetooth_connect" = "ブルートゥース接続";

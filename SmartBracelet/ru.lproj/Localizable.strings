@@ -225,7 +225,7 @@
 "device_alarm_settings" = "установка будильника";
 "device_search_settings" = "найти настройки";
 "device_device_info" = "Информация об устройстве";
-"device_shark_photo" = "встряхнуть, чтобы сделать снимок";
+"device_shark_photo" = "Удалённая фотография";
 "device_change" = "переключение устройств";
 "mine" = "мой";
 "mine_bluetooth_connect" = "Bluetooth подключен";

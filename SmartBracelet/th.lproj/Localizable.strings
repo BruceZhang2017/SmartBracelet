@@ -52,7 +52,7 @@
 "device_alarm_settings" = "ตั้งปลุก";
 "device_search_settings" = "ค้นหาการตั้งค่า";
 "device_device_info" = "ข้อมูลอุปกรณ์";
-"device_shark_photo" = "เขย่าเพื่อถ่ายรูป";
+"device_shark_photo" = "รีโมตถ่ายภาพ";
 "device_change" = "การสลับอุปกรณ์";
 "mine" = "ของฉัน";
 "mine_bluetooth_connect" = "เชื่อมต่อบลูทูธแล้ว";
@@ -225,7 +225,7 @@
 "device_alarm_settings" = "การตั้งนาฬิกาปลุก";
 "device_search_settings" = "ค้นหาการตั้งค่า";
 "device_device_info" = "ข้อมูลอุปกรณ์";
-"device_shark_photo" = "เขย่าเพื่อถ่ายรูป";
+"device_shark_photo" = "รีโมตถ่ายภาพ";
 "device_change" = "การสลับอุปกรณ์";
 "mine" = "ของฉัน";
 "mine_bluetooth_connect" = "เชื่อมต่อบลูทูธแล้ว";

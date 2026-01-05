@@ -12,6 +12,8 @@ import CoreBluetooth
 struct PeripheralInfo {
     let peripheral: CBPeripheral
     let macAddress: String
+    // 新增一个属性，用于存储扫描时解析到的准确名称
+    let scanName: String
 }
 
 extension PeripheralInfo: Equatable {
@@ -149,7 +151,7 @@ class XGZTBlueToothManager: NSObject, CBCentralManagerDelegate, CBPeripheralDele
                 if peripheral.name == deviceName {
                     if let dd = BluetoothWatchDevice.loadFromSandbox(deviceName: deviceName) {
                         if dd.max == macAddress {
-                            let peripheralInfo = PeripheralInfo(peripheral: peripheral, macAddress: macAddress)
+                            let peripheralInfo = PeripheralInfo(peripheral: peripheral, macAddress: macAddress, scanName: deviceName)
                             discoveredPeripherals.append(peripheralInfo)
                             XLogger.shared.log("连接指定的mac地址\(macAddress)的蓝牙设备4")
                             centralManager?.connect(peripheral, options: nil)
@@ -211,7 +213,7 @@ class XGZTBlueToothManager: NSObject, CBCentralManagerDelegate, CBPeripheralDele
                     if lastestDeviceMac.count > 0, let d = BluetoothWatchDevice.loadFromSandbox(mac: lastestDeviceMac) {
                         XLogger.shared.log("设备名称：\(peripheral.name ?? "未知") 和 \(d.deviceName ?? "为空")")
                         if peripheral.name == d.deviceName ?? "e watch" {
-                            let peripheralInfo = PeripheralInfo(peripheral: peripheral, macAddress: lastestDeviceMac)
+                            let peripheralInfo = PeripheralInfo(peripheral: peripheral, macAddress: lastestDeviceMac, scanName: d.deviceName ?? "e watch")
                             discoveredPeripherals.append(peripheralInfo)
                             XLogger.shared.log("连接指定的mac地址\(lastestDeviceMac)的蓝牙设备5")
                             centralManager?.connect(peripheral, options: nil)
@@ -237,7 +239,7 @@ class XGZTBlueToothManager: NSObject, CBCentralManagerDelegate, CBPeripheralDele
     public func getDeviceName(mac: String) -> String {
         for peripheralInfo in discoveredPeripherals {
             if peripheralInfo.macAddress == mac {
-                return peripheralInfo.peripheral.name ?? ""
+                return peripheralInfo.scanName
             }
         }
         return ""
@@ -297,7 +299,7 @@ class XGZTBlueToothManager: NSObject, CBCentralManagerDelegate, CBPeripheralDele
                 UserDefaults.standard.setValue(lastestDeviceMac, forKey: "LastestDeviceMac")
                 UserDefaults.standard.synchronize()
                 device = BluetoothWatchDevice()
-                device?.deviceName = p.peripheral.name ?? ""
+                device?.deviceName = p.scanName
                 device?.max = p.macAddress
                 device?.brandID = brands[p.macAddress] ?? 0
                 BluetoothWatchDevice.saveToSandbox(device: device!)
@@ -372,31 +374,51 @@ class XGZTBlueToothManager: NSObject, CBCentralManagerDelegate, CBPeripheralDele
     }
 
     func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi: NSNumber) {
+        
+        // 1. 获取准确名称的逻辑：优先使用广播数据中的 Local Name
+        var realName = "未知设备"
+        if let localName = advertisementData[CBAdvertisementDataLocalNameKey] as? String {
+            realName = localName
+        } else if let cachedName = peripheral.name {
+            realName = cachedName
+        }
+        
         // 检查 advertisementData 是否包含我们需要的数据
         if let manufacturerData = advertisementData[CBAdvertisementDataManufacturerDataKey] as? Data,
            manufacturerData.count == 15,
            manufacturerData[1] == 0x01,
            manufacturerData[0] == 0x06 {
-            let range = 5..<11 // Convert ClosedRange to Range by adding 1 to the upper bound
+            
+            let range = 5..<11
             let macAddress = manufacturerData.subdata(in: range).hexEncodedString()
+            
             // 自研设备的处理逻辑
-            let peripheralInfo = PeripheralInfo(peripheral: peripheral, macAddress: macAddress)
+            // 注意：这里建议将 realName 传入 PeripheralInfo，而不是依赖内部的 peripheral.name
+            // 假设你的 PeripheralInfo 结构体支持传入 name，如果不支持，仅用于显示即可
+            let peripheralInfo = PeripheralInfo(peripheral: peripheral, macAddress: macAddress, scanName: realName)
+            
             if !discoveredPeripherals.contains(peripheralInfo) {
                 discoveredPeripherals.append(peripheralInfo)
                 brands[macAddress] = Int(manufacturerData[12])
+                
                 // 打印所有信息
-                let peripheralInfo = """
+                let logInfo = """
                 发现蓝牙设备：
-                名称：\(peripheral.name ?? "未知设备")
+                实时名称：\(realName) (缓存名称: \(peripheral.name ?? "nil"))
                 设备ID：\(peripheral.identifier)
                 RSSI：\(rssi)
                 广告数据：\(advertisementData)
                 """
-                XLogger.shared.log(peripheralInfo)
+                XLogger.shared.log(logInfo)
             }
+            
             if scanMacAddress.count > 0 && macAddress.lowercased() == scanMacAddress.lowercased() {
                 XLogger.shared.log("连接指定的mac地址\(scanMacAddress)的蓝牙设备6")
-                if (peripheral.name?.count ?? 0) > 0 {
+                
+                // 2. 这里的判断逻辑优化：
+                // 如果 MAC 地址匹配上了，通常不需要再强校验 name 是否存在。
+                // 如果必须校验 name，请使用 realName 判断，因为 peripheral.name 可能是 nil 但广播里有名字。
+                if realName.count > 0 {
                     centralManager?.connect(peripheral, options: nil)
                     scanMacAddress = ""
                 }
