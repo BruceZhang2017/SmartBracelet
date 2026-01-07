@@ -156,6 +156,7 @@ extension DeviceSearchViewController: UITableViewDataSource {
                cell.deviceMacLabel.text = XGZTBlueToothManager.shared.deletePeripheralInfo?.macAddress ?? ""
             } else {
                 if indexPath.row - 1 < bleSelf.bleModels.count {
+                    var mac = ""
                     let model = bleSelf.bleModels[indexPath.row - 1]
                     cell.deviceNameLabel.text = model.name + ""
                     if let advertisementData = model.advertisementData,
@@ -163,20 +164,23 @@ extension DeviceSearchViewController: UITableViewDataSource {
                        advertisementData[1] == 0x01,
                        advertisementData[0] == 0x06  { // 自研设备
                         let range = 5..<11 // Convert ClosedRange to Range by adding 1 to the upper bound
-                        cell.deviceMacLabel.text = advertisementData.subdata(in: range).hexEncodedString()
+                        mac = advertisementData.subdata(in: range).hexEncodedString()
+                        cell.deviceMacLabel.text = mac
                     } else {
                         if model.mac.count > 0 {
-                            cell.deviceMacLabel.text = model.mac
+                            mac = model.mac
+                            cell.deviceMacLabel.text = mac
                         } else {
                             cell.deviceMacLabel.text = "00:00:00:00:00:00"
                         }
                     }
                     
-                    XLogger.shared.log("设备的名称：\(model.name) 设备的mac：\(model.mac) 广播数据: \(String(describing: model.advertisementData?.hexEncodedStringNoBlank()))")
+                    XLogger.shared.log("设备的名称：\(model.name) 设备的mac：\(mac) 广播数据: \(String(describing: model.advertisementData?.hexEncodedStringNoBlank()))")
                 }
             }
         } else {
             if indexPath.row < bleSelf.bleModels.count {
+                var mac = ""
                 let model = bleSelf.bleModels[indexPath.row]
                 cell.deviceNameLabel.text = model.name + ""
                 if let advertisementData = model.advertisementData,
@@ -184,16 +188,18 @@ extension DeviceSearchViewController: UITableViewDataSource {
                    advertisementData[1] == 0x01,
                    advertisementData[0] == 0x06 { // 自研设备
                     let range = 5..<11 // Convert ClosedRange to Range by adding 1 to the upper bound
-                    cell.deviceMacLabel.text = advertisementData.subdata(in: range).hexEncodedString()
+                    mac = advertisementData.subdata(in: range).hexEncodedString()
+                    cell.deviceMacLabel.text = mac
                 } else {
                     if model.mac.count > 0 {
-                        cell.deviceMacLabel.text = model.mac
+                        mac = model.mac
+                        cell.deviceMacLabel.text = mac
                     } else {
                         cell.deviceMacLabel.text = "00:00:00:00:00:00"
                     }
                 }
                 
-                XLogger.shared.log("设备的名称：\(model.name) 设备的mac：\(model.mac) 广播数据: \(String(describing: model.advertisementData?.hexEncodedStringNoBlank()))")
+                XLogger.shared.log("设备的名称：\(model.name) 设备的mac：\(mac) 广播数据: \(String(describing: model.advertisementData?.hexEncodedStringNoBlank()))")
             }
         }
         

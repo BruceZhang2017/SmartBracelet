@@ -131,9 +131,9 @@ public class BluetoothWatchDevice {
         
         var dic = defaults.dictionary(forKey: "xgzt") as? [String: String] ?? [:]
         
-        // 3. 检查该 `macAddress` 键是否已存在且值不为空
-        if let existingName = dic[macAddress], !existingName.isEmpty {
-            // 键已存在且已有名称，不执行保存操作
+        // 3. 检查该 `macAddress` 键是否已存在且设备名称已经存在
+        if let existingName = dic[macAddress], existingName == deviceName {
+            // 键已存在且已有相同名称，不执行保存操作
             return
         }
         
@@ -153,7 +153,7 @@ public class BluetoothWatchDevice {
         guard let name = dic[mac] else {
             return nil
         }
-        var device = BluetoothWatchDevice()
+        let device = BluetoothWatchDevice()
         device.deviceName = name
         device.max = mac
         return device

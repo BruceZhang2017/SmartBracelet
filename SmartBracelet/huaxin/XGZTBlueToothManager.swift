@@ -281,7 +281,7 @@ class XGZTBlueToothManager: NSObject, CBCentralManagerDelegate, CBPeripheralDele
     }
 
     func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
-        XLogger.shared.log("蓝牙设备连接成功")
+        XLogger.shared.log("蓝牙设备连接成功：\(peripheral.name ?? "nil")")
         isCancelSystemBLE = false
         isReconnectingNow = false
         self.peripheral = peripheral
@@ -299,8 +299,21 @@ class XGZTBlueToothManager: NSObject, CBCentralManagerDelegate, CBPeripheralDele
                 UserDefaults.standard.setValue(lastestDeviceMac, forKey: "LastestDeviceMac")
                 UserDefaults.standard.synchronize()
                 device = BluetoothWatchDevice()
-                device?.deviceName = p.scanName
+                device?.deviceName = peripheral.name ?? "e watch"
                 device?.max = p.macAddress
+                for model in bleSelf.bleModels {
+                    let range = 5..<11 // Convert ClosedRange to Range by adding 1 to the upper bound
+                    // 安全检查：确保 advertisementData 存在且有足够的字节
+                    guard let advData = model.advertisementData, advData.count >= 11 else {
+                        continue
+                    }
+                    let mac = advData.subdata(in: range).hexEncodedString()
+                    if mac == p.macAddress {
+                        device?.deviceName = model.name
+                        XLogger.shared.log("刷新最新的连接成功的设备名称：\(model.name)")
+                        break
+                    }
+                }
                 device?.brandID = brands[p.macAddress] ?? 0
                 BluetoothWatchDevice.saveToSandbox(device: device!)
                 break
@@ -376,11 +389,15 @@ class XGZTBlueToothManager: NSObject, CBCentralManagerDelegate, CBPeripheralDele
     func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi: NSNumber) {
         
         // 1. 获取准确名称的逻辑：优先使用广播数据中的 Local Name
-        var realName = "未知设备"
+        var realName: String? = nil
         if let localName = advertisementData[CBAdvertisementDataLocalNameKey] as? String {
             realName = localName
         } else if let cachedName = peripheral.name {
             realName = cachedName
+        }
+        
+        if realName == nil {
+            return
         }
         
         // 检查 advertisementData 是否包含我们需要的数据
@@ -395,7 +412,7 @@ class XGZTBlueToothManager: NSObject, CBCentralManagerDelegate, CBPeripheralDele
             // 自研设备的处理逻辑
             // 注意：这里建议将 realName 传入 PeripheralInfo，而不是依赖内部的 peripheral.name
             // 假设你的 PeripheralInfo 结构体支持传入 name，如果不支持，仅用于显示即可
-            let peripheralInfo = PeripheralInfo(peripheral: peripheral, macAddress: macAddress, scanName: realName)
+            let peripheralInfo = PeripheralInfo(peripheral: peripheral, macAddress: macAddress, scanName: realName!)
             
             if !discoveredPeripherals.contains(peripheralInfo) {
                 discoveredPeripherals.append(peripheralInfo)
@@ -404,7 +421,7 @@ class XGZTBlueToothManager: NSObject, CBCentralManagerDelegate, CBPeripheralDele
                 // 打印所有信息
                 let logInfo = """
                 发现蓝牙设备：
-                实时名称：\(realName) (缓存名称: \(peripheral.name ?? "nil"))
+                实时名称：\(realName!) (缓存名称: \(peripheral.name ?? "nil"))
                 设备ID：\(peripheral.identifier)
                 RSSI：\(rssi)
                 广告数据：\(advertisementData)
@@ -418,7 +435,7 @@ class XGZTBlueToothManager: NSObject, CBCentralManagerDelegate, CBPeripheralDele
                 // 2. 这里的判断逻辑优化：
                 // 如果 MAC 地址匹配上了，通常不需要再强校验 name 是否存在。
                 // 如果必须校验 name，请使用 realName 判断，因为 peripheral.name 可能是 nil 但广播里有名字。
-                if realName.count > 0 {
+                if (realName?.count ?? 0) > 0 {
                     centralManager?.connect(peripheral, options: nil)
                     scanMacAddress = ""
                 }
@@ -461,6 +478,9 @@ class XGZTBlueToothManager: NSObject, CBCentralManagerDelegate, CBPeripheralDele
                     peripheral.setNotifyValue(true, for: characteristic)
                     XLogger.shared.log("开启通知Service UUID: \(service.uuid) characteristic UUID: \(characteristic.uuid.uuidString)")
                 }
+                if characteristic.uuid == CBUUID(string: "2A00") {
+                    peripheral.readValue(for: characteristic)
+                }
             }
         }
     }
@@ -484,6 +504,11 @@ class XGZTBlueToothManager: NSObject, CBCentralManagerDelegate, CBPeripheralDele
     }
 
     func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
+        if characteristic.uuid == CBUUID(string: "2A00"),
+           let nameData = characteristic.value,
+           let name = String(data: nameData, encoding: .utf8) {
+            print("从设备读取到实时名称：\(name)")
+        }
         if let error = error {
             XLogger.shared.log("读取特征值失败: \(error.localizedDescription)")
         } else if let value = characteristic.value {

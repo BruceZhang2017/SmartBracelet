@@ -21,6 +21,12 @@ class MTabBarController: UITabBarController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        var localVersion = ""
+        if let v:String = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String {
+            localVersion = v
+        }
+        let build = Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as? String ?? ""
+        XLogger.shared.log("v\(localVersion) - build\(build)")
         DispatchQueue.global().async { [weak self] in
             self?.setupLastestDeviceMac()
             XGZTBlueToothManager.shared.initCentral() // 自定义协议初始化
