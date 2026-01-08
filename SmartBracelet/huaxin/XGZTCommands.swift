@@ -630,6 +630,14 @@ public class XGZTCommand {
     
     // 设置天气信息（此处仅为示例，根据实际需求完善）
     static func setWeatherInfo(dateType: Int, weatherType: Int, currTemp: Int, lTemp: Int, hTemp: Int, cmd: Int) {
+        // 使用 int8_t 补码方式表示负温度
+        // 温度范围：-128°C ~ 127°C (int8_t 范围)
+        // 设备端直接按 int8_t 解析即可，无需额外计算
+        // 示例：0xFF=-1, 0xFE=-2, 0xFD=-3
+        let safeCurrTemp = UInt8(bitPattern: Int8(clamping: currTemp))
+        let safeLTemp = UInt8(bitPattern: Int8(clamping: lTemp))
+        let safeHTemp = UInt8(bitPattern: Int8(clamping: hTemp))
+
         let command = createCommand(with: [
             0x00,
             XGZTCommands.setWeatherInfo.rawValue,
@@ -643,13 +651,13 @@ public class XGZTCommand {
             UInt8(weatherType),
             0x01,
             0x01,
-            UInt8(currTemp),
+            safeCurrTemp,
             0x02,
             0x01,
-            UInt8(lTemp),
+            safeLTemp,
             0x03,
             0x01,
-            UInt8(hTemp)
+            safeHTemp
         ])
         XGZTBlueToothManager.shared.writeCharacteristic(command: command)
     }
