@@ -87,6 +87,22 @@ public struct SwitchStatusResponse {
     public let switchSettings: Int
 }
 
+public struct DoNotDisturb {
+    public let bSwitch: Bool
+    public let startHour: Int
+    public let startMinute: Int
+    public let endHour: Int
+    public let endMinute: Int
+    
+    public init(bSwitch: Bool, startHour: Int, startMinute: Int, endHour: Int, endMinute: Int) {
+        self.bSwitch = bSwitch
+        self.startHour = startHour
+        self.startMinute = startMinute
+        self.endHour = endHour
+        self.endMinute = endMinute
+    }
+}
+
 public struct AlarmInfoResponse {
     public let alarmNum: Int
     public let alarms: [AlarmData]?
@@ -321,14 +337,28 @@ public class XGZTCommand {
     }
     
     // 设置勿扰功能
-    public static func setDoNotDisturb(startHour: Int, startMinute: Int, endHour: Int, endMinute: Int) {
+    public static func getDoNotDisturb() {
         let command = createCommand(with: [
             0x00,
             XGZTCommands.setDoNotDisturb.rawValue,
             0x01,
             0x00,
-            0x05,
+            0x01,
+            0x00
+        ])
+        XGZTBlueToothManager.shared.writeCharacteristic(command: command)
+    }
+    
+    // 设置勿扰功能
+    public static func setDoNotDisturb(bSwitch: Bool, startHour: Int, startMinute: Int, endHour: Int, endMinute: Int) {
+        let command = createCommand(with: [
             0x00,
+            XGZTCommands.setDoNotDisturb.rawValue,
+            0x01,
+            0x00,
+            0x06,
+            0x01,
+            bSwitch ? 0x01 : 0x00,
             UInt8(startHour),
             UInt8(startMinute),
             UInt8(endHour),
@@ -1232,11 +1262,16 @@ public class XGZTCommand {
                 XLogger.shared.log("设置设备亮屏时间命令执行失败")
             }
         case.setDoNotDisturb:
-            guard response.count >= 6 else {
+            guard response.count >= 7 else {
                 XLogger.shared.log("setDoNotDisturb command response error")
                 return
             }
-            let success = response[5] == 0x00
+            if response.count == 11 {
+                XGZTBlueToothManager.shared.device?.doNotDisturb = DoNotDisturb(bSwitch: response[6] == 0x00, startHour: Int(response[7]), startMinute: Int(response[8]), endHour: Int(response[9]), endMinute: Int(response[10]))
+                XLogger.shared.log("读取勿扰功能命令执行成功")
+                return
+            }
+            let success = response[6] == 0x00
             if success {
                 XLogger.shared.log("设置勿扰功能命令执行成功")
             } else {

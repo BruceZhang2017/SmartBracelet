@@ -249,7 +249,7 @@ public class XGZTBusinessHandler: NSObject {
             return
         }
         let code = getLanguageCode()
-        XGZTCommand.getDeviceLanguage()
+        XGZTCommand.setDeviceLanguage(language: code)
     }
     
     private func readDeviceInfo17() {

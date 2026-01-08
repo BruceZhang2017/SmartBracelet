@@ -41,7 +41,7 @@ public class BluetoothWatchDevice {
     public var weight: Int = 0
     public var timeUnit: Int = 0 // 返回时间制：0x00:12h 0x01:24h
     public var baseUnit: Int = 0 
-    
+    public var doNotDisturb: DoNotDisturb?
     public var alarmcount: Int = 0
     public var alarmCanUse: Int = 0
     public var alarms: [AlarmData] = [] // 闹钟
