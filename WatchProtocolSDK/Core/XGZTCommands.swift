@@ -1251,11 +1251,11 @@ public class XGZTCommand {
                 XLogger.shared.log("重置设备为出厂设置命令执行失败")
             }
         case.setDeviceScreenTimeout:
-            guard response.count >= 6 else {
+            guard response.count >= 7 else {
                 XLogger.shared.log("setDeviceScreenTimeout command response error")
                 return
             }
-            let success = response[5] == 0x00
+            let success = response[6] == 0x00
             if success {
                 XLogger.shared.log("设置设备亮屏时间命令执行成功")
             } else {
