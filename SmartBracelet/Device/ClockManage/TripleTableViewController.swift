@@ -210,7 +210,7 @@ class TripleTableViewController: UIViewController {
                         segmentControl.selectedSegmentIndex = 0
                         rightViewModel.type = types[0].dictValue ?? ""
                     } else {
-                        print("⚠️ 未获取到有效的OTA类型数据")
+                        print("⚠️ 未获取到有效的type类型数据")
                     }
                     
                     print("🔄 刷新中间表格视图")
@@ -299,7 +299,7 @@ class TripleTableViewController: UIViewController {
     // MARK: - 数据获取
     private func fetchInitialData() {
         rightCollectionView.mj_header?.beginRefreshing()
-        refreshData()
+        //refreshData()
     }
     
     @objc private func refreshData() {
@@ -413,7 +413,7 @@ class TripleTableViewController: UIViewController {
         selectedMiddleIndexPath = indexPath
         if let style = otaStyle[indexPath.row].dictValue {
             rightViewModel.style = style
-        } else if let style = otaStyle.first?.style {
+        } else if let style = otaStyle[indexPath.row].style {
             rightViewModel.style = style
         }
         fetchInitialData()
