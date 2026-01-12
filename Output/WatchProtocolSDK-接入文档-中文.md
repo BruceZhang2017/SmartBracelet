@@ -1,8 +1,8 @@
 # WatchProtocolSDK 接入文档
 
 ## 版本信息
-- **SDK 版本**: v1.0.1
-- **发布日期**: 2026-01-03
+- **SDK 版本**: v1.0.2
+- **发布日期**: 2026-01-10
 - **支持平台**: iOS 13.0+
 - **开发语言**: Swift 5.0+
 
@@ -888,6 +888,16 @@ let logs = XLogger.shared.getRecentLogs()
 ---
 
 ## 更新日志
+
+### v1.0.2 (2026-01-10)
+
+#### 新增功能
+- ✨ 新增 `calculateCalorieAndDistance()` 方法：根据步数自动计算卡路里和距离
+- ✨ 新增 `getFormattedDistance()` 方法：获取格式化后的距离值（公里）
+- ✨ 新增 `getFormattedCalorie()` 方法：获取格式化后的卡路里值（千卡）
+
+#### 功能增强
+- 🚀 增强 `BluetoothWatchDevice` 模型，支持基于步数的健康指标计算
 
 ### v1.0.1 (2026-01-03)
 

@@ -5026,6 +5026,307 @@
       },
       {
         "kind": "TypeDecl",
+        "name": "DoNotDisturb",
+        "printedName": "DoNotDisturb",
+        "children": [
+          {
+            "kind": "Var",
+            "name": "bSwitch",
+            "printedName": "bSwitch",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Bool",
+                "printedName": "Swift.Bool",
+                "usr": "s:Sb"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:16WatchProtocolSDK12DoNotDisturbV7bSwitchSbvp",
+            "mangledName": "$s16WatchProtocolSDK12DoNotDisturbV7bSwitchSbvp",
+            "moduleName": "WatchProtocolSDK",
+            "declAttributes": [
+              "HasStorage",
+              "AccessControl"
+            ],
+            "isLet": true,
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Bool",
+                    "printedName": "Swift.Bool",
+                    "usr": "s:Sb"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:16WatchProtocolSDK12DoNotDisturbV7bSwitchSbvg",
+                "mangledName": "$s16WatchProtocolSDK12DoNotDisturbV7bSwitchSbvg",
+                "moduleName": "WatchProtocolSDK",
+                "implicit": true,
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "startHour",
+            "printedName": "startHour",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Int",
+                "printedName": "Swift.Int",
+                "usr": "s:Si"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:16WatchProtocolSDK12DoNotDisturbV9startHourSivp",
+            "mangledName": "$s16WatchProtocolSDK12DoNotDisturbV9startHourSivp",
+            "moduleName": "WatchProtocolSDK",
+            "declAttributes": [
+              "HasStorage",
+              "AccessControl"
+            ],
+            "isLet": true,
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Int",
+                    "printedName": "Swift.Int",
+                    "usr": "s:Si"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:16WatchProtocolSDK12DoNotDisturbV9startHourSivg",
+                "mangledName": "$s16WatchProtocolSDK12DoNotDisturbV9startHourSivg",
+                "moduleName": "WatchProtocolSDK",
+                "implicit": true,
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "startMinute",
+            "printedName": "startMinute",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Int",
+                "printedName": "Swift.Int",
+                "usr": "s:Si"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:16WatchProtocolSDK12DoNotDisturbV11startMinuteSivp",
+            "mangledName": "$s16WatchProtocolSDK12DoNotDisturbV11startMinuteSivp",
+            "moduleName": "WatchProtocolSDK",
+            "declAttributes": [
+              "HasStorage",
+              "AccessControl"
+            ],
+            "isLet": true,
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Int",
+                    "printedName": "Swift.Int",
+                    "usr": "s:Si"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:16WatchProtocolSDK12DoNotDisturbV11startMinuteSivg",
+                "mangledName": "$s16WatchProtocolSDK12DoNotDisturbV11startMinuteSivg",
+                "moduleName": "WatchProtocolSDK",
+                "implicit": true,
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "endHour",
+            "printedName": "endHour",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Int",
+                "printedName": "Swift.Int",
+                "usr": "s:Si"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:16WatchProtocolSDK12DoNotDisturbV7endHourSivp",
+            "mangledName": "$s16WatchProtocolSDK12DoNotDisturbV7endHourSivp",
+            "moduleName": "WatchProtocolSDK",
+            "declAttributes": [
+              "HasStorage",
+              "AccessControl"
+            ],
+            "isLet": true,
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Int",
+                    "printedName": "Swift.Int",
+                    "usr": "s:Si"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:16WatchProtocolSDK12DoNotDisturbV7endHourSivg",
+                "mangledName": "$s16WatchProtocolSDK12DoNotDisturbV7endHourSivg",
+                "moduleName": "WatchProtocolSDK",
+                "implicit": true,
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "endMinute",
+            "printedName": "endMinute",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Int",
+                "printedName": "Swift.Int",
+                "usr": "s:Si"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:16WatchProtocolSDK12DoNotDisturbV9endMinuteSivp",
+            "mangledName": "$s16WatchProtocolSDK12DoNotDisturbV9endMinuteSivp",
+            "moduleName": "WatchProtocolSDK",
+            "declAttributes": [
+              "HasStorage",
+              "AccessControl"
+            ],
+            "isLet": true,
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Int",
+                    "printedName": "Swift.Int",
+                    "usr": "s:Si"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:16WatchProtocolSDK12DoNotDisturbV9endMinuteSivg",
+                "mangledName": "$s16WatchProtocolSDK12DoNotDisturbV9endMinuteSivg",
+                "moduleName": "WatchProtocolSDK",
+                "implicit": true,
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Constructor",
+            "name": "init",
+            "printedName": "init(bSwitch:startHour:startMinute:endHour:endMinute:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "DoNotDisturb",
+                "printedName": "WatchProtocolSDK.DoNotDisturb",
+                "usr": "s:16WatchProtocolSDK12DoNotDisturbV"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Bool",
+                "printedName": "Swift.Bool",
+                "usr": "s:Sb"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Int",
+                "printedName": "Swift.Int",
+                "usr": "s:Si"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Int",
+                "printedName": "Swift.Int",
+                "usr": "s:Si"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Int",
+                "printedName": "Swift.Int",
+                "usr": "s:Si"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Int",
+                "printedName": "Swift.Int",
+                "usr": "s:Si"
+              }
+            ],
+            "declKind": "Constructor",
+            "usr": "s:16WatchProtocolSDK12DoNotDisturbV7bSwitch9startHour0H6Minute03endI00kJ0ACSb_S4itcfc",
+            "mangledName": "$s16WatchProtocolSDK12DoNotDisturbV7bSwitch9startHour0H6Minute03endI00kJ0ACSb_S4itcfc",
+            "moduleName": "WatchProtocolSDK",
+            "declAttributes": [
+              "AccessControl"
+            ],
+            "init_kind": "Designated"
+          }
+        ],
+        "declKind": "Struct",
+        "usr": "s:16WatchProtocolSDK12DoNotDisturbV",
+        "mangledName": "$s16WatchProtocolSDK12DoNotDisturbV",
+        "moduleName": "WatchProtocolSDK",
+        "declAttributes": [
+          "AccessControl"
+        ],
+        "conformances": [
+          {
+            "kind": "Conformance",
+            "name": "Copyable",
+            "printedName": "Copyable",
+            "usr": "s:s8CopyableP",
+            "mangledName": "$ss8CopyableP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Escapable",
+            "printedName": "Escapable",
+            "usr": "s:s9EscapableP",
+            "mangledName": "$ss9EscapableP"
+          }
+        ]
+      },
+      {
+        "kind": "TypeDecl",
         "name": "AlarmInfoResponse",
         "printedName": "AlarmInfoResponse",
         "children": [
@@ -8477,6 +8778,29 @@
           },
           {
             "kind": "Function",
+            "name": "getScreenBrightness",
+            "printedName": "getScreenBrightness()",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:16WatchProtocolSDK11XGZTCommandC19getScreenBrightnessyyFZ",
+            "mangledName": "$s16WatchProtocolSDK11XGZTCommandC19getScreenBrightnessyyFZ",
+            "moduleName": "WatchProtocolSDK",
+            "static": true,
+            "declAttributes": [
+              "Final",
+              "AccessControl",
+              "RawDocComment"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
             "name": "setScreenBrightness",
             "printedName": "setScreenBrightness(brightnessValue:)",
             "children": [
@@ -8661,13 +8985,42 @@
           },
           {
             "kind": "Function",
-            "name": "setDoNotDisturb",
-            "printedName": "setDoNotDisturb(startHour:startMinute:endHour:endMinute:)",
+            "name": "getDoNotDisturb",
+            "printedName": "getDoNotDisturb()",
             "children": [
               {
                 "kind": "TypeNominal",
                 "name": "Void",
                 "printedName": "()"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:16WatchProtocolSDK11XGZTCommandC15getDoNotDisturbyyFZ",
+            "mangledName": "$s16WatchProtocolSDK11XGZTCommandC15getDoNotDisturbyyFZ",
+            "moduleName": "WatchProtocolSDK",
+            "static": true,
+            "declAttributes": [
+              "Final",
+              "AccessControl",
+              "RawDocComment"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "setDoNotDisturb",
+            "printedName": "setDoNotDisturb(bSwitch:startHour:startMinute:endHour:endMinute:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Bool",
+                "printedName": "Swift.Bool",
+                "usr": "s:Sb"
               },
               {
                 "kind": "TypeNominal",
@@ -8695,8 +9048,8 @@
               }
             ],
             "declKind": "Func",
-            "usr": "s:16WatchProtocolSDK11XGZTCommandC15setDoNotDisturb9startHour0I6Minute03endJ00lK0ySi_S3itFZ",
-            "mangledName": "$s16WatchProtocolSDK11XGZTCommandC15setDoNotDisturb9startHour0I6Minute03endJ00lK0ySi_S3itFZ",
+            "usr": "s:16WatchProtocolSDK11XGZTCommandC15setDoNotDisturb7bSwitch9startHour0J6Minute03endK00mL0ySb_S4itFZ",
+            "mangledName": "$s16WatchProtocolSDK11XGZTCommandC15setDoNotDisturb7bSwitch9startHour0J6Minute03endK00mL0ySb_S4itFZ",
             "moduleName": "WatchProtocolSDK",
             "static": true,
             "declAttributes": [
@@ -15391,6 +15744,116 @@
           },
           {
             "kind": "Var",
+            "name": "doNotDisturb",
+            "printedName": "doNotDisturb",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "WatchProtocolSDK.DoNotDisturb?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "DoNotDisturb",
+                    "printedName": "WatchProtocolSDK.DoNotDisturb",
+                    "usr": "s:16WatchProtocolSDK12DoNotDisturbV"
+                  }
+                ],
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:16WatchProtocolSDK09BluetoothA6DeviceC12doNotDisturbAA02DogH0VSgvp",
+            "mangledName": "$s16WatchProtocolSDK09BluetoothA6DeviceC12doNotDisturbAA02DogH0VSgvp",
+            "moduleName": "WatchProtocolSDK",
+            "declAttributes": [
+              "HasInitialValue",
+              "HasStorage",
+              "AccessControl"
+            ],
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Optional",
+                    "printedName": "WatchProtocolSDK.DoNotDisturb?",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "DoNotDisturb",
+                        "printedName": "WatchProtocolSDK.DoNotDisturb",
+                        "usr": "s:16WatchProtocolSDK12DoNotDisturbV"
+                      }
+                    ],
+                    "usr": "s:Sq"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:16WatchProtocolSDK09BluetoothA6DeviceC12doNotDisturbAA02DogH0VSgvg",
+                "mangledName": "$s16WatchProtocolSDK09BluetoothA6DeviceC12doNotDisturbAA02DogH0VSgvg",
+                "moduleName": "WatchProtocolSDK",
+                "implicit": true,
+                "accessorKind": "get"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Set",
+                "printedName": "Set()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Optional",
+                    "printedName": "WatchProtocolSDK.DoNotDisturb?",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "DoNotDisturb",
+                        "printedName": "WatchProtocolSDK.DoNotDisturb",
+                        "usr": "s:16WatchProtocolSDK12DoNotDisturbV"
+                      }
+                    ],
+                    "usr": "s:Sq"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:16WatchProtocolSDK09BluetoothA6DeviceC12doNotDisturbAA02DogH0VSgvs",
+                "mangledName": "$s16WatchProtocolSDK09BluetoothA6DeviceC12doNotDisturbAA02DogH0VSgvs",
+                "moduleName": "WatchProtocolSDK",
+                "implicit": true,
+                "accessorKind": "set"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Modify",
+                "printedName": "Modify()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:16WatchProtocolSDK09BluetoothA6DeviceC12doNotDisturbAA02DogH0VSgvM",
+                "mangledName": "$s16WatchProtocolSDK09BluetoothA6DeviceC12doNotDisturbAA02DogH0VSgvM",
+                "moduleName": "WatchProtocolSDK",
+                "implicit": true,
+                "accessorKind": "_modify"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
             "name": "alarmcount",
             "printedName": "alarmcount",
             "children": [
@@ -16693,6 +17156,71 @@
             ]
           },
           {
+            "kind": "Function",
+            "name": "calculateCalorieAndDistance",
+            "printedName": "calculateCalorieAndDistance()",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:16WatchProtocolSDK09BluetoothA6DeviceC27calculateCalorieAndDistanceyyF",
+            "mangledName": "$s16WatchProtocolSDK09BluetoothA6DeviceC27calculateCalorieAndDistanceyyF",
+            "moduleName": "WatchProtocolSDK",
+            "declAttributes": [
+              "AccessControl",
+              "RawDocComment"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "getFormattedDistance",
+            "printedName": "getFormattedDistance()",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Float",
+                "printedName": "Swift.Float",
+                "usr": "s:Sf"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:16WatchProtocolSDK09BluetoothA6DeviceC20getFormattedDistanceSfyF",
+            "mangledName": "$s16WatchProtocolSDK09BluetoothA6DeviceC20getFormattedDistanceSfyF",
+            "moduleName": "WatchProtocolSDK",
+            "declAttributes": [
+              "AccessControl",
+              "RawDocComment"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "getFormattedCalorie",
+            "printedName": "getFormattedCalorie()",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Float",
+                "printedName": "Swift.Float",
+                "usr": "s:Sf"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:16WatchProtocolSDK09BluetoothA6DeviceC19getFormattedCalorieSfyF",
+            "mangledName": "$s16WatchProtocolSDK09BluetoothA6DeviceC19getFormattedCalorieSfyF",
+            "moduleName": "WatchProtocolSDK",
+            "declAttributes": [
+              "AccessControl",
+              "RawDocComment"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
             "kind": "Var",
             "name": "functioncontrolflags",
             "printedName": "functioncontrolflags",
@@ -16711,8 +17239,7 @@
             "declAttributes": [
               "HasInitialValue",
               "HasStorage",
-              "AccessControl",
-              "RawDocComment"
+              "AccessControl"
             ],
             "hasStorage": true,
             "accessors": [
@@ -16860,6 +17387,93 @@
                 "declKind": "Accessor",
                 "usr": "s:16WatchProtocolSDK09BluetoothA6DeviceC18healthcontrolflagsSivM",
                 "mangledName": "$s16WatchProtocolSDK09BluetoothA6DeviceC18healthcontrolflagsSivM",
+                "moduleName": "WatchProtocolSDK",
+                "implicit": true,
+                "accessorKind": "_modify"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "screenBrightness",
+            "printedName": "screenBrightness",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Int",
+                "printedName": "Swift.Int",
+                "usr": "s:Si"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:16WatchProtocolSDK09BluetoothA6DeviceC16screenBrightnessSivp",
+            "mangledName": "$s16WatchProtocolSDK09BluetoothA6DeviceC16screenBrightnessSivp",
+            "moduleName": "WatchProtocolSDK",
+            "declAttributes": [
+              "HasInitialValue",
+              "HasStorage",
+              "AccessControl",
+              "RawDocComment"
+            ],
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Int",
+                    "printedName": "Swift.Int",
+                    "usr": "s:Si"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:16WatchProtocolSDK09BluetoothA6DeviceC16screenBrightnessSivg",
+                "mangledName": "$s16WatchProtocolSDK09BluetoothA6DeviceC16screenBrightnessSivg",
+                "moduleName": "WatchProtocolSDK",
+                "implicit": true,
+                "accessorKind": "get"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Set",
+                "printedName": "Set()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Int",
+                    "printedName": "Swift.Int",
+                    "usr": "s:Si"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:16WatchProtocolSDK09BluetoothA6DeviceC16screenBrightnessSivs",
+                "mangledName": "$s16WatchProtocolSDK09BluetoothA6DeviceC16screenBrightnessSivs",
+                "moduleName": "WatchProtocolSDK",
+                "implicit": true,
+                "accessorKind": "set"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Modify",
+                "printedName": "Modify()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:16WatchProtocolSDK09BluetoothA6DeviceC16screenBrightnessSivM",
+                "mangledName": "$s16WatchProtocolSDK09BluetoothA6DeviceC16screenBrightnessSivM",
                 "moduleName": "WatchProtocolSDK",
                 "implicit": true,
                 "accessorKind": "_modify"
@@ -23345,63 +23959,63 @@
     {
       "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTCommands.swift",
       "kind": "Array",
-      "offset": 4973,
+      "offset": 5433,
       "length": 31,
       "value": "[\"syncTime\", \"getBatteryLevel\"]"
     },
     {
       "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTCommands.swift",
       "kind": "IntegerLiteral",
-      "offset": 32086,
+      "offset": 33329,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTCommands.swift",
       "kind": "IntegerLiteral",
-      "offset": 32692,
+      "offset": 33935,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTCommands.swift",
       "kind": "IntegerLiteral",
-      "offset": 32925,
+      "offset": 34168,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTCommands.swift",
       "kind": "IntegerLiteral",
-      "offset": 81993,
+      "offset": 83775,
       "length": 4,
       "value": "0x00"
     },
     {
       "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTCommands.swift",
       "kind": "IntegerLiteral",
-      "offset": 82026,
+      "offset": 83808,
       "length": 4,
       "value": "0xE3"
     },
     {
       "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTCommands.swift",
       "kind": "IntegerLiteral",
-      "offset": 82063,
+      "offset": 83845,
       "length": 4,
       "value": "0x01"
     },
     {
       "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTCommands.swift",
       "kind": "IntegerLiteral",
-      "offset": 82101,
+      "offset": 83883,
       "length": 4,
       "value": "0x00"
     },
     {
       "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTCommands.swift",
       "kind": "IntegerLiteral",
-      "offset": 82140,
+      "offset": 83922,
       "length": 4,
       "value": "0x01"
     },
@@ -23569,63 +24183,56 @@
     {
       "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
       "kind": "IntegerLiteral",
-      "offset": 1331,
+      "offset": 1369,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
       "kind": "IntegerLiteral",
-      "offset": 1367,
+      "offset": 1405,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
       "kind": "Array",
-      "offset": 1406,
+      "offset": 1444,
       "length": 2,
       "value": "[]"
     },
     {
       "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
       "kind": "IntegerLiteral",
-      "offset": 1567,
+      "offset": 1605,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
       "kind": "IntegerLiteral",
-      "offset": 1604,
+      "offset": 1642,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
       "kind": "Array",
-      "offset": 1648,
+      "offset": 1686,
       "length": 7,
       "value": "[0, 0, 0]"
     },
     {
       "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
       "kind": "IntegerLiteral",
-      "offset": 1693,
+      "offset": 1731,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
       "kind": "IntegerLiteral",
-      "offset": 1733,
-      "length": 1,
-      "value": "0"
-    },
-    {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
-      "kind": "IntegerLiteral",
-      "offset": 1774,
+      "offset": 1771,
       "length": 1,
       "value": "0"
     },
@@ -23639,322 +24246,336 @@
     {
       "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
       "kind": "IntegerLiteral",
-      "offset": 1860,
+      "offset": 1850,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
       "kind": "IntegerLiteral",
-      "offset": 1941,
+      "offset": 1898,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
       "kind": "IntegerLiteral",
-      "offset": 2023,
+      "offset": 1979,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
       "kind": "IntegerLiteral",
-      "offset": 2160,
+      "offset": 3728,
+      "length": 1,
+      "value": "0"
+    },
+    {
+      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
+      "kind": "IntegerLiteral",
+      "offset": 3865,
+      "length": 1,
+      "value": "0"
+    },
+    {
+      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
+      "kind": "IntegerLiteral",
+      "offset": 3971,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
       "kind": "BooleanLiteral",
-      "offset": 2289,
+      "offset": 4060,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
       "kind": "BooleanLiteral",
-      "offset": 2362,
+      "offset": 4133,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
       "kind": "BooleanLiteral",
-      "offset": 2430,
+      "offset": 4201,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
       "kind": "BooleanLiteral",
-      "offset": 2505,
+      "offset": 4276,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
       "kind": "BooleanLiteral",
-      "offset": 2589,
+      "offset": 4360,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
       "kind": "BooleanLiteral",
-      "offset": 2677,
+      "offset": 4448,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
       "kind": "BooleanLiteral",
-      "offset": 2764,
+      "offset": 4535,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
       "kind": "BooleanLiteral",
-      "offset": 2844,
+      "offset": 4615,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
       "kind": "BooleanLiteral",
-      "offset": 2915,
+      "offset": 4686,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
       "kind": "BooleanLiteral",
-      "offset": 2978,
+      "offset": 4749,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
       "kind": "BooleanLiteral",
-      "offset": 3058,
+      "offset": 4829,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
       "kind": "BooleanLiteral",
-      "offset": 3146,
+      "offset": 4917,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
       "kind": "BooleanLiteral",
-      "offset": 3239,
+      "offset": 5010,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
       "kind": "BooleanLiteral",
-      "offset": 3295,
+      "offset": 5066,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
       "kind": "BooleanLiteral",
-      "offset": 3347,
+      "offset": 5118,
       "length": 5,
       "value": "false"
     },
     {
       "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
       "kind": "BooleanLiteral",
-      "offset": 3403,
+      "offset": 5174,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
       "kind": "BooleanLiteral",
-      "offset": 3449,
+      "offset": 5220,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
       "kind": "BooleanLiteral",
-      "offset": 3498,
+      "offset": 5269,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
       "kind": "BooleanLiteral",
-      "offset": 3547,
+      "offset": 5318,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
       "kind": "BooleanLiteral",
-      "offset": 3592,
+      "offset": 5363,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
       "kind": "BooleanLiteral",
-      "offset": 3634,
+      "offset": 5405,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
       "kind": "BooleanLiteral",
-      "offset": 3680,
+      "offset": 5451,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
       "kind": "BooleanLiteral",
-      "offset": 3729,
+      "offset": 5500,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
       "kind": "BooleanLiteral",
-      "offset": 3777,
+      "offset": 5548,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
       "kind": "BooleanLiteral",
-      "offset": 3824,
+      "offset": 5595,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
       "kind": "BooleanLiteral",
-      "offset": 3871,
+      "offset": 5642,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
       "kind": "BooleanLiteral",
-      "offset": 3915,
+      "offset": 5686,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
       "kind": "BooleanLiteral",
-      "offset": 3961,
+      "offset": 5732,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
       "kind": "BooleanLiteral",
-      "offset": 4000,
+      "offset": 5771,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
       "kind": "BooleanLiteral",
-      "offset": 4048,
+      "offset": 5819,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
       "kind": "BooleanLiteral",
-      "offset": 4088,
+      "offset": 5859,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
       "kind": "BooleanLiteral",
-      "offset": 4124,
+      "offset": 5895,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
       "kind": "BooleanLiteral",
-      "offset": 4164,
+      "offset": 5935,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
       "kind": "BooleanLiteral",
-      "offset": 4214,
+      "offset": 5985,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
       "kind": "BooleanLiteral",
-      "offset": 4250,
+      "offset": 6021,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
       "kind": "BooleanLiteral",
-      "offset": 4289,
+      "offset": 6060,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
       "kind": "BooleanLiteral",
-      "offset": 4328,
+      "offset": 6099,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
       "kind": "BooleanLiteral",
-      "offset": 4367,
+      "offset": 6138,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
       "kind": "BooleanLiteral",
-      "offset": 4406,
+      "offset": 6177,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
       "kind": "BooleanLiteral",
-      "offset": 4443,
+      "offset": 6214,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
       "kind": "BooleanLiteral",
-      "offset": 4480,
+      "offset": 6251,
       "length": 4,
       "value": "true"
     },
     {
       "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
       "kind": "BooleanLiteral",
-      "offset": 4519,
+      "offset": 6290,
       "length": 4,
       "value": "true"
     },

@@ -1,0 +1,258 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 6.1.2 effective-5.10 (swiftlang-6.1.2.1.2 clang-1700.0.13.5)
+// swift-module-flags: -target arm64-apple-ios13-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -enable-experimental-feature DebugDescriptionMacro -enable-bare-slash-regex -module-name WatchFaceSDK
+// swift-module-flags-ignorable:  -interface-compiler-version 6.1.2
+import ABParTool
+import CoreImage
+import Foundation
+import Swift
+import UIKit
+import WatchProtocolSDK
+import _Concurrency
+import _StringProcessing
+import _SwiftConcurrencyShims
+@_hasMissingDesignatedInitializers public class WatchFaceManager {
+  public static let shared: WatchFaceSDK.WatchFaceManager
+  public func getCurrentDeviceScreenInfo() -> WatchFaceSDK.DeviceScreenInfo?
+  public func isDeviceConnected() -> Swift.Bool
+  public func uploadMarketWatchFace(data: Foundation.Data, delegate: (any WatchFaceSDK.TransferDelegate)?) throws
+  public func uploadMarketWatchFace(fileURL: Foundation.URL, delegate: (any WatchFaceSDK.TransferDelegate)?) throws
+  public func uploadCustomWatchFace(image: UIKit.UIImage, timePosition: WatchFaceSDK.TimePosition, color: WatchFaceSDK.DialColor, delegate: (any WatchFaceSDK.TransferDelegate)?) throws
+  public func pauseTransfer()
+  public func cancelTransfer()
+  public func retryTransfer()
+  public func validateImage(_ image: UIKit.UIImage) -> (isValid: Swift.Bool, message: Swift.String)
+  public func getRecommendedImageSize() -> CoreFoundation.CGSize?
+  @objc deinit
+}
+extension WatchFaceSDK.WatchFaceManager {
+  public func uploadCustomWatchFace(imageName: Swift.String, timePosition: WatchFaceSDK.TimePosition, color: WatchFaceSDK.DialColor, delegate: (any WatchFaceSDK.TransferDelegate)?) throws
+  public func uploadCustomWatchFace(fileURL: Foundation.URL, timePosition: WatchFaceSDK.TimePosition, color: WatchFaceSDK.DialColor, delegate: (any WatchFaceSDK.TransferDelegate)?) throws
+}
+public class WatchFaceTransferEngine {
+  public init()
+  @objc deinit
+  public func startTransfer(data: Foundation.Data, dialType: WatchFaceSDK.DialType, timePosition: WatchFaceSDK.TimePosition = .none, color: WatchFaceSDK.DialColor = .white, delegate: (any WatchFaceSDK.TransferDelegate)?)
+  public func pauseTransfer()
+  public func cancelTransfer()
+  public func retryTransfer()
+}
+@_hasMissingDesignatedInitializers public class ImageCropper {
+  public static func cropToCircle(image: UIKit.UIImage, blurRadius: Swift.Double = 1.8, upscaleFactor: CoreFoundation.CGFloat = 2.0) -> UIKit.UIImage?
+  public static func cropToSquare(image: UIKit.UIImage, targetSize: CoreFoundation.CGSize) -> UIKit.UIImage?
+  public static func cropForScreenShape(image: UIKit.UIImage, shape: WatchFaceSDK.ScreenShape, targetSize: CoreFoundation.CGSize) -> UIKit.UIImage?
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers public class ImageProcessor {
+  public static func convertToPAR(image: UIKit.UIImage, targetSize: CoreFoundation.CGSize, maxFileSize: Swift.Int = 120 * 1024) throws -> Foundation.Data
+  public static func resizeImage(_ image: UIKit.UIImage, to targetSize: CoreFoundation.CGSize) -> UIKit.UIImage?
+  public static func compressImage(_ image: UIKit.UIImage, maxLength: Swift.Int) -> Foundation.Data?
+  public static func reduceRGBValues(image: UIKit.UIImage, targetSize: CoreFoundation.CGSize) -> UIKit.UIImage?
+  @objc deinit
+}
+public struct TransferProgress {
+  public let currentPacket: Swift.Int
+  public let totalPackets: Swift.Int
+  public let bytesTransferred: Swift.Int
+  public let totalBytes: Swift.Int
+  public let percentage: Swift.Float
+  public let message: Swift.String
+  public init(currentPacket: Swift.Int, totalPackets: Swift.Int, bytesTransferred: Swift.Int, totalBytes: Swift.Int)
+}
+public enum DialType : Swift.Int {
+  case market
+  case custom
+  public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+public enum TimePosition : Swift.Int {
+  case none
+  case topLeft
+  case bottomLeft
+  case topRight
+  case bottomRight
+  case center
+  public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+public enum DialColor : Swift.Int {
+  case white
+  case black
+  case yellow
+  case orange
+  case pink
+  case purple
+  case blue
+  case cyan
+  case green
+  public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+public struct TransferConfig {
+  public let packageTotal: Swift.Int
+  public let binSize: Swift.Int
+  public let mtu: Swift.Int
+  public let dialType: WatchFaceSDK.DialType
+  public let timePosition: WatchFaceSDK.TimePosition
+  public let color: WatchFaceSDK.DialColor
+  public init(packageTotal: Swift.Int, binSize: Swift.Int, mtu: Swift.Int, dialType: WatchFaceSDK.DialType, timePosition: WatchFaceSDK.TimePosition = .none, color: WatchFaceSDK.DialColor = .white)
+}
+public enum TransferState {
+  case idle
+  case preparing
+  case querying
+  case configuring
+  case transferring
+  case completed
+  case failed(any Swift.Error)
+  case cancelled
+}
+public struct WatchFaceInfo : Swift.Codable {
+  public let id: Swift.String
+  public let name: Swift.String
+  public let previewURL: Foundation.URL
+  public let resourceURL: Foundation.URL
+  public let fileSize: Swift.Int
+  public let category: Swift.String
+  public let supportedScreenSizes: [WatchFaceSDK.ScreenSize]
+  public let shape: WatchFaceSDK.ScreenShape
+  public init(id: Swift.String, name: Swift.String, previewURL: Foundation.URL, resourceURL: Foundation.URL, fileSize: Swift.Int, category: Swift.String, supportedScreenSizes: [WatchFaceSDK.ScreenSize], shape: WatchFaceSDK.ScreenShape)
+  public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
+}
+public enum ScreenShape : Swift.String, Swift.Codable {
+  case round
+  case square
+  public init?(rawValue: Swift.String)
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public struct ScreenSize : Swift.Codable, Swift.Hashable {
+  public let width: Swift.Int
+  public let height: Swift.Int
+  public init(width: Swift.Int, height: Swift.Int)
+  public var cgSize: CoreFoundation.CGSize {
+    get
+  }
+  public static func == (a: WatchFaceSDK.ScreenSize, b: WatchFaceSDK.ScreenSize) -> Swift.Bool
+  public func encode(to encoder: any Swift.Encoder) throws
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct WatchFaceCategory : Swift.Codable {
+  public let id: Swift.String
+  public let name: Swift.String
+  public let watchFaces: [WatchFaceSDK.WatchFaceInfo]
+  public init(id: Swift.String, name: Swift.String, watchFaces: [WatchFaceSDK.WatchFaceInfo])
+  public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct DeviceScreenInfo {
+  public let width: Swift.Int
+  public let height: Swift.Int
+  public let shape: WatchFaceSDK.ScreenShape
+  public let mtu: Swift.Int
+  public init(width: Swift.Int, height: Swift.Int, shape: WatchFaceSDK.ScreenShape, mtu: Swift.Int)
+  public var size: WatchFaceSDK.ScreenSize {
+    get
+  }
+}
+public protocol TransferDelegate : AnyObject {
+  func transferDidStart()
+  func transferDidUpdateProgress(_ progress: WatchFaceSDK.TransferProgress)
+  func transferDidComplete()
+  func transferDidFail(error: any Swift.Error)
+  func transferDidCancel()
+}
+extension WatchFaceSDK.TransferDelegate {
+  public func transferDidCancel()
+}
+public enum WatchFaceError : Swift.Error {
+  case deviceNotConnected
+  case deviceNotSupported
+  case imageProcessFailed
+  case rawDataConversionFailed
+  case compressionFailed
+  case exceedMaxAttempts
+  case exceedMaxFileSize
+  case transferFailed
+  case networkError(any Swift.Error)
+  case cacheError(any Swift.Error)
+  case invalidMTU
+  case invalidConfiguration
+  public var localizedDescription: Swift.String {
+    get
+  }
+}
+@_hasMissingDesignatedInitializers public class PacketManager {
+  public func calculatePackageCount(dataSize: Swift.Int) -> Swift.Int
+  public func getPacketData(from data: Foundation.Data, packetIndex: Swift.Int) -> (data: Foundation.Data, isLast: Swift.Bool)
+  public func getByteOffset(for packetIndex: Swift.Int) -> Swift.Int
+  public func calculateProgress(currentPacket: Swift.Int, totalPackets: Swift.Int) -> Swift.Float
+  public func calculateProgressByBytes(bytesTransferred: Swift.Int, totalBytes: Swift.Int) -> Swift.Float
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers public class XGZTDialProtocol {
+  public static let shared: WatchFaceSDK.XGZTDialProtocol
+  public struct Notifications {
+    public static let mtuQueryComplete: Foundation.Notification.Name
+    public static let configComplete: Foundation.Notification.Name
+    public static let dataTransferStart: Foundation.Notification.Name
+    public static let dataTransferComplete: Foundation.Notification.Name
+    public static let dataTransferFailed: Foundation.Notification.Name
+  }
+  @objc deinit
+  public func queryMTU(completion: @escaping (Swift.Result<Swift.Int, any Swift.Error>) -> Swift.Void)
+  public func setTransferConfig(_ config: WatchFaceSDK.TransferConfig)
+  public func transferPacket(packageNum: Swift.Int, binNum: Swift.Int, progress: Swift.Int, control: Swift.Int, data: Foundation.Data)
+  public func setTimePositionAndColor(position: WatchFaceSDK.TimePosition, color: WatchFaceSDK.DialColor)
+}
+extension WatchFaceSDK.XGZTDialProtocol {
+  public static func getCurrentDeviceScreenInfo() -> WatchFaceSDK.DeviceScreenInfo?
+  public static func isDeviceConnected() -> Swift.Bool
+}
+public struct WatchFaceSDKInfo {
+  public static let version: Swift.String
+  public static let buildDate: Swift.String
+  public static let protocolType: Swift.String
+  public static var description: Swift.String {
+    get
+  }
+}
+public struct WatchFaceSDKConfiguration {
+  public var enableVerboseLogging: Swift.Bool
+  public var maxFileSize: Swift.Int
+  public var transferTimeout: Swift.Double
+  public init()
+}
+@_hasMissingDesignatedInitializers public class WatchFaceSDKConfig {
+  public static var configuration: WatchFaceSDK.WatchFaceSDKConfiguration
+  public static func printSDKInfo()
+  @objc deinit
+}
+extension WatchFaceSDK.DialType : Swift.Equatable {}
+extension WatchFaceSDK.DialType : Swift.Hashable {}
+extension WatchFaceSDK.DialType : Swift.RawRepresentable {}
+extension WatchFaceSDK.TimePosition : Swift.Equatable {}
+extension WatchFaceSDK.TimePosition : Swift.Hashable {}
+extension WatchFaceSDK.TimePosition : Swift.RawRepresentable {}
+extension WatchFaceSDK.DialColor : Swift.Equatable {}
+extension WatchFaceSDK.DialColor : Swift.Hashable {}
+extension WatchFaceSDK.DialColor : Swift.RawRepresentable {}
+extension WatchFaceSDK.ScreenShape : Swift.Equatable {}
+extension WatchFaceSDK.ScreenShape : Swift.Hashable {}
+extension WatchFaceSDK.ScreenShape : Swift.RawRepresentable {}

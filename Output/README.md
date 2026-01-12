@@ -1,4 +1,4 @@
-# WatchProtocolSDK v1.0.1 - 发布包
+# WatchProtocolSDK v1.0.2 - 发布包
 
 ## 📦 包含内容
 
@@ -90,6 +90,12 @@ XGZTBlueToothManager.shared.connectDevice("AA:BB:CC:DD:EE:FF") { success in
 ---
 
 ## 📝 版本历史
+
+### v1.0.2 (2026-01-10)
+- ✨ 新增步数换算方法：根据步数自动计算卡路里和距离
+- ✨ 新增格式化方法：获取格式化的距离和卡路里值
+- 🚀 增强健康数据模型功能
+- 📖 更新文档和示例代码
 
 ### v1.0.1 (2026-01-03)
 - ✨ 首次发布

@@ -10,51 +10,51 @@
 		</data>
 		<key>Modules/WatchProtocolSDK.swiftmodule/Project/arm64-apple-ios-simulator.swiftsourceinfo</key>
 		<data>
-		XRRFrJs58L6+0FVNBCB6VxstuIU=
+		xe+zNN5W47Du8FK2iPvFWrfWWjE=
 		</data>
 		<key>Modules/WatchProtocolSDK.swiftmodule/Project/x86_64-apple-ios-simulator.swiftsourceinfo</key>
 		<data>
-		ppkP27bHItT89Ldp478F0e9oaMc=
+		nBrHDerwZcRDjpMHIb71mafjOIs=
 		</data>
 		<key>Modules/WatchProtocolSDK.swiftmodule/arm64-apple-ios-simulator.abi.json</key>
 		<data>
-		VXE/zDDutYrYVDDdA6bhwru0njk=
+		wG5/n/A9kbCxmeXrYloJLtvm4mY=
 		</data>
 		<key>Modules/WatchProtocolSDK.swiftmodule/arm64-apple-ios-simulator.private.swiftinterface</key>
 		<data>
-		S7tNxStR9uwLCA0Y90K8boDBFqg=
+		CPa4pIIllQxNfty1Ss0C5iI5qSk=
 		</data>
 		<key>Modules/WatchProtocolSDK.swiftmodule/arm64-apple-ios-simulator.swiftdoc</key>
 		<data>
-		Gh0XyVk3LUXaC9eGqcyj+1Rrrpw=
+		Fuql61vf87lS9MrQuN47O1syZX4=
 		</data>
 		<key>Modules/WatchProtocolSDK.swiftmodule/arm64-apple-ios-simulator.swiftinterface</key>
 		<data>
-		S7tNxStR9uwLCA0Y90K8boDBFqg=
+		CPa4pIIllQxNfty1Ss0C5iI5qSk=
 		</data>
 		<key>Modules/WatchProtocolSDK.swiftmodule/arm64-apple-ios-simulator.swiftmodule</key>
 		<data>
-		RAtNKwHAxNoca4ca78A5+VbeZks=
+		EM8zGIIJiFM6hRUa1BxWfArjarY=
 		</data>
 		<key>Modules/WatchProtocolSDK.swiftmodule/x86_64-apple-ios-simulator.abi.json</key>
 		<data>
-		VXE/zDDutYrYVDDdA6bhwru0njk=
+		wG5/n/A9kbCxmeXrYloJLtvm4mY=
 		</data>
 		<key>Modules/WatchProtocolSDK.swiftmodule/x86_64-apple-ios-simulator.private.swiftinterface</key>
 		<data>
-		wXoQgWfVCGa3YAfV9XT2EiIrkrA=
+		yG8C1i9XvBThvM0bHWuxKSsEoAA=
 		</data>
 		<key>Modules/WatchProtocolSDK.swiftmodule/x86_64-apple-ios-simulator.swiftdoc</key>
 		<data>
-		7o1MyEFAcDsoASyP1NY0PlwhdJ0=
+		MSUzEpBK+4w9zkovvfqr7wW0RLc=
 		</data>
 		<key>Modules/WatchProtocolSDK.swiftmodule/x86_64-apple-ios-simulator.swiftinterface</key>
 		<data>
-		wXoQgWfVCGa3YAfV9XT2EiIrkrA=
+		yG8C1i9XvBThvM0bHWuxKSsEoAA=
 		</data>
 		<key>Modules/WatchProtocolSDK.swiftmodule/x86_64-apple-ios-simulator.swiftmodule</key>
 		<data>
-		HI5iA7jWlhGEqsH/9X0yQmgMdV8=
+		XUsPrTOyZ7qWIGmYSF5+6yVc8k8=
 		</data>
 	</dict>
 	<key>files2</key>
@@ -63,84 +63,84 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			28OB3c12+5ZSOvyArWSvwp5+mVyvVoGr5seC4bTKTfk=
+			TfqJ8OsLO0/rGYPFwOOqR47TwCq7EBLs6Sjs5MgKac4=
 			</data>
 		</dict>
 		<key>Modules/WatchProtocolSDK.swiftmodule/Project/x86_64-apple-ios-simulator.swiftsourceinfo</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			FWm8LdLGWjyPyZlL9XQJ2O6v/9HwaMuiJUbEvzFRQcU=
+			vw7CU7jay8hNyGN+RKsOivK2ws9sRybULpdDSzpl1Ts=
 			</data>
 		</dict>
 		<key>Modules/WatchProtocolSDK.swiftmodule/arm64-apple-ios-simulator.abi.json</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			Qd+GIU3dBYl1eGTse97Y/tuNJk7HYJwMRTyF8yZvpig=
+			v5dpWE+HvCmCNczb/exADASRy4c3hjLVChrlJk1Eimg=
 			</data>
 		</dict>
 		<key>Modules/WatchProtocolSDK.swiftmodule/arm64-apple-ios-simulator.private.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			aT4y7Q988+1FzZONiSvDXctVyk7gBCoyitypCdsZtZY=
+			BhHf4DpizY3Ds2SxkZyfOfWYx/7HzCSCv3y7qk4duTA=
 			</data>
 		</dict>
 		<key>Modules/WatchProtocolSDK.swiftmodule/arm64-apple-ios-simulator.swiftdoc</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			xmZA7foJuz7HOBXA11ke2upQEF/ZfA7MYDyiFCUJUR8=
+			b3uBKG4dJy1LPf6dTmAWeKMbM4M+7LgqMrHdw0ivUtQ=
 			</data>
 		</dict>
 		<key>Modules/WatchProtocolSDK.swiftmodule/arm64-apple-ios-simulator.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			aT4y7Q988+1FzZONiSvDXctVyk7gBCoyitypCdsZtZY=
+			BhHf4DpizY3Ds2SxkZyfOfWYx/7HzCSCv3y7qk4duTA=
 			</data>
 		</dict>
 		<key>Modules/WatchProtocolSDK.swiftmodule/arm64-apple-ios-simulator.swiftmodule</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			QPNDMKSoUl/zWOqOPYbK+4w8alEzy+eFx6bViCbrBYI=
+			AOitie0Yh23zhQPAvxUJarXO/hKkrOMKblRLLFhF+Os=
 			</data>
 		</dict>
 		<key>Modules/WatchProtocolSDK.swiftmodule/x86_64-apple-ios-simulator.abi.json</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			Qd+GIU3dBYl1eGTse97Y/tuNJk7HYJwMRTyF8yZvpig=
+			v5dpWE+HvCmCNczb/exADASRy4c3hjLVChrlJk1Eimg=
 			</data>
 		</dict>
 		<key>Modules/WatchProtocolSDK.swiftmodule/x86_64-apple-ios-simulator.private.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			dxhiu9vpmrlg+jNe5JxV3Brp3DtqFnClN90VjqGhdk4=
+			z4RNl0xKvGwsKHPJlONyp2pOZZULvT193f+YHE2TB1E=
 			</data>
 		</dict>
 		<key>Modules/WatchProtocolSDK.swiftmodule/x86_64-apple-ios-simulator.swiftdoc</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			um7hFJuT68HnlJjS0e5bd1s94pHXmHxB/g80My0oriU=
+			lIruNpMrCwLkzXDcjZR7d+eKC2e5yGqVWPNAXwppQDA=
 			</data>
 		</dict>
 		<key>Modules/WatchProtocolSDK.swiftmodule/x86_64-apple-ios-simulator.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			dxhiu9vpmrlg+jNe5JxV3Brp3DtqFnClN90VjqGhdk4=
+			z4RNl0xKvGwsKHPJlONyp2pOZZULvT193f+YHE2TB1E=
 			</data>
 		</dict>
 		<key>Modules/WatchProtocolSDK.swiftmodule/x86_64-apple-ios-simulator.swiftmodule</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			KfOJy5Q3KWzM8q1Z2tjnKE88dnCUdc7FmGyaTNBLx/w=
+			XNGKXElEYX78ivxDllMR2f2zf+xODK+qjxbToMrHt1w=
 			</data>
 		</dict>
 	</dict>

@@ -58,9 +58,51 @@ public class BluetoothWatchDevice {
     public var currentOxygen: Int = 0
     public var currentSystolicpressure: Int = 0 // 收缩压（单位：mmHg）
     public var currentDiastolicpressure: Int = 0 // 舒张压（单位：mmHg）
-    
+
+    // MARK: - 步数换算方法
+
+    /// 根据当前步数、身高和体重计算并更新卡路里和距离
+    /// 该方法会自动更新 currentCalorie 和 currentDistance 属性
+    public func calculateCalorieAndDistance() {
+        // 计算每一步的基准距离（单位转换）
+        // distance = height * 415 / 1000
+        let stepDistance = self.height * 415 / 1000
+
+        // 计算总距离（内部单位）
+        // unit = step * distance
+        let totalDistanceUnit = self.currentStep * stepDistance
+
+        // 计算卡路里（内部单位）
+        // v = unit * weight * 55
+        let calorieUnit = totalDistanceUnit * self.weight * 55
+
+        // 更新距离（转换为显示单位）
+        // 距离单位转换：Float(unit) / 100000
+        self.currentDistance = totalDistanceUnit
+
+        // 更新卡路里（转换为显示单位）
+        // 卡路里单位转换：(Float(v) / 10000).rounded(.towardZero) / 1000
+        self.currentCalorie = calorieUnit
+
+        XLogger.shared.log("步数换算 - 步数：\(self.currentStep), 距离（内部单位）：\(totalDistanceUnit), 卡路里（内部单位）：\(calorieUnit)")
+    }
+
+    /// 获取格式化后的距离值（公里）
+    /// - Returns: 距离值（单位：公里）
+    public func getFormattedDistance() -> Float {
+        return Float(currentDistance) / 100000
+    }
+
+    /// 获取格式化后的卡路里值（千卡）
+    /// - Returns: 卡路里值（单位：千卡）
+    public func getFormattedCalorie() -> Float {
+        let truncated = (Float(currentCalorie) / 10000).rounded(.towardZero) / 1000
+        return Float(truncated)
+    }
+
     public var functioncontrolflags: Int = 0 // [0] 是否⽀持表盘市场 [1] 是否⽀持消息提醒 [2] 是否⽀持天⽓功能 等
     public var healthcontrolflags: Int = 0 // [0] 是否⽀持⼼率检测 [1] 是否⽀持⾎氧检测 等
+    public var screenBrightness: Int = 0 // 屏幕亮度 0-100级
     
     // 开关类
     public var isAntilostSwitch: Bool = false // 防丢开关

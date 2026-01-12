@@ -1,8 +1,8 @@
 # WatchProtocolSDK Integration Guide
 
 ## Version Information
-- **SDK Version**: v1.0.1
-- **Release Date**: 2026-01-03
+- **SDK Version**: v1.0.2
+- **Release Date**: 2026-01-10
 - **Supported Platforms**: iOS 13.0+
 - **Development Language**: Swift 5.0+
 
@@ -888,6 +888,16 @@ let logs = XLogger.shared.getRecentLogs()
 ---
 
 ## Changelog
+
+### v1.0.2 (2026-01-10)
+
+#### New Features
+- ✨ Added `calculateCalorieAndDistance()` method: Automatically calculate calories and distance based on steps
+- ✨ Added `getFormattedDistance()` method: Get formatted distance value in kilometers
+- ✨ Added `getFormattedCalorie()` method: Get formatted calorie value in kilocalories
+
+#### Enhancements
+- 🚀 Enhanced `BluetoothWatchDevice` model with step-based health metrics calculation
 
 ### v1.0.1 (2026-01-03)
 

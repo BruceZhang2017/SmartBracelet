@@ -240,13 +240,27 @@ public class XGZTCommand {
         XGZTBlueToothManager.shared.writeCharacteristic(command: command)
     }
     
-    // 设置屏幕亮度
+    // 获取屏幕亮度
+    public static func getScreenBrightness() {
+        let command = createCommand(with: [
+            0x00,
+            XGZTCommands.setScreenBrightness.rawValue,
+            0x01,
+            0x00,
+            0x01,
+            0x00
+        ])
+        XGZTBlueToothManager.shared.writeCharacteristic(command: command)
+    }
+    
+    // 设置屏幕亮度 0-100级
     public static func setScreenBrightness(brightnessValue: Int){
         let command = createCommand(with: [
             0x00,
             XGZTCommands.setScreenBrightness.rawValue,
             0x01,
             0x00,
+            0x02,
             0x01,
             UInt8(brightnessValue)
         ])
@@ -1194,11 +1208,15 @@ public class XGZTCommand {
             let isCharging = (response[6] & 0x80) != 0
             XLogger.shared.log("Battery level: \(batteryLevel), Is charging: \(isCharging)")
         case.setScreenBrightness:
-            guard response.count >= 6 else {
+            guard response.count >= 7 else {
                 XLogger.shared.log("setScreenBrightness command response error")
                 return
             }
-            let success = response[5] == 0x00
+            if response[5] == 0x00 {
+                XGZTBlueToothManager.shared.device?.screenBrightness = Int(response[6])
+                return
+            }
+            let success = response[6] == 0x00
             if success {
                 XLogger.shared.log("设置屏幕亮度命令执行成功")
             } else {

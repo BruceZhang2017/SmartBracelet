@@ -1,0 +1,34 @@
+WatchFaceSDK
+Version: 1.0.2
+Build Date: 2026-01-11
+Platform: iOS 12.0+
+Swift Version: 5.0+
+
+Dependencies:
+- WatchProtocolSDK v1.0.2
+
+Contents:
+- Watch face upload functionality
+- Custom watch face creation
+- Market watch face transfer
+- Image processing and PAR conversion
+- Circle/Square screen adaptation
+- Real-time transfer progress callbacks
+
+Release Notes:
+v1.0.2 (2026-01-11)
+- Synchronized version with WatchProtocolSDK v1.0.2
+- Enhanced transfer stability
+- Improved image processing performance
+- Updated documentation and examples
+
+v1.0.1 (2026-01-05)
+- Added support for custom watch faces
+- Improved market watch face upload
+- Enhanced error handling
+
+v1.0.0 (2025-12-30)
+- Initial release
+- Complete watch face protocol implementation
+- Support for market and custom watch faces
+- Full image processing pipeline

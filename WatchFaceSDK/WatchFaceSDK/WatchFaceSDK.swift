@@ -9,8 +9,8 @@ import Foundation
 
 /// WatchFaceSDK 版本信息
 public struct WatchFaceSDKInfo {
-    public static let version = "1.0.0"
-    public static let buildDate = "2025-12-30"
+    public static let version = "1.0.2"
+    public static let buildDate = "2026-01-11"
     public static let protocolType = "XGZT"
 
     public static var description: String {

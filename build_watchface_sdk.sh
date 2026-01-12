@@ -12,7 +12,7 @@ echo ""
 
 # 配置
 SDK_NAME="WatchFaceSDK"
-VERSION="1.0.0"
+VERSION="1.0.2"
 PROJECT_NAME="SmartBracelet.xcodeproj"
 SCHEME_NAME="WatchFaceSDK"
 
@@ -139,7 +139,7 @@ Framework Format: XCFramework
 Protocol: XGZT
 
 Dependencies:
-  - WatchProtocolSDK v1.0.0
+  - WatchProtocolSDK v1.0.2
   - ABParTool.xcframework
 
 Features:

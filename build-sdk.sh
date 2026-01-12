@@ -1,14 +1,14 @@
 #!/bin/bash
 
 # WatchProtocolSDK 编译脚本
-# 版本: v1.0.1
+# 版本: v1.0.2
 # 生成 xcframework 用于分发
 
 set -e
 
 PROJECT_DIR=$(pwd)
 SDK_NAME="WatchProtocolSDK"
-SDK_VERSION="1.0.1"
+SDK_VERSION="1.0.2"
 BUILD_DIR="${PROJECT_DIR}/build"
 OUTPUT_DIR="${PROJECT_DIR}/Output"
 FRAMEWORK_NAME="${SDK_NAME}.xcframework"

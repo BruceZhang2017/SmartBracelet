@@ -1,6 +1,6 @@
 WatchProtocolSDK
-Version: 1.0.1
-Build Date: 2026-01-03
+Version: 1.0.2
+Build Date: 2026-01-10
 Platform: iOS 13.0+
 Swift Version: 5.0+
 
@@ -12,7 +12,14 @@ Contents:
 - Modular architecture for easy integration
 
 Release Notes:
-- Initial release v1.0.1
+v1.0.2 (2026-01-10)
+- Added calculateCalorieAndDistance() method for automatic calorie and distance calculation based on steps
+- Added getFormattedDistance() method to get formatted distance value in kilometers
+- Added getFormattedCalorie() method to get formatted calorie value in kilocalories
+- Enhanced BluetoothWatchDevice model with step-based health metrics calculation
+
+v1.0.1 (2026-01-03)
+- Initial release
 - Complete protocol implementation
 - Protocol-based data storage design
 - Full health data support

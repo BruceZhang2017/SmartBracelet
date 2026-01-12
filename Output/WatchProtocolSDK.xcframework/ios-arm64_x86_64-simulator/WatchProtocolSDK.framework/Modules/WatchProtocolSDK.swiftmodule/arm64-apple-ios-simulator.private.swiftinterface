@@ -134,6 +134,14 @@ public struct DeviceUnitFormatResponse {
 public struct SwitchStatusResponse {
   public let switchSettings: Swift.Int
 }
+public struct DoNotDisturb {
+  public let bSwitch: Swift.Bool
+  public let startHour: Swift.Int
+  public let startMinute: Swift.Int
+  public let endHour: Swift.Int
+  public let endMinute: Swift.Int
+  public init(bSwitch: Swift.Bool, startHour: Swift.Int, startMinute: Swift.Int, endHour: Swift.Int, endMinute: Swift.Int)
+}
 public struct AlarmInfoResponse {
   public let alarmNum: Swift.Int
   public let alarms: [WatchProtocolSDK.AlarmData]?
@@ -210,6 +218,7 @@ public struct DeviceInfoResponse {
   public static let methods: [Swift.String]
   public static func syncTime(timeZone: Swift.Int, utc: Swift.UInt32)
   public static func getBatteryLevel()
+  public static func getScreenBrightness()
   public static func setScreenBrightness(brightnessValue: Swift.Int)
   public static func getDeviceLanguage()
   public static func setDeviceLanguage(language: Swift.Int)
@@ -217,7 +226,8 @@ public struct DeviceInfoResponse {
   public static func setDeviceUnitFormat(unitType: Swift.Int)
   public static func resetToFactorySettings()
   public static func setDeviceScreenTimeout(screenTimeout: Swift.Int)
-  public static func setDoNotDisturb(startHour: Swift.Int, startMinute: Swift.Int, endHour: Swift.Int, endMinute: Swift.Int)
+  public static func getDoNotDisturb()
+  public static func setDoNotDisturb(bSwitch: Swift.Bool, startHour: Swift.Int, startMinute: Swift.Int, endHour: Swift.Int, endMinute: Swift.Int)
   public static func findBand(p0: Swift.Int)
   public static func findPhone()
   public static func disconnectBT()
@@ -439,6 +449,7 @@ public var connectFailMessage: Swift.String {
   public var weight: Swift.Int
   public var timeUnit: Swift.Int
   public var baseUnit: Swift.Int
+  public var doNotDisturb: WatchProtocolSDK.DoNotDisturb?
   public var alarmcount: Swift.Int
   public var alarmCanUse: Swift.Int
   public var alarms: [WatchProtocolSDK.AlarmData]
@@ -453,8 +464,12 @@ public var connectFailMessage: Swift.String {
   public var currentOxygen: Swift.Int
   public var currentSystolicpressure: Swift.Int
   public var currentDiastolicpressure: Swift.Int
+  public func calculateCalorieAndDistance()
+  public func getFormattedDistance() -> Swift.Float
+  public func getFormattedCalorie() -> Swift.Float
   public var functioncontrolflags: Swift.Int
   public var healthcontrolflags: Swift.Int
+  public var screenBrightness: Swift.Int
   public var isAntilostSwitch: Swift.Bool
   public var isRaisehandtobrightenscreen: Swift.Bool
   public var isAutoSyncSwitch: Swift.Bool
