@@ -4,66 +4,99 @@
 <dict>
 	<key>files</key>
 	<dict>
+		<key>Headers/WPBluetoothManager.h</key>
+		<data>
+		RgC8LgC1gebH7euzhKnpiCpGCKY=
+		</data>
+		<key>Headers/WPDeviceManager.h</key>
+		<data>
+		LevSZ4wHDZOP73LriiZUnZ3zfKQ=
+		</data>
+		<key>Headers/WPDeviceModel.h</key>
+		<data>
+		VYI4pBaW+sNwfui95lL81Dinx/4=
+		</data>
+		<key>Headers/WPHealthDataModels.h</key>
+		<data>
+		EFjpdQYm6/5qBQt31zBIfGf9FDo=
+		</data>
+		<key>Headers/WPHealthDataStorage.h</key>
+		<data>
+		Xd9rS66LAno9d0dif7HxOAMBldE=
+		</data>
+		<key>Headers/WPLogger.h</key>
+		<data>
+		QAP6dfrP3GQPO7ULuCjxoyH0m0g=
+		</data>
+		<key>Headers/WatchProtocolSDK.h</key>
+		<data>
+		lqa01cYQH1POmIEXoCOxx3CmJIc=
+		</data>
 		<key>Info.plist</key>
 		<data>
-		wh/yjwJYAPKs5f/EWqrNjZh3F3M=
+		GRMNI7NwP2+hejMJ6wvjzUlozP0=
 		</data>
-		<key>Modules/WatchProtocolSDK.swiftmodule/arm64-apple-ios.abi.json</key>
+		<key>Modules/module.modulemap</key>
 		<data>
-		wG5/n/A9kbCxmeXrYloJLtvm4mY=
-		</data>
-		<key>Modules/WatchProtocolSDK.swiftmodule/arm64-apple-ios.private.swiftinterface</key>
-		<data>
-		kxUItbonvfnhxIHwyyQRTkaeI6k=
-		</data>
-		<key>Modules/WatchProtocolSDK.swiftmodule/arm64-apple-ios.swiftdoc</key>
-		<data>
-		yLTS+RfavCdB8i+peYPyieFsgNg=
-		</data>
-		<key>Modules/WatchProtocolSDK.swiftmodule/arm64-apple-ios.swiftinterface</key>
-		<data>
-		kxUItbonvfnhxIHwyyQRTkaeI6k=
-		</data>
-		<key>Modules/WatchProtocolSDK.swiftmodule/arm64-apple-ios.swiftmodule</key>
-		<data>
-		eRsaxOg5lGlSH+f00UXYYYiNjPk=
+		2XMhjTcxdf6Qa5blRW6THnfZFmI=
 		</data>
 	</dict>
 	<key>files2</key>
 	<dict>
-		<key>Modules/WatchProtocolSDK.swiftmodule/arm64-apple-ios.abi.json</key>
+		<key>Headers/WPBluetoothManager.h</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			v5dpWE+HvCmCNczb/exADASRy4c3hjLVChrlJk1Eimg=
+			zKopKDXGPnc8P36Y9L3HW1UhG5pPTELpgshpERehjcQ=
 			</data>
 		</dict>
-		<key>Modules/WatchProtocolSDK.swiftmodule/arm64-apple-ios.private.swiftinterface</key>
+		<key>Headers/WPDeviceManager.h</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			M0BViy8LR7KbmVVpRThY5hqp2av0fVHjcRziecpkwfY=
+			bOFg+LJKCahXG8GvozBEAZipM1wYmn/LujBRTjjRTAU=
 			</data>
 		</dict>
-		<key>Modules/WatchProtocolSDK.swiftmodule/arm64-apple-ios.swiftdoc</key>
+		<key>Headers/WPDeviceModel.h</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			v5GX6XWTASXwRk//AUdSlcKH4+MuNhLxV+JB1uoJzWE=
+			SMGojvW8OUGjA34cTt9lmjEQfmUj1toKEEm9rrPwyqY=
 			</data>
 		</dict>
-		<key>Modules/WatchProtocolSDK.swiftmodule/arm64-apple-ios.swiftinterface</key>
+		<key>Headers/WPHealthDataModels.h</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			M0BViy8LR7KbmVVpRThY5hqp2av0fVHjcRziecpkwfY=
+			rW4MjF5KvBbqKPO6/+0DIRteUsiQjvy80jznwecC1DA=
 			</data>
 		</dict>
-		<key>Modules/WatchProtocolSDK.swiftmodule/arm64-apple-ios.swiftmodule</key>
+		<key>Headers/WPHealthDataStorage.h</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			K4qk17jnGx2JQ3SpIX1DM6NLfgF97/rtbfIoGkqW6OE=
+			UIsdW0xvOufyZZYaXCh07exIPt24IK8JdKSwWgKXT2M=
+			</data>
+		</dict>
+		<key>Headers/WPLogger.h</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			Fyp/7axU5bVAozvZbkhQVS4sEf0uKtOgkgWAn2Kb910=
+			</data>
+		</dict>
+		<key>Headers/WatchProtocolSDK.h</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			7ctRseE/8Tkar9n01bzlU8hwAWT8EGQPunpo6Uojhxo=
+			</data>
+		</dict>
+		<key>Modules/module.modulemap</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			RQs982Oy42Dh8f186dVe3yNlbbWGOwzkZ19ouBm8WSM=
 			</data>
 		</dict>
 	</dict>

@@ -4,121 +4,99 @@
 <dict>
 	<key>files</key>
 	<dict>
+		<key>Headers/WPBluetoothManager.h</key>
+		<data>
+		RgC8LgC1gebH7euzhKnpiCpGCKY=
+		</data>
+		<key>Headers/WPDeviceManager.h</key>
+		<data>
+		LevSZ4wHDZOP73LriiZUnZ3zfKQ=
+		</data>
+		<key>Headers/WPDeviceModel.h</key>
+		<data>
+		VYI4pBaW+sNwfui95lL81Dinx/4=
+		</data>
+		<key>Headers/WPHealthDataModels.h</key>
+		<data>
+		EFjpdQYm6/5qBQt31zBIfGf9FDo=
+		</data>
+		<key>Headers/WPHealthDataStorage.h</key>
+		<data>
+		Xd9rS66LAno9d0dif7HxOAMBldE=
+		</data>
+		<key>Headers/WPLogger.h</key>
+		<data>
+		QAP6dfrP3GQPO7ULuCjxoyH0m0g=
+		</data>
+		<key>Headers/WatchProtocolSDK.h</key>
+		<data>
+		lqa01cYQH1POmIEXoCOxx3CmJIc=
+		</data>
 		<key>Info.plist</key>
 		<data>
-		HCZl5cvsEzeaNzpa37qe7+My0lI=
+		GRMNI7NwP2+hejMJ6wvjzUlozP0=
 		</data>
-		<key>Modules/WatchProtocolSDK.swiftmodule/arm64-apple-ios-simulator.abi.json</key>
+		<key>Modules/module.modulemap</key>
 		<data>
-		wG5/n/A9kbCxmeXrYloJLtvm4mY=
-		</data>
-		<key>Modules/WatchProtocolSDK.swiftmodule/arm64-apple-ios-simulator.private.swiftinterface</key>
-		<data>
-		CPa4pIIllQxNfty1Ss0C5iI5qSk=
-		</data>
-		<key>Modules/WatchProtocolSDK.swiftmodule/arm64-apple-ios-simulator.swiftdoc</key>
-		<data>
-		Fuql61vf87lS9MrQuN47O1syZX4=
-		</data>
-		<key>Modules/WatchProtocolSDK.swiftmodule/arm64-apple-ios-simulator.swiftinterface</key>
-		<data>
-		CPa4pIIllQxNfty1Ss0C5iI5qSk=
-		</data>
-		<key>Modules/WatchProtocolSDK.swiftmodule/arm64-apple-ios-simulator.swiftmodule</key>
-		<data>
-		oXX0eQ+KrxiyxAxziSGns8KVZ/k=
-		</data>
-		<key>Modules/WatchProtocolSDK.swiftmodule/x86_64-apple-ios-simulator.abi.json</key>
-		<data>
-		wG5/n/A9kbCxmeXrYloJLtvm4mY=
-		</data>
-		<key>Modules/WatchProtocolSDK.swiftmodule/x86_64-apple-ios-simulator.private.swiftinterface</key>
-		<data>
-		yG8C1i9XvBThvM0bHWuxKSsEoAA=
-		</data>
-		<key>Modules/WatchProtocolSDK.swiftmodule/x86_64-apple-ios-simulator.swiftdoc</key>
-		<data>
-		MSUzEpBK+4w9zkovvfqr7wW0RLc=
-		</data>
-		<key>Modules/WatchProtocolSDK.swiftmodule/x86_64-apple-ios-simulator.swiftinterface</key>
-		<data>
-		yG8C1i9XvBThvM0bHWuxKSsEoAA=
-		</data>
-		<key>Modules/WatchProtocolSDK.swiftmodule/x86_64-apple-ios-simulator.swiftmodule</key>
-		<data>
-		sPQG18R8rR8bzykL2TzTFUYqHf4=
+		2XMhjTcxdf6Qa5blRW6THnfZFmI=
 		</data>
 	</dict>
 	<key>files2</key>
 	<dict>
-		<key>Modules/WatchProtocolSDK.swiftmodule/arm64-apple-ios-simulator.abi.json</key>
+		<key>Headers/WPBluetoothManager.h</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			v5dpWE+HvCmCNczb/exADASRy4c3hjLVChrlJk1Eimg=
+			zKopKDXGPnc8P36Y9L3HW1UhG5pPTELpgshpERehjcQ=
 			</data>
 		</dict>
-		<key>Modules/WatchProtocolSDK.swiftmodule/arm64-apple-ios-simulator.private.swiftinterface</key>
+		<key>Headers/WPDeviceManager.h</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			BhHf4DpizY3Ds2SxkZyfOfWYx/7HzCSCv3y7qk4duTA=
+			bOFg+LJKCahXG8GvozBEAZipM1wYmn/LujBRTjjRTAU=
 			</data>
 		</dict>
-		<key>Modules/WatchProtocolSDK.swiftmodule/arm64-apple-ios-simulator.swiftdoc</key>
+		<key>Headers/WPDeviceModel.h</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			b3uBKG4dJy1LPf6dTmAWeKMbM4M+7LgqMrHdw0ivUtQ=
+			SMGojvW8OUGjA34cTt9lmjEQfmUj1toKEEm9rrPwyqY=
 			</data>
 		</dict>
-		<key>Modules/WatchProtocolSDK.swiftmodule/arm64-apple-ios-simulator.swiftinterface</key>
+		<key>Headers/WPHealthDataModels.h</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			BhHf4DpizY3Ds2SxkZyfOfWYx/7HzCSCv3y7qk4duTA=
+			rW4MjF5KvBbqKPO6/+0DIRteUsiQjvy80jznwecC1DA=
 			</data>
 		</dict>
-		<key>Modules/WatchProtocolSDK.swiftmodule/arm64-apple-ios-simulator.swiftmodule</key>
+		<key>Headers/WPHealthDataStorage.h</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			n6bd4rHsUFFzY8TZqItiNKwYMMdhx7cVhoDHQ+GLvyQ=
+			UIsdW0xvOufyZZYaXCh07exIPt24IK8JdKSwWgKXT2M=
 			</data>
 		</dict>
-		<key>Modules/WatchProtocolSDK.swiftmodule/x86_64-apple-ios-simulator.abi.json</key>
+		<key>Headers/WPLogger.h</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			v5dpWE+HvCmCNczb/exADASRy4c3hjLVChrlJk1Eimg=
+			Fyp/7axU5bVAozvZbkhQVS4sEf0uKtOgkgWAn2Kb910=
 			</data>
 		</dict>
-		<key>Modules/WatchProtocolSDK.swiftmodule/x86_64-apple-ios-simulator.private.swiftinterface</key>
+		<key>Headers/WatchProtocolSDK.h</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			z4RNl0xKvGwsKHPJlONyp2pOZZULvT193f+YHE2TB1E=
+			7ctRseE/8Tkar9n01bzlU8hwAWT8EGQPunpo6Uojhxo=
 			</data>
 		</dict>
-		<key>Modules/WatchProtocolSDK.swiftmodule/x86_64-apple-ios-simulator.swiftdoc</key>
+		<key>Modules/module.modulemap</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			lIruNpMrCwLkzXDcjZR7d+eKC2e5yGqVWPNAXwppQDA=
-			</data>
-		</dict>
-		<key>Modules/WatchProtocolSDK.swiftmodule/x86_64-apple-ios-simulator.swiftinterface</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			z4RNl0xKvGwsKHPJlONyp2pOZZULvT193f+YHE2TB1E=
-			</data>
-		</dict>
-		<key>Modules/WatchProtocolSDK.swiftmodule/x86_64-apple-ios-simulator.swiftmodule</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			R0dNlS70r65yrXmCT+BwaPDOUaixV8IGYFQj98M6aR8=
+			RQs982Oy42Dh8f186dVe3yNlbbWGOwzkZ19ouBm8WSM=
 			</data>
 		</dict>
 	</dict>

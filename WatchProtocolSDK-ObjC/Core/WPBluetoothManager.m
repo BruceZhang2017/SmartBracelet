@@ -84,6 +84,7 @@
         _isOTAing = NO;
         _isReconnectingNow = NO;
         _scanMacAddress = @"";
+        _scanTimeout = 0; // 默认不限时
     }
     return self;
 }
@@ -113,6 +114,10 @@
 // MARK: - 扫描管理
 
 - (void)startScanning:(BOOL)deleteCache {
+    [self startScanning:deleteCache timeout:self.scanTimeout];
+}
+
+- (void)startScanning:(BOOL)deleteCache timeout:(NSTimeInterval)timeout {
     self.isReconnectingNow = NO;
 
     if (!self.isScanning) {
@@ -127,7 +132,7 @@
             [self.mutableDiscoveredPeripherals removeAllObjects];
         }
 
-        [self startScanTimerWithMac:@""];
+        [self startScanTimerWithMac:@"" timeout:timeout];
         [self.centralManager scanForPeripheralsWithServices:nil options:options];
         [[WPLogger sharedInstance] log:@"🔍 开始扫描设备"];
     }
@@ -141,14 +146,21 @@
     [self.centralManager stopScan];
 }
 
-- (void)startScanTimerWithMac:(NSString *)mac {
+- (void)startScanTimerWithMac:(NSString *)mac timeout:(NSTimeInterval)timeout {
     self.scanMacAddress = mac;
     [self.scanTimer invalidate];
-    self.scanTimer = [NSTimer scheduledTimerWithTimeInterval:10.0
-                                                      target:self
-                                                    selector:@selector(scanTimerFired:)
-                                                    userInfo:nil
-                                                     repeats:NO];
+
+    // 如果 timeout <= 0，表示不限时，不启动定时器
+    if (timeout > 0) {
+        self.scanTimer = [NSTimer scheduledTimerWithTimeInterval:timeout
+                                                          target:self
+                                                        selector:@selector(scanTimerFired:)
+                                                        userInfo:nil
+                                                         repeats:NO];
+        [[WPLogger sharedInstance] log:[NSString stringWithFormat:@"⏱ 设置扫描超时: %.1f 秒", timeout]];
+    } else {
+        [[WPLogger sharedInstance] log:@"♾️ 不限时扫描"];
+    }
 }
 
 - (void)scanTimerFired:(NSTimer *)timer {
@@ -177,6 +189,10 @@
 }
 
 - (void)connectAndScanWithMac:(NSString *)macAddress deviceName:(NSString *)deviceName {
+    [self connectAndScanWithMac:macAddress deviceName:deviceName timeout:self.scanTimeout];
+}
+
+- (void)connectAndScanWithMac:(NSString *)macAddress deviceName:(NSString *)deviceName timeout:(NSTimeInterval)timeout {
     self.scanMacAddress = macAddress;
     self.isReconnectingNow = YES;
 
@@ -191,7 +207,7 @@
 
     // 开始扫描
     [[WPLogger sharedInstance] log:[NSString stringWithFormat:@"🔍 开始扫描目标设备: %@", deviceName]];
-    [self startScanning:NO];
+    [self startScanning:NO timeout:timeout];
 }
 
 - (void)disconnect {

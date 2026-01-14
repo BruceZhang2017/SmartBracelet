@@ -83,6 +83,14 @@ NS_ASSUME_NONNULL_BEGIN
 // MARK: - 扫描状态
 @property (nonatomic, assign, readonly) BOOL isScanning;
 
+// MARK: - 扫描超时时间（秒）
+/**
+ * 扫描超时时间（秒）
+ * - 默认值为 0，表示不限时扫描
+ * - 设置为大于 0 的值时，扫描将在指定时间后自动停止
+ */
+@property (nonatomic, assign) NSTimeInterval scanTimeout;
+
 // MARK: - 连接状态
 @property (nonatomic, assign, readonly) BOOL isConnected;
 
@@ -103,6 +111,13 @@ NS_ASSUME_NONNULL_BEGIN
  * @param deleteCache 是否清空之前的扫描结果
  */
 - (void)startScanning:(BOOL)deleteCache;
+
+/**
+ * 开始扫描设备（带超时时间）
+ * @param deleteCache 是否清空之前的扫描结果
+ * @param timeout 扫描超时时间（秒），0 或负数表示不限时
+ */
+- (void)startScanning:(BOOL)deleteCache timeout:(NSTimeInterval)timeout;
 
 /**
  * 停止扫描设备
@@ -129,6 +144,14 @@ NS_ASSUME_NONNULL_BEGIN
  * @param deviceName 设备名称
  */
 - (void)connectAndScanWithMac:(NSString *)macAddress deviceName:(NSString *)deviceName;
+
+/**
+ * 扫描并连接指定设备（带超时时间）
+ * @param macAddress MAC 地址
+ * @param deviceName 设备名称
+ * @param timeout 扫描超时时间（秒），0 或负数表示不限时
+ */
+- (void)connectAndScanWithMac:(NSString *)macAddress deviceName:(NSString *)deviceName timeout:(NSTimeInterval)timeout;
 
 /**
  * 断开当前连接

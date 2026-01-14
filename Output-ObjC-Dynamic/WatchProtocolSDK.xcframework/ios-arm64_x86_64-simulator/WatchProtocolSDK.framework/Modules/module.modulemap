@@ -1,6 +1,5 @@
 framework module WatchProtocolSDK {
     umbrella header "WatchProtocolSDK.h"
-    
     export *
     module * { export * }
 }
