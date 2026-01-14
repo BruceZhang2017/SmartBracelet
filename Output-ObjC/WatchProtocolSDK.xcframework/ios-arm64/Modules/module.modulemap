@@ -1,0 +1,28 @@
+framework module WatchProtocolSDK {
+    umbrella header "WatchProtocolSDK.h"
+
+    export *
+    module * { export * }
+
+    explicit module Core {
+        header "WPDeviceManager.h"
+        header "WPBluetoothManager.h"
+        export *
+    }
+
+    explicit module Models {
+        header "WPHealthDataModels.h"
+        header "WPDeviceModel.h"
+        export *
+    }
+
+    explicit module Protocols {
+        header "WPHealthDataStorage.h"
+        export *
+    }
+
+    explicit module Utils {
+        header "WPLogger.h"
+        export *
+    }
+}

@@ -32,7 +32,14 @@
       "Bash(do if ! grep -q \"import WatchProtocolSDK\" \"$file\")",
       "Bash(then echo \"$file\")",
       "Bash(fi)",
-      "Bash(done)"
+      "Bash(done)",
+      "Bash(./build_pure_objc_framework.sh:*)",
+      "Bash(tee:*)",
+      "Bash(bash:*)",
+      "Bash(nm:*)",
+      "Bash(du -sh:*)",
+      "Bash(ls:*)",
+      "Bash(wc:*)"
     ]
   }
 }
