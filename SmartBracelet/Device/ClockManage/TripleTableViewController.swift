@@ -150,10 +150,10 @@ class TripleTableViewController: UIViewController {
             "width": width,
             "height": height
         ]
-        let lang = LanguageManager.getInterfaceLang()
-        if lang != "English" && !isUsrEnglish {
-            parameters["lang"] = lang
-        }
+//        let lang = LanguageManager.getInterfaceLang()
+//        if lang != "English" && !isUsrEnglish {
+//            parameters["lang"] = lang
+//        }
         
         // 使用x-www-form-urlencoded格式发送POST请求
         AF.request(
@@ -579,10 +579,10 @@ class RightViewModel {
             "type": type,
             "style": style
         ]
-        let lang = LanguageManager.getInterfaceLang()
-        if lang != "English" && !isUsrEnglish {
-            parameters["lang"] = lang
-        }
+//        let lang = LanguageManager.getInterfaceLang()
+//        if lang != "English" && !isUsrEnglish {
+//            parameters["lang"] = lang
+//        }
         
         // 打印请求参数
         print("请求参数:")
@@ -651,10 +651,10 @@ class RightViewModel {
             "type": type,
             "style": style
         ]
-        let lang = LanguageManager.getInterfaceLang()
-        if lang != "English" && !isUsrEnglish {
-            parameters["lang"] = lang
-        }
+//        let lang = LanguageManager.getInterfaceLang()
+//        if lang != "English" && !isUsrEnglish {
+//            parameters["lang"] = lang
+//        }
         
         // 打印请求参数
         print("开始加载第\(nextPage)页数据，请求参数：")
