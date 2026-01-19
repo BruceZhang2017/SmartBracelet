@@ -192,32 +192,28 @@
     });
 }
 
-- (void)didConnectPeripheral:(CBPeripheral *)peripheral {
+- (void)didConnectPeripheral:(WPPeripheralInfo *)peripheralInfo {
     dispatch_async(dispatch_get_main_queue(), ^{
-        self.statusLabel.text = [NSString stringWithFormat:@"✅ 已连接到 %@", peripheral.name ?: @"设备"];
+        self.statusLabel.text = [NSString stringWithFormat:@"✅ 已连接到 %@", peripheralInfo.peripheral.name ?: @"设备"];
 
-        // 创建设备对象
-        self.connectedDevice = [[WPBluetoothWatchDevice alloc] init];
-        self.connectedDevice.deviceName = peripheral.name;
-        self.connectedDevice.mac = peripheral.identifier.UUIDString;
-
-        // 保存到沙盒
+        // 使用工厂方法创建设备对象并保存
+        self.connectedDevice = [WPBluetoothWatchDevice deviceFromPeripheralInfo:peripheralInfo];
         [WPBluetoothWatchDevice saveToSandbox:self.connectedDevice];
 
-        NSLog(@"✅ 设备连接成功: %@", peripheral.name);
+        NSLog(@"✅ 设备连接成功: %@", peripheralInfo.peripheral.name);
 
         // TODO: 可以在这里发送指令获取设备信息
     });
 }
 
-- (void)didDisconnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error {
+- (void)didDisconnectPeripheral:(WPPeripheralInfo *)peripheralInfo error:(NSError *)error {
     dispatch_async(dispatch_get_main_queue(), ^{
         if (error) {
             self.statusLabel.text = [NSString stringWithFormat:@"❌ 连接断开: %@", error.localizedDescription];
-            NSLog(@"❌ 设备断开: %@ - %@", peripheral.name, error.localizedDescription);
+            NSLog(@"❌ 设备断开: %@ - %@", peripheralInfo.peripheral.name, error.localizedDescription);
         } else {
             self.statusLabel.text = @"设备已断开";
-            NSLog(@"🔌 设备已断开: %@", peripheral.name);
+            NSLog(@"🔌 设备已断开: %@", peripheralInfo.peripheral.name);
         }
 
         self.connectedDevice = nil;

@@ -22,7 +22,7 @@ SDK_NAME="WatchProtocolSDK"
 SDK_SOURCE_DIR="$PROJECT_DIR/WatchProtocolSDK-ObjC"
 BUILD_DIR="$PROJECT_DIR/build/WatchProtocolSDK-ObjC-Dynamic"
 OUTPUT_DIR="$PROJECT_DIR/Output-ObjC-Dynamic"
-SDK_VERSION="1.0.0"
+SDK_VERSION="2.0.0"
 
 # 清理
 echo -e "${GREEN}🧹 清理旧的构建文件...${NC}"
@@ -72,6 +72,7 @@ for source in $SOURCE_FILES; do
         -I"$TEMP_DIR/Models" \
         -I"$TEMP_DIR/Protocols" \
         -I"$TEMP_DIR/Utils" \
+        -I"$TEMP_DIR/Extensions" \
         -fmodules \
         -fobjc-arc \
         -fPIC \
@@ -123,6 +124,7 @@ for source in $SOURCE_FILES; do
         -I"$TEMP_DIR/Models" \
         -I"$TEMP_DIR/Protocols" \
         -I"$TEMP_DIR/Utils" \
+        -I"$TEMP_DIR/Extensions" \
         -fmodules \
         -fobjc-arc \
         -fPIC \
@@ -146,6 +148,7 @@ for source in $SOURCE_FILES; do
         -I"$TEMP_DIR/Models" \
         -I"$TEMP_DIR/Protocols" \
         -I"$TEMP_DIR/Utils" \
+        -I"$TEMP_DIR/Extensions" \
         -fmodules \
         -fobjc-arc \
         -fPIC \

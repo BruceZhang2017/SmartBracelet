@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+@class WPPeripheralInfo;
+
 NS_ASSUME_NONNULL_BEGIN
 
 // MARK: - 勿扰模式数据
@@ -152,6 +154,22 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)calculateCalorieAndDistance;
 - (float)getFormattedDistance;
 - (float)getFormattedCalorie;
+
+// MARK: - 工厂方法
+/**
+ * 从扫描到的外设信息创建设备对象
+ * @param peripheralInfo 扫描到的外设信息
+ * @return 设备对象（仅包含基本信息：设备名和MAC地址）
+ * @note 创建的设备对象仅包含扫描时可获取的基本信息，其他属性需要连接设备后获取
+ */
++ (instancetype)deviceFromPeripheralInfo:(WPPeripheralInfo *)peripheralInfo;
+
+/**
+ * 从扫描到的外设信息创建设备对象并保存到沙盒
+ * @param peripheralInfo 扫描到的外设信息
+ * @note 这是一个便捷方法，等同于 [WPBluetoothWatchDevice saveToSandbox:[WPBluetoothWatchDevice deviceFromPeripheralInfo:peripheralInfo]]
+ */
++ (void)savePeripheralInfoToSandbox:(WPPeripheralInfo *)peripheralInfo;
 
 // MARK: - 沙盒存储方法
 + (void)saveToSandbox:(WPBluetoothWatchDevice *)device;

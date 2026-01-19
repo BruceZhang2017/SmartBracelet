@@ -57,6 +57,9 @@
 @property (nonatomic, strong) NSMutableSet<CBPeripheral *> *connectingPeripherals;
 @property (nonatomic, copy) NSString *scanMacAddress;
 
+// 映射：CBPeripheral identifier -> WPPeripheralInfo
+@property (nonatomic, strong) NSMutableDictionary<NSUUID *, WPPeripheralInfo *> *peripheralInfoMap;
+
 @property (nonatomic, strong) NSTimer *reconnectTimer;
 @property (nonatomic, strong) NSTimer *scanTimer;
 
@@ -79,6 +82,7 @@
         _mutableDiscoveredPeripherals = [NSMutableArray array];
         _brands = [NSMutableDictionary dictionary];
         _connectingPeripherals = [NSMutableSet set];
+        _peripheralInfoMap = [NSMutableDictionary dictionary];
         _isScanning = NO;
         _autoDisconnect = NO;
         _isOTAing = NO;
@@ -172,17 +176,21 @@
 
 // MARK: - 连接管理
 
-- (void)connectToPeripheral:(CBPeripheral *)peripheral {
-    [[WPLogger sharedInstance] log:[NSString stringWithFormat:@"📱 连接指定的蓝牙设备: %@", peripheral.name]];
-    [self.centralManager connectPeripheral:peripheral options:nil];
-    [self.connectingPeripherals addObject:peripheral];
+- (void)connectToPeripheral:(WPPeripheralInfo *)peripheralInfo {
+    [[WPLogger sharedInstance] log:[NSString stringWithFormat:@"📱 连接指定的蓝牙设备: %@", peripheralInfo.peripheral.name]];
+
+    // 保存映射关系
+    [self.peripheralInfoMap setObject:peripheralInfo forKey:peripheralInfo.peripheral.identifier];
+
+    [self.centralManager connectPeripheral:peripheralInfo.peripheral options:nil];
+    [self.connectingPeripherals addObject:peripheralInfo.peripheral];
 }
 
 - (void)connectToDeviceWithMac:(NSString *)macAddress {
     for (WPPeripheralInfo *info in self.mutableDiscoveredPeripherals) {
         if ([info.macAddress isEqualToString:macAddress]) {
             [[WPLogger sharedInstance] log:[NSString stringWithFormat:@"📱 连接指定MAC地址 %@ 的设备", macAddress]];
-            [self connectToPeripheral:info.peripheral];
+            [self connectToPeripheral:info];
             break;
         }
     }
@@ -200,7 +208,7 @@
     for (WPPeripheralInfo *info in self.mutableDiscoveredPeripherals) {
         if ([info.macAddress isEqualToString:macAddress]) {
             [[WPLogger sharedInstance] log:[NSString stringWithFormat:@"📱 发现目标设备 %@，直接连接", macAddress]];
-            [self connectToPeripheral:info.peripheral];
+            [self connectToPeripheral:info];
             return;
         }
     }
@@ -309,6 +317,9 @@
 
     if (!exists) {
         [self.mutableDiscoveredPeripherals addObject:info];
+        // 保存映射关系
+        [self.peripheralInfoMap setObject:info forKey:peripheral.identifier];
+
         [[WPLogger sharedInstance] log:[NSString stringWithFormat:@"🔍 发现设备: %@ [%@]",
                                        peripheral.name ?: @"未知", macAddress]];
 
@@ -320,7 +331,7 @@
     // 自动连接目标设备
     if (self.scanMacAddress.length > 0 && [macAddress containsString:self.scanMacAddress]) {
         [self stopScanning];
-        [self connectToPeripheral:peripheral];
+        [self connectToPeripheral:info];
     }
 }
 
@@ -335,8 +346,10 @@
     // 发现服务
     [peripheral discoverServices:nil];
 
-    if ([self.delegate respondsToSelector:@selector(didConnectPeripheral:)]) {
-        [self.delegate didConnectPeripheral:peripheral];
+    // 从映射中获取 WPPeripheralInfo
+    WPPeripheralInfo *peripheralInfo = [self.peripheralInfoMap objectForKey:peripheral.identifier];
+    if (peripheralInfo && [self.delegate respondsToSelector:@selector(didConnectPeripheral:)]) {
+        [self.delegate didConnectPeripheral:peripheralInfo];
     }
 }
 
@@ -353,8 +366,10 @@ didDisconnectPeripheral:(CBPeripheral *)peripheral
                  error:(NSError *)error {
     [[WPLogger sharedInstance] log:[NSString stringWithFormat:@"🔌 设备已断开: %@", peripheral.name]];
 
-    if ([self.delegate respondsToSelector:@selector(didDisconnectPeripheral:error:)]) {
-        [self.delegate didDisconnectPeripheral:peripheral error:error];
+    // 从映射中获取 WPPeripheralInfo
+    WPPeripheralInfo *peripheralInfo = [self.peripheralInfoMap objectForKey:peripheral.identifier];
+    if (peripheralInfo && [self.delegate respondsToSelector:@selector(didDisconnectPeripheral:error:)]) {
+        [self.delegate didDisconnectPeripheral:peripheralInfo error:error];
     }
 
     // 清空特征值

@@ -7,6 +7,7 @@
 //
 
 #import "WPDeviceModel.h"
+#import "../Core/WPBluetoothManager.h"
 
 // MARK: - 勿扰模式实现
 @implementation WPDoNotDisturb
@@ -106,6 +107,32 @@
 - (float)getFormattedCalorie {
     float truncated = floorf((float)self.currentCalorie / 10000.0f) / 1000.0f;
     return truncated;
+}
+
+// MARK: - 工厂方法
+
++ (instancetype)deviceFromPeripheralInfo:(WPPeripheralInfo *)peripheralInfo {
+    if (!peripheralInfo) {
+        NSLog(@"Error: peripheralInfo is nil");
+        return nil;
+    }
+
+    WPBluetoothWatchDevice *device = [[WPBluetoothWatchDevice alloc] init];
+
+    // 从 peripheral 获取设备名称
+    device.deviceName = peripheralInfo.peripheral.name ?: @"Unknown Device";
+
+    // 从 peripheralInfo 获取 MAC 地址
+    device.mac = peripheralInfo.macAddress;
+
+    return device;
+}
+
++ (void)savePeripheralInfoToSandbox:(WPPeripheralInfo *)peripheralInfo {
+    WPBluetoothWatchDevice *device = [self deviceFromPeripheralInfo:peripheralInfo];
+    if (device) {
+        [self saveToSandbox:device];
+    }
 }
 
 // MARK: - 沙盒存储方法

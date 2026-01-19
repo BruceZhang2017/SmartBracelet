@@ -1,8 +1,9 @@
 # WatchProtocolSDK-ObjC 接入文档
 
 ## 版本信息
-- **SDK 版本**: v1.0.0
-- **发布日期**: 2026-01-12
+- **SDK 版本**: v1.1.0
+- **发布日期**: 2026-01-19
+- **更新内容**: 新增扫描设备到保存设备的便捷转换方法
 - **支持平台**: iOS 13.0+
 - **开发语言**: Objective-C
 
@@ -299,6 +300,30 @@ WPBluetoothManager *btManager = [WPBluetoothManager sharedInstance];
 NSData *data = [@"Hello" dataUsingEncoding:NSUTF8StringEncoding];
 BOOL success = [btManager sendData:data];
 ```
+
+### 扫描设备保存（v1.1.0+）
+
+**新功能**：提供三种便捷方法，简化从扫描设备到保存设备的流程。
+
+```objc
+// 获取扫描到的设备
+NSArray<WPPeripheralInfo *> *devices = [WPBluetoothManager sharedInstance].discoveredPeripherals;
+WPPeripheralInfo *info = devices.firstObject;
+
+// 方法 1：工厂方法（推荐，架构清晰）
+WPBluetoothWatchDevice *device = [WPBluetoothWatchDevice deviceFromPeripheralInfo:info];
+[WPBluetoothWatchDevice saveToSandbox:device];
+
+// 方法 2：一步保存（推荐，最简洁）
+[WPBluetoothWatchDevice savePeripheralInfoToSandbox:info];
+
+// 方法 3：Category 便捷方法（可选，需导入头文件）
+#import "WPPeripheralInfo+WatchDevice.h"
+WPBluetoothWatchDevice *device = [info toWatchDevice];
+[info saveToSandbox];
+```
+
+**详细说明**：参考 [扫描设备保存使用指南](PERIPHERAL_TO_DEVICE_GUIDE.md)
 
 ### 连接失败诊断
 

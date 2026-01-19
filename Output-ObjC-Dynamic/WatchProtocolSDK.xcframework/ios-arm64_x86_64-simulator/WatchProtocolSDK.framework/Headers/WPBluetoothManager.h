@@ -52,16 +52,16 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  * 设备连接成功
- * @param peripheral 外设对象
+ * @param peripheralInfo 外设信息
  */
-- (void)didConnectPeripheral:(CBPeripheral *)peripheral;
+- (void)didConnectPeripheral:(WPPeripheralInfo *)peripheralInfo;
 
 /**
  * 设备断开连接
- * @param peripheral 外设对象
+ * @param peripheralInfo 外设信息
  * @param error 错误信息
  */
-- (void)didDisconnectPeripheral:(CBPeripheral *)peripheral error:(nullable NSError *)error;
+- (void)didDisconnectPeripheral:(WPPeripheralInfo *)peripheralInfo error:(nullable NSError *)error;
 
 @end
 
@@ -128,9 +128,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  * 连接指定外设
- * @param peripheral 外设对象
+ * @param peripheralInfo 外设信息
  */
-- (void)connectToPeripheral:(CBPeripheral *)peripheral;
+- (void)connectToPeripheral:(WPPeripheralInfo *)peripheralInfo;
 
 /**
  * 连接指定 MAC 地址的设备
