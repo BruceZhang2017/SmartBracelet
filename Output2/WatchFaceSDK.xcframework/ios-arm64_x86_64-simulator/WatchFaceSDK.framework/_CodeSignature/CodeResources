@@ -32,14 +32,6 @@
 		<data>
 		bCikezo50QIKg9iiyj7sDOBFeAQ=
 		</data>
-		<key>Modules/WatchFaceSDK.swiftmodule/Project/arm64-apple-ios-simulator.swiftsourceinfo</key>
-		<data>
-		tuG+gb/u5Bj9799Td+ZVg32rQbw=
-		</data>
-		<key>Modules/WatchFaceSDK.swiftmodule/Project/x86_64-apple-ios-simulator.swiftsourceinfo</key>
-		<data>
-		UAVL+mkeNCq7ZB91VM6o9BpXU8k=
-		</data>
 		<key>Modules/WatchFaceSDK.swiftmodule/arm64-apple-ios-simulator.abi.json</key>
 		<data>
 		ubggGaz7TTxHVcO4/7KPX1MwfXs=
@@ -58,7 +50,7 @@
 		</data>
 		<key>Modules/WatchFaceSDK.swiftmodule/arm64-apple-ios-simulator.swiftmodule</key>
 		<data>
-		sVD7KH+lSVQQrkQ3rsuVa/pEw5k=
+		mZqEg9IphKQT9+Ykz8Z7OtC4ygE=
 		</data>
 		<key>Modules/WatchFaceSDK.swiftmodule/x86_64-apple-ios-simulator.abi.json</key>
 		<data>
@@ -78,7 +70,7 @@
 		</data>
 		<key>Modules/WatchFaceSDK.swiftmodule/x86_64-apple-ios-simulator.swiftmodule</key>
 		<data>
-		sBvJSJn/nFSCsC8e7fPzTRjQFms=
+		XnahLy/uqCMFR3wC8fCszJVSneA=
 		</data>
 		<key>README.md</key>
 		<data>
@@ -133,20 +125,6 @@
 			C1aypjuk19QjaG61+RaOOumrYXHihNvInSmu5QfoEkI=
 			</data>
 		</dict>
-		<key>Modules/WatchFaceSDK.swiftmodule/Project/arm64-apple-ios-simulator.swiftsourceinfo</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			TolFeJTJNKoPChdS81zPdAJ0BlPBOJ++kjvtYMT12c8=
-			</data>
-		</dict>
-		<key>Modules/WatchFaceSDK.swiftmodule/Project/x86_64-apple-ios-simulator.swiftsourceinfo</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			VyYYlmwljvQdXvI6SyL1dcZG7w4F/8a2WNuMnxwhQbE=
-			</data>
-		</dict>
 		<key>Modules/WatchFaceSDK.swiftmodule/arm64-apple-ios-simulator.abi.json</key>
 		<dict>
 			<key>hash2</key>
@@ -179,7 +157,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			XW8shtl04VsdXdFnQIQOBVxvFlMM/VvRLNXvZAbUjKs=
+			ptLXHDjGeqjyubECEfT0sJmXhNJQpGCUfL/3oVcjYSU=
 			</data>
 		</dict>
 		<key>Modules/WatchFaceSDK.swiftmodule/x86_64-apple-ios-simulator.abi.json</key>
@@ -214,7 +192,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			INTSSILsK3lo+N5RF0uXMtCAw2o9x5ty9U4V91Va690=
+			Nydvx1lk5Evz8XvLPNasam/m1PCGCBccDB7OSFt/k9Q=
 			</data>
 		</dict>
 		<key>README.md</key>

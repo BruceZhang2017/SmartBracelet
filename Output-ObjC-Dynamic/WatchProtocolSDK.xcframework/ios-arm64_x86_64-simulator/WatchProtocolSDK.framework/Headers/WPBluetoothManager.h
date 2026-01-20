@@ -63,6 +63,25 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)didDisconnectPeripheral:(WPPeripheralInfo *)peripheralInfo error:(nullable NSError *)error;
 
+/**
+ * 🆕 v2.0.1: 接收到电量数据
+ * @param batteryLevel 电量百分比 (0-100)
+ * @param isCharging 是否正在充电
+ */
+- (void)didReceiveBatteryLevel:(NSInteger)batteryLevel isCharging:(BOOL)isCharging;
+
+/**
+ * 🆕 v2.0.1: 接收到心率数据
+ * @param heartRate 心率值 (bpm)
+ */
+- (void)didReceiveHeartRate:(NSInteger)heartRate;
+
+/**
+ * 🆕 v2.0.1: 心率测量状态变化
+ * @param isMonitoring YES表示正在测量，NO表示已停止
+ */
+- (void)didHeartRateMonitoringStatusChanged:(BOOL)isMonitoring;
+
 @end
 
 // MARK: - 蓝牙管理器（单例）
@@ -178,6 +197,34 @@ NS_ASSUME_NONNULL_BEGIN
  * 重连到设备
  */
 - (void)reconnectToDevice;
+
+// MARK: - 🆕 v2.0.1: 健康数据查询
+
+/**
+ * 查询设备电量
+ * @note 查询结果通过代理方法 didReceiveBatteryLevel:isCharging: 返回
+ * @note 查询成功后会自动更新 currentDevice.batteryLevel 和 currentDevice.isCharging
+ */
+- (void)queryBatteryLevel;
+
+/**
+ * 开始心率测量
+ * @note 测量结果通过代理方法 didReceiveHeartRate: 持续返回
+ * @note 测量状态变化通过 didHeartRateMonitoringStatusChanged: 返回
+ * @note 测量成功后会自动更新 currentDevice.currentHeartrate
+ */
+- (void)startHeartRateMonitoring;
+
+/**
+ * 停止心率测量
+ */
+- (void)stopHeartRateMonitoring;
+
+/**
+ * 单次心率测量（测量完成后自动停止）
+ * @note 测量结果通过代理方法 didReceiveHeartRate: 返回
+ */
+- (void)measureHeartRateOnce;
 
 @end
 

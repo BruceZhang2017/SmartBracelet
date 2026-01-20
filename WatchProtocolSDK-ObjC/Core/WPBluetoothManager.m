@@ -9,6 +9,7 @@
 #import "WPBluetoothManager.h"
 #import "WPDeviceModel.h"
 #import "WPLogger.h"
+#import "WPCommands.h"
 
 // MARK: - 外设信息实现
 @implementation WPPeripheralInfo
@@ -187,12 +188,21 @@
 }
 
 - (void)connectToDeviceWithMac:(NSString *)macAddress {
+    // 🆕 v2.0.1: 改进逻辑，设备不在列表时自动扫描
+    BOOL found = NO;
     for (WPPeripheralInfo *info in self.mutableDiscoveredPeripherals) {
         if ([info.macAddress isEqualToString:macAddress]) {
             [[WPLogger sharedInstance] log:[NSString stringWithFormat:@"📱 连接指定MAC地址 %@ 的设备", macAddress]];
             [self connectToPeripheral:info];
+            found = YES;
             break;
         }
+    }
+
+    if (!found) {
+        // 设备不在扫描列表中，自动触发扫描并连接
+        [[WPLogger sharedInstance] log:[NSString stringWithFormat:@"⚠️ 设备 %@ 不在扫描列表中，自动触发扫描", macAddress]];
+        [self connectAndScanWithMac:macAddress deviceName:@"" timeout:10.0];
     }
 }
 
@@ -268,6 +278,76 @@
     if (self.currentDevice && self.currentDevice.mac) {
         [self connectToDeviceWithMac:self.currentDevice.mac];
     }
+}
+
+// MARK: - 🆕 v2.0.1: 健康数据查询
+
+- (void)queryBatteryLevel {
+    if (!self.isConnected) {
+        [[WPLogger sharedInstance] log:@"❌ 查询电量失败：设备未连接"];
+        return;
+    }
+
+    [[WPLogger sharedInstance] log:@"🔋 开始查询设备电量"];
+
+    // 🆕 v2.0.1: 使用 WPCommands 发送电量查询指令
+    [WPCommands getBatteryLevel];
+
+    // 注意：响应会通过 handleResponse 自动解析并回调 didReceiveBatteryLevel:isCharging:
+}
+
+- (void)startHeartRateMonitoring {
+    if (!self.isConnected) {
+        [[WPLogger sharedInstance] log:@"❌ 开始心率测量失败：设备未连接"];
+        return;
+    }
+
+    [[WPLogger sharedInstance] log:@"❤️ 开始心率连续测量"];
+
+    // 🆕 v2.0.1: 使用 WPCommands 发送开始心率测试指令
+    // cmdType: 0=心率, 1=血氧, 2=血压
+    // control: 1=开始, 0=停止
+    [WPCommands startTest:0 control:1];
+
+    // 通知代理测量已开始
+    if ([self.delegate respondsToSelector:@selector(didHeartRateMonitoringStatusChanged:)]) {
+        [self.delegate didHeartRateMonitoringStatusChanged:YES];
+    }
+
+    // 注意：心率数据会通过 handleResponse 自动解析并回调 didReceiveHeartRate:
+}
+
+- (void)stopHeartRateMonitoring {
+    if (!self.isConnected) {
+        [[WPLogger sharedInstance] log:@"❌ 停止心率测量失败：设备未连接"];
+        return;
+    }
+
+    [[WPLogger sharedInstance] log:@"❤️ 停止心率测量"];
+
+    // 🆕 v2.0.1: 使用 WPCommands 发送停止心率测试指令
+    // cmdType: 0=心率, control: 0=停止
+    [WPCommands startTest:0 control:0];
+
+    // 通知代理测量已停止
+    if ([self.delegate respondsToSelector:@selector(didHeartRateMonitoringStatusChanged:)]) {
+        [self.delegate didHeartRateMonitoringStatusChanged:NO];
+    }
+}
+
+- (void)measureHeartRateOnce {
+    if (!self.isConnected) {
+        [[WPLogger sharedInstance] log:@"❌ 单次心率测量失败：设备未连接"];
+        return;
+    }
+
+    [[WPLogger sharedInstance] log:@"❤️ 开始单次心率测量"];
+
+    // 🆕 v2.0.1: 使用 WPCommands 获取最新心率数据
+    // type: 0=心率, 1=血氧, 2=血压
+    [WPCommands getNewestHeartData:0];
+
+    // 注意：心率数据会通过 handleResponse 自动解析并回调 didReceiveHeartRate:
 }
 
 // MARK: - CBCentralManagerDelegate
@@ -348,6 +428,18 @@
 
     // 从映射中获取 WPPeripheralInfo
     WPPeripheralInfo *peripheralInfo = [self.peripheralInfoMap objectForKey:peripheral.identifier];
+
+    // 🆕 v2.0.1: 自动创建并设置 currentDevice
+    if (peripheralInfo) {
+        WPBluetoothWatchDevice *device = [WPBluetoothWatchDevice deviceFromPeripheralInfo:peripheralInfo];
+        self.currentDevice = device;
+
+        // 自动保存到沙盒
+        [WPBluetoothWatchDevice saveToSandbox:device];
+
+        [[WPLogger sharedInstance] log:[NSString stringWithFormat:@"✅ 已自动设置 currentDevice: %@", device.deviceName]];
+    }
+
     if (peripheralInfo && [self.delegate respondsToSelector:@selector(didConnectPeripheral:)]) {
         [self.delegate didConnectPeripheral:peripheralInfo];
     }
@@ -371,6 +463,19 @@ didDisconnectPeripheral:(CBPeripheral *)peripheral
     if (peripheralInfo && [self.delegate respondsToSelector:@selector(didDisconnectPeripheral:error:)]) {
         [self.delegate didDisconnectPeripheral:peripheralInfo error:error];
     }
+
+    // 🆕 v2.0.1: 智能管理 currentDevice
+    if (self.autoDisconnect || !error) {
+        // 主动断开或正常断开，清空 currentDevice
+        self.currentDevice = nil;
+        [[WPLogger sharedInstance] log:@"🔌 已清空 currentDevice（主动断开）"];
+    } else {
+        // 意外断开，保留 currentDevice 以便重连
+        [[WPLogger sharedInstance] log:@"⚠️ 意外断开，保留 currentDevice 用于重连"];
+    }
+
+    // 重置自动断开标志
+    self.autoDisconnect = NO;
 
     // 清空特征值
     self.characteristic = nil;
@@ -427,8 +532,14 @@ didUpdateValueForCharacteristic:(CBCharacteristic *)characteristic
     }
 
     NSData *data = characteristic.value;
-    if (data && [self.delegate respondsToSelector:@selector(receiveData:)]) {
-        [self.delegate receiveData:data];
+    if (data) {
+        // 🆕 v2.0.1: 自动解析协议数据
+        [WPCommands handleResponse:data];
+
+        // 保持向后兼容：仍然回调原始数据
+        if ([self.delegate respondsToSelector:@selector(receiveData:)]) {
+            [self.delegate receiveData:data];
+        }
     }
 }
 

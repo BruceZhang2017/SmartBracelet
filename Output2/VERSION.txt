@@ -1,11 +1,33 @@
 WatchFaceSDK
-Version: 1.0.2
-Build Date: 2026-01-11
+Version: 1.0.3
+Build Date: 2026-01-14
 Platform: iOS 12.0+
 Swift Version: 5.0+
 
+⚠️  CRITICAL HOTFIX: Fixed EXC_BAD_ACCESS crash in uploadCustomWatchFace
+
 Dependencies:
 - WatchProtocolSDK v1.0.2
+- ABParTool.xcframework (included)
+
+Release Notes:
+v1.0.3 (2026-01-14) - HOTFIX
+- 🔧 CRITICAL: Fixed EXC_BAD_ACCESS crash in UIImage.rawImageData
+- 🔧 Removed duplicate UIImage extension causing symbol conflict
+- 🔧 Now uses ABParTool's stable Objective-C rawImageData implementation
+- ✅ No API changes - drop-in replacement for v1.0.2
+
+v1.0.2 (2026-01-11)
+- Synchronized version with WatchProtocolSDK v1.0.2
+- Enhanced transfer stability
+- Improved image processing performance
+
+v1.0.1 (2026-01-05)
+- Added support for custom watch faces
+- Improved market watch face upload
+
+v1.0.0 (2025-12-30)
+- Initial release
 
 Contents:
 - Watch face upload functionality
@@ -15,20 +37,6 @@ Contents:
 - Circle/Square screen adaptation
 - Real-time transfer progress callbacks
 
-Release Notes:
-v1.0.2 (2026-01-11)
-- Synchronized version with WatchProtocolSDK v1.0.2
-- Enhanced transfer stability
-- Improved image processing performance
-- Updated documentation and examples
-
-v1.0.1 (2026-01-05)
-- Added support for custom watch faces
-- Improved market watch face upload
-- Enhanced error handling
-
-v1.0.0 (2025-12-30)
-- Initial release
-- Complete watch face protocol implementation
-- Support for market and custom watch faces
-- Full image processing pipeline
+IMPORTANT:
+This is a critical bug fix release. All users experiencing crashes
+when calling uploadCustomWatchFace() should upgrade immediately.

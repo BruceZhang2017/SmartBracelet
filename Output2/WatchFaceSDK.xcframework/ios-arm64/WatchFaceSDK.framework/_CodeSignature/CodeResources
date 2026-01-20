@@ -6,7 +6,7 @@
 	<dict>
 		<key>Frameworks/ABParTool.framework/ABParTool</key>
 		<data>
-		Nw1pKDG/DwUgiPWsQXQSi5qgaMw=
+		JTv8azKauvVRlmBpEcnIQOqgGrY=
 		</data>
 		<key>Frameworks/ABParTool.framework/Info.plist</key>
 		<data>
@@ -22,7 +22,7 @@
 		</data>
 		<key>Frameworks/WatchProtocolSDK.framework/WatchProtocolSDK</key>
 		<data>
-		H8HRbGnp2l7zttY9R9zMV7sg35o=
+		70scmhAO1h14m1ccjcHOFskZE7Q=
 		</data>
 		<key>Frameworks/WatchProtocolSDK.framework/_CodeSignature/CodeResources</key>
 		<data>
@@ -31,10 +31,6 @@
 		<key>Info.plist</key>
 		<data>
 		T13A75nyUa6XnTCHWHkUdmQc9oo=
-		</data>
-		<key>Modules/WatchFaceSDK.swiftmodule/Project/arm64-apple-ios.swiftsourceinfo</key>
-		<data>
-		mX2AtzDyG5MRXpfOl/3kGAgec58=
 		</data>
 		<key>Modules/WatchFaceSDK.swiftmodule/arm64-apple-ios.abi.json</key>
 		<data>
@@ -54,7 +50,7 @@
 		</data>
 		<key>Modules/WatchFaceSDK.swiftmodule/arm64-apple-ios.swiftmodule</key>
 		<data>
-		8I24T6re6GFV83yH6NTPRkO5oZw=
+		OjSnewvWGy2U9FDOZ0Z5wh8Fih0=
 		</data>
 		<key>README.md</key>
 		<data>
@@ -71,7 +67,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			sPO6XNK4uiblPmZZYX9kaWy5v7b210sLotleIsBpYS8=
+			XOKCHEvGpmaA9zpHTRA9ezw8M5nRy5yiswXKGYZPzXY=
 			</data>
 		</dict>
 		<key>Frameworks/ABParTool.framework/Info.plist</key>
@@ -99,7 +95,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			SkEPc7Zrf8gHWoUE++E0X58pzjALxvAGlG/jmd0yyy8=
+			9wFpBuJK4+dUczLALWJ2dIWYMkcnuErj9QBtE0D/+Nc=
 			</data>
 		</dict>
 		<key>Frameworks/WatchProtocolSDK.framework/_CodeSignature/CodeResources</key>
@@ -107,13 +103,6 @@
 			<key>hash2</key>
 			<data>
 			W/pu3lP+rNOu3Ww/p17zwPxhuFNH1nG391rEy4500Kg=
-			</data>
-		</dict>
-		<key>Modules/WatchFaceSDK.swiftmodule/Project/arm64-apple-ios.swiftsourceinfo</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			T9TbzJyFRzinr5+bhx32ApwCHLvqMe1jhd8PvMrU6Tg=
 			</data>
 		</dict>
 		<key>Modules/WatchFaceSDK.swiftmodule/arm64-apple-ios.abi.json</key>
@@ -148,7 +137,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			ZLfraBFCJu/0dsTwyrJMKqLevdyx6+q5T9VD0GxjUxc=
+			vubLcJeDOPJkqQa3x2vVA4hXoSstUxtyCCMhNn44wWU=
 			</data>
 		</dict>
 		<key>README.md</key>

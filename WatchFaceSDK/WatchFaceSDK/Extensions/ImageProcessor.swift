@@ -191,35 +191,5 @@ public class ImageProcessor {
 }
 
 // MARK: - UIImage 扩展
-extension UIImage {
-
-    /// 获取图片的原始数据
-    var rawImageData: Data? {
-        guard let cgImage = self.cgImage else {
-            return nil
-        }
-
-        let width = cgImage.width
-        let height = cgImage.height
-        let bitsPerComponent = 8
-        let bytesPerRow = width * 4
-
-        var rawData = Data(count: height * bytesPerRow)
-
-        guard let context = CGContext(
-            data: &rawData,
-            width: width,
-            height: height,
-            bitsPerComponent: bitsPerComponent,
-            bytesPerRow: bytesPerRow,
-            space: CGColorSpaceCreateDeviceRGB(),
-            bitmapInfo: CGImageAlphaInfo.noneSkipLast.rawValue
-        ) else {
-            return nil
-        }
-
-        context.draw(cgImage, in: CGRect(x: 0, y: 0, width: width, height: height))
-
-        return rawData
-    }
-}
+// 注意: UIImage.rawImageData 由 ABParTool.framework 提供
+// 移除了本地实现以避免符号冲突和内存安全问题

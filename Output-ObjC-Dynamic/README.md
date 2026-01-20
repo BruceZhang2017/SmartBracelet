@@ -1,9 +1,9 @@
 # WatchProtocolSDK-ObjC 接入文档
 
 ## 版本信息
-- **SDK 版本**: v2.0.0
+- **SDK 版本**: v1.1.0
 - **发布日期**: 2026-01-19
-- **更新内容**: 统一API参数类型，将CBPeripheral替换为WPPeripheralInfo（破坏性更新）
+- **更新内容**: 新增扫描设备到保存设备的便捷转换方法
 - **支持平台**: iOS 13.0+
 - **开发语言**: Objective-C
 
