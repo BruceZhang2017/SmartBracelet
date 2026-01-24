@@ -380,18 +380,18 @@ static id _healthDataStorage = nil;
     BOOL isCharging = (bytes[6] & 0x80) != 0;
 
     // 🆕 v2.0.2: 范围检查和容错处理（修复 BATTERY-127 BUG）
-    NSInteger batteryLevel = rawBatteryLevel;
+    // 🆕 v2.0.4: 直接抛弃异常电量值（>100），不进行修正
     if (rawBatteryLevel > 100) {
-        // 超出范围，限制在 0-100
-        batteryLevel = 100;
         [[WPLogger sharedInstance] log:[NSString stringWithFormat:
-            @"⚠️ 电量值异常:%ld (超出范围)，已修正为:100", (long)rawBatteryLevel]];
+            @"⚠️ 电量值异常:%ld (超出范围100)，已抛弃该值", (long)rawBatteryLevel]];
+        return;  // 直接返回，不保存，不回调
     } else if (rawBatteryLevel < 0) {
         // 理论上不会发生，但保留检查
-        batteryLevel = 0;
-        [[WPLogger sharedInstance] log:@"⚠️ 电量值异常（负数），已修正为:0"];
+        [[WPLogger sharedInstance] log:@"⚠️ 电量值异常（负数），已抛弃该值"];
+        return;  // 直接返回，不保存，不回调
     }
 
+    NSInteger batteryLevel = rawBatteryLevel;
     [[WPLogger sharedInstance] log:[NSString stringWithFormat:@"🔋 电量:%ld%% 充电状态:%@", (long)batteryLevel, isCharging ? @"充电中" : @"未充电"]];
 
     // 🆕 v2.0.1: 自动更新 currentDevice 的电量信息

@@ -5,6 +5,11 @@
 //  Created by Claude on 2026/01/12.
 //  Copyright © 2026 Huaxin. All rights reserved.
 //
+//  🆕 v2.0.5 更新内容:
+//  - 新增 peripheralUUID 属性支持快速重连
+//  - 升级沙盒存储格式（兼容旧版本）
+//  - 支持 UUID 持久化存储和恢复
+//
 
 #import <Foundation/Foundation.h>
 
@@ -55,6 +60,14 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) NSInteger deviceID;
 @property (nonatomic, assign) NSInteger brandID;
 @property (nonatomic, copy, nullable) NSString *mac;
+
+// 🆕 v2.0.5: 添加 peripheral UUID 用于快速重连
+/// 设备的蓝牙外设标识符（UUID 字符串）
+/// @note 用于快速重连，无需扫描
+/// @note 首次连接成功后自动保存，支持持久化
+/// @note 示例: "12345678-1234-1234-1234-123456789ABC"
+@property (nonatomic, copy, nullable) NSString *peripheralUUID;
+
 @property (nonatomic, assign) NSInteger batteryLevel;
 @property (nonatomic, assign) BOOL isCharging;
 @property (nonatomic, assign) NSInteger deviceLanguage;

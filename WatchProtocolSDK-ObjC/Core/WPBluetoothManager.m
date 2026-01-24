@@ -10,6 +10,7 @@
 #import "WPDeviceModel.h"
 #import "WPLogger.h"
 #import "WPCommands.h"
+#import "NSData+HexString.h"
 
 // MARK: - 外设信息实现
 @implementation WPPeripheralInfo
@@ -55,6 +56,11 @@
 @property (nonatomic, assign) BOOL autoDisconnect;
 @property (nonatomic, assign) BOOL isReconnectingNow;
 
+// 🆕 v2.0.3: 重连保护标志，防止死循环
+@property (nonatomic, assign) BOOL isReconnecting;  // 正在重连中
+@property (nonatomic, assign) NSInteger reconnectAttempts;  // 重连尝试次数
+@property (nonatomic, assign) NSInteger maxReconnectAttempts;  // 最大重连次数
+
 @property (nonatomic, strong) NSMutableSet<CBPeripheral *> *connectingPeripherals;
 @property (nonatomic, copy) NSString *scanMacAddress;
 
@@ -90,6 +96,11 @@
         _isReconnectingNow = NO;
         _scanMacAddress = @"";
         _scanTimeout = 0; // 默认不限时
+
+        // 🆕 v2.0.3: 初始化重连保护标志
+        _isReconnecting = NO;
+        _reconnectAttempts = 0;
+        _maxReconnectAttempts = 5; // 默认最大重连次数
     }
     return self;
 }
@@ -142,13 +153,22 @@
         [[WPLogger sharedInstance] log:@"🔍 开始扫描设备"];
     }
 
-    [self reconnectToDevice];
+    // 🆕 v2.0.3: 添加死循环保护 - 防止在重连过程中重复调用导致无限递归
+    if (!self.isReconnecting) {
+        [[WPLogger sharedInstance] log:@"🔄 检查是否需要重连到已保存设备"];
+        [self reconnectToDevice];
+    } else {
+        [[WPLogger sharedInstance] log:@"⚠️ 已在重连过程中，跳过重复调用"];
+    }
 }
 
 - (void)stopScanning {
     [[WPLogger sharedInstance] log:@"⏹ 停止扫描"];
     self.isScanning = NO;
     [self.centralManager stopScan];
+
+    // 🆕 v2.0.3: 停止扫描时不重置重连标志，因为可能是扫描超时导致的停止
+    // 重连逻辑会在 connectAndScanWithMac 中的超时保护中处理
 }
 
 - (void)startScanTimerWithMac:(NSString *)mac timeout:(NSTimeInterval)timeout {
@@ -172,6 +192,12 @@
     if (self.isScanning) {
         [[WPLogger sharedInstance] log:@"⏰ 扫描超时，停止扫描"];
         [self stopScanning];
+
+        // 🆕 v2.0.2: 通知代理扫描超时
+        if (self.scanMacAddress.length > 0 && [self.delegate respondsToSelector:@selector(didScanTimeout:)]) {
+            [[WPLogger sharedInstance] log:[NSString stringWithFormat:@"⚠️ 未找到目标设备: %@", self.scanMacAddress]];
+            [self.delegate didScanTimeout:self.scanMacAddress];
+        }
     }
 }
 
@@ -189,9 +215,12 @@
 
 - (void)connectToDeviceWithMac:(NSString *)macAddress {
     // 🆕 v2.0.1: 改进逻辑，设备不在列表时自动扫描
+    // 🆕 v2.0.2: 忽略大小写进行匹配
     BOOL found = NO;
+    NSString *targetMac = [macAddress uppercaseString];
+
     for (WPPeripheralInfo *info in self.mutableDiscoveredPeripherals) {
-        if ([info.macAddress isEqualToString:macAddress]) {
+        if ([[info.macAddress uppercaseString] isEqualToString:targetMac]) {
             [[WPLogger sharedInstance] log:[NSString stringWithFormat:@"📱 连接指定MAC地址 %@ 的设备", macAddress]];
             [self connectToPeripheral:info];
             found = YES;
@@ -211,20 +240,51 @@
 }
 
 - (void)connectAndScanWithMac:(NSString *)macAddress deviceName:(NSString *)deviceName timeout:(NSTimeInterval)timeout {
-    self.scanMacAddress = macAddress;
+    // 🆕 v2.0.2: 统一转换为大写
+    self.scanMacAddress = [macAddress uppercaseString];
     self.isReconnectingNow = YES;
 
-    // 检查是否已经在扫描结果中
+    // 🆕 v2.0.3: 设置重连标志，防止死循环
+    self.isReconnecting = YES;
+    self.reconnectAttempts++;
+
+    // 🆕 v2.0.3: 添加最大重连次数保护
+    if (self.reconnectAttempts > self.maxReconnectAttempts) {
+        [[WPLogger sharedInstance] log:[NSString stringWithFormat:@"❌ 重连次数超过限制(%ld次)，停止重连", (long)self.maxReconnectAttempts]];
+
+        // 重置重连状态
+        self.isReconnecting = NO;
+        self.isReconnectingNow = NO;
+        self.reconnectAttempts = 0;
+        self.scanMacAddress = @"";
+
+        // 通知代理重连失败
+        if ([self.delegate respondsToSelector:@selector(didScanTimeout:)]) {
+            [[WPLogger sharedInstance] log:@"📢 通知代理：扫描超时，未找到目标设备"];
+            [self.delegate didScanTimeout:macAddress];
+        }
+        return;
+    }
+
+    // 🆕 v2.0.2: 检查是否已经在扫描结果中（忽略大小写）
+    NSString *targetMac = [macAddress uppercaseString];
     for (WPPeripheralInfo *info in self.mutableDiscoveredPeripherals) {
-        if ([info.macAddress isEqualToString:macAddress]) {
+        if ([[info.macAddress uppercaseString] isEqualToString:targetMac]) {
             [[WPLogger sharedInstance] log:[NSString stringWithFormat:@"📱 发现目标设备 %@，直接连接", macAddress]];
+
+            // 🆕 v2.0.3: 找到设备，重置重连计数
+            self.reconnectAttempts = 0;
+
             [self connectToPeripheral:info];
             return;
         }
     }
 
     // 开始扫描
-    [[WPLogger sharedInstance] log:[NSString stringWithFormat:@"🔍 开始扫描目标设备: %@", deviceName]];
+    [[WPLogger sharedInstance] log:[NSString stringWithFormat:@"🔍 开始扫描目标设备: %@ (%@) - 第%ld次尝试",
+                                   deviceName.length > 0 ? deviceName : @"未知设备",
+                                   macAddress,
+                                   (long)self.reconnectAttempts]];
     [self startScanning:NO timeout:timeout];
 }
 
@@ -255,6 +315,10 @@
         return NO;
     }
 
+    // 打印发送给设备的指令数据
+    NSString *hexString = [data hexEncodedString];
+    [[WPLogger sharedInstance] log:[NSString stringWithFormat:@"📤 发送指令 [%ld bytes]: %@", (long)data.length, hexString]];
+
     if (self.characteristic) {
         [self.peripheral writeValue:data
                   forCharacteristic:self.characteristic
@@ -278,6 +342,131 @@
     if (self.currentDevice && self.currentDevice.mac) {
         [self connectToDeviceWithMac:self.currentDevice.mac];
     }
+}
+
+// MARK: - 🆕 v2.0.2: 增强的重连方法
+
+- (void)reconnectWithDevice:(WPBluetoothWatchDevice *)device {
+    [self reconnectWithDevice:device timeout:10.0]; // 默认10秒超时
+}
+
+- (void)reconnectWithDevice:(WPBluetoothWatchDevice *)device timeout:(NSTimeInterval)timeout {
+    if (!device) {
+        [[WPLogger sharedInstance] log:@"❌ 重连失败：设备对象为空"];
+        return;
+    }
+
+    // 设置 currentDevice
+    self.currentDevice = device;
+
+    // 🆕 v2.0.5: 智能路由 - 优先使用 UUID 快速重连
+    if (device.peripheralUUID && device.peripheralUUID.length > 0) {
+        [[WPLogger sharedInstance] log:[NSString stringWithFormat:
+            @"🚀 检测到 UUID，使用快速重连: %@ [UUID: %@]",
+            device.deviceName ?: @"未知设备",
+            device.peripheralUUID]];
+
+        // 使用 UUID 快速重连（无需扫描）
+        [self reconnectWithUUID:device.peripheralUUID];
+        return;
+    }
+
+    // 降级方案：使用 MAC 地址扫描重连
+    if (!device.mac || device.mac.length == 0) {
+        [[WPLogger sharedInstance] log:@"❌ 重连失败：设备 MAC 地址为空"];
+        return;
+    }
+
+    [[WPLogger sharedInstance] log:[NSString stringWithFormat:
+        @"⚠️ UUID 不可用，降级为扫描重连: %@ [MAC: %@]",
+        device.deviceName ?: @"未知设备", device.mac]];
+
+    // 使用 MAC 地址和设备名进行扫描连接
+    [self connectAndScanWithMac:device.mac
+                     deviceName:device.deviceName ?: @""
+                        timeout:timeout];
+}
+
+- (BOOL)reconnectFromSandboxWithMac:(NSString *)macAddress {
+    return [self reconnectFromSandboxWithMac:macAddress timeout:10.0]; // 默认10秒超时
+}
+
+- (BOOL)reconnectFromSandboxWithMac:(NSString *)macAddress timeout:(NSTimeInterval)timeout {
+    if (!macAddress || macAddress.length == 0) {
+        [[WPLogger sharedInstance] log:@"❌ 从沙盒恢复失败：MAC 地址为空"];
+        return NO;
+    }
+
+    // 从沙盒加载设备信息
+    WPBluetoothWatchDevice *device = [WPBluetoothWatchDevice loadFromSandboxWithMac:macAddress];
+
+    if (!device) {
+        [[WPLogger sharedInstance] log:[NSString stringWithFormat:@"⚠️ 沙盒中未找到 MAC 为 %@ 的设备信息", macAddress]];
+        return NO;
+    }
+
+    [[WPLogger sharedInstance] log:[NSString stringWithFormat:@"✅ 从沙盒恢复设备信息: %@ [%@]",
+                                   device.deviceName ?: @"未知设备", device.mac]];
+
+    // 使用恢复的设备信息进行重连
+    [self reconnectWithDevice:device timeout:timeout];
+
+    return YES;
+}
+
+// MARK: - 🆕 v2.0.5: UUID 快速重连
+
+- (void)reconnectWithUUID:(NSString *)uuidString {
+    if (!uuidString || uuidString.length == 0) {
+        [[WPLogger sharedInstance] log:@"❌ UUID 为空，无法重连"];
+        return;
+    }
+
+    [[WPLogger sharedInstance] log:[NSString stringWithFormat:@"🚀 使用 UUID 快速重连: %@", uuidString]];
+
+    // 将字符串转换为 NSUUID 对象
+    NSUUID *uuid = [[NSUUID alloc] initWithUUIDString:uuidString];
+    if (!uuid) {
+        [[WPLogger sharedInstance] log:@"❌ UUID 格式错误，无法重连"];
+        // 降级到扫描重连
+        if (self.currentDevice && self.currentDevice.mac) {
+            [[WPLogger sharedInstance] log:@"⚠️ 降级为 MAC 扫描重连"];
+            [self connectAndScanWithMac:self.currentDevice.mac
+                             deviceName:self.currentDevice.deviceName ?: @""
+                                timeout:10.0];
+        }
+        return;
+    }
+
+    // 🚀 核心：直接通过 UUID 获取已知设备（无需扫描）
+    NSArray<CBPeripheral *> *peripherals = [self.centralManager retrievePeripheralsWithIdentifiers:@[uuid]];
+
+    if (peripherals.count == 0) {
+        [[WPLogger sharedInstance] log:@"⚠️ 未找到 UUID 对应的设备（系统未曾连接过该设备）"];
+        // 降级到扫描重连
+        if (self.currentDevice && self.currentDevice.mac) {
+            [[WPLogger sharedInstance] log:@"⚠️ 降级为 MAC 扫描重连"];
+            [self connectAndScanWithMac:self.currentDevice.mac
+                             deviceName:self.currentDevice.deviceName ?: @""
+                                timeout:10.0];
+        }
+        return;
+    }
+
+    // 获取到设备
+    CBPeripheral *peripheral = peripherals.firstObject;
+    [[WPLogger sharedInstance] log:[NSString stringWithFormat:
+        @"✅ 找到设备（UUID匹配）: %@ [%@]",
+        peripheral.name ?: @"未知设备",
+        peripheral.identifier.UUIDString]];
+
+    // 保存 peripheral 引用
+    self.peripheral = peripheral;
+    peripheral.delegate = self;
+
+    // 🚀 直接连接，无需扫描（这就是快速重连的核心）
+    [[WPLogger sharedInstance] log:@"🔗 开始直接连接..."];
+    [self.centralManager connectPeripheral:peripheral options:nil];
 }
 
 // MARK: - 🆕 v2.0.1: 健康数据查询
@@ -379,8 +568,33 @@
      advertisementData:(NSDictionary<NSString *,id> *)advertisementData
                   RSSI:(NSNumber *)RSSI {
 
-    // 从广播数据中提取 MAC 地址（简化处理）
-    NSString *macAddress = peripheral.identifier.UUIDString;
+    // 🆕 v2.0.2: 从广播数据的制造商数据中提取真实的 MAC 地址
+    // 对应 Swift 版本 XGZTBlueToothManager.swift 的实现逻辑
+    NSData *manufacturerData = advertisementData[CBAdvertisementDataManufacturerDataKey];
+
+    // 检查制造商数据是否符合协议规范：
+    // - 长度为 15 字节
+    // - manufacturerData[0] == 0x06
+    // - manufacturerData[1] == 0x01
+    if (!manufacturerData || manufacturerData.length != 15) {
+        // 不符合协议规范，跳过此设备
+        return;
+    }
+
+    const uint8_t *bytes = (const uint8_t *)manufacturerData.bytes;
+    if (bytes[0] != 0x06 || bytes[1] != 0x01) {
+        // 不符合协议规范，跳过此设备
+        return;
+    }
+
+    // 从索引 5-10 提取 MAC 地址（共 6 个字节）
+    NSData *macData = [manufacturerData subdataWithRange:NSMakeRange(5, 6)];
+    // 转换为十六进制字符串，格式如 "AA:BB:CC:DD:EE:FF"
+    NSString *macAddress = [macData hexEncodedStringWithSeparator:@":"];
+
+    // 提取品牌信息（索引 12）
+    NSInteger brand = bytes[12];
+    [self.brands setObject:@(brand) forKey:macAddress];
 
     // 创建外设信息
     WPPeripheralInfo *info = [[WPPeripheralInfo alloc] initWithPeripheral:peripheral
@@ -400,23 +614,41 @@
         // 保存映射关系
         [self.peripheralInfoMap setObject:info forKey:peripheral.identifier];
 
-        [[WPLogger sharedInstance] log:[NSString stringWithFormat:@"🔍 发现设备: %@ [%@]",
-                                       peripheral.name ?: @"未知", macAddress]];
+        [[WPLogger sharedInstance] log:[NSString stringWithFormat:@"🔍 发现设备: %@ [%@] RSSI: %@\n广播数据: %@",
+                                       peripheral.name ?: @"未知", macAddress, RSSI, advertisementData]];
 
         if ([self.delegate respondsToSelector:@selector(didDiscoverPeripheral:)]) {
             [self.delegate didDiscoverPeripheral:info];
         }
     }
 
-    // 自动连接目标设备
-    if (self.scanMacAddress.length > 0 && [macAddress containsString:self.scanMacAddress]) {
-        [self stopScanning];
-        [self connectToPeripheral:info];
+    // 🆕 v2.0.2: 自动连接目标设备（忽略大小写）
+    if (self.scanMacAddress.length > 0) {
+        NSString *targetMac = [self.scanMacAddress uppercaseString];
+        NSString *discoveredMac = [macAddress uppercaseString];
+
+        // 使用 lowercased 比较以忽略大小写，匹配 Swift 版本的逻辑
+        if ([discoveredMac.lowercaseString isEqualToString:targetMac.lowercaseString]) {
+            [[WPLogger sharedInstance] log:[NSString stringWithFormat:@"✅ 找到目标设备 %@，准备连接", peripheral.name]];
+
+            // 检查设备名称是否有效（匹配 Swift 版本的逻辑）
+            if (peripheral.name.length > 0) {
+                [self stopScanning];
+                [self connectToPeripheral:info];
+                self.scanMacAddress = @""; // 清空扫描目标
+            }
+        }
     }
 }
 
 - (void)centralManager:(CBCentralManager *)central didConnectPeripheral:(CBPeripheral *)peripheral {
     [[WPLogger sharedInstance] log:[NSString stringWithFormat:@"✅ 设备连接成功: %@", peripheral.name]];
+
+    // 🆕 v2.0.3: 连接成功，重置重连标志和计数器
+    self.isReconnecting = NO;
+    self.isReconnectingNow = NO;
+    self.reconnectAttempts = 0;
+    [[WPLogger sharedInstance] log:@"✅ 已重置重连状态（连接成功）"];
 
     self.peripheral = peripheral;
     peripheral.delegate = self;
@@ -429,19 +661,68 @@
     // 从映射中获取 WPPeripheralInfo
     WPPeripheralInfo *peripheralInfo = [self.peripheralInfoMap objectForKey:peripheral.identifier];
 
+    // 🆕 v2.0.4: 修复回连时代理未触发的 bug
+    // 如果映射中没有 peripheralInfo（例如 app 重启后的系统自动回连），则尝试创建
+    if (!peripheralInfo) {
+        [[WPLogger sharedInstance] log:@"⚠️ peripheralInfoMap 中未找到映射，尝试创建 WPPeripheralInfo"];
+
+        // 尝试从 currentDevice 获取 MAC 地址
+        NSString *macAddress = self.currentDevice.mac ?: @"";
+
+        // 如果没有 currentDevice，尝试从扫描目标 MAC 获取
+        if (macAddress.length == 0 && self.scanMacAddress.length > 0) {
+            macAddress = self.scanMacAddress;
+            [[WPLogger sharedInstance] log:[NSString stringWithFormat:@"📝 使用扫描目标 MAC: %@", macAddress]];
+        }
+
+        // 创建 WPPeripheralInfo
+        peripheralInfo = [[WPPeripheralInfo alloc] initWithPeripheral:peripheral
+                                                            macAddress:macAddress];
+
+        // 保存到映射中，避免下次再创建
+        [self.peripheralInfoMap setObject:peripheralInfo forKey:peripheral.identifier];
+
+        [[WPLogger sharedInstance] log:[NSString stringWithFormat:@"✅ 已创建并保存 WPPeripheralInfo [MAC: %@]", macAddress]];
+    }
+
     // 🆕 v2.0.1: 自动创建并设置 currentDevice
     if (peripheralInfo) {
         WPBluetoothWatchDevice *device = [WPBluetoothWatchDevice deviceFromPeripheralInfo:peripheralInfo];
+
+        // 🆕 v2.0.5: 保存 peripheral UUID 以支持快速重连
+        NSString *uuidString = peripheral.identifier.UUIDString;
+        device.peripheralUUID = uuidString;
+
+        [[WPLogger sharedInstance] log:[NSString stringWithFormat:
+            @"💾 已保存设备 UUID: %@ [MAC: %@]",
+            uuidString, device.mac]];
+
         self.currentDevice = device;
 
-        // 自动保存到沙盒
+        // 自动保存到沙盒（包含 UUID）
         [WPBluetoothWatchDevice saveToSandbox:device];
 
         [[WPLogger sharedInstance] log:[NSString stringWithFormat:@"✅ 已自动设置 currentDevice: %@", device.deviceName]];
     }
+    // 🆕 v2.0.5: 如果 currentDevice 已存在但没有 UUID，则补充保存 UUID
+    else if (self.currentDevice && (!self.currentDevice.peripheralUUID || self.currentDevice.peripheralUUID.length == 0)) {
+        NSString *uuidString = peripheral.identifier.UUIDString;
+        self.currentDevice.peripheralUUID = uuidString;
 
+        [[WPLogger sharedInstance] log:[NSString stringWithFormat:
+            @"💾 补充保存设备 UUID: %@ [MAC: %@]",
+            uuidString, self.currentDevice.mac]];
+
+        // 更新沙盒存储
+        [WPBluetoothWatchDevice saveToSandbox:self.currentDevice];
+    }
+
+    // 🆕 v2.0.4: 确保代理总是被触发（移除 peripheralInfo 的 nil 检查）
     if (peripheralInfo && [self.delegate respondsToSelector:@selector(didConnectPeripheral:)]) {
+        [[WPLogger sharedInstance] log:@"📢 触发代理：didConnectPeripheral"];
         [self.delegate didConnectPeripheral:peripheralInfo];
+    } else if (!peripheralInfo) {
+        [[WPLogger sharedInstance] log:@"❌ 无法创建 WPPeripheralInfo，代理未触发"];
     }
 }
 
@@ -460,8 +741,30 @@ didDisconnectPeripheral:(CBPeripheral *)peripheral
 
     // 从映射中获取 WPPeripheralInfo
     WPPeripheralInfo *peripheralInfo = [self.peripheralInfoMap objectForKey:peripheral.identifier];
+
+    // 🆕 v2.0.4: 修复回连时代理未触发的 bug
+    // 如果映射中没有 peripheralInfo，则尝试创建
+    if (!peripheralInfo) {
+        [[WPLogger sharedInstance] log:@"⚠️ peripheralInfoMap 中未找到映射，尝试创建 WPPeripheralInfo"];
+
+        // 尝试从 currentDevice 获取 MAC 地址
+        NSString *macAddress = self.currentDevice.mac ?: @"";
+
+        // 创建 WPPeripheralInfo
+        peripheralInfo = [[WPPeripheralInfo alloc] initWithPeripheral:peripheral
+                                                            macAddress:macAddress];
+
+        // 不需要保存到映射中，因为设备已经断开
+
+        [[WPLogger sharedInstance] log:[NSString stringWithFormat:@"✅ 已创建 WPPeripheralInfo [MAC: %@]", macAddress]];
+    }
+
+    // 🆕 v2.0.4: 确保代理总是被触发
     if (peripheralInfo && [self.delegate respondsToSelector:@selector(didDisconnectPeripheral:error:)]) {
+        [[WPLogger sharedInstance] log:@"📢 触发代理：didDisconnectPeripheral"];
         [self.delegate didDisconnectPeripheral:peripheralInfo error:error];
+    } else if (!peripheralInfo) {
+        [[WPLogger sharedInstance] log:@"❌ 无法创建 WPPeripheralInfo，代理未触发"];
     }
 
     // 🆕 v2.0.1: 智能管理 currentDevice
@@ -469,9 +772,19 @@ didDisconnectPeripheral:(CBPeripheral *)peripheral
         // 主动断开或正常断开，清空 currentDevice
         self.currentDevice = nil;
         [[WPLogger sharedInstance] log:@"🔌 已清空 currentDevice（主动断开）"];
+
+        // 🆕 v2.0.3: 主动断开时重置重连状态
+        self.isReconnecting = NO;
+        self.isReconnectingNow = NO;
+        self.reconnectAttempts = 0;
+        [[WPLogger sharedInstance] log:@"✅ 已重置重连状态（主动断开）"];
     } else {
         // 意外断开，保留 currentDevice 以便重连
         [[WPLogger sharedInstance] log:@"⚠️ 意外断开，保留 currentDevice 用于重连"];
+
+        // 🆕 v2.0.3: 意外断开时也重置重连计数器，避免累积
+        self.reconnectAttempts = 0;
+        [[WPLogger sharedInstance] log:@"🔄 已重置重连计数器（意外断开，准备重新开始重连）"];
     }
 
     // 重置自动断开标志
@@ -533,6 +846,10 @@ didUpdateValueForCharacteristic:(CBCharacteristic *)characteristic
 
     NSData *data = characteristic.value;
     if (data) {
+        // 打印设备返回的指令数据
+        NSString *hexString = [data hexEncodedString];
+        [[WPLogger sharedInstance] log:[NSString stringWithFormat:@"📥 接收指令 [%ld bytes]: %@", (long)data.length, hexString]];
+
         // 🆕 v2.0.1: 自动解析协议数据
         [WPCommands handleResponse:data];
 

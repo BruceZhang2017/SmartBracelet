@@ -125,6 +125,11 @@
     // 从 peripheralInfo 获取 MAC 地址
     device.mac = peripheralInfo.macAddress;
 
+    // 🆕 v2.0.5: 从 peripheral 获取 UUID（用于快速重连）
+    if (peripheralInfo.peripheral && peripheralInfo.peripheral.identifier) {
+        device.peripheralUUID = peripheralInfo.peripheral.identifier.UUIDString;
+    }
+
     return device;
 }
 
@@ -157,15 +162,22 @@
         dic = [NSMutableDictionary dictionary];
     }
 
-    // 检查是否已存在
-    NSString *existingName = dic[device.mac];
-    if (existingName && existingName.length > 0) {
-        // 已存在，不执行保存
-        return;
+    // 🆕 v2.0.5: 同时保存设备名和 UUID（支持快速重连）
+    NSMutableDictionary *deviceInfo = [NSMutableDictionary dictionary];
+    deviceInfo[@"name"] = device.deviceName;
+
+    // 如果有 UUID，则保存 UUID（用于快速重连）
+    if (device.peripheralUUID && device.peripheralUUID.length > 0) {
+        deviceInfo[@"uuid"] = device.peripheralUUID;
+        NSLog(@"💾 保存设备信息（含UUID）: %@ [MAC: %@, UUID: %@]",
+              device.deviceName, device.mac, device.peripheralUUID);
+    } else {
+        NSLog(@"💾 保存设备信息（无UUID）: %@ [MAC: %@]",
+              device.deviceName, device.mac);
     }
 
-    // 存储设备
-    dic[device.mac] = device.deviceName;
+    // 存储设备信息
+    dic[device.mac] = deviceInfo;
     [defaults setObject:dic forKey:@"xgzt"];
     [defaults synchronize];
 
@@ -181,14 +193,35 @@
         return nil;
     }
 
-    NSString *name = dic[mac];
-    if (!name) {
+    id deviceData = dic[mac];
+    if (!deviceData) {
         return nil;
     }
 
     WPBluetoothWatchDevice *device = [[WPBluetoothWatchDevice alloc] init];
-    device.deviceName = name;
     device.mac = mac;
+
+    // 🆕 v2.0.5: 兼容旧版本数据格式
+    // 旧版本：只保存设备名（字符串格式）
+    if ([deviceData isKindOfClass:[NSString class]]) {
+        device.deviceName = (NSString *)deviceData;
+        NSLog(@"📱 加载设备信息（旧格式）: %@ [MAC: %@]",
+              device.deviceName, device.mac);
+    }
+    // 新版本：保存设备名和 UUID（字典格式）
+    else if ([deviceData isKindOfClass:[NSDictionary class]]) {
+        NSDictionary *info = (NSDictionary *)deviceData;
+        device.deviceName = info[@"name"];
+        device.peripheralUUID = info[@"uuid"];
+
+        if (device.peripheralUUID && device.peripheralUUID.length > 0) {
+            NSLog(@"📱 加载设备信息（含UUID）: %@ [MAC: %@, UUID: %@]",
+                  device.deviceName, device.mac, device.peripheralUUID);
+        } else {
+            NSLog(@"📱 加载设备信息（无UUID）: %@ [MAC: %@]",
+                  device.deviceName, device.mac);
+        }
+    }
 
     return device;
 }
@@ -201,13 +234,29 @@
         return nil;
     }
 
-    // 遍历查找匹配的设备
+    // 🆕 v2.0.5: 遍历查找匹配的设备（兼容新旧数据格式）
     for (NSString *mac in dic) {
-        NSString *name = dic[mac];
-        if ([name isEqualToString:deviceName]) {
+        id deviceData = dic[mac];
+        NSString *name = nil;
+        NSString *uuid = nil;
+
+        // 旧版本：字符串格式
+        if ([deviceData isKindOfClass:[NSString class]]) {
+            name = (NSString *)deviceData;
+        }
+        // 新版本：字典格式
+        else if ([deviceData isKindOfClass:[NSDictionary class]]) {
+            NSDictionary *info = (NSDictionary *)deviceData;
+            name = info[@"name"];
+            uuid = info[@"uuid"];
+        }
+
+        // 找到匹配的设备名
+        if (name && [name isEqualToString:deviceName]) {
             WPBluetoothWatchDevice *device = [[WPBluetoothWatchDevice alloc] init];
             device.deviceName = name;
             device.mac = mac;
+            device.peripheralUUID = uuid;
             return device;
         }
     }

@@ -45,6 +45,8 @@ FOUNDATION_EXPORT const unsigned char WatchProtocolSDKVersionString[];
 // MARK: - 工具类
 #if __has_include(<WatchProtocolSDK/WPLogger.h>)
     #import <WatchProtocolSDK/WPLogger.h>
+    #import <WatchProtocolSDK/NSData+HexString.h>
 #else
     #import "WPLogger.h"
+    #import "NSData+HexString.h"
 #endif

@@ -82,6 +82,45 @@
 
     // 5. 重新加载已保存的设备
     [[WPDeviceManager sharedInstance] reloadDevices];
+
+    // 🆕 v2.0.2: 6. 尝试自动重连上次连接的设备（延迟1秒等待蓝牙就绪）
+    [self performSelector:@selector(tryAutoReconnect) withObject:nil afterDelay:1.0];
+}
+
+// MARK: - 🆕 v2.0.2: 自动重连示例
+
+/**
+ * 尝试自动重连上次连接的设备
+ * @note 此方法演示了如何在 App 重启后自动重连设备
+ */
+- (void)tryAutoReconnect {
+    // 从 UserDefaults 读取上次连接的设备 MAC 地址
+    NSString *lastConnectedMac = [[NSUserDefaults standardUserDefaults] objectForKey:@"LastConnectedDeviceMac"];
+
+    if (!lastConnectedMac) {
+        NSLog(@"ℹ️ 没有保存的设备信息，跳过自动重连");
+        return;
+    }
+
+    NSLog(@"🔄 尝试自动重连设备: %@", lastConnectedMac);
+
+    // 方式一：从沙盒恢复设备信息并重连（推荐 ⭐️）
+    BOOL success = [[WPBluetoothManager sharedInstance] reconnectFromSandboxWithMac:lastConnectedMac timeout:15.0];
+
+    if (success) {
+        self.statusLabel.text = [NSString stringWithFormat:@"正在自动重连 %@...", lastConnectedMac];
+        NSLog(@"✅ 正在尝试自动重连设备");
+    } else {
+        NSLog(@"⚠️ 沙盒中没有该设备信息，需要手动连接一次");
+        self.statusLabel.text = @"请手动扫描并连接设备";
+    }
+
+    /* 方式二：手动构造设备对象并重连
+    WPBluetoothWatchDevice *device = [[WPBluetoothWatchDevice alloc] init];
+    device.mac = lastConnectedMac;
+    device.deviceName = [[NSUserDefaults standardUserDefaults] objectForKey:@"LastConnectedDeviceName"];
+    [[WPBluetoothManager sharedInstance] reconnectWithDevice:device timeout:15.0];
+    */
 }
 
 - (void)setupUI {
@@ -196,11 +235,19 @@
     dispatch_async(dispatch_get_main_queue(), ^{
         self.statusLabel.text = [NSString stringWithFormat:@"✅ 已连接到 %@", peripheralInfo.peripheral.name ?: @"设备"];
 
-        // 使用工厂方法创建设备对象并保存
+        // 使用工厂方法创建设备对象并保存到沙盒
         self.connectedDevice = [WPBluetoothWatchDevice deviceFromPeripheralInfo:peripheralInfo];
         [WPBluetoothWatchDevice saveToSandbox:self.connectedDevice];
 
-        NSLog(@"✅ 设备连接成功: %@", peripheralInfo.peripheral.name);
+        // 🆕 v2.0.2: 保存 MAC 地址用于下次自动重连
+        [[NSUserDefaults standardUserDefaults] setObject:peripheralInfo.macAddress
+                                                   forKey:@"LastConnectedDeviceMac"];
+        [[NSUserDefaults standardUserDefaults] setObject:peripheralInfo.peripheral.name
+                                                   forKey:@"LastConnectedDeviceName"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+
+        NSLog(@"✅ 设备连接成功: %@ [%@]", peripheralInfo.peripheral.name, peripheralInfo.macAddress);
+        NSLog(@"💾 已保存设备信息，下次启动将自动重连");
 
         // TODO: 可以在这里发送指令获取设备信息
     });
@@ -217,6 +264,24 @@
         }
 
         self.connectedDevice = nil;
+    });
+}
+
+// 🆕 v2.0.2: 扫描超时回调
+- (void)didScanTimeout:(NSString *)macAddress {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self.statusLabel.text = [NSString stringWithFormat:@"⏰ 扫描超时，未找到设备: %@", macAddress];
+        NSLog(@"⏰ 扫描超时，未找到目标设备: %@", macAddress);
+
+        // 可以在这里提示用户：
+        // 1. 检查手表是否开启
+        // 2. 检查手表是否在蓝牙范围内
+        // 3. 尝试重新扫描
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"连接失败"
+                                                                       message:@"未找到目标设备。请确保设备已开启且在蓝牙范围内。"
+                                                                preferredStyle:UIAlertControllerStyleAlert];
+        [alert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:nil]];
+        [self presentViewController:alert animated:YES completion:nil];
     });
 }
 
