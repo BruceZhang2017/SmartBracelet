@@ -70,6 +70,12 @@
 @property (nonatomic, strong) NSTimer *reconnectTimer;
 @property (nonatomic, strong) NSTimer *scanTimer;
 
+// 🆕 v2.0.6: 连接超时定时器
+@property (nonatomic, strong) NSTimer *connectionTimer;
+
+// 🆕 v2.0.6: 正在连接的设备（用于超时回调）
+@property (nonatomic, strong) CBPeripheral *connectingPeripheral;
+
 @end
 
 @implementation WPBluetoothManager
@@ -101,6 +107,9 @@
         _isReconnecting = NO;
         _reconnectAttempts = 0;
         _maxReconnectAttempts = 5; // 默认最大重连次数
+
+        // 🆕 v2.0.6: 初始化连接超时
+        _connectionTimeout = 30.0; // 默认连接超时 30 秒
     }
     return self;
 }
@@ -208,6 +217,9 @@
 
     // 保存映射关系
     [self.peripheralInfoMap setObject:peripheralInfo forKey:peripheralInfo.peripheral.identifier];
+
+    // 🆕 v2.0.6: 启动连接超时定时器
+    [self startConnectionTimerForPeripheral:peripheralInfo.peripheral];
 
     [self.centralManager connectPeripheral:peripheralInfo.peripheral options:nil];
     [self.connectingPeripherals addObject:peripheralInfo.peripheral];
@@ -333,6 +345,85 @@
 
     [[WPLogger sharedInstance] log:@"❌ 发送失败：特征值未找到"];
     return NO;
+}
+
+// MARK: - 🆕 v2.0.6: 连接超时管理
+
+/**
+ * 启动连接超时定时器
+ * @param peripheral 正在连接的设备
+ */
+- (void)startConnectionTimerForPeripheral:(CBPeripheral *)peripheral {
+    // 取消现有定时器
+    [self.connectionTimer invalidate];
+    self.connectionTimer = nil;
+
+    // 保存正在连接的设备
+    self.connectingPeripheral = peripheral;
+
+    // 如果 connectionTimeout <= 0，表示不限时，不启动定时器（不推荐）
+    if (self.connectionTimeout > 0) {
+        self.connectionTimer = [NSTimer scheduledTimerWithTimeInterval:self.connectionTimeout
+                                                                target:self
+                                                              selector:@selector(connectionTimerFired:)
+                                                              userInfo:nil
+                                                               repeats:NO];
+        [[WPLogger sharedInstance] log:[NSString stringWithFormat:
+            @"⏱ 启动连接超时定时器: %.1f 秒 [设备: %@]",
+            self.connectionTimeout, peripheral.name ?: @"未知"]];
+    } else {
+        [[WPLogger sharedInstance] log:@"⚠️ 连接超时已禁用（不推荐）"];
+    }
+}
+
+/**
+ * 取消连接超时定时器
+ */
+- (void)cancelConnectionTimer {
+    if (self.connectionTimer) {
+        [[WPLogger sharedInstance] log:@"✅ 取消连接超时定时器"];
+        [self.connectionTimer invalidate];
+        self.connectionTimer = nil;
+        self.connectingPeripheral = nil;
+    }
+}
+
+/**
+ * 连接超时定时器触发
+ */
+- (void)connectionTimerFired:(NSTimer *)timer {
+    [[WPLogger sharedInstance] log:@"⏰ 连接超时，强制取消连接"];
+
+    // 取消连接
+    if (self.connectingPeripheral) {
+        CBPeripheral *peripheral = self.connectingPeripheral;
+
+        // 调用系统方法取消连接
+        [self.centralManager cancelPeripheralConnection:peripheral];
+
+        // 从连接中列表移除
+        [self.connectingPeripherals removeObject:peripheral];
+
+        // 获取设备信息（用于回调）
+        WPPeripheralInfo *peripheralInfo = [self.peripheralInfoMap objectForKey:peripheral.identifier];
+
+        // 如果没有映射，尝试创建
+        if (!peripheralInfo) {
+            NSString *macAddress = self.currentDevice.mac ?: self.scanMacAddress ?: @"";
+            peripheralInfo = [[WPPeripheralInfo alloc] initWithPeripheral:peripheral
+                                                               macAddress:macAddress];
+        }
+
+        // 通知代理
+        if (peripheralInfo && [self.delegate respondsToSelector:@selector(didConnectionTimeout:)]) {
+            [[WPLogger sharedInstance] log:[NSString stringWithFormat:
+                @"📢 通知代理：连接超时 [设备: %@]", peripheral.name ?: @"未知"]];
+            [self.delegate didConnectionTimeout:peripheralInfo];
+        }
+
+        // 清理状态
+        [self cancelConnectionTimer];
+    }
 }
 
 // MARK: - 重连管理
@@ -463,6 +554,9 @@
     // 保存 peripheral 引用
     self.peripheral = peripheral;
     peripheral.delegate = self;
+
+    // 🆕 v2.0.6: 启动连接超时定时器
+    [self startConnectionTimerForPeripheral:peripheral];
 
     // 🚀 直接连接，无需扫描（这就是快速重连的核心）
     [[WPLogger sharedInstance] log:@"🔗 开始直接连接..."];
@@ -644,6 +738,9 @@
 - (void)centralManager:(CBCentralManager *)central didConnectPeripheral:(CBPeripheral *)peripheral {
     [[WPLogger sharedInstance] log:[NSString stringWithFormat:@"✅ 设备连接成功: %@", peripheral.name]];
 
+    // 🆕 v2.0.6: 连接成功，取消连接超时定时器
+    [self cancelConnectionTimer];
+
     // 🆕 v2.0.3: 连接成功，重置重连标志和计数器
     self.isReconnecting = NO;
     self.isReconnectingNow = NO;
@@ -731,6 +828,10 @@ didFailToConnectPeripheral:(CBPeripheral *)peripheral
                  error:(NSError *)error {
     [[WPLogger sharedInstance] log:[NSString stringWithFormat:@"❌ 连接失败: %@ - %@",
                                    peripheral.name, error.localizedDescription]];
+
+    // 🆕 v2.0.6: 连接失败，取消连接超时定时器
+    [self cancelConnectionTimer];
+
     [self.connectingPeripherals removeObject:peripheral];
 }
 
@@ -738,6 +839,9 @@ didFailToConnectPeripheral:(CBPeripheral *)peripheral
 didDisconnectPeripheral:(CBPeripheral *)peripheral
                  error:(NSError *)error {
     [[WPLogger sharedInstance] log:[NSString stringWithFormat:@"🔌 设备已断开: %@", peripheral.name]];
+
+    // 🆕 v2.0.6: 断开连接，取消连接超时定时器
+    [self cancelConnectionTimer];
 
     // 从映射中获取 WPPeripheralInfo
     WPPeripheralInfo *peripheralInfo = [self.peripheralInfoMap objectForKey:peripheral.identifier];
@@ -875,6 +979,7 @@ didWriteValueForCharacteristic:(CBCharacteristic *)characteristic
 - (void)dealloc {
     [self.reconnectTimer invalidate];
     [self.scanTimer invalidate];
+    [self.connectionTimer invalidate];  // 🆕 v2.0.6: 清理连接超时定时器
 }
 
 @end

@@ -5,6 +5,12 @@
 //  Created by Claude on 2026/01/12.
 //  Copyright © 2026 Huaxin. All rights reserved.
 //
+//  🆕 v2.0.6 更新内容:
+//  - 新增连接超时机制（默认 30 秒），解决设备不在范围时无限等待的问题
+//  - 新增 connectionTimeout 属性，支持自定义连接超时时间
+//  - 新增 didConnectionTimeout: 代理方法，连接超时时主动通知应用层
+//  - 连接超时后自动取消连接，避免资源占用
+//
 //  🆕 v2.0.5 更新内容:
 //  - 新增智能 UUID 快速重连功能（重连速度提升 5-10 倍）
 //  - 新增 reconnectWithUUID: 方法支持直接使用 UUID 重连
@@ -88,6 +94,14 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)didScanTimeout:(NSString *)macAddress;
 
 /**
+ * 🆕 v2.0.6: 连接超时（设备不可达或连接时间过长）
+ * @param peripheralInfo 外设信息
+ * @note 当调用 connectPeripheral: 后，在 connectionTimeout 时间内未连接成功时触发
+ * @note 此回调表示连接已被 SDK 主动取消，应用层可以提示用户"设备不在范围内"或"连接超时"
+ */
+- (void)didConnectionTimeout:(WPPeripheralInfo *)peripheralInfo;
+
+/**
  * 🆕 v2.0.1: 接收到电量数据
  * @param batteryLevel 电量百分比 (0-100)
  * @param isCharging 是否正在充电
@@ -133,6 +147,17 @@ NS_ASSUME_NONNULL_BEGIN
  * - 设置为大于 0 的值时，扫描将在指定时间后自动停止
  */
 @property (nonatomic, assign) NSTimeInterval scanTimeout;
+
+// MARK: - 连接超时时间（秒）
+/**
+ * 连接超时时间（秒）
+ * - 默认值为 30 秒
+ * - 设置为 0 或负数表示不限时（不推荐）
+ * - 建议设置为 10-60 秒之间
+ * @note 此超时仅针对 BLE 连接阶段，不包括扫描阶段（扫描阶段使用 scanTimeout）
+ * @note 🆕 v2.0.6: 解决设备不在范围时无限等待的问题
+ */
+@property (nonatomic, assign) NSTimeInterval connectionTimeout;
 
 // MARK: - 连接状态
 @property (nonatomic, assign, readonly) BOOL isConnected;

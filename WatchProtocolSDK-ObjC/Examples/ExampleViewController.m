@@ -74,6 +74,9 @@
     [[WPBluetoothManager sharedInstance] initCentral];
     [WPBluetoothManager sharedInstance].delegate = self;
 
+    // 🆕 v2.0.6: 配置连接超时（可选，默认 30 秒）
+    [WPBluetoothManager sharedInstance].connectionTimeout = 20.0; // 设置为 20 秒
+
     // 3. 初始化设备列表
     self.discoveredDevices = [NSMutableArray array];
 
@@ -279,6 +282,24 @@
         // 3. 尝试重新扫描
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"连接失败"
                                                                        message:@"未找到目标设备。请确保设备已开启且在蓝牙范围内。"
+                                                                preferredStyle:UIAlertControllerStyleAlert];
+        [alert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:nil]];
+        [self presentViewController:alert animated:YES completion:nil];
+    });
+}
+
+// 🆕 v2.0.6: 连接超时回调
+- (void)didConnectionTimeout:(WPPeripheralInfo *)peripheralInfo {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        NSString *deviceName = peripheralInfo.peripheral.name ?: @"未知设备";
+        NSString *mac = peripheralInfo.macAddress ?: @"";
+
+        self.statusLabel.text = [NSString stringWithFormat:@"⏰ 连接超时: %@ (%@)", deviceName, mac];
+        NSLog(@"⏰ 连接超时，设备可能不在范围内: %@ [MAC: %@]", deviceName, mac);
+
+        // 提示用户设备不在范围内或无法连接
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"连接超时"
+                                                                       message:[NSString stringWithFormat:@"设备 %@ 不在范围内或无法连接。\n\n请确保：\n1. 设备已开机\n2. 设备在蓝牙范围内（约10米内）\n3. 设备未被其他应用连接", deviceName]
                                                                 preferredStyle:UIAlertControllerStyleAlert];
         [alert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:nil]];
         [self presentViewController:alert animated:YES completion:nil];
