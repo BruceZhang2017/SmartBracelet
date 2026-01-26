@@ -4,7 +4,6 @@ import MJRefresh
 import Alamofire
 import Kingfisher
 import Toaster
-import Translation
 
 var isUsrEnglish = false // 是否默认使用英文
 
@@ -24,13 +23,6 @@ class TripleTableViewController: UIViewController {
     var current = 0
     var otaStyle: [OTADictItem] = []
 
-    // 翻译缓存：原文 -> 译文
-    private var translationCache: [String: String] = [:]
-    // 待翻译的文本队列
-    private var pendingTranslations: Set<String> = []
-    // 翻译任务是否正在进行
-    private var isTranslating = false
-    
     // MARK: - 视图生命周期
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -224,9 +216,6 @@ class TripleTableViewController: UIViewController {
                     
                     print("🔄 刷新中间表格视图")
                     if mResponse?.data.otaStyle.count ?? 0 > 0 {
-                        // 清空翻译缓存，因为数据源刷新了
-                        self.translationCache.removeAll()
-
                         let array = mResponse?.data.otaStyle.filter {
                             (item) in
                             if let value = item.value2 {
@@ -387,9 +376,6 @@ class TripleTableViewController: UIViewController {
         guard let types = mResponse?.data.otaType,
               selectedIndex < types.count else { return }
 
-        // 清空翻译缓存，因为数据源改变了
-        translationCache.removeAll()
-
         rightViewModel.type = types[selectedIndex].dictValue ?? ""
         let array = mResponse?.data.otaStyle.filter {
             (item) in
@@ -439,66 +425,6 @@ class TripleTableViewController: UIViewController {
         // 移除通知监听
         NotificationCenter.default.removeObserver(self)
     }
-
-    // MARK: - 翻译相关方法
-
-    /// 批量翻译当前可见的文本（iOS 18+）
-    private func batchTranslateVisibleTexts() {
-        guard #available(iOS 18.0, *) else {
-            return
-        }
-
-        // 收集所有需要翻译的文本
-        var textsToTranslate: [String] = []
-        for item in otaStyle {
-            if let text = item.dictValue ?? item.style {
-                // 跳过已缓存的
-                if translationCache[text] == nil && !pendingTranslations.contains(text) {
-                    textsToTranslate.append(text)
-                    pendingTranslations.insert(text)
-                }
-            }
-        }
-
-        guard !textsToTranslate.isEmpty, !isTranslating else {
-            return
-        }
-
-        isTranslating = true
-
-        // 获取目标语言
-        let targetLanguage = Locale.current.language.languageCode?.identifier ?? "en"
-        guard targetLanguage != "en" else {
-            // 目标语言是英文，无需翻译
-            for text in textsToTranslate {
-                translationCache[text] = text
-            }
-            isTranslating = false
-            pendingTranslations.removeAll()
-            return
-        }
-
-        // 使用辅助类执行翻译
-        Task { @MainActor in
-            let helper = TranslationHelper()
-            let results = await helper.batchTranslate(
-                texts: textsToTranslate,
-                from: "en",
-                to: targetLanguage
-            )
-
-            // 更新缓存
-            for (original, translated) in results {
-                self.translationCache[original] = translated
-                self.pendingTranslations.remove(original)
-            }
-
-            self.isTranslating = false
-
-            // 刷新表格
-            self.middleTableView.reloadData()
-        }
-    }
 }
 
 // MARK: - UITableViewDelegate & UITableViewDataSource
@@ -518,34 +444,11 @@ extension TripleTableViewController: UITableViewDelegate, UITableViewDataSource 
         let cell = tableView.dequeueReusableCell(withIdentifier: "MiddleCell", for: indexPath)
         let styleItem = otaStyle[indexPath.row]
 
-        // 获取原始文本（英文）
-        var originalText: String?
+        // 直接显示原文（英文）
         if let style = styleItem.dictValue {
-            originalText = style
+            cell.textLabel?.text = style
         } else if let style = styleItem.style {
-            originalText = style
-        }
-
-        // 设置文本（优先使用翻译结果，否则使用原文）
-        if let text = originalText {
-            if #available(iOS 18.0, *) {
-                // iOS 18+：使用批量翻译功能
-                if let translatedText = translationCache[text] {
-                    // 如果有翻译缓存，使用翻译结果
-                    cell.textLabel?.text = translatedText
-                } else {
-                    // 否则先显示原文
-                    cell.textLabel?.text = text
-
-                    // 触发批量翻译（只在第一次显示第一个 cell 时触发）
-                    if indexPath.row == 0 && !isTranslating && translationCache.isEmpty {
-                        batchTranslateVisibleTexts()
-                    }
-                }
-            } else {
-                // iOS 18 以下，直接显示原文
-                cell.textLabel?.text = text
-            }
+            cell.textLabel?.text = style
         }
 
         cell.textLabel?.textAlignment = .left
@@ -1244,99 +1147,5 @@ class LanguageManager {
         case estonian               // 爱沙尼亚语
         case icelandic              // 冰岛语
         case ukrainian              // 乌克兰语
-    }
-}
-
-// MARK: - Translation Helper (iOS 18+)
-@available(iOS 18.0, *)
-class TranslationHelper {
-    /// 批量翻译文本
-    /// - Parameters:
-    ///   - texts: 要翻译的文本数组
-    ///   - sourceLanguage: 源语言代码（如 "en"）
-    ///   - targetLanguage: 目标语言代码（如 "zh-Hans"）
-    /// - Returns: 字典，key 为原文，value 为译文
-    func batchTranslate(texts: [String], from sourceLanguage: String, to targetLanguage: String) async -> [String: String] {
-        return await withCheckedContinuation { continuation in
-            // 创建一个 SwiftUI 环境来执行翻译
-            let view = TranslationView(
-                texts: texts,
-                sourceLanguage: sourceLanguage,
-                targetLanguage: targetLanguage
-            ) { results in
-                continuation.resume(returning: results)
-            }
-
-            // 使用 UIHostingController 临时托管这个 View
-            // 注意：这个 controller 不需要显示，只是用来触发 SwiftUI 的生命周期
-            let hostingController = UIHostingController(rootView: view)
-
-            // 将 controller 添加到 window（但不显示）
-            if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-               let window = windowScene.windows.first {
-                hostingController.view.frame = .zero
-                hostingController.view.isHidden = true
-                window.addSubview(hostingController.view)
-
-                // 延迟移除（给翻译任务足够的时间执行）
-                DispatchQueue.main.asyncAfter(deadline: .now() + 10) {
-                    hostingController.view.removeFromSuperview()
-                }
-            }
-        }
-    }
-}
-
-// MARK: - SwiftUI Translation View (iOS 18+)
-@available(iOS 18.0, *)
-private struct TranslationView: View {
-    let texts: [String]
-    let sourceLanguage: String
-    let targetLanguage: String
-    let completion: ([String: String]) -> Void
-
-    @State private var configuration: TranslationSession.Configuration?
-    @State private var hasCompleted = false
-
-    var body: some View {
-        Color.clear
-            .onAppear {
-                // 触发翻译
-                configuration = TranslationSession.Configuration(
-                    source: Locale.Language(identifier: sourceLanguage),
-                    target: Locale.Language(identifier: targetLanguage)
-                )
-            }
-            .translationTask(configuration) { session in
-                guard !hasCompleted else { return }
-
-                do {
-                    // 构造批量请求
-                    let requests = texts.map { TranslationSession.Request(sourceText: $0) }
-
-                    // 执行批量翻译
-                    let responses = try await session.translations(from: requests)
-
-                    // 构建结果字典
-                    var results: [String: String] = [:]
-                    for (index, request) in requests.enumerated() {
-                        if index < responses.count {
-                            results[request.sourceText] = responses[index].targetText
-                        }
-                    }
-
-                    hasCompleted = true
-                    completion(results)
-                } catch {
-                    print("批量翻译失败: \(error.localizedDescription)")
-                    // 失败时返回原文
-                    var results: [String: String] = [:]
-                    for text in texts {
-                        results[text] = text
-                    }
-                    hasCompleted = true
-                    completion(results)
-                }
-            }
     }
 }
