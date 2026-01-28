@@ -10,11 +10,15 @@
 		</data>
 		<key>Headers/WPBluetoothManager.h</key>
 		<data>
-		KShTk30wkEBJzfNjc3qFV31nrsI=
+		LEvWeNGNQRBMttXX2bN+deqXMsU=
+		</data>
+		<key>Headers/WPCommands+FindDevice.h</key>
+		<data>
+		ORybHmq9MMGiBEGDoxmEehfDUtY=
 		</data>
 		<key>Headers/WPCommands.h</key>
 		<data>
-		ZtXW7cekvYrSC4MpvUoS7OTaDH0=
+		aPmNWeicf0F+7gUpWcIBJ1A/z3Y=
 		</data>
 		<key>Headers/WPDeviceManager.h</key>
 		<data>
@@ -42,11 +46,11 @@
 		</data>
 		<key>Headers/WatchProtocolSDK.h</key>
 		<data>
-		V2bvyihydFvDAECAvS9nshU3+cY=
+		Ms/Rwd47dXo+anzH/x0PnlrjsjM=
 		</data>
 		<key>Info.plist</key>
 		<data>
-		07kIvOTd3oPhIm2vgxK5FDL5oaI=
+		selDfGvP7mzzsjMQ2WEbJPuNrd0=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -66,14 +70,21 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			vXnqtluwFGi9RV8qIVEK6JyYfc4fNw5pvY4a6ED10TE=
+			MX/jYTZMAYB7XSpOV9LvvNbtROCZZQCTmWPcccdFbyk=
+			</data>
+		</dict>
+		<key>Headers/WPCommands+FindDevice.h</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			RoH68ErPXWjogp3xUb0WEi0z9Jw4ycLFjmUg67HfAoQ=
 			</data>
 		</dict>
 		<key>Headers/WPCommands.h</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			c6gU7e3IvIWe7xWv6Hb4zCRKQEshdHXgMWUdhTxo8+o=
+			EqRV+CtI07IXfEpNEDkWO41UCVGPitiC4OcfrW8EEC0=
 			</data>
 		</dict>
 		<key>Headers/WPDeviceManager.h</key>
@@ -122,7 +133,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			0NmNHSKjrSGHkG/5wXN2qx+hWoBUUo5+s+jwvE1klh8=
+			WOTfqfpInNXFqY7qSBLOUGwduYXmRX5Nq2y3PzOJ/hc=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>

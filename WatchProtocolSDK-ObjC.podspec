@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'WatchProtocolSDK-ObjC'
-  s.version          = '1.0.0'
+  s.version          = '2.0.8'
   s.summary          = 'An Objective-C SDK for watch device protocol communication and health data management.'
   s.description      = <<-DESC
                        WatchProtocolSDK-ObjC provides a comprehensive solution for communicating with smart watch devices via Bluetooth.

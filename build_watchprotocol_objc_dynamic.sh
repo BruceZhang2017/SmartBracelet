@@ -22,7 +22,7 @@ SDK_NAME="WatchProtocolSDK"
 SDK_SOURCE_DIR="$PROJECT_DIR/WatchProtocolSDK-ObjC"
 BUILD_DIR="$PROJECT_DIR/build/WatchProtocolSDK-ObjC-Dynamic"
 OUTPUT_DIR="$PROJECT_DIR/Output-ObjC-Dynamic"
-SDK_VERSION="2.0.6"
+SDK_VERSION="2.0.7"
 
 # 清理
 echo -e "${GREEN}🧹 清理旧的构建文件...${NC}"

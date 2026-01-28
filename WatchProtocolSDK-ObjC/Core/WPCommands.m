@@ -8,7 +8,7 @@
 
 #import "WPCommands.h"
 #import "WPBluetoothManager.h"
-#import "WPDeviceModel.h"
+#import "../Models/WPDeviceModel.h"
 #import "WPLogger.h"
 
 // MARK: - 响应数据结构实现
@@ -20,6 +20,12 @@
 @end
 
 @implementation WPHeartRateResponse
+@end
+
+@implementation WPReminderInfoResponse
+@end
+
+@implementation WPContactData
 @end
 
 // MARK: - WPCommands 实现
@@ -291,6 +297,869 @@ static id _healthDataStorage = nil;
 
     [[WPLogger sharedInstance] log:@"🔌 发送断开蓝牙指令"];
     [self sendCommand:command];
+}
+
+// MARK: - 基础设备控制指令实现
+
++ (void)getDeviceLanguage {
+    NSData *command = [self createCommandWithBytes:@[
+        @(0x00),
+        @(WPCommandTypeGetDeviceLanguage),
+        @(0x01),
+        @(0x00),
+        @(0x02),
+        @(0x00)
+    ]];
+
+    [[WPLogger sharedInstance] log:@"🌐 发送查询设备语言指令"];
+    [self sendCommand:command];
+}
+
++ (void)setDeviceLanguage:(NSInteger)language {
+    NSData *command = [self createCommandWithBytes:@[
+        @(0x00),
+        @(WPCommandTypeGetDeviceLanguage),
+        @(0x01),
+        @(0x00),
+        @(0x02),
+        @(0x01),
+        @((uint8_t)language)
+    ]];
+
+    [[WPLogger sharedInstance] log:[NSString stringWithFormat:@"🌐 发送设置设备语言指令 - 语言:%ld", (long)language]];
+    [self sendCommand:command];
+}
+
++ (void)getDeviceUnitFormat {
+    NSData *command = [self createCommandWithBytes:@[
+        @(0x00),
+        @(WPCommandTypeSetDeviceUnitFormat),
+        @(0x01),
+        @(0x00),
+        @(0x01),
+        @(0x00)
+    ]];
+
+    [[WPLogger sharedInstance] log:@"📏 发送获取设备单位格式指令"];
+    [self sendCommand:command];
+}
+
++ (void)setDeviceUnitFormat:(NSInteger)unitType {
+    NSData *command = [self createCommandWithBytes:@[
+        @(0x00),
+        @(WPCommandTypeSetDeviceUnitFormat),
+        @(0x01),
+        @(0x00),
+        @(0x02),
+        @(0x01),
+        @((uint8_t)unitType)
+    ]];
+
+    [[WPLogger sharedInstance] log:[NSString stringWithFormat:@"📏 发送设置设备单位格式指令 - 单位:%ld", (long)unitType]];
+    [self sendCommand:command];
+}
+
++ (void)resetToFactorySettings {
+    NSData *command = [self createCommandWithBytes:@[
+        @(0x00),
+        @(WPCommandTypeResetToFactorySettings),
+        @(0x01),
+        @(0x00),
+        @(0x01),
+        @(0x00)
+    ]];
+
+    [[WPLogger sharedInstance] log:@"🔄 发送恢复出厂设置指令"];
+    [self sendCommand:command];
+}
+
++ (void)setDeviceScreenTimeout:(NSInteger)screenTimeout {
+    NSData *command = [self createCommandWithBytes:@[
+        @(0x00),
+        @(WPCommandTypeSetDeviceScreenTimeout),
+        @(0x01),
+        @(0x00),
+        @(0x05),
+        @(0x01),
+        @((uint8_t)((screenTimeout >> 24) & 0xFF)),
+        @((uint8_t)((screenTimeout >> 16) & 0xFF)),
+        @((uint8_t)((screenTimeout >> 8) & 0xFF)),
+        @((uint8_t)(screenTimeout & 0xFF))
+    ]];
+
+    [[WPLogger sharedInstance] log:[NSString stringWithFormat:@"⏱ 发送设置屏幕超时指令 - 超时:%ld", (long)screenTimeout]];
+    [self sendCommand:command];
+}
+
++ (void)getDoNotDisturb {
+    NSData *command = [self createCommandWithBytes:@[
+        @(0x00),
+        @(WPCommandTypeSetDoNotDisturb),
+        @(0x01),
+        @(0x00),
+        @(0x01),
+        @(0x00)
+    ]];
+
+    [[WPLogger sharedInstance] log:@"🌙 发送获取勿扰模式指令"];
+    [self sendCommand:command];
+}
+
++ (void)setDoNotDisturb:(BOOL)bSwitch
+              startHour:(NSInteger)startHour
+            startMinute:(NSInteger)startMinute
+                endHour:(NSInteger)endHour
+              endMinute:(NSInteger)endMinute {
+    NSData *command = [self createCommandWithBytes:@[
+        @(0x00),
+        @(WPCommandTypeSetDoNotDisturb),
+        @(0x01),
+        @(0x00),
+        @(0x06),
+        @(0x01),
+        @(bSwitch ? 0x01 : 0x00),
+        @((uint8_t)startHour),
+        @((uint8_t)startMinute),
+        @((uint8_t)endHour),
+        @((uint8_t)endMinute)
+    ]];
+
+    [[WPLogger sharedInstance] log:[NSString stringWithFormat:@"🌙 发送设置勿扰模式指令 - 开关:%@ 时间:%ld:%02ld-%ld:%02ld",
+                                   bSwitch ? @"开" : @"关", (long)startHour, (long)startMinute, (long)endHour, (long)endMinute]];
+    [self sendCommand:command];
+}
+
++ (void)setWeatherUnit:(NSInteger)unit {
+    NSData *command = [self createCommandWithBytes:@[
+        @(0x00),
+        @(WPCommandTypeSetWeatherUnit),
+        @(0x01),
+        @(0x00),
+        @(0x02),
+        @(0x01),
+        @((uint8_t)unit)
+    ]];
+
+    [[WPLogger sharedInstance] log:[NSString stringWithFormat:@"🌤 发送设置天气单位指令 - 单位:%ld", (long)unit]];
+    [self sendCommand:command];
+}
+
++ (void)get12H24HTimeFormat {
+    NSData *command = [self createCommandWithBytes:@[
+        @(0x00),
+        @(WPCommandTypeSet12H24HTimeFormat),
+        @(0x01),
+        @(0x00),
+        @(0x01),
+        @(0x00)
+    ]];
+
+    [[WPLogger sharedInstance] log:@"🕐 发送获取时间格式指令"];
+    [self sendCommand:command];
+}
+
++ (void)set12H24HTimeFormat:(NSInteger)format {
+    NSData *command = [self createCommandWithBytes:@[
+        @(0x00),
+        @(WPCommandTypeSet12H24HTimeFormat),
+        @(0x01),
+        @(0x00),
+        @(0x02),
+        @(0x01),
+        @((uint8_t)format)
+    ]];
+
+    [[WPLogger sharedInstance] log:[NSString stringWithFormat:@"🕐 发送设置时间格式指令 - 格式:%@", format == 0 ? @"12小时制" : @"24小时制"]];
+    [self sendCommand:command];
+}
+
++ (void)setAppInfo:(NSInteger)phoneType {
+    NSData *command = [self createCommandWithBytes:@[
+        @(0x00),
+        @(WPCommandTypeSetAppInfo),
+        @(0x01),
+        @(0x00),
+        @(0x03),
+        @(0x01),
+        @(0x00),
+        @((uint8_t)phoneType)
+    ]];
+
+    [[WPLogger sharedInstance] log:[NSString stringWithFormat:@"📱 发送设置APP信息指令 - 手机类型:%@", phoneType == 0 ? @"Android" : @"iOS"]];
+    [self sendCommand:command];
+}
+
+// MARK: - 个人信息指令实现
+
++ (void)getPersonalInfo {
+    NSData *command = [self createCommandWithBytes:@[
+        @(0x00),
+        @(WPCommandTypePersonalInfo),
+        @(0x01),
+        @(0x00),
+        @(0x01),
+        @(0x00)
+    ]];
+
+    [[WPLogger sharedInstance] log:@"👤 发送获取个人信息指令"];
+    [self sendCommand:command];
+}
+
+// MARK: - 开关与设置指令实现
+
++ (void)getSwitchStatus {
+    NSData *command = [self createCommandWithBytes:@[
+        @(0x00),
+        @(WPCommandTypeSwitchStatus),
+        @(0x01),
+        @(0x00),
+        @(0x01),
+        @(0x00)
+    ]];
+
+    [[WPLogger sharedInstance] log:@"🔀 发送获取开关状态指令"];
+    [self sendCommand:command];
+}
+
++ (void)setSwitchStatus:(uint8_t)p0 p1:(uint8_t)p1 {
+    NSData *command = [self createCommandWithBytes:@[
+        @(0x00),
+        @(WPCommandTypeSwitchStatus),
+        @(0x01),
+        @(0x00),
+        @(0x05),
+        @(0x01),
+        @(p0),
+        @(p1),
+        @(0x00),
+        @(0x00)
+    ]];
+
+    [[WPLogger sharedInstance] log:[NSString stringWithFormat:@"🔀 发送设置开关状态指令 - P0:0x%02X P1:0x%02X", p0, p1]];
+    [self sendCommand:command];
+}
+
++ (void)bindDevice:(uint8_t)value {
+    NSData *command = [self createCommandWithBytes:@[
+        @(0x00),
+        @(WPCommandTypeBindDevice),
+        @(0x01),
+        @(0x00),
+        @(0x02),
+        @(0x01),
+        @(value)
+    ]];
+
+    [[WPLogger sharedInstance] log:[NSString stringWithFormat:@"🔗 发送绑定设备指令 - 值:%@", value == 1 ? @"绑定" : @"解绑"]];
+    [self sendCommand:command];
+}
+
++ (void)getAlarmInfo:(NSInteger)type {
+    NSData *command = [self createCommandWithBytes:@[
+        @(0x00),
+        @(WPCommandTypeAlarmInfo),
+        @(0x01),
+        @(0x00),
+        @(0x02),
+        @(0x00),
+        @((uint8_t)type)
+    ]];
+
+    [[WPLogger sharedInstance] log:[NSString stringWithFormat:@"⏰ 发送获取闹钟信息指令 - 类型:%ld", (long)type]];
+    [self sendCommand:command];
+}
+
++ (void)setAlarmInfo:(NSInteger)setCmd alarm:(WPAlarmData *)alarm {
+    // 映射 WPDeviceModel.h 中的 WPAlarmData 属性到协议字段
+    // alarmId -> alarmIndex
+    // enabled -> switchOn (0或1)
+    // hour -> alarmHour
+    // minute -> alarmMinute
+    // repeatDays -> alarmCycle
+
+    NSData *command = [self createCommandWithBytes:@[
+        @(0x00),
+        @(WPCommandTypeAlarmInfo),
+        @(0x01),
+        @(0x00),
+        @(0x09),
+        @(0x01),
+        @((uint8_t)setCmd),
+        @((uint8_t)alarm.alarmId),        // alarmIndex
+        @(alarm.enabled ? 0x01 : 0x00),    // switchOn
+        @((uint8_t)alarm.repeatDays),      // alarmCycle
+        @((uint8_t)alarm.hour),            // alarmHour
+        @((uint8_t)alarm.minute),          // alarmMinute
+        @(0x01),                            // vibrationMode (默认值)
+        @(0x00)                             // remindLater (默认值)
+    ]];
+
+    [[WPLogger sharedInstance] log:[NSString stringWithFormat:@"⏰ 发送设置闹钟信息指令 - ID:%ld 时间:%02ld:%02ld 启用:%@",
+                                   (long)alarm.alarmId, (long)alarm.hour, (long)alarm.minute, alarm.enabled ? @"是" : @"否"]];
+    [self sendCommand:command];
+}
+
++ (void)getReminderInfo:(NSInteger)eventType {
+    NSData *command = [self createCommandWithBytes:@[
+        @(0x00),
+        @(WPCommandTypeReminderInfo),
+        @(0x01),
+        @(0x00),
+        @(0x02),
+        @(0x00),
+        @((uint8_t)eventType)
+    ]];
+
+    [[WPLogger sharedInstance] log:[NSString stringWithFormat:@"📌 发送获取提醒信息指令 - 事件类型:%ld", (long)eventType]];
+    [self sendCommand:command];
+}
+
++ (void)setReminderInfo:(WPReminderInfoResponse *)response {
+    NSData *command = [self createCommandWithBytes:@[
+        @(0x00),
+        @(WPCommandTypeReminderInfo),
+        @(0x01),
+        @(0x00),
+        @(0x08),
+        @(0x01),
+        @((uint8_t)response.eventType),
+        @((uint8_t)response.cycle),
+        @((uint8_t)response.startHour),
+        @((uint8_t)response.startMinute),
+        @((uint8_t)response.endHour),
+        @((uint8_t)response.endMinute),
+        @((uint8_t)response.period)
+    ]];
+
+    [[WPLogger sharedInstance] log:[NSString stringWithFormat:@"📌 发送设置提醒信息指令 - 事件类型:%ld", (long)response.eventType]];
+    [self sendCommand:command];
+}
+
++ (void)getSwitchTableExtension {
+    NSData *command = [self createCommandWithBytes:@[
+        @(0x00),
+        @(WPCommandTypeSwitchTableExtension),
+        @(0x01),
+        @(0x00),
+        @(0x02),
+        @(0x00),
+        @(0x00)
+    ]];
+
+    [[WPLogger sharedInstance] log:@"📊 发送获取开关表扩展指令"];
+    [self sendCommand:command];
+}
+
++ (void)setSwitchTableExtension:(uint8_t)p0 p1:(uint8_t)p1 p2:(uint8_t)p2 p3:(uint8_t)p3 {
+    NSData *command = [self createCommandWithBytes:@[
+        @(0x00),
+        @(WPCommandTypeSwitchTableExtension),
+        @(0x01),
+        @(0x00),
+        @(0x06),
+        @(0x01),
+        @(0x00),
+        @(p0),
+        @(p1),
+        @(p2),
+        @(p3)
+    ]];
+
+    [[WPLogger sharedInstance] log:[NSString stringWithFormat:@"📊 发送设置开关表扩展指令 - P0:0x%02X P1:0x%02X P2:0x%02X P3:0x%02X",
+                                   p0, p1, p2, p3]];
+    [self sendCommand:command];
+}
+
+// MARK: - 多媒体控制指令实现
+
++ (void)musicControl:(NSInteger)action dataType:(NSInteger)dataType {
+    NSData *command = [self createCommandWithBytes:@[
+        @(0x00),
+        @(WPCommandTypeMusicControl),
+        @(0x01),
+        @(0x00),
+        @(0x02),
+        @((uint8_t)action),
+        @((uint8_t)dataType)
+    ]];
+
+    [[WPLogger sharedInstance] log:[NSString stringWithFormat:@"🎵 发送音乐控制指令 - 操作:%ld 类型:%ld", (long)action, (long)dataType]];
+    [self sendCommand:command];
+}
+
++ (void)remotePhoto:(NSInteger)action {
+    NSData *command = [self createCommandWithBytes:@[
+        @(0x00),
+        @(WPCommandTypeRemotePhoto),
+        @(0x01),
+        @(0x00),
+        @(0x02),
+        @(0x01),
+        @((uint8_t)action)
+    ]];
+
+    [[WPLogger sharedInstance] log:[NSString stringWithFormat:@"📷 发送远程拍照指令 - 操作:%ld", (long)action]];
+    [self sendCommand:command];
+}
+
+// MARK: - 通知与天气指令实现
+
++ (void)messagePush:(NSInteger)action
+            control:(NSInteger)control
+        messageType:(NSInteger)messageType
+     messageContent:(NSData *)messageContent {
+    NSMutableArray *commandBytes = [NSMutableArray arrayWithArray:@[
+        @(0x00),
+        @(WPCommandTypeMessagePush),
+        @(0x01),
+        @(0x00),
+        @((uint8_t)(6 + messageContent.length)),
+        @((uint8_t)action),
+        @((uint8_t)control),
+        @((uint8_t)messageType)
+    ]];
+
+    const uint8_t *bytes = (const uint8_t *)messageContent.bytes;
+    for (NSUInteger i = 0; i < messageContent.length; i++) {
+        [commandBytes addObject:@(bytes[i])];
+    }
+
+    NSData *command = [self createCommandWithBytes:commandBytes];
+
+    [[WPLogger sharedInstance] log:[NSString stringWithFormat:@"💬 发送消息推送指令 - 类型:%ld 长度:%lu",
+                                   (long)messageType, (unsigned long)messageContent.length]];
+    [self sendCommand:command];
+}
+
++ (void)setWeatherInfo:(NSInteger)dateType
+           weatherType:(NSInteger)weatherType
+              currTemp:(NSInteger)currTemp
+                 lTemp:(NSInteger)lTemp
+                 hTemp:(NSInteger)hTemp
+                   cmd:(NSInteger)cmd {
+    NSData *command = [self createCommandWithBytes:@[
+        @(0x00),
+        @(WPCommandTypeSetWeatherInfo),
+        @(0x01),
+        @(0x00),
+        @(14),
+        @((uint8_t)cmd),
+        @((uint8_t)dateType),
+        @(0x00),
+        @(0x01),
+        @((uint8_t)weatherType),
+        @(0x01),
+        @(0x01),
+        @((uint8_t)currTemp),
+        @(0x02),
+        @(0x01),
+        @((uint8_t)lTemp),
+        @(0x03),
+        @(0x01),
+        @((uint8_t)hTemp)
+    ]];
+
+    [[WPLogger sharedInstance] log:[NSString stringWithFormat:@"🌤 发送设置天气信息指令 - 天气:%ld 温度:%ld/%ld/%ld",
+                                   (long)weatherType, (long)currTemp, (long)lTemp, (long)hTemp]];
+    [self sendCommand:command];
+}
+
++ (void)getContactInfo {
+    NSData *command = [self createCommandWithBytes:@[
+        @(0x00),
+        @(WPCommandTypeContactInfo),
+        @(0x01),
+        @(0x00),
+        @(0x02),
+        @(0x01),
+        @(0x03)
+    ]];
+
+    [[WPLogger sharedInstance] log:@"📞 发送获取联系人信息指令"];
+    [self sendCommand:command];
+}
+
++ (void)setContactInfo:(NSInteger)index name:(NSString *)name phoneNumber:(NSString *)phoneNumber {
+    NSData *nameData = [name dataUsingEncoding:NSUTF8StringEncoding];
+    NSString *cleanedNumber = [phoneNumber stringByReplacingOccurrencesOfString:@" " withString:@""];
+    cleanedNumber = [cleanedNumber stringByReplacingOccurrencesOfString:@"-" withString:@""];
+    cleanedNumber = [cleanedNumber stringByReplacingOccurrencesOfString:@"(" withString:@""];
+    cleanedNumber = [cleanedNumber stringByReplacingOccurrencesOfString:@")" withString:@""];
+    cleanedNumber = [cleanedNumber stringByReplacingOccurrencesOfString:@"." withString:@""];
+
+    NSData *phoneData = [self phoneNumberToBytes:cleanedNumber];
+
+    NSMutableArray *commandBytes = [NSMutableArray arrayWithArray:@[
+        @(0x00),
+        @(WPCommandTypeContactInfo),
+        @(0x01),
+        @(0x00),
+        @((uint8_t)(5 + nameData.length + phoneData.length)),
+        @(0x01),
+        @(0x00),
+        @((uint8_t)index),
+        @((uint8_t)nameData.length)
+    ]];
+
+    const uint8_t *nameBytes = (const uint8_t *)nameData.bytes;
+    for (NSUInteger i = 0; i < nameData.length; i++) {
+        [commandBytes addObject:@(nameBytes[i])];
+    }
+
+    [commandBytes addObject:@((uint8_t)cleanedNumber.length)];
+
+    const uint8_t *phoneBytes = (const uint8_t *)phoneData.bytes;
+    for (NSUInteger i = 0; i < phoneData.length; i++) {
+        [commandBytes addObject:@(phoneBytes[i])];
+    }
+
+    NSData *command = [self createCommandWithBytes:commandBytes];
+
+    [[WPLogger sharedInstance] log:[NSString stringWithFormat:@"📞 发送设置联系人信息指令 - 索引:%ld 姓名:%@",
+                                   (long)index, name]];
+    [self sendCommand:command];
+}
+
++ (void)incomingCallMute:(NSInteger)mute {
+    NSData *command = [self createCommandWithBytes:@[
+        @(0x00),
+        @(WPCommandTypeIncomingCallMute),
+        @(0x01),
+        @(0x00),
+        @(0x02),
+        @((uint8_t)mute)
+    ]];
+
+    [[WPLogger sharedInstance] log:[NSString stringWithFormat:@"🔇 发送来电静音指令 - 静音:%@", mute ? @"是" : @"否"]];
+    [self sendCommand:command];
+}
+
+// MARK: - 健康数据指令（扩展）实现
+
++ (void)getTargetSettings {
+    NSData *command = [self createCommandWithBytes:@[
+        @(0x00),
+        @(WPCommandTypeTargetSettings),
+        @(0x01),
+        @(0x00),
+        @(0x01),
+        @(0x00)
+    ]];
+
+    [[WPLogger sharedInstance] log:@"🎯 发送获取目标设置指令"];
+    [self sendCommand:command];
+}
+
++ (void)setTargetSettings:(NSInteger)targetSwitch
+               targetType:(NSInteger)targetType
+             targetLength:(NSInteger)targetLength {
+    NSData *command = [self createCommandWithBytes:@[
+        @(0x00),
+        @(WPCommandTypeTargetSettings),
+        @(0x01),
+        @(0x00),
+        @(0x06),
+        @((uint8_t)targetSwitch),
+        @((uint8_t)targetType),
+        @((uint8_t)targetLength)
+    ]];
+
+    [[WPLogger sharedInstance] log:[NSString stringWithFormat:@"🎯 发送设置目标设置指令 - 开关:%ld 类型:%ld",
+                                   (long)targetSwitch, (long)targetType]];
+    [self sendCommand:command];
+}
+
++ (void)getMultiSportModeData {
+    NSData *command = [self createCommandWithBytes:@[
+        @(0x00),
+        @(WPCommandTypeMultiSportModeData),
+        @(0x01),
+        @(0x00),
+        @(0x01),
+        @(0x00)
+    ]];
+
+    [[WPLogger sharedInstance] log:@"🏃 发送获取多运动模式数据指令"];
+    [self sendCommand:command];
+}
+
++ (void)deleteSportModeData {
+    NSData *command = [self createCommandWithBytes:@[
+        @(0x00),
+        @(WPCommandTypeMultiSportModeData),
+        @(0x01),
+        @(0x00),
+        @(0x01),
+        @(0x01)
+    ]];
+
+    [[WPLogger sharedInstance] log:@"🗑 发送删除运动模式数据指令"];
+    [self sendCommand:command];
+}
+
++ (void)getSleepMonitoring {
+    NSData *command = [self createCommandWithBytes:@[
+        @(0x00),
+        @(WPCommandTypeGetSleepMonitoring),
+        @(0x01),
+        @(0x00),
+        @(0x01),
+        @(0x01)
+    ]];
+
+    [[WPLogger sharedInstance] log:@"😴 发送获取睡眠监测指令"];
+    [self sendCommand:command];
+}
+
++ (void)setAutoSleepMonitoring:(NSInteger)startHour
+                   startMinute:(NSInteger)startMinute
+                       endHour:(NSInteger)endHour
+                     endMinute:(NSInteger)endMinute
+                    alarmCycle:(NSInteger)alarmCycle {
+    NSData *command = [self createCommandWithBytes:@[
+        @(0x00),
+        @(WPCommandTypeSetAutoSleepMonitoring),
+        @(0x01),
+        @(0x00),
+        @(0x07),
+        @((uint8_t)startHour),
+        @((uint8_t)startMinute),
+        @((uint8_t)endHour),
+        @((uint8_t)endMinute),
+        @((uint8_t)alarmCycle)
+    ]];
+
+    [[WPLogger sharedInstance] log:[NSString stringWithFormat:@"😴 发送设置自动睡眠监测指令 - 时间:%ld:%02ld-%ld:%02ld",
+                                   (long)startHour, (long)startMinute, (long)endHour, (long)endMinute]];
+    [self sendCommand:command];
+}
+
+// MARK: - 表盘与资源指令实现
+
++ (void)dialMarketQuery:(NSInteger)dataType {
+    NSData *command = [self createCommandWithBytes:@[
+        @(0x00),
+        @(WPCommandTypeDialMarket),
+        @(0x01),
+        @(0x00),
+        @(0x02),
+        @(0x00),
+        @((uint8_t)dataType)
+    ]];
+
+    [[WPLogger sharedInstance] log:[NSString stringWithFormat:@"⌚️ 发送表盘市场查询指令 - 类型:%ld", (long)dataType]];
+    [self sendCommand:command];
+}
+
++ (void)dialMarketSetTransferConfig:(NSInteger)packageTotal
+                            binSize:(NSInteger)binSize
+                                mtu:(NSInteger)mtu
+                           dialType:(NSInteger)dialType
+                            dialNum:(NSInteger)dialNum
+                              local:(NSInteger)local
+                          typeValue:(NSInteger)typeValue
+                      dialTypeValue:(NSInteger)dialTypeValue {
+    NSData *command = [self createCommandWithBytes:@[
+        @(0x00),
+        @(WPCommandTypeDialMarket),
+        @(0x01),
+        @(0x00),
+        @(0x10),
+        @(0x01),
+        @((uint8_t)(packageTotal & 0xFF)),
+        @((uint8_t)((packageTotal >> 8) & 0xFF)),
+        @((uint8_t)(binSize & 0xFF)),
+        @((uint8_t)((binSize >> 8) & 0xFF)),
+        @((uint8_t)((binSize >> 16) & 0xFF)),
+        @((uint8_t)((binSize >> 24) & 0xFF)),
+        @((uint8_t)(mtu & 0xFF)),
+        @((uint8_t)((mtu >> 8) & 0xFF)),
+        @((uint8_t)dialType),
+        @((uint8_t)dialNum),
+        @((uint8_t)local),
+        @((uint8_t)typeValue),
+        @((uint8_t)((dialTypeValue >> 16) & 0xFF)),
+        @((uint8_t)((dialTypeValue >> 8) & 0xFF)),
+        @((uint8_t)(dialTypeValue & 0xFF))
+    ]];
+
+    [[WPLogger sharedInstance] log:[NSString stringWithFormat:@"⌚️ 发送表盘市场传输配置指令 - 总包数:%ld 大小:%ld",
+                                   (long)packageTotal, (long)binSize]];
+    [self sendCommand:command];
+}
+
++ (void)dialMarketTransferData:(NSInteger)packageNum
+                        binNum:(NSInteger)binNum
+                   progressBar:(NSInteger)progressBar
+                       control:(NSInteger)control
+                          data:(NSData *)data {
+    NSMutableArray *commandBytes = [NSMutableArray arrayWithArray:@[
+        @(0x00),
+        @(WPCommandTypeDialMarket),
+        @(0x01),
+        @(0x00),
+        @((uint8_t)(11 + data.length)),
+        @(0x02),
+        @((uint8_t)(packageNum & 0xFF)),
+        @((uint8_t)((packageNum >> 8) & 0xFF)),
+        @((uint8_t)(binNum & 0xFF)),
+        @((uint8_t)((binNum >> 8) & 0xFF)),
+        @((uint8_t)((binNum >> 16) & 0xFF)),
+        @((uint8_t)((binNum >> 24) & 0xFF)),
+        @((uint8_t)progressBar),
+        @((uint8_t)control)
+    ]];
+
+    // 计算校验码
+    NSInteger checkCode = 0;
+    for (NSNumber *num in commandBytes) {
+        checkCode += [num unsignedCharValue];
+    }
+    const uint8_t *bytes = (const uint8_t *)data.bytes;
+    for (NSUInteger i = 0; i < data.length; i++) {
+        checkCode += bytes[i];
+    }
+
+    [commandBytes addObject:@((uint8_t)(checkCode & 0xFF))];
+    [commandBytes addObject:@((uint8_t)((checkCode >> 8) & 0xFF))];
+
+    for (NSUInteger i = 0; i < data.length; i++) {
+        [commandBytes addObject:@(bytes[i])];
+    }
+
+    NSData *command = [self createCommandWithBytes:commandBytes];
+
+    [[WPLogger sharedInstance] log:[NSString stringWithFormat:@"⌚️ 发送表盘市场数据 - 包号:%ld 进度:%ld%%",
+                                   (long)packageNum, (long)progressBar]];
+    [self sendCommand:command];
+}
+
++ (void)resourceUpgradeQuery {
+    NSData *command = [self createCommandWithBytes:@[
+        @(0x00),
+        @(WPCommandTypeResourceUpgrade),
+        @(0x01),
+        @(0x00),
+        @(0x02),
+        @(0x00)
+    ]];
+
+    [[WPLogger sharedInstance] log:@"📦 发送资源升级查询指令"];
+    [self sendCommand:command];
+}
+
++ (void)resourceUpgradeSetTransferConfig:(NSInteger)packageTotal
+                                 binSize:(NSInteger)binSize
+                                     mtu:(NSInteger)mtu {
+    NSData *command = [self createCommandWithBytes:@[
+        @(0x00),
+        @(WPCommandTypeResourceUpgrade),
+        @(0x01),
+        @(0x00),
+        @(0x0A),
+        @(0x01),
+        @((uint8_t)((packageTotal >> 8) & 0xFF)),
+        @((uint8_t)(packageTotal & 0xFF)),
+        @((uint8_t)((binSize >> 24) & 0xFF)),
+        @((uint8_t)((binSize >> 16) & 0xFF)),
+        @((uint8_t)((binSize >> 8) & 0xFF)),
+        @((uint8_t)(binSize & 0xFF)),
+        @((uint8_t)((mtu >> 8) & 0xFF)),
+        @((uint8_t)(mtu & 0xFF))
+    ]];
+
+    [[WPLogger sharedInstance] log:[NSString stringWithFormat:@"📦 发送资源升级传输配置指令 - 总包数:%ld 大小:%ld",
+                                   (long)packageTotal, (long)binSize]];
+    [self sendCommand:command];
+}
+
++ (void)resourceUpgradeTransferData:(NSData *)data {
+    NSMutableArray *commandBytes = [NSMutableArray arrayWithArray:@[
+        @(0x00),
+        @(WPCommandTypeResourceUpgrade),
+        @(0x01),
+        @(0x00),
+        @((uint8_t)(6 + data.length)),
+        @(0x02)
+    ]];
+
+    const uint8_t *bytes = (const uint8_t *)data.bytes;
+    for (NSUInteger i = 0; i < data.length; i++) {
+        [commandBytes addObject:@(bytes[i])];
+    }
+
+    NSData *command = [self createCommandWithBytes:commandBytes];
+
+    [[WPLogger sharedInstance] log:[NSString stringWithFormat:@"📦 发送资源升级数据 - 长度:%lu", (unsigned long)data.length]];
+    [self sendCommand:command];
+}
+
++ (void)setTimePositionAndColor:(NSInteger)type
+                       position:(NSInteger)position
+                          color:(NSInteger)color {
+    NSData *command = [self createCommandWithBytes:@[
+        @(0x00),
+        @(WPCommandTypeSetTimePositionAndColor),
+        @(0x01),
+        @(0x00),
+        @(0x06),
+        @(0x01),
+        @((uint8_t)type),
+        @((uint8_t)position),
+        @((uint8_t)((color >> 16) & 0xFF)),
+        @((uint8_t)((color >> 8) & 0xFF)),
+        @((uint8_t)(color & 0xFF))
+    ]];
+
+    [[WPLogger sharedInstance] log:[NSString stringWithFormat:@"🎨 发送设置时间位置和颜色指令 - 类型:%ld 位置:%ld 颜色:0x%06lX",
+                                   (long)type, (long)position, (long)color]];
+    [self sendCommand:command];
+}
+
++ (void)setQRCode:(uint8_t)type qrString:(NSString *)qrString {
+    NSData *qrData = [qrString dataUsingEncoding:NSUTF8StringEncoding];
+
+    NSMutableArray *commandBytes = [NSMutableArray arrayWithArray:@[
+        @(0x00),
+        @(WPCommandTypeQRCode),
+        @(0x01),
+        @(0x00),
+        @((uint8_t)(3 + qrData.length)),
+        @(0x01),
+        @(type)
+    ]];
+
+    const uint8_t *bytes = (const uint8_t *)qrData.bytes;
+    for (NSUInteger i = 0; i < qrData.length; i++) {
+        [commandBytes addObject:@(bytes[i])];
+    }
+
+    NSData *command = [self createCommandWithBytes:commandBytes];
+
+    [[WPLogger sharedInstance] log:[NSString stringWithFormat:@"🔲 发送设置二维码指令 - 类型:%d 长度:%lu",
+                                   type, (unsigned long)qrString.length]];
+    [self sendCommand:command];
+}
+
+// MARK: - 辅助方法
+
++ (NSData *)phoneNumberToBytes:(NSString *)phoneNumber {
+    NSString *processedNumber = phoneNumber;
+    if (processedNumber.length % 2 != 0) {
+        processedNumber = [processedNumber stringByAppendingString:@"f"];
+    }
+    processedNumber = [processedNumber stringByReplacingOccurrencesOfString:@"+" withString:@"a"];
+
+    NSMutableData *result = [NSMutableData data];
+    for (NSUInteger i = 0; i < processedNumber.length; i += 2) {
+        NSString *hex = [processedNumber substringWithRange:NSMakeRange(i, 2)];
+        unsigned int byteValue;
+        [[NSScanner scannerWithString:hex] scanHexInt:&byteValue];
+        uint8_t byte = (uint8_t)byteValue;
+        [result appendBytes:&byte length:1];
+    }
+
+    return result;
 }
 
 // MARK: - 🔥 核心响应解析实现

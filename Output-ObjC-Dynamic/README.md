@@ -1,9 +1,9 @@
 # WatchProtocolSDK-ObjC 接入文档
 
 ## 版本信息
-- **SDK 版本**: v1.1.0
-- **发布日期**: 2026-01-19
-- **更新内容**: 新增扫描设备到保存设备的便捷转换方法
+- **SDK 版本**: v2.0.8
+- **发布日期**: 2026-01-27
+- **更新内容**: 🐛 修正查找设备参数值（开始查找传0，停止查找传1）
 - **支持平台**: iOS 13.0+
 - **开发语言**: Objective-C
 
@@ -346,6 +346,118 @@ NSArray<NSString *> *recent5 = [manager getRecentFailMessagesWithCount:5];
 [manager clearFailMessages];
 ```
 
+### 🔥 查找设备（v2.0.7+）
+
+**新功能**：智能查找设备功能，让手环震动/响铃以帮助用户找到设备。
+
+#### 基础用法
+
+```objc
+// 1. 查找手环（带完成回调）
+[WPCommands findBandWithCompletion:^(BOOL success, NSError *error) {
+    if (success) {
+        NSLog(@"✅ 手环正在震动，请留意周围");
+    } else {
+        NSLog(@"❌ 查找失败: %@", error.localizedDescription);
+    }
+}];
+
+// 2. 停止查找
+[WPCommands stopFindBandWithCompletion:^(BOOL success, NSError *error) {
+    if (success) {
+        NSLog(@"⏹ 已停止查找");
+    }
+}];
+
+// 3. 自动停止（5秒后）
+[WPCommands findBandWithDuration:5.0 completion:^(BOOL success, NSError *error) {
+    NSLog(@"查找已结束");
+}];
+
+// 4. 查询查找状态
+if ([WPCommands isFindingDevice]) {
+    NSLog(@"正在查找中...");
+}
+
+// 5. 取消所有查找任务
+[WPCommands cancelAllFindTasks];
+```
+
+#### 核心优势
+
+| 功能 | 说明 |
+|------|------|
+| ✅ 完成回调 | 指令发送结果实时反馈 |
+| ✅ 主动停止 | 随时停止手环震动/响铃 |
+| ✅ 自动停止 | 指定时长后自动停止 |
+| ✅ 状态检查 | 查询是否正在查找中 |
+| ✅ 错误处理 | 自动检查蓝牙和连接状态 |
+
+#### 典型场景
+
+```objc
+// 场景 1：设备列表快捷查找
+- (void)onFindButtonTapped:(WPBluetoothWatchDevice *)device {
+    [WPCommands findBandWithDuration:5.0 completion:^(BOOL success, NSError *error) {
+        if (success) {
+            [self showToast:@"查找完成"];
+        }
+    }];
+}
+
+// 场景 2：动态更新 UI
+- (void)updateUI {
+    if ([WPCommands isFindingDevice]) {
+        [self.findButton setTitle:@"停止查找" forState:UIControlStateNormal];
+    } else {
+        [self.findButton setTitle:@"查找设备" forState:UIControlStateNormal];
+    }
+}
+
+// 场景 3：页面销毁时清理
+- (void)dealloc {
+    [WPCommands cancelAllFindTasks];
+}
+```
+
+**详细说明**：参考 [查找设备使用指南](FIND_DEVICE_GUIDE.md)
+
+#### ⭐️ 推荐：通过 WPBluetoothManager 使用（v2.0.7+）
+
+**优势**：与其他功能（如 `queryBatteryLevel`）保持一致的 API 风格，面向对象设计，更易于测试和维护。
+
+```objc
+WPBluetoothManager *manager = [WPBluetoothManager sharedInstance];
+
+// 1. 查找手环
+[manager findDeviceWithCompletion:^(BOOL success, NSError *error) {
+    if (success) {
+        NSLog(@"✅ 手环正在震动");
+    } else {
+        NSLog(@"❌ 查找失败: %@", error.localizedDescription);
+    }
+}];
+
+// 2. 停止查找
+[manager stopFindDeviceWithCompletion:^(BOOL success, NSError *error) {
+    if (success) {
+        NSLog(@"⏹ 已停止查找");
+    }
+}];
+
+// 3. 自动停止（5秒后）
+[manager findDeviceWithDuration:5.0 completion:^(BOOL success, NSError *error) {
+    NSLog(@"查找已结束");
+}];
+
+// 4. 查询查找状态
+if (manager.isFindingDevice) {
+    NSLog(@"正在查找中...");
+}
+```
+
+**详细说明**：参考 [WPBluetoothManager 查找设备指南](WPBLUETOOTHMANAGER_FINDDEVICE_GUIDE.md)
+
 ---
 
 ## API 参考
@@ -378,6 +490,21 @@ NSArray<NSString *> *recent5 = [manager getRecentFailMessagesWithCount:5];
 | `-connectAndScanWithMac:deviceName:` | 扫描并连接指定设备 |
 | `-disconnect` | 断开当前连接 |
 | `-sendData:` | 发送数据到设备 |
+| **🔥 `-findDeviceWithCompletion:`** | **(v2.0.7+)** 查找手环（带完成回调） |
+| **🔥 `-stopFindDeviceWithCompletion:`** | **(v2.0.7+)** 停止查找手环 |
+| **🔥 `-findDeviceWithDuration:completion:`** | **(v2.0.7+)** 查找手环（自动停止） |
+| **🔥 `.isFindingDevice`** | **(v2.0.7+)** 是否正在查找设备（只读属性） |
+
+### WPCommands+FindDevice (v2.0.7+)
+
+| 方法 | 说明 |
+|------|------|
+| `+findBandWithCompletion:` | 查找手环（带完成回调） |
+| `+stopFindBandWithCompletion:` | 停止查找手环 |
+| `+findBandWithDuration:completion:` | 查找手环（自动停止） |
+| `+isFindingDevice` | 是否正在查找设备（只读属性） |
+| `+cancelAllFindTasks` | 取消所有查找任务 |
+| `+findPhoneWithCompletion:` | 查找手机（兼容性方法） |
 
 ---
 

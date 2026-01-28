@@ -10,6 +10,7 @@
 #import "WPDeviceModel.h"
 #import "WPLogger.h"
 #import "WPCommands.h"
+#import "WPCommands+FindDevice.h"
 #import "NSData+HexString.h"
 
 // MARK: - 外设信息实现
@@ -631,6 +632,35 @@
     [WPCommands getNewestHeartData:0];
 
     // 注意：心率数据会通过 handleResponse 自动解析并回调 didReceiveHeartRate:
+}
+
+// MARK: - 🆕 v2.0.7: 查找设备功能
+
+- (void)findDeviceWithCompletion:(nullable void(^)(BOOL success, NSError * _Nullable error))completion {
+    [[WPLogger sharedInstance] log:@"🔍 [WPBluetoothManager] 开始查找设备"];
+
+    // 委托给 WPCommands+FindDevice 的类方法
+    [WPCommands findBandWithCompletion:completion];
+}
+
+- (void)stopFindDeviceWithCompletion:(nullable void(^)(BOOL success, NSError * _Nullable error))completion {
+    [[WPLogger sharedInstance] log:@"⏹ [WPBluetoothManager] 停止查找设备"];
+
+    // 委托给 WPCommands+FindDevice 的类方法
+    [WPCommands stopFindBandWithCompletion:completion];
+}
+
+- (void)findDeviceWithDuration:(NSTimeInterval)duration
+                    completion:(nullable void(^)(BOOL success, NSError * _Nullable error))completion {
+    [[WPLogger sharedInstance] log:[NSString stringWithFormat:@"🔍 [WPBluetoothManager] 开始查找设备（%.1f秒后自动停止）", duration]];
+
+    // 委托给 WPCommands+FindDevice 的类方法
+    [WPCommands findBandWithDuration:duration completion:completion];
+}
+
+- (BOOL)isFindingDevice {
+    // 委托给 WPCommands+FindDevice 的类属性
+    return [WPCommands isFindingDevice];
 }
 
 // MARK: - CBCentralManagerDelegate

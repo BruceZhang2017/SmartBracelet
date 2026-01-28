@@ -39,7 +39,10 @@
       "Bash(nm:*)",
       "Bash(du -sh:*)",
       "Bash(ls:*)",
-      "Bash(wc:*)"
+      "Bash(wc:*)",
+      "Bash(./build_watchprotocol_objc_dynamic.sh:*)",
+      "Bash(otool:*)",
+      "Bash(zip:*)"
     ]
   }
 }
