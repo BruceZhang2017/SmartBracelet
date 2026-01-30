@@ -1,0 +1,6 @@
+framework module WatchFaceSDK {
+    umbrella header "WatchFaceSDK.h"
+
+    export *
+    module * { export * }
+}

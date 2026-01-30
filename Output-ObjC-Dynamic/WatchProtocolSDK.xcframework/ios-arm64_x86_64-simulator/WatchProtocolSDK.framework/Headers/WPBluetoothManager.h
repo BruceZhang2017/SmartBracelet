@@ -127,6 +127,22 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)didHeartRateMonitoringStatusChanged:(BOOL)isMonitoring;
 
+/**
+ * 🆕 v2.0.8: 接收到查找设备响应
+ * @param success YES表示设备已收到指令并正在震动/响铃，NO表示执行失败
+ * @discussion 当调用查找设备指令后，设备会返回执行结果。此回调用于确认设备是否成功收到并执行了查找指令。
+ */
+- (void)didReceiveFindDeviceResponse:(BOOL)success;
+
+/**
+ * 🆕 v2.0.9: 接收到睡眠监测数据
+ * @param deepSleep 深睡时长（分钟）
+ * @param lightSleep 浅睡时长（分钟）
+ * @param awake 清醒时长（分钟）
+ * @discussion 当接收到设备的睡眠监测数据响应时触发（指令 0xB5）
+ */
+- (void)didReceiveSleepData:(NSInteger)deepSleep lightSleep:(NSInteger)lightSleep awake:(NSInteger)awake;
+
 @end
 
 // MARK: - 蓝牙管理器（单例）
@@ -246,6 +262,14 @@ NS_ASSUME_NONNULL_BEGIN
  * @return 是否发送成功
  */
 - (BOOL)sendData:(NSData *)data;
+
+/**
+ * 🔥 新增：使用WriteWithResponse模式发送数据
+ * @param data 要发送的数据
+ * @return 是否发送成功
+ * @discussion 使用此方法可以确认设备是否收到数据，适用于调试
+ */
+- (BOOL)sendDataWithResponse:(NSData *)data;
 
 // MARK: - 重连管理
 
@@ -412,6 +436,37 @@ NS_ASSUME_NONNULL_BEGIN
  * ```
  */
 @property (nonatomic, readonly) BOOL isFindingDevice;
+
+// MARK: - 🔥 抬手亮屏功能
+
+/**
+ * 设置抬手亮屏开关
+ * @param enable YES = 开启抬手亮屏，NO = 关闭抬手亮屏
+ * @param completion 完成回调
+ *
+ * @discussion 开启后，抬起手腕时手表屏幕会自动点亮
+ * @note 需要设备已连接
+ *
+ * @note 使用示例:
+ * ```objc
+ * [[WPBluetoothManager sharedInstance] setRaiseToWake:YES completion:^(BOOL success, NSError *error) {
+ *     if (success) {
+ *         NSLog(@"抬手亮屏已开启");
+ *     } else {
+ *         NSLog(@"设置失败: %@", error.localizedDescription);
+ *     }
+ * }];
+ * ```
+ */
+- (void)setRaiseToWake:(BOOL)enable completion:(nullable void(^)(BOOL success, NSError * _Nullable error))completion;
+
+/**
+ * 查询抬手亮屏状态
+ * @param completion 完成回调
+ *
+ * @discussion 发送查询指令，设备响应通过 WPBluetoothManagerDelegate 回调
+ */
+- (void)getRaiseToWakeStatus:(nullable void(^)(BOOL success, NSError * _Nullable error))completion;
 
 @end
 

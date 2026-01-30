@@ -37,11 +37,13 @@ FOUNDATION_EXPORT const unsigned char WatchProtocolSDKVersionString[];
     #import <WatchProtocolSDK/WPBluetoothManager.h>
     #import <WatchProtocolSDK/WPCommands.h>
     #import <WatchProtocolSDK/WPCommands+FindDevice.h>
+    #import <WatchProtocolSDK/WPCommands+RaiseToWake.h>
 #else
     #import "WPDeviceManager.h"
     #import "WPBluetoothManager.h"
     #import "WPCommands.h"
     #import "WPCommands+FindDevice.h"
+    #import "WPCommands+RaiseToWake.h"
 #endif
 
 // MARK: - 工具类

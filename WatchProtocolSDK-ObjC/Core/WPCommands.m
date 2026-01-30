@@ -1210,6 +1210,18 @@ static id _healthDataStorage = nil;
             [self handleScreenBrightnessResponse:response];
             break;
 
+        case WPCommandTypeFindBand:
+            [self handleFindBandResponse:response];
+            break;
+
+        case WPCommandTypeDialMarket:
+            [self handleDialMarketResponse:response];
+            break;
+
+        case WPCommandTypeGetSleepMonitoring:
+            [self handleSleepMonitoringResponse:response];
+            break;
+
         default:
             [[WPLogger sharedInstance] log:[NSString stringWithFormat:@"⚠️ 未处理的指令响应:0x%02X", commandCode]];
             break;
@@ -1481,6 +1493,143 @@ static id _healthDataStorage = nil;
         BOOL success = bytes[6] == 0x00;
         [[WPLogger sharedInstance] log:[NSString stringWithFormat:@"%@ 设置屏幕亮度%@",
                                        success ? @"✅" : @"❌", success ? @"成功" : @"失败"]];
+    }
+}
+
++ (void)handleFindBandResponse:(NSData *)response {
+    const uint8_t *bytes = (const uint8_t *)response.bytes;
+
+    if (response.length < 7) {
+        [[WPLogger sharedInstance] log:@"❌ 查找手环响应数据长度不足"];
+        return;
+    }
+
+    // 解析响应结果 (byte 6)
+    // 0x00 = 成功，非 0 = 失败
+    BOOL success = bytes[6] == 0x00;
+
+    if (success) {
+        [[WPLogger sharedInstance] log:@"✅ 查找手环命令执行成功 - 设备应该正在震动/响铃"];
+    } else {
+        [[WPLogger sharedInstance] log:[NSString stringWithFormat:@"❌ 查找手环命令执行失败 - 错误码:0x%02X", bytes[6]]];
+    }
+
+    // 通过代理通知应用层（如果需要的话可以添加专门的代理方法）
+    WPBluetoothManager *manager = [WPBluetoothManager sharedInstance];
+    if ([manager.delegate respondsToSelector:@selector(didReceiveFindDeviceResponse:)]) {
+        [manager.delegate performSelector:@selector(didReceiveFindDeviceResponse:) withObject:@(success)];
+    }
+}
+
++ (void)handleDialMarketResponse:(NSData *)response {
+    const uint8_t *bytes = (const uint8_t *)response.bytes;
+
+    if (response.length < 7) {
+        [[WPLogger sharedInstance] log:@"❌ 表盘市场响应数据长度不足"];
+        return;
+    }
+
+    NSInteger responseType = bytes[5];
+    [[WPLogger sharedInstance] log:[NSString stringWithFormat:@"📱 表盘市场响应 - 类型:%ld", (long)responseType]];
+
+    if (responseType == 0) {
+        // 查询响应：解析 MTU 和屏幕信息
+        if (response.length >= 10) {
+            NSInteger mtu = (bytes[7] << 8) | bytes[8];
+            [[WPLogger sharedInstance] log:[NSString stringWithFormat:@"📱 设备 MTU: %ld", (long)mtu]];
+
+            // 更新设备 MTU
+            WPBluetoothManager *manager = [WPBluetoothManager sharedInstance];
+            if (manager.currentDevice) {
+                manager.currentDevice.mtu = mtu;
+            }
+        }
+
+        if (response.length >= 12) {
+            NSInteger screenType = bytes[7];
+            NSInteger screenWidth = (bytes[8] << 8) | bytes[9];
+            NSInteger screenHeight = (bytes[10] << 8) | bytes[11];
+            [[WPLogger sharedInstance] log:[NSString stringWithFormat:@"📱 屏幕信息 - 类型:%ld 宽:%ld 高:%ld",
+                                           (long)screenType, (long)screenWidth, (long)screenHeight]];
+
+            // 更新设备屏幕信息
+            WPBluetoothManager *manager = [WPBluetoothManager sharedInstance];
+            if (manager.currentDevice) {
+                manager.currentDevice.screenType = screenType;
+                manager.currentDevice.screenWidth = screenWidth;
+                manager.currentDevice.screenHeight = screenHeight;
+            }
+        }
+
+    } else if (responseType == 1) {
+        // 传输配置响应
+        BOOL success = bytes[6] == 0x00;
+        if (success) {
+            [[WPLogger sharedInstance] log:@"✅ 表盘传输配置成功"];
+            // 🔥 关键：发送通知，允许 WFTransferEngine 开始数据传输
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"XGZTCommandDialDataSendCompleteCallback"
+                                                                object:nil];
+        } else {
+            [[WPLogger sharedInstance] log:@"❌ 表盘传输配置失败"];
+        }
+
+    } else if (responseType == 2) {
+        // 数据传输响应
+        if (response.length < 9) {
+            [[WPLogger sharedInstance] log:@"❌ 数据传输响应长度不足"];
+            return;
+        }
+
+        NSInteger control = bytes[8];
+
+        if (control == 0) {
+            // 继续传输下一包
+            [[WPLogger sharedInstance] log:@"📦 数据包接收成功，继续传输"];
+            // 🔥 关键：发送通知，触发下一包发送
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"XGZTCommandDialDataSendCompleteCallback"
+                                                                object:nil];
+        } else if (control == 1) {
+            // 传输完成
+            [[WPLogger sharedInstance] log:@"✅ 表盘传输完成"];
+            // 🔥 关键：发送通知，传递完成标志
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"XGZTCommandDialDataSendCompleteCallback"
+                                                                object:@(1)];
+        } else {
+            [[WPLogger sharedInstance] log:[NSString stringWithFormat:@"⚠️ 未知控制值:%ld", (long)control]];
+        }
+    }
+}
+
++ (void)handleSleepMonitoringResponse:(NSData *)response {
+    const uint8_t *bytes = (const uint8_t *)response.bytes;
+
+    if (response.length < 11) {
+        [[WPLogger sharedInstance] log:@"❌ 睡眠监测响应数据长度不足"];
+        return;
+    }
+
+    // 解析睡眠数据（小端序）
+    NSInteger deepSleep = bytes[6] | (bytes[7] << 8);    // 深睡时长（分钟）
+    NSInteger lightSleep = bytes[8] | (bytes[9] << 8);   // 浅睡时长（分钟）
+    NSInteger awake = bytes[10] | (bytes[11] << 8);      // 清醒时长（分钟）
+
+    [[WPLogger sharedInstance] log:[NSString stringWithFormat:@"😴 睡眠监测 - 深睡:%ldmin 浅睡:%ldmin 清醒:%ldmin",
+                                   (long)deepSleep, (long)lightSleep, (long)awake]];
+
+    // 通过代理回调（如果需要）
+    WPBluetoothManager *manager = [WPBluetoothManager sharedInstance];
+    if ([manager.delegate respondsToSelector:@selector(didReceiveSleepData:lightSleep:awake:)]) {
+        // 使用 NSInvocation 调用多参数方法
+        NSMethodSignature *signature = [[manager.delegate class] instanceMethodSignatureForSelector:@selector(didReceiveSleepData:lightSleep:awake:)];
+        if (signature) {
+            NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:signature];
+            [invocation setSelector:@selector(didReceiveSleepData:lightSleep:awake:)];
+            [invocation setTarget:manager.delegate];
+            [invocation setArgument:&deepSleep atIndex:2];
+            [invocation setArgument:&lightSleep atIndex:3];
+            [invocation setArgument:&awake atIndex:4];
+            [invocation invoke];
+        }
     }
 }
 

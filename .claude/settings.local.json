@@ -42,7 +42,12 @@
       "Bash(wc:*)",
       "Bash(./build_watchprotocol_objc_dynamic.sh:*)",
       "Bash(otool:*)",
-      "Bash(zip:*)"
+      "Bash(zip:*)",
+      "Bash(tree:*)",
+      "Bash(if [ -f \"Output-WatchFace-ObjC/WatchFaceSDK_ObjC.xcframework/Info.plist\" ])",
+      "Bash(then)",
+      "Bash(else)",
+      "Bash(if:*)"
     ]
   }
 }

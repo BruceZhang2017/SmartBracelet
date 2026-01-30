@@ -21,8 +21,8 @@ FRAMEWORK_NAME="WatchFaceSDK_ObjC"
 BUILD_DIR="$PROJECT_DIR/build/WatchFaceObjC-Pure"
 OUTPUT_DIR="$PROJECT_DIR/Output-WatchFace-ObjC"
 
-# 依赖
-WATCHPROTOCOL_FRAMEWORK="$PROJECT_DIR/Output-ObjC/WatchProtocolSDK.xcframework"
+# 依赖（使用动态库版本）
+WATCHPROTOCOL_FRAMEWORK="$PROJECT_DIR/Output-ObjC-Dynamic/WatchProtocolSDK.xcframework"
 
 # 清理
 echo -e "${GREEN}🧹 清理构建目录...${NC}"
@@ -56,7 +56,8 @@ DEVICE_BUILD="$BUILD_DIR/device"
 mkdir -p "$DEVICE_BUILD"
 
 # WatchProtocolSDK framework 路径（设备版本）
-DEVICE_FRAMEWORK_PATH="$WATCHPROTOCOL_FRAMEWORK/ios-arm64"
+# 动态库的 framework 在子目录中
+DEVICE_FRAMEWORK_PATH="$WATCHPROTOCOL_FRAMEWORK/ios-arm64/WatchProtocolSDK.framework"
 ABPARTOOL_FRAMEWORK_PATH="$PROJECT_DIR/ABParTool.xcframework/ios-arm64/ABParTool.framework"
 
 # 创建临时包含目录以支持 framework 风格的 import
@@ -93,7 +94,10 @@ done
 # 创建动态库
 echo -e "${GREEN}🔗 链接 Device Framework...${NC}"
 DEVICE_OBJS=$(find "$DEVICE_BUILD" -name "*.o")
-DEVICE_STATIC_LIB="$DEVICE_FRAMEWORK_PATH/libWatchProtocolSDK-device.a"
+
+# 动态库链接 WatchProtocolSDK.framework
+# DEVICE_FRAMEWORK_PATH 已经指向 .../WatchProtocolSDK.framework，需要使用其父目录
+DEVICE_FRAMEWORK_SEARCH_PATH="$WATCHPROTOCOL_FRAMEWORK/ios-arm64"
 
 xcrun clang -dynamiclib \
     -target arm64-apple-ios13.0 \
@@ -102,6 +106,8 @@ xcrun clang -dynamiclib \
     -framework UIKit \
     -framework CoreGraphics \
     -framework CoreBluetooth \
+    -F"$DEVICE_FRAMEWORK_SEARCH_PATH" \
+    -framework WatchProtocolSDK \
     -F"$(dirname "$ABPARTOOL_FRAMEWORK_PATH")" \
     -framework ABParTool \
     -install_name "@rpath/${FRAMEWORK_NAME}.framework/${FRAMEWORK_NAME}" \
@@ -110,7 +116,6 @@ xcrun clang -dynamiclib \
     -fobjc-arc \
     -fobjc-link-runtime \
     $DEVICE_OBJS \
-    "$DEVICE_STATIC_LIB" \
     -o "$DEVICE_BUILD/lib${FRAMEWORK_NAME}.dylib"
 
 # 创建 Framework 结构
@@ -123,6 +128,12 @@ mkdir -p "$DEVICE_FRAMEWORK/Headers"
 for header in $OBJC_HEADERS; do
     cp "$header" "$DEVICE_FRAMEWORK/Headers/"
 done
+
+# 复制 modulemap
+mkdir -p "$DEVICE_FRAMEWORK/Modules"
+if [ -f "$PROJECT_DIR/WatchFaceSDK-Pure-ObjC/module.modulemap" ]; then
+    cp "$PROJECT_DIR/WatchFaceSDK-Pure-ObjC/module.modulemap" "$DEVICE_FRAMEWORK/Modules/module.modulemap"
+fi
 
 # 创建 Info.plist
 cat > "$DEVICE_FRAMEWORK/Info.plist" << EOF
@@ -158,7 +169,8 @@ SIM_ARM64_BUILD="$BUILD_DIR/simulator-arm64"
 mkdir -p "$SIM_ARM64_BUILD"
 
 # WatchProtocolSDK framework 路径（模拟器版本）
-SIM_FRAMEWORK_PATH="$WATCHPROTOCOL_FRAMEWORK/ios-arm64_x86_64-simulator"
+# 动态库的 framework 在子目录中
+SIM_FRAMEWORK_PATH="$WATCHPROTOCOL_FRAMEWORK/ios-arm64_x86_64-simulator/WatchProtocolSDK.framework"
 ABPARTOOL_SIM_FRAMEWORK_PATH="$PROJECT_DIR/ABParTool.xcframework/ios-arm64_x86_64-simulator/ABParTool.framework"
 
 # 创建临时包含目录以支持 framework 风格的 import
@@ -215,9 +227,11 @@ echo -e "${GREEN}🔗 链接 Simulator Framework...${NC}"
 
 SIM_ARM64_OBJS=$(find "$SIM_ARM64_BUILD" -name "*.o")
 SIM_X86_OBJS=$(find "$SIM_X86_BUILD" -name "*.o")
-SIM_STATIC_LIB="$SIM_FRAMEWORK_PATH/libWatchProtocolSDK-simulator.a"
 
-# arm64
+# SIM_FRAMEWORK_PATH 已经指向 .../WatchProtocolSDK.framework，需要使用其父目录
+SIM_FRAMEWORK_SEARCH_PATH="$WATCHPROTOCOL_FRAMEWORK/ios-arm64_x86_64-simulator"
+
+# arm64 - 动态库链接 WatchProtocolSDK.framework
 xcrun clang -dynamiclib \
     -target arm64-apple-ios13.0-simulator \
     -isysroot $(xcrun --sdk iphonesimulator --show-sdk-path) \
@@ -225,6 +239,8 @@ xcrun clang -dynamiclib \
     -framework UIKit \
     -framework CoreGraphics \
     -framework CoreBluetooth \
+    -F"$SIM_FRAMEWORK_SEARCH_PATH" \
+    -framework WatchProtocolSDK \
     -F"$(dirname "$ABPARTOOL_SIM_FRAMEWORK_PATH")" \
     -framework ABParTool \
     -install_name "@rpath/${FRAMEWORK_NAME}.framework/${FRAMEWORK_NAME}" \
@@ -233,10 +249,9 @@ xcrun clang -dynamiclib \
     -fobjc-arc \
     -fobjc-link-runtime \
     $SIM_ARM64_OBJS \
-    "$SIM_STATIC_LIB" \
     -o "$SIM_ARM64_BUILD/lib${FRAMEWORK_NAME}-arm64.dylib"
 
-# x86_64
+# x86_64 - 动态库链接 WatchProtocolSDK.framework
 xcrun clang -dynamiclib \
     -target x86_64-apple-ios13.0-simulator \
     -isysroot $(xcrun --sdk iphonesimulator --show-sdk-path) \
@@ -244,6 +259,8 @@ xcrun clang -dynamiclib \
     -framework UIKit \
     -framework CoreGraphics \
     -framework CoreBluetooth \
+    -F"$SIM_FRAMEWORK_SEARCH_PATH" \
+    -framework WatchProtocolSDK \
     -F"$(dirname "$ABPARTOOL_SIM_FRAMEWORK_PATH")" \
     -framework ABParTool \
     -install_name "@rpath/${FRAMEWORK_NAME}.framework/${FRAMEWORK_NAME}" \
@@ -252,7 +269,6 @@ xcrun clang -dynamiclib \
     -fobjc-arc \
     -fobjc-link-runtime \
     $SIM_X86_OBJS \
-    "$SIM_STATIC_LIB" \
     -o "$SIM_X86_BUILD/lib${FRAMEWORK_NAME}-x86_64.dylib"
 
 # 合并为 fat binary
@@ -273,6 +289,12 @@ mkdir -p "$SIM_FRAMEWORK/Headers"
 for header in $OBJC_HEADERS; do
     cp "$header" "$SIM_FRAMEWORK/Headers/"
 done
+
+# 复制 modulemap
+mkdir -p "$SIM_FRAMEWORK/Modules"
+if [ -f "$PROJECT_DIR/WatchFaceSDK-Pure-ObjC/module.modulemap" ]; then
+    cp "$PROJECT_DIR/WatchFaceSDK-Pure-ObjC/module.modulemap" "$SIM_FRAMEWORK/Modules/module.modulemap"
+fi
 
 # 复制 Info.plist
 cp "$DEVICE_FRAMEWORK/Info.plist" "$SIM_FRAMEWORK/"

@@ -8,8 +8,9 @@
 #import "WFManager.h"
 #import "WFImageProcessor.h"
 #import "WFTransferEngine.h"
-// TODO: Import proper WatchProtocolSDK classes when available
-// #import <WatchProtocolSDK/WatchProtocolSDK.h>
+#import <CoreBluetooth/CoreBluetooth.h>
+#import <WatchProtocolSDK/WatchProtocolSDK.h>
+// WPBluetoothManager.h 已被 WatchProtocolSDK.h umbrella header 包含，无需重复导入
 
 @interface WFManager ()
 
@@ -42,19 +43,44 @@
 #pragma mark - 设备信息查询
 
 - (WFDeviceScreenInfo *)getCurrentDeviceScreenInfo {
-    // TODO: Implement with proper WatchProtocolSDK integration
-    // For now, return a default 240x240 screen
+    // 从 WPBluetoothManager 获取设备信息
+    WPBluetoothManager *btManager = [WPBluetoothManager sharedInstance];
+    WPBluetoothWatchDevice *device = btManager.currentDevice;
+
+    if (!device) {
+        NSLog(@"⚠️ 设备未连接，返回默认屏幕信息");
+        // 返回默认值
+        WFDeviceScreenInfo *info = [[WFDeviceScreenInfo alloc] init];
+        info.width = 240;
+        info.height = 240;
+        info.shape = WFScreenShapeRound;
+        info.mtu = 240;
+        return info;
+    }
+
+    // 从设备信息构建屏幕信息
     WFDeviceScreenInfo *info = [[WFDeviceScreenInfo alloc] init];
-    info.width = 240;
-    info.height = 240;
-    info.shape = WFScreenShapeRound;
-    info.mtu = 240;
+    info.width = device.screenWidth > 0 ? device.screenWidth : 240;
+    info.height = device.screenHeight > 0 ? device.screenHeight : 240;
+    // 根据 screenType 判断形状：1=方形, 2=圆形
+    info.shape = (device.screenType == 1) ? WFScreenShapeSquare : WFScreenShapeRound;
+    info.mtu = device.mtu > 0 ? device.mtu : 240;
+
+    NSLog(@"📱 设备屏幕信息: %ldx%ld, 形状: %ld, MTU: %ld",
+          (long)info.width, (long)info.height, (long)info.shape, (long)info.mtu);
+
     return info;
 }
 
 - (BOOL)isDeviceConnected {
-    // TODO: Implement with proper WatchProtocolSDK integration
-    return YES; // Assume connected for now
+    // 从 WPBluetoothManager 获取连接状态
+    // currentDevice 不为 nil 表示有设备已连接
+    WPBluetoothManager *btManager = [WPBluetoothManager sharedInstance];
+    BOOL isConnected = (btManager.currentDevice != nil);
+
+    NSLog(@"🔗 设备连接状态: %@", isConnected ? @"已连接" : @"未连接");
+
+    return isConnected;
 }
 
 - (CGSize)getRecommendedImageSize {

@@ -11,6 +11,7 @@
 #import "WPLogger.h"
 #import "WPCommands.h"
 #import "WPCommands+FindDevice.h"
+#import "WPCommands+RaiseToWake.h"
 #import "NSData+HexString.h"
 
 // MARK: - 外设信息实现
@@ -333,14 +334,45 @@
     [[WPLogger sharedInstance] log:[NSString stringWithFormat:@"📤 发送指令 [%ld bytes]: %@", (long)data.length, hexString]];
 
     if (self.characteristic) {
+        [[WPLogger sharedInstance] log:[NSString stringWithFormat:@"   使用特征值: %@", self.characteristic.UUID]];
         [self.peripheral writeValue:data
                   forCharacteristic:self.characteristic
                                type:CBCharacteristicWriteWithoutResponse];
         return YES;
     } else if (self.dataInCharacteristic) {
+        [[WPLogger sharedInstance] log:[NSString stringWithFormat:@"   使用特征值: %@", self.dataInCharacteristic.UUID]];
         [self.peripheral writeValue:data
                   forCharacteristic:self.dataInCharacteristic
                                type:CBCharacteristicWriteWithoutResponse];
+        return YES;
+    }
+
+    [[WPLogger sharedInstance] log:@"❌ 发送失败：特征值未找到"];
+    return NO;
+}
+
+// 🔥 新增：使用WriteWithResponse模式发送数据
+- (BOOL)sendDataWithResponse:(NSData *)data {
+    if (!self.peripheral || self.peripheral.state != CBPeripheralStateConnected) {
+        [[WPLogger sharedInstance] log:@"❌ 发送失败：设备未连接"];
+        return NO;
+    }
+
+    // 打印发送给设备的指令数据
+    NSString *hexString = [data hexEncodedString];
+    [[WPLogger sharedInstance] log:[NSString stringWithFormat:@"📤 发送指令(WithResponse) [%ld bytes]: %@", (long)data.length, hexString]];
+
+    if (self.characteristic) {
+        [[WPLogger sharedInstance] log:[NSString stringWithFormat:@"   使用特征值: %@", self.characteristic.UUID]];
+        [self.peripheral writeValue:data
+                  forCharacteristic:self.characteristic
+                               type:CBCharacteristicWriteWithResponse];
+        return YES;
+    } else if (self.dataInCharacteristic) {
+        [[WPLogger sharedInstance] log:[NSString stringWithFormat:@"   使用特征值: %@", self.dataInCharacteristic.UUID]];
+        [self.peripheral writeValue:data
+                  forCharacteristic:self.dataInCharacteristic
+                               type:CBCharacteristicWriteWithResponse];
         return YES;
     }
 
@@ -954,17 +986,32 @@ didDiscoverCharacteristicsForService:(CBService *)service
     }
 
     for (CBCharacteristic *characteristic in service.characteristics) {
-        [[WPLogger sharedInstance] log:[NSString stringWithFormat:@"🔍 发现特征: %@", characteristic.UUID]];
+        // 🔥 详细日志：显示特征值属性
+        NSMutableString *properties = [NSMutableString string];
+        if (characteristic.properties & CBCharacteristicPropertyRead) [properties appendString:@"Read "];
+        if (characteristic.properties & CBCharacteristicPropertyWrite) [properties appendString:@"Write "];
+        if (characteristic.properties & CBCharacteristicPropertyWriteWithoutResponse) [properties appendString:@"WriteNoResp "];
+        if (characteristic.properties & CBCharacteristicPropertyNotify) [properties appendString:@"Notify "];
+        if (characteristic.properties & CBCharacteristicPropertyIndicate) [properties appendString:@"Indicate "];
 
-        // 订阅通知
-        if (characteristic.properties & CBCharacteristicPropertyNotify) {
+        NSString *uuidString = [[characteristic.UUID UUIDString] uppercaseString];
+
+        [[WPLogger sharedInstance] log:[NSString stringWithFormat:@"🔍 发现特征: %@", uuidString]];
+        [[WPLogger sharedInstance] log:[NSString stringWithFormat:@"   属性: %@", properties.length > 0 ? properties : @"无"]];
+
+        // 🎯 使用设备指定的UUID进行匹配
+        // FF14: 用于接收设备Notify数据 (UUID格式: 0000FF14-0000-1000-8000-00805F9B34FB)
+        if ([uuidString rangeOfString:@"FF14"].location != NSNotFound) {
+            [[WPLogger sharedInstance] log:@"   ✅ 这是Notify特征值 (FF14)"];
+            [[WPLogger sharedInstance] log:@"   📡 开始订阅Notify..."];
             [peripheral setNotifyValue:YES forCharacteristic:characteristic];
             self.notifyCharacteristic = characteristic;
         }
 
-        // 保存可写特征
-        if (characteristic.properties & CBCharacteristicPropertyWrite ||
-            characteristic.properties & CBCharacteristicPropertyWriteWithoutResponse) {
+        // FF13: 用于APP写数据到设备 (UUID格式: 0000FF13-0000-1000-8000-00805F9B34FB)
+        if ([uuidString rangeOfString:@"FF13"].location != NSNotFound) {
+            [[WPLogger sharedInstance] log:@"   ✅ 这是写入特征值 (FF13)"];
+            [[WPLogger sharedInstance] log:@"   ✍️ 保存为写入特征值"];
             self.characteristic = characteristic;
         }
     }
@@ -1004,6 +1051,33 @@ didWriteValueForCharacteristic:(CBCharacteristic *)characteristic
             [self.delegate sentData];
         }
     }
+}
+
+// 🔥 新增：检查notify订阅状态
+- (void)peripheral:(CBPeripheral *)peripheral
+didUpdateNotificationStateForCharacteristic:(CBCharacteristic *)characteristic
+             error:(NSError *)error {
+    if (error) {
+        [[WPLogger sharedInstance] log:[NSString stringWithFormat:@"❌ Notify订阅失败: %@ - %@", characteristic.UUID, error]];
+    } else {
+        if (characteristic.isNotifying) {
+            [[WPLogger sharedInstance] log:[NSString stringWithFormat:@"✅ Notify订阅成功: %@", characteristic.UUID]];
+        } else {
+            [[WPLogger sharedInstance] log:[NSString stringWithFormat:@"⚠️ Notify取消订阅: %@", characteristic.UUID]];
+        }
+    }
+}
+
+// MARK: - 🔥 抬手亮屏功能
+
+- (void)setRaiseToWake:(BOOL)enable completion:(nullable void(^)(BOOL success, NSError * _Nullable error))completion {
+    // 导入Category头文件并调用
+    [WPCommands setRaiseToWake:enable completion:completion];
+}
+
+- (void)getRaiseToWakeStatus:(nullable void(^)(BOOL success, NSError * _Nullable error))completion {
+    // 导入Category头文件并调用
+    [WPCommands getRaiseToWakeStatus:completion];
 }
 
 - (void)dealloc {

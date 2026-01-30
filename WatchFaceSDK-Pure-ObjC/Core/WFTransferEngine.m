@@ -6,8 +6,8 @@
 //
 
 #import "WFTransferEngine.h"
-// TODO: Import proper WatchProtocolSDK classes when available
-// #import <WatchProtocolSDK/WatchProtocolSDK.h>
+#import <WatchProtocolSDK/WatchProtocolSDK.h>
+// WPCommands.h 和 WPBluetoothManager.h 已被 WatchProtocolSDK.h umbrella header 包含，无需重复导入
 
 typedef NS_ENUM(NSInteger, WFTransferState) {
     WFTransferStateIdle,
@@ -131,26 +131,57 @@ typedef NS_ENUM(NSInteger, WFTransferState) {
 #pragma mark - Private Methods
 
 - (void)setTimePositionAndColor:(WFTimePosition)position color:(WFDialColor)color {
-    // TODO: Implement with proper WatchProtocolSDK integration
     NSLog(@"⏱ 设置时间位置: %ld, 颜色: %ld", (long)position, (long)color);
+
+    // 通过 WPCommands 发送设置指令
+    // type: 0 = 自定义表盘设置
+    [WPCommands setTimePositionAndColor:0
+                               position:(NSInteger)position
+                                  color:(NSInteger)color];
 }
 
 - (void)queryMTUAndStartTransfer {
-    // TODO: Query actual MTU from WatchProtocolSDK
-    NSInteger mtu = 240; // 默认 MTU
+    // 从 WPBluetoothManager 查询真实 MTU
+    WPBluetoothManager *btManager = [WPBluetoothManager sharedInstance];
+    WPBluetoothWatchDevice *device = btManager.currentDevice;
 
-    // 计算包大小（MTU - 协议头）
-    self.packetSize = mtu - 20;
+    NSInteger mtu = (device && device.mtu > 0) ? device.mtu : 240; // 默认 MTU 240
 
-    NSLog(@"📡 设备 MTU: %ld, 包大小: %ld", (long)mtu, (long)self.packetSize);
+    // ✅ 修复：使用固定 200 字节分包大小（符合 XGZT 协议规范）
+    // 与 Swift 版本保持一致
+    self.packetSize = 200;
+
+    NSLog(@"📡 设备 MTU: %ld, 包大小: %ld (固定)", (long)mtu, (long)self.packetSize);
 
     // 计算总包数
     self.totalPackets = (self.currentData.length + self.packetSize - 1) / self.packetSize;
 
-    NSLog(@"📦 总包数: %ld", (long)self.totalPackets);
+    NSLog(@"📦 总包数: %ld, 文件大小: %ld bytes", (long)self.totalPackets, (long)self.currentData.length);
+
+    // 发送传输配置
+    [self sendTransferConfig:mtu];
 
     // 开始传输
     [self beginTransfer];
+}
+
+- (void)sendTransferConfig:(NSInteger)mtu {
+    // 发送表盘传输配置
+    NSInteger dialType = (self.dialType == WFDialTypeMarket) ? 0 : 1; // 0=市场表盘, 1=自定义表盘
+
+    // ✅ 修复：使用正确的配置参数（与 Swift 版本保持一致）
+    [WPCommands dialMarketSetTransferConfig:self.totalPackets
+                                    binSize:self.currentData.length
+                                        mtu:mtu
+                                   dialType:dialType
+                                    dialNum:1                                    // ✅ 修复：应该是 1
+                                      local:(NSInteger)self.timePosition         // ✅ 修复：使用实际的时间位置
+                                  typeValue:0                                    // ✅ 修复：应该是 0
+                              dialTypeValue:(NSInteger)self.color];              // ✅ 修复：使用实际的颜色
+
+    NSLog(@"📤 已发送传输配置: 总包数=%ld, 文件大小=%ld, MTU=%ld, 类型=%ld, 时间位置=%ld, 颜色=%ld",
+          (long)self.totalPackets, (long)self.currentData.length, (long)mtu, (long)dialType,
+          (long)self.timePosition, (long)self.color);
 }
 
 - (void)beginTransfer {
@@ -181,25 +212,46 @@ typedef NS_ENUM(NSInteger, WFTransferState) {
 
     NSData *packetData = [self.currentData subdataWithRange:NSMakeRange(offset, length)];
 
-    NSLog(@"📤 发送包 %ld/%ld (大小: %ld bytes)", (long)(self.currentPacketIndex + 1), (long)self.totalPackets, (long)length);
+    // ✅ 修复：判断是否为最后一包
+    BOOL isLastPacket = (self.currentPacketIndex >= self.totalPackets - 1);
 
-    // TODO: Send data packet via WatchProtocolSDK
-    // For now, simulate successful send by posting notification
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.05 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"XGZTCommandDialDataSendCompleteCallback" object:nil];
-    });
+    // ✅ 修复：计算字节偏移量（binNum）
+    NSInteger binNum = self.currentPacketIndex * 200;  // 使用固定 200 字节
+
+    // ✅ 修复：设置控制标志（最后一包为 1，其他为 0）
+    NSInteger control = isLastPacket ? 1 : 0;
+
+    // 计算进度（百分比）
+    NSInteger progress = ((self.currentPacketIndex + 1) * 100) / self.totalPackets;
+
+    NSLog(@"📤 发送包 %ld/%ld (偏移: %ld, 大小: %ld bytes, 进度: %ld%%, 控制: %ld)",
+          (long)(self.currentPacketIndex + 1), (long)self.totalPackets, (long)binNum,
+          (long)length, (long)progress, (long)control);
+
+    // ✅ 修复：通过 WPCommands 发送数据包（与 Swift 版本保持一致）
+    [WPCommands dialMarketTransferData:self.currentPacketIndex + 1  // 包序号从1开始
+                                binNum:binNum                        // ✅ 修复：字节偏移量
+                           progressBar:progress                      // 进度百分比
+                               control:control                       // ✅ 修复：控制标志
+                                  data:packetData];
 
     // 更新进度
     [self updateProgress];
 
     self.currentPacketIndex++;
+
+    // 注意：真实传输依赖设备响应，这里简化处理
+    // 收到 XGZTCommandDialDataSendCompleteCallback 通知后会自动发送下一包
 }
 
 - (void)updateProgress {
+    // ✅ 优化：基于字节数计算进度（更精确，与 Swift 版本保持一致）
+    NSInteger bytesTransferred = MIN(self.currentPacketIndex * 200 + 200, self.currentData.length);
+
     WFTransferProgress *progress = [[WFTransferProgress alloc] init];
     progress.currentPacket = self.currentPacketIndex + 1;
     progress.totalPackets = self.totalPackets;
-    progress.bytesTransferred = MIN((self.currentPacketIndex + 1) * self.packetSize, self.currentData.length);
+    progress.bytesTransferred = bytesTransferred;  // ✅ 使用精确的字节数
     progress.totalBytes = self.currentData.length;
 
     if ([self.delegate respondsToSelector:@selector(transferDidUpdateProgress:)]) {
@@ -233,7 +285,5 @@ typedef NS_ENUM(NSInteger, WFTransferState) {
     // 一包数据发送完成，发送下一包
     [self sendNextPacket];
 }
-
-// TODO: Add type conversion methods when integrating with WatchProtocolSDK
 
 @end
