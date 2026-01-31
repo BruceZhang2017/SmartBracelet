@@ -41,6 +41,8 @@
 #import <CoreBluetooth/CoreBluetooth.h>
 
 @class WPBluetoothWatchDevice;
+@class WPAlarmData;
+@class WPReminderInfo;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -142,6 +144,61 @@ NS_ASSUME_NONNULL_BEGIN
  * @discussion 当接收到设备的睡眠监测数据响应时触发（指令 0xB5）
  */
 - (void)didReceiveSleepData:(NSInteger)deepSleep lightSleep:(NSInteger)lightSleep awake:(NSInteger)awake;
+
+/**
+ * 🆕 v2.0.10: 接收到开关状态数据
+ * @param p0 P0 字节（包含多个开关位：防丢、抬手亮屏、睡眠监测等）
+ * @param p1 P1 字节（包含多个开关位：消息显示、声音、震动等）
+ * @discussion 当接收到设备的开关状态查询响应时触发（指令 0x80）
+ * @discussion 解析方式（以抬手亮屏为例）：BOOL raiseToWake = ((p0 >> 1) & 1) > 0
+ * @note 此回调会自动更新 currentDevice 中的所有开关状态属性
+ */
+- (void)didReceiveSwitchStatus:(NSInteger)p0 p1:(NSInteger)p1;
+
+/**
+ * 🆕 v2.0.10: 接收到屏幕亮度数据
+ * @param brightness 屏幕亮度值（0-100）
+ * @discussion 当接收到设备的屏幕亮度查询响应时触发（指令 0x52）
+ * @note 此回调会自动更新 currentDevice.screenBrightness 属性
+ * @note 参考 Swift 实现：XGZTCommands.swift switchStatus 处理模式
+ */
+- (void)didReceiveScreenBrightness:(NSInteger)brightness;
+
+/**
+ * 🆕 v2.0.11: 接收到闹钟总数和可用数量
+ * @param count 闹钟总数
+ * @param canUse 可用闹钟数量
+ * @discussion 当接收到设备的闹钟查询响应时触发（指令 0x83，查询类型）
+ * @note 此回调会自动更新 currentDevice.alarmCount 和 currentDevice.alarmCanUse 属性
+ */
+- (void)didUpdateAlarmCount:(NSInteger)count canUse:(NSInteger)canUse;
+
+/**
+ * 🆕 v2.0.11: 接收到闹钟详细信息
+ * @param alarm 闹钟数据对象（包含索引、时间、开关、重复周期等）
+ * @discussion 当接收到设备的闹钟详细信息响应时触发（指令 0x83）
+ * @note 此回调会自动更新 currentDevice.alarms 数组中的对应闹钟
+ * @note 参考 Swift 实现：XGZTCommands.swift alarmInfo 处理（1533-1560行）
+ */
+- (void)didUpdateAlarmInfo:(WPAlarmData *)alarm;
+
+/**
+ * 🆕 v2.0.11: 接收到久坐提醒信息
+ * @param reminder 久坐提醒数据对象（包含时间段、间隔等）
+ * @discussion 当接收到设备的久坐提醒查询响应时触发（指令 0x85，eventType=0）
+ * @note 此回调会自动更新 currentDevice.longSit 属性
+ * @note 参考 Swift 实现：XGZTCommands.swift reminderInfo 处理（1579-1581行）
+ */
+- (void)didUpdateLongSitReminder:(WPReminderInfo *)reminder;
+
+/**
+ * 🆕 v2.0.11: 接收到喝水提醒信息
+ * @param reminder 喝水提醒数据对象（包含时间段、间隔等）
+ * @discussion 当接收到设备的喝水提醒查询响应时触发（指令 0x85，eventType=1）
+ * @note 此回调会自动更新 currentDevice.drinkWater 属性
+ * @note 参考 Swift 实现：XGZTCommands.swift reminderInfo 处理（1582-1586行）
+ */
+- (void)didUpdateDrinkWaterReminder:(WPReminderInfo *)reminder;
 
 @end
 
@@ -467,6 +524,141 @@ NS_ASSUME_NONNULL_BEGIN
  * @discussion 发送查询指令，设备响应通过 WPBluetoothManagerDelegate 回调
  */
 - (void)getRaiseToWakeStatus:(nullable void(^)(BOOL success, NSError * _Nullable error))completion;
+
+// MARK: - 🔥 闹钟功能
+
+/**
+ * 查询闹钟总数和可用数量
+ * @param completion 完成回调
+ *
+ * @discussion 查询结果通过代理方法 didUpdateAlarmCount:canUse: 返回
+ * @note 参考 WPCommands+Alarm
+ */
+- (void)queryAlarmCount:(nullable void(^)(BOOL success, NSError * _Nullable error))completion;
+
+/**
+ * 查询指定闹钟的详细信息
+ * @param alarmId 闹钟索引（从 0 开始）
+ * @param completion 完成回调
+ *
+ * @discussion 查询结果通过代理方法 didUpdateAlarmInfo: 返回
+ */
+- (void)queryAlarmInfo:(NSInteger)alarmId completion:(nullable void(^)(BOOL success, NSError * _Nullable error))completion;
+
+/**
+ * 设置闹钟
+ * @param alarm 闹钟数据对象
+ * @param completion 完成回调
+ *
+ * @note 使用示例:
+ * ```objc
+ * WPAlarmData *alarm = [[WPAlarmData alloc] init];
+ * alarm.alarmId = 0;
+ * alarm.enabled = YES;
+ * alarm.hour = 7;
+ * alarm.minute = 30;
+ * alarm.repeatDays = 0b01111110; // 周一到周五
+ *
+ * [[WPBluetoothManager sharedInstance] setAlarm:alarm completion:^(BOOL success, NSError *error) {
+ *     if (success) {
+ *         NSLog(@"✅ 闹钟设置成功");
+ *     }
+ * }];
+ * ```
+ */
+- (void)setAlarm:(WPAlarmData *)alarm completion:(nullable void(^)(BOOL success, NSError * _Nullable error))completion;
+
+/**
+ * 删除闹钟
+ * @param alarmId 闹钟索引
+ * @param completion 完成回调
+ */
+- (void)deleteAlarm:(NSInteger)alarmId completion:(nullable void(^)(BOOL success, NSError * _Nullable error))completion;
+
+/**
+ * 查询所有闹钟
+ * @param completion 完成回调
+ *
+ * @discussion 先查询闹钟总数，然后逐个查询每个闹钟的详细信息
+ */
+- (void)queryAllAlarms:(nullable void(^)(BOOL success, NSError * _Nullable error))completion;
+
+// MARK: - 🔥 久坐提醒和喝水提醒功能
+
+/**
+ * 查询久坐提醒设置
+ * @param completion 完成回调
+ *
+ * @discussion 查询结果通过代理方法 didUpdateLongSitReminder: 返回
+ */
+- (void)queryLongSitReminder:(nullable void(^)(BOOL success, NSError * _Nullable error))completion;
+
+/**
+ * 查询喝水提醒设置
+ * @param completion 完成回调
+ *
+ * @discussion 查询结果通过代理方法 didUpdateDrinkWaterReminder: 返回
+ */
+- (void)queryDrinkWaterReminder:(nullable void(^)(BOOL success, NSError * _Nullable error))completion;
+
+/**
+ * 设置久坐提醒
+ * @param reminder 久坐提醒数据对象
+ * @param completion 完成回调
+ *
+ * @note 使用示例:
+ * ```objc
+ * WPReminderInfo *reminder = [[WPReminderInfo alloc] init];
+ * reminder.enabled = YES;
+ * reminder.startHour = 9;
+ * reminder.startMinute = 0;
+ * reminder.endHour = 18;
+ * reminder.endMinute = 0;
+ * reminder.interval = 60;  // 每60分钟提醒一次
+ *
+ * [[WPBluetoothManager sharedInstance] setLongSitReminder:reminder completion:^(BOOL success, NSError *error) {
+ *     if (success) {
+ *         NSLog(@"✅ 久坐提醒设置成功");
+ *     }
+ * }];
+ * ```
+ */
+- (void)setLongSitReminder:(WPReminderInfo *)reminder completion:(nullable void(^)(BOOL success, NSError * _Nullable error))completion;
+
+/**
+ * 设置喝水提醒
+ * @param reminder 喝水提醒数据对象
+ * @param completion 完成回调
+ */
+- (void)setDrinkWaterReminder:(WPReminderInfo *)reminder completion:(nullable void(^)(BOOL success, NSError * _Nullable error))completion;
+
+/**
+ * 开启久坐提醒（使用默认参数）
+ * @param completion 完成回调
+ *
+ * @discussion 默认参数：时段 09:00-18:00，间隔 60分钟
+ */
+- (void)enableLongSitReminderWithCompletion:(nullable void(^)(BOOL success, NSError * _Nullable error))completion;
+
+/**
+ * 关闭久坐提醒
+ * @param completion 完成回调
+ */
+- (void)disableLongSitReminderWithCompletion:(nullable void(^)(BOOL success, NSError * _Nullable error))completion;
+
+/**
+ * 开启喝水提醒（使用默认参数）
+ * @param completion 完成回调
+ *
+ * @discussion 默认参数：时段 08:00-20:00，间隔 120分钟
+ */
+- (void)enableDrinkWaterReminderWithCompletion:(nullable void(^)(BOOL success, NSError * _Nullable error))completion;
+
+/**
+ * 关闭喝水提醒
+ * @param completion 完成回调
+ */
+- (void)disableDrinkWaterReminderWithCompletion:(nullable void(^)(BOOL success, NSError * _Nullable error))completion;
 
 @end
 

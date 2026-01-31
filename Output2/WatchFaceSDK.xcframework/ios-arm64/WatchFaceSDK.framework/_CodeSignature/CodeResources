@@ -6,7 +6,7 @@
 	<dict>
 		<key>Frameworks/ABParTool.framework/ABParTool</key>
 		<data>
-		JTv8azKauvVRlmBpEcnIQOqgGrY=
+		FLyJnmEdnpqRYNev0W/qVK/NS1Q=
 		</data>
 		<key>Frameworks/ABParTool.framework/Info.plist</key>
 		<data>
@@ -22,7 +22,7 @@
 		</data>
 		<key>Frameworks/WatchProtocolSDK.framework/WatchProtocolSDK</key>
 		<data>
-		70scmhAO1h14m1ccjcHOFskZE7Q=
+		3ABhvuugper2Eg59Q/hvOLE0eMg=
 		</data>
 		<key>Frameworks/WatchProtocolSDK.framework/_CodeSignature/CodeResources</key>
 		<data>
@@ -32,34 +32,6 @@
 		<data>
 		T13A75nyUa6XnTCHWHkUdmQc9oo=
 		</data>
-		<key>Modules/WatchFaceSDK.swiftmodule/arm64-apple-ios.abi.json</key>
-		<data>
-		ubggGaz7TTxHVcO4/7KPX1MwfXs=
-		</data>
-		<key>Modules/WatchFaceSDK.swiftmodule/arm64-apple-ios.private.swiftinterface</key>
-		<data>
-		q7ZJ4JDtlxHbNECSiz9eIjLXbnQ=
-		</data>
-		<key>Modules/WatchFaceSDK.swiftmodule/arm64-apple-ios.swiftdoc</key>
-		<data>
-		ER02zCWXpAJ68VPMpxDDx3jb9J0=
-		</data>
-		<key>Modules/WatchFaceSDK.swiftmodule/arm64-apple-ios.swiftinterface</key>
-		<data>
-		q7ZJ4JDtlxHbNECSiz9eIjLXbnQ=
-		</data>
-		<key>Modules/WatchFaceSDK.swiftmodule/arm64-apple-ios.swiftmodule</key>
-		<data>
-		OjSnewvWGy2U9FDOZ0Z5wh8Fih0=
-		</data>
-		<key>README.md</key>
-		<data>
-		1/j/oqHo08iEPfmEivovui6yz9Q=
-		</data>
-		<key>USAGE_EXAMPLES.md</key>
-		<data>
-		KFQFf8xIacxeyOMz9X+zUSuF/Gc=
-		</data>
 	</dict>
 	<key>files2</key>
 	<dict>
@@ -67,7 +39,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			XOKCHEvGpmaA9zpHTRA9ezw8M5nRy5yiswXKGYZPzXY=
+			KsdN5Oe+Y3d8pezbvGPw2oxwsi9AEBPdXfrcrBBIt6E=
 			</data>
 		</dict>
 		<key>Frameworks/ABParTool.framework/Info.plist</key>
@@ -95,7 +67,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			9wFpBuJK4+dUczLALWJ2dIWYMkcnuErj9QBtE0D/+Nc=
+			HXROFpgbpW4vAjNNa96UarO7A+kWkBwUYD9rq2Huhn4=
 			</data>
 		</dict>
 		<key>Frameworks/WatchProtocolSDK.framework/_CodeSignature/CodeResources</key>
@@ -103,55 +75,6 @@
 			<key>hash2</key>
 			<data>
 			W/pu3lP+rNOu3Ww/p17zwPxhuFNH1nG391rEy4500Kg=
-			</data>
-		</dict>
-		<key>Modules/WatchFaceSDK.swiftmodule/arm64-apple-ios.abi.json</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			xb5GP6AQilg9T3jfrVBnAPgEa3wh5nSJG2A8TjP2l/s=
-			</data>
-		</dict>
-		<key>Modules/WatchFaceSDK.swiftmodule/arm64-apple-ios.private.swiftinterface</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			53lD/COVC6KPE5+CUWUyC87EgRIrgDYCYm83dSZZ9QI=
-			</data>
-		</dict>
-		<key>Modules/WatchFaceSDK.swiftmodule/arm64-apple-ios.swiftdoc</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			6385x4mAFtWXkRWgc3Eeesobk9JKfnWDdiQsC2b0SVs=
-			</data>
-		</dict>
-		<key>Modules/WatchFaceSDK.swiftmodule/arm64-apple-ios.swiftinterface</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			53lD/COVC6KPE5+CUWUyC87EgRIrgDYCYm83dSZZ9QI=
-			</data>
-		</dict>
-		<key>Modules/WatchFaceSDK.swiftmodule/arm64-apple-ios.swiftmodule</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			vubLcJeDOPJkqQa3x2vVA4hXoSstUxtyCCMhNn44wWU=
-			</data>
-		</dict>
-		<key>README.md</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			B+QWyL6WYHsN+k2rMeEir/DjGVWQO+v+KiC8fY3efAQ=
-			</data>
-		</dict>
-		<key>USAGE_EXAMPLES.md</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			pZB/yCHm7NaWUv8GUmOUpOVimQTjU3EapcgNpIxtijg=
 			</data>
 		</dict>
 	</dict>

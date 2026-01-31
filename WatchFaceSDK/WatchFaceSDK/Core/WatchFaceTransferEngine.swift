@@ -80,8 +80,11 @@ public class WatchFaceTransferEngine {
     public func cancelTransfer() {
         XLogger.shared.log("❌ 取消传输")
         transferState = .cancelled
-        cleanup()
         delegate?.transferDidCancel()
+
+        // ✅ 修复：传输取消后重置为空闲状态，允许开始新的传输
+        transferState = .idle
+        cleanup()
     }
 
     /// 重试传输
@@ -229,21 +232,27 @@ public class WatchFaceTransferEngine {
     private func handleTransferComplete() {
         XLogger.shared.log("🎉 表盘传输完成")
         transferState = .completed
-        cleanup()
 
         DispatchQueue.main.async { [weak self] in
             self?.delegate?.transferDidComplete()
         }
+
+        // ✅ 修复：传输完成后重置为空闲状态，允许开始新的传输
+        transferState = .idle
+        cleanup()
     }
 
     private func handleTransferError(_ error: Error) {
         XLogger.shared.log("❌ 表盘传输失败: \(error.localizedDescription)")
         transferState = .failed(error)
-        cleanup()
 
         DispatchQueue.main.async { [weak self] in
             self?.delegate?.transferDidFail(error: error)
         }
+
+        // ✅ 修复：传输失败后重置为空闲状态，允许重试或开始新的传输
+        transferState = .idle
+        cleanup()
     }
 
     private func cleanup() {

@@ -12,6 +12,8 @@
 #import "WPCommands.h"
 #import "WPCommands+FindDevice.h"
 #import "WPCommands+RaiseToWake.h"
+#import "WPCommands+Alarm.h"
+#import "WPCommands+Reminder.h"
 #import "NSData+HexString.h"
 
 // MARK: - 外设信息实现
@@ -1078,6 +1080,62 @@ didUpdateNotificationStateForCharacteristic:(CBCharacteristic *)characteristic
 - (void)getRaiseToWakeStatus:(nullable void(^)(BOOL success, NSError * _Nullable error))completion {
     // 导入Category头文件并调用
     [WPCommands getRaiseToWakeStatus:completion];
+}
+
+// MARK: - 🔥 闹钟功能
+
+- (void)queryAlarmCount:(nullable void(^)(BOOL success, NSError * _Nullable error))completion {
+    [WPCommands queryAlarmCount:completion];
+}
+
+- (void)queryAlarmInfo:(NSInteger)alarmId completion:(nullable void(^)(BOOL success, NSError * _Nullable error))completion {
+    [WPCommands queryAlarmInfo:alarmId completion:completion];
+}
+
+- (void)setAlarm:(WPAlarmData *)alarm completion:(nullable void(^)(BOOL success, NSError * _Nullable error))completion {
+    [WPCommands setAlarm:alarm completion:completion];
+}
+
+- (void)deleteAlarm:(NSInteger)alarmId completion:(nullable void(^)(BOOL success, NSError * _Nullable error))completion {
+    [WPCommands deleteAlarm:alarmId completion:completion];
+}
+
+- (void)queryAllAlarms:(nullable void(^)(BOOL success, NSError * _Nullable error))completion {
+    [WPCommands queryAllAlarms:completion];
+}
+
+// MARK: - 🔥 久坐提醒和喝水提醒功能
+
+- (void)queryLongSitReminder:(nullable void(^)(BOOL success, NSError * _Nullable error))completion {
+    [WPCommands queryLongSitReminder:completion];
+}
+
+- (void)queryDrinkWaterReminder:(nullable void(^)(BOOL success, NSError * _Nullable error))completion {
+    [WPCommands queryDrinkWaterReminder:completion];
+}
+
+- (void)setLongSitReminder:(WPReminderInfo *)reminder completion:(nullable void(^)(BOOL success, NSError * _Nullable error))completion {
+    [WPCommands setLongSitReminder:reminder completion:completion];
+}
+
+- (void)setDrinkWaterReminder:(WPReminderInfo *)reminder completion:(nullable void(^)(BOOL success, NSError * _Nullable error))completion {
+    [WPCommands setDrinkWaterReminder:reminder completion:completion];
+}
+
+- (void)enableLongSitReminderWithCompletion:(nullable void(^)(BOOL success, NSError * _Nullable error))completion {
+    [WPCommands enableLongSitReminderWithCompletion:completion];
+}
+
+- (void)disableLongSitReminderWithCompletion:(nullable void(^)(BOOL success, NSError * _Nullable error))completion {
+    [WPCommands disableLongSitReminderWithCompletion:completion];
+}
+
+- (void)enableDrinkWaterReminderWithCompletion:(nullable void(^)(BOOL success, NSError * _Nullable error))completion {
+    [WPCommands enableDrinkWaterReminderWithCompletion:completion];
+}
+
+- (void)disableDrinkWaterReminderWithCompletion:(nullable void(^)(BOOL success, NSError * _Nullable error))completion {
+    [WPCommands disableDrinkWaterReminderWithCompletion:completion];
 }
 
 - (void)dealloc {

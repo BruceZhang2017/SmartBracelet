@@ -31,11 +31,20 @@ NS_ASSUME_NONNULL_BEGIN
 // MARK: - 闹钟数据
 @interface WPAlarmData : NSObject
 
-@property (nonatomic, assign) NSInteger alarmId;
-@property (nonatomic, assign) BOOL enabled;
-@property (nonatomic, assign) NSInteger hour;
-@property (nonatomic, assign) NSInteger minute;
-@property (nonatomic, assign) NSInteger repeatDays;  // 位图：周一到周日
+@property (nonatomic, assign) NSInteger alarmIndex;       // 闹钟索引
+@property (nonatomic, assign) NSInteger mswitch;          // 开关（0=关闭，1=开启）
+@property (nonatomic, assign) NSInteger alarmCycle;       // 重复周期（位图）
+@property (nonatomic, assign) NSInteger alarmHour;        // 小时（0-23）
+@property (nonatomic, assign) NSInteger alarmMinute;      // 分钟（0-59）
+@property (nonatomic, assign) NSInteger vibrationMode;    // 振动模式
+@property (nonatomic, assign) NSInteger remindLater;      // 稍后提醒
+
+// 便捷属性（兼容旧版本 API）
+@property (nonatomic, assign) NSInteger alarmId;          // = alarmIndex
+@property (nonatomic, assign) BOOL enabled;               // = (mswitch == 1)
+@property (nonatomic, assign) NSInteger hour;             // = alarmHour
+@property (nonatomic, assign) NSInteger minute;           // = alarmMinute
+@property (nonatomic, assign) NSInteger repeatDays;       // = alarmCycle
 
 @end
 

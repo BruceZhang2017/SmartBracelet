@@ -101,12 +101,15 @@ typedef NS_ENUM(NSInteger, WFTransferState) {
 - (void)cancelTransfer {
     NSLog(@"❌ 取消传输");
     self.transferState = WFTransferStateCancelled;
-    self.currentData = nil;
-    self.currentPacketIndex = 0;
 
     if ([self.delegate respondsToSelector:@selector(transferDidCancel)]) {
         [self.delegate transferDidCancel];
     }
+
+    // ✅ 修复：传输取消后重置为空闲状态，允许开始新的传输
+    self.transferState = WFTransferStateIdle;
+    self.currentData = nil;
+    self.currentPacketIndex = 0;
 }
 
 - (void)retryTransfer {
@@ -262,12 +265,15 @@ typedef NS_ENUM(NSInteger, WFTransferState) {
 - (void)handleTransferComplete {
     NSLog(@"✅ 传输完成");
     self.transferState = WFTransferStateCompleted;
-    self.currentData = nil;
-    self.currentPacketIndex = 0;
 
     if ([self.delegate respondsToSelector:@selector(transferDidComplete)]) {
         [self.delegate transferDidComplete];
     }
+
+    // ✅ 修复：传输完成后重置为空闲状态，允许开始新的传输
+    self.transferState = WFTransferStateIdle;
+    self.currentData = nil;
+    self.currentPacketIndex = 0;
 }
 
 - (void)handleTransferError:(NSError *)error {
@@ -277,6 +283,11 @@ typedef NS_ENUM(NSInteger, WFTransferState) {
     if ([self.delegate respondsToSelector:@selector(transferDidFailWithError:)]) {
         [self.delegate transferDidFailWithError:error];
     }
+
+    // ✅ 修复：传输失败后重置为空闲状态，允许重试或开始新的传输
+    self.transferState = WFTransferStateIdle;
+    self.currentData = nil;
+    self.currentPacketIndex = 0;
 }
 
 #pragma mark - Notifications

@@ -1222,6 +1222,18 @@ static id _healthDataStorage = nil;
             [self handleSleepMonitoringResponse:response];
             break;
 
+        case WPCommandTypeAlarmInfo:
+            [self handleAlarmInfoResponse:response];
+            break;
+
+        case WPCommandTypeReminderInfo:
+            [self handleReminderInfoResponse:response];
+            break;
+
+        case WPCommandTypeSwitchStatus:
+            [self handleSwitchStatusResponse:response];
+            break;
+
         default:
             [[WPLogger sharedInstance] log:[NSString stringWithFormat:@"⚠️ 未处理的指令响应:0x%02X", commandCode]];
             break;
@@ -1479,20 +1491,39 @@ static id _healthDataStorage = nil;
         return;
     }
 
+    WPBluetoothManager *manager = [WPBluetoothManager sharedInstance];
+
     if (bytes[5] == 0x00) {
-        // 查询响应
+        // ====== 查询响应：解析亮度值并通知应用层 ======
         NSInteger brightness = bytes[6];
         [[WPLogger sharedInstance] log:[NSString stringWithFormat:@"💡 当前屏幕亮度:%ld", (long)brightness]];
 
-        WPBluetoothManager *manager = [WPBluetoothManager sharedInstance];
+        // 1. 更新设备属性
         if (manager.currentDevice) {
             manager.currentDevice.screenBrightness = brightness;
         }
+
+        // 2. 通过代理回调通知应用层（参考 Swift: switchStatus 模式）
+        if ([manager.delegate respondsToSelector:@selector(didReceiveScreenBrightness:)]) {
+            [manager.delegate performSelector:@selector(didReceiveScreenBrightness:) withObject:@(brightness)];
+        }
+
+        // 3. 发送通知（参考 Swift: NotificationCenter.default.post）
+        if (bytes[2] == 3) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"DeviceSettings" object:@(1)];
+        } else {
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"XGZTBusinessHandler" object:@"52"]; // 0x52 = 屏幕亮度指令
+        }
+
     } else {
-        // 设置响应
+        // ====== 设置响应：只返回成功/失败 ======
         BOOL success = bytes[6] == 0x00;
-        [[WPLogger sharedInstance] log:[NSString stringWithFormat:@"%@ 设置屏幕亮度%@",
-                                       success ? @"✅" : @"❌", success ? @"成功" : @"失败"]];
+
+        if (success) {
+            [[WPLogger sharedInstance] log:@"✅ 设置屏幕亮度成功"];
+        } else {
+            [[WPLogger sharedInstance] log:@"❌ 设置屏幕亮度失败"];
+        }
     }
 }
 
@@ -1629,6 +1660,263 @@ static id _healthDataStorage = nil;
             [invocation setArgument:&lightSleep atIndex:3];
             [invocation setArgument:&awake atIndex:4];
             [invocation invoke];
+        }
+    }
+}
+
+/**
+ * 处理开关状态响应（指令 0x80）
+ * @param response 响应数据
+ *
+ * @discussion 参考 Swift 实现：XGZTCommands.swift:1438-1471
+ * - 响应长度 >= 10：查询响应，包含所有开关状态
+ * - 响应长度 < 10：设置响应，只返回成功/失败
+ */
++ (void)handleSwitchStatusResponse:(NSData *)response {
+    const uint8_t *bytes = (const uint8_t *)response.bytes;
+
+    if (response.length < 7) {
+        [[WPLogger sharedInstance] log:@"❌ 开关状态响应数据长度不足"];
+        return;
+    }
+
+    WPBluetoothManager *manager = [WPBluetoothManager sharedInstance];
+
+    if (response.length >= 10) {
+        // ====== 查询响应：解析所有开关状态 ======
+        uint8_t p0 = bytes[6];  // P0 字节：包含多个开关位
+        uint8_t p1 = bytes[7];  // P1 字节：包含多个开关位
+
+        [[WPLogger sharedInstance] log:[NSString stringWithFormat:@"🔀 开关状态响应 - P0:0x%02X P1:0x%02X", p0, p1]];
+
+        if (manager.currentDevice) {
+            // 解析 P0 字节（参考 Swift: XGZTCommands.swift:1444-1451）
+            manager.currentDevice.isAntiLostSwitch = (p0 & (1 << 0)) > 0;                     // bit 0: 防丢开关
+            manager.currentDevice.isRaiseHandToBrightenScreen = ((p0 >> 1) & 1) > 0;          // bit 1: 抬手亮屏 ⭐️
+            // bit 2: 防丢开关（重复，Swift 中也有这个重复赋值）
+            manager.currentDevice.isSleepMonitoringSwitch = ((p0 >> 4) & 1) > 0;              // bit 4: 睡眠监测
+            manager.currentDevice.isMessageReminderMainSwitch = ((p0 >> 5) & 1) > 0;          // bit 5: 消息提醒总开关
+            manager.currentDevice.isRegularExerciseDataUploadSwitch = ((p0 >> 6) & 1) > 0;    // bit 6: 定期运动数据上传
+            manager.currentDevice.isGoalAchievementSwitch = ((p0 >> 7) & 1) > 0;              // bit 7: 目标达成开关
+
+            // 解析 P1 字节（参考 Swift: XGZTCommands.swift:1453-1457）
+            manager.currentDevice.isMessageScreenDisplaySwitch = ((p1 >> 1) & 1) > 0;         // bit 1: 消息屏幕显示
+            manager.currentDevice.isSoundSwitch = ((p1 >> 2) & 1) > 0;                         // bit 2: 声音开关
+            manager.currentDevice.isVibrationSwitch = ((p1 >> 3) & 1) > 0;                     // bit 3: 震动开关
+            manager.currentDevice.isRegularHealthDataUploadSwitch = ((p1 >> 4) & 1) > 0;      // bit 4: 定期健康数据上传
+            manager.currentDevice.isMessageVibrationSwitch = ((p1 >> 5) & 1) > 0;             // bit 5: 消息震动开关
+
+            [[WPLogger sharedInstance] log:[NSString stringWithFormat:@"✋ 抬手亮屏状态: %@",
+                manager.currentDevice.isRaiseHandToBrightenScreen ? @"开启" : @"关闭"]];
+        }
+
+        // 🆕 通过代理回调通知应用层
+        if ([manager.delegate respondsToSelector:@selector(didReceiveSwitchStatus:p1:)]) {
+            // 使用 NSInvocation 调用多参数方法
+            NSMethodSignature *signature = [[manager.delegate class] instanceMethodSignatureForSelector:@selector(didReceiveSwitchStatus:p1:)];
+            if (signature) {
+                NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:signature];
+                [invocation setSelector:@selector(didReceiveSwitchStatus:p1:)];
+                [invocation setTarget:manager.delegate];
+                NSInteger p0Value = p0;
+                NSInteger p1Value = p1;
+                [invocation setArgument:&p0Value atIndex:2];
+                [invocation setArgument:&p1Value atIndex:3];
+                [invocation invoke];
+            }
+        }
+
+        // 发送通知（参考 Swift: XGZTCommands.swift:1459-1463）
+        if (bytes[2] == 3) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"DeviceSettings" object:@(1)];
+        } else {
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"XGZTBusinessHandler" object:@"11"];
+        }
+
+    } else {
+        // ====== 设置响应：只返回成功/失败 ======
+        BOOL success = bytes[6] == 0x00;
+
+        if (success) {
+            [[WPLogger sharedInstance] log:@"✅ 设置开关状态成功"];
+        } else {
+            [[WPLogger sharedInstance] log:@"❌ 设置开关状态失败"];
+        }
+    }
+}
+
+// MARK: - 闹钟响应解析
+
++ (void)handleAlarmInfoResponse:(NSData *)response {
+    const uint8_t *bytes = (const uint8_t *)response.bytes;
+    WPBluetoothManager *manager = [WPBluetoothManager sharedInstance];
+    WPBluetoothWatchDevice *device = manager.currentDevice;
+
+    // 1. 返回闹钟总数和可用数量（长度 8，查询类型）
+    if (response.length == 8 && bytes[5] == 0x00) {
+        device.alarmCount = bytes[6];
+        device.alarmCanUse = bytes[7];
+
+        [[WPLogger sharedInstance] log:[NSString stringWithFormat:@"⏰ 闹钟总数:%ld 可用数量:%ld",
+                                       (long)device.alarmCount, (long)device.alarmCanUse]];
+
+        // 通知代理
+        if ([manager.delegate respondsToSelector:@selector(didUpdateAlarmCount:canUse:)]) {
+            NSMethodSignature *signature = [[manager.delegate class] instanceMethodSignatureForSelector:@selector(didUpdateAlarmCount:canUse:)];
+            if (signature) {
+                NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:signature];
+                [invocation setSelector:@selector(didUpdateAlarmCount:canUse:)];
+                [invocation setTarget:manager.delegate];
+                NSInteger count = device.alarmCount;
+                NSInteger canUse = device.alarmCanUse;
+                [invocation setArgument:&count atIndex:2];
+                [invocation setArgument:&canUse atIndex:3];
+                [invocation invoke];
+            }
+        }
+        return;
+    }
+
+    // 2. 设置成功响应（长度 8 或 7）
+    if ((response.length == 8 && bytes[5] == 0x01 && bytes[7] == 0x00) ||
+        (response.length == 7 && bytes[5] == 0x01 && bytes[6] == 0x00)) {
+        [[WPLogger sharedInstance] log:@"✅ 闹钟设置成功"];
+
+        // 重新获取闹钟列表
+        [self getAlarmInfo:1];
+        [self getAlarmInfo:2];
+        return;
+    }
+
+    // 3. 闹钟详细信息（长度 14）
+    if (response.length == 14) {
+        NSInteger index = bytes[7];
+        NSInteger switchValue = bytes[8];
+        NSInteger cycle = bytes[9];
+        NSInteger hour = bytes[10];
+        NSInteger minute = bytes[11];
+        NSInteger vibration = bytes[12];
+        NSInteger later = bytes[13];
+
+        // 创建闹钟对象
+        WPAlarmData *alarm = [[WPAlarmData alloc] init];
+        alarm.alarmId = index;
+        alarm.enabled = (switchValue == 1);
+        alarm.repeatDays = cycle;
+        alarm.hour = hour;
+        alarm.minute = minute;
+
+        [[WPLogger sharedInstance] log:[NSString stringWithFormat:
+            @"⏰ 闹钟信息 - ID:%ld 时间:%02ld:%02ld 启用:%@ 重复:0x%02lX 振动:%ld 稍后:%ld",
+            (long)index, (long)hour, (long)minute,
+            alarm.enabled ? @"是" : @"否", (long)cycle, (long)vibration, (long)later]];
+
+        // 更新设备闹钟列表
+        if (!device.alarms) {
+            device.alarms = [NSMutableArray array];
+        }
+
+        // 查找并更新或添加
+        BOOL found = NO;
+        for (NSInteger i = 0; i < device.alarms.count; i++) {
+            WPAlarmData *existingAlarm = device.alarms[i];
+            if (existingAlarm.alarmId == index) {
+                device.alarms[i] = alarm;
+                found = YES;
+                break;
+            }
+        }
+
+        if (!found) {
+            [device.alarms addObject:alarm];
+        }
+
+        // 发送通知（参考 Swift: XGZTCommands.swift:1557-1559）
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"WPAlarmUpdated" object:alarm];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"Alarm" object:nil];
+
+        // 通知代理
+        if ([manager.delegate respondsToSelector:@selector(didUpdateAlarmInfo:)]) {
+            [manager.delegate didUpdateAlarmInfo:alarm];
+        }
+
+        return;
+    }
+
+    [[WPLogger sharedInstance] log:[NSString stringWithFormat:@"⚠️ 未识别的闹钟响应格式 - 长度:%lu", (unsigned long)response.length]];
+}
+
+// MARK: - 提醒信息响应解析
+
++ (void)handleReminderInfoResponse:(NSData *)response {
+    const uint8_t *bytes = (const uint8_t *)response.bytes;
+    WPBluetoothManager *manager = [WPBluetoothManager sharedInstance];
+    WPBluetoothWatchDevice *device = manager.currentDevice;
+
+    // 1. 设置成功响应（长度 7）
+    if (response.length == 7) {
+        if (bytes[6] == 0) {
+            [[WPLogger sharedInstance] log:@"✅ 提醒设置成功"];
+        } else {
+            [[WPLogger sharedInstance] log:[NSString stringWithFormat:@"❌ 提醒设置失败 - 错误码:%d", bytes[6]]];
+        }
+        return;
+    }
+
+    // 2. 提醒详细信息（长度 >= 13）
+    if (response.length < 13) {
+        [[WPLogger sharedInstance] log:[NSString stringWithFormat:@"❌ 提醒信息响应数据长度不足:%lu", (unsigned long)response.length]];
+        return;
+    }
+
+    NSInteger eventType = bytes[6];      // 0=久坐提醒 1=喝水提醒
+    NSInteger cycle = bytes[7];
+    NSInteger startHour = bytes[8];
+    NSInteger startMinute = bytes[9];
+    NSInteger endHour = bytes[10];
+    NSInteger endMinute = bytes[11];
+    NSInteger period = bytes[12];
+
+    [[WPLogger sharedInstance] log:[NSString stringWithFormat:
+        @"📌 提醒信息 - 类型:%@ 周期:0x%02lX 时间:%02ld:%02ld-%02ld:%02ld 间隔:%ld分钟",
+        eventType == 0 ? @"久坐" : @"喝水",
+        (long)cycle, (long)startHour, (long)startMinute,
+        (long)endHour, (long)endMinute, (long)period]];
+
+    // 转换为设备模型使用的 WPReminderInfo
+    WPReminderInfo *reminderInfo = [[WPReminderInfo alloc] init];
+    reminderInfo.enabled = (cycle > 0);  // 根据周期判断是否启用
+    reminderInfo.startHour = startHour;
+    reminderInfo.startMinute = startMinute;
+    reminderInfo.endHour = endHour;
+    reminderInfo.endMinute = endMinute;
+    reminderInfo.interval = period;
+
+    // 更新设备信息（参考 Swift: XGZTCommands.swift:1579-1586）
+    if (eventType == 0) {
+        // 久坐提醒
+        device.longSit = reminderInfo;
+
+        // 发送通知
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"WPLongSitReminderUpdated" object:reminderInfo];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"XGZTBusinessHandler" object:@"13"];
+
+        // 通知代理
+        if ([manager.delegate respondsToSelector:@selector(didUpdateLongSitReminder:)]) {
+            [manager.delegate didUpdateLongSitReminder:reminderInfo];
+        }
+    } else if (eventType == 1) {
+        // 喝水提醒
+        device.drinkWater = reminderInfo;
+
+        // 发送通知
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"WPDrinkWaterReminderUpdated" object:reminderInfo];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"XGZTBusinessHandler" object:@"14"];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"DeviceSettings" object:@1];
+
+        // 通知代理
+        if ([manager.delegate respondsToSelector:@selector(didUpdateDrinkWaterReminder:)]) {
+            [manager.delegate didUpdateDrinkWaterReminder:reminderInfo];
         }
     }
 }

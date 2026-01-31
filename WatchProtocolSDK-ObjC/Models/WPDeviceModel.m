@@ -15,6 +15,49 @@
 
 // MARK: - 闹钟数据实现
 @implementation WPAlarmData
+
+// 便捷属性实现（向后兼容）
+
+- (NSInteger)alarmId {
+    return self.alarmIndex;
+}
+
+- (void)setAlarmId:(NSInteger)alarmId {
+    self.alarmIndex = alarmId;
+}
+
+- (BOOL)enabled {
+    return self.mswitch == 1;
+}
+
+- (void)setEnabled:(BOOL)enabled {
+    self.mswitch = enabled ? 1 : 0;
+}
+
+- (NSInteger)hour {
+    return self.alarmHour;
+}
+
+- (void)setHour:(NSInteger)hour {
+    self.alarmHour = hour;
+}
+
+- (NSInteger)minute {
+    return self.alarmMinute;
+}
+
+- (void)setMinute:(NSInteger)minute {
+    self.alarmMinute = minute;
+}
+
+- (NSInteger)repeatDays {
+    return self.alarmCycle;
+}
+
+- (void)setRepeatDays:(NSInteger)repeatDays {
+    self.alarmCycle = repeatDays;
+}
+
 @end
 
 // MARK: - 提醒信息实现

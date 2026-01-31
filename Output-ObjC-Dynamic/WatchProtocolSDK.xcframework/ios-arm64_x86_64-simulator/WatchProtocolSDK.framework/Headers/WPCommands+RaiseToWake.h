@@ -37,10 +37,30 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  * 获取抬手亮屏状态
- * @param completion 完成回调
+ * @param completion 完成回调（仅表示指令是否发送成功）
  *
- * @discussion 发送查询指令，设备响应通过 WPBluetoothManagerDelegate 回调
- * @note 响应数据通过 handleResponse 方法解析
+ * @discussion 发送查询指令后，设备会返回所有开关状态
+ * @note 响应数据通过 handleSwitchStatusResponse: 方法自动解析
+ * @note 解析结果会：
+ *       1. 自动更新 currentDevice.isRaiseHandToBrightenScreen 属性
+ *       2. 触发代理方法 didReceiveSwitchStatus:p1: 回调应用层
+ *
+ * @note 使用示例:
+ * ```objc
+ * // 1. 实现代理方法（可选）
+ * - (void)didReceiveSwitchStatus:(NSInteger)p0 p1:(NSInteger)p1 {
+ *     BOOL raiseToWake = ((p0 >> 1) & 1) > 0;
+ *     NSLog(@"抬手亮屏状态: %@", raiseToWake ? @"开启" : @"关闭");
+ * }
+ *
+ * // 2. 发送查询指令
+ * [WPCommands getRaiseToWakeStatus:^(BOOL success, NSError *error) {
+ *     if (success) {
+ *         // 指令已发送，等待代理回调或直接读取 currentDevice.isRaiseHandToBrightenScreen
+ *         BOOL currentStatus = [WPBluetoothManager sharedInstance].currentDevice.isRaiseHandToBrightenScreen;
+ *     }
+ * }];
+ * ```
  */
 + (void)getRaiseToWakeStatus:(nullable void(^)(BOOL success, NSError * _Nullable error))completion;
 
