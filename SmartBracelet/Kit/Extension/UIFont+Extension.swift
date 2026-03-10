@@ -2,7 +2,7 @@
 //  UIFont+Extension.swift
 //  SmartBracelet
 //
-//  Created by anker on 2024/4/7.
+//  Created by bruce on 2024/4/7.
 //  Copyright © 2024 tjd. All rights reserved.
 //
 

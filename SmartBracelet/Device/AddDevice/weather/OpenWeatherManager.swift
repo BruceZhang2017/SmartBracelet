@@ -2,7 +2,7 @@
 //  OpenWeatherManager.swift
 //  SmartBracelet
 //
-//  Created by anker on 2024/1/20.
+//  Created by bruce on 2024/1/20.
 //  Copyright © 2024 tjd. All rights reserved.
 //
 
