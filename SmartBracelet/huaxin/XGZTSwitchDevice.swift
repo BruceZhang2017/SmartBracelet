@@ -2,7 +2,7 @@
 //  XGZTSwitchDevice.swift
 //  SmartBracelet
 //
-//  Created by anker on 2024/11/15.
+//  Created by bruce on 2024/11/15.
 //  Copyright © 2024 tjd. All rights reserved.
 //
 

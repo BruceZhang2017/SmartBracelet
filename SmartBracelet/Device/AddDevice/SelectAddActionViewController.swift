@@ -2,7 +2,7 @@
 //  SelectAddActionViewController.swift
 //  SmartBracelet
 //
-//  Created by anker on 2025/5/24.
+//  Created by bruce on 2025/5/24.
 //  Copyright © 2025 tjd. All rights reserved.
 //
 
