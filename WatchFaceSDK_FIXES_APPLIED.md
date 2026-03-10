@@ -113,7 +113,7 @@ WatchFaceSDK-Pure-ObjC/
 请执行以下命令验证修复：
 
 ```bash
-cd /Users/anker/Downloads/SmartBracelet
+cd /Users/bruce/Downloads/SmartBracelet
 
 # 1. 清理构建缓存
 rm -rf Output-WatchFace-ObjC/

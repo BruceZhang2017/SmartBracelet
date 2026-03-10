@@ -448,7 +448,7 @@ public enum DialColor: Int {
 
 ### PAR Format Introduction
 
-**PAR** (Proprietary Anker Raster) is a device-specific image format with the following characteristics:
+**PAR** (Proprietary bruce Raster) is a device-specific image format with the following characteristics:
 
 - High compression ratio (typically 30-50% smaller than JPEG)
 - Optimized for small screens
@@ -1141,4 +1141,4 @@ Choose text color based on image dominant color:
 
 ---
 
-© 2025-2026 Anker Innovations. All Rights Reserved.
+© 2025-2026 bruce Innovations. All Rights Reserved.

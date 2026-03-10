@@ -11,74 +11,74 @@
 
 [0;32m📱 编译 iOS Device (arm64)...[0m
    编译 WFManager.m
-In file included from /Users/anker/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFManager.m:8:
-/Users/anker/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFManager.h:79:58: warning: pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified) [-Wnullability-completeness]
+In file included from /Users/bruce/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFManager.m:8:
+/Users/bruce/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFManager.h:79:58: warning: pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified) [-Wnullability-completeness]
    79 | - (BOOL)validateImage:(UIImage *)image message:(NSString **)message;
       |                                                          ^
-/Users/anker/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFManager.h:79:58: note: insert '_Nullable' if the pointer may be null
+/Users/bruce/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFManager.h:79:58: note: insert '_Nullable' if the pointer may be null
    79 | - (BOOL)validateImage:(UIImage *)image message:(NSString **)message;
       |                                                          ^
       |                                                           _Nullable
-/Users/anker/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFManager.h:79:58: note: insert '_Nonnull' if the pointer should never be null
+/Users/bruce/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFManager.h:79:58: note: insert '_Nonnull' if the pointer should never be null
    79 | - (BOOL)validateImage:(UIImage *)image message:(NSString **)message;
       |                                                          ^
       |                                                           _Nonnull
-/Users/anker/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFManager.h:79:59: warning: pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified) [-Wnullability-completeness]
+/Users/bruce/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFManager.h:79:59: warning: pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified) [-Wnullability-completeness]
    79 | - (BOOL)validateImage:(UIImage *)image message:(NSString **)message;
       |                                                           ^
-/Users/anker/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFManager.h:79:59: note: insert '_Nullable' if the pointer may be null
+/Users/bruce/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFManager.h:79:59: note: insert '_Nullable' if the pointer may be null
    79 | - (BOOL)validateImage:(UIImage *)image message:(NSString **)message;
       |                                                           ^
       |                                                            _Nullable
-/Users/anker/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFManager.h:79:59: note: insert '_Nonnull' if the pointer should never be null
+/Users/bruce/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFManager.h:79:59: note: insert '_Nonnull' if the pointer should never be null
    79 | - (BOOL)validateImage:(UIImage *)image message:(NSString **)message;
       |                                                           ^
       |                                                            _Nonnull
-In file included from /Users/anker/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFManager.m:9:
-/Users/anker/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFImageProcessor.h:42:58: warning: pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified) [-Wnullability-completeness]
+In file included from /Users/bruce/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFManager.m:9:
+/Users/bruce/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFImageProcessor.h:42:58: warning: pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified) [-Wnullability-completeness]
    42 | + (BOOL)validateImage:(UIImage *)image message:(NSString **)message;
       |                                                          ^
-/Users/anker/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFImageProcessor.h:42:58: note: insert '_Nullable' if the pointer may be null
+/Users/bruce/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFImageProcessor.h:42:58: note: insert '_Nullable' if the pointer may be null
    42 | + (BOOL)validateImage:(UIImage *)image message:(NSString **)message;
       |                                                          ^
       |                                                           _Nullable
-/Users/anker/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFImageProcessor.h:42:58: note: insert '_Nonnull' if the pointer should never be null
+/Users/bruce/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFImageProcessor.h:42:58: note: insert '_Nonnull' if the pointer should never be null
    42 | + (BOOL)validateImage:(UIImage *)image message:(NSString **)message;
       |                                                          ^
       |                                                           _Nonnull
-/Users/anker/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFImageProcessor.h:42:59: warning: pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified) [-Wnullability-completeness]
+/Users/bruce/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFImageProcessor.h:42:59: warning: pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified) [-Wnullability-completeness]
    42 | + (BOOL)validateImage:(UIImage *)image message:(NSString **)message;
       |                                                           ^
-/Users/anker/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFImageProcessor.h:42:59: note: insert '_Nullable' if the pointer may be null
+/Users/bruce/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFImageProcessor.h:42:59: note: insert '_Nullable' if the pointer may be null
    42 | + (BOOL)validateImage:(UIImage *)image message:(NSString **)message;
       |                                                           ^
       |                                                            _Nullable
-/Users/anker/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFImageProcessor.h:42:59: note: insert '_Nonnull' if the pointer should never be null
+/Users/bruce/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFImageProcessor.h:42:59: note: insert '_Nonnull' if the pointer should never be null
    42 | + (BOOL)validateImage:(UIImage *)image message:(NSString **)message;
       |                                                           ^
       |                                                            _Nonnull
 4 warnings generated.
    编译 WFImageProcessor.m
-In file included from /Users/anker/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFImageProcessor.m:8:
-/Users/anker/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFImageProcessor.h:42:58: warning: pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified) [-Wnullability-completeness]
+In file included from /Users/bruce/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFImageProcessor.m:8:
+/Users/bruce/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFImageProcessor.h:42:58: warning: pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified) [-Wnullability-completeness]
    42 | + (BOOL)validateImage:(UIImage *)image message:(NSString **)message;
       |                                                          ^
-/Users/anker/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFImageProcessor.h:42:58: note: insert '_Nullable' if the pointer may be null
+/Users/bruce/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFImageProcessor.h:42:58: note: insert '_Nullable' if the pointer may be null
    42 | + (BOOL)validateImage:(UIImage *)image message:(NSString **)message;
       |                                                          ^
       |                                                           _Nullable
-/Users/anker/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFImageProcessor.h:42:58: note: insert '_Nonnull' if the pointer should never be null
+/Users/bruce/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFImageProcessor.h:42:58: note: insert '_Nonnull' if the pointer should never be null
    42 | + (BOOL)validateImage:(UIImage *)image message:(NSString **)message;
       |                                                          ^
       |                                                           _Nonnull
-/Users/anker/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFImageProcessor.h:42:59: warning: pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified) [-Wnullability-completeness]
+/Users/bruce/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFImageProcessor.h:42:59: warning: pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified) [-Wnullability-completeness]
    42 | + (BOOL)validateImage:(UIImage *)image message:(NSString **)message;
       |                                                           ^
-/Users/anker/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFImageProcessor.h:42:59: note: insert '_Nullable' if the pointer may be null
+/Users/bruce/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFImageProcessor.h:42:59: note: insert '_Nullable' if the pointer may be null
    42 | + (BOOL)validateImage:(UIImage *)image message:(NSString **)message;
       |                                                           ^
       |                                                            _Nullable
-/Users/anker/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFImageProcessor.h:42:59: note: insert '_Nonnull' if the pointer should never be null
+/Users/bruce/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFImageProcessor.h:42:59: note: insert '_Nonnull' if the pointer should never be null
    42 | + (BOOL)validateImage:(UIImage *)image message:(NSString **)message;
       |                                                           ^
       |                                                            _Nonnull
@@ -89,144 +89,144 @@ In file included from /Users/anker/Downloads/SmartBracelet/WatchFaceSDK-Pure-Obj
 [0;32m🔗 链接 Device Framework...[0m
 
 [0;32m📱 编译 iOS Simulator (arm64 + x86_64)...[0m
-In file included from /Users/anker/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFManager.m:8:
-/Users/anker/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFManager.h:79:58: warning: pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified) [-Wnullability-completeness]
+In file included from /Users/bruce/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFManager.m:8:
+/Users/bruce/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFManager.h:79:58: warning: pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified) [-Wnullability-completeness]
    79 | - (BOOL)validateImage:(UIImage *)image message:(NSString **)message;
       |                                                          ^
-/Users/anker/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFManager.h:79:58: note: insert '_Nullable' if the pointer may be null
+/Users/bruce/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFManager.h:79:58: note: insert '_Nullable' if the pointer may be null
    79 | - (BOOL)validateImage:(UIImage *)image message:(NSString **)message;
       |                                                          ^
       |                                                           _Nullable
-/Users/anker/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFManager.h:79:58: note: insert '_Nonnull' if the pointer should never be null
+/Users/bruce/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFManager.h:79:58: note: insert '_Nonnull' if the pointer should never be null
    79 | - (BOOL)validateImage:(UIImage *)image message:(NSString **)message;
       |                                                          ^
       |                                                           _Nonnull
-/Users/anker/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFManager.h:79:59: warning: pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified) [-Wnullability-completeness]
+/Users/bruce/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFManager.h:79:59: warning: pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified) [-Wnullability-completeness]
    79 | - (BOOL)validateImage:(UIImage *)image message:(NSString **)message;
       |                                                           ^
-/Users/anker/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFManager.h:79:59: note: insert '_Nullable' if the pointer may be null
+/Users/bruce/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFManager.h:79:59: note: insert '_Nullable' if the pointer may be null
    79 | - (BOOL)validateImage:(UIImage *)image message:(NSString **)message;
       |                                                           ^
       |                                                            _Nullable
-/Users/anker/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFManager.h:79:59: note: insert '_Nonnull' if the pointer should never be null
+/Users/bruce/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFManager.h:79:59: note: insert '_Nonnull' if the pointer should never be null
    79 | - (BOOL)validateImage:(UIImage *)image message:(NSString **)message;
       |                                                           ^
       |                                                            _Nonnull
-In file included from /Users/anker/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFManager.m:9:
-/Users/anker/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFImageProcessor.h:42:58: warning: pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified) [-Wnullability-completeness]
+In file included from /Users/bruce/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFManager.m:9:
+/Users/bruce/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFImageProcessor.h:42:58: warning: pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified) [-Wnullability-completeness]
    42 | + (BOOL)validateImage:(UIImage *)image message:(NSString **)message;
       |                                                          ^
-/Users/anker/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFImageProcessor.h:42:58: note: insert '_Nullable' if the pointer may be null
+/Users/bruce/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFImageProcessor.h:42:58: note: insert '_Nullable' if the pointer may be null
    42 | + (BOOL)validateImage:(UIImage *)image message:(NSString **)message;
       |                                                          ^
       |                                                           _Nullable
-/Users/anker/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFImageProcessor.h:42:58: note: insert '_Nonnull' if the pointer should never be null
+/Users/bruce/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFImageProcessor.h:42:58: note: insert '_Nonnull' if the pointer should never be null
    42 | + (BOOL)validateImage:(UIImage *)image message:(NSString **)message;
       |                                                          ^
       |                                                           _Nonnull
-/Users/anker/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFImageProcessor.h:42:59: warning: pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified) [-Wnullability-completeness]
+/Users/bruce/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFImageProcessor.h:42:59: warning: pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified) [-Wnullability-completeness]
    42 | + (BOOL)validateImage:(UIImage *)image message:(NSString **)message;
       |                                                           ^
-/Users/anker/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFImageProcessor.h:42:59: note: insert '_Nullable' if the pointer may be null
+/Users/bruce/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFImageProcessor.h:42:59: note: insert '_Nullable' if the pointer may be null
    42 | + (BOOL)validateImage:(UIImage *)image message:(NSString **)message;
       |                                                           ^
       |                                                            _Nullable
-/Users/anker/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFImageProcessor.h:42:59: note: insert '_Nonnull' if the pointer should never be null
+/Users/bruce/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFImageProcessor.h:42:59: note: insert '_Nonnull' if the pointer should never be null
    42 | + (BOOL)validateImage:(UIImage *)image message:(NSString **)message;
       |                                                           ^
       |                                                            _Nonnull
 4 warnings generated.
-In file included from /Users/anker/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFImageProcessor.m:8:
-/Users/anker/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFImageProcessor.h:42:58: warning: pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified) [-Wnullability-completeness]
+In file included from /Users/bruce/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFImageProcessor.m:8:
+/Users/bruce/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFImageProcessor.h:42:58: warning: pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified) [-Wnullability-completeness]
    42 | + (BOOL)validateImage:(UIImage *)image message:(NSString **)message;
       |                                                          ^
-/Users/anker/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFImageProcessor.h:42:58: note: insert '_Nullable' if the pointer may be null
+/Users/bruce/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFImageProcessor.h:42:58: note: insert '_Nullable' if the pointer may be null
    42 | + (BOOL)validateImage:(UIImage *)image message:(NSString **)message;
       |                                                          ^
       |                                                           _Nullable
-/Users/anker/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFImageProcessor.h:42:58: note: insert '_Nonnull' if the pointer should never be null
+/Users/bruce/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFImageProcessor.h:42:58: note: insert '_Nonnull' if the pointer should never be null
    42 | + (BOOL)validateImage:(UIImage *)image message:(NSString **)message;
       |                                                          ^
       |                                                           _Nonnull
-/Users/anker/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFImageProcessor.h:42:59: warning: pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified) [-Wnullability-completeness]
+/Users/bruce/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFImageProcessor.h:42:59: warning: pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified) [-Wnullability-completeness]
    42 | + (BOOL)validateImage:(UIImage *)image message:(NSString **)message;
       |                                                           ^
-/Users/anker/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFImageProcessor.h:42:59: note: insert '_Nullable' if the pointer may be null
+/Users/bruce/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFImageProcessor.h:42:59: note: insert '_Nullable' if the pointer may be null
    42 | + (BOOL)validateImage:(UIImage *)image message:(NSString **)message;
       |                                                           ^
       |                                                            _Nullable
-/Users/anker/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFImageProcessor.h:42:59: note: insert '_Nonnull' if the pointer should never be null
+/Users/bruce/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFImageProcessor.h:42:59: note: insert '_Nonnull' if the pointer should never be null
    42 | + (BOOL)validateImage:(UIImage *)image message:(NSString **)message;
       |                                                           ^
       |                                                            _Nonnull
 2 warnings generated.
-In file included from /Users/anker/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFManager.m:8:
-/Users/anker/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFManager.h:79:58: warning: pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified) [-Wnullability-completeness]
+In file included from /Users/bruce/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFManager.m:8:
+/Users/bruce/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFManager.h:79:58: warning: pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified) [-Wnullability-completeness]
    79 | - (BOOL)validateImage:(UIImage *)image message:(NSString **)message;
       |                                                          ^
-/Users/anker/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFManager.h:79:58: note: insert '_Nullable' if the pointer may be null
+/Users/bruce/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFManager.h:79:58: note: insert '_Nullable' if the pointer may be null
    79 | - (BOOL)validateImage:(UIImage *)image message:(NSString **)message;
       |                                                          ^
       |                                                           _Nullable
-/Users/anker/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFManager.h:79:58: note: insert '_Nonnull' if the pointer should never be null
+/Users/bruce/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFManager.h:79:58: note: insert '_Nonnull' if the pointer should never be null
    79 | - (BOOL)validateImage:(UIImage *)image message:(NSString **)message;
       |                                                          ^
       |                                                           _Nonnull
-/Users/anker/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFManager.h:79:59: warning: pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified) [-Wnullability-completeness]
+/Users/bruce/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFManager.h:79:59: warning: pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified) [-Wnullability-completeness]
    79 | - (BOOL)validateImage:(UIImage *)image message:(NSString **)message;
       |                                                           ^
-/Users/anker/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFManager.h:79:59: note: insert '_Nullable' if the pointer may be null
+/Users/bruce/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFManager.h:79:59: note: insert '_Nullable' if the pointer may be null
    79 | - (BOOL)validateImage:(UIImage *)image message:(NSString **)message;
       |                                                           ^
       |                                                            _Nullable
-/Users/anker/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFManager.h:79:59: note: insert '_Nonnull' if the pointer should never be null
+/Users/bruce/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFManager.h:79:59: note: insert '_Nonnull' if the pointer should never be null
    79 | - (BOOL)validateImage:(UIImage *)image message:(NSString **)message;
       |                                                           ^
       |                                                            _Nonnull
-In file included from /Users/anker/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFManager.m:9:
-/Users/anker/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFImageProcessor.h:42:58: warning: pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified) [-Wnullability-completeness]
+In file included from /Users/bruce/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFManager.m:9:
+/Users/bruce/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFImageProcessor.h:42:58: warning: pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified) [-Wnullability-completeness]
    42 | + (BOOL)validateImage:(UIImage *)image message:(NSString **)message;
       |                                                          ^
-/Users/anker/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFImageProcessor.h:42:58: note: insert '_Nullable' if the pointer may be null
+/Users/bruce/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFImageProcessor.h:42:58: note: insert '_Nullable' if the pointer may be null
    42 | + (BOOL)validateImage:(UIImage *)image message:(NSString **)message;
       |                                                          ^
       |                                                           _Nullable
-/Users/anker/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFImageProcessor.h:42:58: note: insert '_Nonnull' if the pointer should never be null
+/Users/bruce/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFImageProcessor.h:42:58: note: insert '_Nonnull' if the pointer should never be null
    42 | + (BOOL)validateImage:(UIImage *)image message:(NSString **)message;
       |                                                          ^
       |                                                           _Nonnull
-/Users/anker/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFImageProcessor.h:42:59: warning: pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified) [-Wnullability-completeness]
+/Users/bruce/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFImageProcessor.h:42:59: warning: pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified) [-Wnullability-completeness]
    42 | + (BOOL)validateImage:(UIImage *)image message:(NSString **)message;
       |                                                           ^
-/Users/anker/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFImageProcessor.h:42:59: note: insert '_Nullable' if the pointer may be null
+/Users/bruce/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFImageProcessor.h:42:59: note: insert '_Nullable' if the pointer may be null
    42 | + (BOOL)validateImage:(UIImage *)image message:(NSString **)message;
       |                                                           ^
       |                                                            _Nullable
-/Users/anker/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFImageProcessor.h:42:59: note: insert '_Nonnull' if the pointer should never be null
+/Users/bruce/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFImageProcessor.h:42:59: note: insert '_Nonnull' if the pointer should never be null
    42 | + (BOOL)validateImage:(UIImage *)image message:(NSString **)message;
       |                                                           ^
       |                                                            _Nonnull
 4 warnings generated.
-In file included from /Users/anker/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFImageProcessor.m:8:
-/Users/anker/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFImageProcessor.h:42:58: warning: pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified) [-Wnullability-completeness]
+In file included from /Users/bruce/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFImageProcessor.m:8:
+/Users/bruce/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFImageProcessor.h:42:58: warning: pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified) [-Wnullability-completeness]
    42 | + (BOOL)validateImage:(UIImage *)image message:(NSString **)message;
       |                                                          ^
-/Users/anker/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFImageProcessor.h:42:58: note: insert '_Nullable' if the pointer may be null
+/Users/bruce/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFImageProcessor.h:42:58: note: insert '_Nullable' if the pointer may be null
    42 | + (BOOL)validateImage:(UIImage *)image message:(NSString **)message;
       |                                                          ^
       |                                                           _Nullable
-/Users/anker/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFImageProcessor.h:42:58: note: insert '_Nonnull' if the pointer should never be null
+/Users/bruce/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFImageProcessor.h:42:58: note: insert '_Nonnull' if the pointer should never be null
    42 | + (BOOL)validateImage:(UIImage *)image message:(NSString **)message;
       |                                                          ^
       |                                                           _Nonnull
-/Users/anker/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFImageProcessor.h:42:59: warning: pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified) [-Wnullability-completeness]
+/Users/bruce/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFImageProcessor.h:42:59: warning: pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified) [-Wnullability-completeness]
    42 | + (BOOL)validateImage:(UIImage *)image message:(NSString **)message;
       |                                                           ^
-/Users/anker/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFImageProcessor.h:42:59: note: insert '_Nullable' if the pointer may be null
+/Users/bruce/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFImageProcessor.h:42:59: note: insert '_Nullable' if the pointer may be null
    42 | + (BOOL)validateImage:(UIImage *)image message:(NSString **)message;
       |                                                           ^
       |                                                            _Nullable
-/Users/anker/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFImageProcessor.h:42:59: note: insert '_Nonnull' if the pointer should never be null
+/Users/bruce/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFImageProcessor.h:42:59: note: insert '_Nonnull' if the pointer should never be null
    42 | + (BOOL)validateImage:(UIImage *)image message:(NSString **)message;
       |                                                           ^
       |                                                            _Nonnull
@@ -234,4 +234,4 @@ In file included from /Users/anker/Downloads/SmartBracelet/WatchFaceSDK-Pure-Obj
 [0;32m🔗 链接 Simulator Framework...[0m
 
 [0;32m📦 创建 XCFramework...[0m
-error: unable to read the file at '/Users/anker/Downloads/SmartBracelet/build/WatchFaceObjC-Pure/WatchFaceSDK_ObjC-simulator.framework/WatchFaceSDK_ObjC-simulator'
+error: unable to read the file at '/Users/bruce/Downloads/SmartBracelet/build/WatchFaceObjC-Pure/WatchFaceSDK_ObjC-simulator.framework/WatchFaceSDK_ObjC-simulator'

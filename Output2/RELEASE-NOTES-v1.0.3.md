@@ -247,7 +247,7 @@ If you encounter any issues with v1.0.3, please report them immediately.
 
 ---
 
-**© 2025-2026 Anker. All Rights Reserved.**
+**© 2025-2026 bruce. All Rights Reserved.**
 
 **Release Compiled**: January 14, 2026
 **Framework Size**: 3.9 MB

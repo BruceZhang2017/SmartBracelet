@@ -2,7 +2,7 @@
 //  EditClockCollectionViewCell.swift
 //  SmartBracelet
 //
-//  Created by anker on 2021/12/13.
+//  Created by bruce on 2021/12/13.
 //  Copyright © 2021 tjd. All rights reserved.
 //
 

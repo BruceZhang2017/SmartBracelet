@@ -119,4 +119,4 @@ If you have questions, please check the FAQ section in the documentation first.
 
 **WatchFaceSDK v1.0.0**
 
-**© 2025 Anker Innovations. All rights reserved.**
+**© 2025 bruce Innovations. All rights reserved.**

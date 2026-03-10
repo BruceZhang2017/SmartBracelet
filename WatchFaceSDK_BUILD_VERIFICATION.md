@@ -97,7 +97,7 @@ framework module WatchFaceSDK {
 | 属性 | 值 |
 |------|-----|
 | Framework 名称 | WatchFaceSDK_ObjC |
-| Bundle ID | com.anker.watch.WatchFaceSDK_ObjC |
+| Bundle ID | com.bruce.watch.WatchFaceSDK_ObjC |
 | 版本 | 1.0.0 |
 | 最低 iOS 版本 | 13.0 |
 | 总大小 | 332 KB |

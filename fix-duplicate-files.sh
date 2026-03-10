@@ -4,7 +4,7 @@
 
 set -e
 
-PBXPROJ="/Users/anker/Downloads/SmartBracelet/SmartBracelet.xcodeproj/project.pbxproj"
+PBXPROJ="/Users/bruce/Downloads/SmartBracelet/SmartBracelet.xcodeproj/project.pbxproj"
 BACKUP="${PBXPROJ}.backup-$(date +%Y%m%d-%H%M%S)"
 
 echo "🔧 修复 Xcode 项目中的重复文件引用..."

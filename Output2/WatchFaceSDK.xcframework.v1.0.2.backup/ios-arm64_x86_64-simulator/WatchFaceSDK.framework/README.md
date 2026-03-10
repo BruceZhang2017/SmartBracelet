@@ -315,7 +315,7 @@ A: 支持圆形（round）和方形（square）两种屏幕形状。
 
 ## 📄 许可证
 
-Copyright © 2025 Anker Innovations. All rights reserved.
+Copyright © 2025 bruce Innovations. All rights reserved.
 
 ---
 

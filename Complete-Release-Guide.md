@@ -50,7 +50,7 @@
 ### 步骤 2: 推送代码到 GitHub
 
 ```bash
-cd /Users/anker/Downloads/HuaXinSDK
+cd /Users/bruce/Downloads/HuaXinSDK
 
 # 方式 1: 直接推送（会提示输入凭证）
 git push origin main
@@ -67,7 +67,7 @@ git push origin main
 ### 步骤 3: 创建并推送 Git Tag
 
 ```bash
-cd /Users/anker/Downloads/HuaXinSDK
+cd /Users/bruce/Downloads/HuaXinSDK
 
 # 创建 tag
 git tag v1.0.1
@@ -103,7 +103,7 @@ pod trunk me
 #### 2. 验证 Podspec
 
 ```bash
-cd /Users/anker/Downloads/HuaXinSDK
+cd /Users/bruce/Downloads/HuaXinSDK
 
 pod spec lint WatchProtocolSDK.podspec --allow-warnings
 ```
@@ -172,7 +172,7 @@ pod install
 ### 发布新版本（例如 v1.0.2）
 
 ```bash
-cd /Users/anker/Downloads/SmartBracelet
+cd /Users/bruce/Downloads/SmartBracelet
 
 # 1. 修改代码
 # 2. 更新版本号
@@ -190,10 +190,10 @@ xcodebuild -create-xcframework \
     -output Output/WatchProtocolSDK.xcframework
 
 # 5. 复制到 GitHub 仓库
-cp -R Output/* /Users/anker/Downloads/HuaXinSDK/WatchProtocolSDK/v1.0.2/
+cp -R Output/* /Users/bruce/Downloads/HuaXinSDK/WatchProtocolSDK/v1.0.2/
 
 # 6. 提交并推送
-cd /Users/anker/Downloads/HuaXinSDK
+cd /Users/bruce/Downloads/HuaXinSDK
 git add .
 git commit -m "Release v1.0.2"
 git push origin main
@@ -214,7 +214,7 @@ pod trunk push WatchProtocolSDK.podspec --allow-warnings
 
 ```bash
 # 1. GitHub 推送（需要先创建 PAT）
-cd /Users/anker/Downloads/HuaXinSDK
+cd /Users/bruce/Downloads/HuaXinSDK
 git push origin main
 git tag v1.0.1
 git push origin v1.0.1
@@ -238,7 +238,7 @@ pod 'WatchProtocolSDK', :git => 'https://github.com/Xiaotengzxf/HuaXinSDK.git', 
 ## 文件位置说明
 
 ```
-/Users/anker/Downloads/SmartBracelet/
+/Users/bruce/Downloads/SmartBracelet/
 ├── Output/                                          # SDK 输出目录
 │   ├── WatchProtocolSDK.xcframework                 # 编译好的 framework
 │   ├── VERSION.txt                                  # 版本信息
@@ -251,7 +251,7 @@ pod 'WatchProtocolSDK', :git => 'https://github.com/Xiaotengzxf/HuaXinSDK.git', 
 ├── CocoaPods-Release-Guide.md                      # CocoaPods 详细指南
 └── Complete-Release-Guide.md                       # 本文件（完整发布指南）
 
-/Users/anker/Downloads/HuaXinSDK/                    # GitHub 仓库
+/Users/bruce/Downloads/HuaXinSDK/                    # GitHub 仓库
 ├── WatchProtocolSDK/
 │   ├── README.md                                    # SDK 说明
 │   ├── LICENSE                                      # 许可证

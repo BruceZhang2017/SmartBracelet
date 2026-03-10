@@ -304,7 +304,7 @@ if ([[WFManager sharedInstance] isDeviceConnected]) {
 4. **错误转换**
    ```swift
    private func convertToNSError(_ error: WatchFaceError) -> NSError {
-       return NSError(domain: "com.anker.WatchFaceSDK",
+       return NSError(domain: "com.bruce.WatchFaceSDK",
                       code: errorCode,
                       userInfo: [NSLocalizedDescriptionKey: message])
    }

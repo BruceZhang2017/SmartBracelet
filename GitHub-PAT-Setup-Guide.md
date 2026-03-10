@@ -36,7 +36,7 @@ GitHub 已于 2021 年 8 月 13 日停止支持使用密码进行 HTTPS Git 操�
 创建 Token 后，在终端中使用以下命令推送：
 
 ```bash
-cd /Users/anker/Downloads/HuaXinSDK
+cd /Users/bruce/Downloads/HuaXinSDK
 
 # 更新远程仓库 URL（使用 token）
 git remote set-url origin https://YOUR_TOKEN@github.com/Xiaotengzxf/HuaXinSDK.git

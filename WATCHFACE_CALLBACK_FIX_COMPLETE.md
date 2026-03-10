@@ -190,7 +190,7 @@ case WPCommandTypeGetSleepMonitoring:
 **结果：**
 ```
 ✅ 动态 Framework 构建完成！
-📍 输出位置: /Users/anker/Downloads/SmartBracelet/Output-ObjC-Dynamic/WatchProtocolSDK.xcframework
+📍 输出位置: /Users/bruce/Downloads/SmartBracelet/Output-ObjC-Dynamic/WatchProtocolSDK.xcframework
 📦 Framework 大小: 1.2M
 ```
 
@@ -203,7 +203,7 @@ case WPCommandTypeGetSleepMonitoring:
 **结果：**
 ```
 ✅ 构建完成！
-📍 输出位置: /Users/anker/Downloads/SmartBracelet/Output-WatchFace-ObjC/WatchFaceSDK_ObjC.xcframework
+📍 输出位置: /Users/bruce/Downloads/SmartBracelet/Output-WatchFace-ObjC/WatchFaceSDK_ObjC.xcframework
 📦 Framework 大小: 332K
 ```
 

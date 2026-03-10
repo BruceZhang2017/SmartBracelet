@@ -2,7 +2,7 @@
 //  HealthCollectionViewCell.swift
 //  SmartBracelet
 //
-//  Created by anker on 2024/4/14.
+//  Created by bruce on 2024/4/14.
 //  Copyright © 2024 tjd. All rights reserved.
 //
 

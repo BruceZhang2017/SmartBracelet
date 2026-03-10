@@ -387,4 +387,4 @@ Framework 已可直接提供给第三方使用！
 
 **构建者**: Claude AI
 **构建时间**: 2026-01-30
-**输出位置**: `/Users/anker/Downloads/SmartBracelet/Output-ObjC-Dynamic/`
+**输出位置**: `/Users/bruce/Downloads/SmartBracelet/Output-ObjC-Dynamic/`

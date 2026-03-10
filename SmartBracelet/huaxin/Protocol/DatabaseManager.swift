@@ -2,7 +2,7 @@
 //  DatabaseManager.swift
 //  SmartBracelet
 //
-//  Created by anker on 2024/12/27.
+//  Created by bruce on 2024/12/27.
 //  Copyright © 2024 tjd. All rights reserved.
 //
 

@@ -240,7 +240,7 @@
 #pragma mark - Error Helper
 
 - (NSError *)errorWithCode:(WFErrorCode)code description:(NSString *)description {
-    return [NSError errorWithDomain:@"com.anker.WatchFaceSDK"
+    return [NSError errorWithDomain:@"com.bruce.WatchFaceSDK"
                                code:code
                            userInfo:@{NSLocalizedDescriptionKey: description}];
 }

@@ -23586,1001 +23586,1001 @@
   },
   "ConstValues": [
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTBlueToothManager.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTBlueToothManager.swift",
       "kind": "Array",
       "offset": 1040,
       "length": 2,
       "value": "[]"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTBlueToothManager.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTBlueToothManager.swift",
       "kind": "Dictionary",
       "offset": 1141,
       "length": 3,
       "value": "[]"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTBlueToothManager.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTBlueToothManager.swift",
       "kind": "BooleanLiteral",
       "offset": 1564,
       "length": 5,
       "value": "false"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTBlueToothManager.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTBlueToothManager.swift",
       "kind": "BooleanLiteral",
       "offset": 1774,
       "length": 5,
       "value": "false"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTBlueToothManager.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTBlueToothManager.swift",
       "kind": "BooleanLiteral",
       "offset": 1834,
       "length": 5,
       "value": "false"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTBlueToothManager.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTBlueToothManager.swift",
       "kind": "BooleanLiteral",
       "offset": 2010,
       "length": 5,
       "value": "false"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTBlueToothManager.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTBlueToothManager.swift",
       "kind": "StringLiteral",
       "offset": 2065,
       "length": 2,
       "value": "\"\""
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTBlueToothManager.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTBlueToothManager.swift",
       "kind": "BooleanLiteral",
       "offset": 2106,
       "length": 5,
       "value": "false"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTBlueToothManager.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTBlueToothManager.swift",
       "kind": "BooleanLiteral",
       "offset": 2147,
       "length": 5,
       "value": "false"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTBlueToothManager.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTBlueToothManager.swift",
       "kind": "Array",
       "offset": 2285,
       "length": 2,
       "value": "[]"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTBlueToothManager.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTBlueToothManager.swift",
       "kind": "BooleanLiteral",
       "offset": 2324,
       "length": 5,
       "value": "false"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTBlueToothManager.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTBlueToothManager.swift",
       "kind": "BooleanLiteral",
       "offset": 3788,
       "length": 5,
       "value": "false"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTCommands.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTCommands.swift",
       "kind": "IntegerLiteral",
       "offset": 368,
       "length": 4,
       "value": "0x50"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTCommands.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTCommands.swift",
       "kind": "IntegerLiteral",
       "offset": 400,
       "length": 4,
       "value": "0x51"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTCommands.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTCommands.swift",
       "kind": "IntegerLiteral",
       "offset": 436,
       "length": 4,
       "value": "0x52"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTCommands.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTCommands.swift",
       "kind": "IntegerLiteral",
       "offset": 470,
       "length": 4,
       "value": "0x53"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTCommands.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTCommands.swift",
       "kind": "IntegerLiteral",
       "offset": 506,
       "length": 4,
       "value": "0x54"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTCommands.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTCommands.swift",
       "kind": "IntegerLiteral",
       "offset": 545,
       "length": 4,
       "value": "0x55"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTCommands.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTCommands.swift",
       "kind": "IntegerLiteral",
       "offset": 584,
       "length": 4,
       "value": "0x56"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTCommands.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTCommands.swift",
       "kind": "IntegerLiteral",
       "offset": 616,
       "length": 4,
       "value": "0x57"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTCommands.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTCommands.swift",
       "kind": "IntegerLiteral",
       "offset": 641,
       "length": 4,
       "value": "0x58"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTCommands.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTCommands.swift",
       "kind": "IntegerLiteral",
       "offset": 667,
       "length": 4,
       "value": "0x59"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTCommands.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTCommands.swift",
       "kind": "IntegerLiteral",
       "offset": 698,
       "length": 4,
       "value": "0x5A"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTCommands.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTCommands.swift",
       "kind": "IntegerLiteral",
       "offset": 734,
       "length": 4,
       "value": "0x5B"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTCommands.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTCommands.swift",
       "kind": "IntegerLiteral",
       "offset": 764,
       "length": 4,
       "value": "0x5C"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTCommands.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTCommands.swift",
       "kind": "IntegerLiteral",
       "offset": 791,
       "length": 4,
       "value": "0x5D"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTCommands.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTCommands.swift",
       "kind": "IntegerLiteral",
       "offset": 821,
       "length": 4,
       "value": "0x70"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTCommands.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTCommands.swift",
       "kind": "IntegerLiteral",
       "offset": 851,
       "length": 4,
       "value": "0x80"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTCommands.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTCommands.swift",
       "kind": "IntegerLiteral",
       "offset": 878,
       "length": 4,
       "value": "0x81"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTCommands.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTCommands.swift",
       "kind": "IntegerLiteral",
       "offset": 912,
       "length": 4,
       "value": "0x82"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTCommands.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTCommands.swift",
       "kind": "IntegerLiteral",
       "offset": 938,
       "length": 4,
       "value": "0x83"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTCommands.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTCommands.swift",
       "kind": "IntegerLiteral",
       "offset": 967,
       "length": 4,
       "value": "0x85"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTCommands.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTCommands.swift",
       "kind": "IntegerLiteral",
       "offset": 1004,
       "length": 4,
       "value": "0x86"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTCommands.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTCommands.swift",
       "kind": "IntegerLiteral",
       "offset": 1033,
       "length": 4,
       "value": "0x87"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTCommands.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTCommands.swift",
       "kind": "IntegerLiteral",
       "offset": 1062,
       "length": 4,
       "value": "0x90"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTCommands.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTCommands.swift",
       "kind": "IntegerLiteral",
       "offset": 1090,
       "length": 4,
       "value": "0x91"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTCommands.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTCommands.swift",
       "kind": "IntegerLiteral",
       "offset": 1119,
       "length": 4,
       "value": "0xA0"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTCommands.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTCommands.swift",
       "kind": "IntegerLiteral",
       "offset": 1150,
       "length": 4,
       "value": "0xA1"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTCommands.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTCommands.swift",
       "kind": "IntegerLiteral",
       "offset": 1178,
       "length": 4,
       "value": "0xA4"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTCommands.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTCommands.swift",
       "kind": "IntegerLiteral",
       "offset": 1211,
       "length": 4,
       "value": "0xA6"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTCommands.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTCommands.swift",
       "kind": "IntegerLiteral",
       "offset": 1243,
       "length": 4,
       "value": "0xB0"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTCommands.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTCommands.swift",
       "kind": "IntegerLiteral",
       "offset": 1278,
       "length": 4,
       "value": "0xB3"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTCommands.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTCommands.swift",
       "kind": "IntegerLiteral",
       "offset": 1313,
       "length": 4,
       "value": "0xB5"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTCommands.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTCommands.swift",
       "kind": "IntegerLiteral",
       "offset": 1352,
       "length": 4,
       "value": "0xB6"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTCommands.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTCommands.swift",
       "kind": "IntegerLiteral",
       "offset": 1383,
       "length": 4,
       "value": "0xC5"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTCommands.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTCommands.swift",
       "kind": "IntegerLiteral",
       "offset": 1419,
       "length": 4,
       "value": "0xC7"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTCommands.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTCommands.swift",
       "kind": "IntegerLiteral",
       "offset": 1447,
       "length": 4,
       "value": "0xC8"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTCommands.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTCommands.swift",
       "kind": "IntegerLiteral",
       "offset": 1483,
       "length": 4,
       "value": "0xC9"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTCommands.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTCommands.swift",
       "kind": "IntegerLiteral",
       "offset": 1518,
       "length": 4,
       "value": "0xCA"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTCommands.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTCommands.swift",
       "kind": "IntegerLiteral",
       "offset": 1546,
       "length": 4,
       "value": "0xE0"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTCommands.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTCommands.swift",
       "kind": "IntegerLiteral",
       "offset": 1586,
       "length": 4,
       "value": "0xE1"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTCommands.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTCommands.swift",
       "kind": "IntegerLiteral",
       "offset": 1618,
       "length": 4,
       "value": "0xE2"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTCommands.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTCommands.swift",
       "kind": "IntegerLiteral",
       "offset": 1641,
       "length": 4,
       "value": "0xE3"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTCommands.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTCommands.swift",
       "kind": "Array",
       "offset": 5433,
       "length": 31,
       "value": "[\"syncTime\", \"getBatteryLevel\"]"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTCommands.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTCommands.swift",
       "kind": "IntegerLiteral",
       "offset": 33329,
       "length": 1,
       "value": "0"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTCommands.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTCommands.swift",
       "kind": "IntegerLiteral",
       "offset": 33935,
       "length": 1,
       "value": "0"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTCommands.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTCommands.swift",
       "kind": "IntegerLiteral",
       "offset": 34168,
       "length": 1,
       "value": "0"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTCommands.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTCommands.swift",
       "kind": "IntegerLiteral",
       "offset": 83775,
       "length": 4,
       "value": "0x00"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTCommands.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTCommands.swift",
       "kind": "IntegerLiteral",
       "offset": 83808,
       "length": 4,
       "value": "0xE3"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTCommands.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTCommands.swift",
       "kind": "IntegerLiteral",
       "offset": 83845,
       "length": 4,
       "value": "0x01"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTCommands.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTCommands.swift",
       "kind": "IntegerLiteral",
       "offset": 83883,
       "length": 4,
       "value": "0x00"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTCommands.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTCommands.swift",
       "kind": "IntegerLiteral",
       "offset": 83922,
       "length": 4,
       "value": "0x01"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTCommandStateManager.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTCommandStateManager.swift",
       "kind": "StringLiteral",
       "offset": 245,
       "length": 32,
       "value": "\"指令81(绑定设备-阶段1)\""
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTCommandStateManager.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTCommandStateManager.swift",
       "kind": "StringLiteral",
       "offset": 296,
       "length": 32,
       "value": "\"指令82(绑定设备-阶段2)\""
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTCommandStateManager.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTCommandStateManager.swift",
       "kind": "StringLiteral",
       "offset": 353,
       "length": 27,
       "value": "\"指令5D(设置APP信息)\""
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTCommandStateManager.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTCommandStateManager.swift",
       "kind": "Dictionary",
       "offset": 1170,
       "length": 3,
       "value": "[]"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTCommandStateManager.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTCommandStateManager.swift",
       "kind": "BooleanLiteral",
       "offset": 3960,
       "length": 5,
       "value": "false"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTConnectionStateManager.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTConnectionStateManager.swift",
       "kind": "StringLiteral",
       "offset": 2277,
       "length": 2,
       "value": "\"\""
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTConnectionStateManager.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTConnectionStateManager.swift",
       "kind": "StringLiteral",
       "offset": 2314,
       "length": 18,
       "value": "\"LastestDeviceMac\""
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTConnectionStateManager.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTConnectionStateManager.swift",
       "kind": "BooleanLiteral",
       "offset": 4272,
       "length": 5,
       "value": "false"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTDeviceManager.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTDeviceManager.swift",
       "kind": "Array",
       "offset": 852,
       "length": 2,
       "value": "[]"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTDeviceManager.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTDeviceManager.swift",
       "kind": "Array",
       "offset": 4140,
       "length": 2,
       "value": "[]"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTDeviceManager.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTDeviceManager.swift",
       "kind": "IntegerLiteral",
       "offset": 4181,
       "length": 2,
       "value": "50"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTDeviceManager.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTDeviceManager.swift",
       "kind": "StringLiteral",
       "offset": 7098,
       "length": 14,
       "value": "\"HH:mm:ss.SSS\""
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTDeviceManager.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Core\/XGZTDeviceManager.swift",
       "kind": "StringLiteral",
       "offset": 7159,
       "length": 13,
       "value": "\"en_US_POSIX\""
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
       "kind": "IntegerLiteral",
       "offset": 865,
       "length": 1,
       "value": "1"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
       "kind": "IntegerLiteral",
       "offset": 929,
       "length": 3,
       "value": "240"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
       "kind": "IntegerLiteral",
       "offset": 996,
       "length": 3,
       "value": "240"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
       "kind": "IntegerLiteral",
       "offset": 1026,
       "length": 1,
       "value": "0"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
       "kind": "IntegerLiteral",
       "offset": 1059,
       "length": 1,
       "value": "0"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
       "kind": "IntegerLiteral",
       "offset": 1123,
       "length": 1,
       "value": "0"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
       "kind": "IntegerLiteral",
       "offset": 1154,
       "length": 1,
       "value": "0"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
       "kind": "IntegerLiteral",
       "offset": 1185,
       "length": 1,
       "value": "0"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
       "kind": "IntegerLiteral",
       "offset": 1218,
       "length": 1,
       "value": "0"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
       "kind": "IntegerLiteral",
       "offset": 1290,
       "length": 1,
       "value": "0"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
       "kind": "IntegerLiteral",
       "offset": 1369,
       "length": 1,
       "value": "0"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
       "kind": "IntegerLiteral",
       "offset": 1405,
       "length": 1,
       "value": "0"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
       "kind": "Array",
       "offset": 1444,
       "length": 2,
       "value": "[]"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
       "kind": "IntegerLiteral",
       "offset": 1605,
       "length": 1,
       "value": "0"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
       "kind": "IntegerLiteral",
       "offset": 1642,
       "length": 1,
       "value": "0"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
       "kind": "Array",
       "offset": 1686,
       "length": 7,
       "value": "[0, 0, 0]"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
       "kind": "IntegerLiteral",
       "offset": 1731,
       "length": 1,
       "value": "0"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
       "kind": "IntegerLiteral",
       "offset": 1771,
       "length": 1,
       "value": "0"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
       "kind": "IntegerLiteral",
       "offset": 1812,
       "length": 1,
       "value": "0"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
       "kind": "IntegerLiteral",
       "offset": 1850,
       "length": 1,
       "value": "0"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
       "kind": "IntegerLiteral",
       "offset": 1898,
       "length": 1,
       "value": "0"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
       "kind": "IntegerLiteral",
       "offset": 1979,
       "length": 1,
       "value": "0"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
       "kind": "IntegerLiteral",
       "offset": 3728,
       "length": 1,
       "value": "0"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
       "kind": "IntegerLiteral",
       "offset": 3865,
       "length": 1,
       "value": "0"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
       "kind": "IntegerLiteral",
       "offset": 3971,
       "length": 1,
       "value": "0"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
       "kind": "BooleanLiteral",
       "offset": 4060,
       "length": 5,
       "value": "false"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
       "kind": "BooleanLiteral",
       "offset": 4133,
       "length": 5,
       "value": "false"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
       "kind": "BooleanLiteral",
       "offset": 4201,
       "length": 5,
       "value": "false"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
       "kind": "BooleanLiteral",
       "offset": 4276,
       "length": 5,
       "value": "false"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
       "kind": "BooleanLiteral",
       "offset": 4360,
       "length": 5,
       "value": "false"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
       "kind": "BooleanLiteral",
       "offset": 4448,
       "length": 5,
       "value": "false"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
       "kind": "BooleanLiteral",
       "offset": 4535,
       "length": 5,
       "value": "false"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
       "kind": "BooleanLiteral",
       "offset": 4615,
       "length": 5,
       "value": "false"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
       "kind": "BooleanLiteral",
       "offset": 4686,
       "length": 5,
       "value": "false"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
       "kind": "BooleanLiteral",
       "offset": 4749,
       "length": 5,
       "value": "false"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
       "kind": "BooleanLiteral",
       "offset": 4829,
       "length": 5,
       "value": "false"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
       "kind": "BooleanLiteral",
       "offset": 4917,
       "length": 5,
       "value": "false"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
       "kind": "BooleanLiteral",
       "offset": 5010,
       "length": 4,
       "value": "true"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
       "kind": "BooleanLiteral",
       "offset": 5066,
       "length": 5,
       "value": "false"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
       "kind": "BooleanLiteral",
       "offset": 5118,
       "length": 5,
       "value": "false"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
       "kind": "BooleanLiteral",
       "offset": 5174,
       "length": 4,
       "value": "true"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
       "kind": "BooleanLiteral",
       "offset": 5220,
       "length": 4,
       "value": "true"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
       "kind": "BooleanLiteral",
       "offset": 5269,
       "length": 4,
       "value": "true"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
       "kind": "BooleanLiteral",
       "offset": 5318,
       "length": 4,
       "value": "true"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
       "kind": "BooleanLiteral",
       "offset": 5363,
       "length": 4,
       "value": "true"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
       "kind": "BooleanLiteral",
       "offset": 5405,
       "length": 4,
       "value": "true"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
       "kind": "BooleanLiteral",
       "offset": 5451,
       "length": 4,
       "value": "true"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
       "kind": "BooleanLiteral",
       "offset": 5500,
       "length": 4,
       "value": "true"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
       "kind": "BooleanLiteral",
       "offset": 5548,
       "length": 4,
       "value": "true"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
       "kind": "BooleanLiteral",
       "offset": 5595,
       "length": 4,
       "value": "true"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
       "kind": "BooleanLiteral",
       "offset": 5642,
       "length": 4,
       "value": "true"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
       "kind": "BooleanLiteral",
       "offset": 5686,
       "length": 4,
       "value": "true"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
       "kind": "BooleanLiteral",
       "offset": 5732,
       "length": 4,
       "value": "true"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
       "kind": "BooleanLiteral",
       "offset": 5771,
       "length": 4,
       "value": "true"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
       "kind": "BooleanLiteral",
       "offset": 5819,
       "length": 4,
       "value": "true"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
       "kind": "BooleanLiteral",
       "offset": 5859,
       "length": 4,
       "value": "true"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
       "kind": "BooleanLiteral",
       "offset": 5895,
       "length": 4,
       "value": "true"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
       "kind": "BooleanLiteral",
       "offset": 5935,
       "length": 4,
       "value": "true"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
       "kind": "BooleanLiteral",
       "offset": 5985,
       "length": 4,
       "value": "true"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
       "kind": "BooleanLiteral",
       "offset": 6021,
       "length": 4,
       "value": "true"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
       "kind": "BooleanLiteral",
       "offset": 6060,
       "length": 4,
       "value": "true"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
       "kind": "BooleanLiteral",
       "offset": 6099,
       "length": 4,
       "value": "true"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
       "kind": "BooleanLiteral",
       "offset": 6138,
       "length": 4,
       "value": "true"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
       "kind": "BooleanLiteral",
       "offset": 6177,
       "length": 4,
       "value": "true"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
       "kind": "BooleanLiteral",
       "offset": 6214,
       "length": 4,
       "value": "true"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
       "kind": "BooleanLiteral",
       "offset": 6251,
       "length": 4,
       "value": "true"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Models\/XGZTSwitchDevice.swift",
       "kind": "BooleanLiteral",
       "offset": 6290,
       "length": 4,
       "value": "true"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Utils\/DataExtensions.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchProtocolSDK\/Utils\/DataExtensions.swift",
       "kind": "StringLiteral",
       "offset": 578,
       "length": 3,

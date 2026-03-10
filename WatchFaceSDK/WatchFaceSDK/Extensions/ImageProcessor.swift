@@ -2,7 +2,7 @@
 //  ImageProcessor.swift
 //  WatchFaceSDK
 //
-//  Created by ANKER on 2025/12/30.
+//  Created by bruce on 2025/12/30.
 //
 
 import UIKit

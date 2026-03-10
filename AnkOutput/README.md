@@ -39,7 +39,7 @@
 **Framework 信息**：
 - **版本**：v2.0.6
 - **大小**：900K
-- **位置**：`/Users/anker/Downloads/SmartBracelet/Output-ObjC-Dynamic/WatchProtocolSDK.xcframework`
+- **位置**：`/Users/bruce/Downloads/SmartBracelet/Output-ObjC-Dynamic/WatchProtocolSDK.xcframework`
 
 ### 3. 功能验证 ✅
 

@@ -2,7 +2,7 @@
 //  CustomImageFooterView.swift
 //  SmartBracelet
 //
-//  Created by anker on 2022/1/3.
+//  Created by bruce on 2022/1/3.
 //  Copyright © 2022 tjd. All rights reserved.
 //
 

@@ -30,7 +30,7 @@
 
 ```bash
 # 在终端执行
-cd /Users/anker/Downloads/testHuaxin_oc/testhuaxinOC
+cd /Users/bruce/Downloads/testHuaxin_oc/testhuaxinOC
 rm -rf ~/Library/Developer/Xcode/DerivedData/testhuaxinOC-*
 ```
 

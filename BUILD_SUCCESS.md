@@ -120,7 +120,7 @@ FileCache.swift:25: 'unarchiveObject(withFile:)' was deprecated in iOS 12.0
 
 ```bash
 # 进入项目目录
-cd /Users/anker/Downloads/SmartBracelet
+cd /Users/bruce/Downloads/SmartBracelet
 
 # 真机编译（跳过签名）
 xcodebuild -workspace SmartBracelet.xcworkspace \

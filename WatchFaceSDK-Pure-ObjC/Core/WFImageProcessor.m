@@ -98,7 +98,7 @@
 
     if (!image) {
         if (error) {
-            *error = [NSError errorWithDomain:@"com.anker.WatchFaceSDK"
+            *error = [NSError errorWithDomain:@"com.bruce.WatchFaceSDK"
                                          code:1001
                                      userInfo:@{NSLocalizedDescriptionKey: @"图片为空"}];
         }
@@ -111,7 +111,7 @@
     UIImage *resizedImage = [self resizeImage:image toSize:targetSize];
     if (!resizedImage) {
         if (error) {
-            *error = [NSError errorWithDomain:@"com.anker.WatchFaceSDK"
+            *error = [NSError errorWithDomain:@"com.bruce.WatchFaceSDK"
                                          code:1002
                                      userInfo:@{NSLocalizedDescriptionKey: @"图片尺寸调整失败"}];
         }
@@ -128,7 +128,7 @@
         NSData *rawImageData = [self imageToRawData:currentImage];
         if (!rawImageData) {
             if (error) {
-                *error = [NSError errorWithDomain:@"com.anker.WatchFaceSDK"
+                *error = [NSError errorWithDomain:@"com.bruce.WatchFaceSDK"
                                              code:1003
                                          userInfo:@{NSLocalizedDescriptionKey: @"无法获取图片原始数据"}];
             }
@@ -160,7 +160,7 @@
             NSData *compressedData = UIImageJPEGRepresentation(currentImage, quality);
             if (!compressedData) {
                 if (error) {
-                    *error = [NSError errorWithDomain:@"com.anker.WatchFaceSDK"
+                    *error = [NSError errorWithDomain:@"com.bruce.WatchFaceSDK"
                                                  code:1004
                                              userInfo:@{NSLocalizedDescriptionKey: @"JPEG 压缩失败"}];
                 }
@@ -170,7 +170,7 @@
             UIImage *compressedImage = [UIImage imageWithData:compressedData];
             if (!compressedImage) {
                 if (error) {
-                    *error = [NSError errorWithDomain:@"com.anker.WatchFaceSDK"
+                    *error = [NSError errorWithDomain:@"com.bruce.WatchFaceSDK"
                                                  code:1005
                                              userInfo:@{NSLocalizedDescriptionKey: @"压缩图片创建失败"}];
                 }
@@ -182,7 +182,7 @@
 
         } else {
             if (error) {
-                *error = [NSError errorWithDomain:@"com.anker.WatchFaceSDK"
+                *error = [NSError errorWithDomain:@"com.bruce.WatchFaceSDK"
                                              code:1006
                                          userInfo:@{NSLocalizedDescriptionKey: @"PAR 转换失败"}];
             }
@@ -194,7 +194,7 @@
 
     // 超过最大尝试次数
     if (error) {
-        *error = [NSError errorWithDomain:@"com.anker.WatchFaceSDK"
+        *error = [NSError errorWithDomain:@"com.bruce.WatchFaceSDK"
                                      code:1007
                                  userInfo:@{NSLocalizedDescriptionKey: @"无法将图片压缩到指定大小"}];
     }

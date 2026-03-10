@@ -149,7 +149,7 @@ create_framework() {
     <key>CFBundleExecutable</key>
     <string>WatchFaceSDK</string>
     <key>CFBundleIdentifier</key>
-    <string>com.anker.watch.WatchFaceSDK</string>
+    <string>com.bruce.watch.WatchFaceSDK</string>
     <key>CFBundleVersion</key>
     <string>1.0.3</string>
     <key>CFBundleShortVersionString</key>

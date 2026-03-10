@@ -14,8 +14,8 @@ Pod::Spec.new do |s|
                        DESC
 
   s.homepage         = 'https://github.com/BruceZhang2017/SmartBracelet'
-  s.license          = { :type => 'Copyright', :text => 'Copyright © 2026 Anker Innovations. All rights reserved.' }
-  s.author           = { 'Anker' => '315082431@qq.com' }
+  s.license          = { :type => 'Copyright', :text => 'Copyright © 2026 bruce Innovations. All rights reserved.' }
+  s.author           = { 'bruce' => '315082431@qq.com' }
   s.source           = { :git => 'https://github.com/BruceZhang2017/SmartBracelet.git', :tag => "WatchFaceSDK-ObjC-#{s.version}" }
 
   s.ios.deployment_target = '13.0'

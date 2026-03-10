@@ -148,7 +148,7 @@ cat > "$DEVICE_FRAMEWORK/Info.plist" << EOF
     <key>CFBundleExecutable</key>
     <string>${FRAMEWORK_NAME}</string>
     <key>CFBundleIdentifier</key>
-    <string>com.anker.watch.${FRAMEWORK_NAME}</string>
+    <string>com.bruce.watch.${FRAMEWORK_NAME}</string>
     <key>CFBundleInfoDictionaryVersion</key>
     <string>6.0</string>
     <key>CFBundleName</key>

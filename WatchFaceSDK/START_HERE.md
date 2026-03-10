@@ -128,4 +128,4 @@ Minimum iOS: 12.0
 
 **🎉 开始使用 WatchFaceSDK 吧！/ Start using WatchFaceSDK!**
 
-**© 2025 Anker Innovations. All rights reserved.**
+**© 2025 bruce Innovations. All rights reserved.**

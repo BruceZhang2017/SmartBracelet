@@ -293,12 +293,12 @@ WatchProtocolSDK-v1.0.0.zip (808 KB)
 **文件名**: `WatchProtocolSDK-v1.0.0.zip`
 **大小**: 808 KB
 **SHA256**: `096c7ebfdaec232b786ce335e6034138c91e2bbd4fe6326356c9e5ae9def5244`
-**位置**: `/Users/anker/Downloads/SmartBracelet/build/WatchProtocolSDK-v1.0.0.zip`
+**位置**: `/Users/bruce/Downloads/SmartBracelet/build/WatchProtocolSDK-v1.0.0.zip`
 
 ### 验证文件完整性
 
 ```bash
-cd /Users/anker/Downloads/SmartBracelet/build
+cd /Users/bruce/Downloads/SmartBracelet/build
 shasum -a 256 -c WatchProtocolSDK-v1.0.0.zip.sha256
 ```
 

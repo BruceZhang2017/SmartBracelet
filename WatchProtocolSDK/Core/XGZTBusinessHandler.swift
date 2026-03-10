@@ -2,7 +2,7 @@
 //  XGZTBusinessHandler.swift
 //  SmartBracelet
 //
-//  Created by anker on 2024/11/30.
+//  Created by bruce on 2024/11/30.
 //  Copyright © 2024 tjd. All rights reserved.
 //
 

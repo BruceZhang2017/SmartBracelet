@@ -4,7 +4,7 @@
 2026-01-29
 
 ## 📝 修复文件
-- `/Users/anker/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFTransferEngine.m`
+- `/Users/bruce/Downloads/SmartBracelet/WatchFaceSDK-Pure-ObjC/Core/WFTransferEngine.m`
 
 ---
 

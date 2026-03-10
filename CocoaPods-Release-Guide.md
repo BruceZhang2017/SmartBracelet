@@ -14,7 +14,7 @@
 # 按照 GitHub-PAT-Setup-Guide.md 创建 Personal Access Token
 
 # 然后推送代码
-cd /Users/anker/Downloads/HuaXinSDK
+cd /Users/bruce/Downloads/HuaXinSDK
 git push origin main
 ```
 
@@ -23,7 +23,7 @@ git push origin main
 CocoaPods 需要通过 Git Tag 来标识版本：
 
 ```bash
-cd /Users/anker/Downloads/HuaXinSDK
+cd /Users/bruce/Downloads/HuaXinSDK
 
 # 创建并推送 tag
 git tag v1.0.1
@@ -55,7 +55,7 @@ pod trunk me
 在发布前，验证 podspec 文件是否正确：
 
 ```bash
-cd /Users/anker/Downloads/HuaXinSDK
+cd /Users/bruce/Downloads/HuaXinSDK
 
 # 验证 podspec（会检查语法和依赖）
 pod spec lint WatchProtocolSDK.podspec --allow-warnings
@@ -71,7 +71,7 @@ pod spec lint WatchProtocolSDK.podspec --allow-warnings
 验证通过后，发布到 CocoaPods：
 
 ```bash
-cd /Users/anker/Downloads/HuaXinSDK
+cd /Users/bruce/Downloads/HuaXinSDK
 
 # 推送到 CocoaPods Trunk
 pod trunk push WatchProtocolSDK.podspec --allow-warnings
@@ -205,7 +205,7 @@ pod trunk delete WatchProtocolSDK 1.0.1
 
 ```bash
 # 1. 推送代码到 GitHub
-cd /Users/anker/Downloads/HuaXinSDK
+cd /Users/bruce/Downloads/HuaXinSDK
 git add .
 git commit -m "Release WatchProtocolSDK v1.0.1"
 git push origin main

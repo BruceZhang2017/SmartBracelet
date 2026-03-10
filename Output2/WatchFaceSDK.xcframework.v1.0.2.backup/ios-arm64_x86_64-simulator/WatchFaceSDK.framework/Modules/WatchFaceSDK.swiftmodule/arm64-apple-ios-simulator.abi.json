@@ -7317,322 +7317,322 @@
   },
   "ConstValues": [
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchFaceSDK\/WatchFaceSDK\/Core\/WatchFaceTransferEngine.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchFaceSDK\/WatchFaceSDK\/Core\/WatchFaceTransferEngine.swift",
       "kind": "IntegerLiteral",
       "offset": 451,
       "length": 1,
       "value": "0"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchFaceSDK\/WatchFaceSDK\/Extensions\/ImageCropper.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchFaceSDK\/WatchFaceSDK\/Extensions\/ImageCropper.swift",
       "kind": "FloatLiteral",
       "offset": 630,
       "length": 3,
       "value": "1.8"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchFaceSDK\/WatchFaceSDK\/Extensions\/ImageCropper.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchFaceSDK\/WatchFaceSDK\/Extensions\/ImageCropper.swift",
       "kind": "FloatLiteral",
       "offset": 668,
       "length": 3,
       "value": "2.0"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchFaceSDK\/WatchFaceSDK\/Extensions\/ImageCropper.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchFaceSDK\/WatchFaceSDK\/Extensions\/ImageCropper.swift",
       "kind": "FloatLiteral",
       "offset": 3691,
       "length": 3,
       "value": "1.8"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchFaceSDK\/WatchFaceSDK\/Extensions\/ImageCropper.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchFaceSDK\/WatchFaceSDK\/Extensions\/ImageCropper.swift",
       "kind": "FloatLiteral",
       "offset": 3721,
       "length": 3,
       "value": "2.0"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchFaceSDK\/WatchFaceSDK\/Extensions\/ImageCropper.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchFaceSDK\/WatchFaceSDK\/Extensions\/ImageCropper.swift",
       "kind": "BooleanLiteral",
       "offset": 7866,
       "length": 5,
       "value": "false"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchFaceSDK\/WatchFaceSDK\/Extensions\/ImageCropper.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchFaceSDK\/WatchFaceSDK\/Extensions\/ImageCropper.swift",
       "kind": "BooleanLiteral",
       "offset": 7928,
       "length": 5,
       "value": "false"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchFaceSDK\/WatchFaceSDK\/Extensions\/ImageProcessor.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchFaceSDK\/WatchFaceSDK\/Extensions\/ImageProcessor.swift",
       "kind": "IntegerLiteral",
       "offset": 621,
       "length": 3,
       "value": "120"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchFaceSDK\/WatchFaceSDK\/Extensions\/ImageProcessor.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchFaceSDK\/WatchFaceSDK\/Extensions\/ImageProcessor.swift",
       "kind": "IntegerLiteral",
       "offset": 627,
       "length": 4,
       "value": "1024"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchFaceSDK\/WatchFaceSDK\/Models\/TransferProgress.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchFaceSDK\/WatchFaceSDK\/Models\/TransferProgress.swift",
       "kind": "IntegerLiteral",
       "offset": 913,
       "length": 1,
       "value": "0"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchFaceSDK\/WatchFaceSDK\/Models\/TransferProgress.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchFaceSDK\/WatchFaceSDK\/Models\/TransferProgress.swift",
       "kind": "IntegerLiteral",
       "offset": 956,
       "length": 1,
       "value": "1"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchFaceSDK\/WatchFaceSDK\/Models\/TransferProgress.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchFaceSDK\/WatchFaceSDK\/Models\/TransferProgress.swift",
       "kind": "IntegerLiteral",
       "offset": 1059,
       "length": 1,
       "value": "0"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchFaceSDK\/WatchFaceSDK\/Models\/TransferProgress.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchFaceSDK\/WatchFaceSDK\/Models\/TransferProgress.swift",
       "kind": "IntegerLiteral",
       "offset": 1096,
       "length": 1,
       "value": "1"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchFaceSDK\/WatchFaceSDK\/Models\/TransferProgress.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchFaceSDK\/WatchFaceSDK\/Models\/TransferProgress.swift",
       "kind": "IntegerLiteral",
       "offset": 1136,
       "length": 1,
       "value": "2"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchFaceSDK\/WatchFaceSDK\/Models\/TransferProgress.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchFaceSDK\/WatchFaceSDK\/Models\/TransferProgress.swift",
       "kind": "IntegerLiteral",
       "offset": 1171,
       "length": 1,
       "value": "3"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchFaceSDK\/WatchFaceSDK\/Models\/TransferProgress.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchFaceSDK\/WatchFaceSDK\/Models\/TransferProgress.swift",
       "kind": "IntegerLiteral",
       "offset": 1211,
       "length": 1,
       "value": "4"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchFaceSDK\/WatchFaceSDK\/Models\/TransferProgress.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchFaceSDK\/WatchFaceSDK\/Models\/TransferProgress.swift",
       "kind": "IntegerLiteral",
       "offset": 1243,
       "length": 1,
       "value": "5"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchFaceSDK\/WatchFaceSDK\/Models\/TransferProgress.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchFaceSDK\/WatchFaceSDK\/Models\/TransferProgress.swift",
       "kind": "IntegerLiteral",
       "offset": 1335,
       "length": 1,
       "value": "0"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchFaceSDK\/WatchFaceSDK\/Models\/TransferProgress.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchFaceSDK\/WatchFaceSDK\/Models\/TransferProgress.swift",
       "kind": "IntegerLiteral",
       "offset": 1354,
       "length": 1,
       "value": "1"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchFaceSDK\/WatchFaceSDK\/Models\/TransferProgress.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchFaceSDK\/WatchFaceSDK\/Models\/TransferProgress.swift",
       "kind": "IntegerLiteral",
       "offset": 1374,
       "length": 1,
       "value": "2"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchFaceSDK\/WatchFaceSDK\/Models\/TransferProgress.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchFaceSDK\/WatchFaceSDK\/Models\/TransferProgress.swift",
       "kind": "IntegerLiteral",
       "offset": 1394,
       "length": 1,
       "value": "3"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchFaceSDK\/WatchFaceSDK\/Models\/TransferProgress.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchFaceSDK\/WatchFaceSDK\/Models\/TransferProgress.swift",
       "kind": "IntegerLiteral",
       "offset": 1412,
       "length": 1,
       "value": "4"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchFaceSDK\/WatchFaceSDK\/Models\/TransferProgress.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchFaceSDK\/WatchFaceSDK\/Models\/TransferProgress.swift",
       "kind": "IntegerLiteral",
       "offset": 1432,
       "length": 1,
       "value": "5"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchFaceSDK\/WatchFaceSDK\/Models\/TransferProgress.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchFaceSDK\/WatchFaceSDK\/Models\/TransferProgress.swift",
       "kind": "IntegerLiteral",
       "offset": 1450,
       "length": 1,
       "value": "6"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchFaceSDK\/WatchFaceSDK\/Models\/TransferProgress.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchFaceSDK\/WatchFaceSDK\/Models\/TransferProgress.swift",
       "kind": "IntegerLiteral",
       "offset": 1468,
       "length": 1,
       "value": "7"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchFaceSDK\/WatchFaceSDK\/Models\/TransferProgress.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchFaceSDK\/WatchFaceSDK\/Models\/TransferProgress.swift",
       "kind": "IntegerLiteral",
       "offset": 1487,
       "length": 1,
       "value": "8"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchFaceSDK\/WatchFaceSDK\/Models\/WatchFaceInfo.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchFaceSDK\/WatchFaceSDK\/Models\/WatchFaceInfo.swift",
       "kind": "StringLiteral",
       "offset": 539,
       "length": 12,
       "value": "\"previewPic\""
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchFaceSDK\/WatchFaceSDK\/Models\/WatchFaceInfo.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchFaceSDK\/WatchFaceSDK\/Models\/WatchFaceInfo.swift",
       "kind": "StringLiteral",
       "offset": 579,
       "length": 14,
       "value": "\"resourcesUrl\""
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchFaceSDK\/WatchFaceSDK\/Models\/WatchFaceInfo.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchFaceSDK\/WatchFaceSDK\/Models\/WatchFaceInfo.swift",
       "kind": "StringLiteral",
       "offset": 1301,
       "length": 7,
       "value": "\"round\""
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchFaceSDK\/WatchFaceSDK\/Models\/WatchFaceInfo.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchFaceSDK\/WatchFaceSDK\/Models\/WatchFaceInfo.swift",
       "kind": "StringLiteral",
       "offset": 1327,
       "length": 8,
       "value": "\"square\""
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchFaceSDK\/WatchFaceSDK\/Models\/WatchFaceInfo.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchFaceSDK\/WatchFaceSDK\/Models\/WatchFaceInfo.swift",
       "kind": "StringLiteral",
       "offset": 1886,
       "length": 6,
       "value": "\"type\""
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchFaceSDK\/WatchFaceSDK\/Models\/WatchFaceInfo.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchFaceSDK\/WatchFaceSDK\/Models\/WatchFaceInfo.swift",
       "kind": "StringLiteral",
       "offset": 1913,
       "length": 10,
       "value": "\"typeName\""
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchFaceSDK\/WatchFaceSDK\/Models\/WatchFaceInfo.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchFaceSDK\/WatchFaceSDK\/Models\/WatchFaceInfo.swift",
       "kind": "StringLiteral",
       "offset": 1950,
       "length": 7,
       "value": "\"items\""
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchFaceSDK\/WatchFaceSDK\/Transfer\/PacketManager.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchFaceSDK\/WatchFaceSDK\/Transfer\/PacketManager.swift",
       "kind": "IntegerLiteral",
       "offset": 222,
       "length": 3,
       "value": "200"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchFaceSDK\/WatchFaceSDK\/Transfer\/XGZTDialProtocol.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchFaceSDK\/WatchFaceSDK\/Transfer\/XGZTDialProtocol.swift",
       "kind": "StringLiteral",
       "offset": 399,
       "length": 35,
       "value": "\"XGZTDialProtocol.MTUQueryComplete\""
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchFaceSDK\/WatchFaceSDK\/Transfer\/XGZTDialProtocol.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchFaceSDK\/WatchFaceSDK\/Transfer\/XGZTDialProtocol.swift",
       "kind": "StringLiteral",
       "offset": 497,
       "length": 33,
       "value": "\"XGZTDialProtocol.ConfigComplete\""
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchFaceSDK\/WatchFaceSDK\/Transfer\/XGZTDialProtocol.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchFaceSDK\/WatchFaceSDK\/Transfer\/XGZTDialProtocol.swift",
       "kind": "StringLiteral",
       "offset": 596,
       "length": 36,
       "value": "\"XGZTDialProtocol.DataTransferStart\""
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchFaceSDK\/WatchFaceSDK\/Transfer\/XGZTDialProtocol.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchFaceSDK\/WatchFaceSDK\/Transfer\/XGZTDialProtocol.swift",
       "kind": "StringLiteral",
       "offset": 701,
       "length": 39,
       "value": "\"XGZTDialProtocol.DataTransferComplete\""
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchFaceSDK\/WatchFaceSDK\/Transfer\/XGZTDialProtocol.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchFaceSDK\/WatchFaceSDK\/Transfer\/XGZTDialProtocol.swift",
       "kind": "StringLiteral",
       "offset": 807,
       "length": 37,
       "value": "\"XGZTDialProtocol.DataTransferFailed\""
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchFaceSDK\/WatchFaceSDK\/WatchFaceSDK.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchFaceSDK\/WatchFaceSDK\/WatchFaceSDK.swift",
       "kind": "StringLiteral",
       "offset": 200,
       "length": 7,
       "value": "\"1.0.2\""
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchFaceSDK\/WatchFaceSDK\/WatchFaceSDK.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchFaceSDK\/WatchFaceSDK\/WatchFaceSDK.swift",
       "kind": "StringLiteral",
       "offset": 242,
       "length": 12,
       "value": "\"2026-01-11\""
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchFaceSDK\/WatchFaceSDK\/WatchFaceSDK.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchFaceSDK\/WatchFaceSDK\/WatchFaceSDK.swift",
       "kind": "StringLiteral",
       "offset": 292,
       "length": 6,
       "value": "\"XGZT\""
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchFaceSDK\/WatchFaceSDK\/WatchFaceSDK.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchFaceSDK\/WatchFaceSDK\/WatchFaceSDK.swift",
       "kind": "BooleanLiteral",
       "offset": 577,
       "length": 5,
       "value": "false"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchFaceSDK\/WatchFaceSDK\/WatchFaceSDK.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchFaceSDK\/WatchFaceSDK\/WatchFaceSDK.swift",
       "kind": "IntegerLiteral",
       "offset": 678,
       "length": 3,
       "value": "120"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchFaceSDK\/WatchFaceSDK\/WatchFaceSDK.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchFaceSDK\/WatchFaceSDK\/WatchFaceSDK.swift",
       "kind": "IntegerLiteral",
       "offset": 684,
       "length": 4,
       "value": "1024"
     },
     {
-      "filePath": "\/Users\/anker\/Downloads\/SmartBracelet\/WatchFaceSDK\/WatchFaceSDK\/WatchFaceSDK.swift",
+      "filePath": "\/Users\/bruce\/Downloads\/SmartBracelet\/WatchFaceSDK\/WatchFaceSDK\/WatchFaceSDK.swift",
       "kind": "FloatLiteral",
       "offset": 789,
       "length": 4,

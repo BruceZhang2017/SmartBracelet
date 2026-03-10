@@ -688,6 +688,6 @@ func transferDidUpdateProgress(_ progress: TransferProgress) {
 
 ---
 
-**© 2025 Anker Innovations. All rights reserved.**
+**© 2025 bruce Innovations. All rights reserved.**
 
 **WatchFaceSDK v1.0.0**

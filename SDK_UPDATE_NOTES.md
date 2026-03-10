@@ -12,14 +12,14 @@
    ```swift
    public func connectAndScan(to macAddress: String, deviceName: String)
    ```
-   - 修复位置：`/Users/anker/Downloads/SmartBracelet/SmartBracelet/Mine/MineViewController.swift:195`
+   - 修复位置：`/Users/bruce/Downloads/SmartBracelet/SmartBracelet/Mine/MineViewController.swift:195`
    - 问题：方法未标记为 public，导致外部无法访问
 
 2. **XGZTSwitchDevice.swift:146**
    ```swift
    public static func loadFromSandbox(mac: String) -> BluetoothWatchDevice?
    ```
-   - 修复位置：`/Users/anker/Downloads/SmartBracelet/SmartBracelet/Device/DevicesView.swift:99`
+   - 修复位置：`/Users/bruce/Downloads/SmartBracelet/SmartBracelet/Device/DevicesView.swift:99`
    - 问题：静态方法未标记为 public
 
 3. **XGZTSwitchDevice.swift:160**
@@ -32,14 +32,14 @@
    ```swift
    public static func loadAll()
    ```
-   - 修复位置：`/Users/anker/Downloads/SmartBracelet/SmartBracelet/Tab/MTabBarController.swift:56`
+   - 修复位置：`/Users/bruce/Downloads/SmartBracelet/SmartBracelet/Tab/MTabBarController.swift:56`
    - 问题：静态方法未标记为 public
 
 5. **XGZTSwitchDevice.swift:178**
    ```swift
    public static func deleteFromSandbox(mac: String)
    ```
-   - 修复位置：`/Users/anker/Downloads/SmartBracelet/SmartBracelet/Device/DevicesViewController.swift:534`
+   - 修复位置：`/Users/bruce/Downloads/SmartBracelet/SmartBracelet/Device/DevicesViewController.swift:534`
    - 问题：静态方法未标记为 public
 
 6. **XGZTCommands.swift:105**
@@ -49,7 +49,7 @@
        public init(eventType: Int, cycle: Int, startHour: Int, startMinute: Int, endHour: Int, endMinute: Int, period: Int)
    }
    ```
-   - 修复位置：`/Users/anker/Downloads/SmartBracelet/SmartBracelet/Device/DeviceSettingsViewController.swift:493`
+   - 修复位置：`/Users/bruce/Downloads/SmartBracelet/SmartBracelet/Device/DeviceSettingsViewController.swift:493`
    - 问题：struct 没有 public 初始化器
 
 7. **XGZTCommands.swift:95**
@@ -59,7 +59,7 @@
        public init(alarmIndex: Int, mswitch: Int, alarmCycle: Int, alarmHour: Int, alarmMinute: Int, vibrationMode: Int, remindLater: Int)
    }
    ```
-   - 修复位置：`/Users/anker/Downloads/SmartBracelet/SmartBracelet/Device/AlarmAdd2ViewController.swift:333`
+   - 修复位置：`/Users/bruce/Downloads/SmartBracelet/SmartBracelet/Device/AlarmAdd2ViewController.swift:333`
    - 问题：struct 没有 public 初始化器
 
 ### 📥 SDK 文件信息
@@ -71,7 +71,7 @@
 ### ✅ 验证文件完整性
 
 ```bash
-cd /Users/anker/Downloads/SmartBracelet/build
+cd /Users/bruce/Downloads/SmartBracelet/build
 shasum -a 256 -c WatchProtocolSDK-v1.0.0.zip.sha256
 ```
 
@@ -79,9 +79,9 @@ shasum -a 256 -c WatchProtocolSDK-v1.0.0.zip.sha256
 
 ### 📂 SDK 位置
 
-- **ZIP 包**: `/Users/anker/Downloads/SmartBracelet/build/WatchProtocolSDK-v1.0.0.zip`
-- **解压目录**: `/Users/anker/Downloads/SmartBracelet/build/WatchProtocolSDK-Release/`
-- **XCFramework**: `/Users/anker/Downloads/SmartBracelet/build/WatchProtocolSDK-Release/WatchProtocolSDK.xcframework`
+- **ZIP 包**: `/Users/bruce/Downloads/SmartBracelet/build/WatchProtocolSDK-v1.0.0.zip`
+- **解压目录**: `/Users/bruce/Downloads/SmartBracelet/build/WatchProtocolSDK-Release/`
+- **XCFramework**: `/Users/bruce/Downloads/SmartBracelet/build/WatchProtocolSDK-Release/WatchProtocolSDK.xcframework`
 
 ### 🔄 集成方式
 
