@@ -2,7 +2,7 @@
 //  HeartRateView.swift
 //  SmartBracelet
 //
-//  Created by anker on 2021/4/17.
+//  Created by bruce on 2021/4/17.
 //  Copyright © 2021 tjd. All rights reserved.
 //
 
