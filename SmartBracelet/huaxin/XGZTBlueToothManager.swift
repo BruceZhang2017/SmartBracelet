@@ -2,7 +2,7 @@
 //  XGZTBlueToothManager.swift
 //  
 //
-//  Created by anker on 2024/11/10.
+//  Created by bruce on 2024/11/10.
 //
 
 import Foundation

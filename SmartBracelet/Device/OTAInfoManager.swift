@@ -2,7 +2,7 @@
 //  OTAInfoManager.swift
 //  SmartBracelet
 //
-//  Created by anker on 2024/12/18.
+//  Created by bruce on 2024/12/18.
 //  Copyright © 2024 tjd. All rights reserved.
 //
 

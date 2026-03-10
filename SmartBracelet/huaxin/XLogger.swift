@@ -2,7 +2,7 @@
 //  XLogger.swift
 //  SmartBracelet
 //
-//  Created by anker on 2025/5/7.
+//  Created by bruce on 2025/5/7.
 //  Copyright © 2025 tjd. All rights reserved.
 //
 

@@ -2,7 +2,7 @@
 //  SportBViewController.swift
 //  SmartBracelet
 //
-//  Created by anker_bruce on 2025/10/26.
+//  Created by bruce_bruce on 2025/10/26.
 //  Copyright © 2025 tjd. All rights reserved.
 //
 
