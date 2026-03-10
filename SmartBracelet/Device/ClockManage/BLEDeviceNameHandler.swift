@@ -2,7 +2,7 @@
 //  BLEDeviceNameHandler.swift
 //  SmartBracelet
 //
-//  Created by anker on 2021/8/22.
+//  Created by bruce on 2021/8/22.
 //  Copyright © 2021 tjd. All rights reserved.
 //
 

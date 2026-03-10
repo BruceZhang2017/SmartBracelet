@@ -207,4 +207,4 @@ if (FemaleCycleDataManager.getInstance(this).isConfigured()) {
 
 ## 📄 License
 
-Copyright © 2015-2018 Anker Innovations Technology Limited
+Copyright © 2015-2018 bruce Innovations Technology Limited

@@ -2,7 +2,7 @@
 //  QACircleProgressView.h
 //  SmartBracelet
 //
-//  Created by anker on 2021/12/12.
+//  Created by bruce on 2021/12/12.
 //  Copyright © 2021 tjd. All rights reserved.
 //
 
