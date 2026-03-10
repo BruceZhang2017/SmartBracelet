@@ -2,7 +2,7 @@
 //  QuestionItemResponse.swift
 //  SmartBracelet
 //
-//  Created by anker on 2022/12/7.
+//  Created by bruce on 2022/12/7.
 //  Copyright © 2022 tjd. All rights reserved.
 //
 

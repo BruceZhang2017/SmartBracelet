@@ -2,7 +2,7 @@
 //  ClockCollectionViewFlowLayout.swift
 //  SmartBracelet
 //
-//  Created by anker on 2021/7/29.
+//  Created by bruce on 2021/7/29.
 //  Copyright © 2021 tjd. All rights reserved.
 //
 
