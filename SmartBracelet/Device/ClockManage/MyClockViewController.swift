@@ -85,6 +85,9 @@ class MyClockViewController: UIViewController {
         
         
         footView?.isHidden = !(w == 80 && h == 160)
+        if isXGZT {
+            footView?.isHidden = true 
+        }
         footView?.delegate = self
         bleSelf.getFuncCategory()
         
@@ -143,8 +146,10 @@ class MyClockViewController: UIViewController {
     private func startupdateCustomImage() {
         guard let originalImage = currentImage else { return }
         
+        let w: CGFloat = isXGZT ? CGFloat(XGZTBlueToothManager.shared.device?.screenWidth ?? 0) : CGFloat(bleSelf.bleModel.screenWidth)
+        let h: CGFloat = isXGZT ? CGFloat(XGZTBlueToothManager.shared.device?.screenHeight ?? 0) : CGFloat(bleSelf.bleModel.screenHeight)
         // 固定目标尺寸
-        let targetSize = CGSize(width: width, height: height)
+        let targetSize = CGSize(width: w, height: h)
         
         // 第一步：调整图片尺寸为 240×240
         guard let resizedImage = resizeImage(originalImage, to: targetSize) else {
@@ -166,35 +171,66 @@ class MyClockViewController: UIViewController {
             
             XLogger.shared.log("Attempt \(attemptCount+1): rawImageData count: \(rawImageData.count)")
             
-            // 使用固定的 240×240 尺寸
-            if let parData = ParTool.par(fromRaw: rawImageData,
-                                      width: Int32(targetSize.width),
-                                      height: Int32(targetSize.height),
-                                      runAlpha: false,
-                                      useFilter: false,
-                                      supportRotate: false) {
-                if parData.count <= targetSizeBytes {
-                    XLogger.shared.log("Success: PAR size=\(parData.count) width=240 height=240")
-                    binData = parData
-                    XGZTCommand.dialMarketQuery(dataType: 0)
-                    break
-                } else {
-                    XLogger.shared.log("PAR size \(parData.count) exceeds 120KB, compressing further...")
-                    
-                    // 降低质量继续尝试
-                    let quality = max(0.1, 0.9 - Double(attemptCount) * 0.1)
-                    if let compressedData = image.jpegData(compressionQuality: quality),
-                       let compressedImage = UIImage(data: compressedData) {
-                        image = compressedImage
+            if XGZTBlueToothManager.shared.device?.screenType == 2 || XGZTBlueToothManager.shared.device?.screenType == 3 {
+                // 使用固定的 240×240 尺寸 手环
+                if let parData = ParTool.rle(fromRaw: rawImageData,
+                                          width: Int32(targetSize.width),
+                                          height: Int32(targetSize.height),
+                                          transparentColor: 1) {
+                    if parData.count <= targetSizeBytes {
+                        XLogger.shared.log("Success: PAR size=\(parData.count) width=240 height=240")
+                        binData = parData
+                        XGZTCommand.dialMarketQuery(dataType: 0)
+                        break
                     } else {
-                        XLogger.shared.log("Failed to compress image further")
-                        return
+                        XLogger.shared.log("PAR size \(parData.count) exceeds 120KB, compressing further...")
+                        
+                        // 降低质量继续尝试
+                        let quality = max(0.1, 0.9 - Double(attemptCount) * 0.1)
+                        if let compressedData = image.jpegData(compressionQuality: quality),
+                           let compressedImage = UIImage(data: compressedData) {
+                            image = compressedImage
+                        } else {
+                            XLogger.shared.log("Failed to compress image further")
+                            return
+                        }
                     }
+                } else {
+                    XLogger.shared.log("Failed to convert to PAR format at 240x240")
+                    return
                 }
             } else {
-                XLogger.shared.log("Failed to convert to PAR format at 240x240")
-                return
+                // 使用固定的 240×240 尺寸
+                if let parData = ParTool.par(fromRaw: rawImageData,
+                                          width: Int32(targetSize.width),
+                                          height: Int32(targetSize.height),
+                                          runAlpha: false,
+                                          useFilter: false,
+                                          supportRotate: false) {
+                    if parData.count <= targetSizeBytes {
+                        XLogger.shared.log("Success: PAR size=\(parData.count) width=240 height=240")
+                        binData = parData
+                        XGZTCommand.dialMarketQuery(dataType: 0)
+                        break
+                    } else {
+                        XLogger.shared.log("PAR size \(parData.count) exceeds 120KB, compressing further...")
+                        
+                        // 降低质量继续尝试
+                        let quality = max(0.1, 0.9 - Double(attemptCount) * 0.1)
+                        if let compressedData = image.jpegData(compressionQuality: quality),
+                           let compressedImage = UIImage(data: compressedData) {
+                            image = compressedImage
+                        } else {
+                            XLogger.shared.log("Failed to compress image further")
+                            return
+                        }
+                    }
+                } else {
+                    XLogger.shared.log("Failed to convert to PAR format at 240x240")
+                    return
+                }
             }
+            
             
             attemptCount += 1
         }
@@ -642,6 +678,9 @@ extension MyClockViewController: UITableViewDataSource {
             cell.selectButton.setTitle("select_image".localized(), for: .normal)
             cell.selectButton.setTitleColor(UIColor.brand, for: .normal)
             cell.selectButton.titleLabel?.font = UIFont.subtitle1()
+            cell.selectButton.titleLabel?.textAlignment = .center // 文字水平居中
+            cell.selectButton.contentHorizontalAlignment = .center // 按钮内容水平居中
+            cell.selectButton.contentVerticalAlignment = .center // 按钮内容垂直居中
             let w  = isXGZT ? (XGZTBlueToothManager.shared.device?.screenWidth ?? 0) : bleSelf.bleModel.screenWidth
             let h = isXGZT ? (XGZTBlueToothManager.shared.device?.screenHeight ?? 0) : bleSelf.bleModel.screenHeight
             let lastestDeviceMac = UserDefaults.standard.string(forKey: "LastestDeviceMac") ?? "00:00:00:00:00:00"

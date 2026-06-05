@@ -112,6 +112,25 @@
 "mine_weight"="体重";
 "mine_kg_unit"="KG";
 
+"user_info_skip"="跳过";
+"user_info_start_title"="开始得很好！";
+"user_info_gender_title"="你的性别是什么？";
+"user_info_gender_subtitle"="性别信息有助于我们更准确地评估您的新陈代谢水平。";
+"user_info_next"="下一步";
+"user_info_continue_title"="继续吧！";
+"user_info_age_title"="你的年龄是多少？";
+"user_info_age_subtitle"="年龄信息有助于我们更准确地评估您的新陈代谢水平。";
+"user_info_height_title"="你的身高是多少？";
+"user_info_height_subtitle"="身高信息有助于我们更精确地计算您的BMI。";
+"user_info_weight_title"="你的体重是多少？";
+"user_info_weight_subtitle"="不同的体重会导致不同的卡路里消耗。";
+"user_info_keep_it_up"="继续加油！";
+"user_info_awesome"="太棒了！";
+"user_info_step_length_title"="你的步长是多少？";
+"user_info_step_length_subtitle"="了解您的步幅可以帮助我们计算更准确的步数。";
+"user_info_step_length"="步长";
+"user_info_done"="完成";
+
 // 缺少的文案
 "every_day_goal" = "每日步数目标";
 "device_settings" = "设备设置";

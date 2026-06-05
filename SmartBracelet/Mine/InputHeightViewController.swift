@@ -20,13 +20,18 @@ class InputHeightViewController: UIViewController {
     @IBOutlet weak var cancelButton: UIButton!
     @IBOutlet weak var mTextField: UITextField!
     var type = 0
-    var value = ""
+    var value = "" {
+        didSet {
+            mTextField?.text = value
+        }
+    }
     weak var delegate: InputHeightVCDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupValue()
         mTextField.keyboardType = .numberPad
+        mTextField.text = value
         cancelButton.setTitle("mine_cancel".localized(), for: .normal)
         cancelButton.layer.cornerRadius = 22
         cancelButton.clipsToBounds = true
@@ -36,13 +41,15 @@ class InputHeightViewController: UIViewController {
         okButton.backgroundColor = UIColor.brand
         okButton.layer.cornerRadius = 22
         okButton.clipsToBounds = true
-        
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         mTextField.text = value
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
     }
     
     private func setupValue() {

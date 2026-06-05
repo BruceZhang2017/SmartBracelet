@@ -56,7 +56,7 @@ class MineViewController: BaseViewController {
 
         // 计算nicknameButton的位置和大小
         let nicknameButtonHeight: CGFloat = 30
-        let nicknameButtonWidth: CGFloat = 200 // 或者可以使用sizeToFit()来根据内容调整宽度
+        let nicknameButtonWidth: CGFloat = 300 // 或者可以使用sizeToFit()来根据内容调整宽度
         let nicknameButtonX = (headerView.bounds.width - nicknameButtonWidth) / 2 // 水平居中
         let nicknameButtonY = profileImageView.frame.maxY + 10 // 在profileImageView下方间隔10
         nicknameButton.frame = CGRect(x: nicknameButtonX, y: nicknameButtonY, width: nicknameButtonWidth, height: nicknameButtonHeight)

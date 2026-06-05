@@ -218,6 +218,9 @@ class SyncContactsViewController: BaseViewController {
         label.textColor = UIColor.black
         label.text = "0/\(maxContactsLimit)"
         label.sizeToFit()
+        let labelWidth = max(label.frame.width, 44)
+        let labelHeight = max(label.frame.height, 30)
+        label.frame = CGRect(x: 0, y: 0, width: labelWidth, height: labelHeight)
         countLabel = label
 
         let countBarButton = UIBarButtonItem(customView: label)

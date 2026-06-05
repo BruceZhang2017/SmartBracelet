@@ -560,3 +560,22 @@
 "position_top_right" = "Kanan Atas";
 "position_bottom_right" = "Kanan Bawah";
 "position_center" = "Tengah";
+"user_info_skip" = "Skip";
+"user_info_start_title" = "Great start!";
+"user_info_gender_title" = "What's your gender?";
+"user_info_gender_subtitle" = "Gender information helps us more accurately assess your metabolic level.";
+"user_info_next" = "Next";
+"user_info_continue_title" = "Let's continue!";
+"user_info_age_title" = "What's your age?";
+"user_info_age_subtitle" = "Age information helps us more accurately assess your metabolic level.";
+"user_info_height_title" = "What's your height?";
+"user_info_height_subtitle" = "Height information helps us calculate your BMI more precisely.";
+"user_info_weight_title" = "What's your weight?";
+"user_info_weight_subtitle" = "Different weights result in different calorie expenditures.";
+"user_info_keep_it_up" = "Keep it up!";
+"user_info_awesome" = "Awesome!";
+"user_info_step_length_title" = "What's your step length?";
+"user_info_step_length_subtitle" = "By understanding your stride length, we can calculate a more accurate step count.";
+"user_info_step_length" = "Step length";
+"user_info_done" = "Done";
+

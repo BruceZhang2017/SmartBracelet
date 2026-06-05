@@ -49,6 +49,10 @@ class MTabBarController: UITabBarController {
         UITabBarItem.appearance().setTitleTextAttributes(unselectedAttributes, for: .normal)
         UITabBarItem.appearance().setTitleTextAttributes(selectedAttributes, for: .selected)
         
+        if #available(iOS 26.0, *) {
+            tabBar.itemPositioning = .fill
+            tabBar.itemSpacing = 0
+        }
         
         ToastView.appearance().backgroundColor = .black.withAlphaComponent(0.8)
         ToastView.appearance().maxWidthRatio = 0.8

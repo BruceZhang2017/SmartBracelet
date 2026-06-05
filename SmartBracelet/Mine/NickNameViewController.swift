@@ -28,6 +28,9 @@ class NickNameViewController: BaseViewController {
             $0.titleLabel?.font = UIFont.systemFont(ofSize: 15)
             $0.setTitle("mine_save".localized(), for: .normal)
             $0.addTarget(self, action: #selector(save), for: .touchUpInside)
+            $0.sizeToFit()
+            let width = max($0.frame.width, 44)
+            $0.frame = CGRect(x: 0, y: 0, width: width, height: 30)
         }
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: rightButton)
         setupValue()

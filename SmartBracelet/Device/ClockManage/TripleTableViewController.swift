@@ -587,6 +587,9 @@ class RightViewModel {
 //        if lang != "English" && !isUsrEnglish {
 //            parameters["lang"] = lang
 //        }
+        if XGZTBlueToothManager.shared.device?.screenType == 2 || XGZTBlueToothManager.shared.device?.screenType == 3 {
+            parameters["platform"] = "202x"
+        }
         
         // 打印请求参数
         print("请求参数:")
@@ -659,7 +662,9 @@ class RightViewModel {
 //        if lang != "English" && !isUsrEnglish {
 //            parameters["lang"] = lang
 //        }
-        
+        if XGZTBlueToothManager.shared.device?.screenType == 2 || XGZTBlueToothManager.shared.device?.screenType == 3 {
+            parameters["platform"] = "202x"
+        }
         // 打印请求参数
         print("开始加载第\(nextPage)页数据，请求参数：")
         parameters.forEach { print("\($0.key): \($0.value)") }

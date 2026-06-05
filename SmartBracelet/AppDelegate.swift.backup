@@ -12,7 +12,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var soundID: SystemSoundID = 0
     var audioPlayer: AVAudioPlayer?
     var foregroundObserver: ((Bool) -> Void)?
-    private var audioInterruptionObserver: NSObjectProtocol?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         configRealm()
@@ -61,15 +60,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func applicationWillTerminate(_ application: UIApplication) {
-        if let observer = audioInterruptionObserver {
-            NotificationCenter.default.removeObserver(observer)
-        }
+            
     }
     
     @objc private func timeZoneDidChange() {
         let newTimeZone = TimeZone.current
         XLogger.shared.log("时区发生变化：\(newTimeZone.identifier), offset = \(newTimeZone.secondsFromGMT())")
 
+        // 你的逻辑，比如重新同步服务器或设备时间
         if isXGZT && !sync_time_single {
             sync_time_single = true
             XGZTBlueToothManager.shared.handler.readDeviceInfo()
@@ -105,20 +103,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UINavigationBar.appearance().tintColor = UIColor.text_primary
         UITabBarItem.appearance().setTitleTextAttributes([.foregroundColor: UIColor(hex: 0x0FC08D)], for: .selected)
         UITabBarItem.appearance().setTitleTextAttributes([.foregroundColor: UIColor(hex: 0x818181)], for: .normal)
-        
-        audioInterruptionObserver = NotificationCenter.default.addObserver(
-            forName: AVAudioSession.interruptionNotification,
-            object: AVAudioSession.sharedInstance(),
-            queue: .main
-        ) { [weak self] notification in
-            self?.handleAudioInterruption(notification)
-        }
     }
 
+    /// 配置数据库（修复Realm路径初始化）
     private func configRealm() {
         let dbVersion : UInt64 = 7
         let docPath = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.documentDirectory, FileManager.SearchPathDomainMask.userDomainMask, true)[0] as String
         let dbPath = docPath.appending("/bracelet.realm")
+        // 关键修复：使用fileURLWithPath初始化本地文件路径（原代码可能返回nil）
         let config = Realm.Configuration(
             fileURL: URL(fileURLWithPath: dbPath),
             schemaVersion: dbVersion,
@@ -128,14 +120,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         Realm.Configuration.defaultConfiguration = config
     }
 
+    // 关键修复：确保所有UI和音频操作在主线程执行
     public func foundphone(isband: Bool = false) {
-        XLogger.shared.log("foundphone 调用，isband: \(isband)，线程: \(Thread.current.isMainThread ? "主线程" : "子线程")")
+        // 日志记录调用线程，辅助排查
+        XLogger.shared.log("foundphone 调用线程: \(Thread.current.isMainThread ? "主线程" : "子线程")")
         
+        // 强制切换到主线程执行（避免线程安全问题）
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
             
-            self.configureAudioSession(forDualBluetooth: !isband)
-            
+            // 配置本地通知
             let content = UNMutableNotificationContent()
             content.title = NSLocalizedString("device_tip", comment: "")
             content.body = NSLocalizedString("found_success", comment: "")
@@ -152,6 +146,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 }
             }
 
+            // 配置音频会话（主线程中执行）
+            do {
+                let audioSession = AVAudioSession.sharedInstance()
+                try audioSession.setCategory(.playAndRecord, options: [.defaultToSpeaker, .mixWithOthers])
+                try audioSession.setActive(true)
+            } catch {
+                XLogger.shared.log("设置音频会话失败: \(error)")
+                return
+            }
+
+            // 初始化并播放音频
             guard let soundURL = Bundle.main.url(forResource: "Alarm", withExtension: "mp3") else {
                 XLogger.shared.log("未找到声音文件")
                 return
@@ -161,18 +166,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 self.audioPlayer = try AVAudioPlayer(contentsOf: soundURL)
                 self.audioPlayer?.prepareToPlay()
                 self.audioPlayer?.play()
-                XLogger.shared.log("音频播放成功，产品类型: \(isband ? "单BLE" : "双BLE+BT")")
             } catch {
                 XLogger.shared.log("音频播放初始化失败: \(error)")
                 return
             }
 
+            // 显示UIAlertController（使用顶层VC避免nil）
             let alert = UIAlertController(
                 title: "device_tip".localized(),
                 message: "found_success".localized(),
                 preferredStyle: .alert
             )
             
+            // 添加停止播放的按钮动作（修复弃用API）
             alert.addAction(UIAlertAction(
                 title: "mine_confirm".localized(),
                 style: .cancel,
@@ -180,72 +186,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     guard let self = self else { return }
                     self.audioPlayer?.stop()
                     
+                    // 关键修复：移除弃用的overrideOutputAudioPort，改用现代API
                     do {
                         let audioSession = AVAudioSession.sharedInstance()
-                        try audioSession.setCategory(.ambient)
-                        try audioSession.setActive(false, options: .notifyOthersOnDeactivation)
-                        XLogger.shared.log("音频会话已恢复")
+                        try audioSession.setCategory(.ambient) // 恢复默认音频模式
+                        try audioSession.setActive(false, options: .notifyOthersOnDeactivation) // 优雅停用
                     } catch {
                         XLogger.shared.log("恢复音频会话失败: \(error)")
                     }
                 }
             ))
             
+            // 关键修复：使用topMostViewController获取顶层VC，避免依赖keyWindow
             if let topVC = UIApplication.shared.topMostViewController() {
                 topVC.present(alert, animated: true, completion: nil)
             } else {
                 XLogger.shared.log("未找到可展示弹窗的顶层视图控制器")
             }
-        }
-    }
-    
-    // MARK: - Audio Session Configuration
-    
-    private func configureAudioSession(forDualBluetooth isDual: Bool) {
-        let audioSession = AVAudioSession.sharedInstance()
-        
-        do {
-            if isDual {
-                try audioSession.setCategory(
-                    .playAndRecord,
-                    options: [.duckOthers, .defaultToSpeaker]
-                )
-                XLogger.shared.log("已配置音频会话为 playAndRecord 模式（双BLE+BT产品）")
-            } else {
-                try audioSession.setCategory(.ambient, options: [])
-                XLogger.shared.log("已配置音频会话为 ambient 模式（单BLE产品）")
-            }
-            
-            try audioSession.setActive(true, options: .notifyOthersOnDeactivation)
-        } catch {
-            XLogger.shared.log("音频会话配置失败: \(error.localizedDescription)")
-        }
-    }
-    
-    private func handleAudioInterruption(_ notification: Notification) {
-        guard let userInfo = notification.userInfo,
-              let typeValue = userInfo["AVAudioSessionInterruptionTypeKey"] as? UInt,
-              let type = AVAudioSession.InterruptionType(rawValue: typeValue) else {
-            return
-        }
-        
-        switch type {
-        case .began:
-            XLogger.shared.log("音频播放被中断")
-            audioPlayer?.pause()
-            
-        case .ended:
-            XLogger.shared.log("音频中断结束")
-            if let optionsValue = userInfo["AVAudioSessionInterruptionOptionKey"] as? UInt {
-                let options = AVAudioSession.InterruptionOptions(rawValue: optionsValue)
-                if options.contains(.shouldResume) {
-                    XLogger.shared.log("恢复音频播放")
-                    audioPlayer?.play()
-                }
-            }
-            
-        @unknown default:
-            break
         }
     }
 }
@@ -306,6 +263,7 @@ extension AppDelegate {
 }
 
 extension UIApplication {
+    /// 获取当前最顶层的非 UIAlertController 的视图控制器
     func topMostViewController() -> UIViewController? {
         guard let keyWindow = connectedScenes
            .compactMap({ $0 as? UIWindowScene })
@@ -322,6 +280,7 @@ extension UIApplication {
         } else if let tabBarController = viewController as? UITabBarController {
             return topMostViewController(for: tabBarController.selectedViewController)
         } else if viewController is UIAlertController {
+            // Return presenting controller directly (no recursion to avoid infinite loop)
             return viewController?.presentingViewController
         } else if let presentedViewController = viewController?.presentedViewController {
             return topMostViewController(for: presentedViewController)

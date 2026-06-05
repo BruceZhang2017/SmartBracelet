@@ -803,11 +803,21 @@ public class XGZTCommand {
     static func setQRCode(type: UInt8, qrString: String) {
         if let commandData = QRCodeSetCommand.buildCommand(type: type, qrString: qrString) {
             print("构建的指令数据：\(commandData)")
-            XGZTBlueToothManager.shared.writeCharacteristic(command: commandData.bytes)
+            
+            // 关键修改：将 RawSpan 转换为 [UInt8] 数组
+            // 方式1：如果 RawSpan 是 ContiguousBytes 类型（推荐）
+            let bytesArray = commandData.bytes.withUnsafeBytes {
+                Array($0.bindMemory(to: UInt8.self))
+            }
+            
+            // 方式2：如果 RawSpan 支持直接遍历（备选）
+            // let bytesArray = Array(commandData.bytes) as [UInt8]
+            
+            // 调用方法时传入转换后的数组
+            XGZTBlueToothManager.shared.writeCharacteristic(command: bytesArray)
         } else {
             print("构建指令失败")
         }
-        
     }
     
     // 获取多运动模式数据
@@ -1233,7 +1243,11 @@ public class XGZTCommand {
             if response[5] == 0x00 {
                 XLogger.shared.log("开始查找手机")
                 DispatchQueue.main.async {
-                    (UIApplication.shared.delegate as? AppDelegate)?.foundphone()
+                    if XGZTBlueToothManager.shared.device?.screenType == 2 || XGZTBlueToothManager.shared.device?.screenType == 3 {
+                        (UIApplication.shared.delegate as? AppDelegate)?.foundphone(isband: true)
+                    } else {
+                        (UIApplication.shared.delegate as? AppDelegate)?.foundphone()
+                    }
                 }
             } else {
                 XLogger.shared.log("结束查找手机")
@@ -1681,6 +1695,7 @@ public class XGZTCommand {
         case.getSleepMonitoring:
             guard response.count >= 12 else {
                 XLogger.shared.log("setAutoSleepMonitoring command response error")
+                NotificationCenter.default.post(name: Notification.Name("XGZTBusinessHandler"), object: "9")
                 return
             }
             if response[2] == 2 {

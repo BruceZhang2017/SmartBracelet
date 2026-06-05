@@ -75,6 +75,24 @@ class XGZTBusinessHandler: NSObject {
                 NotificationCenter.default.post(name: Notification.Name("DevicesViewController"), object: "1")
             }
             
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
+                if let userInfo = UserDefaults.standard.dictionary(forKey: "UserInfo") {
+                    if let height = userInfo["height"] as? Int, height > 0 {
+                        XGZTBlueToothManager.shared.device?.height = height
+                    }
+                    if let weight = userInfo["weight"] as? Int, weight > 0  {
+                        XGZTBlueToothManager.shared.device?.weight = weight
+                    }
+                    if let age = userInfo["age"] as? Int, age > 0 {
+                        XGZTBlueToothManager.shared.device?.age = age
+                    }
+                    if let gender = userInfo["gender"] as? Int {
+                        XGZTBlueToothManager.shared.device?.sex = gender
+                    }
+                    XGZTCommand.setPersonalInfo(sex: XGZTBlueToothManager.shared.device?.sex ?? 0, age: XGZTBlueToothManager.shared.device?.age ?? 0, height: XGZTBlueToothManager.shared.device?.height ?? 0, weight: XGZTBlueToothManager.shared.device?.weight ?? 0)
+                }
+            }
+            
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                 self.syncDevcieInfo()
             }

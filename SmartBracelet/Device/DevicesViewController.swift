@@ -136,16 +136,16 @@ class DevicesViewController: BaseViewController, UIDocumentInteractionController
         documentController?.delegate = self
         
         // 创建按钮
-//            let button = UIBarButtonItem(
-//                title: "日志",
-//                style: .plain,
-//                target: self,
-//                action: #selector(didTapRightButton)
-//            )
-//            button.tintColor = .red  // 设置按钮颜色
-//
-//            // 添加到右上角
-//            navigationItem.rightBarButtonItem = button
+        let button = UIBarButtonItem(
+            title: "日志",
+            style: .plain,
+            target: self,
+            action: #selector(didTapRightButton)
+        )
+        button.tintColor = .red  // 设置按钮颜色
+
+        // 添加到右上角
+        navigationItem.rightBarButtonItem = button
     }
     
     // 处理点击事件（注意使用 @objc 标记）

@@ -5,7 +5,7 @@ use_frameworks!
 target 'SmartBracelet' do
 source 'https://github.com/CocoaPods/Specs.git'
 source 'https://github.com/aliyun/aliyun-specs.git'
-pod 'AFNetworking'
+#pod 'AFNetworking'
 pod 'AMap2DMap'
 pod 'AMapLocation'
 pod 'SnapKit','5.0.1'

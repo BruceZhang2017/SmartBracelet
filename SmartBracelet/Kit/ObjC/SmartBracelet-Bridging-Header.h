@@ -40,6 +40,6 @@
 
 #import <TZImagePickerController/TZImagePickerController.h>
 
-#import"AFNetworking.h"
+//#import"AFNetworking.h"
 
 #import "JGProgressHUD.h"

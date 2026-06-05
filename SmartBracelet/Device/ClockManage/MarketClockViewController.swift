@@ -33,6 +33,7 @@ class MarketClockViewController: UIViewController {
                 $0.setTitle("mine_manage".localized(), for: .normal)
                 $0.setTitle("mine_delete".localized(), for: .selected)
                 $0.setTitle("mine_finish".localized(), for: .disabled)
+                $0.frame = CGRect(x: 0, y: 0, width: 60, height: 24)
             }
             navigationItem.rightBarButtonItem = UIBarButtonItem(customView: rightButton)
         }

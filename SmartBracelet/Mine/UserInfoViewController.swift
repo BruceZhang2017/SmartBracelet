@@ -97,7 +97,10 @@ extension UserInfoViewController: UITableViewDataSource {
                 cell.valueLabel.text = UserManager.sharedInstall.user?.nickname ?? ""
             }
         } else if indexPath.row == 2 {
-            if UserManager.sharedInstall.user?.token == nil {
+            if let userInfo = UserDefaults.standard.dictionary(forKey: "UserInfo"),
+               let gender = userInfo["gender"] as? Int {
+                cell.valueLabel.text = gender == 0 ? "mine_male".localized() : "mine_female".localized()
+            } else if UserManager.sharedInstall.user?.token == nil {
                 if isXGZT {
                     cell.valueLabel.text = (XGZTBlueToothManager.shared.device?.sex ?? 0) == 0 ? "mine_male".localized() : "mine_female".localized()
                 } else {
@@ -108,22 +111,35 @@ extension UserInfoViewController: UITableViewDataSource {
             }
             
         } else if indexPath.row == 3 {
-            if UserManager.sharedInstall.user?.token == nil {
-                if isXGZT {
+            if isXGZT {
+                if let userInfo = UserDefaults.standard.dictionary(forKey: "UserInfo"),
+                   let age = userInfo["age"] as? Int, age > 0 {
+                    cell.valueLabel.text = "\(age)"
+                } else if UserManager.sharedInstall.user?.token == nil {
                     cell.valueLabel.text = "\(XGZTBlueToothManager.shared.device?.age ?? 0)"
                 } else {
+                    cell.valueLabel.text = UserManager.sharedInstall.user?.birthday ?? ""
+                }
+            } else {
+                if let userInfo = UserDefaults.standard.dictionary(forKey: "UserInfo"),
+                   let birthday = userInfo["birthday"] as? String {
+                    cell.valueLabel.text = birthday
+                } else if UserManager.sharedInstall.user?.token == nil {
                     let value = UserDefaults.standard.string(forKey: "Birthday")
                     if value?.count ?? 0 > 0 {
                         cell.valueLabel.text = value
                     } else {
                         cell.valueLabel.text = WUDate.dateFromTimeStamp(bleSelf.userInfo.birthday).stringFromYmd()
                     }
+                } else {
+                    cell.valueLabel.text = UserManager.sharedInstall.user?.birthday ?? ""
                 }
-            } else {
-                cell.valueLabel.text = UserManager.sharedInstall.user?.birthday ?? ""
             }
         } else if indexPath.row == 4 {
-            if UserManager.sharedInstall.user?.token == nil {
+            if let userInfo = UserDefaults.standard.dictionary(forKey: "UserInfo"),
+               let height = userInfo["height"] as? Int {
+                cell.valueLabel.text = "\(height)CM"
+            } else if UserManager.sharedInstall.user?.token == nil {
                 if isXGZT {
                     cell.valueLabel.text = "\(XGZTBlueToothManager.shared.device?.height ?? 0)CM"
                 } else {
@@ -133,7 +149,10 @@ extension UserInfoViewController: UITableViewDataSource {
                 cell.valueLabel.text = "\(UserManager.sharedInstall.user?.height ?? 0)CM"
             }
         } else if indexPath.row == 5 {
-            if UserManager.sharedInstall.user?.token == nil {
+            if let userInfo = UserDefaults.standard.dictionary(forKey: "UserInfo"),
+               let weight = userInfo["weight"] as? Double {
+                cell.valueLabel.text = String(format: "%.1f", weight) + "KG"
+            } else if UserManager.sharedInstall.user?.token == nil {
                 if isXGZT {
                     cell.valueLabel.text = "\(XGZTBlueToothManager.shared.device?.weight ?? 0)KG"
                 } else {
@@ -193,7 +212,14 @@ extension UserInfoViewController: UITableViewDelegate {
                 itemVC?.delegate = self
                 itemVC?.modalTransitionStyle = .crossDissolve
                 itemVC?.modalPresentationStyle = .overFullScreen
-                itemVC?.index = (XGZTBlueToothManager.shared.device?.age ?? 0) - 1
+                let ageIndex: Int
+                if let userInfo = UserDefaults.standard.dictionary(forKey: "UserInfo"),
+                   let age = userInfo["age"] as? Int, age > 0 {
+                    ageIndex = min(max(age - 1, 0), 99)
+                } else {
+                    ageIndex = min(max((XGZTBlueToothManager.shared.device?.age ?? 1) - 1, 0), 99)
+                }
+                itemVC?.index = ageIndex
                 itemVC?.type = 2
                 itemVC?.titles = (1...100).map { String($0) }
                 itemVC?.titleStr = "age".localized()
@@ -224,7 +250,15 @@ extension UserInfoViewController: UITableViewDelegate {
             vc.modalPresentationStyle = .overFullScreen
             vc.type = 0
             if isXGZT {
-                vc.value = "\(XGZTBlueToothManager.shared.device?.height ?? 0)"
+                if let userInfo = UserDefaults.standard.dictionary(forKey: "UserInfo"),
+                   let height = userInfo["height"] as? Int, height > 0 {
+                    vc.value = "\(height)"
+                } else {
+                    vc.value = "\(XGZTBlueToothManager.shared.device?.height ?? 0)"
+                }
+            } else if let userInfo = UserDefaults.standard.dictionary(forKey: "UserInfo"),
+                      let height = userInfo["height"] as? Int, height > 0 {
+                vc.value = "\(height)"
             } else {
                 vc.value = "\(bleSelf.userInfo.height)"
             }
@@ -237,7 +271,15 @@ extension UserInfoViewController: UITableViewDelegate {
             vc.modalPresentationStyle = .overFullScreen
             vc.type = 1
             if isXGZT {
-                vc.value = "\(XGZTBlueToothManager.shared.device?.weight ?? 0)"
+                if let userInfo = UserDefaults.standard.dictionary(forKey: "UserInfo"),
+                   let weight = userInfo["weight"] as? Int, weight > 0 {
+                    vc.value = "\(weight)"
+                } else {
+                    vc.value = "\(XGZTBlueToothManager.shared.device?.weight ?? 0)"
+                }
+            } else if let userInfo = UserDefaults.standard.dictionary(forKey: "UserInfo"),
+                      let weight = userInfo["weight"] as? Int, weight > 0 {
+                vc.value = "\(weight)"
             } else {
                 vc.value = "\(bleSelf.userInfo.weight)"
             }
@@ -282,17 +324,29 @@ extension UserInfoViewController {
 extension UserInfoViewController: SelectSexVCDelegate {
     func callback(type: Int, value: String) {
         if type == 0 {
+            let sexValue = value == "mine_male".localized() ? 0 : 1
             if isXGZT {
-                XGZTBlueToothManager.shared.device?.sex = value == "mine_male".localized() ? 0 : 1
+                XGZTBlueToothManager.shared.device?.sex = sexValue
             } else {
-                UserManager.sharedInstall.user?.sex = value == "mine_male".localized() ? 0 : 1
+                UserManager.sharedInstall.user?.sex = sexValue
             }
+            updateUserInfoValue("gender", value: sexValue)
         } else {
             UserManager.sharedInstall.user?.birthday = value
+            updateUserInfoValue("birthday", value: value)
         }
         UserManager.sharedInstall.saveUser()
         tableView.reloadData()
         uploadData(type: type, value: value)
+    }
+}
+
+private extension UserInfoViewController {
+    func updateUserInfoValue(_ key: String, value: Any) {
+        var userInfo = UserDefaults.standard.dictionary(forKey: "UserInfo") ?? [:]
+        userInfo[key] = value
+        UserDefaults.standard.set(userInfo, forKey: "UserInfo")
+        UserDefaults.standard.synchronize()
     }
 }
 
@@ -329,7 +383,7 @@ extension UserInfoViewController: InputHeightVCDelegate {
                 UserManager.sharedInstall.user?.height = value
                 XGZTCommand.setPersonalInfo(sex: XGZTBlueToothManager.shared.device?.sex ?? 0, age: XGZTBlueToothManager.shared.device?.age ?? 0, height: XGZTBlueToothManager.shared.device?.height ?? 0, weight: XGZTBlueToothManager.shared.device?.weight ?? 0)
             }
-            
+            updateUserInfoValue("height", value: value)
         } else {
             if isXGZT {
                 XGZTBlueToothManager.shared.device?.weight = value
@@ -337,6 +391,7 @@ extension UserInfoViewController: InputHeightVCDelegate {
                 UserManager.sharedInstall.user?.weight = value
                 XGZTCommand.setPersonalInfo(sex: XGZTBlueToothManager.shared.device?.sex ?? 0, age: XGZTBlueToothManager.shared.device?.age ?? 0, height: XGZTBlueToothManager.shared.device?.height ?? 0, weight: XGZTBlueToothManager.shared.device?.weight ?? 0)
             }
+            updateUserInfoValue("weight", value: value)
         }
         if !isXGZT {
             UserManager.sharedInstall.saveUser()
@@ -385,7 +440,9 @@ extension UserInfoViewController: SelectItemVCDelegate {
     func callback(type: Int, index: Int, value: String) {
         if type == 2 {
             if isXGZT {
-                XGZTBlueToothManager.shared.device?.age = Int(value) ?? 0
+                let ageValue = Int(value) ?? 0
+                XGZTBlueToothManager.shared.device?.age = ageValue
+                updateUserInfoValue("age", value: ageValue)
                 XGZTCommand.setPersonalInfo(sex: XGZTBlueToothManager.shared.device?.sex ?? 0, age: XGZTBlueToothManager.shared.device?.age ?? 0, height: XGZTBlueToothManager.shared.device?.height ?? 0, weight: XGZTBlueToothManager.shared.device?.weight ?? 0)
             }
             tableView.reloadData()
