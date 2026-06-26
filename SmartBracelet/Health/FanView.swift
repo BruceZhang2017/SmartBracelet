@@ -6,138 +6,209 @@
 //  Copyright © 2024 tjd. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 class FanView: UIView {
     
     private let progressWidth: CGFloat = 20.0
+    private let trackLayer = CAShapeLayer()
     private let progressLayer = CAShapeLayer()
-    private var progress: CGFloat = 0.0 // 进度值，范围从0.0到1.0
+    private var progress: CGFloat = 0.0
     
     private let topLabel = UILabel()
     private let bottomLabel = UILabel()
+    private let metricsContainerView = UIView()
     
-    private var subViews: [UIView] = []
+    private var metricValueLabels: [UILabel] = []
+    private var metricItemViews: [UIView] = []
+    private var separatorViews: [UIView] = []
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        setupViews()
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-  
+        setupViews()
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        updateProgressPath()
     }
     
     public func setupView(titles: [String], values: [NSMutableAttributedString], title: String, value: NSMutableAttributedString) {
-        // 设置半圆形进度条
-        let radius: CGFloat = 90
-        let centerPoint = CGPoint(x: screenWidth / 2, y: 120)
-        let startAngle = CGFloat.pi * 3 / 4
-        let endAngle = CGFloat.pi * 2 + CGFloat.pi / 4
-        
-        let progressPath = UIBezierPath(arcCenter: centerPoint, radius: radius, startAngle: startAngle, endAngle: endAngle, clockwise: true)
-        let sLayer = CAShapeLayer()
-        sLayer.path = progressPath.cgPath
-        sLayer.strokeColor = UIColor.white.withAlphaComponent(0.5).cgColor
-        sLayer.fillColor = nil
-        sLayer.lineWidth = progressWidth
-        sLayer.lineCap = .round
-        sLayer.strokeEnd = 1
-        layer.addSublayer(sLayer)
-        
-        progressLayer.path = progressPath.cgPath
-        progressLayer.strokeColor = UIColor.white.cgColor
-        progressLayer.fillColor = nil
-        progressLayer.lineWidth = progressWidth
-        progressLayer.lineCap = .round
-        progressLayer.strokeEnd = 0.5
-        
-        layer.addSublayer(progressLayer)
-        
-        // 设置中间的两个UILabel
         topLabel.text = title
-        topLabel.textAlignment = .center
-        topLabel.textColor = UIColor.white
-        topLabel.font = UIFont.systemFont(ofSize: 16, weight: .semibold)
-        addSubview(topLabel)
-        topLabel.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
-            make.top.equalTo(74)
-        }
-        
         bottomLabel.attributedText = value
-        bottomLabel.textAlignment = .center
-        bottomLabel.textColor = UIColor.white
-        addSubview(bottomLabel)
-        bottomLabel.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
-            make.top.equalTo(topLabel.snp.bottom).offset(4)
-        }
-        
-        // 设置下方的3个子View
-        let subViewWidth = screenWidth / CGFloat(titles.count)
-        for i in 0..<titles.count {
-            let subView = UIView()
-            
-            let subTopLabel = UILabel()
-            subTopLabel.text = titles[i]
-            subTopLabel.textAlignment = .center
-            subTopLabel.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
-            subTopLabel.textColor = UIColor.white.withAlphaComponent(0.8)
-            
-            let subBottomLabel = UILabel()
-            subBottomLabel.tag = 99
-            subBottomLabel.attributedText = values[i]
-            subBottomLabel.textAlignment = .center
-            subBottomLabel.textColor = UIColor.white
-            
-            subView.addSubview(subTopLabel)
-            subTopLabel.snp.makeConstraints { make in
-                make.centerX.equalToSuperview()
-                make.top.equalToSuperview()
-                make.height.equalTo(20)
-            }
-            subView.addSubview(subBottomLabel)
-            subBottomLabel.snp.makeConstraints { make in
-                make.centerX.equalToSuperview()
-                make.top.equalTo(subTopLabel.snp.bottom)
-                make.height.equalTo(24)
-            }
-            addSubview(subView)
-            subView.snp.makeConstraints { make in
-                make.leading.equalTo(CGFloat(i) * subViewWidth)
-                make.top.equalTo(bottomLabel.snp.bottom).offset(50)
-                make.width.equalTo(subViewWidth)
-                make.height.equalTo(52)
-            }
-            subViews.append(subView)
-            
-            // 如果不是最后一个子View，添加分隔的UIImageView
-            if i < 2 {
-                let separatorImageView = UIImageView()
-                separatorImageView.backgroundColor = .white
-                addSubview(separatorImageView)
-                separatorImageView.snp.makeConstraints { make in
-                    make.leading.equalTo(subViewWidth * CGFloat(i + 1))
-                    make.centerY.equalTo(subView.snp.centerY)
-                    make.height.equalTo(10)
-                    make.width.equalTo(1)
-                }
-            }
-        }
+        rebuildMetricViews(titles: titles, values: values)
+        setNeedsLayout()
     }
     
     func setProgress(_ newProgress: CGFloat) {
-        progress = newProgress
+        progress = max(0, min(newProgress, 1))
         progressLayer.strokeEnd = progress
     }
     
     func refreshValue(values: [NSMutableAttributedString], value: NSMutableAttributedString) {
-        for (i,v) in subViews.enumerated() {
-            if let label = v.viewWithTag(99) as? UILabel {
-                label.attributedText = values[i]
-            }
+        for (index, label) in metricValueLabels.enumerated() where index < values.count {
+            label.attributedText = values[index]
         }
         bottomLabel.attributedText = value
+    }
+    
+    private func setupViews() {
+        backgroundColor = .clear
+        
+        trackLayer.strokeColor = UIColor.white.withAlphaComponent(0.5).cgColor
+        trackLayer.fillColor = nil
+        trackLayer.lineWidth = progressWidth
+        trackLayer.lineCap = .round
+        trackLayer.strokeEnd = 1
+        layer.addSublayer(trackLayer)
+        
+        progressLayer.strokeColor = UIColor.white.cgColor
+        progressLayer.fillColor = nil
+        progressLayer.lineWidth = progressWidth
+        progressLayer.lineCap = .round
+        progressLayer.strokeEnd = 0
+        layer.addSublayer(progressLayer)
+        
+        topLabel.textAlignment = .center
+        topLabel.textColor = .white
+        topLabel.font = UIFont.systemFont(ofSize: 16, weight: .semibold)
+        topLabel.numberOfLines = 2
+        topLabel.adjustsFontSizeToFitWidth = true
+        topLabel.minimumScaleFactor = 0.8
+        topLabel.lineBreakMode = .byWordWrapping
+        addSubview(topLabel)
+        
+        bottomLabel.textAlignment = .center
+        bottomLabel.textColor = .white
+        bottomLabel.numberOfLines = 1
+        bottomLabel.adjustsFontSizeToFitWidth = true
+        bottomLabel.minimumScaleFactor = 0.7
+        bottomLabel.lineBreakMode = .byTruncatingTail
+        addSubview(bottomLabel)
+        
+        addSubview(metricsContainerView)
+        
+        topLabel.snp.makeConstraints { make in
+            make.top.equalToSuperview().offset(70)
+            make.leading.trailing.equalToSuperview().inset(24)
+        }
+        
+        bottomLabel.snp.makeConstraints { make in
+            make.top.equalTo(topLabel.snp.bottom).offset(4)
+            make.centerX.equalToSuperview()
+            make.leading.trailing.equalToSuperview().inset(24)
+        }
+        
+        metricsContainerView.snp.makeConstraints { make in
+            make.top.equalTo(bottomLabel.snp.bottom).offset(36)
+            make.leading.trailing.equalToSuperview()
+            make.height.greaterThanOrEqualTo(52)
+            make.bottom.lessThanOrEqualToSuperview().inset(12)
+        }
+    }
+    
+    private func rebuildMetricViews(titles: [String], values: [NSMutableAttributedString]) {
+        metricItemViews.forEach { $0.removeFromSuperview() }
+        separatorViews.forEach { $0.removeFromSuperview() }
+        metricItemViews.removeAll()
+        metricValueLabels.removeAll()
+        separatorViews.removeAll()
+        
+        guard !titles.isEmpty else { return }
+        
+        var previousItemView: UIView?
+        for index in 0..<titles.count {
+            let itemView = UIView()
+            let titleLabel = UILabel()
+            let valueLabel = UILabel()
+            
+            titleLabel.text = titles[index]
+            titleLabel.textAlignment = .center
+            titleLabel.font = UIFont.systemFont(ofSize: 13, weight: .semibold)
+            titleLabel.textColor = UIColor.white.withAlphaComponent(0.8)
+            titleLabel.numberOfLines = 2
+            titleLabel.adjustsFontSizeToFitWidth = true
+            titleLabel.minimumScaleFactor = 0.75
+            titleLabel.lineBreakMode = .byWordWrapping
+            
+            valueLabel.attributedText = index < values.count ? values[index] : nil
+            valueLabel.textAlignment = .center
+            valueLabel.textColor = .white
+            valueLabel.numberOfLines = 1
+            valueLabel.adjustsFontSizeToFitWidth = true
+            valueLabel.minimumScaleFactor = 0.75
+            valueLabel.lineBreakMode = .byTruncatingTail
+            
+            itemView.addSubview(titleLabel)
+            itemView.addSubview(valueLabel)
+            metricsContainerView.addSubview(itemView)
+            
+            titleLabel.snp.makeConstraints { make in
+                make.top.equalToSuperview()
+                make.leading.trailing.equalToSuperview().inset(8)
+            }
+            
+            valueLabel.snp.makeConstraints { make in
+                make.top.equalTo(titleLabel.snp.bottom).offset(4)
+                make.leading.trailing.equalToSuperview().inset(8)
+                make.bottom.equalToSuperview()
+            }
+            
+            itemView.snp.makeConstraints { make in
+                make.top.bottom.equalToSuperview()
+                if let previousItemView {
+                    make.leading.equalTo(previousItemView.snp.trailing)
+                    make.width.equalTo(previousItemView)
+                } else {
+                    make.leading.equalToSuperview()
+                }
+                
+                if index == titles.count - 1 {
+                    make.trailing.equalToSuperview()
+                }
+            }
+            
+            if let previousItemView {
+                let separatorView = UIView()
+                separatorView.backgroundColor = .white
+                metricsContainerView.addSubview(separatorView)
+                separatorView.snp.makeConstraints { make in
+                    make.centerX.equalTo(itemView.snp.leading)
+                    make.centerY.equalTo(itemView)
+                    make.width.equalTo(1)
+                    make.height.equalTo(18)
+                }
+                separatorViews.append(separatorView)
+            }
+            
+            metricItemViews.append(itemView)
+            metricValueLabels.append(valueLabel)
+            previousItemView = itemView
+        }
+    }
+    
+    private func updateProgressPath() {
+        guard bounds.width > 0, bounds.height > 0 else { return }
+        
+        let radius = min(bounds.width * 0.24, 90)
+        let centerY = min(max(bounds.height * 0.34, 110), 130)
+        let centerPoint = CGPoint(x: bounds.midX, y: centerY)
+        let startAngle = CGFloat.pi * 3 / 4
+        let endAngle = CGFloat.pi * 2 + CGFloat.pi / 4
+        let progressPath = UIBezierPath(
+            arcCenter: centerPoint,
+            radius: radius,
+            startAngle: startAngle,
+            endAngle: endAngle,
+            clockwise: true
+        )
+        
+        trackLayer.path = progressPath.cgPath
+        progressLayer.path = progressPath.cgPath
     }
 }

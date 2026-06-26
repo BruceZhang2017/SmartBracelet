@@ -13,6 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface ContactsTool : NSObject
 
 + (NSData *)setContactsToData:(NSMutableArray *)array;
++ (NSInteger)truncatedPhoneNumberCountInContacts:(NSMutableArray *)array;
 
 @end
 

@@ -48,7 +48,7 @@
 "device_hand_up_screen" = "Raise your hand to brighten the screen";
 "device_longsit_amind" = "Long seat reminder";
 "device_longsit_amind_time" = "Long seat reminder time";
-"device_weather_push" = "Weather push";
+"device_weather_push" = "Weather";
 "device_alarm_settings" = "Alarm setting";
 "device_search_settings" = "Find settings";
 "device_device_info" = "Device Information";
@@ -233,7 +233,7 @@
 "device_longsit_amind_time" = "Sedentary reminder time";
 "drink_water_reminder" = "drink water reminder";
 "drink_water_reminder_time" = "drinking water reminder time";
-"device_weather_push" = "weather push";
+"device_weather_push" = "Weather";
 "device_alarm_settings" = "alarm clock setting";
 "device_search_settings" = "find settings";
 "device_device_info" = "Device Information";
@@ -369,8 +369,8 @@
 "toast_failed" = "fail";
 "weather" = "weather";
 "temperature" = "temperature";
-"max_temp" = "highest temperature";
-"min_temp" = "lowest temperature";
+"max_temp" = "High";
+"min_temp" = "Low";
 "wind_speed" = "wind speed";
 "humidity" = "humidity";
 "new_message_tips" = "You have a new message, please pay attention to check";

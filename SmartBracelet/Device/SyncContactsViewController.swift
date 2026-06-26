@@ -605,7 +605,7 @@ extension SyncContactsViewController: UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 60
+        return 68
     }
 
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -660,6 +660,8 @@ class ContactSelectionCell: UITableViewCell {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 17)
         label.textColor = .black
+        label.lineBreakMode = .byTruncatingTail
+        label.numberOfLines = 1
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -668,7 +670,13 @@ class ContactSelectionCell: UITableViewCell {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 15)
         label.textColor = .lightGray
-        label.textAlignment = .right
+        label.textAlignment = .left
+        label.numberOfLines = 1
+        label.adjustsFontSizeToFitWidth = true
+        label.minimumScaleFactor = 0.75
+        if #available(iOS 13.0, *) {
+            label.font = UIFont.monospacedDigitSystemFont(ofSize: 15, weight: .regular)
+        }
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -696,27 +704,33 @@ class ContactSelectionCell: UITableViewCell {
     private func setupUI() {
         backgroundColor = .white
         selectionStyle = .none
+        
+        nameLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+        nameLabel.setContentHuggingPriority(.defaultLow, for: .horizontal)
+        phoneLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
+        phoneLabel.setContentHuggingPriority(.defaultLow, for: .horizontal)
 
         contentView.addSubview(nameLabel)
         contentView.addSubview(phoneLabel)
         contentView.addSubview(checkmarkImageView)
 
         NSLayoutConstraint.activate([
-            // 姓名标签在左侧
-            nameLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            nameLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            nameLabel.widthAnchor.constraint(lessThanOrEqualToConstant: 120),
-
-            // Checkmark在右侧
+            // 勾选图标在右侧居中
             checkmarkImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             checkmarkImageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             checkmarkImageView.widthAnchor.constraint(equalToConstant: 20),
             checkmarkImageView.heightAnchor.constraint(equalToConstant: 20),
-
-            // 电话标签在checkmark左边
-            phoneLabel.trailingAnchor.constraint(equalTo: checkmarkImageView.leadingAnchor, constant: -8),
-            phoneLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            phoneLabel.leadingAnchor.constraint(greaterThanOrEqualTo: nameLabel.trailingAnchor, constant: 8)
+            
+            // 姓名标签放在上方，允许截断但不压缩号码
+            nameLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            nameLabel.trailingAnchor.constraint(equalTo: checkmarkImageView.leadingAnchor, constant: -12),
+            nameLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
+            
+            // 电话标签放在下方，占满可用宽度
+            phoneLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            phoneLabel.trailingAnchor.constraint(equalTo: checkmarkImageView.leadingAnchor, constant: -12),
+            phoneLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 4),
+            phoneLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10)
         ])
     }
 

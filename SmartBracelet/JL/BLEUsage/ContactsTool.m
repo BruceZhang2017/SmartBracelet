@@ -34,11 +34,13 @@
         NSData *changeNameData = [JL_Tools data:nameData R:0 L:20];
         [data appendData:changeNameData];
         
+        NSString *normalizedPhoneNum = [self normalizedPhoneNumber:model.phoneNum];
+        NSString *safePhoneNum = [self removeMoreString:normalizedPhoneNum];
         NSString *phoneNum;
-        if (model.phoneNum.length < 20) {
-            phoneNum = [self CharacterStringMainString:model.phoneNum addDigit:20 addString:@"\0"];
+        if (safePhoneNum.length < 20) {
+            phoneNum = [self CharacterStringMainString:safePhoneNum addDigit:20 addString:@"\0"];
         } else {
-            phoneNum = model.phoneNum;
+            phoneNum = safePhoneNum;
         }
         phoneNum = [phoneNum stringByReplacingOccurrencesOfString:@"<0>"withString:@""];
         phoneNum = [phoneNum stringByReplacingOccurrencesOfString:@"<0" withString:@""];
@@ -59,6 +61,31 @@
         data = [text dataUsingEncoding:NSUTF8StringEncoding];
     }
     return text;
+}
+
++ (NSString *)normalizedPhoneNumber:(NSString *)text {
+    if (text.length == 0) {
+        return @"";
+    }
+    
+    NSString *normalized = [text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    NSArray<NSString *> *tokens = @[@".", @"-", @"(", @")", @"（", @"）", @" ", @"\u00A0"];
+    for (NSString *token in tokens) {
+        normalized = [normalized stringByReplacingOccurrencesOfString:token withString:@""];
+    }
+    return normalized;
+}
+
++ (NSInteger)truncatedPhoneNumberCountInContacts:(NSMutableArray *)array {
+    NSInteger count = 0;
+    for (PersonModel *model in array) {
+        NSString *normalizedPhoneNum = [self normalizedPhoneNumber:model.phoneNum];
+        NSData *phoneNumData = [normalizedPhoneNum dataUsingEncoding:NSUTF8StringEncoding];
+        if (phoneNumData.length > 19) {
+            count += 1;
+        }
+    }
+    return count;
 }
 
 #pragma mark字符串自动补充方法

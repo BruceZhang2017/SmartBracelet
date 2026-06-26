@@ -2,10 +2,10 @@
 "start_experience" = "Faites l'expérience maintenant";
 "health_head" = "sain";
 "sport" = "Sport";
-"health_step" = "Nombre de pas";
-"health_step_noun" = "étape";
+"health_step" = "Pas";
+"health_step_noun" = "pas";
 "health_walk_unit" = "kilomètre";
-"health_goal" = "Cible";
+"health_goal" = "Objectif";
 "health_heat" = "Calories";
 "health_kilo_calorie" = "Kcal";
 "health_heart_rate" = "Rythme cardiaque";
@@ -48,7 +48,7 @@
 "device_hand_up_screen" = "Levez la main pour éclaircir l'écran";
 "device_longsit_amind" = "Rappel de siège long";
 "device_longsit_amind_time" = "Temps de rappel de siège long";
-"device_weather_push" = "Poussée météo";
+"device_weather_push" = "Meteo";
 "device_alarm_settings" = "Réglage de l'alarme";
 "device_search_settings" = "Rechercher des paramètres";
 "device_device_info" = "Informations sur l'appareil";
@@ -113,10 +113,10 @@
 "device_settings" = "Réglages de l'appareil";
 "health_distance" = "Distance";
 
-"every_day_goal" = "objectif de pas quotidien";
+"every_day_goal" = "Objectif quotidien";
 "device_settings" = "Réglages de l\'appareil";
-"health_distance" = "distance";
-"setting_goal" = "fixer un objectif";
+"health_distance" = "Distance";
+"setting_goal" = "Definir l'objectif";
 "health_detail_sports" = "conseils de santé sportive";
 "health_detail_sports_desc" = "Se promener après un repas facilite-t-il la digestion ?";
 "health_detail_apple" = "Une pomme par jour garde le docteur loin";
@@ -172,10 +172,10 @@
 
 "start_experience" = "expérimentez maintenant";
 "health_head" = "en bonne santé";
-"health_step" = "Nombre de pas";
-"health_step_noun" = "marcher";
+"health_step" = "Pas";
+"health_step_noun" = "pas";
 "health_walk_unit" = "kilomètre";
-"health_goal" = "Cible";
+"health_goal" = "Objectif";
 "health_heat" = "calorie";
 "health_kilo_calorie" = "kcal";
 "health_heart_rate" = "rythme cardiaque";
@@ -221,7 +221,7 @@
 "device_longsit_amind_time" = "Heure de rappel sédentaire";
 "drink_water_reminder" = "rappel de boire de l'eau";
 "drink_water_reminder_time" = "heure de rappel de l'eau potable";
-"device_weather_push" = "poussée météo";
+"device_weather_push" = "Meteo";
 "device_alarm_settings" = "réglage du réveil";
 "device_search_settings" = "trouver les paramètres";
 "device_device_info" = "Informations sur l'appareil";
@@ -274,7 +274,7 @@
 "mine_cm_unit" = "CM";
 "mine_weight" = "lester";
 "mine_kg_unit" = "KG";
-"every_day_goal" = "objectif de pas quotidien";
+"every_day_goal" = "Objectif quotidien";
 "week_1" = "Lundi";
 "week_2" = "Mardi";
 "week_3" = "Mercredi";
@@ -284,8 +284,8 @@
 "week_7" = "Dimanche";
 "mine_unconnect" = "pas connecté";
 "device_settings" = "réglages de l'appareil";
-"health_distance" = "distance";
-"setting_goal" = "fixer un objectif";
+"health_distance" = "Distance";
+"setting_goal" = "Definir l'objectif";
 "health_detail_sports" = "Conseils Sport et Santé";
 "health_detail_sports_desc" = "Marcher après les repas facilite-t-il la digestion ?";
 "health_detail_apple" = "Une pomme par jour garde le docteur loin";
@@ -350,8 +350,8 @@
 "toast_failed" = "échouer";
 "weather" = "temps";
 "temperature" = "température";
-"max_temp" = "température la plus élevée";
-"min_temp" = "température minimale";
+"max_temp" = "Max";
+"min_temp" = "Min";
 "wind_speed" = "vitesse du vent";
 "humidity" = "humidité";
 "new_message_tips" = "Vous avez un nouveau message, veuillez faire attention à vérifier";
@@ -364,7 +364,7 @@
 
 "today_sleep" = "Le sommeil d'aujourd'hui";
 "push_to_bt_settings" = "Veuillez aller dans Paramètres - Bluetooth et connectez-vous manuellement au Bluetooth.";
-"today_step" = "Nombre de pas aujourd'hui";
+"today_step" = "Pas du jour";
 "consumption" = "Consommation";
 
 // MARK: - Sport
@@ -571,4 +571,3 @@
 "user_info_step_length_subtitle" = "By understanding your stride length, we can calculate a more accurate step count.";
 "user_info_step_length" = "Step length";
 "user_info_done" = "Done";
-

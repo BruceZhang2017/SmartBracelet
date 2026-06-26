@@ -1110,6 +1110,7 @@ open class JLBlueManager: NSObject {
         let deviceModel = mCmdManager.outputDeviceModel() as JLModel_Device?
         //documentDirectory  libraryDirectory
         let path = JL_Tools.create(on: .libraryDirectory, middlePath: "", file: "CALL.TXT")
+        let truncatedPhoneCount = ContactsTool.truncatedPhoneNumberCount(inContacts: JLmodel.jlArray)
         
         wuPrint("联系人array:\(JLmodel.jlArray.count)")
         var model = PersonModel.init()
@@ -1118,6 +1119,10 @@ open class JLBlueManager: NSObject {
             model = JLmodel.jlArray[i] as! PersonModel
             wuPrint(model.fullName)
             wuPrint(model.phoneNum)
+        }
+        
+        if truncatedPhoneCount > 0 {
+            self.showHud("有\(truncatedPhoneCount)个联系人号码超出设备长度限制，已尽量保留有效数字后同步。", duration: 1.5)
         }
         
         JL_Tools.write(ContactsTool.setContactsToData(JLmodel.jlArray), fillFile: path)

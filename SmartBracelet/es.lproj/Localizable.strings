@@ -2,10 +2,10 @@
 "start_experience" = "Experience now";
 "health_head" = "health";
 "sport" = "Deporte";
-"health_step" = "Step count";
-"health_step_noun" = "Step";
+"health_step" = "Pasos";
+"health_step_noun" = "pasos";
 "health_walk_unit" = "kilometer";
-"health_goal" = "Target";
+"health_goal" = "Meta";
 "health_heat" = "Calories";
 "health_kilo_calorie" = "Kcal";
 "health_heart_rate" = "Heart rate";
@@ -48,7 +48,7 @@
 "device_hand_up_screen" = "Raise your hand to brighten the screen";
 "device_longsit_amind" = "Long seat reminder";
 "device_longsit_amind_time" = "Long seat reminder time";
-"device_weather_push" = "Weather push";
+"device_weather_push" = "Clima";
 "device_alarm_settings" = "Alarm setting";
 "device_search_settings" = "Find settings";
 "device_device_info" = "Device Information";
@@ -111,12 +111,12 @@
 "mine_kg_unit" = "KG";
 
 "device_settings" = "Configuración de dispositivo";
-"health_distance" = "Distance";
+"health_distance" = "Distancia";
 
-"every_day_goal" = "objetivo de pasos diarios";
+"every_day_goal" = "Meta diaria de pasos";
 "device_settings" = "Configuración de dispositivo";
-"health_distance" = "distancia";
-"setting_goal" = "Pon una meta";
+"health_distance" = "Distancia";
+"setting_goal" = "Definir meta";
 "health_detail_sports" = "consejos de salud deportiva";
 "health_detail_sports_desc" = "¿Salir a caminar después de una comida ayuda a la digestión?";
 "health_detail_apple" = "Una manzana al día mantiene alejado al médico";
@@ -172,10 +172,10 @@
 
 "start_experience" = "experimenta ahora";
 "health_head" = "saludable";
-"health_step" = "Conteo de pasos";
-"health_step_noun" = "paso";
+"health_step" = "Pasos";
+"health_step_noun" = "pasos";
 "health_walk_unit" = "kilómetro";
-"health_goal" = "Objetivo";
+"health_goal" = "Meta";
 "health_heat" = "caloría";
 "health_kilo_calorie" = "kcal";
 "health_heart_rate" = "ritmo cardiaco";
@@ -221,7 +221,7 @@
 "device_longsit_amind_time" = "Tiempo de recordatorio sedentario";
 "drink_water_reminder" = "recordatorio de beber agua";
 "drink_water_reminder_time" = "tiempo de recordatorio de agua potable";
-"device_weather_push" = "empujón del clima";
+"device_weather_push" = "Clima";
 "device_alarm_settings" = "configuración del despertador";
 "device_search_settings" = "encontrar configuraciones";
 "device_device_info" = "Información del dispositivo";
@@ -274,7 +274,7 @@
 "mine_cm_unit" = "CM";
 "mine_weight" = "peso";
 "mine_kg_unit" = "KG";
-"every_day_goal" = "objetivo de pasos diarios";
+"every_day_goal" = "Meta diaria de pasos";
 "week_1" = "Lunes";
 "week_2" = "Martes";
 "week_3" = "Miércoles";
@@ -284,8 +284,8 @@
 "week_7" = "Domingo";
 "mine_unconnect" = "no conectado";
 "device_settings" = "configuración de dispositivo";
-"health_distance" = "distancia";
-"setting_goal" = "Pon una meta";
+"health_distance" = "Distancia";
+"setting_goal" = "Definir meta";
 "health_detail_sports" = "Consejos deportivos y de salud";
 "health_detail_sports_desc" = "¿Caminar después de las comidas ayuda a la digestión?";
 "health_detail_apple" = "Una manzana al día mantiene alejado al médico";
@@ -350,8 +350,8 @@
 "toast_failed" = "fallar";
 "weather" = "clima";
 "temperature" = "temperatura";
-"max_temp" = "temperatura más alta";
-"min_temp" = "temperatura mínima";
+"max_temp" = "Max";
+"min_temp" = "Min";
 "wind_speed" = "velocidad del viento";
 "humidity" = "humedad";
 "new_message_tips" = "Tiene un nuevo mensaje, por favor preste atención para verificar";
@@ -365,7 +365,7 @@
 
 "today_sleep" = "El sueño de hoy";
 "push_to_bt_settings" = "Por favor, vaya a Ajustes - Bluetooth y conecte manualmente al Bluetooth.";
-"today_step" = "Cantidad de pasos de hoy";
+"today_step" = "Pasos de hoy";
 "consumption" = "Consumo";
 
 // MARK: - Sport
@@ -572,4 +572,3 @@
 "user_info_step_length_subtitle" = "By understanding your stride length, we can calculate a more accurate step count.";
 "user_info_step_length" = "Step length";
 "user_info_done" = "Done";
-
