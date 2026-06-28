@@ -9,11 +9,26 @@ var isUsrEnglish = false // 是否默认使用英文
 
 // MARK: - 主视图控制器
 class TripleTableViewController: UIViewController {
+    private enum ContentState {
+        case hidden
+        case loading
+        case empty
+        case error
+    }
     
     // MARK: - 属性
+    private let segmentContainerView = UIView()
     private let segmentControl = UISegmentedControl()
+    private let leftPanelView = UIView()
     private let middleTableView = UITableView()
+    private let dividerView = UIView()
     private let rightCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+    private let stateContainerView = UIView()
+    private let stateLoadingIndicator = UIActivityIndicatorView(style: .large)
+    private let stateIconView = UIImageView()
+    private let stateTitleLabel = UILabel()
+    private let stateMessageLabel = UILabel()
+    private let stateActionButton = UIButton(type: .system)
 
     // 记录选中的索引路径
     private var selectedMiddleIndexPath: IndexPath? = IndexPath(row: 0, section: 0)
@@ -33,60 +48,193 @@ class TripleTableViewController: UIViewController {
         setupRightCollectionView()
         setupMJRefresh()
         rightCollectionView.isHidden = true
+        showLoadingState()
         downloadStyle()
+    }
+
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        updateCollectionViewLayout()
     }
     
     // MARK: - UI 设置
     private func setupUI() {
-        view.backgroundColor = .systemBackground
-        view.addSubview(segmentControl)
-        view.addSubview(middleTableView)
+        view.backgroundColor = .systemGroupedBackground
+
+        segmentContainerView.backgroundColor = .secondarySystemBackground
+        segmentContainerView.layer.cornerRadius = 14
+        segmentContainerView.layer.shadowColor = UIColor.black.cgColor
+        segmentContainerView.layer.shadowOpacity = 0.04
+        segmentContainerView.layer.shadowRadius = 10
+        segmentContainerView.layer.shadowOffset = CGSize(width: 0, height: 4)
+        segmentContainerView.layer.borderWidth = 1
+        segmentContainerView.layer.borderColor = UIColor.separator.withAlphaComponent(0.12).cgColor
+
+        leftPanelView.backgroundColor = .secondarySystemBackground
+        leftPanelView.layer.cornerRadius = 14
+        leftPanelView.layer.masksToBounds = true
+
+        dividerView.backgroundColor = UIColor.separator.withAlphaComponent(0.35)
+
+        view.addSubview(segmentContainerView)
+        segmentContainerView.addSubview(segmentControl)
+        view.addSubview(leftPanelView)
+        leftPanelView.addSubview(middleTableView)
+        view.addSubview(dividerView)
         view.addSubview(rightCollectionView)
+        view.addSubview(stateContainerView)
+
+        stateContainerView.backgroundColor = .clear
+        stateContainerView.isHidden = true
+        stateContainerView.translatesAutoresizingMaskIntoConstraints = false
+
+        stateLoadingIndicator.color = .brand
+        stateLoadingIndicator.hidesWhenStopped = true
+        stateLoadingIndicator.translatesAutoresizingMaskIntoConstraints = false
+        stateContainerView.addSubview(stateLoadingIndicator)
+
+        stateIconView.tintColor = .secondaryLabel
+        stateIconView.contentMode = .scaleAspectFit
+        stateIconView.translatesAutoresizingMaskIntoConstraints = false
+        stateContainerView.addSubview(stateIconView)
+
+        stateTitleLabel.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
+        stateTitleLabel.textColor = .label
+        stateTitleLabel.textAlignment = .center
+        stateTitleLabel.numberOfLines = 0
+        stateTitleLabel.translatesAutoresizingMaskIntoConstraints = false
+        stateContainerView.addSubview(stateTitleLabel)
+
+        stateMessageLabel.font = UIFont.systemFont(ofSize: 13)
+        stateMessageLabel.textColor = .secondaryLabel
+        stateMessageLabel.textAlignment = .center
+        stateMessageLabel.numberOfLines = 0
+        stateMessageLabel.translatesAutoresizingMaskIntoConstraints = false
+        stateContainerView.addSubview(stateMessageLabel)
+
+        stateActionButton.backgroundColor = .brand
+        stateActionButton.setTitleColor(.white, for: .normal)
+        stateActionButton.layer.cornerRadius = 18
+        stateActionButton.layer.masksToBounds = true
+        stateActionButton.contentEdgeInsets = UIEdgeInsets(top: 0, left: 18, bottom: 0, right: 18)
+        stateActionButton.titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
+        stateActionButton.translatesAutoresizingMaskIntoConstraints = false
+        stateActionButton.addTarget(self, action: #selector(handleStateAction), for: .touchUpInside)
+        stateContainerView.addSubview(stateActionButton)
     }
     
     private func setupConstraints() {
+        segmentContainerView.translatesAutoresizingMaskIntoConstraints = false
         segmentControl.translatesAutoresizingMaskIntoConstraints = false
+        leftPanelView.translatesAutoresizingMaskIntoConstraints = false
         middleTableView.translatesAutoresizingMaskIntoConstraints = false
+        dividerView.translatesAutoresizingMaskIntoConstraints = false
         rightCollectionView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            // 分段控制器约束
-            segmentControl.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 8),
-            segmentControl.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            segmentControl.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            segmentControl.heightAnchor.constraint(equalToConstant: 36),
+            segmentContainerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 12),
+            segmentContainerView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            segmentContainerView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            segmentContainerView.heightAnchor.constraint(equalToConstant: 44),
+
+            segmentControl.topAnchor.constraint(equalTo: segmentContainerView.topAnchor, constant: 4),
+            segmentControl.leadingAnchor.constraint(equalTo: segmentContainerView.leadingAnchor, constant: 4),
+            segmentControl.trailingAnchor.constraint(equalTo: segmentContainerView.trailingAnchor, constant: -4),
+            segmentControl.bottomAnchor.constraint(equalTo: segmentContainerView.bottomAnchor, constant: -4),
             
-            // 中间表格视图约束
-            middleTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 2),
-            middleTableView.topAnchor.constraint(equalTo: segmentControl.bottomAnchor, constant: 8),
-            middleTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            middleTableView.widthAnchor.constraint(equalToConstant: 150),
+            leftPanelView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 8),
+            leftPanelView.topAnchor.constraint(equalTo: segmentContainerView.bottomAnchor, constant: 10),
+            leftPanelView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -8),
+            leftPanelView.widthAnchor.constraint(equalToConstant: 154),
             
-            // 右侧集合视图约束
-            rightCollectionView.leadingAnchor.constraint(equalTo: middleTableView.trailingAnchor, constant: 2),
-            rightCollectionView.topAnchor.constraint(equalTo: segmentControl.bottomAnchor, constant: 8),
-            rightCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -2),
-            rightCollectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+            middleTableView.topAnchor.constraint(equalTo: leftPanelView.topAnchor, constant: 8),
+            middleTableView.leadingAnchor.constraint(equalTo: leftPanelView.leadingAnchor, constant: 6),
+            middleTableView.trailingAnchor.constraint(equalTo: leftPanelView.trailingAnchor, constant: -6),
+            middleTableView.bottomAnchor.constraint(equalTo: leftPanelView.bottomAnchor, constant: -8),
+
+            dividerView.leadingAnchor.constraint(equalTo: leftPanelView.trailingAnchor, constant: 6),
+            dividerView.topAnchor.constraint(equalTo: leftPanelView.topAnchor, constant: 12),
+            dividerView.bottomAnchor.constraint(equalTo: leftPanelView.bottomAnchor, constant: -12),
+            dividerView.widthAnchor.constraint(equalToConstant: 1),
+
+            rightCollectionView.leadingAnchor.constraint(equalTo: dividerView.trailingAnchor, constant: 6),
+            rightCollectionView.topAnchor.constraint(equalTo: leftPanelView.topAnchor),
+            rightCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -8),
+            rightCollectionView.bottomAnchor.constraint(equalTo: leftPanelView.bottomAnchor),
+
+            stateContainerView.leadingAnchor.constraint(equalTo: rightCollectionView.leadingAnchor),
+            stateContainerView.topAnchor.constraint(equalTo: rightCollectionView.topAnchor),
+            stateContainerView.trailingAnchor.constraint(equalTo: rightCollectionView.trailingAnchor),
+            stateContainerView.bottomAnchor.constraint(equalTo: rightCollectionView.bottomAnchor),
+
+            stateLoadingIndicator.centerXAnchor.constraint(equalTo: stateContainerView.centerXAnchor),
+            stateLoadingIndicator.centerYAnchor.constraint(equalTo: stateContainerView.centerYAnchor, constant: -44),
+
+            stateIconView.centerXAnchor.constraint(equalTo: stateContainerView.centerXAnchor),
+            stateIconView.centerYAnchor.constraint(equalTo: stateContainerView.centerYAnchor, constant: -44),
+            stateIconView.widthAnchor.constraint(equalToConstant: 42),
+            stateIconView.heightAnchor.constraint(equalToConstant: 42),
+
+            stateTitleLabel.topAnchor.constraint(equalTo: stateIconView.bottomAnchor, constant: 14),
+            stateTitleLabel.leadingAnchor.constraint(equalTo: stateContainerView.leadingAnchor, constant: 24),
+            stateTitleLabel.trailingAnchor.constraint(equalTo: stateContainerView.trailingAnchor, constant: -24),
+
+            stateMessageLabel.topAnchor.constraint(equalTo: stateTitleLabel.bottomAnchor, constant: 8),
+            stateMessageLabel.leadingAnchor.constraint(equalTo: stateContainerView.leadingAnchor, constant: 28),
+            stateMessageLabel.trailingAnchor.constraint(equalTo: stateContainerView.trailingAnchor, constant: -28),
+
+            stateActionButton.topAnchor.constraint(equalTo: stateMessageLabel.bottomAnchor, constant: 16),
+            stateActionButton.centerXAnchor.constraint(equalTo: stateContainerView.centerXAnchor),
+            stateActionButton.heightAnchor.constraint(equalToConstant: 36)
         ])
     }
     
     private func setupSegmentControl() {
         segmentControl.selectedSegmentIndex = 0
-        segmentControl.selectedSegmentTintColor = .systemBlue
-        segmentControl.setTitleTextAttributes([.font: UIFont.systemFont(ofSize: 14)], for: .normal)
+        segmentControl.selectedSegmentTintColor = .brand
+        segmentControl.backgroundColor = .clear
+        segmentControl.apportionsSegmentWidthsByContent = false
+        segmentControl.setDividerImage(UIImage(), forLeftSegmentState: .normal, rightSegmentState: .normal, barMetrics: .default)
+        updateSegmentTextAttributes(with: [])
         segmentControl.addTarget(self, action: #selector(segmentValueChanged), for: .valueChanged)
+    }
+
+    private func updateSegmentTextAttributes(with titles: [String]) {
+        let segmentCount = max(segmentControl.numberOfSegments, titles.count)
+        let maxTitleLength = titles.map(\.count).max() ?? 0
+
+        let fontSize: CGFloat
+        switch (segmentCount, maxTitleLength) {
+        case (5..., _), (_, 12...):
+            fontSize = 11
+        case (4, _), (_, 9...11):
+            fontSize = 12
+        default:
+            fontSize = 13
+        }
+
+        segmentControl.setTitleTextAttributes([
+            .font: UIFont.systemFont(ofSize: fontSize, weight: .medium),
+            .foregroundColor: UIColor.secondaryLabel
+        ], for: .normal)
+        segmentControl.setTitleTextAttributes([
+            .font: UIFont.systemFont(ofSize: fontSize, weight: .semibold),
+            .foregroundColor: UIColor.white
+        ], for: .selected)
     }
     
     private func setupMiddleTableView() {
         middleTableView.delegate = self
         middleTableView.dataSource = self
-        middleTableView.register(UITableViewCell.self, forCellReuseIdentifier: "MiddleCell")
-        middleTableView.tableFooterView = UIView()
+        middleTableView.register(MiddleCategoryCell.self, forCellReuseIdentifier: "MiddleCell")
+        middleTableView.tableFooterView = UIView(frame: .zero)
         middleTableView.allowsSelection = true
         middleTableView.allowsMultipleSelection = false
-        // 支持自动行高以适应两行文字
+        middleTableView.backgroundColor = .clear
+        middleTableView.separatorStyle = .none
+        middleTableView.showsVerticalScrollIndicator = false
         middleTableView.rowHeight = UITableView.automaticDimension
-        middleTableView.estimatedRowHeight = 60
+        middleTableView.estimatedRowHeight = 68
     }
     
     private func setupRightCollectionView() {
@@ -98,26 +246,59 @@ class TripleTableViewController: UIViewController {
         // 先获取右侧区域总宽度 = 屏幕宽度 - 中间表宽度 - 左右间距
         let totalRightWidth = UIScreen.main.bounds.width - 150 - 4 // 150是中间表宽度，4是两边间距(2+2)
         
-        // 计算每个item宽度：减去列间距(8)后平分给2个item
-        let itemWidth = (totalRightWidth - 8) / 2
-        
-        // 确保item宽度为整数，避免布局异常
+        // 计算每个item宽度：2列填满容器宽度，无额外列间距
+        let itemWidth = totalRightWidth / 2
         let fixedItemWidth = floor(itemWidth)
+        let itemHeight = calculateItemHeight(for: nil)
         
-        layout.itemSize = CGSize(width: fixedItemWidth, height: 140)
-        layout.minimumInteritemSpacing = 8 // 列之间的间距
+        layout.itemSize = CGSize(width: fixedItemWidth, height: itemHeight)
+        layout.minimumInteritemSpacing = 0 // 列之间无间距，让预览更紧凑
         layout.minimumLineSpacing = 12 // 行之间的间距
-        layout.sectionInset = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0) // 移除额外内边距
+        layout.sectionInset = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)
         
         rightCollectionView.collectionViewLayout = layout
         
         rightCollectionView.delegate = self
         rightCollectionView.dataSource = self
         rightCollectionView.register(RightCollectionCell.self, forCellWithReuseIdentifier: "RightCollectionCell")
-        rightCollectionView.backgroundColor = .systemBackground
+        rightCollectionView.backgroundColor = .clear
+        rightCollectionView.contentInset = UIEdgeInsets(top: 4, left: 0, bottom: 16, right: 0)
         
         // 监听布局变化，确保旋转屏幕时也能正确显示2列
         NotificationCenter.default.addObserver(self, selector: #selector(updateCollectionViewLayout), name: UIDevice.orientationDidChangeNotification, object: nil)
+    }
+
+    private func currentDeviceSize() -> CGSize {
+        let screenWidth = CGFloat(XGZTBlueToothManager.shared.device?.screenWidth ?? 0)
+        let screenHeight = CGFloat(XGZTBlueToothManager.shared.device?.screenHeight ?? 0)
+        if screenWidth > 0 && screenHeight > 0 {
+            return CGSize(width: screenWidth, height: screenHeight)
+        }
+        return CGSize(width: 240, height: 284)
+    }
+
+    private func currentDeviceAspectRatio() -> CGFloat {
+        let size = currentDeviceSize()
+        return size.width > 0 ? size.height / size.width : 1.0
+    }
+
+    private func calculateItemHeight(for item: ClockItem?) -> CGFloat {
+        let totalWidth = rightCollectionView.bounds.width
+        let itemWidth = totalWidth / 2
+
+        let aspectRatio: CGFloat
+        if let item = item,
+           let width = item.width,
+           let height = item.height,
+           width > 0,
+           height > 0 {
+            aspectRatio = CGFloat(height) / CGFloat(width)
+        } else {
+            aspectRatio = currentDeviceAspectRatio()
+        }
+
+        let calculatedHeight = itemWidth * aspectRatio
+        return max(120, floor(calculatedHeight))
     }
     
     // 屏幕旋转时更新布局
@@ -125,10 +306,11 @@ class TripleTableViewController: UIViewController {
         guard let layout = rightCollectionView.collectionViewLayout as? UICollectionViewFlowLayout else { return }
         
         let totalRightWidth = rightCollectionView.bounds.width
-        let itemWidth = (totalRightWidth - 8) / 2
+        let itemWidth = totalRightWidth / 2
         let fixedItemWidth = floor(itemWidth)
-        
-        layout.itemSize = CGSize(width: fixedItemWidth, height: 140)
+        let itemHeight = calculateItemHeight(for: nil)
+
+        layout.itemSize = CGSize(width: fixedItemWidth, height: itemHeight)
         rightCollectionView.collectionViewLayout.invalidateLayout()
     }
     
@@ -147,14 +329,11 @@ class TripleTableViewController: UIViewController {
         print("📡 请求URL: \(urlString)")
         
         // 准备表单参数
-        var parameters: [String: Any] = [
+        let parameters: [String: Any] = [
             "width": width,
-            "height": height
+            "height": height,
+            "deviceType": XGZTBlueToothManager.shared.device?.screenType ?? 0,
         ]
-//        let lang = LanguageManager.getInterfaceLang()
-//        if lang != "English" && !isUsrEnglish {
-//            parameters["lang"] = lang
-//        }
         
         // 使用x-www-form-urlencoded格式发送POST请求
         AF.request(
@@ -208,6 +387,7 @@ class TripleTableViewController: UIViewController {
                             segmentControl.insertSegment(withTitle: typeName, at: index, animated: false)
                             print("➕ 添加分段控制器选项: \(typeName)")
                         }
+                        updateSegmentTextAttributes(with: types.map { NSLocalizedString($0.dictValue ?? "", comment: $0.dictValue ?? "") })
                         segmentControl.selectedSegmentIndex = 0
                         rightViewModel.type = types[0].dictValue ?? ""
                     } else {
@@ -227,7 +407,8 @@ class TripleTableViewController: UIViewController {
                             }
                         } ?? []
                         self.otaStyle = array
-                        self.middleTableView.reloadData()
+                        self.reloadMiddleTableViewWithFade()
+                        self.scrollSelectedCategoryToVisible(animated: false)
                         if self.otaStyle.count > 0 {
                             self.rightCollectionView.isHidden = false
                             if let style = otaStyle.first?.dictValue {
@@ -237,6 +418,10 @@ class TripleTableViewController: UIViewController {
                             }
                             self.fetchInitialData()
                         }
+                    } else {
+                        self.rightViewModel.items = []
+                        self.reloadCollectionViewWithFade()
+                        self.showEmptyState()
                     }
                     print("🔄 调用fetchInitialData方法获取初始数据")
                     
@@ -258,6 +443,7 @@ class TripleTableViewController: UIViewController {
                             print("未知解码错误")
                         }
                     }
+                    self.showErrorState()
                 }
                 
             case .failure(let error):
@@ -266,7 +452,7 @@ class TripleTableViewController: UIViewController {
                 if let underlyingError = error.underlyingError {
                     print("   底层错误: \(underlyingError.localizedDescription)")
                 }
-                // 可以添加错误提示UI
+                self.showErrorState()
             }
             
             print("📌 downloadStyle方法执行完毕")
@@ -299,6 +485,9 @@ class TripleTableViewController: UIViewController {
     
     // MARK: - 数据获取
     private func fetchInitialData() {
+        if rightViewModel.items.isEmpty {
+            showLoadingState()
+        }
         rightCollectionView.mj_header?.beginRefreshing()
         //refreshData()
     }
@@ -329,7 +518,7 @@ class TripleTableViewController: UIViewController {
     
     // MARK: - 辅助方法
     private func updateCollectionViewAfterRefresh(success: Bool) {
-        rightCollectionView.reloadData()
+        reloadCollectionViewWithFade()
         rightCollectionView.mj_header?.endRefreshing()
         
         if success {
@@ -346,7 +535,7 @@ class TripleTableViewController: UIViewController {
     }
     
     private func updateCollectionViewAfterLoadMore(success: Bool) {
-        rightCollectionView.reloadData()
+        reloadCollectionViewWithFade()
         
         if success, rightViewModel.hasMoreData {
             rightCollectionView.mj_footer?.endRefreshing()
@@ -359,15 +548,124 @@ class TripleTableViewController: UIViewController {
     }
     
     private func showEmptyState() {
-        print("显示空状态视图")
+        applyContentState(.empty)
     }
     
     private func hideEmptyState() {
-        print("隐藏空状态视图")
+        applyContentState(.hidden)
+    }
+
+    private func showLoadingState() {
+        applyContentState(.loading)
     }
     
     private func showErrorState() {
-        print("显示错误状态视图")
+        applyContentState(.error)
+    }
+
+    private func reloadCollectionViewWithFade() {
+        UIView.transition(with: rightCollectionView, duration: 0.2, options: [.transitionCrossDissolve, .allowUserInteraction], animations: {
+            self.rightCollectionView.reloadData()
+        })
+    }
+
+    private func reloadMiddleTableViewWithFade() {
+        UIView.transition(with: middleTableView, duration: 0.18, options: [.transitionCrossDissolve, .allowUserInteraction], animations: {
+            self.middleTableView.reloadData()
+        })
+    }
+
+    private func scrollSelectedCategoryToVisible(animated: Bool) {
+        guard let indexPath = selectedMiddleIndexPath,
+              otaStyle.indices.contains(indexPath.row) else { return }
+        DispatchQueue.main.async {
+            self.middleTableView.scrollToRow(at: indexPath, at: .middle, animated: animated)
+        }
+    }
+
+    private func resetCollectionViewToTop(animated: Bool) {
+        let topOffset = CGPoint(x: 0, y: -rightCollectionView.adjustedContentInset.top)
+        guard rightCollectionView.contentOffset.y > topOffset.y else { return }
+        rightCollectionView.setContentOffset(topOffset, animated: animated)
+    }
+
+    private func setStateContainerVisible(_ visible: Bool, animated: Bool = true) {
+        let animations = {
+            self.stateContainerView.alpha = visible ? 1 : 0
+        }
+
+        if visible {
+            if stateContainerView.isHidden {
+                stateContainerView.alpha = 0
+                stateContainerView.isHidden = false
+            }
+            if animated {
+                UIView.animate(withDuration: 0.2, delay: 0, options: [.curveEaseInOut, .beginFromCurrentState, .allowUserInteraction], animations: animations)
+            } else {
+                animations()
+            }
+        } else {
+            let completion: (Bool) -> Void = { _ in
+                self.stateContainerView.isHidden = true
+            }
+            if animated {
+                UIView.animate(withDuration: 0.18, delay: 0, options: [.curveEaseInOut, .beginFromCurrentState, .allowUserInteraction], animations: animations, completion: completion)
+            } else {
+                animations()
+                completion(true)
+            }
+        }
+    }
+
+    private func applyContentState(_ state: ContentState) {
+        switch state {
+        case .hidden:
+            setStateContainerVisible(false)
+            stateLoadingIndicator.stopAnimating()
+            stateIconView.isHidden = false
+            stateTitleLabel.isHidden = false
+            stateMessageLabel.isHidden = false
+            stateActionButton.isHidden = true
+        case .loading:
+            setStateContainerVisible(true)
+            stateLoadingIndicator.startAnimating()
+            stateIconView.isHidden = true
+            stateTitleLabel.isHidden = false
+            stateMessageLabel.isHidden = false
+            stateActionButton.isHidden = true
+            stateTitleLabel.text = NSLocalizedString("加载中", comment: "")
+            stateMessageLabel.text = NSLocalizedString("正在获取表盘内容，请稍候。", comment: "")
+        case .empty:
+            setStateContainerVisible(true)
+            stateLoadingIndicator.stopAnimating()
+            stateIconView.isHidden = false
+            stateTitleLabel.isHidden = false
+            stateMessageLabel.isHidden = false
+            stateIconView.image = UIImage(systemName: "square.grid.2x2")
+            stateTitleLabel.text = NSLocalizedString("暂无表盘", comment: "")
+            stateMessageLabel.text = NSLocalizedString("当前分类下还没有可用内容，请切换其他分类看看。", comment: "")
+            stateActionButton.isHidden = true
+        case .error:
+            setStateContainerVisible(true)
+            stateLoadingIndicator.stopAnimating()
+            stateIconView.isHidden = false
+            stateTitleLabel.isHidden = false
+            stateMessageLabel.isHidden = false
+            stateIconView.image = UIImage(systemName: "wifi.exclamationmark")
+            stateTitleLabel.text = NSLocalizedString("加载失败", comment: "")
+            stateMessageLabel.text = NSLocalizedString("网络异常或服务暂不可用，请稍后重试。", comment: "")
+            stateActionButton.isHidden = false
+            stateActionButton.setTitle(NSLocalizedString("重试", comment: ""), for: .normal)
+        }
+    }
+
+    @objc private func handleStateAction() {
+        showLoadingState()
+        if rightViewModel.style.isEmpty {
+            downloadStyle()
+        } else {
+            fetchInitialData()
+        }
     }
     
     // 分段控制器值变化
@@ -394,13 +692,17 @@ class TripleTableViewController: UIViewController {
             } else if let style = otaStyle.first?.style {
                 rightViewModel.style = style
             }
+            resetCollectionViewToTop(animated: false)
+            showLoadingState()
             fetchInitialData()
         } else {
             rightViewModel.items = []
-            rightCollectionView.reloadData()
+            reloadCollectionViewWithFade()
+            showEmptyState()
         }
         selectedMiddleIndexPath = IndexPath(row: 0, section: 0)
-        middleTableView.reloadData()
+        reloadMiddleTableViewWithFade()
+        scrollSelectedCategoryToVisible(animated: true)
     }
     
     // 更新选中状态
@@ -417,8 +719,10 @@ class TripleTableViewController: UIViewController {
         } else if let style = otaStyle[indexPath.row].style {
             rightViewModel.style = style
         }
+        resetCollectionViewToTop(animated: true)
         fetchInitialData()
-        middleTableView.reloadData()
+        reloadMiddleTableViewWithFade()
+        scrollSelectedCategoryToVisible(animated: true)
     }
     
     deinit {
@@ -441,22 +745,18 @@ extension TripleTableViewController: UITableViewDelegate, UITableViewDataSource 
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "MiddleCell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "MiddleCell", for: indexPath) as! MiddleCategoryCell
         let styleItem = otaStyle[indexPath.row]
+        let title: String
 
-        // 直接显示原文（英文）
         if let style = styleItem.dictValue {
-            cell.textLabel?.text = style
+            title = style
         } else if let style = styleItem.style {
-            cell.textLabel?.text = style
+            title = style
+        } else {
+            title = ""
         }
-
-        cell.textLabel?.textAlignment = .left
-        cell.textLabel?.font = UIFont.systemFont(ofSize: 14)
-        // 设置支持两行显示
-        cell.textLabel?.numberOfLines = 2
-        cell.textLabel?.lineBreakMode = .byTruncatingTail
-        cell.backgroundColor = (selectedMiddleIndexPath == indexPath) ? UIColor.brand.withAlphaComponent(0.5) : .clear
+        cell.configure(title: title, selected: selectedMiddleIndexPath == indexPath, animated: true)
         return cell
     }
     
@@ -465,13 +765,135 @@ extension TripleTableViewController: UITableViewDelegate, UITableViewDataSource 
     }
 }
 
+class MiddleCategoryCell: UITableViewCell {
+    private let selectedBackgroundCard = UIView()
+    private let indicatorView = UIView()
+    private let titleLabel = UILabel()
+    private let shadowContainerView = UIView()
+    private var cardTopConstraint: NSLayoutConstraint?
+    private var cardBottomConstraint: NSLayoutConstraint?
+    private var titleTopConstraint: NSLayoutConstraint?
+    private var titleBottomConstraint: NSLayoutConstraint?
+
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        setupUI()
+    }
+
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        setupUI()
+    }
+
+    private func setupUI() {
+        backgroundColor = .clear
+        selectionStyle = .none
+        contentView.backgroundColor = .clear
+
+        shadowContainerView.backgroundColor = .clear
+        shadowContainerView.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(shadowContainerView)
+
+        selectedBackgroundCard.layer.cornerRadius = 12
+        selectedBackgroundCard.layer.masksToBounds = true
+        selectedBackgroundCard.translatesAutoresizingMaskIntoConstraints = false
+        shadowContainerView.addSubview(selectedBackgroundCard)
+
+        indicatorView.layer.cornerRadius = 2
+        indicatorView.translatesAutoresizingMaskIntoConstraints = false
+        selectedBackgroundCard.addSubview(indicatorView)
+
+        titleLabel.numberOfLines = 3
+        titleLabel.lineBreakMode = .byWordWrapping
+        titleLabel.allowsDefaultTighteningForTruncation = true
+        titleLabel.setContentCompressionResistancePriority(.required, for: .vertical)
+        titleLabel.setContentHuggingPriority(.required, for: .vertical)
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        selectedBackgroundCard.addSubview(titleLabel)
+
+        cardTopConstraint = selectedBackgroundCard.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 4)
+        cardBottomConstraint = selectedBackgroundCard.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -4)
+        titleTopConstraint = titleLabel.topAnchor.constraint(equalTo: selectedBackgroundCard.topAnchor, constant: 10)
+        titleBottomConstraint = titleLabel.bottomAnchor.constraint(equalTo: selectedBackgroundCard.bottomAnchor, constant: -10)
+
+        NSLayoutConstraint.activate([
+            shadowContainerView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 2),
+            shadowContainerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 4),
+            shadowContainerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -4),
+            shadowContainerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -2),
+
+            cardTopConstraint!,
+            selectedBackgroundCard.leadingAnchor.constraint(equalTo: shadowContainerView.leadingAnchor),
+            selectedBackgroundCard.trailingAnchor.constraint(equalTo: shadowContainerView.trailingAnchor),
+            cardBottomConstraint!,
+
+            indicatorView.leadingAnchor.constraint(equalTo: selectedBackgroundCard.leadingAnchor, constant: 8),
+            indicatorView.centerYAnchor.constraint(equalTo: selectedBackgroundCard.centerYAnchor),
+            indicatorView.widthAnchor.constraint(equalToConstant: 4),
+            indicatorView.heightAnchor.constraint(equalToConstant: 26),
+
+            titleTopConstraint!,
+            titleLabel.leadingAnchor.constraint(equalTo: indicatorView.trailingAnchor, constant: 8),
+            titleLabel.trailingAnchor.constraint(equalTo: selectedBackgroundCard.trailingAnchor, constant: -8),
+            titleBottomConstraint!
+        ])
+    }
+
+    func configure(title: String, selected: Bool, animated: Bool = false) {
+        let isLongTitle = title.trimmingCharacters(in: .whitespacesAndNewlines).count > 18
+        titleLabel.text = title
+        let fontSize = preferredFontSize(for: title)
+        titleLabel.font = UIFont.systemFont(ofSize: fontSize, weight: selected ? .semibold : .medium)
+        cardTopConstraint?.constant = isLongTitle ? 3 : 4
+        cardBottomConstraint?.constant = isLongTitle ? -3 : -4
+        titleTopConstraint?.constant = isLongTitle ? 8 : 10
+        titleBottomConstraint?.constant = isLongTitle ? -8 : -10
+
+        let applyStyleChanges = {
+            self.titleLabel.textColor = selected ? .brand : .secondaryLabel
+            self.selectedBackgroundCard.backgroundColor = selected ? UIColor.brand.withAlphaComponent(0.12) : UIColor.tertiarySystemBackground.withAlphaComponent(0.55)
+            self.selectedBackgroundCard.layer.borderWidth = selected ? 0 : 1
+            self.selectedBackgroundCard.layer.borderColor = selected ? UIColor.clear.cgColor : UIColor.separator.withAlphaComponent(0.2).cgColor
+            self.indicatorView.backgroundColor = selected ? .brand : UIColor.clear
+            self.indicatorView.transform = selected ? .identity : CGAffineTransform(scaleX: 0.35, y: 0.7)
+            self.indicatorView.alpha = selected ? 1 : 0
+            self.shadowContainerView.layer.shadowColor = UIColor.black.cgColor
+            self.shadowContainerView.layer.shadowOpacity = selected ? 0.08 : 0
+            self.shadowContainerView.layer.shadowRadius = selected ? 8 : 0
+            self.shadowContainerView.layer.shadowOffset = CGSize(width: 0, height: selected ? 4 : 0)
+            self.shadowContainerView.layer.cornerRadius = 12
+            self.contentView.layoutIfNeeded()
+        }
+
+        if animated {
+            UIView.animate(withDuration: 0.22, delay: 0, options: [.curveEaseInOut, .beginFromCurrentState, .allowUserInteraction], animations: applyStyleChanges)
+        } else {
+            applyStyleChanges()
+        }
+    }
+
+    private func preferredFontSize(for title: String) -> CGFloat {
+        let characterCount = title.trimmingCharacters(in: .whitespacesAndNewlines).count
+        switch characterCount {
+        case 0...10:
+            return 14
+        case 11...18:
+            return 13
+        default:
+            return 12
+        }
+    }
+}
+
 // MARK: - UICollectionViewDelegate & DataSource
 extension TripleTableViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     // 实现代理方法，确保布局正确
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let totalWidth = collectionView.bounds.width
-        let itemWidth = (totalWidth - 8) / 2 // 减去列间距
-        return CGSize(width: floor(itemWidth), height: 140)
+        let itemWidth = totalWidth / 2
+        let item = rightViewModel.items[indexPath.row]
+        let itemHeight = calculateItemHeight(for: item)
+        return CGSize(width: floor(itemWidth), height: itemHeight)
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -487,21 +909,40 @@ extension TripleTableViewController: UICollectionViewDelegate, UICollectionViewD
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        // 这里保持原有逻辑不变
-        collectionView.deselectItem(at: indexPath, animated: true)
-        let storyboard = UIStoryboard(name: "Device", bundle: nil)
-        let vc = storyboard.instantiateViewController(withIdentifier: "ClockUseViewController") as? ClockUseViewController
         let item = rightViewModel.items[indexPath.row]
-        vc?.index = indexPath.row + 1 // 代表什么含义
-        vc?.current = current
-        vc?.currentClock = ClockResponse(previewPic: item.previewImageUrl?.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed), resourcesUrl: item.dialBinUrl?.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed), resolutionRatio: "\(item.width ?? 0)*\(item.height ?? 0)", isPublish: "true")
-        parent?.navigationController?.pushViewController(vc!, animated: true)
+        let pushDetail: () -> Void = {
+            let storyboard = UIStoryboard(name: "Device", bundle: nil)
+            let vc = storyboard.instantiateViewController(withIdentifier: "ClockUseViewController") as? ClockUseViewController
+            vc?.index = indexPath.row + 1 // 代表什么含义
+            vc?.current = self.current
+            vc?.currentClock = ClockResponse(previewPic: item.previewImageUrl?.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed), resourcesUrl: item.dialBinUrl?.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed), resolutionRatio: "\(item.width ?? 0)*\(item.height ?? 0)", isPublish: "true")
+            self.parent?.navigationController?.pushViewController(vc!, animated: true)
+        }
+
+        if let cell = collectionView.cellForItem(at: indexPath) as? RightCollectionCell {
+            cell.playSelectionAnimation(completion: pushDetail)
+        } else {
+            pushDetail()
+        }
     }
 }
 
 // MARK: - 集合视图单元格
 class RightCollectionCell: UICollectionViewCell {
+    private let shadowView = UIView()
+    private let cardView = UIView()
+    private let placeholderView = UIView()
     private let itemImageView = UIImageView()
+    private let placeholderIconView = UIImageView()
+    
+    override var isHighlighted: Bool {
+        didSet {
+            UIView.animate(withDuration: 0.18) {
+                self.shadowView.transform = self.isHighlighted ? CGAffineTransform(scaleX: 0.97, y: 0.97) : .identity
+                self.shadowView.layer.shadowOpacity = self.isHighlighted ? 0.04 : 0.10
+            }
+        }
+    }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -514,27 +955,70 @@ class RightCollectionCell: UICollectionViewCell {
     }
     
     private func setupUI() {
-        contentView.backgroundColor = .systemBackground
-        contentView.layer.cornerRadius = 8
-        contentView.layer.masksToBounds = true
-        
-        // 图片视图
-        itemImageView.contentMode = .scaleAspectFit
+        contentView.backgroundColor = .clear
+
+        shadowView.translatesAutoresizingMaskIntoConstraints = false
+        shadowView.layer.cornerRadius = 14
+        shadowView.layer.shadowColor = UIColor.black.cgColor
+        shadowView.layer.shadowOpacity = 0.10
+        shadowView.layer.shadowRadius = 10
+        shadowView.layer.shadowOffset = CGSize(width: 0, height: 4)
+        contentView.addSubview(shadowView)
+
+        cardView.backgroundColor = .secondarySystemBackground
+        cardView.layer.cornerRadius = 14
+        cardView.layer.masksToBounds = true
+        cardView.translatesAutoresizingMaskIntoConstraints = false
+        shadowView.addSubview(cardView)
+
+        placeholderView.backgroundColor = UIColor.tertiarySystemFill
+        placeholderView.translatesAutoresizingMaskIntoConstraints = false
+        cardView.addSubview(placeholderView)
+
+        placeholderIconView.image = UIImage(systemName: "applewatch.watchface")
+        placeholderIconView.tintColor = .secondaryLabel
+        placeholderIconView.contentMode = .scaleAspectFit
+        placeholderIconView.translatesAutoresizingMaskIntoConstraints = false
+        placeholderView.addSubview(placeholderIconView)
+
+        itemImageView.contentMode = .scaleAspectFill
+        itemImageView.clipsToBounds = true
         itemImageView.translatesAutoresizingMaskIntoConstraints = false
-        contentView.addSubview(itemImageView)
+        cardView.addSubview(itemImageView)
         
         NSLayoutConstraint.activate([
-            itemImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
-            itemImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
-            itemImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
-            itemImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8)
+            shadowView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 4),
+            shadowView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 4),
+            shadowView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -4),
+            shadowView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -4),
+
+            cardView.topAnchor.constraint(equalTo: shadowView.topAnchor),
+            cardView.leadingAnchor.constraint(equalTo: shadowView.leadingAnchor),
+            cardView.trailingAnchor.constraint(equalTo: shadowView.trailingAnchor),
+            cardView.bottomAnchor.constraint(equalTo: shadowView.bottomAnchor),
+
+            placeholderView.topAnchor.constraint(equalTo: cardView.topAnchor),
+            placeholderView.leadingAnchor.constraint(equalTo: cardView.leadingAnchor),
+            placeholderView.trailingAnchor.constraint(equalTo: cardView.trailingAnchor),
+            placeholderView.bottomAnchor.constraint(equalTo: cardView.bottomAnchor),
+
+            placeholderIconView.centerXAnchor.constraint(equalTo: placeholderView.centerXAnchor),
+            placeholderIconView.centerYAnchor.constraint(equalTo: placeholderView.centerYAnchor),
+            placeholderIconView.widthAnchor.constraint(equalToConstant: 32),
+            placeholderIconView.heightAnchor.constraint(equalToConstant: 32),
+
+            itemImageView.topAnchor.constraint(equalTo: cardView.topAnchor, constant: 2),
+            itemImageView.leadingAnchor.constraint(equalTo: cardView.leadingAnchor, constant: 2),
+            itemImageView.trailingAnchor.constraint(equalTo: cardView.trailingAnchor, constant: -2),
+            itemImageView.bottomAnchor.constraint(equalTo: cardView.bottomAnchor, constant: -2)
         ])
     }
     
     func configure(with item: ClockItem) {
         itemImageView.kf.cancelDownloadTask() // 取消之前的任务
-        // 设置默认占位图
-        itemImageView.image = UIImage(systemName: "photo")
+        itemImageView.alpha = 0
+        itemImageView.image = nil
+        placeholderView.isHidden = false
         
         guard let urlString = item.previewImageUrl?.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed), let imageUrl = URL(string: urlString) else {
             XLogger.shared.log("图片URL无效或为空: \(item.previewImageUrl ?? "nil")")
@@ -546,13 +1030,29 @@ class RightCollectionCell: UICollectionViewCell {
             
             switch result {
             case .success:
-                // 图片加载成功，无需额外操作
-                break
+                self.placeholderView.isHidden = true
+                UIView.animate(withDuration: 0.2) {
+                    self.itemImageView.alpha = 1
+                }
             case .failure(let error):
                 // 打印详细的错误信息
                 XLogger.shared.log("图片加载失败 - URL: \(urlString), 原因: \(error.localizedDescription)")
-                // 确保失败时显示占位图
-                self.itemImageView.image = UIImage(systemName: "photo")
+                self.itemImageView.alpha = 0
+                self.placeholderView.isHidden = false
+            }
+        }
+    }
+
+    func playSelectionAnimation(completion: @escaping () -> Void) {
+        UIView.animate(withDuration: 0.12, delay: 0, options: [.curveEaseOut, .beginFromCurrentState], animations: {
+            self.shadowView.transform = CGAffineTransform(scaleX: 0.95, y: 0.95)
+            self.shadowView.layer.shadowOpacity = 0.04
+        }) { _ in
+            UIView.animate(withDuration: 0.16, delay: 0, options: [.curveEaseInOut, .beginFromCurrentState], animations: {
+                self.shadowView.transform = .identity
+                self.shadowView.layer.shadowOpacity = 0.10
+            }) { _ in
+                completion()
             }
         }
     }
@@ -574,22 +1074,15 @@ class RightViewModel {
         let urlString = "https://u-watch.com.cn/api/app/ota/v3/list"
         
         // 构建请求参数字典
-        var parameters: [String: Any] = [
+        let parameters: [String: Any] = [
             "pageSize": 20,
             "pageNum": 0,
             "width": screenWidth,
             "height": screenHeight,
-            "shape": XGZTBlueToothManager.shared.device?.screenType == 1 ? "round" : "square",
+            "deviceType": XGZTBlueToothManager.shared.device?.screenType ?? 0,
             "type": type,
             "style": style
         ]
-//        let lang = LanguageManager.getInterfaceLang()
-//        if lang != "English" && !isUsrEnglish {
-//            parameters["lang"] = lang
-//        }
-        if XGZTBlueToothManager.shared.device?.screenType == 2 || XGZTBlueToothManager.shared.device?.screenType == 3 {
-            parameters["platform"] = "202x"
-        }
         
         // 打印请求参数
         print("请求参数:")
@@ -649,22 +1142,15 @@ class RightViewModel {
         let urlString = "https://u-watch.com.cn/api/app/ota/v3/list"
         
         // 构建请求参数字典
-        var parameters: [String: Any] = [
+        let parameters: [String: Any] = [
             "pageSize": 20,
             "pageNum": nextPage,
             "width": screenWidth,
             "height": screenHeight,
-            "shape": XGZTBlueToothManager.shared.device?.screenType == 1 ? "round" : "square",
+            "deviceType": XGZTBlueToothManager.shared.device?.screenType ?? 0,
             "type": type,
             "style": style
         ]
-//        let lang = LanguageManager.getInterfaceLang()
-//        if lang != "English" && !isUsrEnglish {
-//            parameters["lang"] = lang
-//        }
-        if XGZTBlueToothManager.shared.device?.screenType == 2 || XGZTBlueToothManager.shared.device?.screenType == 3 {
-            parameters["platform"] = "202x"
-        }
         // 打印请求参数
         print("开始加载第\(nextPage)页数据，请求参数：")
         parameters.forEach { print("\($0.key): \($0.value)") }
