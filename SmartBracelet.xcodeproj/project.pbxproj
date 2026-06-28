@@ -148,6 +148,8 @@
 		9A367B9925BD425300BFB4C3 /* DeviceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A367B9825BD425300BFB4C3 /* DeviceManager.swift */; };
 		9A3919D12D1E9547003B8646 /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3919D02D1E9547003B8646 /* DatabaseManager.swift */; };
 		9A3C55C52BD35EE6007737A2 /* HealthValueView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3C55C42BD35EE6007737A2 /* HealthValueView.swift */; };
+		9A3C55D32BD41011007737A2 /* HealthChartMarkerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3C55D22BD41011007737A2 /* HealthChartMarkerView.swift */; };
+		9A3C55D52BD41022007737A2 /* HealthEmptyStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3C55D42BD41022007737A2 /* HealthEmptyStateView.swift */; };
 		9A3C55C92BD36981007737A2 /* SCBreathAnimationView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9A3C55C82BD36981007737A2 /* SCBreathAnimationView.xib */; };
 		9A3C55CB2BD36A19007737A2 /* SCBreathAnimationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3C55CA2BD36A18007737A2 /* SCBreathAnimationView.swift */; };
 		9A3C55CD2BD39A5E007737A2 /* FanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A3C55CC2BD39A5E007737A2 /* FanView.swift */; };
@@ -722,6 +724,8 @@
 		9A367B9825BD425300BFB4C3 /* DeviceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceManager.swift; sourceTree = "<group>"; };
 		9A3919D02D1E9547003B8646 /* DatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
 		9A3C55C42BD35EE6007737A2 /* HealthValueView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthValueView.swift; sourceTree = "<group>"; };
+		9A3C55D22BD41011007737A2 /* HealthChartMarkerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthChartMarkerView.swift; sourceTree = "<group>"; };
+		9A3C55D42BD41022007737A2 /* HealthEmptyStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthEmptyStateView.swift; sourceTree = "<group>"; };
 		9A3C55C82BD36981007737A2 /* SCBreathAnimationView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SCBreathAnimationView.xib; sourceTree = "<group>"; };
 		9A3C55CA2BD36A18007737A2 /* SCBreathAnimationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SCBreathAnimationView.swift; sourceTree = "<group>"; };
 		9A3C55CC2BD39A5E007737A2 /* FanView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FanView.swift; sourceTree = "<group>"; };
@@ -2105,6 +2109,8 @@
 				9A820B6D24CD06AC00A62C6F /* HealthViewController.swift */,
 				9A87D62E2E7AD09F00FC509B /* HealthCollectionViewCell.swift */,
 				9A3C55C42BD35EE6007737A2 /* HealthValueView.swift */,
+				9A3C55D22BD41011007737A2 /* HealthChartMarkerView.swift */,
+				9A3C55D42BD41022007737A2 /* HealthEmptyStateView.swift */,
 				9A3C55CC2BD39A5E007737A2 /* FanView.swift */,
 				9A3C55CE2BD3ECA3007737A2 /* RoundView.swift */,
 				9A3C55D02BD3F41B007737A2 /* TestView.swift */,
@@ -2801,6 +2807,8 @@
 				9A52106D2503A5D400F64A7A /* MyClockViewController.swift in Sources */,
 				9A56D27325216FC60082CC08 /* DefaultValueFormatter.swift in Sources */,
 				9A3C55C52BD35EE6007737A2 /* HealthValueView.swift in Sources */,
+				9A3C55D32BD41011007737A2 /* HealthChartMarkerView.swift in Sources */,
+				9A3C55D52BD41022007737A2 /* HealthEmptyStateView.swift in Sources */,
 				9A56D25825216FC60082CC08 /* LineScatterCandleRadarRenderer.swift in Sources */,
 				9A367B7C25BD208100BFB4C3 /* Delete.swift in Sources */,
 				9A60DEC8252D8E8300E0D849 /* ModifyPWDViewController.swift in Sources */,
@@ -3454,7 +3462,7 @@
 				CODE_SIGN_ENTITLEMENTS = SmartBracelet/SmartBraceletDebug.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_ASSET_PATHS = TJDWristbandSDK.framework;
 				DEVELOPMENT_TEAM = 6BTCM549U7;
@@ -3503,7 +3511,7 @@
 				CODE_SIGN_ENTITLEMENTS = SmartBracelet/SmartBraceletRelease.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_ASSET_PATHS = TJDWristbandSDK.framework;
 				DEVELOPMENT_TEAM = 6BTCM549U7;
 				ENABLE_BITCODE = NO;

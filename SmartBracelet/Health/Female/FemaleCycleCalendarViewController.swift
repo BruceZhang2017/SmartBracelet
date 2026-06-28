@@ -14,10 +14,56 @@ import SnapKit
 
 class FemaleCycleCalendarViewController: BaseViewController {
 
+    private enum CyclePhaseStyle {
+        case period
+        case ovulation
+        case safe
+    }
+
     // MARK: - Properties
 
     // 数据管理器
     private let dataManager = FemaleCycleDataManager.shared
+    private var hasAnimatedEntrance = false
+    private let heroGradientLayer = CAGradientLayer()
+    private var lastRenderedPhase: CyclePhaseStyle?
+    private var lastAnimatedRecommendationKey: String?
+    private let contentScrollView = UIScrollView()
+
+    private struct SymptomSmartRecommendation {
+        let flowLevel: Int
+        let painLevel: Int
+        let sexualSuggested: Bool
+        let moodSuggested: Bool
+        let bodySuggested: Bool
+        let sexualPriority: Int
+        let moodPriority: Int
+        let bodyPriority: Int
+        let insightText: String?
+        let explanationTitle: String?
+        let explanationDetail: String?
+        let confidenceScore: CGFloat
+        let confidenceText: String?
+        let sourceChipText: String?
+        let driverChipText: String?
+        let traceTitle: String?
+        let traceItems: [RecommendationTraceItem]
+    }
+
+    private struct RecommendationTraceItem {
+        let text: String
+        let targetRowKind: SymptomRowKind?
+        let accentColor: UIColor?
+    }
+
+    private struct RecentSymptomHistoryProfile {
+        let loggedDays: Int
+        let sexualRecordCount: Int
+        let moodRecordCount: Int
+        let bodyRecordCount: Int
+        let sensitiveMoodCount: Int
+        let energeticMoodCount: Int
+    }
 
     private var periodDays: Int = 7
     private var cycleLength: Int = 28
@@ -47,6 +93,47 @@ class FemaleCycleCalendarViewController: BaseViewController {
         let view = UIView()
         view.backgroundColor = .white
         return view
+    }()
+
+    private let heroCardView = UIView()
+
+    private let heroBadgeLabel: CalendarInsetLabel = {
+        let label = CalendarInsetLabel()
+        label.text = "female_cycle_title".localized().uppercased()
+        label.font = UIFont.systemFont(ofSize: 11, weight: .bold)
+        label.textColor = UIColor(red: 0.76, green: 0.18, blue: 0.43, alpha: 1.0)
+        label.backgroundColor = UIColor.white.withAlphaComponent(0.92)
+        label.contentInsets = UIEdgeInsets(top: 6, left: 10, bottom: 6, right: 10)
+        label.layer.cornerRadius = 13
+        label.layer.masksToBounds = true
+        return label
+    }()
+
+    private let heroTitleLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 26, weight: .bold)
+        label.textColor = .white
+        label.numberOfLines = 2
+        return label
+    }()
+
+    private let heroSubtitleLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 13, weight: .medium)
+        label.textColor = UIColor.white.withAlphaComponent(0.82)
+        label.numberOfLines = 0
+        return label
+    }()
+
+    private let selectedDateCapsuleLabel: CalendarInsetLabel = {
+        let label = CalendarInsetLabel()
+        label.font = UIFont.systemFont(ofSize: 12, weight: .semibold)
+        label.textColor = .white
+        label.backgroundColor = UIColor.white.withAlphaComponent(0.16)
+        label.contentInsets = UIEdgeInsets(top: 7, left: 10, bottom: 7, right: 10)
+        label.layer.cornerRadius = 15
+        label.layer.masksToBounds = true
+        return label
     }()
 
     private let previousMonthButton: UIButton = {
@@ -175,11 +262,156 @@ class FemaleCycleCalendarViewController: BaseViewController {
         return label
     }()
 
+    private let symptomInsightLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 12, weight: .medium)
+        label.textColor = UIColor(hex: 0xAA6A83)
+        label.numberOfLines = 2
+        return label
+    }()
+
+    private let recommendationExplanationView: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor(hex: 0xFFF4F8)
+        view.layer.cornerRadius = 16
+        view.layer.cornerCurve = .continuous
+        view.layer.borderWidth = 1
+        view.layer.borderColor = UIColor.white.withAlphaComponent(0.9).cgColor
+        view.isHidden = true
+        return view
+    }()
+
+    private let recommendationExplanationBadgeLabel: CalendarInsetLabel = {
+        let label = CalendarInsetLabel()
+        label.text = "WHY"
+        label.font = UIFont.systemFont(ofSize: 11, weight: .bold)
+        label.contentInsets = UIEdgeInsets(top: 5, left: 8, bottom: 5, right: 8)
+        label.textColor = UIColor(hex: 0xC55780)
+        label.backgroundColor = UIColor.white.withAlphaComponent(0.72)
+        label.layer.cornerRadius = 12
+        label.layer.masksToBounds = true
+        return label
+    }()
+
+    private let recommendationExplanationTitleLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 13, weight: .semibold)
+        label.textColor = UIColor(hex: 0x7A3658)
+        label.numberOfLines = 1
+        return label
+    }()
+
+    private let recommendationExplanationDetailLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 12, weight: .regular)
+        label.textColor = UIColor(hex: 0x8D5C72)
+        label.numberOfLines = 0
+        return label
+    }()
+
+    private let recommendationConfidenceCaptionLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 11, weight: .semibold)
+        label.textColor = UIColor(hex: 0x96516F)
+        return label
+    }()
+
+    private let recommendationConfidenceValueLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 11, weight: .bold)
+        label.textAlignment = .right
+        label.textColor = UIColor(hex: 0xC55780)
+        return label
+    }()
+
+    private let recommendationConfidenceTrackView: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor.white.withAlphaComponent(0.52)
+        view.layer.cornerRadius = 3
+        view.layer.masksToBounds = true
+        return view
+    }()
+
+    private let recommendationSourceChipLabel: CalendarInsetLabel = {
+        let label = CalendarInsetLabel()
+        label.font = UIFont.systemFont(ofSize: 10, weight: .bold)
+        label.contentInsets = UIEdgeInsets(top: 5, left: 8, bottom: 5, right: 8)
+        label.layer.cornerRadius = 11
+        label.layer.masksToBounds = true
+        return label
+    }()
+
+    private let recommendationDriverChipLabel: CalendarInsetLabel = {
+        let label = CalendarInsetLabel()
+        label.font = UIFont.systemFont(ofSize: 10, weight: .bold)
+        label.contentInsets = UIEdgeInsets(top: 5, left: 8, bottom: 5, right: 8)
+        label.layer.cornerRadius = 11
+        label.layer.masksToBounds = true
+        return label
+    }()
+
+    private let recommendationMetaStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.alignment = .leading
+        stackView.spacing = 8
+        return stackView
+    }()
+
+    private let recommendationConfidenceFillView: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor(hex: 0xF38AB3)
+        view.layer.cornerRadius = 3
+        view.layer.masksToBounds = true
+        return view
+    }()
+
+    private let recommendationTraceTitleLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 11, weight: .semibold)
+        label.textColor = UIColor(hex: 0x96516F)
+        label.numberOfLines = 1
+        return label
+    }()
+
+    private let recommendationTraceStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.spacing = 6
+        return stackView
+    }()
+
+    private let symptomDateCapsuleLabel: CalendarInsetLabel = {
+        let label = CalendarInsetLabel()
+        label.font = UIFont.systemFont(ofSize: 12, weight: .semibold)
+        label.contentInsets = UIEdgeInsets(top: 7, left: 10, bottom: 7, right: 10)
+        label.layer.cornerRadius = 14
+        label.layer.masksToBounds = true
+        return label
+    }()
+
+    private let symptomPhaseBadgeLabel: CalendarInsetLabel = {
+        let label = CalendarInsetLabel()
+        label.font = UIFont.systemFont(ofSize: 11, weight: .bold)
+        label.contentInsets = UIEdgeInsets(top: 6, left: 10, bottom: 6, right: 10)
+        label.layer.cornerRadius = 13
+        label.layer.masksToBounds = true
+        return label
+    }()
+
     private let periodStartSwitch: UISwitch = {
         let switchControl = UISwitch()
         switchControl.onTintColor = UIColor(hex: 0xFF69B4)
         return switchControl
     }()
+
+    private enum SymptomRowKind {
+        case flow
+        case pain
+        case sexual
+        case mood
+        case body
+    }
 
     private var calendarDates: [Date?] = []
 
@@ -192,14 +424,28 @@ class FemaleCycleCalendarViewController: BaseViewController {
     private var painLevel: Int = 0 // 0=未选择, 1=轻微, 2=中等, 3=严重
     private var sexualActivity: Int = 0 // 0=无, 1=保护性行为, 2=无保护性行为
     private var mood: Int = 0 // 0=未选择, 1=平静, 2=开心, 3=放松, 4=活力满满, 5=敏感, 6=焦躁, 7=易怒, 8=悲伤
+    private var bodySymptomsCount: Int = 0
 
     // 流量和痛经视图引用（用于显示/隐藏）
     private var flowRow: UIView?
     private var flowSeparator: UIView?
     private var painRow: UIView?
     private var painSeparator: UIView?
+    private var periodStartRow: UIView?
     private var periodStartSeparator: UIView? // 经期开始开关的分隔线
     private var sexualRow: UIView? // 性行为行
+    private var sexualSeparator: UIView?
+    private var moodRowView: UIView?
+    private var moodSeparator: UIView?
+    private var bodySymptomsRowView: UIView?
+    private var recommendationConfidenceWidthConstraint: Constraint?
+    private var currentTraceItems: [RecommendationTraceItem] = []
+    private var traceControlsByKind: [SymptomRowKind: [UIControl]] = [:]
+    private let flowRecommendationLabel = CalendarInsetLabel()
+    private let painRecommendationLabel = CalendarInsetLabel()
+    private let sexualRecommendationLabel = CalendarInsetLabel()
+    private let moodRecommendationLabel = CalendarInsetLabel()
+    private let bodyRecommendationLabel = CalendarInsetLabel()
 
     // 按钮容器引用（用于刷新按钮状态）
     private var flowOptionsView: UIView?
@@ -228,9 +474,33 @@ class FemaleCycleCalendarViewController: BaseViewController {
         generateCalendarDates()
         updateCycleInfo()
         updateSymptomSectionVisibility()
+        updateSelectedDateSummary()
 
         // 注册数据变更通知
         setupNotificationObservers()
+    }
+
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        heroGradientLayer.frame = heroCardView.bounds
+        [
+            monthYearContainerView,
+            weekdayContainerView,
+            calendarCollectionView,
+            legendContainerView,
+            cycleInfoContainerView,
+            symptomContainerView
+        ].forEach { targetView in
+            targetView.layer.shadowPath = UIBezierPath(
+                roundedRect: targetView.bounds,
+                cornerRadius: targetView.layer.cornerRadius
+            ).cgPath
+        }
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        animateEntranceIfNeeded()
     }
 
     deinit {
@@ -262,7 +532,7 @@ class FemaleCycleCalendarViewController: BaseViewController {
         // 重新加载周期配置
         loadFemaleHealthData()
         calculateCycleDates()
-        updateCycleInfo()
+        updateCycleInfo(animated: true)
         generateCalendarDates()
 
         // 如果当前有选中日期，重新加载症状数据
@@ -293,37 +563,115 @@ class FemaleCycleCalendarViewController: BaseViewController {
             target: self,
             action: #selector(rightBarButtonTapped)
         )
+        rightButton.tintColor = UIColor(red: 0.84, green: 0.28, blue: 0.51, alpha: 1.0)
         navigationItem.rightBarButtonItem = rightButton
     }
 
     // MARK: - Setup UI
 
     private func setupUI() {
-        view.backgroundColor = UIColor(hex: 0xF5F5F5)
+        view.backgroundColor = UIColor(hex: 0xFFF7FA)
 
         // 创建滚动视图
-        let scrollView = UIScrollView()
-        scrollView.showsVerticalScrollIndicator = true
-        scrollView.backgroundColor = UIColor(hex: 0xF5F5F5)
-        view.addSubview(scrollView)
-        scrollView.snp.makeConstraints { make in
+        contentScrollView.showsVerticalScrollIndicator = true
+        contentScrollView.backgroundColor = UIColor(hex: 0xFFF7FA)
+        view.addSubview(contentScrollView)
+        contentScrollView.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide)
             make.leading.trailing.bottom.equalToSuperview()
         }
 
         let contentView = UIView()
-        scrollView.addSubview(contentView)
+        contentScrollView.addSubview(contentView)
         contentView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
-            make.width.equalTo(scrollView)
+            make.width.equalTo(contentScrollView)
         }
+
+        heroCardView.layer.cornerRadius = 30
+        heroCardView.layer.cornerCurve = .continuous
+        heroCardView.layer.masksToBounds = true
+        heroGradientLayer.colors = [
+            UIColor(red: 0.98, green: 0.48, blue: 0.66, alpha: 1.0).cgColor,
+            UIColor(red: 0.73, green: 0.39, blue: 0.95, alpha: 1.0).cgColor
+        ]
+        heroGradientLayer.startPoint = CGPoint(x: 0, y: 0)
+        heroGradientLayer.endPoint = CGPoint(x: 1, y: 1)
+        heroCardView.layer.insertSublayer(heroGradientLayer, at: 0)
+
+        contentView.addSubview(heroCardView)
+        heroCardView.addSubview(heroBadgeLabel)
+        heroCardView.addSubview(heroTitleLabel)
+        heroCardView.addSubview(heroSubtitleLabel)
+        heroCardView.addSubview(selectedDateCapsuleLabel)
+
+        heroCardView.snp.makeConstraints { make in
+            make.top.equalToSuperview().offset(16)
+            make.leading.equalToSuperview().offset(16)
+            make.trailing.equalToSuperview().offset(-16)
+            make.height.equalTo(170)
+        }
+
+        heroBadgeLabel.snp.makeConstraints { make in
+            make.leading.equalToSuperview().offset(22)
+            make.top.equalToSuperview().offset(22)
+        }
+
+        selectedDateCapsuleLabel.snp.makeConstraints { make in
+            make.trailing.equalToSuperview().offset(-18)
+            make.top.equalToSuperview().offset(20)
+        }
+
+        heroTitleLabel.snp.makeConstraints { make in
+            make.leading.equalTo(heroBadgeLabel)
+            make.trailing.equalToSuperview().offset(-22)
+            make.top.equalTo(heroBadgeLabel.snp.bottom).offset(16)
+        }
+
+        heroSubtitleLabel.snp.makeConstraints { make in
+            make.leading.equalTo(heroTitleLabel)
+            make.trailing.equalTo(heroTitleLabel)
+            make.top.equalTo(heroTitleLabel.snp.bottom).offset(8)
+        }
+
+        configureCardSurface(heroCardView, cornerRadius: 30, shadowOpacity: 0)
+
+        configureCardSurface(monthYearContainerView, cornerRadius: 22)
+        configureCardSurface(weekdayContainerView, cornerRadius: 18)
+        configureCardSurface(calendarCollectionView, cornerRadius: 0)
+        configureCardSurface(legendContainerView, cornerRadius: 18)
+        configureCardSurface(cycleInfoContainerView, cornerRadius: 24)
+        configureCardSurface(symptomContainerView, cornerRadius: 24)
+
+        monthYearContainerView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        legendContainerView.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
+
+        previousMonthButton.backgroundColor = UIColor(hex: 0xFFF1F6)
+        previousMonthButton.layer.cornerRadius = 16
+        previousMonthButton.tintColor = UIColor(red: 0.84, green: 0.28, blue: 0.51, alpha: 1.0)
+        nextMonthButton.backgroundColor = UIColor(hex: 0xFFF1F6)
+        nextMonthButton.layer.cornerRadius = 16
+        nextMonthButton.tintColor = UIColor(red: 0.84, green: 0.28, blue: 0.51, alpha: 1.0)
+
+        monthYearLabel.textColor = UIColor(hex: 0x2E2230)
+        dropdownImageView.tintColor = UIColor(red: 0.84, green: 0.28, blue: 0.51, alpha: 1.0)
+        futureRecordTipLabel.textColor = UIColor(red: 0.72, green: 0.41, blue: 0.58, alpha: 1.0)
+        futureRecordTipLabel.backgroundColor = UIColor(hex: 0xFFF1F6)
+        futureRecordTipLabel.layer.cornerRadius = 14
+        futureRecordTipLabel.layer.masksToBounds = true
+
+        periodDayInfoView.backgroundColor = UIColor(hex: 0xFFF1F6)
+        periodDayInfoView.layer.cornerRadius = 18
+        cycleLengthInfoView.backgroundColor = UIColor(hex: 0xF3EEFF)
+        cycleLengthInfoView.layer.cornerRadius = 18
 
         // Month/Year selector
         contentView.addSubview(monthYearContainerView)
         monthYearContainerView.snp.makeConstraints { make in
-            make.top.equalToSuperview()
-            make.leading.trailing.equalToSuperview()
-            make.height.equalTo(60)
+            make.top.equalTo(heroCardView.snp.bottom).offset(18)
+            make.leading.equalToSuperview().offset(16)
+            make.trailing.equalToSuperview().offset(-16)
+            make.height.equalTo(68)
         }
 
         monthYearContainerView.addSubview(previousMonthButton)
@@ -361,7 +709,8 @@ class FemaleCycleCalendarViewController: BaseViewController {
         contentView.addSubview(weekdayContainerView)
         weekdayContainerView.snp.makeConstraints { make in
             make.top.equalTo(monthYearContainerView.snp.bottom)
-            make.leading.trailing.equalToSuperview()
+            make.leading.equalToSuperview().offset(16)
+            make.trailing.equalToSuperview().offset(-16)
             make.height.equalTo(40)
         }
 
@@ -371,8 +720,9 @@ class FemaleCycleCalendarViewController: BaseViewController {
         contentView.addSubview(calendarCollectionView)
         calendarCollectionView.snp.makeConstraints { make in
             make.top.equalTo(weekdayContainerView.snp.bottom)
-            make.leading.trailing.equalToSuperview()
-            make.height.equalTo(300)
+            make.leading.equalToSuperview().offset(16)
+            make.trailing.equalToSuperview().offset(-16)
+            make.height.equalTo(312)
         }
 
         calendarCollectionView.delegate = self
@@ -382,9 +732,10 @@ class FemaleCycleCalendarViewController: BaseViewController {
         // Legend
         contentView.addSubview(legendContainerView)
         legendContainerView.snp.makeConstraints { make in
-            make.top.equalTo(calendarCollectionView.snp.bottom).offset(16)
-            make.leading.trailing.equalToSuperview()
-            make.height.equalTo(30)
+            make.top.equalTo(calendarCollectionView.snp.bottom)
+            make.leading.equalToSuperview().offset(16)
+            make.trailing.equalToSuperview().offset(-16)
+            make.height.equalTo(52)
         }
 
         setupLegend()
@@ -392,7 +743,7 @@ class FemaleCycleCalendarViewController: BaseViewController {
         // Cycle info
         contentView.addSubview(cycleInfoContainerView)
         cycleInfoContainerView.snp.makeConstraints { make in
-            make.top.equalTo(legendContainerView.snp.bottom).offset(16)
+            make.top.equalTo(legendContainerView.snp.bottom).offset(20)
             make.leading.equalToSuperview().offset(16)
             make.trailing.equalToSuperview().offset(-16)
         }
@@ -469,6 +820,47 @@ class FemaleCycleCalendarViewController: BaseViewController {
 
         // Symptom recording section
         setupSymptomRecordingSection(contentView: contentView)
+        updateSelectedDateSummary()
+    }
+
+    private func configureCardSurface(_ targetView: UIView, cornerRadius: CGFloat, shadowOpacity: Float = 1) {
+        targetView.layer.cornerRadius = cornerRadius
+        targetView.layer.cornerCurve = .continuous
+        targetView.layer.borderWidth = 1
+        targetView.layer.borderColor = UIColor.white.withAlphaComponent(0.88).cgColor
+        targetView.layer.shadowColor = UIColor.black.withAlphaComponent(0.05).cgColor
+        targetView.layer.shadowOpacity = shadowOpacity
+        targetView.layer.shadowRadius = 18
+        targetView.layer.shadowOffset = CGSize(width: 0, height: 10)
+    }
+
+    private func animateEntranceIfNeeded() {
+        guard !hasAnimatedEntrance else {
+            return
+        }
+        hasAnimatedEntrance = true
+        let animatedViews: [UIView] = [heroCardView, monthYearContainerView, weekdayContainerView, calendarCollectionView, legendContainerView, cycleInfoContainerView, symptomContainerView]
+        for (index, targetView) in animatedViews.enumerated() {
+            targetView.alpha = 0
+            targetView.transform = CGAffineTransform(translationX: 0, y: 20).scaledBy(x: 0.98, y: 0.98)
+            UIView.animate(
+                withDuration: 0.62,
+                delay: min(Double(index) * 0.06, 0.28),
+                usingSpringWithDamping: 0.88,
+                initialSpringVelocity: 0.16,
+                options: [.allowUserInteraction, .curveEaseOut]
+            ) {
+                targetView.alpha = 1
+                targetView.transform = .identity
+            }
+        }
+    }
+
+    private func updateSelectedDateSummary() {
+        let displayDate = selectedDate ?? today
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MMM d"
+        selectedDateCapsuleLabel.text = formatter.string(from: displayDate).uppercased()
     }
 
     private func setupSymptomRecordingSection(contentView: UIView) {
@@ -481,9 +873,107 @@ class FemaleCycleCalendarViewController: BaseViewController {
         }
 
         symptomContainerView.addSubview(symptomTitleLabel)
+        symptomContainerView.addSubview(symptomInsightLabel)
+        symptomContainerView.addSubview(recommendationExplanationView)
+        symptomContainerView.addSubview(symptomDateCapsuleLabel)
+        symptomContainerView.addSubview(symptomPhaseBadgeLabel)
         symptomTitleLabel.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(16)
             make.leading.equalToSuperview().offset(16)
+            make.trailing.lessThanOrEqualTo(symptomDateCapsuleLabel.snp.leading).offset(-8)
+        }
+
+        symptomInsightLabel.snp.makeConstraints { make in
+            make.top.equalTo(symptomTitleLabel.snp.bottom).offset(6)
+            make.leading.equalTo(symptomTitleLabel)
+            make.trailing.equalToSuperview().offset(-16)
+        }
+
+        recommendationExplanationView.addSubview(recommendationExplanationBadgeLabel)
+        recommendationExplanationView.addSubview(recommendationExplanationTitleLabel)
+        recommendationExplanationView.addSubview(recommendationExplanationDetailLabel)
+        recommendationExplanationView.addSubview(recommendationConfidenceCaptionLabel)
+        recommendationExplanationView.addSubview(recommendationConfidenceValueLabel)
+        recommendationExplanationView.addSubview(recommendationConfidenceTrackView)
+        recommendationExplanationView.addSubview(recommendationMetaStackView)
+        recommendationExplanationView.addSubview(recommendationTraceTitleLabel)
+        recommendationExplanationView.addSubview(recommendationTraceStackView)
+        recommendationConfidenceTrackView.addSubview(recommendationConfidenceFillView)
+        recommendationMetaStackView.addArrangedSubview(recommendationSourceChipLabel)
+        recommendationMetaStackView.addArrangedSubview(recommendationDriverChipLabel)
+        recommendationExplanationView.snp.makeConstraints { make in
+            make.top.equalTo(symptomInsightLabel.snp.bottom).offset(10)
+            make.leading.equalToSuperview().offset(16)
+            make.trailing.equalToSuperview().offset(-16)
+        }
+
+        recommendationExplanationBadgeLabel.snp.makeConstraints { make in
+            make.top.equalToSuperview().offset(12)
+            make.leading.equalToSuperview().offset(12)
+        }
+
+        recommendationExplanationTitleLabel.snp.makeConstraints { make in
+            make.top.equalToSuperview().offset(12)
+            make.leading.equalTo(recommendationExplanationBadgeLabel.snp.trailing).offset(8)
+            make.trailing.equalToSuperview().offset(-12)
+        }
+
+        recommendationExplanationDetailLabel.snp.makeConstraints { make in
+            make.top.equalTo(recommendationExplanationTitleLabel.snp.bottom).offset(6)
+            make.leading.equalTo(recommendationExplanationTitleLabel)
+            make.trailing.equalToSuperview().offset(-12)
+        }
+
+        recommendationMetaStackView.snp.makeConstraints { make in
+            make.top.equalTo(recommendationExplanationDetailLabel.snp.bottom).offset(8)
+            make.leading.equalTo(recommendationExplanationTitleLabel)
+            make.trailing.lessThanOrEqualToSuperview().offset(-12)
+        }
+
+        recommendationConfidenceCaptionLabel.snp.makeConstraints { make in
+            make.top.equalTo(recommendationMetaStackView.snp.bottom).offset(10)
+            make.leading.equalTo(recommendationExplanationTitleLabel)
+        }
+
+        recommendationConfidenceValueLabel.snp.makeConstraints { make in
+            make.centerY.equalTo(recommendationConfidenceCaptionLabel)
+            make.trailing.equalToSuperview().offset(-12)
+            make.leading.greaterThanOrEqualTo(recommendationConfidenceCaptionLabel.snp.trailing).offset(8)
+        }
+
+        recommendationConfidenceTrackView.snp.makeConstraints { make in
+            make.top.equalTo(recommendationConfidenceCaptionLabel.snp.bottom).offset(8)
+            make.leading.equalTo(recommendationExplanationTitleLabel)
+            make.trailing.equalToSuperview().offset(-12)
+            make.height.equalTo(6)
+        }
+
+        recommendationTraceTitleLabel.snp.makeConstraints { make in
+            make.top.equalTo(recommendationConfidenceTrackView.snp.bottom).offset(10)
+            make.leading.equalTo(recommendationExplanationTitleLabel)
+            make.trailing.equalToSuperview().offset(-12)
+        }
+
+        recommendationTraceStackView.snp.makeConstraints { make in
+            make.top.equalTo(recommendationTraceTitleLabel.snp.bottom).offset(8)
+            make.leading.equalTo(recommendationExplanationTitleLabel)
+            make.trailing.equalToSuperview().offset(-12)
+            make.bottom.equalToSuperview().offset(-12)
+        }
+
+        recommendationConfidenceFillView.snp.makeConstraints { make in
+            make.leading.top.bottom.equalToSuperview()
+            self.recommendationConfidenceWidthConstraint = make.width.equalToSuperview().multipliedBy(0.56).constraint
+        }
+
+        symptomPhaseBadgeLabel.snp.makeConstraints { make in
+            make.trailing.equalToSuperview().offset(-16)
+            make.centerY.equalTo(symptomTitleLabel)
+        }
+
+        symptomDateCapsuleLabel.snp.makeConstraints { make in
+            make.trailing.equalTo(symptomPhaseBadgeLabel.snp.leading).offset(-8)
+            make.centerY.equalTo(symptomTitleLabel)
         }
 
         // 经期开始了吗
@@ -492,9 +982,10 @@ class FemaleCycleCalendarViewController: BaseViewController {
             title: "female_cycle_period_started".localized(),
             hasSwitch: true
         )
+        self.periodStartRow = periodStartRow
         symptomContainerView.addSubview(periodStartRow)
         periodStartRow.snp.makeConstraints { make in
-            make.top.equalTo(symptomTitleLabel.snp.bottom).offset(16)
+            make.top.equalTo(recommendationExplanationView.snp.bottom).offset(12)
             make.leading.trailing.equalToSuperview()
             make.height.equalTo(56)
         }
@@ -540,6 +1031,12 @@ class FemaleCycleCalendarViewController: BaseViewController {
             make.centerY.equalToSuperview()
             make.height.equalTo(32)
         }
+        configureRecommendationLabel(flowRecommendationLabel, accentColor: UIColor(hex: 0xFF69B4))
+        flowRowView.addSubview(flowRecommendationLabel)
+        flowRecommendationLabel.snp.makeConstraints { make in
+            make.centerY.equalToSuperview()
+            make.trailing.equalTo(flowOptionsView.snp.leading).offset(-10)
+        }
 
         // 分隔线
         let separator2 = createSeparator()
@@ -574,6 +1071,12 @@ class FemaleCycleCalendarViewController: BaseViewController {
             make.centerY.equalToSuperview()
             make.height.equalTo(32)
         }
+        configureRecommendationLabel(painRecommendationLabel, accentColor: UIColor(hex: 0xA16AF7))
+        painRowView.addSubview(painRecommendationLabel)
+        painRecommendationLabel.snp.makeConstraints { make in
+            make.centerY.equalToSuperview()
+            make.trailing.equalTo(painOptionsView.snp.leading).offset(-10)
+        }
 
         // 分隔线
         let separator3 = createSeparator()
@@ -603,15 +1106,25 @@ class FemaleCycleCalendarViewController: BaseViewController {
 
         // 添加性行为值显示标签
         let sexualLabel = UILabel()
-        sexualLabel.font = UIFont.systemFont(ofSize: 14, weight: .regular)
-        sexualLabel.textColor = UIColor(hex: 0x999999)
+        sexualLabel.font = UIFont.systemFont(ofSize: 12, weight: .semibold)
+        sexualLabel.textColor = UIColor(hex: 0xC55780)
         sexualLabel.text = "female_cycle_none".localized()
         sexualLabel.textAlignment = .right
+        sexualLabel.layer.cornerRadius = 13
+        sexualLabel.layer.masksToBounds = true
+        sexualLabel.backgroundColor = UIColor(hex: 0xFFF0F6)
         self.sexualValueLabel = sexualLabel
         sexualRowView.addSubview(sexualLabel)
         sexualLabel.snp.makeConstraints { make in
             make.trailing.equalToSuperview().offset(-40)
             make.centerY.equalToSuperview()
+            make.height.equalTo(26)
+        }
+        configureRecommendationLabel(sexualRecommendationLabel, accentColor: UIColor(hex: 0xE27B9E))
+        sexualRowView.addSubview(sexualRecommendationLabel)
+        sexualRecommendationLabel.snp.makeConstraints { make in
+            make.centerY.equalToSuperview()
+            make.trailing.equalTo(sexualLabel.snp.leading).offset(-8)
         }
 
         let sexualTap = UITapGestureRecognizer(target: self, action: #selector(sexualActivityTapped))
@@ -619,6 +1132,7 @@ class FemaleCycleCalendarViewController: BaseViewController {
 
         // 分隔线
         let separator4 = createSeparator()
+        sexualSeparator = separator4
         symptomContainerView.addSubview(separator4)
         separator4.snp.makeConstraints { make in
             make.top.equalTo(sexualRow!.snp.bottom)
@@ -634,6 +1148,7 @@ class FemaleCycleCalendarViewController: BaseViewController {
             hasSwitch: false,
             hasArrow: true
         )
+        moodRowView = moodRow
         symptomContainerView.addSubview(moodRow)
         moodRow.snp.makeConstraints { make in
             make.top.equalTo(separator4.snp.bottom)
@@ -643,15 +1158,25 @@ class FemaleCycleCalendarViewController: BaseViewController {
 
         // 添加心情值显示标签
         let moodLabel = UILabel()
-        moodLabel.font = UIFont.systemFont(ofSize: 14, weight: .regular)
-        moodLabel.textColor = UIColor(hex: 0x999999)
+        moodLabel.font = UIFont.systemFont(ofSize: 12, weight: .semibold)
+        moodLabel.textColor = UIColor(hex: 0x7A5BE6)
         moodLabel.text = "female_cycle_none".localized()
         moodLabel.textAlignment = .right
+        moodLabel.layer.cornerRadius = 13
+        moodLabel.layer.masksToBounds = true
+        moodLabel.backgroundColor = UIColor(hex: 0xF3EEFF)
         self.moodValueLabel = moodLabel
         moodRow.addSubview(moodLabel)
         moodLabel.snp.makeConstraints { make in
             make.trailing.equalToSuperview().offset(-40)
             make.centerY.equalToSuperview()
+            make.height.equalTo(26)
+        }
+        configureRecommendationLabel(moodRecommendationLabel, accentColor: UIColor(hex: 0x8A63E8))
+        moodRow.addSubview(moodRecommendationLabel)
+        moodRecommendationLabel.snp.makeConstraints { make in
+            make.centerY.equalToSuperview()
+            make.trailing.equalTo(moodLabel.snp.leading).offset(-8)
         }
 
         let moodTap = UITapGestureRecognizer(target: self, action: #selector(moodTapped))
@@ -659,6 +1184,7 @@ class FemaleCycleCalendarViewController: BaseViewController {
 
         // 分隔线
         let separator5 = createSeparator()
+        moodSeparator = separator5
         symptomContainerView.addSubview(separator5)
         separator5.snp.makeConstraints { make in
             make.top.equalTo(moodRow.snp.bottom)
@@ -674,12 +1200,19 @@ class FemaleCycleCalendarViewController: BaseViewController {
             hasSwitch: false,
             hasArrow: true
         )
+        bodySymptomsRowView = bodyRow
         symptomContainerView.addSubview(bodyRow)
         bodyRow.snp.makeConstraints { make in
             make.top.equalTo(separator5.snp.bottom)
             make.leading.trailing.equalToSuperview()
             make.height.equalTo(56)
             make.bottom.equalToSuperview().offset(-16)
+        }
+        configureRecommendationLabel(bodyRecommendationLabel, accentColor: UIColor(hex: 0xF08D56))
+        bodyRow.addSubview(bodyRecommendationLabel)
+        bodyRecommendationLabel.snp.makeConstraints { make in
+            make.centerY.equalToSuperview()
+            make.trailing.equalToSuperview().offset(-40)
         }
 
         let bodyTap = UITapGestureRecognizer(target: self, action: #selector(bodySymptomsTapped))
@@ -726,6 +1259,18 @@ class FemaleCycleCalendarViewController: BaseViewController {
         return containerView
     }
 
+    private func configureRecommendationLabel(_ label: CalendarInsetLabel, accentColor: UIColor) {
+        label.font = UIFont.systemFont(ofSize: 11, weight: .bold)
+        label.contentInsets = UIEdgeInsets(top: 5, left: 9, bottom: 5, right: 9)
+        label.textColor = accentColor
+        label.backgroundColor = accentColor.withAlphaComponent(0.10)
+        label.layer.cornerRadius = 12
+        label.layer.masksToBounds = true
+        label.layer.borderWidth = 1
+        label.layer.borderColor = accentColor.withAlphaComponent(0.10).cgColor
+        label.isHidden = true
+    }
+
     private func createSeparator() -> UIView {
         let separator = UIView()
         separator.backgroundColor = UIColor(hex: 0xF0F0F0)
@@ -768,6 +1313,7 @@ class FemaleCycleCalendarViewController: BaseViewController {
     private func createDropletButton(level: Int, tag: Int) -> UIButton {
         let button = UIButton(type: .custom)
         button.tag = tag
+        button.adjustsImageWhenHighlighted = false
 
         // 创建水滴形状的图片 - 累计选中（当前等级<=flowLevel时高亮）
         let image = createDropletImage(
@@ -775,6 +1321,8 @@ class FemaleCycleCalendarViewController: BaseViewController {
         )
         button.setImage(image, for: .normal)
         button.addTarget(self, action: #selector(flowButtonTapped(_:)), for: .touchUpInside)
+        button.addTarget(self, action: #selector(handleMetricButtonTouchDown(_:)), for: .touchDown)
+        button.addTarget(self, action: #selector(handleMetricButtonTouchRelease(_:)), for: [.touchDragExit, .touchCancel, .touchUpOutside])
 
         return button
     }
@@ -815,6 +1363,7 @@ class FemaleCycleCalendarViewController: BaseViewController {
     private func createLightningButton(level: Int, tag: Int) -> UIButton {
         let button = UIButton(type: .custom)
         button.tag = tag
+        button.adjustsImageWhenHighlighted = false
 
         // 创建闪电形状的图片 - 累计选中（当前等级<=painLevel时高亮）
         let image = createLightningImage(
@@ -822,6 +1371,8 @@ class FemaleCycleCalendarViewController: BaseViewController {
         )
         button.setImage(image, for: .normal)
         button.addTarget(self, action: #selector(painButtonTapped(_:)), for: .touchUpInside)
+        button.addTarget(self, action: #selector(handleMetricButtonTouchDown(_:)), for: .touchDown)
+        button.addTarget(self, action: #selector(handleMetricButtonTouchRelease(_:)), for: [.touchDragExit, .touchCancel, .touchUpOutside])
 
         return button
     }
@@ -1224,44 +1775,78 @@ class FemaleCycleCalendarViewController: BaseViewController {
     private func updateMonthYearLabel() {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM"
-        monthYearLabel.text = dateFormatter.string(from: currentDisplayMonth)
+        let text = dateFormatter.string(from: currentDisplayMonth)
+        if monthYearLabel.text == nil || monthYearLabel.text == text {
+            monthYearLabel.text = text
+        } else {
+            UIView.transition(with: monthYearLabel, duration: 0.24, options: [.transitionCrossDissolve, .allowUserInteraction]) {
+                self.monthYearLabel.text = text
+            }
+        }
     }
 
-    private func updateCycleInfo() {
-        // 计算当前周期天数和阶段
-        let calendar = Calendar.current
-        let days = calendar.dateComponents([.day], from: lastPeriodDate, to: today).day ?? 0
-
+    private func currentPhasePresentation(for date: Date?) -> (phase: CyclePhaseStyle, title: String, totalDays: Int, description: String, palette: [UIColor], tintColor: UIColor, softBackground: UIColor, badgeTextColor: UIColor, badgeBackground: UIColor) {
+        let targetDate = date ?? today
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
-        let todayString = dateFormatter.string(from: today)
+        let targetDateString = dateFormatter.string(from: targetDate)
 
-        // 判断今天处于什么阶段
-        var phaseTitle = ""
-        var phaseTotalDays = 0
-        var phaseDescription = ""
-
-        if periodDates.contains(todayString) {
-            // 经期
-            phaseTitle = "female_cycle_period".localized()
-            phaseTotalDays = periodDays
-            phaseDescription = "female_cycle_period_desc".localized()
-        } else if ovulationDates.contains(todayString) || todayString == ovulationDay {
-            // 排卵期
-            phaseTitle = "female_cycle_ovulation".localized()
-            phaseTotalDays = 10 // 排卵期固定10天（排卵日前5天到后4天）
-            phaseDescription = "female_cycle_ovulation_desc".localized()
-        } else {
-            // 安全期
-            phaseTitle = "female_cycle_safe_period".localized()
-            phaseTotalDays = cycleLength - periodDays - 10 // 周期总天数 - 经期天数 - 排卵期天数
-            phaseDescription = "female_cycle_description".localized()
+        if periodDates.contains(targetDateString) {
+            return (
+                .period,
+                "female_cycle_period".localized(),
+                periodDays,
+                "female_cycle_period_desc".localized(),
+                [UIColor(hex: 0xFA739F), UIColor(hex: 0xF25E8D)],
+                UIColor(hex: 0xD94477),
+                UIColor(hex: 0xFFF1F6),
+                UIColor(hex: 0xB93A68),
+                UIColor(hex: 0xFFE4EE)
+            )
         }
 
+        if ovulationDates.contains(targetDateString) || targetDateString == ovulationDay {
+            return (
+                .ovulation,
+                "female_cycle_ovulation".localized(),
+                10,
+                "female_cycle_ovulation_desc".localized(),
+                [UIColor(hex: 0xA16AF7), UIColor(hex: 0x7C72FF)],
+                UIColor(hex: 0x6C58E6),
+                UIColor(hex: 0xF2EEFF),
+                UIColor(hex: 0x674BDB),
+                UIColor(hex: 0xECE5FF)
+            )
+        }
+
+        return (
+            .safe,
+            "female_cycle_safe_period".localized(),
+            max(cycleLength - periodDays - 10, 0),
+            "female_cycle_description".localized(),
+            [UIColor(hex: 0xF59773), UIColor(hex: 0xF0B15D)],
+            UIColor(hex: 0xD98238),
+            UIColor(hex: 0xFFF3E9),
+            UIColor(hex: 0xB96722),
+            UIColor(hex: 0xFFE9D8)
+        )
+    }
+
+    private func updateCycleInfo(animated: Bool = false) {
+        let phasePresentation = currentPhasePresentation(for: selectedDate)
+        let phaseTitle = phasePresentation.title
+        let phaseTotalDays = phasePresentation.totalDays
+        let phaseDescription = phasePresentation.description
+
         // 更新左侧显示
-        // 更新标题
         if let periodTitleLabel = periodDayInfoView.subviews.first(where: { $0 is UILabel }) as? UILabel {
-            periodTitleLabel.text = phaseTitle
+            if animated {
+                UIView.transition(with: periodTitleLabel, duration: 0.22, options: [.transitionCrossDissolve, .allowUserInteraction]) {
+                    periodTitleLabel.text = phaseTitle
+                }
+            } else {
+                periodTitleLabel.text = phaseTitle
+            }
         }
 
         let periodValueAttrString = NSMutableAttributedString()
@@ -1279,7 +1864,6 @@ class FemaleCycleCalendarViewController: BaseViewController {
         ]))
         periodValueLabel.attributedText = periodValueAttrString
 
-        // 更新周期长度显示
         let cycleValueAttrString = NSMutableAttributedString()
         cycleValueAttrString.append(NSAttributedString(string: "female_cycle_total_prefix".localized(), attributes: [
             .font: UIFont.systemFont(ofSize: 16, weight: .regular),
@@ -1295,13 +1879,31 @@ class FemaleCycleCalendarViewController: BaseViewController {
         ]))
         cycleValueLabel.attributedText = cycleValueAttrString
 
-        // 更新描述文字
-        cycleDescriptionLabel.text = phaseDescription
+        if animated {
+            [cycleDescriptionLabel, heroTitleLabel, heroSubtitleLabel].forEach { (targetLabel: UILabel) in
+                UIView.transition(with: targetLabel, duration: 0.24, options: [.transitionCrossDissolve, .allowUserInteraction]) {
+                    if targetLabel === self.cycleDescriptionLabel {
+                        targetLabel.text = phaseDescription
+                    } else if targetLabel === self.heroTitleLabel {
+                        targetLabel.text = phaseTitle
+                    } else {
+                        targetLabel.text = phaseDescription
+                    }
+                }
+            }
+        } else {
+            cycleDescriptionLabel.text = phaseDescription
+            heroTitleLabel.text = phaseTitle
+            heroSubtitleLabel.text = phaseDescription
+        }
+
+        applyPhaseStyling(phasePresentation, animated: animated)
+        updateSymptomHeader(animated: animated)
+        updateSelectedDateSummary()
     }
 
     private func updateSymptomSectionVisibility() {
         guard let selectedDate = selectedDate else {
-            // 如果没有选中日期，隐藏症状记录区域
             symptomContainerView.isHidden = true
             futureRecordTipLabel.isHidden = false
             return
@@ -1311,138 +1913,1167 @@ class FemaleCycleCalendarViewController: BaseViewController {
         let isFutureDate = calendar.compare(selectedDate, to: today, toGranularity: .day) == .orderedDescending
 
         if isFutureDate {
-            // 未来日期：隐藏症状记录区域，显示提示
             symptomContainerView.isHidden = true
             futureRecordTipLabel.isHidden = false
         } else {
-            // 今天或过去的日期：显示症状记录区域，隐藏提示
             symptomContainerView.isHidden = false
             futureRecordTipLabel.isHidden = true
-
-            // TODO: 加载选中日期的症状记录数据
             loadSymptomData(for: selectedDate)
         }
+        updateSymptomHeader(animated: false)
     }
 
     private func loadSymptomData(for date: Date) {
-        // 从数据管理器加载指定日期的症状记录
         let data = dataManager.getDailyData(for: date)
 
         flowLevel = data.flowLevel
         painLevel = data.painLevel
         sexualActivity = data.sexualActivity
         mood = data.mood
+        bodySymptomsCount = data.bodySymptoms.count
 
-        // 判断选中日期是否为经期开始日期
         let calendar = Calendar.current
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
         let selectedDateString = dateFormatter.string(from: date)
 
-        // 检查是否为当前周期的经期开始日期
         isPeriodStarted = (selectedDateString == periodFirstDay)
 
-        // 更新UI
         periodStartSwitch.isOn = isPeriodStarted
 
-        // 检查选中日期是否在经期内
         let isInPeriod = periodDates.contains(selectedDateString)
+        let recommendation = recommendationPresentation(for: date, selectedDateString: selectedDateString, isInPeriod: isInPeriod)
+        let effectiveBodySuggested = bodySymptomsCount == 0 && recommendation.bodySuggested
+        let effectiveInsight = (flowLevel == 0 && recommendation.flowLevel > 0) || (painLevel == 0 && recommendation.painLevel > 0) || (sexualActivity == 0 && recommendation.sexualSuggested) || (mood == 0 && recommendation.moodSuggested) || effectiveBodySuggested
+            ? recommendation.insightText
+            : nil
+        let effectiveRecommendation = SymptomSmartRecommendation(
+            flowLevel: flowLevel == 0 ? recommendation.flowLevel : 0,
+            painLevel: painLevel == 0 ? recommendation.painLevel : 0,
+            sexualSuggested: sexualActivity == 0 && recommendation.sexualSuggested,
+            moodSuggested: mood == 0 && recommendation.moodSuggested,
+            bodySuggested: effectiveBodySuggested,
+            sexualPriority: recommendation.sexualPriority,
+            moodPriority: recommendation.moodPriority,
+            bodyPriority: recommendation.bodyPriority,
+            insightText: effectiveInsight,
+            explanationTitle: recommendation.explanationTitle,
+            explanationDetail: recommendation.explanationDetail,
+            confidenceScore: recommendation.confidenceScore,
+            confidenceText: recommendation.confidenceText,
+            sourceChipText: recommendation.sourceChipText,
+            driverChipText: recommendation.driverChipText,
+            traceTitle: recommendation.traceTitle,
+            traceItems: recommendation.traceItems
+        )
 
-        // 显示/隐藏流量和痛经
-        flowRow?.isHidden = !isInPeriod
-        flowSeparator?.isHidden = !isInPeriod
-        painRow?.isHidden = !isInPeriod
-        painSeparator?.isHidden = !isInPeriod
+        applySymptomRowOrdering(isInPeriod: isInPeriod, recommendation: effectiveRecommendation, animated: view.window != nil)
 
-        // 根据流量和痛经的显示状态调整性行为的约束
-        if let sexualRowView = sexualRow {
-            sexualRowView.snp.remakeConstraints { make in
-                if isInPeriod {
-                    // 在经期：性行为在痛经分隔线下方
-                    make.top.equalTo(painSeparator!.snp.bottom)
+        refreshMetricButtons(in: flowOptionsView, selectedLevel: flowLevel, recommendedLevel: flowLevel == 0 ? recommendation.flowLevel : 0, type: .flow, animated: false)
+        refreshMetricButtons(in: painOptionsView, selectedLevel: painLevel, recommendedLevel: painLevel == 0 ? recommendation.painLevel : 0, type: .pain, animated: false)
+        updateRecommendationLabel(flowRecommendationLabel, level: flowLevel == 0 ? recommendation.flowLevel : 0, accentColor: UIColor(hex: 0xFF69B4), animated: false)
+        updateRecommendationLabel(painRecommendationLabel, level: painLevel == 0 ? recommendation.painLevel : 0, accentColor: UIColor(hex: 0xA16AF7), animated: false)
+        updateBooleanRecommendationLabel(sexualRecommendationLabel, isSuggested: sexualActivity == 0 && recommendation.sexualSuggested, text: "AI", accentColor: UIColor(hex: 0xE27B9E), animated: false)
+        updateBooleanRecommendationLabel(moodRecommendationLabel, isSuggested: mood == 0 && recommendation.moodSuggested, text: "AI", accentColor: UIColor(hex: 0x8A63E8), animated: false)
+        updateBooleanRecommendationLabel(bodyRecommendationLabel, isSuggested: effectiveBodySuggested, text: "GO", accentColor: UIColor(hex: 0xF08D56), animated: false)
+        updateSymptomInsight(recommendation: effectiveRecommendation, animated: false)
+        updateRecommendationExplanation(recommendation: effectiveRecommendation, animated: false)
+
+        if let sexualLabel = sexualValueLabel {
+            let sexualText: String
+            switch sexualActivity {
+            case 1:
+                sexualText = "female_cycle_protected_sex".localized()
+            case 2:
+                sexualText = "female_cycle_unprotected_sex".localized()
+            default:
+                sexualText = "female_cycle_none".localized()
+            }
+            updateBadgeLabel(sexualLabel, text: sexualText, textColor: UIColor(hex: 0xC55780), backgroundColor: UIColor(hex: 0xFFF0F6), animated: false)
+        }
+
+        if let moodLabel = moodValueLabel {
+            let moodBadge = moodPresentation(for: mood)
+            updateBadgeLabel(moodLabel, text: moodBadge.text, textColor: moodBadge.textColor, backgroundColor: moodBadge.backgroundColor, animated: false)
+        }
+
+        updateSymptomHeader(animated: false)
+        animateRecommendationIfNeeded(for: effectiveRecommendation, selectedDateString: selectedDateString)
+        XLogger.shared.log("加载症状数据: \(selectedDateString) - \(data), 是否在经期: \(isInPeriod)")
+    }
+
+    private func applyPhaseStyling(_ phasePresentation: (phase: CyclePhaseStyle, title: String, totalDays: Int, description: String, palette: [UIColor], tintColor: UIColor, softBackground: UIColor, badgeTextColor: UIColor, badgeBackground: UIColor), animated: Bool) {
+        let applyChanges = {
+            self.heroGradientLayer.colors = phasePresentation.palette.map { $0.cgColor }
+            self.periodDayInfoView.backgroundColor = phasePresentation.softBackground
+            self.cycleLengthInfoView.backgroundColor = phasePresentation.phase == .ovulation ? UIColor(hex: 0xF0EBFF) : UIColor(hex: 0xFFF5EF)
+            self.selectedDateCapsuleLabel.backgroundColor = phasePresentation.tintColor.withAlphaComponent(0.22)
+            self.selectedDateCapsuleLabel.textColor = .white
+        }
+
+        if animated {
+            let gradientAnimation = CABasicAnimation(keyPath: "colors")
+            gradientAnimation.fromValue = heroGradientLayer.colors
+            gradientAnimation.toValue = phasePresentation.palette.map { $0.cgColor }
+            gradientAnimation.duration = 0.34
+            gradientAnimation.timingFunction = CAMediaTimingFunction(name: .easeInEaseOut)
+            heroGradientLayer.add(gradientAnimation, forKey: "female.phase.gradient")
+
+            UIView.animate(withDuration: 0.28, delay: 0, options: [.curveEaseInOut, .allowUserInteraction]) {
+                applyChanges()
+                self.heroCardView.transform = CGAffineTransform(scaleX: 1.01, y: 1.01)
+                self.cycleInfoContainerView.transform = CGAffineTransform(scaleX: 1.01, y: 1.01)
+            } completion: { _ in
+                UIView.animate(withDuration: 0.22, delay: 0, usingSpringWithDamping: 0.82, initialSpringVelocity: 0.16, options: [.allowUserInteraction, .curveEaseOut]) {
+                    self.heroCardView.transform = .identity
+                    self.cycleInfoContainerView.transform = .identity
+                }
+            }
+        } else {
+            applyChanges()
+        }
+
+        lastRenderedPhase = phasePresentation.phase
+    }
+
+    private func updateSymptomHeader(animated: Bool) {
+        guard let selectedDate = selectedDate else {
+            symptomDateCapsuleLabel.text = nil
+            symptomPhaseBadgeLabel.text = nil
+            return
+        }
+
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MMM d"
+        let phasePresentation = currentPhasePresentation(for: selectedDate)
+        let dateText = dateFormatter.string(from: selectedDate).uppercased()
+        let badgeText = phasePresentation.title.uppercased()
+
+        let updates = {
+            self.symptomDateCapsuleLabel.text = dateText
+            self.symptomDateCapsuleLabel.backgroundColor = phasePresentation.softBackground
+            self.symptomDateCapsuleLabel.textColor = phasePresentation.tintColor
+            self.symptomPhaseBadgeLabel.text = badgeText
+            self.symptomPhaseBadgeLabel.textColor = phasePresentation.badgeTextColor
+            self.symptomPhaseBadgeLabel.backgroundColor = phasePresentation.badgeBackground
+        }
+
+        if animated {
+            UIView.transition(with: symptomDateCapsuleLabel, duration: 0.22, options: [.transitionCrossDissolve, .allowUserInteraction], animations: updates)
+            UIView.transition(with: symptomPhaseBadgeLabel, duration: 0.22, options: [.transitionCrossDissolve, .allowUserInteraction], animations: nil)
+        } else {
+            updates()
+        }
+    }
+
+    private func animateCalendarBridgeTransition(from sourceView: UIView?, date: Date) {
+        guard let sourceView, !symptomContainerView.isHidden, futureRecordTipLabel.isHidden else {
+            return
+        }
+        view.layoutIfNeeded()
+
+        let phasePresentation = currentPhasePresentation(for: date)
+        let snapshotView = makeCalendarBridgeSnapshot(for: date, tintColor: phasePresentation.tintColor, backgroundColor: phasePresentation.softBackground)
+        let sourceFrame = view.convert(sourceView.bounds, from: sourceView)
+        let targetFrame = view.convert(symptomDateCapsuleLabel.bounds, from: symptomDateCapsuleLabel)
+        snapshotView.frame = sourceFrame
+        snapshotView.layer.cornerRadius = min(sourceFrame.width, sourceFrame.height) / 2
+        snapshotView.layer.cornerCurve = .continuous
+        snapshotView.clipsToBounds = true
+
+        symptomDateCapsuleLabel.alpha = 0
+        symptomPhaseBadgeLabel.alpha = 0
+        view.addSubview(snapshotView)
+
+        UIView.animate(withDuration: 0.42, delay: 0, usingSpringWithDamping: 0.86, initialSpringVelocity: 0.18, options: [.curveEaseOut, .allowUserInteraction]) {
+            snapshotView.frame = targetFrame
+            snapshotView.layer.cornerRadius = self.symptomDateCapsuleLabel.layer.cornerRadius
+            snapshotView.transform = .identity
+            self.symptomContainerView.transform = CGAffineTransform(scaleX: 1.01, y: 1.01)
+        } completion: { _ in
+            UIView.animate(withDuration: 0.18, delay: 0, options: [.curveEaseOut, .allowUserInteraction]) {
+                self.symptomDateCapsuleLabel.alpha = 1
+                self.symptomPhaseBadgeLabel.alpha = 1
+                self.symptomContainerView.transform = .identity
+            } completion: { _ in
+                snapshotView.removeFromSuperview()
+            }
+        }
+    }
+
+    private func makeCalendarBridgeSnapshot(for date: Date, tintColor: UIColor, backgroundColor: UIColor) -> UIView {
+        let containerView = UIView()
+        containerView.backgroundColor = backgroundColor
+        containerView.layer.borderWidth = 1
+        containerView.layer.borderColor = tintColor.withAlphaComponent(0.18).cgColor
+        containerView.layer.shadowColor = tintColor.withAlphaComponent(0.28).cgColor
+        containerView.layer.shadowOpacity = 1
+        containerView.layer.shadowRadius = 14
+        containerView.layer.shadowOffset = CGSize(width: 0, height: 8)
+
+        let label = UILabel()
+        label.textAlignment = .center
+        label.font = UIFont.systemFont(ofSize: 12, weight: .bold)
+        label.textColor = tintColor
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MMM d"
+        label.text = formatter.string(from: date).uppercased()
+        containerView.addSubview(label)
+        label.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        return containerView
+    }
+
+    private func refreshFlowButtons() {
+        refreshMetricButtons(in: flowOptionsView, selectedLevel: flowLevel, recommendedLevel: 0, type: .flow, animated: false)
+    }
+
+    private func refreshPainButtons() {
+        refreshMetricButtons(in: painOptionsView, selectedLevel: painLevel, recommendedLevel: 0, type: .pain, animated: false)
+    }
+
+    private func refreshCurrentRecommendationState(animated: Bool) {
+        guard let selectedDate = selectedDate else {
+            updateRecommendationLabel(flowRecommendationLabel, level: 0, accentColor: UIColor(hex: 0xFF69B4), animated: animated)
+            updateRecommendationLabel(painRecommendationLabel, level: 0, accentColor: UIColor(hex: 0xA16AF7), animated: animated)
+            updateBooleanRecommendationLabel(sexualRecommendationLabel, isSuggested: false, text: "AI", accentColor: UIColor(hex: 0xE27B9E), animated: animated)
+            updateBooleanRecommendationLabel(moodRecommendationLabel, isSuggested: false, text: "AI", accentColor: UIColor(hex: 0x8A63E8), animated: animated)
+            updateBooleanRecommendationLabel(bodyRecommendationLabel, isSuggested: false, text: "GO", accentColor: UIColor(hex: 0xF08D56), animated: animated)
+            let emptyRecommendation = SymptomSmartRecommendation(flowLevel: 0, painLevel: 0, sexualSuggested: false, moodSuggested: false, bodySuggested: false, sexualPriority: 0, moodPriority: 0, bodyPriority: 0, insightText: nil, explanationTitle: nil, explanationDetail: nil, confidenceScore: 0, confidenceText: nil, sourceChipText: nil, driverChipText: nil, traceTitle: nil, traceItems: [])
+            applySymptomRowOrdering(isInPeriod: false, recommendation: emptyRecommendation, animated: animated)
+            updateSymptomInsight(recommendation: emptyRecommendation, animated: animated)
+            updateRecommendationExplanation(recommendation: emptyRecommendation, animated: animated)
+            return
+        }
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        let dateString = formatter.string(from: selectedDate)
+        let isInPeriod = periodDates.contains(dateString)
+        let recommendation = recommendationPresentation(for: selectedDate, selectedDateString: dateString, isInPeriod: isInPeriod)
+        let effectiveFlowLevel = flowLevel == 0 ? recommendation.flowLevel : 0
+        let effectivePainLevel = painLevel == 0 ? recommendation.painLevel : 0
+        let effectiveRecommendation = SymptomSmartRecommendation(
+            flowLevel: effectiveFlowLevel,
+            painLevel: effectivePainLevel,
+            sexualSuggested: sexualActivity == 0 && recommendation.sexualSuggested,
+            moodSuggested: mood == 0 && recommendation.moodSuggested,
+            bodySuggested: bodySymptomsCount == 0 && recommendation.bodySuggested,
+            sexualPriority: recommendation.sexualPriority,
+            moodPriority: recommendation.moodPriority,
+            bodyPriority: recommendation.bodyPriority,
+            insightText: recommendation.insightText,
+            explanationTitle: recommendation.explanationTitle,
+            explanationDetail: recommendation.explanationDetail,
+            confidenceScore: recommendation.confidenceScore,
+            confidenceText: recommendation.confidenceText,
+            sourceChipText: recommendation.sourceChipText,
+            driverChipText: recommendation.driverChipText,
+            traceTitle: recommendation.traceTitle,
+            traceItems: recommendation.traceItems
+        )
+        applySymptomRowOrdering(isInPeriod: isInPeriod, recommendation: effectiveRecommendation, animated: animated)
+        updateRecommendationLabel(flowRecommendationLabel, level: effectiveFlowLevel, accentColor: UIColor(hex: 0xFF69B4), animated: animated)
+        updateRecommendationLabel(painRecommendationLabel, level: effectivePainLevel, accentColor: UIColor(hex: 0xA16AF7), animated: animated)
+        updateBooleanRecommendationLabel(sexualRecommendationLabel, isSuggested: sexualActivity == 0 && recommendation.sexualSuggested, text: "AI", accentColor: UIColor(hex: 0xE27B9E), animated: animated)
+        updateBooleanRecommendationLabel(moodRecommendationLabel, isSuggested: mood == 0 && recommendation.moodSuggested, text: "AI", accentColor: UIColor(hex: 0x8A63E8), animated: animated)
+        let effectiveBodySuggested = bodySymptomsCount == 0 && recommendation.bodySuggested
+        updateBooleanRecommendationLabel(bodyRecommendationLabel, isSuggested: effectiveBodySuggested, text: "GO", accentColor: UIColor(hex: 0xF08D56), animated: animated)
+        let effectiveInsight = (effectiveFlowLevel > 0 || effectivePainLevel > 0 || (sexualActivity == 0 && recommendation.sexualSuggested) || (mood == 0 && recommendation.moodSuggested) || effectiveBodySuggested) ? recommendation.insightText : nil
+        let syncedRecommendation = SymptomSmartRecommendation(flowLevel: effectiveFlowLevel, painLevel: effectivePainLevel, sexualSuggested: sexualActivity == 0 && recommendation.sexualSuggested, moodSuggested: mood == 0 && recommendation.moodSuggested, bodySuggested: effectiveBodySuggested, sexualPriority: recommendation.sexualPriority, moodPriority: recommendation.moodPriority, bodyPriority: recommendation.bodyPriority, insightText: effectiveInsight, explanationTitle: recommendation.explanationTitle, explanationDetail: recommendation.explanationDetail, confidenceScore: recommendation.confidenceScore, confidenceText: recommendation.confidenceText, sourceChipText: recommendation.sourceChipText, driverChipText: recommendation.driverChipText, traceTitle: recommendation.traceTitle, traceItems: recommendation.traceItems)
+        let syncedRecommendationWithConfidence = SymptomSmartRecommendation(flowLevel: syncedRecommendation.flowLevel, painLevel: syncedRecommendation.painLevel, sexualSuggested: syncedRecommendation.sexualSuggested, moodSuggested: syncedRecommendation.moodSuggested, bodySuggested: syncedRecommendation.bodySuggested, sexualPriority: syncedRecommendation.sexualPriority, moodPriority: syncedRecommendation.moodPriority, bodyPriority: syncedRecommendation.bodyPriority, insightText: syncedRecommendation.insightText, explanationTitle: syncedRecommendation.explanationTitle, explanationDetail: syncedRecommendation.explanationDetail, confidenceScore: recommendation.confidenceScore, confidenceText: recommendation.confidenceText, sourceChipText: recommendation.sourceChipText, driverChipText: recommendation.driverChipText, traceTitle: recommendation.traceTitle, traceItems: recommendation.traceItems)
+        updateSymptomInsight(recommendation: syncedRecommendationWithConfidence, animated: animated)
+        updateRecommendationExplanation(recommendation: syncedRecommendationWithConfidence, animated: animated)
+    }
+
+    private enum SymptomMetricType {
+        case flow
+        case pain
+    }
+
+    private func refreshMetricButtons(in container: UIView?, selectedLevel: Int, recommendedLevel: Int, type: SymptomMetricType, animated: Bool) {
+        guard let targetContainer = container else { return }
+        let accentColor = type == .flow ? UIColor(hex: 0xFF69B4) : UIColor(hex: 0xA16AF7)
+        let activeLevel = selectedLevel > 0 ? selectedLevel : recommendedLevel
+        let isRecommendedState = selectedLevel == 0 && recommendedLevel > 0
+        for subview in targetContainer.subviews {
+            if let button = subview as? UIButton {
+                let color = button.tag <= activeLevel
+                    ? accentColor.withAlphaComponent(isRecommendedState ? 0.55 : 1.0)
+                    : UIColor(hex: 0xE0E0E0)
+                let image = type == .flow ? createDropletImage(color: color) : createLightningImage(color: color)
+                button.setImage(image, for: .normal)
+                let targetTransform: CGAffineTransform
+                if selectedLevel > 0, button.tag == selectedLevel {
+                    targetTransform = CGAffineTransform(scaleX: 1.18, y: 1.18)
+                } else if selectedLevel > 0, button.tag < selectedLevel {
+                    targetTransform = CGAffineTransform(scaleX: 1.06, y: 1.06)
+                } else if isRecommendedState, button.tag == recommendedLevel {
+                    targetTransform = CGAffineTransform(scaleX: 1.10, y: 1.10)
+                } else if isRecommendedState, button.tag < recommendedLevel {
+                    targetTransform = CGAffineTransform(scaleX: 1.03, y: 1.03)
                 } else {
-                    // 非经期：性行为在经期开始分隔线下方
-                    make.top.equalTo(periodStartSeparator!.snp.bottom)
+                    targetTransform = .identity
+                }
+                let changes = {
+                    button.transform = targetTransform
+                }
+                if animated {
+                    UIView.animate(withDuration: 0.22, delay: Double(button.tag) * 0.03, usingSpringWithDamping: 0.68, initialSpringVelocity: 0.16, options: [.allowUserInteraction, .curveEaseOut]) {
+                        changes()
+                    } completion: { _ in
+                        if button.tag == selectedLevel, selectedLevel > 0 {
+                            UIView.animate(withDuration: 0.18, delay: 0.02, usingSpringWithDamping: 0.80, initialSpringVelocity: 0.12, options: [.allowUserInteraction, .curveEaseOut]) {
+                                button.transform = CGAffineTransform(scaleX: 1.10, y: 1.10)
+                            }
+                        } else if isRecommendedState, button.tag == recommendedLevel {
+                            UIView.animate(withDuration: 0.14, delay: 0.02, options: [.allowUserInteraction, .curveEaseInOut]) {
+                                button.alpha = 0.82
+                            } completion: { _ in
+                                UIView.animate(withDuration: 0.18, delay: 0, options: [.allowUserInteraction, .curveEaseOut]) {
+                                    button.alpha = 1
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    button.alpha = 1
+                    changes()
+                }
+            }
+        }
+    }
+
+    private func updateRecommendationLabel(_ label: CalendarInsetLabel, level: Int, accentColor: UIColor, animated: Bool) {
+        let updates = {
+            label.text = level > 0 ? "\(level)/3" : nil
+            label.textColor = accentColor
+            label.backgroundColor = accentColor.withAlphaComponent(level > 0 ? 0.12 : 0)
+            label.isHidden = level == 0
+        }
+        if animated {
+            UIView.transition(with: label, duration: 0.22, options: [.transitionCrossDissolve, .allowUserInteraction], animations: updates)
+        } else {
+            updates()
+        }
+    }
+
+    private func updateBooleanRecommendationLabel(_ label: CalendarInsetLabel, isSuggested: Bool, text: String, accentColor: UIColor, animated: Bool) {
+        let updates = {
+            label.text = isSuggested ? text : nil
+            label.textColor = accentColor
+            label.backgroundColor = accentColor.withAlphaComponent(isSuggested ? 0.12 : 0)
+            label.isHidden = !isSuggested
+        }
+        if animated {
+            UIView.transition(with: label, duration: 0.22, options: [.transitionCrossDissolve, .allowUserInteraction], animations: updates)
+        } else {
+            updates()
+        }
+    }
+
+    private func updateSymptomInsight(recommendation: SymptomSmartRecommendation, animated: Bool) {
+        let updates = {
+            self.symptomInsightLabel.text = recommendation.insightText
+            self.symptomInsightLabel.isHidden = recommendation.insightText == nil
+        }
+        if animated {
+            UIView.transition(with: symptomInsightLabel, duration: 0.22, options: [.transitionCrossDissolve, .allowUserInteraction], animations: updates)
+        } else {
+            updates()
+        }
+    }
+
+    private func updateRecommendationExplanation(recommendation: SymptomSmartRecommendation, animated: Bool) {
+        let phasePresentation = currentPhasePresentation(for: selectedDate ?? today)
+        let hasExplanation = recommendation.explanationTitle != nil || recommendation.explanationDetail != nil
+        let clampedConfidence = max(0.12, min(recommendation.confidenceScore, 1))
+        let hasMeta = recommendation.sourceChipText != nil || recommendation.driverChipText != nil
+        let hasTraceItems = !recommendation.traceItems.isEmpty
+        recommendationExplanationView.snp.remakeConstraints { make in
+            if hasExplanation {
+                make.top.equalTo(symptomInsightLabel.snp.bottom).offset(10)
+                make.leading.equalToSuperview().offset(16)
+                make.trailing.equalToSuperview().offset(-16)
+            } else {
+                make.top.equalTo(symptomInsightLabel.snp.bottom)
+                make.leading.equalToSuperview().offset(16)
+                make.trailing.equalToSuperview().offset(-16)
+                make.height.equalTo(0)
+            }
+        }
+        if let periodStartRow {
+            periodStartRow.snp.remakeConstraints { make in
+                if hasExplanation {
+                    make.top.equalTo(recommendationExplanationView.snp.bottom).offset(12)
+                } else {
+                    make.top.equalTo(symptomInsightLabel.snp.bottom).offset(14)
                 }
                 make.leading.trailing.equalToSuperview()
                 make.height.equalTo(56)
             }
         }
-
-        // 刷新流量和痛经按钮的显示
-        refreshFlowButtons()
-        refreshPainButtons()
-
-        // 刷新性行为标签显示
-        if let sexualLabel = sexualValueLabel {
-            switch sexualActivity {
-            case 1:
-                sexualLabel.text = "female_cycle_protected_sex".localized()
-            case 2:
-                sexualLabel.text = "female_cycle_unprotected_sex".localized()
-            default:
-                sexualLabel.text = "female_cycle_none".localized()
+        recommendationMetaStackView.snp.remakeConstraints { make in
+            if hasMeta {
+                make.top.equalTo(recommendationExplanationDetailLabel.snp.bottom).offset(8)
+                make.leading.equalTo(recommendationExplanationTitleLabel)
+                make.trailing.lessThanOrEqualToSuperview().offset(-12)
+            } else {
+                make.top.equalTo(recommendationExplanationDetailLabel.snp.bottom)
+                make.leading.equalTo(recommendationExplanationTitleLabel)
+                make.trailing.lessThanOrEqualToSuperview().offset(-12)
+                make.height.equalTo(0)
             }
         }
-
-        // 刷新心情标签显示
-        if let moodLabel = moodValueLabel {
-            switch mood {
-            case 1:
-                moodLabel.text = "female_cycle_mood_calm".localized()
-            case 2:
-                moodLabel.text = "female_cycle_mood_happy".localized()
-            case 3:
-                moodLabel.text = "female_cycle_mood_relaxed".localized()
-            case 4:
-                moodLabel.text = "female_cycle_mood_energetic".localized()
-            case 5:
-                moodLabel.text = "female_cycle_mood_sensitive".localized()
-            case 6:
-                moodLabel.text = "female_cycle_mood_anxious".localized()
-            case 7:
-                moodLabel.text = "female_cycle_mood_irritable".localized()
-            case 8:
-                moodLabel.text = "female_cycle_mood_sad".localized()
-            default:
-                moodLabel.text = "female_cycle_none".localized()
+        recommendationConfidenceCaptionLabel.snp.remakeConstraints { make in
+            if hasMeta {
+                make.top.equalTo(recommendationMetaStackView.snp.bottom).offset(10)
+            } else {
+                make.top.equalTo(recommendationExplanationDetailLabel.snp.bottom).offset(10)
+            }
+            make.leading.equalTo(recommendationExplanationTitleLabel)
+        }
+        recommendationConfidenceTrackView.snp.remakeConstraints { make in
+            make.top.equalTo(recommendationConfidenceCaptionLabel.snp.bottom).offset(8)
+            make.leading.equalTo(recommendationExplanationTitleLabel)
+            make.trailing.equalToSuperview().offset(-12)
+            make.height.equalTo(6)
+            if hasTraceItems {
+                make.bottom.equalTo(recommendationTraceTitleLabel.snp.top).offset(-10)
+            } else {
+                make.bottom.equalToSuperview().offset(-12)
             }
         }
-
-        XLogger.shared.log("加载症状数据: \(selectedDateString) - \(data), 是否在经期: \(isInPeriod)")
+        recommendationTraceTitleLabel.snp.remakeConstraints { make in
+            if hasTraceItems {
+                make.top.equalTo(recommendationConfidenceTrackView.snp.bottom).offset(10)
+                make.leading.equalTo(recommendationExplanationTitleLabel)
+                make.trailing.equalToSuperview().offset(-12)
+            } else {
+                make.top.equalTo(recommendationConfidenceTrackView.snp.bottom)
+                make.leading.equalTo(recommendationExplanationTitleLabel)
+                make.trailing.equalToSuperview().offset(-12)
+                make.height.equalTo(0)
+            }
+        }
+        recommendationTraceStackView.snp.remakeConstraints { make in
+            if hasTraceItems {
+                make.top.equalTo(recommendationTraceTitleLabel.snp.bottom).offset(8)
+                make.leading.equalTo(recommendationExplanationTitleLabel)
+                make.trailing.equalToSuperview().offset(-12)
+                make.bottom.equalToSuperview().offset(-12)
+            } else {
+                make.top.equalTo(recommendationTraceTitleLabel.snp.bottom)
+                make.leading.equalTo(recommendationExplanationTitleLabel)
+                make.trailing.equalToSuperview().offset(-12)
+                make.height.equalTo(0)
+                make.bottom.equalToSuperview().offset(0)
+            }
+        }
+        let updates = {
+            self.rebuildRecommendationTraceViews(items: recommendation.traceItems, tintColor: phasePresentation.tintColor)
+            self.recommendationExplanationTitleLabel.text = recommendation.explanationTitle
+            self.recommendationExplanationDetailLabel.text = recommendation.explanationDetail
+            self.recommendationConfidenceCaptionLabel.text = recommendation.confidenceText
+            self.recommendationConfidenceValueLabel.text = hasExplanation ? "\(Int((clampedConfidence * 100).rounded()))%" : nil
+            self.recommendationSourceChipLabel.text = recommendation.sourceChipText
+            self.recommendationDriverChipLabel.text = recommendation.driverChipText
+            self.recommendationTraceTitleLabel.text = recommendation.traceTitle
+            self.recommendationExplanationView.backgroundColor = phasePresentation.softBackground
+            self.recommendationExplanationView.layer.borderColor = phasePresentation.tintColor.withAlphaComponent(0.14).cgColor
+            self.recommendationExplanationTitleLabel.textColor = phasePresentation.tintColor
+            self.recommendationExplanationDetailLabel.textColor = UIColor(hex: 0x8D5C72)
+            self.recommendationExplanationBadgeLabel.textColor = phasePresentation.tintColor
+            self.recommendationExplanationBadgeLabel.backgroundColor = UIColor.white.withAlphaComponent(0.78)
+            self.recommendationConfidenceCaptionLabel.textColor = phasePresentation.tintColor.withAlphaComponent(0.92)
+            self.recommendationConfidenceValueLabel.textColor = phasePresentation.tintColor
+            self.recommendationConfidenceTrackView.backgroundColor = phasePresentation.tintColor.withAlphaComponent(0.14)
+            self.recommendationConfidenceFillView.backgroundColor = phasePresentation.tintColor
+            self.recommendationSourceChipLabel.textColor = phasePresentation.tintColor
+            self.recommendationSourceChipLabel.backgroundColor = UIColor.white.withAlphaComponent(0.78)
+            self.recommendationDriverChipLabel.textColor = UIColor.white
+            self.recommendationDriverChipLabel.backgroundColor = phasePresentation.tintColor.withAlphaComponent(0.88)
+            self.recommendationMetaStackView.isHidden = !hasMeta
+            self.recommendationSourceChipLabel.isHidden = recommendation.sourceChipText == nil
+            self.recommendationDriverChipLabel.isHidden = recommendation.driverChipText == nil
+            self.recommendationTraceTitleLabel.isHidden = !hasTraceItems
+            self.recommendationTraceStackView.isHidden = !hasTraceItems
+            self.recommendationExplanationView.isHidden = !hasExplanation
+            self.recommendationExplanationView.alpha = hasExplanation ? 1 : 0
+        }
+        recommendationConfidenceFillView.snp.remakeConstraints { make in
+            make.leading.top.bottom.equalToSuperview()
+            self.recommendationConfidenceWidthConstraint = make.width.equalToSuperview().multipliedBy(hasExplanation ? clampedConfidence : 0.001).constraint
+        }
+        if animated {
+            if hasExplanation {
+                self.recommendationExplanationView.isHidden = false
+            }
+            UIView.animate(withDuration: 0.24, delay: 0, options: [.allowUserInteraction, .curveEaseOut]) {
+                updates()
+                self.view.layoutIfNeeded()
+            }
+        } else {
+            updates()
+        }
     }
 
-    private func refreshFlowButtons() {
-        // 刷新流量按钮状态，根据当前flowLevel更新所有按钮的图标
-        guard let flowContainer = flowOptionsView else { return }
+    private func rebuildRecommendationTraceViews(items: [RecommendationTraceItem], tintColor: UIColor) {
+        recommendationTraceStackView.arrangedSubviews.forEach { subview in
+            recommendationTraceStackView.removeArrangedSubview(subview)
+            subview.removeFromSuperview()
+        }
+        currentTraceItems = Array(items.prefix(3))
+        traceControlsByKind.removeAll()
+        for (index, item) in currentTraceItems.enumerated() {
+            let container = UIControl()
+            container.tag = index
+            container.layer.cornerRadius = 12
+            container.layer.masksToBounds = true
+            container.addTarget(self, action: #selector(handleRecommendationTraceTapped(_:)), for: .touchUpInside)
 
-        for subview in flowContainer.subviews {
-            if let button = subview as? UIButton {
-                // 如果按钮的tag小于等于当前等级，则高亮
-                let color = button.tag <= flowLevel ? UIColor(hex: 0xFF69B4) : UIColor(hex: 0xE0E0E0)
-                let image = createDropletImage(color: color)
-                button.setImage(image, for: .normal)
+            let dotView = UIView()
+            dotView.backgroundColor = (item.accentColor ?? tintColor).withAlphaComponent(0.78)
+            dotView.layer.cornerRadius = 3
+            dotView.layer.masksToBounds = true
+            container.addSubview(dotView)
+            dotView.snp.makeConstraints { make in
+                make.leading.equalToSuperview()
+                make.top.equalToSuperview().offset(5)
+                make.width.height.equalTo(6)
+            }
+
+            let label = UILabel()
+            label.font = UIFont.systemFont(ofSize: 11, weight: .regular)
+            label.textColor = UIColor(hex: 0x8D5C72)
+            label.numberOfLines = 0
+            label.text = item.text
+            container.addSubview(label)
+            label.snp.makeConstraints { make in
+                make.top.trailing.bottom.equalToSuperview()
+                make.leading.equalTo(dotView.snp.trailing).offset(8)
+            }
+
+            recommendationTraceStackView.addArrangedSubview(container)
+            if let targetRowKind = item.targetRowKind {
+                traceControlsByKind[targetRowKind, default: []].append(container)
             }
         }
     }
 
-    private func refreshPainButtons() {
-        // 刷新痛经按钮状态，根据当前painLevel更新所有按钮的图标
-        guard let painContainer = painOptionsView else { return }
-
-        for subview in painContainer.subviews {
-            if let button = subview as? UIButton {
-                // 如果按钮的tag小于等于当前等级，则高亮
-                let color = button.tag <= painLevel ? UIColor(hex: 0xFF69B4) : UIColor(hex: 0xE0E0E0)
-                let image = createLightningImage(color: color)
-                button.setImage(image, for: .normal)
+    @objc private func handleRecommendationTraceTapped(_ sender: UIControl) {
+        guard currentTraceItems.indices.contains(sender.tag) else {
+            return
+        }
+        let item = currentTraceItems[sender.tag]
+        UIView.animate(withDuration: 0.10, delay: 0, options: [.curveEaseOut, .allowUserInteraction]) {
+            sender.transform = CGAffineTransform(scaleX: 0.98, y: 0.98)
+            sender.alpha = 0.84
+        } completion: { _ in
+            UIView.animate(withDuration: 0.16, delay: 0, options: [.curveEaseOut, .allowUserInteraction]) {
+                sender.transform = .identity
+                sender.alpha = 1
             }
         }
+
+        guard let targetKind = item.targetRowKind else {
+            UISelectionFeedbackGenerator().selectionChanged()
+            animateCapsuleRecommendation(on: recommendationExplanationBadgeLabel, accentColor: item.accentColor ?? UIColor(hex: 0xC55780))
+            return
+        }
+
+        UIImpactFeedbackGenerator(style: .light).impactOccurred()
+        let accentColor = item.accentColor ?? UIColor(hex: 0xC55780)
+        focusOnSymptomRow(targetKind, accentColor: accentColor)
+    }
+
+    private func focusOnSymptomRow(_ kind: SymptomRowKind, accentColor: UIColor) {
+        guard let rowView = rowView(for: kind) else {
+            return
+        }
+        view.layoutIfNeeded()
+        contentScrollView.layoutIfNeeded()
+
+        let targetRect = contentScrollView.convert(rowView.bounds, from: rowView)
+        let preferredTopInset: CGFloat = 108
+        let minimumOffsetY = -contentScrollView.adjustedContentInset.top
+        let maximumOffsetY = max(minimumOffsetY, contentScrollView.contentSize.height - contentScrollView.bounds.height + contentScrollView.adjustedContentInset.bottom)
+        let targetOffsetY = min(max(minimumOffsetY, targetRect.minY - preferredTopInset), maximumOffsetY)
+        let currentOffsetY = contentScrollView.contentOffset.y
+        let shouldScroll = abs(currentOffsetY - targetOffsetY) > 6
+
+        let highlight = {
+            self.animateRowHighlight(rowView, accentColor: accentColor)
+        }
+
+        guard shouldScroll else {
+            highlight()
+            return
+        }
+
+        UIView.animate(withDuration: 0.34, delay: 0, usingSpringWithDamping: 0.92, initialSpringVelocity: 0.16, options: [.allowUserInteraction, .curveEaseOut]) {
+            self.contentScrollView.setContentOffset(CGPoint(x: 0, y: targetOffsetY), animated: false)
+            self.view.layoutIfNeeded()
+        } completion: { _ in
+            highlight()
+        }
+    }
+
+    private func highlightRecommendationTrace(for kind: SymptomRowKind, accentColor: UIColor) {
+        let targetControls = traceControlsByKind[kind] ?? []
+        guard !targetControls.isEmpty else {
+            animateRecommendationCardFallback(accentColor: accentColor)
+            return
+        }
+
+        for (index, control) in targetControls.enumerated() {
+            let originalBackgroundColor = control.backgroundColor
+            let originalTransform = control.transform
+            UIView.animate(withDuration: 0.16, delay: Double(index) * 0.03, usingSpringWithDamping: 0.76, initialSpringVelocity: 0.18, options: [.allowUserInteraction, .curveEaseOut]) {
+                control.backgroundColor = accentColor.withAlphaComponent(0.10)
+                control.transform = CGAffineTransform(scaleX: 1.015, y: 1.015)
+            } completion: { _ in
+                UIView.animate(withDuration: 0.22, delay: 0.02, options: [.allowUserInteraction, .curveEaseOut]) {
+                    control.backgroundColor = originalBackgroundColor
+                    control.transform = originalTransform
+                }
+            }
+        }
+    }
+
+    private func animateRecommendationCardFallback(accentColor: UIColor) {
+        recommendationExplanationView.layer.removeAnimation(forKey: "female.trace.card.highlight")
+        let originalBorderColor = recommendationExplanationView.layer.borderColor
+        UIView.animate(withDuration: 0.16, delay: 0, options: [.allowUserInteraction, .curveEaseOut]) {
+            self.recommendationExplanationView.transform = CGAffineTransform(scaleX: 1.01, y: 1.01)
+            self.recommendationExplanationView.layer.borderColor = accentColor.withAlphaComponent(0.32).cgColor
+        } completion: { _ in
+            UIView.animate(withDuration: 0.22, delay: 0.02, options: [.allowUserInteraction, .curveEaseOut]) {
+                self.recommendationExplanationView.transform = .identity
+                self.recommendationExplanationView.layer.borderColor = originalBorderColor
+            }
+        }
+        animateCapsuleRecommendation(on: recommendationExplanationBadgeLabel, accentColor: accentColor)
+    }
+
+    private func orderedTrailingSymptomKinds(for recommendation: SymptomSmartRecommendation) -> [SymptomRowKind] {
+        let baseOrder: [SymptomRowKind] = [.sexual, .mood, .body]
+        let priorities: [SymptomRowKind: Int] = [
+            .sexual: recommendation.sexualSuggested ? recommendation.sexualPriority : 0,
+            .mood: recommendation.moodSuggested ? recommendation.moodPriority : 0,
+            .body: recommendation.bodySuggested ? recommendation.bodyPriority : 0
+        ]
+        guard priorities.values.contains(where: { $0 > 0 }) else {
+            return baseOrder
+        }
+        return baseOrder.sorted { lhs, rhs in
+            let leftPriority = priorities[lhs] ?? 0
+            let rightPriority = priorities[rhs] ?? 0
+            if leftPriority != rightPriority {
+                return leftPriority > rightPriority
+            }
+            return (baseOrder.firstIndex(of: lhs) ?? 0) < (baseOrder.firstIndex(of: rhs) ?? 0)
+        }
+    }
+
+    private func rowView(for kind: SymptomRowKind) -> UIView? {
+        switch kind {
+        case .flow:
+            return flowRow
+        case .pain:
+            return painRow
+        case .sexual:
+            return sexualRow
+        case .mood:
+            return moodRowView
+        case .body:
+            return bodySymptomsRowView
+        }
+    }
+
+    private func applySymptomRowOrdering(isInPeriod: Bool, recommendation: SymptomSmartRecommendation, animated: Bool) {
+        guard let periodStartRow,
+              let periodStartSeparator,
+              let flowSeparator,
+              let painSeparator,
+              let sexualSeparator,
+              let moodSeparator else {
+            return
+        }
+
+        view.layoutIfNeeded()
+
+        let trailingKinds = orderedTrailingSymptomKinds(for: recommendation)
+        let visibleKinds: [SymptomRowKind] = isInPeriod ? [.flow, .pain] + trailingKinds : trailingKinds
+        let allKinds: [SymptomRowKind] = [.flow, .pain, .sexual, .mood, .body]
+
+        allKinds.forEach { kind in
+            rowView(for: kind)?.isHidden = !visibleKinds.contains(kind)
+        }
+
+        let movingRows = visibleKinds.compactMap { rowView(for: $0) }
+        let dynamicSeparators = [flowSeparator, painSeparator, sexualSeparator, moodSeparator]
+
+        periodStartSeparator.isHidden = movingRows.isEmpty
+        periodStartSeparator.snp.remakeConstraints { make in
+            make.top.equalTo(periodStartRow.snp.bottom)
+            make.leading.equalToSuperview().offset(56)
+            make.trailing.equalToSuperview()
+            make.height.equalTo(1)
+        }
+
+        var previousAnchor = periodStartSeparator.snp.bottom
+        for (index, row) in movingRows.enumerated() {
+            symptomContainerView.bringSubviewToFront(row)
+            row.snp.remakeConstraints { make in
+                make.top.equalTo(previousAnchor)
+                make.leading.trailing.equalToSuperview()
+                make.height.equalTo(56)
+                if index == movingRows.count - 1 {
+                    make.bottom.equalToSuperview().offset(-16)
+                }
+            }
+
+            if index < movingRows.count - 1 {
+                let separator = dynamicSeparators[index]
+                separator.isHidden = false
+                symptomContainerView.bringSubviewToFront(separator)
+                separator.snp.remakeConstraints { make in
+                    make.top.equalTo(row.snp.bottom)
+                    make.leading.equalToSuperview().offset(56)
+                    make.trailing.equalToSuperview()
+                    make.height.equalTo(1)
+                }
+                previousAnchor = separator.snp.bottom
+            }
+        }
+
+        if movingRows.count <= 1 {
+            dynamicSeparators.forEach { $0.isHidden = true }
+        } else {
+            for separator in dynamicSeparators.dropFirst(max(0, movingRows.count - 1)) {
+                separator.isHidden = true
+            }
+        }
+
+        let applyLayout = {
+            self.view.layoutIfNeeded()
+        }
+        if animated {
+            UIView.animate(withDuration: 0.34, delay: 0, usingSpringWithDamping: 0.88, initialSpringVelocity: 0.16, options: [.allowUserInteraction, .curveEaseOut]) {
+                applyLayout()
+                movingRows.forEach { row in
+                    row.transform = CGAffineTransform(scaleX: 1.01, y: 1.01)
+                }
+            } completion: { _ in
+                UIView.animate(withDuration: 0.18, delay: 0, options: [.allowUserInteraction, .curveEaseOut]) {
+                    movingRows.forEach { $0.transform = .identity }
+                }
+            }
+        } else {
+            applyLayout()
+        }
+    }
+
+    private func recentSymptomHistoryProfile(before date: Date, lookbackDays: Int = 6) -> RecentSymptomHistoryProfile {
+        let calendar = Calendar.current
+        var loggedDays = 0
+        var sexualRecordCount = 0
+        var moodRecordCount = 0
+        var bodyRecordCount = 0
+        var sensitiveMoodCount = 0
+        var energeticMoodCount = 0
+
+        for offset in 1...lookbackDays {
+            guard let targetDate = calendar.date(byAdding: .day, value: -offset, to: date),
+                  dataManager.hasRecordData(for: targetDate) else {
+                continue
+            }
+
+            let data = dataManager.getDailyData(for: targetDate)
+            loggedDays += 1
+
+            if data.sexualActivity > 0 {
+                sexualRecordCount += 1
+            }
+            if data.mood > 0 {
+                moodRecordCount += 1
+            }
+            if !data.bodySymptoms.isEmpty {
+                bodyRecordCount += 1
+            }
+            if [5, 6, 7, 8].contains(data.mood) {
+                sensitiveMoodCount += 1
+            }
+            if [2, 3, 4].contains(data.mood) {
+                energeticMoodCount += 1
+            }
+        }
+
+        return RecentSymptomHistoryProfile(
+            loggedDays: loggedDays,
+            sexualRecordCount: sexualRecordCount,
+            moodRecordCount: moodRecordCount,
+            bodyRecordCount: bodyRecordCount,
+            sensitiveMoodCount: sensitiveMoodCount,
+            energeticMoodCount: energeticMoodCount
+        )
+    }
+
+    private func recentTraceItems(before date: Date, lookbackDays: Int = 6) -> [RecommendationTraceItem] {
+        let calendar = Calendar.current
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MMM d"
+        var items: [RecommendationTraceItem] = []
+
+        for offset in 1...lookbackDays {
+            guard let targetDate = calendar.date(byAdding: .day, value: -offset, to: date),
+                  dataManager.hasRecordData(for: targetDate) else {
+                continue
+            }
+
+            let data = dataManager.getDailyData(for: targetDate)
+            let prefix = formatter.string(from: targetDate).uppercased()
+
+            if data.mood > 0 {
+                let presentation = moodPresentation(for: data.mood)
+                items.append(RecommendationTraceItem(text: "\(prefix) · \("female_cycle_mood".localized()): \(presentation.text)", targetRowKind: .mood, accentColor: presentation.textColor))
+            }
+            if data.sexualActivity > 0 {
+                items.append(RecommendationTraceItem(text: "\(prefix) · \("female_cycle_sexual_activity".localized()): \(sexualActivityTraceText(for: data.sexualActivity))", targetRowKind: .sexual, accentColor: UIColor(hex: 0xE27B9E)))
+            }
+            if !data.bodySymptoms.isEmpty {
+                items.append(RecommendationTraceItem(text: "\(prefix) · \("female_cycle_body_symptoms".localized()): \(bodySymptomTraceText(from: data.bodySymptoms))", targetRowKind: .body, accentColor: UIColor(hex: 0xF08D56)))
+            }
+            if items.count >= 4 {
+                break
+            }
+        }
+
+        return Array(items.prefix(3))
+    }
+
+    private func sexualActivityTraceText(for activity: Int) -> String {
+        switch activity {
+        case 1:
+            return "female_cycle_protected_sex".localized()
+        case 2:
+            return "female_cycle_unprotected_sex".localized()
+        default:
+            return "female_cycle_none".localized()
+        }
+    }
+
+    private func bodySymptomTraceText(from symptoms: [String]) -> String {
+        guard let first = symptoms.first else {
+            return "female_cycle_none".localized()
+        }
+        let normalized = first.replacingOccurrences(of: "-", with: " · ")
+        if symptoms.count > 1 {
+            return "\(normalized) +\(symptoms.count - 1)"
+        }
+        return normalized
+    }
+
+    private func recommendationPresentation(for date: Date, selectedDateString: String, isInPeriod: Bool) -> SymptomSmartRecommendation {
+        if ovulationDates.contains(selectedDateString) || selectedDateString == ovulationDay {
+            let phaseTitle = currentPhasePresentation(for: date).title
+            let history = recentSymptomHistoryProfile(before: date)
+
+            var sexualSuggested = history.sexualRecordCount > 0 || (history.loggedDays >= 2 && history.sensitiveMoodCount == 0)
+            var moodSuggested = history.moodRecordCount > 0 || history.sensitiveMoodCount > 0 || history.loggedDays == 0
+            var bodySuggested = history.bodyRecordCount > 0 || history.sensitiveMoodCount >= 2 || (history.moodRecordCount > 0 && history.energeticMoodCount == 0)
+
+            if !sexualSuggested && !moodSuggested && !bodySuggested {
+                moodSuggested = true
+                bodySuggested = true
+            }
+
+            var focusItems: [String] = []
+            if moodSuggested {
+                focusItems.append("\("female_cycle_mood".localized()) \(history.moodRecordCount)")
+            }
+            if sexualSuggested {
+                focusItems.append("\("female_cycle_sexual_activity".localized()) \(history.sexualRecordCount)")
+            }
+            if bodySuggested {
+                focusItems.append("\("female_cycle_body_symptoms".localized()) \(history.bodyRecordCount)")
+            }
+            let summary = focusItems.isEmpty ? phaseTitle : "\(phaseTitle) • \(focusItems.joined(separator: " / "))"
+
+            return SymptomSmartRecommendation(
+                flowLevel: 0,
+                painLevel: 0,
+                sexualSuggested: sexualSuggested,
+                moodSuggested: moodSuggested,
+                bodySuggested: bodySuggested,
+                sexualPriority: sexualSuggested ? max(1, history.sexualRecordCount * 2 + (history.loggedDays >= 2 ? 1 : 0)) : 0,
+                moodPriority: moodSuggested ? max(1, history.moodRecordCount * 2 + history.sensitiveMoodCount * 2 + (history.loggedDays == 0 ? 1 : 0)) : 0,
+                bodyPriority: bodySuggested ? max(1, history.bodyRecordCount * 2 + history.sensitiveMoodCount * 2 + (history.moodRecordCount > 0 && history.energeticMoodCount == 0 ? 1 : 0)) : 0,
+                insightText: summary,
+                explanationTitle: "\(phaseTitle) · AI Focus",
+                explanationDetail: focusItems.isEmpty ? phaseTitle : focusItems.prefix(2).enumerated().map { index, text in
+                    "TOP \(index + 1) \(text)"
+                }.joined(separator: "  ·  "),
+                confidenceScore: min(0.96, max(0.34, CGFloat(max(
+                    sexualSuggested ? max(1, history.sexualRecordCount * 2 + (history.loggedDays >= 2 ? 1 : 0)) : 0,
+                    max(
+                        moodSuggested ? max(1, history.moodRecordCount * 2 + history.sensitiveMoodCount * 2 + (history.loggedDays == 0 ? 1 : 0)) : 0,
+                        bodySuggested ? max(1, history.bodyRecordCount * 2 + history.sensitiveMoodCount * 2 + (history.moodRecordCount > 0 && history.energeticMoodCount == 0 ? 1 : 0)) : 0
+                    )
+                )) / 10.0)),
+                confidenceText: focusItems.count >= 2 ? "Strong Suggestion" : "Light Suggestion",
+                sourceChipText: "LAST 6D",
+                driverChipText: focusItems.first?.components(separatedBy: " ").first?.uppercased(),
+                traceTitle: "Recent Contributions",
+                traceItems: recentTraceItems(before: date)
+            )
+        }
+
+        guard isInPeriod else {
+            let phaseTitle = currentPhasePresentation(for: date).title
+            let history = recentSymptomHistoryProfile(before: date)
+            let focusTitle: String
+            if history.bodyRecordCount > 0 {
+                focusTitle = "female_cycle_body_symptoms".localized()
+            } else if history.moodRecordCount > 0 {
+                focusTitle = "female_cycle_mood".localized()
+            } else if history.sexualRecordCount > 0 {
+                focusTitle = "female_cycle_sexual_activity".localized()
+            } else {
+                focusTitle = "female_cycle_body_symptoms".localized()
+            }
+            let summary = "\(phaseTitle) • \(focusTitle)"
+            let focusCount = max(history.bodyRecordCount, history.moodRecordCount, history.sexualRecordCount)
+            let confidence = focusCount > 0 ? min(0.72, max(0.22, CGFloat(focusCount) / 6.0)) : 0.18
+            return SymptomSmartRecommendation(flowLevel: 0, painLevel: 0, sexualSuggested: false, moodSuggested: false, bodySuggested: false, sexualPriority: 0, moodPriority: 0, bodyPriority: 0, insightText: summary, explanationTitle: "\(phaseTitle) · Recent Focus", explanationDetail: focusCount > 0 ? "\(focusTitle) \(focusCount)/6" : nil, confidenceScore: confidence, confidenceText: focusCount >= 3 ? "Medium Signal" : "Light Signal", sourceChipText: "LAST 6D", driverChipText: focusCount > 0 ? focusTitle.uppercased() : "LIGHT", traceTitle: focusCount > 0 ? "Recent Contributions" : nil, traceItems: recentTraceItems(before: date))
+        }
+
+        let calendar = Calendar.current
+        let dayIndex = max(1, min(periodDays, (calendar.dateComponents([.day], from: lastPeriodDate, to: date).day ?? 0) + 1))
+        let phasePresentation = currentPhasePresentation(for: date)
+        let phaseTitle = phasePresentation.title
+        let phaseTintColor = phasePresentation.tintColor
+
+        switch dayIndex {
+        case 1...2:
+            return SymptomSmartRecommendation(flowLevel: 3, painLevel: 2, sexualSuggested: false, moodSuggested: false, bodySuggested: false, sexualPriority: 0, moodPriority: 0, bodyPriority: 0, insightText: "\(phaseTitle) • \(dayIndex)/\(periodDays) • 3/3", explanationTitle: "\(phaseTitle) · Day \(dayIndex)", explanationDetail: "TOP 1 \("female_cycle_flow".localized()) 3/3  ·  TOP 2 \("female_cycle_pain".localized()) 2/3", confidenceScore: 0.92, confidenceText: "Strong Suggestion", sourceChipText: "RULE MODEL", driverChipText: "FLOW FIRST", traceTitle: "Rule Breakdown", traceItems: [RecommendationTraceItem(text: "Day \(dayIndex) / \(periodDays)", targetRowKind: nil, accentColor: phaseTintColor), RecommendationTraceItem(text: "\("female_cycle_flow".localized()) model 3/3", targetRowKind: .flow, accentColor: UIColor(hex: 0xFF69B4)), RecommendationTraceItem(text: "\("female_cycle_pain".localized()) model 2/3", targetRowKind: .pain, accentColor: UIColor(hex: 0xA16AF7))])
+        case 3...4:
+            return SymptomSmartRecommendation(flowLevel: 2, painLevel: 1, sexualSuggested: false, moodSuggested: false, bodySuggested: false, sexualPriority: 0, moodPriority: 0, bodyPriority: 0, insightText: "\(phaseTitle) • \(dayIndex)/\(periodDays) • 2/3", explanationTitle: "\(phaseTitle) · Day \(dayIndex)", explanationDetail: "TOP 1 \("female_cycle_flow".localized()) 2/3  ·  TOP 2 \("female_cycle_pain".localized()) 1/3", confidenceScore: 0.74, confidenceText: "Medium Signal", sourceChipText: "RULE MODEL", driverChipText: "FLOW LEAD", traceTitle: "Rule Breakdown", traceItems: [RecommendationTraceItem(text: "Day \(dayIndex) / \(periodDays)", targetRowKind: nil, accentColor: phaseTintColor), RecommendationTraceItem(text: "\("female_cycle_flow".localized()) model 2/3", targetRowKind: .flow, accentColor: UIColor(hex: 0xFF69B4)), RecommendationTraceItem(text: "\("female_cycle_pain".localized()) model 1/3", targetRowKind: .pain, accentColor: UIColor(hex: 0xA16AF7))])
+        default:
+            return SymptomSmartRecommendation(flowLevel: 1, painLevel: 1, sexualSuggested: false, moodSuggested: false, bodySuggested: false, sexualPriority: 0, moodPriority: 0, bodyPriority: 0, insightText: "\(phaseTitle) • \(dayIndex)/\(periodDays) • 1/3", explanationTitle: "\(phaseTitle) · Day \(dayIndex)", explanationDetail: "TOP 1 \("female_cycle_flow".localized()) 1/3  ·  TOP 2 \("female_cycle_pain".localized()) 1/3", confidenceScore: 0.52, confidenceText: "Light Suggestion", sourceChipText: "RULE MODEL", driverChipText: "LIGHT DAY", traceTitle: "Rule Breakdown", traceItems: [RecommendationTraceItem(text: "Day \(dayIndex) / \(periodDays)", targetRowKind: nil, accentColor: phaseTintColor), RecommendationTraceItem(text: "\("female_cycle_flow".localized()) model 1/3", targetRowKind: .flow, accentColor: UIColor(hex: 0xFF69B4)), RecommendationTraceItem(text: "\("female_cycle_pain".localized()) model 1/3", targetRowKind: .pain, accentColor: UIColor(hex: 0xA16AF7))])
+        }
+    }
+
+    private func animateRecommendationIfNeeded(for recommendation: SymptomSmartRecommendation, selectedDateString: String) {
+        let key = "\(selectedDateString)-\(recommendation.flowLevel)-\(recommendation.painLevel)-\(recommendation.sexualSuggested)-\(recommendation.moodSuggested)-\(recommendation.bodySuggested)-\(recommendation.sexualPriority)-\(recommendation.moodPriority)-\(recommendation.bodyPriority)-\(flowLevel)-\(painLevel)-\(sexualActivity)-\(mood)-\(bodySymptomsCount)"
+        guard lastAnimatedRecommendationKey != key else {
+            return
+        }
+        lastAnimatedRecommendationKey = key
+
+        let shouldAnimateFlow = flowLevel == 0 && recommendation.flowLevel > 0
+        let shouldAnimatePain = painLevel == 0 && recommendation.painLevel > 0
+        let shouldAnimateSexual = sexualActivity == 0 && recommendation.sexualSuggested
+        let shouldAnimateMood = mood == 0 && recommendation.moodSuggested
+        let shouldAnimateBody = bodySymptomsCount == 0 && recommendation.bodySuggested
+
+        if shouldAnimateFlow {
+            animateRowHighlight(flowRow, accentColor: UIColor(hex: 0xFF69B4))
+            animateRecommendationPulse(in: flowOptionsView, level: recommendation.flowLevel, accentColor: UIColor(hex: 0xFF69B4))
+            updateRecommendationLabel(flowRecommendationLabel, level: recommendation.flowLevel, accentColor: UIColor(hex: 0xFF69B4), animated: true)
+        }
+        if shouldAnimatePain {
+            animateRowHighlight(painRow, accentColor: UIColor(hex: 0xA16AF7))
+            animateRecommendationPulse(in: painOptionsView, level: recommendation.painLevel, accentColor: UIColor(hex: 0xA16AF7))
+            updateRecommendationLabel(painRecommendationLabel, level: recommendation.painLevel, accentColor: UIColor(hex: 0xA16AF7), animated: true)
+        }
+        if shouldAnimateSexual {
+            animateRowHighlight(sexualRow, accentColor: UIColor(hex: 0xE27B9E))
+            animateCapsuleRecommendation(on: sexualRecommendationLabel, accentColor: UIColor(hex: 0xE27B9E))
+            updateBooleanRecommendationLabel(sexualRecommendationLabel, isSuggested: true, text: "AI", accentColor: UIColor(hex: 0xE27B9E), animated: true)
+        }
+        if shouldAnimateMood {
+            animateRowHighlight(moodRowView, accentColor: UIColor(hex: 0x8A63E8))
+            animateCapsuleRecommendation(on: moodRecommendationLabel, accentColor: UIColor(hex: 0x8A63E8))
+            updateBooleanRecommendationLabel(moodRecommendationLabel, isSuggested: true, text: "AI", accentColor: UIColor(hex: 0x8A63E8), animated: true)
+        }
+        if shouldAnimateBody {
+            animateRowHighlight(bodySymptomsRowView, accentColor: UIColor(hex: 0xF08D56))
+            animateCapsuleRecommendation(on: bodyRecommendationLabel, accentColor: UIColor(hex: 0xF08D56))
+            updateBooleanRecommendationLabel(bodyRecommendationLabel, isSuggested: true, text: "GO", accentColor: UIColor(hex: 0xF08D56), animated: true)
+        }
+        updateSymptomInsight(recommendation: recommendation, animated: shouldAnimateFlow || shouldAnimatePain || shouldAnimateSexual || shouldAnimateMood || shouldAnimateBody)
+    }
+
+    private func animateRecommendationPulse(in container: UIView?, level: Int, accentColor: UIColor) {
+        guard level > 0,
+              let container,
+              let button = container.subviews.compactMap({ $0 as? UIButton }).first(where: { $0.tag == level }) else {
+            return
+        }
+        animateMetricRipple(from: button, in: container, accentColor: accentColor)
+        UIView.animate(withDuration: 0.18, delay: 0, usingSpringWithDamping: 0.62, initialSpringVelocity: 0.18, options: [.allowUserInteraction, .curveEaseOut]) {
+            button.transform = CGAffineTransform(scaleX: 1.16, y: 1.16)
+        } completion: { _ in
+            UIView.animate(withDuration: 0.22, delay: 0, usingSpringWithDamping: 0.84, initialSpringVelocity: 0.14, options: [.allowUserInteraction, .curveEaseOut]) {
+                button.transform = CGAffineTransform(scaleX: 1.10, y: 1.10)
+            }
+        }
+    }
+
+    private func animateCapsuleRecommendation(on label: CalendarInsetLabel, accentColor: UIColor) {
+        label.alpha = 0
+        label.transform = CGAffineTransform(scaleX: 0.86, y: 0.86)
+        UIView.animate(withDuration: 0.18, delay: 0, usingSpringWithDamping: 0.70, initialSpringVelocity: 0.16, options: [.allowUserInteraction, .curveEaseOut]) {
+            label.alpha = 1
+            label.transform = CGAffineTransform(scaleX: 1.06, y: 1.06)
+        } completion: { _ in
+            UIView.animate(withDuration: 0.20, delay: 0.02, options: [.allowUserInteraction, .curveEaseOut]) {
+                label.transform = .identity
+                label.backgroundColor = accentColor.withAlphaComponent(0.12)
+            }
+        }
+    }
+
+    private func updateBadgeLabel(_ label: UILabel?, text: String, textColor: UIColor, backgroundColor: UIColor, animated: Bool) {
+        guard let label else { return }
+        let updates = {
+            label.text = text
+            label.textColor = textColor
+            label.backgroundColor = backgroundColor
+            label.layer.borderWidth = 1
+            label.layer.borderColor = textColor.withAlphaComponent(0.10).cgColor
+        }
+        if animated {
+            UIView.transition(with: label, duration: 0.24, options: [.transitionCrossDissolve, .allowUserInteraction], animations: updates)
+        } else {
+            updates()
+        }
+    }
+
+    private func animateMetricRipple(from sourceView: UIView, in containerView: UIView?, accentColor: UIColor) {
+        guard let containerView else { return }
+        containerView.layoutIfNeeded()
+        let center = containerView.convert(CGPoint(x: sourceView.bounds.midX, y: sourceView.bounds.midY), from: sourceView)
+
+        let rippleLayer = CAShapeLayer()
+        rippleLayer.fillColor = accentColor.withAlphaComponent(0.12).cgColor
+        rippleLayer.strokeColor = accentColor.withAlphaComponent(0.22).cgColor
+        rippleLayer.lineWidth = 1.5
+        let initialPath = UIBezierPath(ovalIn: CGRect(x: center.x - 10, y: center.y - 10, width: 20, height: 20)).cgPath
+        let finalPath = UIBezierPath(ovalIn: CGRect(x: center.x - 48, y: center.y - 48, width: 96, height: 96)).cgPath
+        rippleLayer.path = finalPath
+        containerView.layer.addSublayer(rippleLayer)
+
+        let pathAnimation = CABasicAnimation(keyPath: "path")
+        pathAnimation.fromValue = initialPath
+        pathAnimation.toValue = finalPath
+        pathAnimation.duration = 0.42
+        pathAnimation.timingFunction = CAMediaTimingFunction(name: .easeOut)
+
+        let opacityAnimation = CABasicAnimation(keyPath: "opacity")
+        opacityAnimation.fromValue = 0.42
+        opacityAnimation.toValue = 0
+        opacityAnimation.duration = 0.42
+        opacityAnimation.timingFunction = CAMediaTimingFunction(name: .easeOut)
+
+        let group = CAAnimationGroup()
+        group.animations = [pathAnimation, opacityAnimation]
+        group.duration = 0.42
+        group.isRemovedOnCompletion = false
+        group.fillMode = .forwards
+        CATransaction.begin()
+        CATransaction.setCompletionBlock {
+            rippleLayer.removeFromSuperlayer()
+        }
+        rippleLayer.add(group, forKey: "female.metric.ripple")
+        CATransaction.commit()
+    }
+
+    private func animateRowHighlight(_ rowView: UIView?, accentColor: UIColor) {
+        guard let rowView else { return }
+        let overlayView = UIView(frame: rowView.bounds)
+        overlayView.isUserInteractionEnabled = false
+        overlayView.backgroundColor = accentColor.withAlphaComponent(0.10)
+        overlayView.layer.cornerRadius = 16
+        overlayView.alpha = 0
+        rowView.insertSubview(overlayView, at: 0)
+        UIView.animate(withDuration: 0.18, delay: 0, options: [.curveEaseOut, .allowUserInteraction]) {
+            overlayView.alpha = 1
+            rowView.transform = CGAffineTransform(scaleX: 1.01, y: 1.01)
+        } completion: { _ in
+            UIView.animate(withDuration: 0.26, delay: 0.02, options: [.curveEaseOut, .allowUserInteraction]) {
+                overlayView.alpha = 0
+                rowView.transform = .identity
+            } completion: { _ in
+                overlayView.removeFromSuperview()
+            }
+        }
+    }
+
+    private func animateMoodParticles(around anchorView: UIView?, color: UIColor) {
+        guard let anchorView else { return }
+        anchorView.layoutIfNeeded()
+        let offsets = [
+            CGPoint(x: -14, y: -10),
+            CGPoint(x: 16, y: -8),
+            CGPoint(x: -10, y: 12),
+            CGPoint(x: 20, y: 10)
+        ]
+        for (index, offset) in offsets.enumerated() {
+            let dotView = UIView(frame: CGRect(x: anchorView.bounds.midX - 3, y: anchorView.bounds.midY - 3, width: 6, height: 6))
+            dotView.backgroundColor = color.withAlphaComponent(0.95 - CGFloat(index) * 0.12)
+            dotView.layer.cornerRadius = 3
+            dotView.alpha = 0
+            anchorView.addSubview(dotView)
+            UIView.animate(withDuration: 0.16, delay: Double(index) * 0.02, options: [.curveEaseOut, .allowUserInteraction]) {
+                dotView.alpha = 1
+                dotView.transform = CGAffineTransform(translationX: offset.x, y: offset.y).scaledBy(x: 1.2, y: 1.2)
+            } completion: { _ in
+                UIView.animate(withDuration: 0.24, delay: 0.02, options: [.curveEaseOut, .allowUserInteraction]) {
+                    dotView.alpha = 0
+                    dotView.transform = dotView.transform.scaledBy(x: 0.6, y: 0.6)
+                } completion: { _ in
+                    dotView.removeFromSuperview()
+                }
+            }
+        }
+    }
+
+    private func moodPresentation(for mood: Int) -> (text: String, textColor: UIColor, backgroundColor: UIColor) {
+        switch mood {
+        case 1:
+            return ("female_cycle_mood_calm".localized(), UIColor(hex: 0x5B72E6), UIColor(hex: 0xEEF2FF))
+        case 2:
+            return ("female_cycle_mood_happy".localized(), UIColor(hex: 0xE98F25), UIColor(hex: 0xFFF2DE))
+        case 3:
+            return ("female_cycle_mood_relaxed".localized(), UIColor(hex: 0x3FA27B), UIColor(hex: 0xE4F6EF))
+        case 4:
+            return ("female_cycle_mood_energetic".localized(), UIColor(hex: 0xF15A7E), UIColor(hex: 0xFFE9F0))
+        case 5:
+            return ("female_cycle_mood_sensitive".localized(), UIColor(hex: 0xC45AB7), UIColor(hex: 0xFBEAF7))
+        case 6:
+            return ("female_cycle_mood_anxious".localized(), UIColor(hex: 0x8A63E8), UIColor(hex: 0xF0EBFF))
+        case 7:
+            return ("female_cycle_mood_irritable".localized(), UIColor(hex: 0xE55E4F), UIColor(hex: 0xFFEAE6))
+        case 8:
+            return ("female_cycle_mood_sad".localized(), UIColor(hex: 0x6677B8), UIColor(hex: 0xEDF1FF))
+        default:
+            return ("female_cycle_none".localized(), UIColor(hex: 0x7A5BE6), UIColor(hex: 0xF3EEFF))
+        }
+    }
+
+    private func animateMetricSelection(button: UIButton, rowView: UIView?, containerView: UIView?, accentColor: UIColor) {
+        UISelectionFeedbackGenerator().selectionChanged()
+        animateMetricRipple(from: button, in: containerView, accentColor: accentColor)
+        animateRowHighlight(rowView, accentColor: accentColor)
     }
 
     // MARK: - Actions
 
     @objc private func previousMonthTapped() {
+        UISelectionFeedbackGenerator().selectionChanged()
         let calendar = Calendar.current
         if let newMonth = calendar.date(byAdding: .month, value: -1, to: currentDisplayMonth) {
             currentDisplayMonth = newMonth
@@ -1452,6 +3083,7 @@ class FemaleCycleCalendarViewController: BaseViewController {
     }
 
     @objc private func nextMonthTapped() {
+        UISelectionFeedbackGenerator().selectionChanged()
         let calendar = Calendar.current
         if let newMonth = calendar.date(byAdding: .month, value: 1, to: currentDisplayMonth) {
             currentDisplayMonth = newMonth
@@ -1519,7 +3151,7 @@ class FemaleCycleCalendarViewController: BaseViewController {
 
         // 重新计算周期并刷新界面
         calculateCycleDates()
-        updateCycleInfo()
+        updateCycleInfo(animated: true)
         generateCalendarDates()
         loadSymptomData(for: selectedDate)
     }
@@ -1544,17 +3176,10 @@ class FemaleCycleCalendarViewController: BaseViewController {
         // 保存到数据管理器
         dataManager.updateFlowLevel(for: selectedDate, level: level)
 
-        // 刷新所有流量按钮的状态 - 累计选中（选中等级N时，1到N都高亮）
-        if let flowContainer = sender.superview {
-            for subview in flowContainer.subviews {
-                if let button = subview as? UIButton {
-                    // 如果按钮的tag小于等于当前等级，则高亮
-                    let color = button.tag <= flowLevel ? UIColor(hex: 0xFF69B4) : UIColor(hex: 0xE0E0E0)
-                    let image = createDropletImage(color: color)
-                    button.setImage(image, for: .normal)
-                }
-            }
-        }
+        animateMetricSelection(button: sender, rowView: flowRow, containerView: sender.superview, accentColor: UIColor(hex: 0xFF69B4))
+        highlightRecommendationTrace(for: .flow, accentColor: UIColor(hex: 0xFF69B4))
+        refreshMetricButtons(in: sender.superview, selectedLevel: flowLevel, recommendedLevel: 0, type: .flow, animated: true)
+        refreshCurrentRecommendationState(animated: true)
     }
 
     @objc private func painButtonTapped(_ sender: UIButton) {
@@ -1567,23 +3192,17 @@ class FemaleCycleCalendarViewController: BaseViewController {
         // 保存到数据管理器
         dataManager.updatePainLevel(for: selectedDate, level: level)
 
-        // 刷新所有痛经按钮的状态 - 累计选中（选中等级N时，1到N都高亮）
-        if let painContainer = sender.superview {
-            for subview in painContainer.subviews {
-                if let button = subview as? UIButton {
-                    // 如果按钮的tag小于等于当前等级，则高亮
-                    let color = button.tag <= painLevel ? UIColor(hex: 0xFF69B4) : UIColor(hex: 0xE0E0E0)
-                    let image = createLightningImage(color: color)
-                    button.setImage(image, for: .normal)
-                }
-            }
-        }
+        animateMetricSelection(button: sender, rowView: painRow, containerView: sender.superview, accentColor: UIColor(hex: 0xA16AF7))
+        highlightRecommendationTrace(for: .pain, accentColor: UIColor(hex: 0xA16AF7))
+        refreshMetricButtons(in: sender.superview, selectedLevel: painLevel, recommendedLevel: 0, type: .pain, animated: true)
+        refreshCurrentRecommendationState(animated: true)
     }
 
     @objc private func sexualActivityTapped() {
         guard let selectedDate = selectedDate else { return }
 
         XLogger.shared.log("点击性行为")
+        highlightRecommendationTrace(for: .sexual, accentColor: UIColor(hex: 0xE27B9E))
 
         let alert = UIAlertController(title: "female_cycle_sexual_activity".localized(), message: nil, preferredStyle: .actionSheet)
 
@@ -1592,7 +3211,10 @@ class FemaleCycleCalendarViewController: BaseViewController {
             guard let self = self, let selectedDate = self.selectedDate else { return }
             self.sexualActivity = 0
             self.dataManager.updateSexualActivity(for: selectedDate, activity: 0)
-            self.sexualValueLabel?.text = "female_cycle_none".localized()
+            self.updateBadgeLabel(self.sexualValueLabel, text: "female_cycle_none".localized(), textColor: UIColor(hex: 0xC55780), backgroundColor: UIColor(hex: 0xFFF0F6), animated: true)
+            self.animateRowHighlight(self.sexualRow, accentColor: UIColor(hex: 0xF08CB1))
+                self.highlightRecommendationTrace(for: .sexual, accentColor: UIColor(hex: 0xE27B9E))
+            self.refreshCurrentRecommendationState(animated: true)
             XLogger.shared.log("选择性行为: 无")
         }
 
@@ -1601,7 +3223,10 @@ class FemaleCycleCalendarViewController: BaseViewController {
             guard let self = self, let selectedDate = self.selectedDate else { return }
             self.sexualActivity = 1
             self.dataManager.updateSexualActivity(for: selectedDate, activity: 1)
-            self.sexualValueLabel?.text = "female_cycle_protected_sex".localized()
+            self.updateBadgeLabel(self.sexualValueLabel, text: "female_cycle_protected_sex".localized(), textColor: UIColor(hex: 0xC55780), backgroundColor: UIColor(hex: 0xFFF0F6), animated: true)
+            self.animateRowHighlight(self.sexualRow, accentColor: UIColor(hex: 0xF08CB1))
+                self.highlightRecommendationTrace(for: .sexual, accentColor: UIColor(hex: 0xE27B9E))
+            self.refreshCurrentRecommendationState(animated: true)
             XLogger.shared.log("选择性行为: 保护性行为")
         }
 
@@ -1610,7 +3235,10 @@ class FemaleCycleCalendarViewController: BaseViewController {
             guard let self = self, let selectedDate = self.selectedDate else { return }
             self.sexualActivity = 2
             self.dataManager.updateSexualActivity(for: selectedDate, activity: 2)
-            self.sexualValueLabel?.text = "female_cycle_unprotected_sex".localized()
+            self.updateBadgeLabel(self.sexualValueLabel, text: "female_cycle_unprotected_sex".localized(), textColor: UIColor(hex: 0xC55780), backgroundColor: UIColor(hex: 0xFFF0F6), animated: true)
+            self.animateRowHighlight(self.sexualRow, accentColor: UIColor(hex: 0xF08CB1))
+                self.highlightRecommendationTrace(for: .sexual, accentColor: UIColor(hex: 0xE27B9E))
+            self.refreshCurrentRecommendationState(animated: true)
             XLogger.shared.log("选择性行为: 无保护性行为")
         }
 
@@ -1634,6 +3262,7 @@ class FemaleCycleCalendarViewController: BaseViewController {
 
     @objc private func moodTapped() {
         XLogger.shared.log("点击心情")
+        highlightRecommendationTrace(for: .mood, accentColor: UIColor(hex: 0x8A63E8))
 
         let alert = UIAlertController(title: "female_cycle_mood".localized(), message: nil, preferredStyle: .actionSheet)
 
@@ -1653,7 +3282,13 @@ class FemaleCycleCalendarViewController: BaseViewController {
                 guard let self = self, let selectedDate = self.selectedDate else { return }
                 self.mood = index
                 self.dataManager.updateMood(for: selectedDate, mood: index)
-                self.moodValueLabel?.text = moodName
+                let presentation = self.moodPresentation(for: index)
+                self.updateBadgeLabel(self.moodValueLabel, text: presentation.text, textColor: presentation.textColor, backgroundColor: presentation.backgroundColor, animated: true)
+                self.animateRowHighlight(self.moodRowView, accentColor: presentation.textColor)
+                self.highlightRecommendationTrace(for: .mood, accentColor: presentation.textColor)
+                self.animateMoodParticles(around: self.moodValueLabel, color: presentation.textColor)
+                self.refreshCurrentRecommendationState(animated: true)
+                UIImpactFeedbackGenerator(style: .light).impactOccurred()
                 XLogger.shared.log("选择心情: \(moodName)")
             }
             alert.addAction(action)
@@ -1677,10 +3312,25 @@ class FemaleCycleCalendarViewController: BaseViewController {
         guard let selectedDate = selectedDate else { return }
 
         XLogger.shared.log("点击身体症状")
+        animateRowHighlight(bodySymptomsRowView, accentColor: UIColor(hex: 0xF08D56))
+        highlightRecommendationTrace(for: .body, accentColor: UIColor(hex: 0xF08D56))
+        animateCapsuleRecommendation(on: bodyRecommendationLabel, accentColor: UIColor(hex: 0xF08D56))
         let vc = BodySymptomsViewController()
         vc.selectedDate = selectedDate // 传递选中的日期
         vc.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(vc, animated: true)
+    }
+
+    @objc private func handleMetricButtonTouchDown(_ sender: UIButton) {
+        UIView.animate(withDuration: 0.12, delay: 0, options: [.curveEaseOut, .allowUserInteraction]) {
+            sender.transform = sender.transform.scaledBy(x: 0.92, y: 0.92)
+        }
+    }
+
+    @objc private func handleMetricButtonTouchRelease(_ sender: UIButton) {
+        UIView.animate(withDuration: 0.16, delay: 0, options: [.curveEaseOut, .allowUserInteraction]) {
+            sender.transform = .identity
+        }
     }
 
     @objc private func rightBarButtonTapped() {
@@ -1858,20 +3508,47 @@ extension FemaleCycleCalendarViewController: UICollectionViewDelegate, UICollect
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let date = calendarDates[indexPath.item] else { return }
+        let sourceCell = collectionView.cellForItem(at: indexPath)
 
-        // 更新选中的日期
         selectedDate = date
+        UISelectionFeedbackGenerator().selectionChanged()
 
-        // 刷新日历显示
         calendarCollectionView.reloadData()
 
-        // 更新症状记录区域的显示/隐藏
+        if let cell = sourceCell {
+            UIView.animate(withDuration: 0.14, delay: 0, options: [.curveEaseOut, .allowUserInteraction]) {
+                cell.transform = CGAffineTransform(scaleX: 1.06, y: 1.06)
+            } completion: { _ in
+                UIView.animate(withDuration: 0.24, delay: 0, usingSpringWithDamping: 0.78, initialSpringVelocity: 0.16, options: [.allowUserInteraction, .curveEaseOut]) {
+                    cell.transform = .identity
+                }
+            }
+        }
+
         updateSymptomSectionVisibility()
+        updateCycleInfo(animated: true)
+        animateCalendarBridgeTransition(from: sourceCell, date: date)
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let width = collectionView.bounds.width / 7
         return CGSize(width: width, height: 50)
+    }
+}
+
+private final class CalendarInsetLabel: UILabel {
+    var contentInsets = UIEdgeInsets(top: 6, left: 10, bottom: 6, right: 10)
+
+    override func drawText(in rect: CGRect) {
+        super.drawText(in: rect.inset(by: contentInsets))
+    }
+
+    override var intrinsicContentSize: CGSize {
+        let size = super.intrinsicContentSize
+        return CGSize(
+            width: size.width + contentInsets.left + contentInsets.right,
+            height: size.height + contentInsets.top + contentInsets.bottom
+        )
     }
 }
 
@@ -1889,6 +3566,7 @@ class CalendarDayCell: UICollectionViewCell {
     private let backgroundCircleView: UIView = {
         let view = UIView()
         view.layer.cornerRadius = 20
+        view.layer.cornerCurve = .continuous
         return view
     }()
 
@@ -1901,9 +3579,9 @@ class CalendarDayCell: UICollectionViewCell {
     // 数据记录小圆点
     private let recordDotView: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor(hex: 0xFF69B4) // 与"有记录"文字颜色一致
+        view.backgroundColor = UIColor(hex: 0xFF69B4)
         view.layer.cornerRadius = 2.5
-        view.isHidden = true // 默认隐藏
+        view.isHidden = true
         return view
     }()
 
@@ -1930,6 +3608,14 @@ class CalendarDayCell: UICollectionViewCell {
         if let bgColor = currentBackgroundColor {
             redrawContinuousBackground(color: bgColor, hasLeftConnection: currentHasLeftConnection, hasRightConnection: currentHasRightConnection, hasLogicalLeftConnection: currentHasLogicalLeftConnection, hasLogicalRightConnection: currentHasLogicalRightConnection)
         }
+    }
+
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        transform = .identity
+        backgroundCircleView.layer.shadowOpacity = 0
+        backgroundCircleView.layer.shadowRadius = 0
+        backgroundCircleView.layer.shadowOffset = .zero
     }
 
     private func setupUI() {
@@ -1985,8 +3671,12 @@ class CalendarDayCell: UICollectionViewCell {
         backgroundCircleView.backgroundColor = .clear
         backgroundCircleView.layer.borderWidth = 0
         backgroundCircleView.layer.borderColor = nil
+        backgroundCircleView.layer.shadowOpacity = 0
+        backgroundCircleView.layer.shadowRadius = 0
+        backgroundCircleView.layer.shadowOffset = .zero
         continuousBackgroundView.backgroundColor = .clear
         dayLabel.textColor = UIColor(hex: 0x333333)
+        transform = .identity
 
         // 移除旧的虚线层
         backgroundCircleView.layer.sublayers?.forEach { layer in
@@ -2022,18 +3712,14 @@ class CalendarDayCell: UICollectionViewCell {
 
         // 设置圆点标记
         if isPeriodFirstDay || isPeriodLastDay {
-            // 经期第一天或最后一天：粉色实心圆点
             backgroundCircleView.backgroundColor = UIColor(hex: 0xFFB3D9)
             dayLabel.textColor = .white
         } else if isOvulationFirstDay || isOvulationLastDay {
-            // 排卵日、排卵期第一天或最后一天：紫色实心圆点
             backgroundCircleView.backgroundColor = UIColor(hex: 0x7B68EE)
             dayLabel.textColor = .white
         } else if isPredictedFirstDay {
-            // 预测经期第一天：粉色虚线圆
             backgroundCircleView.backgroundColor = .clear
 
-            // 设置虚线样式
             let shapeLayer = CAShapeLayer()
             shapeLayer.strokeColor = UIColor(hex: 0xFFB3D9).cgColor
             shapeLayer.lineWidth = 2
@@ -2042,19 +3728,23 @@ class CalendarDayCell: UICollectionViewCell {
             shapeLayer.path = UIBezierPath(ovalIn: CGRect(x: 0, y: 0, width: 40, height: 40)).cgPath
 
             backgroundCircleView.layer.addSublayer(shapeLayer)
+        } else if isToday {
+            backgroundCircleView.backgroundColor = UIColor(hex: 0xFFF0F6)
+            backgroundCircleView.layer.borderWidth = 1
+            backgroundCircleView.layer.borderColor = UIColor(hex: 0xF4BCD3).cgColor
+            dayLabel.textColor = UIColor(hex: 0xC74674)
         }
 
-        // 今天的标记：如果不是特殊日期，则保持默认样式（黑色字体，无边框）
-        // 特殊日期包括：经期开始/结束日期、排卵期开始/结束日期、排卵日、预测经期开始日期
-        // 因此这里不需要额外处理
-
-        // 选中状态：添加外圈边框
         if isSelected {
             backgroundCircleView.layer.borderWidth = 2
-            backgroundCircleView.layer.borderColor = UIColor(hex: 0x333333).cgColor
+            backgroundCircleView.layer.borderColor = UIColor(hex: 0xC74674).cgColor
+            backgroundCircleView.layer.shadowColor = UIColor(hex: 0xE98AB0).cgColor
+            backgroundCircleView.layer.shadowOpacity = 0.26
+            backgroundCircleView.layer.shadowRadius = 12
+            backgroundCircleView.layer.shadowOffset = CGSize(width: 0, height: 6)
+            transform = CGAffineTransform(scaleX: 1.04, y: 1.04)
         }
 
-        // 显示/隐藏数据记录小圆点
         recordDotView.isHidden = !hasRecord
     }
 

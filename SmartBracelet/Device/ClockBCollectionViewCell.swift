@@ -21,10 +21,35 @@ class ClockBCollectionViewCell: UICollectionViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        backgroundColor = .clear
+        contentView.backgroundColor = .clear
+        
+        clockBGView.layer.cornerRadius = 18
+        clockBGView.layer.cornerCurve = .continuous
+        clockBGView.layer.borderWidth = 1
+        clockBGView.layer.borderColor = UIColor.brand.withAlphaComponent(0.06).cgColor
+        clockBGView.layer.masksToBounds = true
+        
+        layer.shadowColor = UIColor.brand.withAlphaComponent(0.05).cgColor
+        layer.shadowOpacity = 1
+        layer.shadowOffset = CGSize(width: 0, height: 6)
+        layer.shadowRadius = 12
+        
+        clockImageView.contentMode = .scaleAspectFill
+        clockImageView.layer.cornerRadius = 14
+        clockImageView.layer.cornerCurve = .continuous
+        clockImageView.layer.masksToBounds = true
+        
+        addImageView.contentMode = .scaleAspectFit
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        layer.shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: 18).cgPath
     }
 }

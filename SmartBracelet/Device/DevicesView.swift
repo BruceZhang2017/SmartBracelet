@@ -20,6 +20,8 @@ class DevicesView: UIView {
     let btImgView = UIImageView()
     let cardNameLabel = UILabel()
     let macLabel = UILabel() // 蓝牙地址
+    private let statusBadgeLabel = DeviceEdgeInsetLabel()
+    private let subtitleLabel = UILabel()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -31,54 +33,94 @@ class DevicesView: UIView {
     }
     
     public func setupUI() {
+        backgroundColor = .white
+        
         self.addSubview(cardImgView)
         cardImgView.snp.makeConstraints { make in
-            make.width.equalTo(88)
-            make.height.equalTo(88)
-            make.centerY.equalToSuperview()
-            make.leading.equalTo(0)
+            make.width.equalTo(56)
+            make.height.equalTo(56)
+            make.top.equalToSuperview().offset(20)
+            make.leading.equalTo(18)
         }
+        cardImgView.contentMode = .scaleAspectFit
         
-    
         cardNameLabel.textColor = UIColor.text_primary
-        cardNameLabel.font = UIFont.body1()
+        cardNameLabel.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
         cardNameLabel.textAlignment = .left
+        cardNameLabel.numberOfLines = 1
         cardNameLabel.translatesAutoresizingMaskIntoConstraints = false
         
-        let stackView = UIStackView(arrangedSubviews: [cardNameLabel])
-        stackView.axis = .horizontal
-        stackView.distribution = .equalSpacing
-        stackView.alignment = .center
-        stackView.spacing = 4
+        subtitleLabel.textColor = UIColor.text_secondary
+        subtitleLabel.font = UIFont.systemFont(ofSize: 13, weight: .regular)
+        subtitleLabel.numberOfLines = 2
+        subtitleLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        let stackView = UIStackView(arrangedSubviews: [cardNameLabel, subtitleLabel, macLabel])
+        stackView.axis = .vertical
+        stackView.distribution = .fill
+        stackView.alignment = .fill
+        stackView.spacing = 6
         stackView.translatesAutoresizingMaskIntoConstraints = false
         
         addSubview(stackView)
         
-        // 设置 stackView 的约束
         NSLayoutConstraint.activate([
-            stackView.leadingAnchor.constraint(equalTo: cardImgView.trailingAnchor, constant: 5),
-            stackView.topAnchor.constraint(equalTo: cardImgView.topAnchor, constant: 10)
+            stackView.leadingAnchor.constraint(equalTo: cardImgView.trailingAnchor, constant: 16),
+            stackView.topAnchor.constraint(equalTo: topAnchor, constant: 20),
+            stackView.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor, constant: -76),
+            stackView.bottomAnchor.constraint(lessThanOrEqualTo: bottomAnchor, constant: -60)
         ])
         
-        macLabel.textColor = UIColor.text_primary
-        macLabel.font = UIFont.body1()
+        macLabel.textColor = UIColor.text_third
+        macLabel.font = UIFont.systemFont(ofSize: 12, weight: .medium)
         macLabel.textAlignment = .left
+        macLabel.numberOfLines = 1
         macLabel.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(macLabel)
-        
-        macLabel.snp.makeConstraints { make in
-            make.leading.equalTo(stackView.snp.trailing).offset(30)
-            make.centerY.equalTo(stackView)
-        }
         
         addSubview(btImgView)
-        btImgView.image = UIImage(named: "content_blueteeth_unlink")
         btImgView.snp.makeConstraints { make in
-            make.width.equalTo(10)
-            make.height.equalTo(15)
-            make.centerY.equalTo(stackView)
-            make.leading.equalTo(stackView.snp.trailing).offset(5)
+            make.width.equalTo(16)
+            make.height.equalTo(16)
+            make.trailing.equalToSuperview().offset(-18)
+            make.centerY.equalTo(cardImgView)
         }
+        
+        statusBadgeLabel.font = UIFont.systemFont(ofSize: 10, weight: .semibold)
+        statusBadgeLabel.contentInsets = UIEdgeInsets(top: 4, left: 8, bottom: 4, right: 8)
+        statusBadgeLabel.layer.cornerRadius = 11
+        statusBadgeLabel.layer.masksToBounds = true
+        addSubview(statusBadgeLabel)
+        statusBadgeLabel.snp.makeConstraints { make in
+            make.trailing.equalToSuperview().offset(-18)
+            make.top.equalToSuperview().offset(20)
+        }
+    }
+
+    private func applyEmptyState() {
+        isHidden = false
+        bConnected = false
+        cardImgView.image = UIImage(named: "icon_add_device") ?? UIImage(named: "icon_ewatch")
+        cardNameLabel.text = "device_add".localized()
+        subtitleLabel.text = "添加设备后即可进入同步、表盘和设置管理。"
+        macLabel.text = "尚未连接设备"
+        btImgView.image = UIImage(named: "content_blueteeth_unlink")
+        statusBadgeLabel.isHidden = false
+        statusBadgeLabel.text = "未添加"
+        statusBadgeLabel.textColor = UIColor(hex: 0x7E8A9A)
+        statusBadgeLabel.backgroundColor = UIColor(hex: 0xEEF3F9)
+    }
+    
+    private func applyContent(name: String, mac: String, connected: Bool) {
+        isHidden = false
+        bConnected = connected
+        cardNameLabel.text = name
+        subtitleLabel.text = connected ? "设备连接正常，可继续同步和管理。" : "设备当前未连接，可重新连接后继续管理。"
+        macLabel.text = mac
+        btImgView.image = UIImage(named: connected ? "content_blueteeth_link" : "content_blueteeth_unlink")
+        statusBadgeLabel.isHidden = connected
+        statusBadgeLabel.text = "未连接"
+        statusBadgeLabel.textColor = UIColor(hex: 0x7E8A9A)
+        statusBadgeLabel.backgroundColor = UIColor(hex: 0xEEF3F9)
     }
 
     public func refreshData(value: Int? = 0) {
@@ -87,7 +129,7 @@ class DevicesView: UIView {
         var count = DeviceManager.shared.devices.count
         count += cacheDevices.count
         if count == 0 {
-            self.isHidden = true
+            applyEmptyState()
         } else {
             self.isHidden = false
 
@@ -96,58 +138,48 @@ class DevicesView: UIView {
                 self.isHidden = false
                 cardImgView.image = UIImage(named: "icon_ewatch")
                 if let device = BluetoothWatchDevice.loadFromSandbox(mac: lastestDeviceMac) {
-                    cardNameLabel.text = device.deviceName ?? ""
                     if device.max == lastestDeviceMac && (device.max == XGZTBlueToothManager.shared.device?.max && XGZTBlueToothManager.shared.device != nil) {
                         if XGZTBlueToothManager.shared.centralManager?.state == .poweredOff {
                             bConnected = false
-                            btImgView.image = UIImage(named: "content_blueteeth_unlink")
                         } else {
                             if value == 100 || XGZTBlueToothManager.shared.isReconnectingNow {
                                 bConnected = false
-                                btImgView.image = UIImage(named: "content_blueteeth_unlink")
                             } else {
                                 if XGZTBlueToothManager.shared.checkConnectedDevicesIsEmpty() {
                                     bConnected = false
-                                    btImgView.image = UIImage(named: "content_blueteeth_unlink")
                                 } else {
                                     bConnected = true
-                                    btImgView.image = UIImage(named: "content_blueteeth_link")
                                 }
                             }
                             
                         }
                     } else {
-                        btImgView.image = UIImage(named: "content_blueteeth_unlink")
+                        bConnected = false
                     }
-                    macLabel.text = device.max ?? ""
+                    applyContent(name: device.deviceName ?? "", mac: device.max ?? "", connected: bConnected)
                     return
                 }
                 let deviceName = XGZTBlueToothManager.shared.getDeviceName(mac: lastestDeviceMac)
                 if deviceName.count > 0 {
-                    cardNameLabel.text = deviceName
                     if lastestDeviceMac == XGZTBlueToothManager.shared.device?.max && XGZTBlueToothManager.shared.device != nil {
                         if XGZTBlueToothManager.shared.centralManager?.state == .poweredOff {
                             bConnected = false
-                            btImgView.image = UIImage(named: "content_blueteeth_unlink")
                         } else {
                             if value == 100 || XGZTBlueToothManager.shared.isReconnectingNow {
                                 bConnected = false
-                                btImgView.image = UIImage(named: "content_blueteeth_unlink")
                             } else {
                                 if XGZTBlueToothManager.shared.checkConnectedDevicesIsEmpty() {
                                     bConnected = false
-                                    btImgView.image = UIImage(named: "content_blueteeth_unlink")
                                 } else {
                                     bConnected = true
-                                    btImgView.image = UIImage(named: "content_blueteeth_link")
                                 }
                             }
                             
                         }
                     } else {
-                        btImgView.image = UIImage(named: "content_blueteeth_unlink")
+                        bConnected = false
                     }
-                    macLabel.text = lastestDeviceMac
+                    applyContent(name: deviceName, mac: lastestDeviceMac, connected: bConnected)
                     return
                 }
             }
@@ -164,32 +196,41 @@ class DevicesView: UIView {
             }
             
             if currentModel == nil {
-                self.isHidden = true
+                applyEmptyState()
             } else {
                 self.isHidden = false
                 cardImgView.image = UIImage(named: AppDelegate.IsDeviceNotRound() ? "icon_ewatch" : "icon_ewatch_2")
-                cardNameLabel.text = (currentModel?.name ?? "") + " - \(bleSelf.bleModel.screenWidth)*\(bleSelf.bleModel.screenHeight)"
                 if currentModel!.mac == lastestDeviceMac && bleSelf.isConnected {
                     if XGZTBlueToothManager.shared.centralManager?.state == .poweredOff {
                         bConnected = false
-                        btImgView.image = UIImage(named: "content_blueteeth_unlink")
                     } else {
                         if value == 100 || XGZTBlueToothManager.shared.isReconnectingNow {
                             bConnected = false
-                            btImgView.image = UIImage(named: "content_blueteeth_unlink")
                         } else {
                             bConnected = true
-                            btImgView.image = UIImage(named: "content_blueteeth_link")
                         }
                     }
                     
                 } else {
-                    btImgView.image = UIImage(named: "content_blueteeth_unlink")
+                    bConnected = false
                 }
-                macLabel.text = currentModel?.mac ?? ""
+                let name = (currentModel?.name ?? "") + " - \(bleSelf.bleModel.screenWidth)*\(bleSelf.bleModel.screenHeight)"
+                applyContent(name: name, mac: currentModel?.mac ?? "", connected: bConnected)
             }
         }
     }
 }
 
-
+private final class DeviceEdgeInsetLabel: UILabel {
+    var contentInsets = UIEdgeInsets(top: 5, left: 8, bottom: 5, right: 8)
+    
+    override func drawText(in rect: CGRect) {
+        super.drawText(in: rect.inset(by: contentInsets))
+    }
+    
+    override var intrinsicContentSize: CGSize {
+        let size = super.intrinsicContentSize
+        return CGSize(width: size.width + contentInsets.left + contentInsets.right,
+                      height: size.height + contentInsets.top + contentInsets.bottom)
+    }
+}

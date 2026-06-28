@@ -14,6 +14,7 @@ class HealthValueView: UIView {
     let imageView = UIImageView()
     let bottomLabel = UILabel()
     let descLabel = UILabel()
+    let detailLabel = UILabel()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -45,11 +46,18 @@ class HealthValueView: UIView {
         addSubview(imageView)
         
         // 配置底部标签
-        bottomLabel.text = "暂无数据"
+        bottomLabel.text = "null_data".localized()
         bottomLabel.textAlignment = .center
         bottomLabel.textColor = UIColor.text_secondary
         bottomLabel.font = UIFont.subtitle()
         addSubview(bottomLabel)
+        
+        detailLabel.text = ""
+        detailLabel.textAlignment = .center
+        detailLabel.textColor = UIColor.text_third
+        detailLabel.font = UIFont.body2()
+        detailLabel.numberOfLines = 2
+        addSubview(detailLabel)
         
         descLabel.text = ""
         descLabel.textColor = UIColor.text_third
@@ -64,6 +72,7 @@ class HealthValueView: UIView {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         bottomLabel.translatesAutoresizingMaskIntoConstraints = false
         descLabel.translatesAutoresizingMaskIntoConstraints = false
+        detailLabel.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             // 顶部标签约束
@@ -78,7 +87,11 @@ class HealthValueView: UIView {
             
             // 底部标签约束
             bottomLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 10),
-            bottomLabel.centerXAnchor.constraint(equalTo: centerXAnchor)
+            bottomLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
+            
+            detailLabel.topAnchor.constraint(equalTo: bottomLabel.bottomAnchor, constant: 6),
+            detailLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 42),
+            detailLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -42)
         ])
         
         descLabel.snp.makeConstraints { make in
@@ -91,9 +104,18 @@ class HealthValueView: UIView {
     public func refreshView(isHideNull: Bool) {
         imageView.isHidden = isHideNull
         bottomLabel.isHidden = isHideNull
+        detailLabel.isHidden = isHideNull
     }
     
     public func refreshLabel(text: String) {
         descLabel.text = text
+    }
+    
+    public func configureEmptyState(imageName: String?, title: String, subtitle: String) {
+        if let imageName {
+            imageView.image = UIImage(named: imageName) ?? UIImage(named: "health_null_data")
+        }
+        bottomLabel.text = title
+        detailLabel.text = subtitle
     }
 }
