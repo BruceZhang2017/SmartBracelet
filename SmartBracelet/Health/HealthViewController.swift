@@ -21,47 +21,6 @@ import JL_BLEKit
 import DropDown
 
 class HealthViewController: BaseViewController {
-    private enum HealthDashboardState {
-        case noDevice
-        case disconnected
-        case noMetrics
-        case content
-    }
-    
-    private struct DashboardInsightPresentation {
-        let chipText: String
-        let titleText: String
-        let detailText: String
-        let metaText: String
-        let accentColor: UIColor
-    }
-    
-    private final class NumericLabelAnimationState {
-        weak var label: UILabel?
-        var startValue: Double
-        var targetValue: Double
-        var currentValue: Double
-        let startTime: CFTimeInterval
-        let duration: CFTimeInterval
-        let decimals: Int
-        let unit: String
-        let size1: CGFloat
-        let size2: CGFloat
-        
-        init(label: UILabel, startValue: Double, targetValue: Double, startTime: CFTimeInterval, duration: CFTimeInterval, decimals: Int, unit: String, size1: CGFloat, size2: CGFloat) {
-            self.label = label
-            self.startValue = startValue
-            self.targetValue = targetValue
-            self.currentValue = startValue
-            self.startTime = startTime
-            self.duration = duration
-            self.decimals = decimals
-            self.unit = unit
-            self.size1 = size1
-            self.size2 = size2
-        }
-    }
-    
     @IBOutlet weak var footView: UIView!
     @IBOutlet weak var footMLabel: UILabel!
     @IBOutlet weak var footValueLabel: UILabel!
@@ -69,218 +28,47 @@ class HealthViewController: BaseViewController {
     var collectionView: UICollectionView!
     let cellIdentifier = "CustomCell"
     private var currentModel: BLEModel!
-    private let topSummaryCardView = UIView()
-    private let topCardTitleLabel: UILabel = {
-        let label = UILabel()
-        label.text = "today_step".localized()
-        label.font = UIFont.systemFont(ofSize: 15, weight: .medium)
-        label.textColor = UIColor.white.withAlphaComponent(0.90)
-        return label
-    }()
-    private let topCardDateLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 13, weight: .medium)
-        label.textColor = UIColor.white.withAlphaComponent(0.76)
-        return label
-    }()
-    private let topCardStatusLabel: EdgeInsetLabel = {
-        let label = EdgeInsetLabel()
-        label.font = UIFont.systemFont(ofSize: 12, weight: .semibold)
-        label.textColor = .white
-        label.backgroundColor = UIColor.white.withAlphaComponent(0.18)
-        label.layer.cornerRadius = 13
-        label.layer.masksToBounds = true
-        label.layer.borderWidth = 1
-        label.layer.borderColor = UIColor.white.withAlphaComponent(0.12).cgColor
-        return label
-    }()
-    private let topCardPrimaryDecorationView = UIView()
-    private let topCardSecondaryDecorationView = UIView()
-    private let summaryStatsStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .horizontal
-        stackView.spacing = 12
-        stackView.distribution = .fillEqually
-        return stackView
-    }()
-    private let distanceStatContainerView = UIView()
-    private let calorieStatContainerView = UIView()
-    private let distanceStatTitleLabel: UILabel = {
-        let label = UILabel()
-        label.text = "health_distance".localized()
-        label.font = UIFont.systemFont(ofSize: 12, weight: .medium)
-        label.textColor = UIColor.white.withAlphaComponent(0.74)
-        return label
-    }()
-    private let calorieStatTitleLabel: UILabel = {
-        let label = UILabel()
-        label.text = "health_heat".localized()
-        label.font = UIFont.systemFont(ofSize: 12, weight: .medium)
-        label.textColor = UIColor.white.withAlphaComponent(0.74)
-        return label
-    }()
-    private let topCardValueLabel: UILabel = {
-        let label = UILabel()
-        label.numberOfLines = 1
-        label.adjustsFontSizeToFitWidth = true
-        label.minimumScaleFactor = 0.58
-        label.textAlignment = .left
-        return label
-    }()
-    private let distanceStatValueLabel: UILabel = {
-        let label = UILabel()
-        label.numberOfLines = 1
-        label.adjustsFontSizeToFitWidth = true
-        label.minimumScaleFactor = 0.65
-        label.textAlignment = .left
-        return label
-    }()
-    private let calorieStatValueLabel: UILabel = {
-        let label = UILabel()
-        label.numberOfLines = 1
-        label.adjustsFontSizeToFitWidth = true
-        label.minimumScaleFactor = 0.65
-        label.textAlignment = .left
-        return label
-    }()
-    private let metricsSectionTitleLabel: UILabel = {
-        let label = UILabel()
-        label.text = "health_head".localized()
-        label.font = UIFont.systemFont(ofSize: 22, weight: .bold)
-        label.textColor = UIColor.text_primary
-        return label
-    }()
-    private let metricsSectionSubtitleLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 13, weight: .semibold)
-        label.textColor = UIColor.brand.withAlphaComponent(0.86)
-        label.numberOfLines = 1
-        return label
-    }()
-    private let dashboardInsightCardView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .white
-        view.layer.cornerRadius = 22
-        view.layer.cornerCurve = .continuous
-        view.layer.borderWidth = 1
-        view.layer.borderColor = UIColor.brand.withAlphaComponent(0.08).cgColor
-        view.layer.shadowColor = UIColor.brand.withAlphaComponent(0.08).cgColor
-        view.layer.shadowOffset = CGSize(width: 0, height: 10)
-        view.layer.shadowOpacity = 1
-        view.layer.shadowRadius = 22
-        return view
-    }()
-    private let dashboardInsightChipLabel: EdgeInsetLabel = {
-        let label = EdgeInsetLabel()
-        label.font = UIFont.systemFont(ofSize: 11, weight: .semibold)
-        label.textColor = UIColor.brand
-        label.backgroundColor = UIColor.brand.withAlphaComponent(0.10)
-        label.layer.cornerRadius = 12
-        label.layer.masksToBounds = true
-        label.contentInsets = UIEdgeInsets(top: 5, left: 8, bottom: 5, right: 8)
-        return label
-    }()
-    private let dashboardInsightTitleLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
-        label.textColor = UIColor.text_primary
-        label.numberOfLines = 2
-        return label
-    }()
-    private let dashboardInsightDetailLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 13, weight: .medium)
-        label.textColor = UIColor.text_secondary
-        label.numberOfLines = 0
-        return label
-    }()
-    private let dashboardInsightMetaLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 12, weight: .semibold)
-        label.textColor = UIColor.brand
-        label.numberOfLines = 1
-        return label
-    }()
-    private let dashboardInsightDividerView: UIView = {
-        let view = UIView()
-        view.backgroundColor = UIColor(hex: 0xEAF1FB)
-        return view
-    }()
-    private let emptyStateView = HealthEmptyStateView()
-    private let topSummaryGradientLayer = CAGradientLayer()
-    private var footViewHeightConstraint: NSLayoutConstraint?
-    private var femaleHealthHeightConstraint: NSLayoutConstraint?
-    private var lastKnownCollectionWidth: CGFloat = 0
-    private var numericDisplayLink: CADisplayLink?
-    private var numericAnimationStates: [ObjectIdentifier: NumericLabelAnimationState] = [:]
-    private var renderedNumericValues: [ObjectIdentifier: Double] = [:]
-    private var shouldAnimateMetricCellsOnNextDisplay = true
-    private var animatedMetricIndexPaths = Set<IndexPath>()
-    private var lastMetricEntranceAnimationAt: CFTimeInterval = 0
-    private let femaleHealthGradientLayer = CAGradientLayer()
-    private let femaleHealthGlowView = UIView()
-    private var latestStepCount = 0
-    private var latestDistanceValue: Float = 0
-    private var latestCalorieValue: Float = 0
-    private var latestDistanceUnitText = ""
 
     // 女性健康入口视图
     private let femaleHealthContainerView: UIView = {
         let view = UIView()
-        view.backgroundColor = .clear
-        view.layer.cornerRadius = 22
-        view.layer.shadowColor = UIColor.brand.withAlphaComponent(0.18).cgColor
-        view.layer.shadowOffset = CGSize(width: 0, height: 12)
-        view.layer.shadowOpacity = 1
-        view.layer.shadowRadius = 24
-        view.layer.borderColor = UIColor.white.withAlphaComponent(0.12).cgColor
-        view.layer.borderWidth = 1
+        view.backgroundColor = .white
+        view.layer.cornerRadius = 12
+        view.layer.shadowColor = UIColor.black.cgColor
+        view.layer.shadowOffset = CGSize(width: 0, height: 2)
+        view.layer.shadowOpacity = 0.1
+        view.layer.shadowRadius = 4
         return view
     }()
+
     private let femaleHealthIconImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(systemName: "heart.circle.fill")
-        imageView.tintColor = .white
+        imageView.tintColor = UIColor(red: 1.0, green: 0.4, blue: 0.6, alpha: 1.0)
         imageView.contentMode = .scaleAspectFit
-        imageView.backgroundColor = UIColor.white.withAlphaComponent(0.16)
-        imageView.layer.cornerRadius = 22
-        imageView.layer.masksToBounds = true
         return imageView
     }()
 
     private let femaleHealthTitleLabel: UILabel = {
         let label = UILabel()
         label.text = "female_cycle_title".localized()
-        label.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
-        label.textColor = .white
-        label.numberOfLines = 1
+        label.font = UIFont.systemFont(ofSize: 16, weight: .semibold)
+        label.textColor = .black
         return label
     }()
 
     private let femaleHealthSubtitleLabel: UILabel = {
         let label = UILabel()
         label.text = "female_cycle_subtitle".localized()
-        label.font = UIFont.systemFont(ofSize: 13, weight: .medium)
-        label.textColor = UIColor.white.withAlphaComponent(0.80)
-        label.numberOfLines = 2
-        return label
-    }()
-    private let femaleHealthBadgeLabel: EdgeInsetLabel = {
-        let label = EdgeInsetLabel()
-        label.text = "female_cycle_today".localized()
-        label.font = UIFont.systemFont(ofSize: 11, weight: .semibold)
-        label.textColor = UIColor.brand
-        label.backgroundColor = UIColor.white.withAlphaComponent(0.92)
-        label.layer.cornerRadius = 11
-        label.layer.masksToBounds = true
-        label.contentInsets = UIEdgeInsets(top: 4, left: 8, bottom: 4, right: 8)
+        label.font = UIFont.systemFont(ofSize: 12, weight: .regular)
+        label.textColor = UIColor(red: 0.56, green: 0.59, blue: 0.63, alpha: 1.0)
         return label
     }()
 
     private let femaleHealthArrowImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(systemName: "chevron.right")
-        imageView.tintColor = UIColor.white.withAlphaComponent(0.86)
+        imageView.tintColor = UIColor(red: 0.56, green: 0.59, blue: 0.63, alpha: 1.0)
         imageView.contentMode = .scaleAspectFit
         return imageView
     }()
@@ -355,30 +143,74 @@ class HealthViewController: BaseViewController {
         tap.numberOfTapsRequired = 1
         footView.addGestureRecognizer(tap)
         
-        configurePageAppearance()
-        setupTopSummaryCard()
-
+        
+        // 初始化UICollectionView
         let layout = UICollectionViewFlowLayout()
-        layout.itemSize = CGSize(width: 160, height: 166)
-        layout.minimumInteritemSpacing = 12
-        layout.minimumLineSpacing = 12
-        layout.sectionInset = UIEdgeInsets(top: 0, left: 16, bottom: 8, right: 16)
+        let itemWidth = (UIScreen.main.bounds.width - 30) / 2 // 减去间距
+        layout.itemSize = CGSize(width: itemWidth, height: 140)
+        layout.minimumInteritemSpacing = 10
+        layout.minimumLineSpacing = 10
+        layout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.backgroundColor = UIColor.clear
         collectionView.showsVerticalScrollIndicator = false
         collectionView.showsHorizontalScrollIndicator = false
-        collectionView.alwaysBounceVertical = true
-        collectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 8, right: 0)
         collectionView.dataSource = self
         collectionView.delegate = self
         
+        // 注册自定义的UICollectionViewCell类
         collectionView.register(HealthCollectionViewCell.self, forCellWithReuseIdentifier: cellIdentifier)
-        setupMetricsSectionHeader()
-        setupFemaleHealthEntry()
-        setupMetricsCollectionLayout()
-        configureEmptyStateView()
-        updateDashboardPresentation(animated: false)
+        
+        // 添加女性健康入口
+        self.view.addSubview(femaleHealthContainerView)
+        femaleHealthContainerView.snp.makeConstraints { make in
+            make.leading.equalToSuperview().offset(10)
+            make.trailing.equalToSuperview().offset(-10)
+            make.bottom.equalTo(view.safeAreaLayoutGuide).offset(-10)
+            make.height.equalTo(70)
+        }
+
+        femaleHealthContainerView.addSubview(femaleHealthIconImageView)
+        femaleHealthIconImageView.snp.makeConstraints { make in
+            make.leading.equalToSuperview().offset(16)
+            make.centerY.equalToSuperview()
+            make.width.height.equalTo(40)
+        }
+
+        femaleHealthContainerView.addSubview(femaleHealthArrowImageView)
+        femaleHealthArrowImageView.snp.makeConstraints { make in
+            make.trailing.equalToSuperview().offset(-16)
+            make.centerY.equalToSuperview()
+            make.width.height.equalTo(20)
+        }
+
+        femaleHealthContainerView.addSubview(femaleHealthTitleLabel)
+        femaleHealthTitleLabel.snp.makeConstraints { make in
+            make.leading.equalTo(femaleHealthIconImageView.snp.trailing).offset(12)
+            make.top.equalToSuperview().offset(16)
+            make.trailing.equalTo(femaleHealthArrowImageView.snp.leading).offset(-12)
+        }
+
+        femaleHealthContainerView.addSubview(femaleHealthSubtitleLabel)
+        femaleHealthSubtitleLabel.snp.makeConstraints { make in
+            make.leading.equalTo(femaleHealthIconImageView.snp.trailing).offset(12)
+            make.top.equalTo(femaleHealthTitleLabel.snp.bottom).offset(4)
+            make.trailing.equalTo(femaleHealthArrowImageView.snp.leading).offset(-12)
+        }
+
+        let femaleHealthTap = UITapGestureRecognizer(target: self, action: #selector(handleFemaleHealthTapped))
+        femaleHealthContainerView.addGestureRecognizer(femaleHealthTap)
+        femaleHealthContainerView.isUserInteractionEnabled = true
+
+        // 添加UICollectionView到当前视图
+        self.view.addSubview(collectionView)
+
+        collectionView.snp.makeConstraints { make in
+            make.leading.trailing.equalToSuperview()
+            make.top.equalTo(320)
+            make.bottom.equalTo(femaleHealthContainerView.snp.top).offset(-10)
+        }
         
         // 设置 DropDown 数据源
         dropDown.dataSource = ["device_scan".localized(), "device_add".localized()]
@@ -525,784 +357,6 @@ class HealthViewController: BaseViewController {
         return String(macValue)
     }
     
-    private func configurePageAppearance() {
-        view.backgroundColor = UIColor(hex: 0xF5F9FF)
-        footView.backgroundColor = .clear
-        footValueLabel.isHidden = true
-        footMLabel.isHidden = true
-        footKLabel.isHidden = true
-        footViewHeightConstraint = footView.constraints.first(where: { $0.firstAttribute == .height })
-        footViewHeightConstraint?.constant = preferredTopCardHeight()
-    }
-    
-    private func setupTopSummaryCard() {
-        topSummaryCardView.translatesAutoresizingMaskIntoConstraints = false
-        topCardTitleLabel.translatesAutoresizingMaskIntoConstraints = false
-        topCardDateLabel.translatesAutoresizingMaskIntoConstraints = false
-        topCardStatusLabel.translatesAutoresizingMaskIntoConstraints = false
-        topCardPrimaryDecorationView.translatesAutoresizingMaskIntoConstraints = false
-        topCardSecondaryDecorationView.translatesAutoresizingMaskIntoConstraints = false
-        summaryStatsStackView.translatesAutoresizingMaskIntoConstraints = false
-        distanceStatContainerView.translatesAutoresizingMaskIntoConstraints = false
-        calorieStatContainerView.translatesAutoresizingMaskIntoConstraints = false
-        distanceStatTitleLabel.translatesAutoresizingMaskIntoConstraints = false
-        calorieStatTitleLabel.translatesAutoresizingMaskIntoConstraints = false
-        topCardValueLabel.translatesAutoresizingMaskIntoConstraints = false
-        distanceStatValueLabel.translatesAutoresizingMaskIntoConstraints = false
-        calorieStatValueLabel.translatesAutoresizingMaskIntoConstraints = false
-        
-        topSummaryCardView.layer.cornerRadius = 30
-        topSummaryCardView.layer.masksToBounds = true
-        topSummaryCardView.layer.borderWidth = 1
-        topSummaryCardView.layer.borderColor = UIColor.white.withAlphaComponent(0.10).cgColor
-        
-        topSummaryGradientLayer.colors = dashboardGradientColors(for: .content).map { $0.cgColor }
-        topSummaryGradientLayer.startPoint = CGPoint(x: 0, y: 0)
-        topSummaryGradientLayer.endPoint = CGPoint(x: 1, y: 1)
-        topSummaryCardView.layer.insertSublayer(topSummaryGradientLayer, at: 0)
-        
-        topCardPrimaryDecorationView.backgroundColor = UIColor.white.withAlphaComponent(0.12)
-        topCardSecondaryDecorationView.backgroundColor = UIColor.white.withAlphaComponent(0.08)
-        
-        footView.addSubview(topSummaryCardView)
-        topSummaryCardView.addSubview(topCardPrimaryDecorationView)
-        topSummaryCardView.addSubview(topCardSecondaryDecorationView)
-        topSummaryCardView.addSubview(topCardTitleLabel)
-        topSummaryCardView.addSubview(topCardDateLabel)
-        topSummaryCardView.addSubview(topCardStatusLabel)
-        topSummaryCardView.addSubview(topCardValueLabel)
-        
-        configureSummaryStatCard(distanceStatContainerView)
-        configureSummaryStatCard(calorieStatContainerView)
-        summaryStatsStackView.addArrangedSubview(distanceStatContainerView)
-        summaryStatsStackView.addArrangedSubview(calorieStatContainerView)
-        topSummaryCardView.addSubview(summaryStatsStackView)
-        
-        distanceStatContainerView.addSubview(distanceStatTitleLabel)
-        calorieStatContainerView.addSubview(calorieStatTitleLabel)
-        distanceStatContainerView.addSubview(distanceStatValueLabel)
-        calorieStatContainerView.addSubview(calorieStatValueLabel)
-        
-        NSLayoutConstraint.activate([
-            topSummaryCardView.leadingAnchor.constraint(equalTo: footView.leadingAnchor, constant: 16),
-            topSummaryCardView.trailingAnchor.constraint(equalTo: footView.trailingAnchor, constant: -16),
-            topSummaryCardView.topAnchor.constraint(equalTo: footView.topAnchor, constant: 12),
-            topSummaryCardView.bottomAnchor.constraint(equalTo: footView.bottomAnchor, constant: -8),
-            
-            topCardPrimaryDecorationView.widthAnchor.constraint(equalToConstant: 156),
-            topCardPrimaryDecorationView.heightAnchor.constraint(equalToConstant: 156),
-            topCardPrimaryDecorationView.trailingAnchor.constraint(equalTo: topSummaryCardView.trailingAnchor, constant: 48),
-            topCardPrimaryDecorationView.topAnchor.constraint(equalTo: topSummaryCardView.topAnchor, constant: -52),
-            
-            topCardSecondaryDecorationView.widthAnchor.constraint(equalToConstant: 108),
-            topCardSecondaryDecorationView.heightAnchor.constraint(equalToConstant: 108),
-            topCardSecondaryDecorationView.trailingAnchor.constraint(equalTo: topSummaryCardView.trailingAnchor, constant: 18),
-            topCardSecondaryDecorationView.bottomAnchor.constraint(equalTo: topSummaryCardView.bottomAnchor, constant: 36),
-            
-            topCardTitleLabel.leadingAnchor.constraint(equalTo: topSummaryCardView.leadingAnchor, constant: 22),
-            topCardTitleLabel.topAnchor.constraint(equalTo: topSummaryCardView.topAnchor, constant: 22),
-            
-            topCardDateLabel.leadingAnchor.constraint(equalTo: topCardTitleLabel.leadingAnchor),
-            topCardDateLabel.topAnchor.constraint(equalTo: topCardTitleLabel.bottomAnchor, constant: 6),
-            
-            topCardStatusLabel.trailingAnchor.constraint(equalTo: topSummaryCardView.trailingAnchor, constant: -20),
-            topCardStatusLabel.centerYAnchor.constraint(equalTo: topCardTitleLabel.centerYAnchor),
-            
-            topCardValueLabel.leadingAnchor.constraint(equalTo: topSummaryCardView.leadingAnchor, constant: 24),
-            topCardValueLabel.trailingAnchor.constraint(lessThanOrEqualTo: topSummaryCardView.trailingAnchor, constant: -30),
-            topCardValueLabel.topAnchor.constraint(equalTo: topCardDateLabel.bottomAnchor, constant: 20),
-            
-            summaryStatsStackView.leadingAnchor.constraint(equalTo: topSummaryCardView.leadingAnchor, constant: 18),
-            summaryStatsStackView.trailingAnchor.constraint(equalTo: topSummaryCardView.trailingAnchor, constant: -18),
-            summaryStatsStackView.bottomAnchor.constraint(equalTo: topSummaryCardView.bottomAnchor, constant: -18),
-            summaryStatsStackView.heightAnchor.constraint(equalToConstant: 90),
-            
-            topCardValueLabel.bottomAnchor.constraint(lessThanOrEqualTo: summaryStatsStackView.topAnchor, constant: -20),
-            
-            distanceStatTitleLabel.leadingAnchor.constraint(equalTo: distanceStatContainerView.leadingAnchor, constant: 16),
-            distanceStatTitleLabel.trailingAnchor.constraint(equalTo: distanceStatContainerView.trailingAnchor, constant: -16),
-            distanceStatTitleLabel.topAnchor.constraint(equalTo: distanceStatContainerView.topAnchor, constant: 16),
-            
-            distanceStatValueLabel.leadingAnchor.constraint(equalTo: distanceStatContainerView.leadingAnchor, constant: 16),
-            distanceStatValueLabel.trailingAnchor.constraint(equalTo: distanceStatContainerView.trailingAnchor, constant: -16),
-            distanceStatValueLabel.topAnchor.constraint(greaterThanOrEqualTo: distanceStatTitleLabel.bottomAnchor, constant: 8),
-            distanceStatValueLabel.bottomAnchor.constraint(equalTo: distanceStatContainerView.bottomAnchor, constant: -16),
-            
-            calorieStatTitleLabel.leadingAnchor.constraint(equalTo: calorieStatContainerView.leadingAnchor, constant: 16),
-            calorieStatTitleLabel.trailingAnchor.constraint(equalTo: calorieStatContainerView.trailingAnchor, constant: -16),
-            calorieStatTitleLabel.topAnchor.constraint(equalTo: calorieStatContainerView.topAnchor, constant: 16),
-            
-            calorieStatValueLabel.leadingAnchor.constraint(equalTo: calorieStatContainerView.leadingAnchor, constant: 16),
-            calorieStatValueLabel.trailingAnchor.constraint(equalTo: calorieStatContainerView.trailingAnchor, constant: -16),
-            calorieStatValueLabel.topAnchor.constraint(greaterThanOrEqualTo: calorieStatTitleLabel.bottomAnchor, constant: 8),
-            calorieStatValueLabel.bottomAnchor.constraint(equalTo: calorieStatContainerView.bottomAnchor, constant: -16)
-        ])
-
-        refreshValue(label: topCardValueLabel, value: "0", unit: "health_step_noun".localized(), size1: 52, size2: 16)
-        refreshValue(label: distanceStatValueLabel, value: "0.000", unit: "health_walk_unit".localized(), size1: 24, size2: 11)
-        refreshValue(label: calorieStatValueLabel, value: "0.000", unit: "health_kilo_calorie".localized(), size1: 24, size2: 11)
-    }
-    
-    private func configureSummaryStatCard(_ view: UIView) {
-        view.backgroundColor = UIColor.white.withAlphaComponent(0.14)
-        view.layer.cornerRadius = 18
-        view.layer.borderColor = UIColor.white.withAlphaComponent(0.12).cgColor
-        view.layer.borderWidth = 1
-    }
-    
-    private func setupMetricsSectionHeader() {
-        metricsSectionSubtitleLabel.text = "mine_bluetooth_unconnect".localized()
-        metricsSectionTitleLabel.translatesAutoresizingMaskIntoConstraints = false
-        metricsSectionSubtitleLabel.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(metricsSectionTitleLabel)
-        view.addSubview(metricsSectionSubtitleLabel)
-        
-        NSLayoutConstraint.activate([
-            metricsSectionTitleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            metricsSectionTitleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            metricsSectionTitleLabel.topAnchor.constraint(equalTo: footView.bottomAnchor, constant: 18),
-            
-            metricsSectionSubtitleLabel.leadingAnchor.constraint(equalTo: metricsSectionTitleLabel.leadingAnchor),
-            metricsSectionSubtitleLabel.trailingAnchor.constraint(equalTo: metricsSectionTitleLabel.trailingAnchor),
-            metricsSectionSubtitleLabel.topAnchor.constraint(equalTo: metricsSectionTitleLabel.bottomAnchor, constant: 6)
-        ])
-    }
-    
-    private func setupDashboardInsightCard() {
-        [
-            dashboardInsightCardView,
-            dashboardInsightChipLabel,
-            dashboardInsightTitleLabel,
-            dashboardInsightDetailLabel,
-            dashboardInsightMetaLabel,
-            dashboardInsightDividerView
-        ].forEach {
-            $0.translatesAutoresizingMaskIntoConstraints = false
-        }
-        
-        view.addSubview(dashboardInsightCardView)
-        dashboardInsightCardView.addSubview(dashboardInsightChipLabel)
-        dashboardInsightCardView.addSubview(dashboardInsightTitleLabel)
-        dashboardInsightCardView.addSubview(dashboardInsightDetailLabel)
-        dashboardInsightCardView.addSubview(dashboardInsightDividerView)
-        dashboardInsightCardView.addSubview(dashboardInsightMetaLabel)
-        
-        NSLayoutConstraint.activate([
-            dashboardInsightCardView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            dashboardInsightCardView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            dashboardInsightCardView.topAnchor.constraint(equalTo: metricsSectionSubtitleLabel.bottomAnchor, constant: 14),
-            
-            dashboardInsightChipLabel.leadingAnchor.constraint(equalTo: dashboardInsightCardView.leadingAnchor, constant: 18),
-            dashboardInsightChipLabel.topAnchor.constraint(equalTo: dashboardInsightCardView.topAnchor, constant: 18),
-            
-            dashboardInsightTitleLabel.leadingAnchor.constraint(equalTo: dashboardInsightCardView.leadingAnchor, constant: 18),
-            dashboardInsightTitleLabel.trailingAnchor.constraint(equalTo: dashboardInsightCardView.trailingAnchor, constant: -18),
-            dashboardInsightTitleLabel.topAnchor.constraint(equalTo: dashboardInsightChipLabel.bottomAnchor, constant: 12),
-            
-            dashboardInsightDetailLabel.leadingAnchor.constraint(equalTo: dashboardInsightTitleLabel.leadingAnchor),
-            dashboardInsightDetailLabel.trailingAnchor.constraint(equalTo: dashboardInsightTitleLabel.trailingAnchor),
-            dashboardInsightDetailLabel.topAnchor.constraint(equalTo: dashboardInsightTitleLabel.bottomAnchor, constant: 10),
-            
-            dashboardInsightDividerView.leadingAnchor.constraint(equalTo: dashboardInsightTitleLabel.leadingAnchor),
-            dashboardInsightDividerView.trailingAnchor.constraint(equalTo: dashboardInsightTitleLabel.trailingAnchor),
-            dashboardInsightDividerView.topAnchor.constraint(equalTo: dashboardInsightDetailLabel.bottomAnchor, constant: 14),
-            dashboardInsightDividerView.heightAnchor.constraint(equalToConstant: 1),
-            
-            dashboardInsightMetaLabel.leadingAnchor.constraint(equalTo: dashboardInsightTitleLabel.leadingAnchor),
-            dashboardInsightMetaLabel.trailingAnchor.constraint(equalTo: dashboardInsightTitleLabel.trailingAnchor),
-            dashboardInsightMetaLabel.topAnchor.constraint(equalTo: dashboardInsightDividerView.bottomAnchor, constant: 12),
-            dashboardInsightMetaLabel.bottomAnchor.constraint(equalTo: dashboardInsightCardView.bottomAnchor, constant: -18)
-        ])
-    }
-    
-    private func setupFemaleHealthEntry() {
-        [femaleHealthContainerView, femaleHealthGlowView, femaleHealthIconImageView, femaleHealthArrowImageView, femaleHealthTitleLabel, femaleHealthSubtitleLabel, femaleHealthBadgeLabel].forEach {
-            $0.translatesAutoresizingMaskIntoConstraints = false
-        }
-
-        femaleHealthContainerView.layer.insertSublayer(femaleHealthGradientLayer, at: 0)
-        femaleHealthGradientLayer.colors = femaleHealthEntryGradientColors().map { $0.cgColor }
-        femaleHealthGradientLayer.startPoint = CGPoint(x: 0, y: 0)
-        femaleHealthGradientLayer.endPoint = CGPoint(x: 1, y: 1)
-        femaleHealthGradientLayer.cornerRadius = 22
-
-        femaleHealthGlowView.backgroundColor = UIColor.white.withAlphaComponent(0.12)
-        femaleHealthGlowView.isUserInteractionEnabled = false
-        
-        view.addSubview(femaleHealthContainerView)
-        femaleHealthContainerView.addSubview(femaleHealthGlowView)
-        femaleHealthContainerView.addSubview(femaleHealthIconImageView)
-        femaleHealthContainerView.addSubview(femaleHealthBadgeLabel)
-        femaleHealthContainerView.addSubview(femaleHealthArrowImageView)
-        femaleHealthContainerView.addSubview(femaleHealthTitleLabel)
-        femaleHealthContainerView.addSubview(femaleHealthSubtitleLabel)
-        femaleHealthHeightConstraint = femaleHealthContainerView.heightAnchor.constraint(equalToConstant: 108)
-        
-        NSLayoutConstraint.activate([
-            femaleHealthContainerView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            femaleHealthContainerView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            femaleHealthContainerView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -14),
-            femaleHealthHeightConstraint!,
-
-            femaleHealthGlowView.trailingAnchor.constraint(equalTo: femaleHealthContainerView.trailingAnchor, constant: 38),
-            femaleHealthGlowView.topAnchor.constraint(equalTo: femaleHealthContainerView.topAnchor, constant: -30),
-            femaleHealthGlowView.widthAnchor.constraint(equalToConstant: 132),
-            femaleHealthGlowView.heightAnchor.constraint(equalToConstant: 132),
-            
-            femaleHealthIconImageView.leadingAnchor.constraint(equalTo: femaleHealthContainerView.leadingAnchor, constant: 18),
-            femaleHealthIconImageView.topAnchor.constraint(equalTo: femaleHealthContainerView.topAnchor, constant: 18),
-            femaleHealthIconImageView.widthAnchor.constraint(equalToConstant: 44),
-            femaleHealthIconImageView.heightAnchor.constraint(equalToConstant: 44),
-            
-            femaleHealthBadgeLabel.trailingAnchor.constraint(equalTo: femaleHealthArrowImageView.leadingAnchor, constant: -12),
-            femaleHealthBadgeLabel.topAnchor.constraint(equalTo: femaleHealthContainerView.topAnchor, constant: 16),
-            
-            femaleHealthArrowImageView.trailingAnchor.constraint(equalTo: femaleHealthContainerView.trailingAnchor, constant: -18),
-            femaleHealthArrowImageView.centerYAnchor.constraint(equalTo: femaleHealthContainerView.centerYAnchor),
-            femaleHealthArrowImageView.widthAnchor.constraint(equalToConstant: 16),
-            femaleHealthArrowImageView.heightAnchor.constraint(equalToConstant: 16),
-            
-            femaleHealthTitleLabel.leadingAnchor.constraint(equalTo: femaleHealthIconImageView.trailingAnchor, constant: 14),
-            femaleHealthTitleLabel.trailingAnchor.constraint(lessThanOrEqualTo: femaleHealthBadgeLabel.leadingAnchor, constant: -10),
-            femaleHealthTitleLabel.topAnchor.constraint(equalTo: femaleHealthContainerView.topAnchor, constant: 18),
-            
-            femaleHealthSubtitleLabel.leadingAnchor.constraint(equalTo: femaleHealthTitleLabel.leadingAnchor),
-            femaleHealthSubtitleLabel.trailingAnchor.constraint(equalTo: femaleHealthContainerView.trailingAnchor, constant: -44),
-            femaleHealthSubtitleLabel.topAnchor.constraint(equalTo: femaleHealthTitleLabel.bottomAnchor, constant: 4),
-            femaleHealthSubtitleLabel.bottomAnchor.constraint(lessThanOrEqualTo: femaleHealthContainerView.bottomAnchor, constant: -18)
-        ])
-
-        let femaleHealthTap = UITapGestureRecognizer(target: self, action: #selector(handleFemaleHealthTapped))
-        femaleHealthContainerView.addGestureRecognizer(femaleHealthTap)
-        femaleHealthContainerView.isUserInteractionEnabled = true
-    }
-    
-    private func setupMetricsCollectionLayout() {
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(collectionView)
-        
-        NSLayoutConstraint.activate([
-            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            collectionView.topAnchor.constraint(equalTo: metricsSectionSubtitleLabel.bottomAnchor, constant: 14),
-            collectionView.bottomAnchor.constraint(equalTo: femaleHealthContainerView.topAnchor, constant: -16)
-        ])
-    }
-    
-    private func configureEmptyStateView() {
-        emptyStateView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        emptyStateView.primaryAction = { [weak self] in
-            self?.handlePrimaryEmptyStateAction()
-        }
-        emptyStateView.secondaryAction = { [weak self] in
-            self?.handleSecondaryEmptyStateAction()
-        }
-        collectionView.backgroundView = emptyStateView
-    }
-    
-    private func preferredTopCardHeight() -> CGFloat {
-        let currentHeight = max(view.bounds.height, UIScreen.main.bounds.height)
-        return min(322, max(284, currentHeight * 0.34))
-    }
-    
-    private func isCurrentDeviceConnected() -> Bool {
-        guard !lastestDeviceMac.isEmpty else {
-            return false
-        }
-        if isXGZT {
-            return XGZTBlueToothManager.shared.isconnected()
-        }
-        return bleSelf.isConnected
-    }
-    
-    private func currentDashboardState() -> HealthDashboardState {
-        guard !lastestDeviceMac.isEmpty else {
-            return .noDevice
-        }
-        guard isCurrentDeviceConnected() else {
-            return .disconnected
-        }
-        return currentMetricCount() == 0 ? .noMetrics : .content
-    }
-    
-    private func updateConnectionStatus() {
-        let state = currentDashboardState()
-        topCardDateLabel.text = formattedTodayString()
-        updateTopCardVisuals(for: state)
-        
-        switch state {
-        case .noDevice:
-            topCardStatusLabel.text = "mine_unconnect".localized()
-            topCardStatusLabel.backgroundColor = UIColor.white.withAlphaComponent(0.18)
-            topCardStatusLabel.layer.borderColor = UIColor.white.withAlphaComponent(0.10).cgColor
-            metricsSectionSubtitleLabel.text = "device_add".localized()
-            metricsSectionSubtitleLabel.textColor = UIColor.text_secondary
-        case .disconnected:
-            topCardStatusLabel.text = "mine_unconnect".localized()
-            topCardStatusLabel.backgroundColor = UIColor.white.withAlphaComponent(0.18)
-            topCardStatusLabel.layer.borderColor = UIColor.white.withAlphaComponent(0.10).cgColor
-            metricsSectionSubtitleLabel.text = "mine_bluetooth_unconnect".localized()
-            metricsSectionSubtitleLabel.textColor = UIColor.text_secondary
-        case .noMetrics:
-            topCardStatusLabel.text = "mine_bluetooth_connect".localized()
-            topCardStatusLabel.backgroundColor = UIColor.white.withAlphaComponent(0.24)
-            topCardStatusLabel.layer.borderColor = UIColor.white.withAlphaComponent(0.16).cgColor
-            metricsSectionSubtitleLabel.text = "null_data".localized()
-            metricsSectionSubtitleLabel.textColor = UIColor.brand
-        case .content:
-            topCardStatusLabel.text = "mine_bluetooth_connect".localized()
-            topCardStatusLabel.backgroundColor = UIColor.white.withAlphaComponent(0.24)
-            topCardStatusLabel.layer.borderColor = UIColor.white.withAlphaComponent(0.16).cgColor
-            metricsSectionSubtitleLabel.text = "\(formattedTodayString())"
-            metricsSectionSubtitleLabel.textColor = UIColor.brand
-        }
-    }
-    
-    private func updateDashboardInsight() {
-        let state = currentDashboardState()
-        let presentation = dashboardInsightPresentation(for: state)
-        dashboardInsightChipLabel.text = presentation.chipText
-        dashboardInsightTitleLabel.text = presentation.titleText
-        dashboardInsightDetailLabel.text = presentation.detailText
-        dashboardInsightMetaLabel.text = presentation.metaText
-        dashboardInsightChipLabel.textColor = presentation.accentColor
-        dashboardInsightChipLabel.backgroundColor = presentation.accentColor.withAlphaComponent(0.10)
-        dashboardInsightMetaLabel.textColor = presentation.accentColor
-        dashboardInsightCardView.layer.borderColor = presentation.accentColor.withAlphaComponent(0.10).cgColor
-        dashboardInsightCardView.layer.shadowColor = presentation.accentColor.withAlphaComponent(0.08).cgColor
-    }
-    
-    private func dashboardInsightPresentation(for state: HealthDashboardState) -> DashboardInsightPresentation {
-        switch state {
-        case .noDevice:
-            return DashboardInsightPresentation(
-                chipText: "开始健康看板",
-                titleText: "连接设备后，这里会自动生成你的每日健康洞察",
-                detailText: "首页会结合步数、睡眠、心率等同步结果，优先告诉你今天最值得关注的变化，而不只是展示原始数字。",
-                metaText: "先添加设备，再开始同步健康数据",
-                accentColor: UIColor.brand
-            )
-        case .disconnected:
-            return DashboardInsightPresentation(
-                chipText: "等待同步",
-                titleText: "设备已离线，今天的首页洞察暂停在上次同步结果",
-                detailText: "重新连接手环后，首页会继续刷新步数、距离、消耗以及健康卡片的最新状态。",
-                metaText: "重新连接后自动恢复今日看板",
-                accentColor: UIColor(hex: 0x4C7DFF)
-            )
-        case .noMetrics:
-            return DashboardInsightPresentation(
-                chipText: "数据生成中",
-                titleText: "设备已连接成功，今天的健康摘要还在生成",
-                detailText: "继续佩戴手环一段时间后，首页会自动补齐今日步数、消耗和可查看的健康指标内容。",
-                metaText: "连接正常，等待首批健康数据写入",
-                accentColor: UIColor(hex: 0x1F8BFF)
-            )
-        case .content:
-            let distanceText = formattedInsightMetricText(value: latestDistanceValue, unit: latestDistanceUnitText.isEmpty ? "health_walk_unit".localized() : latestDistanceUnitText)
-            let calorieText = formattedInsightMetricText(value: latestCalorieValue, unit: "health_kilo_calorie".localized())
-            let metricText = "\(max(currentMetricCount(), 1)) 项健康指标"
-            if latestStepCount >= 10000 {
-                return DashboardInsightPresentation(
-                    chipText: "今日表现",
-                    titleText: "今天已完成 \(latestStepCount) 步，活动节奏保持得很好",
-                    detailText: "累计 \(distanceText)，约消耗 \(calorieText)，当前 \(metricText) 已进入首页联动展示。",
-                    metaText: "建议继续查看睡眠与心率走势，完成今天的健康闭环",
-                    accentColor: UIColor.brand
-                )
-            } else if latestStepCount >= 6000 {
-                return DashboardInsightPresentation(
-                    chipText: "继续推进",
-                    titleText: "今天已经走了 \(latestStepCount) 步，再推进一点就更完整",
-                    detailText: "目前累计 \(distanceText)，约消耗 \(calorieText)，首页已同步 \(metricText)。",
-                    metaText: "优先把步数拉到更完整区间，再回看其他指标变化",
-                    accentColor: UIColor(hex: 0x2E8DFF)
-                )
-            } else {
-                return DashboardInsightPresentation(
-                    chipText: "今日提醒",
-                    titleText: "今天的活动量还偏低，可以再安排一次轻运动",
-                    detailText: "当前仅完成 \(latestStepCount) 步，累计 \(distanceText)，约消耗 \(calorieText)，但 \(metricText) 已经准备好继续跟进。",
-                    metaText: "先把活动量拉起来，首页洞察会更完整",
-                    accentColor: UIColor(hex: 0x4E7BFF)
-                )
-            }
-        }
-    }
-    
-    private func formattedInsightMetricText(value: Float, unit: String) -> String {
-        let formattedValue: String
-        if value >= 100 {
-            formattedValue = String(format: "%.0f", value)
-        } else if value >= 10 {
-            formattedValue = String(format: "%.1f", value)
-        } else {
-            formattedValue = String(format: "%.2f", value)
-        }
-        return "\(formattedValue) \(unit)"
-    }
-    
-    private func updateFemaleHealthVisibility(animated: Bool) {
-        let shouldShow = XGZTBlueToothManager.shared.device?.sex == 1
-        updateFemaleHealthEntryContent()
-        if shouldShow {
-            femaleHealthContainerView.isHidden = false
-        }
-        femaleHealthHeightConstraint?.constant = shouldShow ? 108 : 0
-        femaleHealthContainerView.alpha = shouldShow ? 1 : 0
-        femaleHealthContainerView.isUserInteractionEnabled = shouldShow
-        
-        let updates: () -> Void = { [weak self] in
-            self?.view.layoutIfNeeded()
-        }
-        
-        if animated {
-            UIView.animate(withDuration: 0.25, delay: 0, options: [.curveEaseInOut], animations: updates) { [weak self] _ in
-                self?.femaleHealthContainerView.isHidden = !shouldShow
-            }
-        } else {
-            updates()
-            femaleHealthContainerView.isHidden = !shouldShow
-        }
-    }
-    
-    private func currentMetricCount() -> Int {
-        guard !lastestDeviceMac.isEmpty else {
-            return 0
-        }
-        guard bleSelf.isConnected || XGZTBlueToothManager.shared.device != nil else {
-            return 0
-        }
-        if isXGZT {
-            var count = 0
-            if ((XGZTBlueToothManager.shared.device?.healthcontrolflags ?? 0) & 1 == 1) {
-                count += 1
-            }
-            if (((XGZTBlueToothManager.shared.device?.healthcontrolflags ?? 0) >> 1) & 1 == 1) {
-                count += 1
-            }
-            if (((XGZTBlueToothManager.shared.device?.healthcontrolflags ?? 0) >> 2) & 1 == 1) {
-                count += 1
-            }
-            if (((XGZTBlueToothManager.shared.device?.healthcontrolflags ?? 0) >> 4) & 1 == 1) {
-                count += 1
-            }
-            xgztCount = count
-            return count
-        }
-        return 4
-    }
-    
-    private func updateTopCardVisuals(for state: HealthDashboardState) {
-        topSummaryGradientLayer.colors = dashboardGradientColors(for: state).map { $0.cgColor }
-        switch state {
-        case .noDevice:
-            topCardPrimaryDecorationView.backgroundColor = UIColor.white.withAlphaComponent(0.10)
-            topCardSecondaryDecorationView.backgroundColor = UIColor.white.withAlphaComponent(0.07)
-            topCardPrimaryDecorationView.transform = CGAffineTransform(scaleX: 0.96, y: 0.96)
-            topCardSecondaryDecorationView.transform = .identity
-        case .disconnected:
-            topCardPrimaryDecorationView.backgroundColor = UIColor.white.withAlphaComponent(0.11)
-            topCardSecondaryDecorationView.backgroundColor = UIColor.white.withAlphaComponent(0.08)
-            topCardPrimaryDecorationView.transform = CGAffineTransform(scaleX: 0.98, y: 0.98)
-            topCardSecondaryDecorationView.transform = CGAffineTransform(translationX: -4, y: 0)
-        case .noMetrics:
-            topCardPrimaryDecorationView.backgroundColor = UIColor.white.withAlphaComponent(0.12)
-            topCardSecondaryDecorationView.backgroundColor = UIColor.white.withAlphaComponent(0.08)
-            topCardPrimaryDecorationView.transform = .identity
-            topCardSecondaryDecorationView.transform = CGAffineTransform(translationX: -6, y: 2)
-        case .content:
-            topCardPrimaryDecorationView.backgroundColor = UIColor.white.withAlphaComponent(0.14)
-            topCardSecondaryDecorationView.backgroundColor = UIColor.white.withAlphaComponent(0.10)
-            topCardPrimaryDecorationView.transform = CGAffineTransform(scaleX: 1.02, y: 1.02)
-            topCardSecondaryDecorationView.transform = CGAffineTransform(translationX: -8, y: 4)
-        }
-    }
-
-    private func updateFemaleHealthEntryContent() {
-        let config = FemaleCycleDataManager.shared.getCycleConfiguration()
-        femaleHealthGradientLayer.colors = femaleHealthEntryGradientColors().map { $0.cgColor }
-        if config.isConfigured {
-            femaleHealthBadgeLabel.text = "female_cycle_today".localized()
-            femaleHealthSubtitleLabel.text = "\(config.periodDays)" + "female_cycle_days_unit".localized() + " · \(config.cycleLength)" + "female_cycle_days_unit".localized()
-        } else {
-            femaleHealthBadgeLabel.text = "female_cycle_today".localized()
-            femaleHealthSubtitleLabel.text = "female_cycle_subtitle".localized()
-        }
-    }
-
-    private func animateFemaleHealthEntrySelection(completion: @escaping () -> Void) {
-        UIView.animate(withDuration: 0.12, delay: 0, options: [.curveEaseOut, .allowUserInteraction]) {
-            self.femaleHealthContainerView.transform = CGAffineTransform(scaleX: 0.985, y: 0.985)
-        } completion: { _ in
-            UIView.animate(withDuration: 0.24, delay: 0, usingSpringWithDamping: 0.78, initialSpringVelocity: 0.16, options: [.allowUserInteraction, .curveEaseOut]) {
-                self.femaleHealthContainerView.transform = .identity
-            } completion: { _ in
-                completion()
-            }
-        }
-    }
-    
-    private func updateEmptyState() {
-        let state = currentDashboardState()
-        
-        switch state {
-        case .noDevice:
-            emptyStateView.configure(
-                image: UIImage(named: "health_empty_device") ?? UIImage(named: "health_null_data") ?? UIImage(systemName: "heart.text.square.fill"),
-                title: "device_add".localized(),
-                subtitle: "Add your first bracelet to unlock step tracking, heart rate cards and daily health insights.".localizedFallback("添加你的第一块手环后，这里会展示步数、心率和每日健康摘要。"),
-                primaryTitle: "device_add".localized(),
-                secondaryTitle: nil
-            )
-        case .disconnected:
-            emptyStateView.configure(
-                image: UIImage(named: "health_empty_disconnected") ?? UIImage(named: "health_null_data") ?? UIImage(systemName: "heart.text.square.fill"),
-                title: "mine_bluetooth_unconnect".localized(),
-                subtitle: "Reconnect your bracelet to refresh today's health dashboard and sync the latest data.".localizedFallback("重新连接手环后，这里会自动刷新今天的健康看板与最新数据。"),
-                primaryTitle: "device_change".localized(),
-                secondaryTitle: "device_scan".localized()
-            )
-        case .noMetrics:
-            emptyStateView.configure(
-                image: UIImage(named: "health_empty_metrics") ?? UIImage(named: "health_null_data") ?? UIImage(systemName: "heart.text.square.fill"),
-                title: "null_data".localized(),
-                subtitle: "Today's health data is still on the way. Keep wearing the bracelet and come back soon.".localizedFallback("今天的健康数据还在生成中，继续佩戴手环，稍后回来这里查看。"),
-                primaryTitle: nil,
-                secondaryTitle: nil
-            )
-        case .content:
-            emptyStateView.configure(
-                image: nil,
-                title: "",
-                subtitle: "",
-                primaryTitle: nil,
-                secondaryTitle: nil
-            )
-        }
-        
-        emptyStateView.isHidden = state == .content
-        collectionView.alwaysBounceVertical = state == .content
-    }
-    
-    private func updateDashboardPresentation(animated: Bool) {
-        updateConnectionStatus()
-        updateDashboardInsight()
-        updateFemaleHealthVisibility(animated: animated)
-        updateEmptyState()
-    }
-
-    private func dashboardGradientColors(for state: HealthDashboardState) -> [UIColor] {
-        switch state {
-        case .noDevice:
-            return [UIColor(hex: 0x6DAEFF), UIColor.brand]
-        case .disconnected:
-            return [UIColor(hex: 0x3A92FF), UIColor(hex: 0x0754C7)]
-        case .noMetrics:
-            return [UIColor(hex: 0x5BA5FF), UIColor(hex: 0x0A6FE8)]
-        case .content:
-            return [UIColor.brand, UIColor(hex: 0x53AEFF)]
-        }
-    }
-
-    private func femaleHealthEntryGradientColors() -> [UIColor] {
-        let config = FemaleCycleDataManager.shared.getCycleConfiguration()
-        if config.isConfigured {
-            return [UIColor.brand, UIColor(hex: 0x5E8BFF)]
-        }
-        return [UIColor(hex: 0x2E90FF), UIColor(hex: 0x6EBEFF)]
-    }
-    
-    private func startPremiumAnimationsIfNeeded() {
-        stopPremiumAnimations()
-    }
-    
-    private func stopPremiumAnimations() {
-        [
-            topCardPrimaryDecorationView.layer,
-            topCardSecondaryDecorationView.layer,
-            femaleHealthBadgeLabel.layer
-        ].forEach { layer in
-            layer.removeAllAnimations()
-        }
-    }
-    
-    private func handlePrimaryEmptyStateAction() {
-        addDevice(self)
-    }
-    
-    private func handleSecondaryEmptyStateAction() {
-        addDevice(self)
-    }
-    
-    private func formattedTodayString() -> String {
-        return DateFormatter.localizedString(from: Date(), dateStyle: .medium, timeStyle: .none)
-    }
-    
-    private func reloadMetricsCollection(animated: Bool = true) {
-        let now = CACurrentMediaTime()
-        let canAnimate = false
-        shouldAnimateMetricCellsOnNextDisplay = canAnimate
-        animatedMetricIndexPaths.removeAll()
-        if canAnimate {
-            lastMetricEntranceAnimationAt = now
-        }
-        collectionView.reloadData()
-    }
-    
-    private func configureMetricCell(_ cell: HealthCollectionViewCell, iconName: String, title: String, value: NSMutableAttributedString, accentColor: UIColor) {
-        cell.configureCell(icon: UIImage(named: iconName), leftTitle: title, rightTitle: value, accentColor: accentColor)
-    }
-    
-    private func metricAccentColor(for iconName: String) -> UIColor {
-        switch iconName {
-        case "health_heart":
-            return UIColor.brand
-        case "health_sleep":
-            return UIColor(hex: 0x3C86FF)
-        case "health_bloodpressure":
-            return UIColor(hex: 0x2190FF)
-        case "health_bloodoxygen":
-            return UIColor(hex: 0x58B8FF)
-        default:
-            return UIColor.brand
-        }
-    }
-    
-    private func makeTopValueAttributedText(value: String, unit: String, size1: CGFloat, size2: CGFloat) -> NSAttributedString {
-        let attributedString = NSMutableAttributedString()
-        let bigFont = UIFont.systemFont(ofSize: size1, weight: .bold)
-        let firstAttributes: [NSAttributedString.Key: Any] = [
-            .font: bigFont,
-            .foregroundColor: UIColor.white
-        ]
-        let firstString = NSAttributedString(string: value, attributes: firstAttributes)
-        attributedString.append(firstString)
-
-        let smallFont = UIFont.systemFont(ofSize: size2, weight: .semibold)
-        let secondAttributes: [NSAttributedString.Key: Any] = [
-            .font: smallFont,
-            .foregroundColor: UIColor.white
-        ]
-        let secondString = NSAttributedString(string: unit, attributes: secondAttributes)
-        attributedString.append(secondString)
-        
-        let baselineOffset = (bigFont.capHeight - smallFont.capHeight) / 2
-        attributedString.addAttributes([.baselineOffset: baselineOffset], range: NSRange(location: firstString.length, length: secondString.length))
-        return attributedString
-    }
-    
-    private func animateTopValueChangeIfNeeded(label: UILabel, value: String, unit: String, size1: CGFloat, size2: CGFloat) {
-        label.textAlignment = .center
-        
-        guard let targetValue = Double(value) else {
-            label.attributedText = makeTopValueAttributedText(value: value, unit: unit, size1: size1, size2: size2)
-            return
-        }
-        
-        let key = ObjectIdentifier(label)
-        let currentValue = numericAnimationStates[key]?.currentValue ?? renderedNumericValues[key] ?? 0
-        renderedNumericValues[key] = targetValue
-        
-        guard label.window != nil else {
-            label.attributedText = makeTopValueAttributedText(value: formattedNumericValue(targetValue, decimals: decimalCount(for: value)), unit: unit, size1: size1, size2: size2)
-            return
-        }
-        
-        if abs(currentValue - targetValue) < 0.0005 {
-            label.attributedText = makeTopValueAttributedText(value: formattedNumericValue(targetValue, decimals: decimalCount(for: value)), unit: unit, size1: size1, size2: size2)
-            return
-        }
-        
-        let state = NumericLabelAnimationState(
-            label: label,
-            startValue: currentValue,
-            targetValue: targetValue,
-            startTime: CACurrentMediaTime(),
-            duration: targetValue >= currentValue ? 0.8 : 0.55,
-            decimals: decimalCount(for: value),
-            unit: unit,
-            size1: size1,
-            size2: size2
-        )
-        numericAnimationStates[key] = state
-        startNumberDisplayLinkIfNeeded()
-    }
-    
-    private func decimalCount(for value: String) -> Int {
-        guard let dotIndex = value.firstIndex(of: ".") else {
-            return 0
-        }
-        return value.distance(from: value.index(after: dotIndex), to: value.endIndex)
-    }
-    
-    private func formattedNumericValue(_ value: Double, decimals: Int) -> String {
-        if decimals == 0 {
-            return "\(Int(value.rounded()))"
-        }
-        return String(format: "%.\(decimals)f", value)
-    }
-    
-    private func startNumberDisplayLinkIfNeeded() {
-        guard numericDisplayLink == nil else {
-            return
-        }
-        let displayLink = CADisplayLink(target: self, selector: #selector(handleNumericDisplayLink))
-        displayLink.add(to: .main, forMode: .common)
-        numericDisplayLink = displayLink
-    }
-    
-    private func stopNumberAnimations() {
-        numericDisplayLink?.invalidate()
-        numericDisplayLink = nil
-        
-        for state in numericAnimationStates.values {
-            if let label = state.label {
-                label.attributedText = makeTopValueAttributedText(
-                    value: formattedNumericValue(state.targetValue, decimals: state.decimals),
-                    unit: state.unit,
-                    size1: state.size1,
-                    size2: state.size2
-                )
-            }
-        }
-        numericAnimationStates.removeAll()
-    }
-    
-    @objc private func handleNumericDisplayLink() {
-        let now = CACurrentMediaTime()
-        var completedKeys: [ObjectIdentifier] = []
-        
-        for (key, state) in numericAnimationStates {
-            guard let label = state.label else {
-                completedKeys.append(key)
-                continue
-            }
-            
-            let progress = min(max((now - state.startTime) / state.duration, 0), 1)
-            let easedProgress = 1 - pow(1 - progress, 3)
-            let currentValue = state.startValue + (state.targetValue - state.startValue) * easedProgress
-            state.currentValue = currentValue
-            label.attributedText = makeTopValueAttributedText(
-                value: formattedNumericValue(currentValue, decimals: state.decimals),
-                unit: state.unit,
-                size1: state.size1,
-                size2: state.size2
-            )
-            
-            if progress >= 1 {
-                renderedNumericValues[key] = state.targetValue
-                completedKeys.append(key)
-            }
-        }
-        
-        completedKeys.forEach { numericAnimationStates.removeValue(forKey: $0) }
-        if numericAnimationStates.isEmpty {
-            numericDisplayLink?.invalidate()
-            numericDisplayLink = nil
-        }
-    }
-    
     func onSetupBigData(){
      
         mBigDataManager?.cmdBigDataMonitor({ [self] bigData in
@@ -1336,16 +390,12 @@ class HealthViewController: BaseViewController {
     }
     
     @objc private func handleDidEnterBackgroundNotification() {
-        stopPremiumAnimations()
-        stopNumberAnimations()
         if hud != nil {
             hud?.hideHud()
         }
     }
     
     @objc private func handleDidEnterForgroundNotification() {
-        updateDashboardPresentation(animated: false)
-        startPremiumAnimationsIfNeeded()
         if XGZTBlueToothManager.shared.centralManager?.state == .poweredOn {
             DispatchQueue.main.async {
                 [weak self] in
@@ -1396,7 +446,6 @@ class HealthViewController: BaseViewController {
         super.viewWillAppear(animated)
         // 确保 TabBar 显示
         tabBarController?.tabBar.isHidden = false
-        updateDashboardPresentation(animated: false)
         
         if !isFirst {
             readDBStep() // 从本地数据库中读取步数数据
@@ -1413,42 +462,15 @@ class HealthViewController: BaseViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        reloadMetricsCollection()
-        updateDashboardPresentation(animated: false)
-        startPremiumAnimationsIfNeeded()
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        stopPremiumAnimations()
-        stopNumberAnimations()
-    }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        topSummaryGradientLayer.frame = topSummaryCardView.bounds
-        topCardPrimaryDecorationView.layer.cornerRadius = topCardPrimaryDecorationView.bounds.height / 2
-        topCardSecondaryDecorationView.layer.cornerRadius = topCardSecondaryDecorationView.bounds.height / 2
-        collectionView.backgroundView?.frame = collectionView.bounds
-        dashboardInsightCardView.layer.shadowPath = UIBezierPath(roundedRect: dashboardInsightCardView.bounds, cornerRadius: dashboardInsightCardView.layer.cornerRadius).cgPath
-        femaleHealthContainerView.layer.shadowPath = UIBezierPath(roundedRect: femaleHealthContainerView.bounds, cornerRadius: femaleHealthContainerView.layer.cornerRadius).cgPath
-        femaleHealthGradientLayer.frame = femaleHealthContainerView.bounds
-        femaleHealthGlowView.layer.cornerRadius = femaleHealthGlowView.bounds.height / 2
-        
-        let preferredHeight = preferredTopCardHeight()
-        if abs((footViewHeightConstraint?.constant ?? 0) - preferredHeight) > 0.5 {
-            footViewHeightConstraint?.constant = preferredHeight
+        if XGZTBlueToothManager.shared.device?.sex == 1 {
+            femaleHealthContainerView.isHidden = false
+        } else {
+            femaleHealthContainerView.isHidden = true
         }
-        
-        if abs(collectionView.bounds.width - lastKnownCollectionWidth) > 0.5 {
-            lastKnownCollectionWidth = collectionView.bounds.width
-            collectionView.collectionViewLayout.invalidateLayout()
-        }
+        collectionView.reloadData()
     }
     
     deinit {
-        stopPremiumAnimations()
-        stopNumberAnimations()
         unregisterNotification()
         currentDialog?.removeFromSuperview()
     }
@@ -1463,27 +485,17 @@ class HealthViewController: BaseViewController {
     }
     
     private func refreshStepValue(unit: Float, v: Float) {
-        latestCalorieValue = v
-        refreshValue(label: calorieStatValueLabel, value: String(format: "%.3f", v), unit: "health_kilo_calorie".localized(), size1: 24, size2: 11)
+        refreshValue(label: footKLabel, value: String(format: "%.3f", v), unit: "health_kilo_calorie".localized(), size1: 20, size2: 10)
         if isXGZT {
             if XGZTBlueToothManager.shared.device?.baseUnit ?? 0 > 0 {
                 let new = unit * 62 / 100
                 let truncated = (new * 1000).rounded(.towardZero)/1000
-                latestDistanceValue = Float(truncated)
-                latestDistanceUnitText = "mile".localized()
-                refreshValue(label: distanceStatValueLabel, value: String(format: "%.3f", truncated), unit: "mile".localized(), size1: 24, size2: 11)
+                refreshValue(label: footMLabel, value: String(format: "%.3f", truncated), unit: "mile".localized(), size1: 20, size2: 10)
             } else {
-                latestDistanceValue = unit
-                latestDistanceUnitText = "health_walk_unit".localized()
-                refreshValue(label: distanceStatValueLabel, value: String(format: "%.3f", unit), unit: "health_walk_unit".localized(), size1: 24, size2: 11)
+                refreshValue(label: footMLabel, value: String(format: "%.3f", unit), unit: "health_walk_unit".localized(), size1: 20, size2: 10)
             }
         } else {
-            latestDistanceValue = unit
-            latestDistanceUnitText = "health_walk_unit".localized()
-            refreshValue(label: distanceStatValueLabel, value: String(format: "%.3f", unit), unit: "health_walk_unit".localized(), size1: 24, size2: 11)
-        }
-        if isViewLoaded {
-            updateDashboardInsight()
+            refreshValue(label: footMLabel, value: String(format: "%.3f", unit), unit: "health_walk_unit".localized(), size1: 20, size2: 10)
         }
     }
     
@@ -1494,7 +506,7 @@ class HealthViewController: BaseViewController {
             DispatchQueue.main.async {
                 [weak self] in
                 
-                self?.refreshValue(label: self?.topCardValueLabel, value: "\(step)", unit: "health_step_noun".localized(), size1: 52, size2: 16)
+                self?.refreshValue(label: self?.footValueLabel, value: "\(step)", unit: "health_step_noun".localized(), size1: 40, size2: 14)
             }
             if (isXGZT) {
                 let distance = Int(XGZTBlueToothManager.shared.device?.height ?? 0) * 415 / 1000
@@ -1531,7 +543,7 @@ class HealthViewController: BaseViewController {
                         arrStr.append(NSAttributedString(string: "\(m)", attributes: [.font: UIFont.systemFont(ofSize: 20, weight: .black), .foregroundColor: UIColor.black]))
                         arrStr.append(NSAttributedString(string: "health_minute".localized(), attributes: [.font: UIFont.systemFont(ofSize: 10, weight: .semibold), .foregroundColor: UIColor.text_secondary]))
                         self?.arrayValue[1] = arrStr
-                        self?.reloadMetricsCollection()
+                        self?.collectionView.reloadData()
                     } else {
                         let arrStr = NSMutableAttributedString()
                         arrStr.append(NSAttributedString(string: "0", attributes: [.font: UIFont.systemFont(ofSize: 20, weight: .black), .foregroundColor: UIColor.black]))
@@ -1539,7 +551,7 @@ class HealthViewController: BaseViewController {
                         arrStr.append(NSAttributedString(string: "0", attributes: [.font: UIFont.systemFont(ofSize: 20, weight: .black), .foregroundColor: UIColor.black]))
                         arrStr.append(NSAttributedString(string: "health_minute".localized(), attributes: [.font: UIFont.systemFont(ofSize: 10, weight: .semibold), .foregroundColor: UIColor.text_secondary]))
                         self?.arrayValue[1] = arrStr
-                        self?.reloadMetricsCollection()
+                        self?.collectionView.reloadData()
                     }
                 } else {
                     let array = BLEManager.shared.sleepArray[0]
@@ -1554,7 +566,7 @@ class HealthViewController: BaseViewController {
                         arrStr.append(NSAttributedString(string: "\(m)", attributes: [.font: UIFont.systemFont(ofSize: 20, weight: .black), .foregroundColor: UIColor.black]))
                         arrStr.append(NSAttributedString(string: "health_minute".localized(), attributes: [.font: UIFont.systemFont(ofSize: 10, weight: .semibold), .foregroundColor: UIColor.text_secondary]))
                         self?.arrayValue[1] = arrStr
-                        self?.reloadMetricsCollection()
+                        self?.collectionView.reloadData()
                         
                     } else {
                         let arrStr = NSMutableAttributedString()
@@ -1563,7 +575,7 @@ class HealthViewController: BaseViewController {
                         arrStr.append(NSAttributedString(string: "0", attributes: [.font: UIFont.systemFont(ofSize: 20, weight: .black), .foregroundColor: UIColor.black]))
                         arrStr.append(NSAttributedString(string: "health_minute".localized(), attributes: [.font: UIFont.systemFont(ofSize: 10, weight: .semibold), .foregroundColor: UIColor.text_secondary]))
                         self?.arrayValue[1] = arrStr
-                        self?.reloadMetricsCollection()
+                        self?.collectionView.reloadData()
                     }
                 }
             }
@@ -1578,7 +590,7 @@ class HealthViewController: BaseViewController {
                     v.append(NSAttributedString(string: "health_value_p_minute".localized(), attributes: [.font: UIFont.systemFont(ofSize: 10, weight: .semibold), .foregroundColor: UIColor.text_secondary]))
                     if heart > 0 {
                         self?.arrayValue[0] = v
-                        self?.reloadMetricsCollection()
+                        self?.collectionView.reloadData()
                     }
                 }
             } else {
@@ -1594,7 +606,7 @@ class HealthViewController: BaseViewController {
                     v.append(NSAttributedString(string: "health_value_p_minute".localized(), attributes: [.font: UIFont.systemFont(ofSize: 10, weight: .semibold), .foregroundColor: UIColor.text_secondary]))
                     if heart > 0 {
                         self?.arrayValue[0] = v
-                        self?.reloadMetricsCollection()
+                        self?.collectionView.reloadData()
                     }
                 }
             }
@@ -1611,7 +623,7 @@ class HealthViewController: BaseViewController {
                     v.append(NSAttributedString(string: "MMHG", attributes: [.font: UIFont.systemFont(ofSize: 10, weight: .semibold), .foregroundColor: UIColor.text_secondary]))
                     if min > 0 {
                         self?.arrayValue[2] = v
-                        self?.reloadMetricsCollection()
+                        self?.collectionView.reloadData()
                         UserDefaults.standard.setValue("\(max)/\(min)", forKey: "blood")
                         UserDefaults.standard.synchronize()
                     }
@@ -1631,7 +643,7 @@ class HealthViewController: BaseViewController {
                     v.append(NSAttributedString(string: "MMHG", attributes: [.font: UIFont.systemFont(ofSize: 10, weight: .semibold), .foregroundColor: UIColor.text_secondary]))
                     if min > 0 {
                         self?.arrayValue[2] = v
-                        self?.reloadMetricsCollection()
+                        self?.collectionView.reloadData()
                         UserDefaults.standard.setValue("\(max)/\(min)", forKey: "blood")
                         UserDefaults.standard.synchronize()
                     }
@@ -1651,7 +663,7 @@ class HealthViewController: BaseViewController {
                     v.append(NSAttributedString(string: "SPO2", attributes: [.font: UIFont.systemFont(ofSize: 10, weight: .semibold), .foregroundColor: UIColor.text_secondary]))
                     if value > 0 {
                         self?.arrayValue[3] = v
-                        self?.reloadMetricsCollection()
+                        self?.collectionView.reloadData()
                     }
                 }
             } else {
@@ -1671,7 +683,7 @@ class HealthViewController: BaseViewController {
                     v.append(NSAttributedString(string: "SPO2", attributes: [.font: UIFont.systemFont(ofSize: 10, weight: .semibold), .foregroundColor: UIColor.text_secondary]))
                     if value > 0 {
                         self?.arrayValue[3] = v
-                        self?.reloadMetricsCollection()
+                        self?.collectionView.reloadData()
                     }
                 }
             }
@@ -1714,7 +726,7 @@ class HealthViewController: BaseViewController {
         } else if objc == "refresh" {
             DispatchQueue.main.async {
                 [weak self] in
-                self?.reloadMetricsCollection()
+                self?.collectionView.reloadData()
             }
         } else if objc == "head" {
             
@@ -1752,9 +764,6 @@ class HealthViewController: BaseViewController {
                 NotificationCenter.default.post(name: Notification.Name("DevicesViewController"), object: "1")
                 NotificationCenter.default.post(name: Notification.Name("DeviceList"), object: "1")
             }
-        }
-        DispatchQueue.main.async { [weak self] in
-            self?.updateDashboardPresentation(animated: false)
         }
     }
     
@@ -1908,7 +917,11 @@ class HealthViewController: BaseViewController {
             DispatchQueue.main.async {
                 [weak self] in
                 self?.hud?.dismiss(animated: false)
-                self?.updateDashboardPresentation(animated: true)
+                if XGZTBlueToothManager.shared.device?.sex == 1 {
+                    self?.femaleHealthContainerView.isHidden = false
+                } else {
+                    self?.femaleHealthContainerView.isHidden = true
+                }
             }
             DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                 [weak self] in
@@ -1950,87 +963,40 @@ class HealthViewController: BaseViewController {
         guard let vc = segue.destination as? HealthDetailViewController else {
             return
         }
-        vc.colors = detailGradientColors(for: flag)
+        vc.colors = [UIColor.kFFB642, UIColor.kFF5E46]
         vc.type = flag
-    }
-    
-    private func detailGradientColors(for type: Int) -> [UIColor] {
-        switch type {
-        case 2:
-            return [UIColor.kFF5E46, UIColor(hex: 0xFF8D64)]
-        case 3:
-            return [UIColor.k7A61FF, UIColor(hex: 0xA78BFF)]
-        case 4:
-            return [UIColor.kFFB642, UIColor(hex: 0xFF8A54)]
-        case 5:
-            return [UIColor.k08CCCC, UIColor(hex: 0x4B8DFF)]
-        default:
-            return [UIColor.brand, UIColor(hex: 0x53AEFF)]
-        }
-    }
-
-    private func availableDetailTypes() -> [Int] {
-        guard isXGZT else {
-            return [2, 3, 4, 5]
-        }
-        var types: [Int] = []
-        let flags = XGZTBlueToothManager.shared.device?.healthcontrolflags ?? 0
-        if flags & 1 == 1 {
-            types.append(2)
-        }
-        if (flags >> 4) & 1 == 1 {
-            types.append(3)
-        }
-        if (flags >> 2) & 1 == 1 {
-            types.append(4)
-        }
-        if (flags >> 1) & 1 == 1 {
-            types.append(5)
-        }
-        return types
-    }
-    
-    private func presentHealthDetail(type: Int) {
-        let palette = detailGradientColors(for: type)
-        UIImpactFeedbackGenerator(style: .light).impactOccurred()
-        
-        let vc = HealthDetailViewController()
-        vc.type = type
-        vc.colors = palette
-        vc.hidesBottomBarWhenPushed = true
-        vc.prefersSharedTransition = false
-        
-        navigationController?.pushViewController(vc, animated: true)
-    }
-
-    private func presentFemaleHealthFlow(destination: UIViewController) {
-        destination.hidesBottomBarWhenPushed = true
-        navigationController?.pushViewController(destination, animated: true)
     }
     
     // MARK: - Action
     
     @objc func handleFootCount() {
         flag = 0
-        presentHealthDetail(type: 0)
+        let vc = HealthDetailViewController()
+        vc.type = 0
+        vc.hidesBottomBarWhenPushed = true
+        navigationController?.pushViewController(vc, animated: true)
     }
 
     @objc func handleFemaleHealthTapped() {
-        UIImpactFeedbackGenerator(style: .light).impactOccurred()
-        animateFemaleHealthEntrySelection { [weak self] in
-            guard let self else { return }
-            let config = FemaleCycleDataManager.shared.getCycleConfiguration()
-            let hasConfigured = config.isConfigured
+        // 从数据管理器获取周期配置
+        let config = FemaleCycleDataManager.shared.getCycleConfiguration()
 
-            if hasConfigured {
-                XLogger.shared.log("女性健康已配置，跳转到日历页面")
-                let vc = FemaleCycleCalendarViewController()
-                self.presentFemaleHealthFlow(destination: vc)
-            } else {
-                XLogger.shared.log("女性健康未配置，跳转到设置页面")
-                let vc = FemaleHealthViewController()
-                self.presentFemaleHealthFlow(destination: vc)
-            }
+        // 判断是否已经设置过经期数据
+        // 使用 isConfigured 字段来判断用户是否已配置过，而不是仅检查默认值
+        let hasConfigured = config.isConfigured
+
+        if hasConfigured {
+            // 已设置：跳转到日历页面
+            XLogger.shared.log("女性健康已配置，跳转到日历页面")
+            let vc = FemaleCycleCalendarViewController()
+            vc.hidesBottomBarWhenPushed = true
+            navigationController?.pushViewController(vc, animated: true)
+        } else {
+            // 未设置：跳转到设置页面
+            XLogger.shared.log("女性健康未配置，跳转到设置页面")
+            let vc = FemaleHealthViewController()
+            vc.hidesBottomBarWhenPushed = true
+            navigationController?.pushViewController(vc, animated: true)
         }
     }
 
@@ -2047,22 +1013,45 @@ class HealthViewController: BaseViewController {
     }
     
     private func refreshValue(label: UILabel?, value: String, unit: String, size1: CGFloat, size2: CGFloat) {
-        guard let label else {
-            return
-        }
-        if label === topCardValueLabel {
-            latestStepCount = Int(value) ?? 0
-        }
-        animateTopValueChangeIfNeeded(label: label, value: value, unit: unit, size1: size1, size2: size2)
-        if isViewLoaded, label === topCardValueLabel {
-            updateDashboardInsight()
-        }
+        label?.textAlignment = .center
+        // 创建一个NSMutableAttributedString实例
+        let attributedString = NSMutableAttributedString()
+
+        let bigFont = UIFont.systemFont(ofSize: size1, weight: .bold)
+        // 创建第一段文本的属性
+        let firstAttributes: [NSAttributedString.Key: Any] = [
+            .font: bigFont,
+            .foregroundColor: UIColor.white
+        ]
+        let firstString = NSAttributedString(string: value, attributes: firstAttributes)
+        attributedString.append(firstString)
+
+        let smallFont = UIFont.systemFont(ofSize: size2, weight: .semibold)
+        // 创建第二段文本的属性
+        let secondAttributes: [NSAttributedString.Key: Any] = [
+            .font: smallFont,
+            .foregroundColor: UIColor.white
+        ]
+        let secondString = NSAttributedString(string: unit, attributes: secondAttributes)
+        attributedString.append(secondString)
+        
+        // 计算基线偏移量
+        let bigFontCapHeight = bigFont.capHeight
+        let smallFontCapHeight = smallFont.capHeight
+        let baselineOffset = (bigFontCapHeight - smallFontCapHeight) / 2
+
+        // 为小字体设置基线偏移量
+        attributedString.addAttributes([.baselineOffset: baselineOffset], range: NSRange(location: firstString.length, length: secondString.length))
+
+
+        // 将NSMutableAttributedString赋值给UILabel
+        label?.attributedText = attributedString
     }
     
     // 读取数据库内缓存数据
     private func readDBStep(null: Bool = false) {
         if null {
-            refreshValue(label: topCardValueLabel, value: "\(0)", unit: "health_step_noun".localized(), size1: 52, size2: 16)
+            refreshValue(label: footValueLabel, value: "\(0)", unit: "health_step_noun".localized(), size1: 40, size2: 14)
             refreshStepValue(unit: 0, v: 0)
             return
         }
@@ -2078,7 +1067,7 @@ class HealthViewController: BaseViewController {
             distance += models?[i].distance ?? 0
             cal += models?[i].cal ?? 0
         }
-        refreshValue(label: topCardValueLabel, value: "\(step)", unit: "health_step_noun".localized(), size1: 52, size2: 16)
+        refreshValue(label: footValueLabel, value: "\(step)", unit: "health_step_noun".localized(), size1: 40, size2: 14)
         let unit = Float(distance) / 1000
         let v = Float(cal) / 1000
         refreshStepValue(unit: unit, v: v)
@@ -2109,7 +1098,7 @@ class HealthViewController: BaseViewController {
         v.append(NSAttributedString(string: "\(heart)", attributes: [.font: UIFont.systemFont(ofSize: 20, weight: .black), .foregroundColor: UIColor.black]))
         v.append(NSAttributedString(string: "health_value_p_minute".localized(), attributes: [.font: UIFont.systemFont(ofSize: 10, weight: .semibold), .foregroundColor: UIColor.text_secondary]))
         arrayValue[0] = v
-        reloadMetricsCollection()
+        collectionView.reloadData()
     }
     
     private func refreshDBHeart() {
@@ -2151,7 +1140,7 @@ class HealthViewController: BaseViewController {
             arrStr.append(NSAttributedString(string: "\(m)", attributes: [.font: UIFont.systemFont(ofSize: 20, weight: .black), .foregroundColor: UIColor.black]))
             arrStr.append(NSAttributedString(string: "health_minute".localized(), attributes: [.font: UIFont.systemFont(ofSize: 10, weight: .semibold), .foregroundColor: UIColor.text_secondary]))
             arrayValue[1] = arrStr
-            reloadMetricsCollection()
+            collectionView.reloadData()
             
         } else {
             let arrStr = NSMutableAttributedString()
@@ -2160,7 +1149,7 @@ class HealthViewController: BaseViewController {
             arrStr.append(NSAttributedString(string: "0", attributes: [.font: UIFont.systemFont(ofSize: 20, weight: .black), .foregroundColor: UIColor.black]))
             arrStr.append(NSAttributedString(string: "health_minute".localized(), attributes: [.font: UIFont.systemFont(ofSize: 10, weight: .semibold), .foregroundColor: UIColor.text_secondary]))
             arrayValue[1] = arrStr
-            reloadMetricsCollection()
+            collectionView.reloadData()
         }
     }
     
@@ -2189,7 +1178,7 @@ class HealthViewController: BaseViewController {
         v.append(NSAttributedString(string: "\(max)/\(min)", attributes: [.font: UIFont.systemFont(ofSize: 20, weight: .black), .foregroundColor: UIColor.black]))
         v.append(NSAttributedString(string: "MMHG", attributes: [.font: UIFont.systemFont(ofSize: 10, weight: .semibold), .foregroundColor: UIColor.text_secondary]))
         arrayValue[2] = v
-        reloadMetricsCollection()
+        collectionView.reloadData()
     }
     
     private func refreshDBBlood() {
@@ -2212,7 +1201,7 @@ class HealthViewController: BaseViewController {
         v.append(NSAttributedString(string: "\(value)", attributes: [.font: UIFont.systemFont(ofSize: 20, weight: .black), .foregroundColor: UIColor.black]))
         v.append(NSAttributedString(string: "SPO2", attributes: [.font: UIFont.systemFont(ofSize: 10, weight: .semibold), .foregroundColor: UIColor.text_secondary]))
         arrayValue[3] = v
-        reloadMetricsCollection()
+        collectionView.reloadData()
     }
     
     private func refreshDBOxygen() {
@@ -2420,87 +1409,84 @@ extension HealthViewController: BleNeedSendDataDelegate_C {
 
 
 extension HealthViewController: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
-        (collectionView.cellForItem(at: indexPath) as? HealthCollectionViewCell)?.setHighlightedState(true)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didUnhighlightItemAt indexPath: IndexPath) {
-        (collectionView.cellForItem(at: indexPath) as? HealthCollectionViewCell)?.setHighlightedState(false)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        guard let metricCell = cell as? HealthCollectionViewCell else {
-            return
-        }
-        
-        guard shouldAnimateMetricCellsOnNextDisplay, !animatedMetricIndexPaths.contains(indexPath) else {
-            metricCell.alpha = 1
-            metricCell.transform = .identity
-            return
-        }
-        
-        animatedMetricIndexPaths.insert(indexPath)
-        metricCell.alpha = 0
-        metricCell.transform = CGAffineTransform(translationX: 0, y: 22).scaledBy(x: 0.96, y: 0.96)
-        
-        UIView.animate(
-            withDuration: 0.62,
-            delay: min(Double(indexPath.item) * 0.07, 0.24),
-            usingSpringWithDamping: 0.88,
-            initialSpringVelocity: 0.18,
-            options: [.allowUserInteraction, .curveEaseOut]
-        ) {
-            metricCell.alpha = 1
-            metricCell.transform = .identity
-        }
-    }
-    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         // 处理cell点击事件
-        let selectedView = collectionView.cellForItem(at: indexPath)
         if isXGZT {
             if xgztCount >= 4 {
                 flag = 2 + indexPath.item
-                presentHealthDetail(type: flag)
+                let vc = HealthDetailViewController()
+                vc.type = flag
+                vc.hidesBottomBarWhenPushed = true
+                navigationController?.pushViewController(vc, animated: true)
             } else {
                 if indexPath.item == 0 {
                     if (XGZTBlueToothManager.shared.device?.healthcontrolflags ?? 0) & 1 == 1 {
                         flag = 2
-                        presentHealthDetail(type: flag)
+                        let vc = HealthDetailViewController()
+                        vc.type = flag
+                        vc.hidesBottomBarWhenPushed = true
+                        navigationController?.pushViewController(vc, animated: true)
                     } else if ((XGZTBlueToothManager.shared.device?.healthcontrolflags ?? 0) >> 4) & 1 == 1 {
                         flag = 3
-                        presentHealthDetail(type: flag)
+                        let vc = HealthDetailViewController()
+                        vc.type = flag
+                        vc.hidesBottomBarWhenPushed = true
+                        navigationController?.pushViewController(vc, animated: true)
                     } else if ((XGZTBlueToothManager.shared.device?.healthcontrolflags ?? 0) >> 2) & 1 == 1 {
                         flag = 4
-                        presentHealthDetail(type: flag)
+                        let vc = HealthDetailViewController()
+                        vc.type = flag
+                        vc.hidesBottomBarWhenPushed = true
+                        navigationController?.pushViewController(vc, animated: true)
                     } else if ((XGZTBlueToothManager.shared.device?.healthcontrolflags ?? 0) >> 1) & 1 == 1 {
                         flag = 5
-                        presentHealthDetail(type: flag)
+                        let vc = HealthDetailViewController()
+                        vc.type = flag
+                        vc.hidesBottomBarWhenPushed = true
+                        navigationController?.pushViewController(vc, animated: true)
                     }
                 } else if indexPath.item == 1 {
                     if ((XGZTBlueToothManager.shared.device?.healthcontrolflags ?? 0) >> 4) & 1 == 1 {
                         flag = 3
-                        presentHealthDetail(type: flag)
+                        let vc = HealthDetailViewController()
+                        vc.type = flag
+                        vc.hidesBottomBarWhenPushed = true
+                        navigationController?.pushViewController(vc, animated: true)
                     } else if ((XGZTBlueToothManager.shared.device?.healthcontrolflags ?? 0) >> 2) & 1 == 1 {
                         flag = 4
-                        presentHealthDetail(type: flag)
+                        let vc = HealthDetailViewController()
+                        vc.type = flag
+                        vc.hidesBottomBarWhenPushed = true
+                        navigationController?.pushViewController(vc, animated: true)
                     } else if ((XGZTBlueToothManager.shared.device?.healthcontrolflags ?? 0) >> 1) & 1 == 1 {
                         flag = 5
-                        presentHealthDetail(type: flag)
+                        let vc = HealthDetailViewController()
+                        vc.type = flag
+                        vc.hidesBottomBarWhenPushed = true
+                        navigationController?.pushViewController(vc, animated: true)
                     }
                 } else if indexPath.item == 2 {
                     if ((XGZTBlueToothManager.shared.device?.healthcontrolflags ?? 0) >> 2) & 1 == 1 {
                         flag = 4
-                        presentHealthDetail(type: flag)
+                        let vc = HealthDetailViewController()
+                        vc.type = flag
+                        vc.hidesBottomBarWhenPushed = true
+                        navigationController?.pushViewController(vc, animated: true)
                     } else if ((XGZTBlueToothManager.shared.device?.healthcontrolflags ?? 0) >> 1) & 1 == 1 {
                         flag = 5
-                        presentHealthDetail(type: flag)
+                        let vc = HealthDetailViewController()
+                        vc.type = flag
+                        vc.hidesBottomBarWhenPushed = true
+                        navigationController?.pushViewController(vc, animated: true)
                     }
                 }
             }
         } else {
             flag = 2 + indexPath.item
-            presentHealthDetail(type: flag)
+            let vc = HealthDetailViewController()
+            vc.type = flag
+            vc.hidesBottomBarWhenPushed = true
+            navigationController?.pushViewController(vc, animated: true)
         }
     }
 }
@@ -2508,55 +1494,81 @@ extension HealthViewController: UICollectionViewDelegate {
 extension HealthViewController: UICollectionViewDataSource {
     // UICollectionViewDataSource
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return currentMetricCount()
+        if lastestDeviceMac.count <= 0 {
+            XLogger.shared.log("lastestDeviceMac为空")
+            return 0
+        }
+        if !bleSelf.isConnected && XGZTBlueToothManager.shared.device == nil {
+           return 0
+        }
+        if isXGZT {
+            var count = 0
+            if ((XGZTBlueToothManager.shared.device?.healthcontrolflags ?? 0) & 1 == 1) {
+                count += 1
+            }
+            if (((XGZTBlueToothManager.shared.device?.healthcontrolflags ?? 0) >> 1) & 1 == 1) {
+                count += 1
+            }
+            if (((XGZTBlueToothManager.shared.device?.healthcontrolflags ?? 0) >> 2) & 1 == 1) {
+                count += 1
+            }
+            if (((XGZTBlueToothManager.shared.device?.healthcontrolflags ?? 0) >> 4) & 1 == 1) {
+                count += 1
+            }
+            xgztCount = count
+            XLogger.shared.log("count = \(count)")
+            return count
+        }
+        return 4 // 你有4个cells
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath) as! HealthCollectionViewCell
+        // 配置cell，这里只是示例数据
         if indexPath.item == 0 {
             if isXGZT {
                 if (XGZTBlueToothManager.shared.device?.healthcontrolflags ?? 0) & 1 == 1 {
-                    configureMetricCell(cell, iconName: "health_heart", title: "health_heart_rate".localized(), value: arrayValue[indexPath.item], accentColor: metricAccentColor(for: "health_heart"))
+                    cell.configureCell(icon: UIImage(named: "health_heart"), leftTitle: "health_heart_rate".localized(), rightTitle: arrayValue[indexPath.item])
                 } else if ((XGZTBlueToothManager.shared.device?.healthcontrolflags ?? 0) >> 4) & 1 == 1 {
-                    configureMetricCell(cell, iconName: "health_sleep", title: "health_sleep".localized(), value: arrayValue[indexPath.item + 1], accentColor: metricAccentColor(for: "health_sleep"))
+                    cell.configureCell(icon: UIImage(named: "health_sleep"), leftTitle: "health_sleep".localized(), rightTitle: arrayValue[indexPath.item + 1])
                 } else if ((XGZTBlueToothManager.shared.device?.healthcontrolflags ?? 0) >> 2) & 1 == 1 {
-                    configureMetricCell(cell, iconName: "health_bloodpressure", title: "health_blood_pressure".localized(), value: arrayValue[indexPath.item + 2], accentColor: metricAccentColor(for: "health_bloodpressure"))
+                    cell.configureCell(icon: UIImage(named: "health_bloodpressure"), leftTitle: "health_blood_pressure".localized(), rightTitle: arrayValue[indexPath.item + 2])
                 } else if ((XGZTBlueToothManager.shared.device?.healthcontrolflags ?? 0) >> 1) & 1 == 1 {
-                    configureMetricCell(cell, iconName: "health_bloodoxygen", title: "health_blood_oxygen".localized(), value: arrayValue[indexPath.item + 3], accentColor: metricAccentColor(for: "health_bloodoxygen"))
+                    cell.configureCell(icon: UIImage(named: "health_bloodoxygen"), leftTitle: "health_blood_oxygen".localized(), rightTitle: arrayValue[indexPath.item + 3])
                 }
             } else {
-                configureMetricCell(cell, iconName: "health_heart", title: "health_heart_rate".localized(), value: arrayValue[indexPath.item], accentColor: metricAccentColor(for: "health_heart"))
+                cell.configureCell(icon: UIImage(named: "health_heart"), leftTitle: "health_heart_rate".localized(), rightTitle: arrayValue[indexPath.item])
             }
             
         } else if indexPath.item == 1 {
             if isXGZT {
                 if xgztCount > 1 {
                     if ((XGZTBlueToothManager.shared.device?.healthcontrolflags ?? 0) >> 4) & 1 == 1 {
-                        configureMetricCell(cell, iconName: "health_sleep", title: "health_sleep".localized(), value: arrayValue[indexPath.item], accentColor: metricAccentColor(for: "health_sleep"))
+                        cell.configureCell(icon: UIImage(named: "health_sleep"), leftTitle: "health_sleep".localized(), rightTitle: arrayValue[indexPath.item])
                     } else if ((XGZTBlueToothManager.shared.device?.healthcontrolflags ?? 0) >> 2) & 1 == 1 {
-                        configureMetricCell(cell, iconName: "health_bloodpressure", title: "health_blood_pressure".localized(), value: arrayValue[indexPath.item + 1], accentColor: metricAccentColor(for: "health_bloodpressure"))
+                        cell.configureCell(icon: UIImage(named: "health_bloodpressure"), leftTitle: "health_blood_pressure".localized(), rightTitle: arrayValue[indexPath.item + 1])
                     } else if ((XGZTBlueToothManager.shared.device?.healthcontrolflags ?? 0) >> 1) & 1 == 1 {
-                        configureMetricCell(cell, iconName: "health_bloodoxygen", title: "health_blood_oxygen".localized(), value: arrayValue[indexPath.item + 2], accentColor: metricAccentColor(for: "health_bloodoxygen"))
+                        cell.configureCell(icon: UIImage(named: "health_bloodoxygen"), leftTitle: "health_blood_oxygen".localized(), rightTitle: arrayValue[indexPath.item + 2])
                     }
                 }
             } else {
-                configureMetricCell(cell, iconName: "health_sleep", title: "health_sleep".localized(), value: arrayValue[indexPath.item], accentColor: metricAccentColor(for: "health_sleep"))
+                cell.configureCell(icon: UIImage(named: "health_sleep"), leftTitle: "health_sleep".localized(), rightTitle: arrayValue[indexPath.item])
             }
         } else if indexPath.item == 2 {
             if isXGZT {
                 if xgztCount > 2 {
                     if ((XGZTBlueToothManager.shared.device?.healthcontrolflags ?? 0) >> 2) & 1 == 1 {
-                        configureMetricCell(cell, iconName: "health_bloodpressure", title: "health_blood_pressure".localized(), value: arrayValue[indexPath.item], accentColor: metricAccentColor(for: "health_bloodpressure"))
+                        cell.configureCell(icon: UIImage(named: "health_bloodpressure"), leftTitle: "health_blood_pressure".localized(), rightTitle: arrayValue[indexPath.item])
                     } else if ((XGZTBlueToothManager.shared.device?.healthcontrolflags ?? 0) >> 1) & 1 == 1 {
-                        configureMetricCell(cell, iconName: "health_bloodoxygen", title: "health_blood_oxygen".localized(), value: arrayValue[indexPath.item + 1], accentColor: metricAccentColor(for: "health_bloodoxygen"))
+                        cell.configureCell(icon: UIImage(named: "health_bloodoxygen"), leftTitle: "health_blood_oxygen".localized(), rightTitle: arrayValue[indexPath.item + 1])
                     }
                 }
             } else {
-                configureMetricCell(cell, iconName: "health_bloodpressure", title: "health_blood_pressure".localized(), value: arrayValue[indexPath.item], accentColor: metricAccentColor(for: "health_bloodpressure"))
+                cell.configureCell(icon: UIImage(named: "health_bloodpressure"), leftTitle: "health_blood_pressure".localized(), rightTitle: arrayValue[indexPath.item])
             }
             
         } else {
-            configureMetricCell(cell, iconName: "health_bloodoxygen", title: "health_blood_oxygen".localized(), value: arrayValue[indexPath.item], accentColor: metricAccentColor(for: "health_bloodoxygen"))
+            cell.configureCell(icon: UIImage(named: "health_bloodoxygen"), leftTitle: "health_blood_oxygen".localized(), rightTitle: arrayValue[indexPath.item])
         }
         return cell
     }
@@ -2564,61 +1576,5 @@ extension HealthViewController: UICollectionViewDataSource {
     // 如果需要多个分区，可以实现这个方法
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
-    }
-}
-
-extension HealthViewController: UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let insets = UIEdgeInsets(top: 0, left: 16, bottom: 8, right: 16)
-        let availableWidth = collectionView.bounds.width - insets.left - insets.right
-        let itemCount = currentMetricCount()
-        
-        guard availableWidth > 0 else {
-            return CGSize(width: 0, height: 0)
-        }
-        
-        if itemCount <= 1 {
-            return CGSize(width: availableWidth, height: 132)
-        }
-        
-        if itemCount % 2 == 1 && indexPath.item == itemCount - 1 {
-            return CGSize(width: availableWidth, height: 136)
-        }
-        
-        let itemWidth = floor((availableWidth - 12) / 2)
-        let itemHeight = max(132, min(148, itemWidth * 0.78))
-        return CGSize(width: itemWidth, height: itemHeight)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 0, left: 16, bottom: 8, right: 16)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 12
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 12
-    }
-}
-
-private final class EdgeInsetLabel: UILabel {
-    var contentInsets = UIEdgeInsets(top: 6, left: 10, bottom: 6, right: 10)
-    
-    override func drawText(in rect: CGRect) {
-        super.drawText(in: rect.inset(by: contentInsets))
-    }
-    
-    override var intrinsicContentSize: CGSize {
-        let size = super.intrinsicContentSize
-        return CGSize(width: size.width + contentInsets.left + contentInsets.right, height: size.height + contentInsets.top + contentInsets.bottom)
-    }
-}
-
-private extension String {
-    func localizedFallback(_ fallback: String) -> String {
-        let value = self.localized()
-        return value == self ? fallback : value
     }
 }

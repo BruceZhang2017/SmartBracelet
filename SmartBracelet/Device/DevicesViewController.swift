@@ -27,26 +27,17 @@ class DevicesViewController: BaseViewController, UIDocumentInteractionController
     let changeButton = UIButton(type: .system)
     let reconnectButton = UIButton(type: .system) // 新增重新连接按钮
     let btButton = UIButton(type: .system)
-    private let btChevronImageView = UIImageView(image: UIImage(named: "content_icon_nextgray_normal"))
-    private let topCardDividerView = UIView()
     var deviceSettingView: UIView? // 设备设置的视图
     var deviceView: DevicesView!
     var clockArray: [String] = []
     var width: CGFloat = 90
     var height: CGFloat = 150
+    var deviceSettingsViewHeightMultiplier = 10
     var deviceSettingsView: DeviceSettingsViewController?
     var lblTitle: UILabel?
     var refreshTimer: DispatchSourceTimer?
     var documentController: UIDocumentInteractionController?
     var bHavenScanResult = false
-    private weak var topViewHeightConstraintRef: NSLayoutConstraint?
-    private weak var dialViewHeightConstraintRef: NSLayoutConstraint?
-    private weak var btViewHeightConstraintRef: NSLayoutConstraint?
-    private weak var btViewTopConstraintRef: NSLayoutConstraint?
-    private weak var dialViewTopConstraintRef: NSLayoutConstraint?
-    private var lastDialLayoutWidth: CGFloat = 0
-    private var contentBottomConstraint: NSLayoutConstraint?
-    private var deviceSettingsHeightConstraint: NSLayoutConstraint?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -59,74 +50,59 @@ class DevicesViewController: BaseViewController, UIDocumentInteractionController
            )
         deviceView = DevicesView().then {
             $0.backgroundColor = UIColor.white
-            $0.layer.cornerRadius = 26
-            $0.layer.cornerCurve = .continuous
+            $0.layer.cornerRadius = 16
             $0.clipsToBounds = true
         }
         topView.addSubview(deviceView)
+        deviceView.snp.makeConstraints { make in
+            make.top.equalToSuperview()
+            make.bottom.equalToSuperview()
+            make.leading.equalTo(16)
+            make.trailing.equalTo(-16)
+        }
         deviceView.setupUI()
         deviceView.refreshData()
         
-        topViewHeightConstraintRef = fixedHeightConstraint(for: topView)
-        dialViewHeightConstraintRef = fixedHeightConstraint(for: dialView)
-        btViewHeightConstraintRef = fixedHeightConstraint(for: btView)
-        btViewTopConstraintRef = topConstraint(for: btView)
-        dialViewTopConstraintRef = topConstraint(for: dialView)
-        configurePageAppearance()
+        contentView.backgroundColor = UIColor.clear
         
         bleSelf.getSwitchForWristband()
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: Notification.Name("DevicesViewController"), object: nil)
         dialManagmentLabel.text = "dial_management".localized()
-        dialManagmentLabel.textColor = UIColor.text_primary
-        dialManagmentLabel.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
         initializeDeviceSettings()
         
-        styleSectionCard(dialView)
-        collectionView.backgroundColor = .clear
-        collectionView.contentInset = .zero
+        dialView.layer.cornerRadius = 16
+        dialView.clipsToBounds = true
         
-        styleSectionCard(btView)
-        btView.layer.cornerRadius = 30
+        btView.layer.cornerRadius = 16
+        btView.clipsToBounds = true
         btView.addSubview(btButton)
         btButton.snp.makeConstraints { make in
-            make.leading.equalToSuperview().offset(18)
-            make.trailing.equalToSuperview().offset(-42)
-            make.top.bottom.equalToSuperview().inset(12)
+            make.leading.equalToSuperview().offset(15)
+            make.trailing.equalToSuperview().offset(-30)
+            make.top.bottom.equalToSuperview()
         }
-        btButton.setTitleColor(UIColor.text_primary, for: .normal)
-        btButton.titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: .regular)
+        btButton.setTitleColor(UIColor.black, for: .normal)
+        btButton.titleLabel?.font = UIFont.body2()
         btButton.setTitle("push_to_bt_settings".localized(), for: .normal)
         btButton.contentHorizontalAlignment = .left
         btButton.titleLabel?.numberOfLines = 0
-        // 增加内容压缩阻力优先级，防止高度被压缩
-        btButton.setContentCompressionResistancePriority(.required, for: .vertical)
-        btButton.titleLabel?.setContentCompressionResistancePriority(.required, for: .vertical)
         btButton.addTarget(self, action: #selector(pushToMobileSettings), for: .touchUpInside)
         
-        btChevronImageView.tintColor = UIColor.text_third
-        btView.addSubview(btChevronImageView)
-        btChevronImageView.snp.makeConstraints { make in
+        let ivRight = UIImageView(image: UIImage(named: "content_icon_nextgray_normal"))
+        btView.addSubview(ivRight)
+        ivRight.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
-            make.trailing.equalToSuperview().offset(-14)
-            make.width.equalTo(8)
-            make.height.equalTo(14)
+            make.trailing.equalToSuperview().offset(-10)
+            make.width.equalTo(10)
+            make.height.equalTo(17)
         }
         
-        topCardDividerView.backgroundColor = UIColor.brand.withAlphaComponent(0.08)
-        deviceView.addSubview(topCardDividerView)
-        topCardDividerView.snp.makeConstraints { make in
-            make.leading.equalToSuperview().offset(18)
-            make.trailing.equalToSuperview().offset(-18)
-            make.height.equalTo(1)
-        }
         
         addChangeButton() // 切换设备
         addReconnectButton() // 新增：添加重新连接按钮
         changeButtonAttr() // 切换设备入口
-        configureTopSectionLayout()
-        configurePageVerticalRhythm()
         
-        width = floor((ScreenWidth - 32 - 24) / 3)
+        width = (ScreenWidth - 60) / 3
         if AppDelegate.IsDeviceNotRound() { // 方形
             var w = isXGZT ? (XGZTBlueToothManager.shared.device?.screenWidth ?? 0) : bleSelf.bleModel.screenWidth
             let h = isXGZT ? (XGZTBlueToothManager.shared.device?.screenHeight ?? 0) : bleSelf.bleModel.screenHeight
@@ -231,21 +207,6 @@ class DevicesViewController: BaseViewController, UIDocumentInteractionController
         refreshTimer?.resume()
     }
     
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        let currentWidth = collectionView.bounds.width
-        if abs(currentWidth - lastDialLayoutWidth) > 0.5 {
-            lastDialLayoutWidth = currentWidth
-            updateDialSectionLayout()
-            configurePageVerticalRhythm()
-            collectionView.collectionViewLayout.invalidateLayout()
-        }
-        [dialView, btView, deviceSettingView].forEach { view in
-            guard let view else { return }
-            view.layer.shadowPath = UIBezierPath(roundedRect: view.bounds, cornerRadius: view.layer.cornerRadius).cgPath
-        }
-    }
-    
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         // 取消定时器并释放引用
@@ -331,57 +292,61 @@ class DevicesViewController: BaseViewController, UIDocumentInteractionController
         deviceSettingView = UIView().then {
             $0.backgroundColor = UIColor.white
             $0.clipsToBounds = true
-            $0.layer.cornerRadius = 26
-            $0.layer.cornerCurve = .continuous
+            $0.layer.cornerRadius = 16
             
         }
         contentView.addSubview(deviceSettingView!)
         deviceSettingView?.snp.makeConstraints {
             $0.left.equalTo(15)
             $0.right.equalTo(-15)
-            $0.top.equalTo(dialView.snp.bottom).offset(18)
+            $0.top.equalTo(dialView.snp.bottom).offset(15)
         }
         lblTitle = UILabel().then {
-            $0.textColor = UIColor.text_primary
-            $0.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
+            $0.textColor = UIColor.black
+            $0.font = UIFont.boldSystemFont(ofSize: 15)
             $0.text = "device_settings".localized()
         }
         deviceSettingView?.addSubview(lblTitle!)
         lblTitle?.snp.makeConstraints {
-            $0.left.equalTo(18)
-            $0.top.equalTo(18)
-            $0.height.equalTo(22)
+            $0.left.equalTo(15)
+            $0.top.equalTo(10)
+            $0.height.equalTo(20)
         }
         
         deviceSettingsView = DeviceSettingsViewController()
         addChild(deviceSettingsView!)
         deviceSettingView?.addSubview(deviceSettingsView!.view)
-        deviceSettingsView?.view.backgroundColor = .clear
-        deviceSettingsView?.view.translatesAutoresizingMaskIntoConstraints = false
-        deviceSettingsHeightConstraint = deviceSettingsView?.view.heightAnchor.constraint(equalToConstant: 0)
-        deviceSettingsHeightConstraint?.isActive = true
-        NSLayoutConstraint.activate([
-            deviceSettingsView!.view.leadingAnchor.constraint(equalTo: deviceSettingView!.leadingAnchor),
-            deviceSettingsView!.view.trailingAnchor.constraint(equalTo: deviceSettingView!.trailingAnchor),
-            deviceSettingsView!.view.topAnchor.constraint(equalTo: lblTitle!.bottomAnchor, constant: 14),
-            deviceSettingsView!.view.bottomAnchor.constraint(equalTo: deviceSettingView!.bottomAnchor)
-        ])
-        deviceSettingsView?.contentHeightDidChange = { [weak self] height in
-            self?.updateDeviceSettingsHeight(height)
+        deviceSettingsView?.view.snp.makeConstraints {
+            $0.left.equalTo(0)
+            $0.top.equalTo(lblTitle!.snp.bottom).offset(10)
+            $0.right.equalTo(0)
+            $0.height.equalTo(80 * deviceSettingsViewHeightMultiplier)
+            $0.bottom.equalToSuperview()
         }
-        bottomLConstraint.isActive = false
-        contentBottomConstraint?.isActive = false
-        contentBottomConstraint = contentView.bottomAnchor.constraint(equalTo: deviceSettingView!.bottomAnchor, constant: 20)
-        contentBottomConstraint?.isActive = true
-        if let deviceSettingView {
-            styleSectionCard(deviceSettingView)
-        }
-        deviceSettingsView?.refreshContentLayout()
+        bottomLConstraint.constant = CGFloat(80 * deviceSettingsViewHeightMultiplier + 70)
     }
     
     public func refreshHeight() {
-        deviceSettingsView?.refreshContentLayout()
-        configurePageVerticalRhythm()
+        var tempMultiplier = 10 // 默认乘数
+        // 将 deviceSettingsViewHeightMultiplier 修改为 14
+        if (((XGZTBlueToothManager.shared.device?.functioncontrolflags ?? 0) >> 15) & 0x01) > 0 || (((XGZTBlueToothManager.shared.device?.functioncontrolflags ?? 0) >> 16) & 0x01) > 0 {
+            tempMultiplier = 11
+        } else {
+            tempMultiplier = 10
+        }
+        deviceSettingsViewHeightMultiplier = max(tempMultiplier, 1)
+        deviceSettingsView?.view.snp.remakeConstraints {
+            $0.left.equalTo(0)
+            $0.top.equalTo(lblTitle!.snp.bottom).offset(10)
+            $0.right.equalTo(0)
+            $0.height.equalTo(80 * deviceSettingsViewHeightMultiplier)
+            $0.bottom.equalToSuperview()
+        }
+        updateDeviceSettingsViewBottomConstraint()
+    }
+    
+    private func updateDeviceSettingsViewBottomConstraint() {
+        bottomLConstraint.constant = CGFloat(80 * deviceSettingsViewHeightMultiplier + 70)
     }
     
     public func addChangeButton() {
@@ -389,7 +354,12 @@ class DevicesViewController: BaseViewController, UIDocumentInteractionController
         if let image = UIImage(named: "icon_change_device") {
             changeButton.setImage(image, for: .normal)
         }
-        styleActionButton(changeButton, primary: false)
+        changeButton.tintColor = UIColor.brand
+        changeButton.layer.borderColor = UIColor.brand.cgColor
+        changeButton.layer.borderWidth = 1.0
+        changeButton.backgroundColor = .white
+        changeButton.layer.cornerRadius = 15
+        changeButton.titleLabel?.font = UIFont.systemFont(ofSize: 14)
         // 设置图标的内边距
         changeButton.imageEdgeInsets = UIEdgeInsets(
             top: 0,
@@ -406,12 +376,12 @@ class DevicesViewController: BaseViewController, UIDocumentInteractionController
             right: -2
         )
         // 添加按钮到视图中
-        deviceView.addSubview(changeButton)
+        topView.addSubview(changeButton)
         changeButton.snp.makeConstraints { make in
-            make.leading.equalToSuperview().offset(18)
-            make.height.equalTo(42)
-            make.bottom.equalToSuperview().offset(-14)
-            make.width.greaterThanOrEqualTo(130)
+            make.width.equalTo(120)
+            make.height.equalTo(30)
+            make.bottom.equalTo(-20)
+            make.centerX.equalToSuperview().offset(-10)
         }
         changeButton.addTarget(self, action: #selector(addDevice), for: .touchUpInside)
     }
@@ -419,14 +389,19 @@ class DevicesViewController: BaseViewController, UIDocumentInteractionController
     // 新增：添加重新连接按钮
     public func addReconnectButton() {
         reconnectButton.setTitle("reconnect_device".localized(), for: .normal)
-        styleActionButton(reconnectButton, primary: true)
+        reconnectButton.tintColor = UIColor.brand
+        reconnectButton.layer.borderColor = UIColor.brand.cgColor
+        reconnectButton.layer.borderWidth = 1.0
+        reconnectButton.backgroundColor = .white
+        reconnectButton.layer.cornerRadius = 15
+        reconnectButton.titleLabel?.font = UIFont.systemFont(ofSize: 14)
         // 添加按钮到视图中
-        deviceView.addSubview(reconnectButton)
+        topView.addSubview(reconnectButton)
         reconnectButton.snp.makeConstraints { make in
-            make.leading.equalTo(changeButton.snp.trailing).offset(12)
-            make.trailing.equalToSuperview().offset(-18)
-            make.height.equalTo(42)
+            make.width.equalTo(110)
+            make.height.equalTo(30)
             make.centerY.equalTo(changeButton)
+            make.leading.equalTo(changeButton.snp.trailing).offset(10)
         }
         reconnectButton.addTarget(self, action: #selector(reconnectDevice), for: .touchUpInside)
     }
@@ -439,7 +414,6 @@ class DevicesViewController: BaseViewController, UIDocumentInteractionController
             dialView.isHidden = true
             changeButton.tintColor = UIColor.white
             changeButton.backgroundColor = .brand
-            changeButton.layer.borderColor = UIColor.brand.cgColor
             changeButton.setTitle("device_add".localized(), for: .normal)
             if let image = UIImage(named: "icon_add_device") {
                 changeButton.setImage(image, for: .normal)
@@ -455,7 +429,6 @@ class DevicesViewController: BaseViewController, UIDocumentInteractionController
             dialView.isHidden = false
             changeButton.tintColor = UIColor.brand
             changeButton.backgroundColor = .white
-            changeButton.layer.borderColor = UIColor.brand.withAlphaComponent(0.20).cgColor
             changeButton.setTitle("deivce_unbind".localized(), for: .normal)
             if let image = UIImage(named: "icon_change_device") {
                 changeButton.setImage(image, for: .normal)
@@ -468,7 +441,6 @@ class DevicesViewController: BaseViewController, UIDocumentInteractionController
                 reconnectButton.isHidden = true
             }
         }
-        updateTopActionLayout()
     }
     
     // 新增：重新连接按钮点击事件
@@ -867,165 +839,6 @@ class DevicesViewController: BaseViewController, UIDocumentInteractionController
     func documentInteractionControllerViewControllerForPreview(_ controller: UIDocumentInteractionController) -> UIViewController {
         return self
     }
-    
-    private func configurePageAppearance() {
-        view.backgroundColor = UIColor(hex: 0xF7F8FC)
-        topView.backgroundColor = .clear
-        contentView.backgroundColor = .clear
-        topViewHeightConstraintRef?.constant = 250
-        btViewHeightConstraintRef?.constant = 60
-        
-        // 确保高度约束优先级最高，防止被压缩
-        if let btHeightConstraint = btViewHeightConstraintRef {
-            btHeightConstraint.priority = .required
-        }
-        if let topHeightConstraint = topViewHeightConstraintRef {
-            topHeightConstraint.priority = .required
-        }
-    }
-
-    private func topConstraint(for view: UIView) -> NSLayoutConstraint? {
-        view.superview?.constraints.first(where: { constraint in
-            constraint.firstItem as? UIView === view &&
-            constraint.firstAttribute == .top &&
-            constraint.secondAttribute == .bottom
-        })
-    }
-
-    private func fixedHeightConstraint(for view: UIView) -> NSLayoutConstraint? {
-        if let ownConstraint = view.constraints.first(where: { constraint in
-            constraint.firstAttribute == .height && constraint.firstItem as? UIView === view && constraint.secondItem == nil
-        }) {
-            return ownConstraint
-        }
-
-        return view.superview?.constraints.first(where: { constraint in
-            constraint.firstAttribute == .height && constraint.firstItem as? UIView === view && constraint.secondItem == nil
-        })
-    }
-    
-    private func styleSectionCard(_ view: UIView) {
-        view.backgroundColor = UIColor.white
-        view.layer.cornerRadius = 26
-        view.layer.cornerCurve = .continuous
-        view.layer.borderWidth = 1
-        view.layer.borderColor = UIColor.brand.withAlphaComponent(0.06).cgColor
-        view.layer.shadowColor = UIColor.brand.withAlphaComponent(0.06).cgColor
-        view.layer.shadowOpacity = 1
-        view.layer.shadowRadius = 18
-        view.layer.shadowOffset = CGSize(width: 0, height: 8)
-        view.layer.masksToBounds = false
-    }
-    
-    private func styleActionButton(_ button: UIButton, primary: Bool) {
-        button.layer.cornerRadius = 21
-        button.layer.cornerCurve = .continuous
-        button.layer.borderWidth = 1
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: .medium)
-        button.tintColor = primary ? .white : UIColor.brand
-        button.setTitleColor(primary ? .white : UIColor.brand, for: .normal)
-        button.backgroundColor = primary ? UIColor.brand : UIColor.brand.withAlphaComponent(0.06)
-        button.layer.borderColor = primary ? UIColor.brand.cgColor : UIColor.brand.withAlphaComponent(0.10).cgColor
-        button.contentEdgeInsets = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
-    }
-
-    private func configureTopSectionLayout() {
-        deviceView.snp.remakeConstraints { make in
-            make.top.equalToSuperview()
-            make.leading.equalTo(16)
-            make.trailing.equalTo(-16)
-            make.bottom.equalToSuperview()
-        }
-        topCardDividerView.snp.remakeConstraints { make in
-            make.leading.equalToSuperview().offset(18)
-            make.trailing.equalToSuperview().offset(-18)
-            make.bottom.equalTo(changeButton.snp.top).offset(-12)
-            make.height.equalTo(1)
-        }
-    }
-
-    private func configurePageVerticalRhythm() {
-        // 这些视图的主约束来自 Main.storyboard，直接修改原约束常量，
-        // 避免和 SnapKit 重新生成的第二套约束发生冲突。
-        btViewTopConstraintRef?.constant = 20
-        btViewHeightConstraintRef?.constant = 60
-        dialViewTopConstraintRef?.constant = 100
-
-        deviceSettingView?.snp.remakeConstraints { make in
-            make.left.equalTo(15)
-            make.right.equalTo(-15)
-            make.top.equalTo(dialView.snp.bottom).offset(24)
-        }
-    }
-
-    private func updateDeviceSettingsHeight(_ height: CGFloat) {
-        deviceSettingsHeightConstraint?.constant = height
-        view.layoutIfNeeded()
-    }
-
-    private func updateTopActionLayout() {
-        if reconnectButton.isHidden {
-            changeButton.snp.remakeConstraints { make in
-                make.leading.equalToSuperview().offset(18)
-                make.trailing.equalToSuperview().offset(-18)
-                make.bottom.equalToSuperview().offset(-16)
-                make.height.equalTo(42)
-            }
-        } else {
-            changeButton.snp.remakeConstraints { make in
-                make.leading.equalToSuperview().offset(18)
-                make.trailing.equalTo(reconnectButton.snp.leading).offset(-12)
-                make.bottom.equalToSuperview().offset(-16)
-                make.height.equalTo(42)
-            }
-            reconnectButton.snp.remakeConstraints { make in
-                make.trailing.equalToSuperview().offset(-18)
-                make.bottom.equalToSuperview().offset(-16)
-                make.height.equalTo(42)
-                make.width.greaterThanOrEqualTo(132)
-            }
-        }
-        topCardDividerView.snp.remakeConstraints { make in
-            make.leading.equalToSuperview().offset(18)
-            make.trailing.equalToSuperview().offset(-18)
-            make.bottom.equalTo(changeButton.snp.top).offset(-14)
-            make.height.equalTo(1)
-        }
-    }
-
-    private func currentDialItemSize(for collectionView: UICollectionView) -> CGSize {
-        let horizontalInsets = self.collectionView(collectionView, layout: collectionView.collectionViewLayout, insetForSectionAt: 0)
-        let spacing = self.collectionView(collectionView, layout: collectionView.collectionViewLayout, minimumInteritemSpacingForSectionAt: 0)
-        let availableWidth = collectionView.bounds.width
-            - collectionView.contentInset.left
-            - collectionView.contentInset.right
-            - horizontalInsets.left
-            - horizontalInsets.right
-            - spacing * 2
-        let itemWidth = max(floor(availableWidth / 3), 96)
-
-        let previewHeight: CGFloat
-        if AppDelegate.IsDeviceNotRound() {
-            var watchWidth = isXGZT ? (XGZTBlueToothManager.shared.device?.screenWidth ?? 0) : bleSelf.bleModel.screenWidth
-            let watchHeight = isXGZT ? (XGZTBlueToothManager.shared.device?.screenHeight ?? 0) : bleSelf.bleModel.screenHeight
-            if watchWidth == 0 {
-                watchWidth = 240
-            }
-            previewHeight = CGFloat(itemWidth) * CGFloat(watchHeight) / CGFloat(watchWidth)
-        } else {
-            previewHeight = itemWidth
-        }
-
-        let itemHeight = min(max(previewHeight, itemWidth), 142)
-        width = itemWidth
-        height = itemHeight
-        return CGSize(width: itemWidth, height: itemHeight)
-    }
-
-    private func updateDialSectionLayout() {
-        let itemSize = currentDialItemSize(for: collectionView)
-        dialViewHeightConstraintRef?.constant = itemSize.height + 76
-    }
 }
 
 extension DevicesViewController: UICollectionViewDataSource {
@@ -1067,9 +880,8 @@ extension DevicesViewController: UICollectionViewDataSource {
             cell.addImageView.isHidden = false
             cell.clockBGView.backgroundColor = UIColor.fill
         }
-        let itemSize = currentDialItemSize(for: collectionView)
-        cell.width.constant = itemSize.width
-        cell.height.constant = itemSize.height
+        cell.width.constant = width
+        cell.height.constant = height
         return cell
     }
 }
@@ -1085,19 +897,19 @@ extension DevicesViewController: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return currentDialItemSize(for: collectionView)
+        return CGSize(width: width, height: height)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 0, left: 18, bottom: 14, right: 18)
+        return UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 14
+        return 0
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 14
+        return 0
     }
 }
 

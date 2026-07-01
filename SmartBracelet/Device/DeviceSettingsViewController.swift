@@ -12,9 +12,10 @@ private extension String {
 }
 
 private extension CGFloat {
-    static let cellHeight: CGFloat = 104
-    static let cellSpacing: CGFloat = 16
-    static let sectionInset: CGFloat = 4
+    static let cellHeight: CGFloat = 80
+    static let cellSpacing: CGFloat = 14
+    static let sectionInset: CGFloat = 0
+    static let collectionViewTopInset: CGFloat = 16
 }
 
 private extension Int {
@@ -36,28 +37,24 @@ private extension TimeInterval {
 
 // MARK: - 自定义CollectionViewCell
 class DeviceSettingsCollectionViewCell: UICollectionViewCell {
-    private let cardView = UIView()
-    private let textStackView = UIStackView()
-    private let accessoryContainerView = UIView()
-    private var accessoryContainerWidthConstraint: NSLayoutConstraint?
-
     let titleLabel: UILabel = {
         let label = UILabel()
-        label.textColor = UIColor.text_primary
-        label.font = UIFont.systemFont(ofSize: 15, weight: .semibold)
+        label.textColor = UIColor.text_secondary
+        label.font = UIFont.body1()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.numberOfLines = 2
-        label.lineBreakMode = .byWordWrapping
-        label.setContentCompressionResistancePriority(.required, for: .vertical)
-        label.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
+        // 允许自动换行
+        label.numberOfLines = 0
+        // 内容压缩阻力优先级设高，避免被压缩
+        label.setContentCompressionResistancePriority(.required, for: .horizontal)
         return label
     }()
     
     let detailLabel: UILabel = {
         let label = UILabel()
-        label.textColor = UIColor.text_secondary
-        label.font = UIFont.systemFont(ofSize: 12, weight: .medium)
+        label.textColor = UIColor.gray
+        label.font = UIFont.body2()
         label.translatesAutoresizingMaskIntoConstraints = false
+        // 单行显示，过长时省略
         label.numberOfLines = 1
         label.lineBreakMode = .byTruncatingTail
         return label
@@ -68,11 +65,11 @@ class DeviceSettingsCollectionViewCell: UICollectionViewCell {
             oldValue?.removeFromSuperview()
             guard let view = accessoryView else { return }
             view.translatesAutoresizingMaskIntoConstraints = false
-            accessoryContainerView.addSubview(view)
-            accessoryContainerWidthConstraint?.constant = view is UISwitch ? 56 : 14
+            addSubview(view)
             NSLayoutConstraint.activate([
-                view.centerYAnchor.constraint(equalTo: accessoryContainerView.centerYAnchor),
-                view.trailingAnchor.constraint(equalTo: accessoryContainerView.trailingAnchor),
+                view.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10),
+                view.centerYAnchor.constraint(equalTo: centerYAnchor),
+                // 确保辅助视图有固定大小，避免影响布局
                 view.widthAnchor.constraint(greaterThanOrEqualToConstant: 6),
                 view.heightAnchor.constraint(greaterThanOrEqualToConstant: 9)
             ])
@@ -90,52 +87,25 @@ class DeviceSettingsCollectionViewCell: UICollectionViewCell {
     }
     
     private func setupLayout() {
-        backgroundColor = .clear
-        contentView.backgroundColor = .clear
-        layer.shadowColor = UIColor.brand.withAlphaComponent(0.08).cgColor
-        layer.shadowOpacity = 1
-        layer.shadowRadius = 16
-        layer.shadowOffset = CGSize(width: 0, height: 8)
-
-        cardView.backgroundColor = .white
-        cardView.layer.cornerRadius = 22
-        cardView.layer.cornerCurve = .continuous
-        cardView.layer.borderWidth = 1
-        cardView.layer.borderColor = UIColor.brand.withAlphaComponent(0.07).cgColor
-        cardView.translatesAutoresizingMaskIntoConstraints = false
-        contentView.addSubview(cardView)
-
-        textStackView.axis = .vertical
-        textStackView.alignment = .fill
-        textStackView.distribution = .fill
-        textStackView.spacing = 6
-        textStackView.translatesAutoresizingMaskIntoConstraints = false
-        textStackView.addArrangedSubview(titleLabel)
-        textStackView.addArrangedSubview(detailLabel)
-
-        accessoryContainerView.translatesAutoresizingMaskIntoConstraints = false
-
-        cardView.addSubview(textStackView)
-        cardView.addSubview(accessoryContainerView)
-
-        accessoryContainerWidthConstraint = accessoryContainerView.widthAnchor.constraint(equalToConstant: 14)
-        accessoryContainerWidthConstraint?.isActive = true
+        backgroundColor = .white
+        layer.borderWidth = 0.5
+        layer.borderColor = UIColor.lightGray.withAlphaComponent(0.3).cgColor
+        
+        addSubview(titleLabel)
+        addSubview(detailLabel)
         
         NSLayoutConstraint.activate([
-            cardView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 2),
-            cardView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 1),
-            cardView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -1),
-            cardView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -2),
-
-            accessoryContainerView.trailingAnchor.constraint(equalTo: cardView.trailingAnchor, constant: -18),
-            accessoryContainerView.centerYAnchor.constraint(equalTo: cardView.centerYAnchor),
-            accessoryContainerView.heightAnchor.constraint(greaterThanOrEqualToConstant: 31),
-
-            textStackView.leadingAnchor.constraint(equalTo: cardView.leadingAnchor, constant: 18),
-            textStackView.trailingAnchor.constraint(equalTo: accessoryContainerView.leadingAnchor, constant: -14),
-            textStackView.centerYAnchor.constraint(equalTo: cardView.centerYAnchor),
-            textStackView.topAnchor.constraint(greaterThanOrEqualTo: cardView.topAnchor, constant: 16),
-            textStackView.bottomAnchor.constraint(lessThanOrEqualTo: cardView.bottomAnchor, constant: -16)
+            // 标题左侧距离和上下边距
+            titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
+            titleLabel.topAnchor.constraint(equalTo: topAnchor, constant: 5),
+            titleLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -5),
+            
+            // 限制标题最大宽度，为辅助视图留出空间
+            titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -60),
+            
+            // 详情标签在标题右侧，垂直居中
+            detailLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -22),
+            detailLabel.centerYAnchor.constraint(equalTo: centerYAnchor)
         ])
     }
     
@@ -145,33 +115,10 @@ class DeviceSettingsCollectionViewCell: UICollectionViewCell {
         detailLabel.text = nil
         accessoryView = nil
     }
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        let shadowRect = contentView.bounds.insetBy(dx: 1, dy: 2)
-        layer.shadowPath = UIBezierPath(roundedRect: shadowRect, cornerRadius: cardView.layer.cornerRadius).cgPath
-        let hasDetail = !(detailLabel.text?.isEmpty ?? true)
-        detailLabel.isHidden = !hasDetail
-        textStackView.spacing = hasDetail ? 6 : 0
-        titleLabel.numberOfLines = hasDetail ? 1 : 2
-    }
-
-    override var isHighlighted: Bool {
-        didSet {
-            let scale: CGFloat = isHighlighted ? 0.98 : 1
-            let alpha: CGFloat = isHighlighted ? 0.94 : 1
-            UIView.animate(withDuration: 0.18) {
-                self.cardView.transform = CGAffineTransform(scaleX: scale, y: scale)
-                self.cardView.alpha = alpha
-            }
-        }
-    }
 }
 
 // MARK: - 主控制器
 class DeviceSettingsViewController: UIViewController {
-    var contentHeightDidChange: ((CGFloat) -> Void)?
-
     private lazy var collectionView: UICollectionView = {
         // 初始化FlowLayout
         let flowLayout = UICollectionViewFlowLayout()
@@ -192,12 +139,11 @@ class DeviceSettingsViewController: UIViewController {
         // 初始化CollectionView
         let cv = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
         cv.translatesAutoresizingMaskIntoConstraints = false
-        cv.backgroundColor = .clear
-        cv.isScrollEnabled = false
+        cv.backgroundColor = UIColor.kF5F5F5
+        cv.isScrollEnabled = true
         cv.dataSource = self
         cv.delegate = self
         cv.showsVerticalScrollIndicator = false
-        cv.contentInset = .zero
         
         // 注册Cell
         cv.register(
@@ -260,18 +206,11 @@ class DeviceSettingsViewController: UIViewController {
         setupInitialConfig()
         setupCollectionViewConstraints()
         setupNotifications()
-        notifyContentHeightChange()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         collectionView.reloadData()
-        notifyContentHeightChange()
-    }
-
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        updateCollectionLayoutIfNeeded()
     }
     
     deinit {
@@ -285,15 +224,15 @@ private extension DeviceSettingsViewController {
     func setupCollectionViewConstraints() {
         view.addSubview(collectionView)
         NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(equalTo: view.topAnchor),
+            collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: .collectionViewTopInset),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -8)
         ])
     }
     
     func setupInitialConfig() {
-        view.backgroundColor = .clear
+        view.backgroundColor = UIColor.kF5F5F5
         guard !isXGZT else { return }
         
         let bluetoothGroup = DispatchGroup()
@@ -321,22 +260,6 @@ private extension DeviceSettingsViewController {
             name: Notification.Name(.kNotificationName),
             object: nil
         )
-    }
-
-    func notifyContentHeightChange() {
-        contentHeightDidChange?(preferredContentHeight)
-    }
-
-    func updateCollectionLayoutIfNeeded() {
-        guard let flowLayout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout else { return }
-        let availableWidth = collectionView.bounds.width
-        guard availableWidth > 0 else { return }
-
-        let itemWidth = floor((availableWidth - .sectionInset * 2 - .cellSpacing) / 2)
-        let targetSize = CGSize(width: itemWidth, height: .cellHeight)
-        guard flowLayout.itemSize != targetSize else { return }
-        flowLayout.itemSize = targetSize
-        flowLayout.invalidateLayout()
     }
 }
 
@@ -371,7 +294,6 @@ private extension DeviceSettingsViewController {
     private func handleRefreshNotification() {
         DispatchQueue.main.async { [weak self] in
             self?.collectionView.reloadData()
-            self?.notifyContentHeightChange()
         }
     }
     
@@ -392,10 +314,6 @@ private extension DeviceSettingsViewController {
     private func handleXGZTStatusNotification() {
         guard isXGZT else { return }
         cachedDisplayTitles = nil // 清除缓存
-        DispatchQueue.main.async { [weak self] in
-            self?.collectionView.reloadData()
-            self?.notifyContentHeightChange()
-        }
         
         guard let device = XGZTBlueToothManager.shared.device else {
             Toast(text: "mine_unconnect".localized()).show()
@@ -430,20 +348,7 @@ private extension DeviceSettingsViewController {
 }
 
 // MARK: - 业务逻辑
-extension DeviceSettingsViewController {
-    var preferredContentHeight: CGFloat {
-        let rows = CGFloat(max(Int(ceil(Double(displayTitles.count) / 2.0)), 1))
-        return rows * .cellHeight + max(rows - 1, 0) * .cellSpacing
-    }
-
-    func refreshContentLayout() {
-        let rowCount = displayTitles.count
-        let rows = ceil(CGFloat(rowCount) / 2.0)
-        let totalHeight = rows * .cellHeight + (rows - 1) * .cellSpacing + .sectionInset * 2
-        contentHeightDidChange?(totalHeight)
-        collectionView.reloadData()
-    }
-
+private extension DeviceSettingsViewController {
     func takePhoto() {
         guard !isXGZT else {
             NotificationCenter.default.post(
@@ -683,11 +588,11 @@ extension DeviceSettingsViewController: UICollectionViewDataSource {
         let originalRow = titles.firstIndex(of: displayTitles[indexPath.item]) ?? indexPath.item
         cell.titleLabel.text = displayTitles[indexPath.item]
         
-        // 配置详情文本
-        configureDetailText(for: cell, originalRow: originalRow)
-
         // 配置辅助视图
         configureAccessoryView(for: cell, originalRow: originalRow)
+        
+        // 配置详情文本
+        configureDetailText(for: cell, originalRow: originalRow)
         
         // 强制刷新布局，确保多语言文本正确显示
         cell.layoutIfNeeded()
@@ -700,11 +605,6 @@ extension DeviceSettingsViewController: UICollectionViewDataSource {
         // 需要显示开关的行：1-3、5
         if [1, 2, 3, 5].contains(originalRow) {
             let mSwitch = UISwitch()
-            mSwitch.onTintColor = UIColor.brand.withAlphaComponent(0.85)
-            mSwitch.tintColor = UIColor(hex: 0xD7DDE7)
-            mSwitch.backgroundColor = UIColor(hex: 0xD7DDE7)
-            mSwitch.layer.cornerRadius = 16
-            mSwitch.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
             mSwitch.tag = .switchTagOffset + originalRow
             mSwitch.addTarget(self, action: #selector(switchValueChanged(_:)), for: .valueChanged)
             cell.accessoryView = mSwitch
@@ -730,10 +630,8 @@ extension DeviceSettingsViewController: UICollectionViewDataSource {
             default: break
             }
         } else {
-            let imageView = UIImageView(image: UIImage(systemName: "chevron.right"))
-            imageView.tintColor = UIColor.text_third
-            imageView.contentMode = .scaleAspectFit
-            cell.accessoryView = imageView
+            // 其他行显示箭头
+            cell.accessoryView = UIImageView(image: UIImage(named: "content_next"))
         }
     }
     

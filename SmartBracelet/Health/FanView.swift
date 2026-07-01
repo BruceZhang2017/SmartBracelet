@@ -22,7 +22,6 @@ class FanView: UIView {
     private var metricValueLabels: [UILabel] = []
     private var metricItemViews: [UIView] = []
     private var separatorViews: [UIView] = []
-    private var hasConfiguredProgressPath = false
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -47,28 +46,15 @@ class FanView: UIView {
     }
     
     func setProgress(_ newProgress: CGFloat) {
-        let clampedProgress = max(0, min(newProgress, 1))
-        let previousProgress = progress
-        progress = clampedProgress
+        progress = max(0, min(newProgress, 1))
         progressLayer.strokeEnd = progress
-        
-        guard hasConfiguredProgressPath else {
-            return
-        }
-        
-        let animation = CABasicAnimation(keyPath: "strokeEnd")
-        animation.fromValue = previousProgress
-        animation.toValue = clampedProgress
-        animation.duration = 0.42
-        animation.timingFunction = CAMediaTimingFunction(name: .easeInEaseOut)
-        progressLayer.add(animation, forKey: "health.fan.progress")
     }
     
     func refreshValue(values: [NSMutableAttributedString], value: NSMutableAttributedString) {
         for (index, label) in metricValueLabels.enumerated() where index < values.count {
-            animateAttributedTextChange(on: label, to: values[index])
+            label.attributedText = values[index]
         }
-        animateAttributedTextChange(on: bottomLabel, to: value)
+        bottomLabel.attributedText = value
     }
     
     private func setupViews() {
@@ -224,22 +210,5 @@ class FanView: UIView {
         
         trackLayer.path = progressPath.cgPath
         progressLayer.path = progressPath.cgPath
-        hasConfiguredProgressPath = true
-    }
-    
-    private func animateAttributedTextChange(on label: UILabel, to value: NSAttributedString) {
-        label.layer.removeAnimation(forKey: "health.fan.label")
-        UIView.transition(with: label, duration: 0.24, options: [.transitionCrossDissolve, .allowUserInteraction]) {
-            label.attributedText = value
-        }
-        
-        let pulse = CABasicAnimation(keyPath: "transform.scale")
-        pulse.fromValue = 0.985
-        pulse.toValue = 1.02
-        pulse.duration = 0.16
-        pulse.autoreverses = true
-        pulse.repeatCount = 1
-        pulse.timingFunction = CAMediaTimingFunction(name: .easeInEaseOut)
-        label.layer.add(pulse, forKey: "health.fan.label")
     }
 }

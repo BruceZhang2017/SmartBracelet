@@ -48,8 +48,11 @@ class MTabBarController: UITabBarController {
         // 设置UITabBarItem的字体颜色
         UITabBarItem.appearance().setTitleTextAttributes(unselectedAttributes, for: .normal)
         UITabBarItem.appearance().setTitleTextAttributes(selectedAttributes, for: .selected)
-        configureTabBarAppearance()
-        applyTabBarEqualWidthLayout()
+        
+        if #available(iOS 26.0, *) {
+            tabBar.itemPositioning = .fill
+            tabBar.itemSpacing = 0
+        }
         
         ToastView.appearance().backgroundColor = .black.withAlphaComponent(0.8)
         ToastView.appearance().maxWidthRatio = 0.8
@@ -62,75 +65,12 @@ class MTabBarController: UITabBarController {
         
     }
     
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        applyTabBarEqualWidthLayout()
-    }
-    
     // 设置最后连接的设备MAC地址
     private func setupLastestDeviceMac() {
         lastestDeviceMac = UserDefaults.standard.string(forKey: "LastestDeviceMac") ?? ""
         XLogger.shared.log("最后连接的设备MAC地址为：\(lastestDeviceMac)")
         if !lastestDeviceMac.isEmpty {
             perform(#selector(checkIfNeedScanDevice), with: nil, afterDelay: 1)
-        }
-    }
-    
-    private func applyTabBarEqualWidthLayout() {
-        guard let items = tabBar.items, !items.isEmpty else {
-            return
-        }
-        
-        tabBar.itemPositioning = .fill
-        tabBar.itemSpacing = 0
-        tabBar.itemWidth = tabBar.bounds.width / CGFloat(items.count)
-        let titleOffset = UIOffset(horizontal: 0, vertical: -1)
-        items.forEach { item in
-            item.titlePositionAdjustment = titleOffset
-        }
-    }
-    
-    private func configureTabBarAppearance() {
-        tabBar.isTranslucent = false
-        tabBar.tintColor = UIColor.brand
-        tabBar.unselectedItemTintColor = UIColor(hex: 0x8E98A5)
-        
-        let normalAttributes: [NSAttributedString.Key: Any] = [
-            .foregroundColor: UIColor(hex: 0x8E98A5),
-            .font: UIFont.systemFont(ofSize: 10, weight: .medium)
-        ]
-        let selectedAttributes: [NSAttributedString.Key: Any] = [
-            .foregroundColor: UIColor.brand,
-            .font: UIFont.systemFont(ofSize: 10, weight: .semibold)
-        ]
-        
-        if #available(iOS 13.0, *) {
-            let appearance = UITabBarAppearance()
-            appearance.configureWithOpaqueBackground()
-            appearance.backgroundColor = UIColor.white
-            appearance.shadowColor = UIColor(hex: 0xD9E3F0, alpha: 0.9)
-            
-            let stackedAppearance = appearance.stackedLayoutAppearance
-            stackedAppearance.normal.titleTextAttributes = normalAttributes
-            stackedAppearance.selected.titleTextAttributes = selectedAttributes
-            
-            let inlineAppearance = appearance.inlineLayoutAppearance
-            inlineAppearance.normal.titleTextAttributes = normalAttributes
-            inlineAppearance.selected.titleTextAttributes = selectedAttributes
-            
-            let compactAppearance = appearance.compactInlineLayoutAppearance
-            compactAppearance.normal.titleTextAttributes = normalAttributes
-            compactAppearance.selected.titleTextAttributes = selectedAttributes
-            
-            tabBar.standardAppearance = appearance
-            if #available(iOS 15.0, *) {
-                tabBar.scrollEdgeAppearance = appearance
-            }
-        }
-        
-        tabBar.items?.forEach { item in
-            item.setTitleTextAttributes(normalAttributes, for: .normal)
-            item.setTitleTextAttributes(selectedAttributes, for: .selected)
         }
     }
     
