@@ -157,87 +157,113 @@ class MyClockViewController: UIViewController {
             return
         }
         
-        // 第二步：尝试压缩到目标大小
-        var image = resizedImage
-        let targetSizeBytes = 120 * 1024
-        var attemptCount = 0
-        let maxAttempts = 10
-        
-        while attemptCount < maxAttempts {
-            guard let rawImageData = image.rawImageData else {
-                XLogger.shared.log("Failed to get raw image data")
+        // 第二步：按压缩梯度尝试转换，避免在极低目标大小下重复做无效压缩
+        let usesRLE = XGZTBlueToothManager.shared.device?.screenType == 2 || XGZTBlueToothManager.shared.device?.screenType == 3
+        let targetSizeBytes = usesRLE ? 20 * 1024 : 120 * 1024
+        let qualitySteps: [CGFloat] = usesRLE
+            ? [1.0, 0.82, 0.68, 0.56, 0.46, 0.36, 0.28, 0.22, 0.16, 0.12]
+            : [1.0, 0.9, 0.8, 0.72, 0.64, 0.56, 0.48, 0.4]
+        let candidateImages: [(name: String, image: UIImage)] = {
+            var candidates: [(String, UIImage)] = [("base", resizedImage)]
+
+            if usesRLE, let reducedImage = resizeAndReduceRGB(image: resizedImage, targetSize: targetSize) {
+                candidates.append(("reduced-rgb", reducedImage))
+                if let aggressiveReducedImage = resizeAndReduceRGB(image: reducedImage, targetSize: targetSize) {
+                    candidates.append(("reduced-rgb-x2", aggressiveReducedImage))
+                }
+            }
+
+            return candidates
+        }()
+
+        for candidate in candidateImages {
+            if let parData = attemptDialDataConversion(for: candidate.image,
+                                                       phaseName: candidate.name,
+                                                       qualitySteps: qualitySteps,
+                                                       targetSize: targetSize,
+                                                       targetSizeBytes: targetSizeBytes,
+                                                       usesRLE: usesRLE) {
+                XLogger.shared.log("Success: phase=\(candidate.name), dial size=\(parData.count), target=\(targetSizeBytes)")
+                binData = parData
+                XGZTCommand.dialMarketQuery(dataType: 0)
                 return
             }
-            
-            XLogger.shared.log("Attempt \(attemptCount+1): rawImageData count: \(rawImageData.count)")
-            
-            if XGZTBlueToothManager.shared.device?.screenType == 2 || XGZTBlueToothManager.shared.device?.screenType == 3 {
-                // 使用固定的 240×240 尺寸 手环
-                if let parData = ParTool.rle(fromRaw: rawImageData,
-                                          width: Int32(targetSize.width),
-                                          height: Int32(targetSize.height),
-                                          transparentColor: 1) {
-                    if parData.count <= targetSizeBytes {
-                        XLogger.shared.log("Success: PAR size=\(parData.count) width=240 height=240")
-                        binData = parData
-                        XGZTCommand.dialMarketQuery(dataType: 0)
-                        break
-                    } else {
-                        XLogger.shared.log("PAR size \(parData.count) exceeds 120KB, compressing further...")
-                        
-                        // 降低质量继续尝试
-                        let quality = max(0.1, 0.9 - Double(attemptCount) * 0.1)
-                        if let compressedData = image.jpegData(compressionQuality: quality),
-                           let compressedImage = UIImage(data: compressedData) {
-                            image = compressedImage
-                        } else {
-                            XLogger.shared.log("Failed to compress image further")
-                            return
-                        }
-                    }
-                } else {
-                    XLogger.shared.log("Failed to convert to PAR format at 240x240")
-                    return
-                }
+        }
+
+        XLogger.shared.log("Unable to reduce dial size below target=\(targetSizeBytes)")
+    }
+
+    private func attemptDialDataConversion(for sourceImage: UIImage,
+                                           phaseName: String,
+                                           qualitySteps: [CGFloat],
+                                           targetSize: CGSize,
+                                           targetSizeBytes: Int,
+                                           usesRLE: Bool) -> Data? {
+        var lastParSize: Int?
+        var stagnantCount = 0
+
+        for (attemptIndex, quality) in qualitySteps.enumerated() {
+            let candidateImage: UIImage
+            if quality >= 0.999 {
+                candidateImage = sourceImage
+            } else if let compressedData = sourceImage.jpegData(compressionQuality: quality),
+                      let compressedImage = UIImage(data: compressedData) {
+                candidateImage = compressedImage
             } else {
-                // 使用固定的 240×240 尺寸
-                if let parData = ParTool.par(fromRaw: rawImageData,
-                                          width: Int32(targetSize.width),
-                                          height: Int32(targetSize.height),
-                                          runAlpha: false,
-                                          useFilter: false,
-                                          supportRotate: false) {
-                    if parData.count <= targetSizeBytes {
-                        XLogger.shared.log("Success: PAR size=\(parData.count) width=240 height=240")
-                        binData = parData
-                        XGZTCommand.dialMarketQuery(dataType: 0)
-                        break
-                    } else {
-                        XLogger.shared.log("PAR size \(parData.count) exceeds 120KB, compressing further...")
-                        
-                        // 降低质量继续尝试
-                        let quality = max(0.1, 0.9 - Double(attemptCount) * 0.1)
-                        if let compressedData = image.jpegData(compressionQuality: quality),
-                           let compressedImage = UIImage(data: compressedData) {
-                            image = compressedImage
-                        } else {
-                            XLogger.shared.log("Failed to compress image further")
-                            return
-                        }
-                    }
+                XLogger.shared.log("Failed to create compressed candidate image, phase=\(phaseName), quality=\(quality)")
+                return nil
+            }
+
+            guard let rawImageData = candidateImage.rawImageData else {
+                XLogger.shared.log("Failed to get raw image data, phase=\(phaseName)")
+                return nil
+            }
+
+            guard let parData = makeDialData(from: rawImageData, targetSize: targetSize, usesRLE: usesRLE) else {
+                XLogger.shared.log("Failed to convert image to dial data at \(Int(targetSize.width))x\(Int(targetSize.height)), phase=\(phaseName)")
+                return nil
+            }
+
+            let parSize = parData.count
+            XLogger.shared.log("Attempt \(attemptIndex + 1): phase=\(phaseName), quality=\(quality), raw=\(rawImageData.count), dial=\(parSize), target=\(targetSizeBytes)")
+
+            if parSize <= targetSizeBytes {
+                return parData
+            }
+
+            if let lastParSize {
+                if parSize >= lastParSize {
+                    stagnantCount += 1
                 } else {
-                    XLogger.shared.log("Failed to convert to PAR format at 240x240")
-                    return
+                    stagnantCount = 0
                 }
             }
-            
-            
-            attemptCount += 1
+
+            if stagnantCount >= 2 {
+                XLogger.shared.log("Dial size stopped improving, phase=\(phaseName), last=\(lastParSize ?? parSize), current=\(parSize)")
+                break
+            }
+
+            lastParSize = parSize
         }
-        
-        if attemptCount >= maxAttempts {
-            XLogger.shared.log("Max attempts reached, final PAR size: \(image.rawImageData?.count ?? 0)")
+
+        return nil
+    }
+
+    private func makeDialData(from rawImageData: Data, targetSize: CGSize, usesRLE: Bool) -> Data? {
+        if usesRLE {
+            return ParTool.rle(fromRaw: rawImageData,
+                               width: Int32(targetSize.width),
+                               height: Int32(targetSize.height),
+                               transparentColor: 1)
         }
+
+        return ParTool.par(fromRaw: rawImageData,
+                           width: Int32(targetSize.width),
+                           height: Int32(targetSize.height),
+                           runAlpha: false,
+                           useFilter: false,
+                           supportRotate: false)
     }
 
     // 辅助方法：调整图片尺寸
