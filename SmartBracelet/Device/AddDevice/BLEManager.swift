@@ -114,6 +114,9 @@ class BLEManager: NSObject {
     }
 
     public func unbind() {
+        // #region debug-point A:blemanager-unbind
+        XLogger.shared.log("[unbind-debug] BLEManager.unbind before: lastestDeviceMac=\(UserDefaults.standard.string(forKey: "LastestDeviceMac") ?? ""), deleteLastestDeviceMac=\(UserDefaults.standard.string(forKey: "deleteLastestDeviceMac") ?? ""), bleModel.mac=\(bleSelf.bleModel.mac)")
+        // #endregion
         bleSelf.disconnectBleDevice()
         //解绑
         let model = WUBleModel()
@@ -121,6 +124,9 @@ class BLEManager: NSObject {
         WUBleModel.setModel(bleSelf.bleModel) // 设置一个全新的设备
         Toast(text: "unbind_device_desc".localized()).show()
         wuPrint("解绑成功 - 设置 - 手动忽略该设备后可重新扫描蓝牙进行重连")
+        // #region debug-point A:blemanager-unbind-finish
+        XLogger.shared.log("[unbind-debug] BLEManager.unbind after: lastestDeviceMac=\(UserDefaults.standard.string(forKey: "LastestDeviceMac") ?? ""), deleteLastestDeviceMac=\(UserDefaults.standard.string(forKey: "deleteLastestDeviceMac") ?? ""), bleModel.mac=\(bleSelf.bleModel.mac)")
+        // #endregion
     }
     
     public func startTimer(timerTnternal: TimeInterval) {

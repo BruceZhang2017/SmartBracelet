@@ -21,6 +21,17 @@ class MTabBarController: UITabBarController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        // #region debug-point B:tab-viewdidload
+        postSameCrashDebugEvent(
+            hypothesisId: "B",
+            location: "MTabBarController.viewDidLoad",
+            msg: "Tab 启动",
+            data: [
+                "cachedLastMac": UserDefaults.standard.string(forKey: "LastestDeviceMac") ?? "",
+                "deviceCount": DeviceManager.shared.devices.count
+            ]
+        )
+        // #endregion
         var localVersion = ""
         if let v:String = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String {
             localVersion = v
@@ -69,6 +80,7 @@ class MTabBarController: UITabBarController {
     private func setupLastestDeviceMac() {
         lastestDeviceMac = UserDefaults.standard.string(forKey: "LastestDeviceMac") ?? ""
         XLogger.shared.log("最后连接的设备MAC地址为：\(lastestDeviceMac)")
+        XLogger.shared.log("[unbind-debug] setupLastestDeviceMac: lastestDeviceMac=\(lastestDeviceMac), deleteLastestDeviceMac=\(UserDefaults.standard.string(forKey: "deleteLastestDeviceMac") ?? ""), cacheCount=\(cacheDevices.count), xgztCacheKeys=\(Array((UserDefaults.standard.dictionary(forKey: "xgzt") as? [String: String] ?? [:]).keys))")
         if !lastestDeviceMac.isEmpty {
             perform(#selector(checkIfNeedScanDevice), with: nil, afterDelay: 1)
         }
@@ -92,6 +104,17 @@ class MTabBarController: UITabBarController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if lastestDeviceMac.isEmpty || lastestDeviceMac.count == 0 {
+            // #region debug-point B:no-device-select-equipment
+            postSameCrashDebugEvent(
+                hypothesisId: "B",
+                location: "MTabBarController.viewWillAppear",
+                msg: "无设备时切到设备页",
+                data: [
+                    "lastestDeviceMac": lastestDeviceMac,
+                    "selectedIndexBefore": selectedIndex
+                ]
+            )
+            // #endregion
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                 self.selectedIndex = 1
             }

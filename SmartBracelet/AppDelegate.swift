@@ -6,6 +6,24 @@ import AVKit
 import Bugly
 import JRDB
 
+func postSameCrashDebugEvent(hypothesisId: String, location: String, msg: String, data: [String: Any] = [:]) {
+    guard let url = URL(string: "http://192.168.2.154:7777/event") else { return }
+    var request = URLRequest(url: url)
+    request.httpMethod = "POST"
+    request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+    let payload: [String: Any] = [
+        "sessionId": "same-crash-project",
+        "runId": "pre-fix",
+        "hypothesisId": hypothesisId,
+        "location": location,
+        "msg": "[DEBUG] \(msg)",
+        "data": data,
+        "ts": Int(Date().timeIntervalSince1970 * 1000)
+    ]
+    request.httpBody = try? JSONSerialization.data(withJSONObject: payload, options: [])
+    URLSession.shared.dataTask(with: request).resume()
+}
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
@@ -86,6 +104,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let isUserInfoSet = UserDefaults.standard.bool(forKey: "UserInfoSet")
         let lastDeviceMac = UserDefaults.standard.string(forKey: "LastestDeviceMac") ?? ""
         let hasBoundDevice = lastDeviceMac.count > 0
+        // #region debug-point A:push-to-tab
+        postSameCrashDebugEvent(
+            hypothesisId: "A",
+            location: "AppDelegate.pushToTab",
+            msg: "准备设置根控制器",
+            data: [
+                "isUserInfoSet": isUserInfoSet,
+                "lastDeviceMac": lastDeviceMac,
+                "hasBoundDevice": hasBoundDevice
+            ]
+        )
+        // #endregion
 
         if !isUserInfoSet && !hasBoundDevice {
             let setupVC = SexSettingsViewController()
@@ -97,6 +127,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
 
         window?.makeKeyAndVisible()
+        // #region debug-point A:push-to-tab-finish
+        postSameCrashDebugEvent(
+            hypothesisId: "A",
+            location: "AppDelegate.pushToTab",
+            msg: "根控制器设置完成",
+            data: [
+                "rootType": String(describing: type(of: window?.rootViewController))
+            ]
+        )
+        // #endregion
     }
 
     private func setupConfig() {
@@ -291,17 +331,43 @@ extension String {
 }
 
 extension AppDelegate {
-    public static func IsDeviceNotRound() -> Bool {
+    public static func resolvedDeviceScreenMetrics() -> (width: Int, height: Int, isRect: Bool)? {
         if isXGZT {
-            return XGZTBlueToothManager.shared.device?.screenType != 1
+            let width = XGZTBlueToothManager.shared.device?.screenWidth ?? 0
+            let height = XGZTBlueToothManager.shared.device?.screenHeight ?? 0
+            guard width > 0, height > 0 else {
+                return nil
+            }
+            let screenType = XGZTBlueToothManager.shared.device?.screenType ?? 0
+            let isRect = screenType > 0 ? screenType != 1 : width != height
+            return (width, height, isRect)
+        }
+
+        guard bleSelf.isConnected || bleSelf.bleModel.mac.count > 0 else {
+            return nil
+        }
+
+        let width = bleSelf.bleModel.screenWidth
+        let height = bleSelf.bleModel.screenHeight
+        guard width > 0, height > 0 else {
+            return nil
         }
 
         var type = BLEDeviceNameHandler().handleName()
-        if type == 0 {
+        if type == 0, bleSelf.bleModel.screenType > 0 {
             type = bleSelf.bleModel.screenType
         }
-        XLogger.shared.log("当前连接设备为：\(type == 1 ? "方形" : "圆形")")
-        return type == 1
+        let isRect = type == 1 ? true : (type == 2 ? false : width != height)
+        return (width, height, isRect)
+    }
+
+    public static func IsDeviceNotRound() -> Bool {
+        if let metrics = resolvedDeviceScreenMetrics() {
+            XLogger.shared.log("当前连接设备为：\(metrics.isRect ? "方形" : "圆形")")
+            return metrics.isRect
+        }
+        XLogger.shared.log("当前设备形态未知，按圆形预览兜底")
+        return false
     }
 }
 

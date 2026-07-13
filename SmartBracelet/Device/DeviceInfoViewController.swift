@@ -31,6 +31,26 @@ class DeviceInfoViewController: BaseViewController {
 }
 
 extension DeviceInfoViewController: UITableViewDataSource {
+
+    private func resolvedDeviceInfoDetailText(for row: Int) -> String {
+        let fallbackName = bleSelf.bleModel.name.isEmpty ? "e watch" : bleSelf.bleModel.name
+        let fallbackMac = bleSelf.bleModel.mac.isEmpty
+            ? (UserDefaults.standard.string(forKey: "LastestDeviceMac") ?? "")
+            : bleSelf.bleModel.mac
+
+        switch row {
+        case 0:
+            return isXGZT ? (XGZTBlueToothManager.shared.device?.deviceName ?? fallbackName) : fallbackName
+        case 1:
+            return isXGZT ? (XGZTBlueToothManager.shared.device?.max ?? fallbackMac) : fallbackMac
+        case 2:
+            let firmware = isXGZT ? (XGZTBlueToothManager.shared.device?.firmwareVersion ?? "") : bleSelf.bleModel.firmwareVersion
+            return "V" + firmware
+        default:
+            let hardware = isXGZT ? "\(XGZTBlueToothManager.shared.device?.hardwareVersion ?? 0).0" : bleSelf.bleModel.hardwareVersion
+            return "V" + hardware
+        }
+    }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return titles.count
@@ -44,15 +64,7 @@ extension DeviceInfoViewController: UITableViewDataSource {
         cell.detailTextLabel?.textColor = UIColor.text_third
         cell.detailTextLabel?.font = UIFont.body1()
         cell.textLabel?.text = titles[indexPath.row]
-        if indexPath.row == 0 {
-            cell.detailTextLabel?.text = isXGZT ? XGZTBlueToothManager.shared.device?.deviceName ?? "" : bleSelf.bleModel.name
-        } else if indexPath.row == 1 {
-            cell.detailTextLabel?.text =  isXGZT ? XGZTBlueToothManager.shared.device?.max ?? "" : bleSelf.bleModel.mac
-        } else if indexPath.row == 2 {
-            cell.detailTextLabel?.text = "V" + (isXGZT ? XGZTBlueToothManager.shared.device?.firmwareVersion ?? "" : bleSelf.bleModel.firmwareVersion)
-        } else {
-            cell.detailTextLabel?.text = "V" + (isXGZT ? "\(XGZTBlueToothManager.shared.device?.hardwareVersion ?? 0).0" : bleSelf.bleModel.hardwareVersion)
-        }
+        cell.detailTextLabel?.text = resolvedDeviceInfoDetailText(for: indexPath.row)
         return cell
     }
     

@@ -54,8 +54,9 @@ class MyClockViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        let w: CGFloat = isXGZT ? CGFloat(XGZTBlueToothManager.shared.device?.screenWidth ?? 0) : CGFloat(bleSelf.bleModel.screenWidth)
-        let h: CGFloat = isXGZT ? CGFloat(XGZTBlueToothManager.shared.device?.screenHeight ?? 0) : CGFloat(bleSelf.bleModel.screenHeight)
+        let deviceMetrics = AppDelegate.resolvedDeviceScreenMetrics()
+        let w: CGFloat = CGFloat(deviceMetrics?.width ?? 240)
+        let h: CGFloat = CGFloat(deviceMetrics?.height ?? 240)
         if w == 80 {
             self.view.bg_base1()
             self.edgesForExtendedLayout = .all
@@ -91,10 +92,8 @@ class MyClockViewController: UIViewController {
         footView?.delegate = self
         bleSelf.getFuncCategory()
         
-        if AppDelegate.IsDeviceNotRound() { // 方形
-            let w: CGFloat = isXGZT ? CGFloat(XGZTBlueToothManager.shared.device?.screenWidth ?? 0) : CGFloat(bleSelf.bleModel.screenWidth)
-            let h: CGFloat = isXGZT ? CGFloat(XGZTBlueToothManager.shared.device?.screenHeight ?? 0) : CGFloat(bleSelf.bleModel.screenHeight)
-            height = CGFloat(width) * CGFloat(h) / CGFloat(w)
+        if let metrics = deviceMetrics, metrics.isRect {
+            height = CGFloat(width) * CGFloat(metrics.height) / CGFloat(metrics.width)
         } else { // 圆形
             height =  width
         }
@@ -105,19 +104,69 @@ class MyClockViewController: UIViewController {
         super.viewWillAppear(animated)
         
     }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        if isMovingFromParent || isBeingDismissed {
+            teardownTransientControllersForRelease()
+        }
+    }
     
     deinit {
-        binData = Data()
-        itemVC?.dismiss(animated: false, completion: {
-            
-        })
         needStop = true
         XLogger.shared.log("壁纸推送暂停")
-        imageUploadVc?.dismiss(animated: false, completion: {
-            [weak self] in
-            self?.imageUploadVc = nil
-        })
         NotificationCenter.default.removeObserver(self)
+        binData = Data()
+        releaseTransientControllerReferences()
+    }
+
+    private func teardownTransientControllersForRelease() {
+        dismissItemController()
+        dismissImageUploadController()
+    }
+
+    private func releaseTransientControllerReferences() {
+        itemVC?.delegate = nil
+        imageUploadVc?.delegate = nil
+        itemVC = nil
+        imageUploadVc = nil
+    }
+
+    private func dismissItemController() {
+        let itemController = itemVC
+        itemController?.delegate = nil
+        itemVC = nil
+        itemController?.dismiss(animated: false, completion: nil)
+    }
+
+    private func dismissImageUploadController() {
+        let uploadController = imageUploadVc
+        uploadController?.delegate = nil
+        imageUploadVc = nil
+        uploadController?.dismiss(animated: false, completion: nil)
+    }
+
+    private func refreshUploadProgress(_ progress: String) {
+        imageUploadVc?.refreshProgress(p: progress)
+    }
+
+    private func resolvedDeviceMetrics() -> (width: Int, height: Int, isRect: Bool) {
+        AppDelegate.resolvedDeviceScreenMetrics() ?? (240, 240, false)
+    }
+
+    private func resolvedDeviceSize() -> CGSize {
+        let metrics = resolvedDeviceMetrics()
+        return CGSize(width: metrics.width, height: metrics.height)
+    }
+
+    private func resolvedMaskRadius(for image: UIImage) -> CGFloat {
+        let metrics = resolvedDeviceMetrics()
+        if metrics.isRect {
+            return 0
+        }
+        let referenceHeight = CGFloat(max(metrics.height, Int(min(image.size.width, image.size.height))))
+        return max(referenceHeight / 2, 1)
     }
     
     // 修改自定义设置内容位置
@@ -145,11 +194,8 @@ class MyClockViewController: UIViewController {
     
     private func startupdateCustomImage() {
         guard let originalImage = currentImage else { return }
-        
-        let w: CGFloat = isXGZT ? CGFloat(XGZTBlueToothManager.shared.device?.screenWidth ?? 0) : CGFloat(bleSelf.bleModel.screenWidth)
-        let h: CGFloat = isXGZT ? CGFloat(XGZTBlueToothManager.shared.device?.screenHeight ?? 0) : CGFloat(bleSelf.bleModel.screenHeight)
-        // 固定目标尺寸
-        let targetSize = CGSize(width: w, height: h)
+
+        let targetSize = resolvedDeviceSize()
         
         // 第一步：调整图片尺寸为 240×240
         guard let resizedImage = resizeImage(originalImage, to: targetSize) else {
@@ -159,18 +205,15 @@ class MyClockViewController: UIViewController {
         
         // 第二步：按压缩梯度尝试转换，避免在极低目标大小下重复做无效压缩
         let usesRLE = XGZTBlueToothManager.shared.device?.screenType == 2 || XGZTBlueToothManager.shared.device?.screenType == 3
-        let targetSizeBytes = usesRLE ? 20 * 1024 : 120 * 1024
+        let targetSizeBytes = usesRLE ? 28 * 1024 : 120 * 1024
         let qualitySteps: [CGFloat] = usesRLE
-            ? [1.0, 0.82, 0.68, 0.56, 0.46, 0.36, 0.28, 0.22, 0.16, 0.12]
+            ? [1.0, 0.72]
             : [1.0, 0.9, 0.8, 0.72, 0.64, 0.56, 0.48, 0.4]
         let candidateImages: [(name: String, image: UIImage)] = {
             var candidates: [(String, UIImage)] = [("base", resizedImage)]
 
-            if usesRLE, let reducedImage = resizeAndReduceRGB(image: resizedImage, targetSize: targetSize) {
-                candidates.append(("reduced-rgb", reducedImage))
-                if let aggressiveReducedImage = resizeAndReduceRGB(image: reducedImage, targetSize: targetSize) {
-                    candidates.append(("reduced-rgb-x2", aggressiveReducedImage))
-                }
+            if usesRLE {
+                candidates.append(contentsOf: buildRLECandidateImages(from: resizedImage, targetSize: targetSize))
             }
 
             return candidates
@@ -276,17 +319,51 @@ class MyClockViewController: UIViewController {
         }
     }
     
-    func resizeAndReduceRGB(image: UIImage, targetSize: CGSize) -> UIImage? {
-        // 首先调整图像大小
-        UIGraphicsBeginImageContextWithOptions(targetSize, false, 1.0)
-        image.draw(in: CGRect(origin:.zero, size: targetSize))
-        let resizedImage = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        
-        guard let cgImage = resizedImage?.cgImage else {
+    private func buildRLECandidateImages(from image: UIImage, targetSize: CGSize) -> [(String, UIImage)] {
+        let configs: [(String, CGFloat, UInt8)] = [
+            ("quant-16", 1.0, 16),
+            ("quant-32", 1.0, 32),
+            ("pixel-75-quant-32", 0.75, 32),
+            ("pixel-62-quant-48", 0.625, 48),
+            ("pixel-50-quant-64", 0.5, 64)
+        ]
+
+        return configs.compactMap { name, scale, step in
+            guard let candidate = resizeAndReduceRGB(image: image,
+                                                     targetSize: targetSize,
+                                                     downsampleRatio: scale,
+                                                     quantizationStep: step) else {
+                return nil
+            }
+            return (name, candidate)
+        }
+    }
+
+    func resizeAndReduceRGB(image: UIImage,
+                            targetSize: CGSize,
+                            downsampleRatio: CGFloat = 1.0,
+                            quantizationStep: UInt8 = 4) -> UIImage? {
+        guard let normalizedImage = resizeImage(image, to: targetSize) else {
             return nil
         }
-        
+
+        let workingImage: UIImage
+        if downsampleRatio < 0.999 {
+            let sampledSize = CGSize(width: max(1, floor(targetSize.width * downsampleRatio)),
+                                     height: max(1, floor(targetSize.height * downsampleRatio)))
+            guard let lowResImage = resizeImage(normalizedImage, to: sampledSize),
+                  let upscaledImage = redrawImage(lowResImage, to: targetSize, interpolation: .none) else {
+                return nil
+            }
+            workingImage = upscaledImage
+        } else {
+            workingImage = normalizedImage
+        }
+
+        guard let cgImage = workingImage.cgImage else {
+            return nil
+        }
+
         let colorSpace = CGColorSpaceCreateDeviceRGB()
         let width = cgImage.width
         let height = cgImage.height
@@ -294,27 +371,27 @@ class MyClockViewController: UIViewController {
         let bitsPerComponent = 8
         let bytesPerRow = bytesPerPixel * width
         let bitmapInfo = CGImageAlphaInfo.premultipliedLast.rawValue | CGBitmapInfo.byteOrder32Big.rawValue
-        
+
         guard let context = CGContext(data: nil, width: width, height: height, bitsPerComponent: bitsPerComponent, bytesPerRow: bytesPerRow, space: colorSpace, bitmapInfo: bitmapInfo) else {
             return nil
         }
-        
+
         context.draw(cgImage, in: CGRect(x: 0, y: 0, width: width, height: height))
-        
+
         if let pixelData = context.data {
             let data = pixelData.bindMemory(to: UInt8.self, capacity: width * height * bytesPerPixel)
+            let step = max(1, Int(quantizationStep))
             for y in 0..<height {
                 for x in 0..<width {
                     let index = (y * width + x) * bytesPerPixel
                     var red = data[index]
                     var green = data[index + 1]
                     var blue = data[index + 2]
-                    
-                    // 将 RGB 值从 256 降到 64
-                    red = (red / 4) * 4
-                    green = (green / 4) * 4
-                    blue = (blue / 4) * 4
-                    
+
+                    red = UInt8((Int(red) / step) * step)
+                    green = UInt8((Int(green) / step) * step)
+                    blue = UInt8((Int(blue) / step) * step)
+
                     data[index] = red
                     data[index + 1] = green
                     data[index + 2] = blue
@@ -327,6 +404,19 @@ class MyClockViewController: UIViewController {
         }
         
         return UIImage(cgImage: newCGImage)
+    }
+
+    private func redrawImage(_ image: UIImage, to targetSize: CGSize, interpolation: CGInterpolationQuality) -> UIImage? {
+        UIGraphicsBeginImageContextWithOptions(targetSize, false, 1.0)
+        guard let context = UIGraphicsGetCurrentContext() else {
+            UIGraphicsEndImageContext()
+            return nil
+        }
+        context.interpolationQuality = interpolation
+        image.draw(in: CGRect(origin: .zero, size: targetSize))
+        let result = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return result
     }
 
     private func compressAndConvertImage(image: UIImage) -> UIImage? {
@@ -386,7 +476,7 @@ class MyClockViewController: UIViewController {
             let s = String(format: "%.02f%%", d)
             DispatchQueue.main.async {
                 [weak self] in
-                self?.imageUploadVc?.refreshProgress(p: s)
+                self?.refreshUploadProgress(s)
             }
             
         } else if obj == 6 {
@@ -404,10 +494,7 @@ class MyClockViewController: UIViewController {
             binData = Data()
             DispatchQueue.main.async {
                 [weak self] in
-                self?.imageUploadVc?.dismiss(animated: false, completion: {
-                    [weak self] in
-                    self?.imageUploadVc = nil
-                })
+                self?.dismissImageUploadController()
             }
         }
     }
@@ -431,10 +518,7 @@ class MyClockViewController: UIViewController {
                     if needStop == true {
                         Async.main {
                             [weak self] in
-                            self?.imageUploadVc?.dismiss(animated: false, completion: {
-                                [weak self] in
-                                self?.imageUploadVc = nil
-                            })
+                            self?.dismissImageUploadController()
                         }
                         return
                     }
@@ -444,7 +528,7 @@ class MyClockViewController: UIViewController {
                             return
                         }
                         let d = Float(i * 100) / Float(sSelf.total)
-                        self?.imageUploadVc?.refreshProgress(p: String(format: "%.02f%%", d))
+                        self?.refreshUploadProgress(String(format: "%.02f%%", d))
                     }
                     XLogger.shared.log("for循环推送[\(mtuSize)]: \(i) \(self.total)")
                     bleSelf.setImagePush(binData, dataIndex: i, MTU: mtuSize)
@@ -458,10 +542,7 @@ class MyClockViewController: UIViewController {
             } else {
                 Async.main {
                     [weak self] in
-                    self?.imageUploadVc?.dismiss(animated: false, completion: {
-                        [weak self] in
-                        self?.imageUploadVc = nil
-                    })
+                    self?.dismissImageUploadController()
                     Toast(text: NSLocalizedString("该设备不支持壁纸推送，或者电量过低", comment: "")).show()
                     
                 }
@@ -475,10 +556,7 @@ class MyClockViewController: UIViewController {
                     wuPrint("更新失败")
                     DispatchQueue.main.async {
                         [weak self] in
-                        self?.imageUploadVc?.dismiss(animated: false, completion: {
-                            [weak self] in
-                            self?.imageUploadVc = nil
-                        })
+                        self?.dismissImageUploadController()
                     }
                     return
                 } else {
@@ -501,28 +579,23 @@ class MyClockViewController: UIViewController {
         let timestamp = Int(Date().timeIntervalSince1970)
         DispatchQueue.main.async {
             [weak self] in
-            Toast(text: "toast_success".localized()).show()
-            if self?.currentImage == nil {
+            guard let self = self, let currentImage = self.currentImage else {
                 return
             }
-            let w  = isXGZT ? (XGZTBlueToothManager.shared.device?.screenWidth ?? 0) : bleSelf.bleModel.screenWidth
-            let h = isXGZT ? (XGZTBlueToothManager.shared.device?.screenHeight ?? 0) : bleSelf.bleModel.screenHeight
-            self?.saveImage(currentImage: self!.currentImage!, imageName: "\(lastestDeviceMac)_\(w)_\(h)_\(timestamp).png")
+            Toast(text: "toast_success".localized()).show()
+            let metrics = self.resolvedDeviceMetrics()
+            self.saveImage(currentImage: currentImage, imageName: "\(lastestDeviceMac)_\(metrics.width)_\(metrics.height)_\(timestamp).png")
             var lastStamp = UserDefaults.standard.dictionary(forKey: "lastStamp") ?? [:]
             lastStamp[lastestDeviceMac] = timestamp
             UserDefaults.standard.set(lastStamp, forKey: "lastStamp")
             UserDefaults.standard.synchronize()
-            self?.imageUploadVc?.dismiss(animated: false, completion: {
-                [weak self] in
-                self?.imageUploadVc = nil
-            })
-            self?.tableView?.reloadData()
+            self.dismissImageUploadController()
+            self.tableView?.reloadData()
         }
         var clockDir = UserDefaults.standard.dictionary(forKey: "MyClock") ?? [:]
         var clockStr = clockDir[lastestDeviceMac] as? [String] ?? ["_&&_&&_", "_&&_&&_", "_&&_&&_"]
-        let w  = isXGZT ? (XGZTBlueToothManager.shared.device?.screenWidth ?? 0) : bleSelf.bleModel.screenWidth
-        let h = isXGZT ? (XGZTBlueToothManager.shared.device?.screenHeight ?? 0) : bleSelf.bleModel.screenHeight
-        let imageN = "\(lastestDeviceMac)_\(w)_\(h)_\(timestamp).png"
+        let metrics = resolvedDeviceMetrics()
+        let imageN = "\(lastestDeviceMac)_\(metrics.width)_\(metrics.height)_\(timestamp).png"
         let fullPath = NSHomeDirectory().appending("/Documents/").appending(imageN)
         clockStr[index] = "\("custom_watch_face".localized())&&\(imageN)&&\(fullPath)"
         clockDir[lastestDeviceMac] = clockStr
@@ -561,7 +634,7 @@ class MyClockViewController: UIViewController {
             
             var newImage = image
             if !AppDelegate.IsDeviceNotRound() {
-                newImage = maskRoundedImage(image: image, radius: (CGFloat(bleSelf.bleModel.screenHeight))/2)
+                newImage = maskRoundedImage(image: image, radius: resolvedMaskRadius(for: image))
             }
             
             JLSelf.getJLDataFromImage(image: newImage)
@@ -622,43 +695,46 @@ extension MyClockViewController: UITableViewDelegate {
         tableView.deselectRow(at: indexPath, animated: true)
         if indexPath.row == 1 {
             let storyboard = UIStoryboard(name: .kMine, bundle: nil)
-            itemVC = storyboard.instantiateViewController(withIdentifier: "SelectItemViewController") as? SelectItemViewController
-            itemVC?.delegate = self
-            itemVC?.modalTransitionStyle = .crossDissolve
-            itemVC?.modalPresentationStyle = .overFullScreen
-            itemVC?.type = 0
+            let controller = storyboard.instantiateViewController(withIdentifier: "SelectItemViewController") as! SelectItemViewController
+            controller.delegate = self
+            controller.modalTransitionStyle = .crossDissolve
+            controller.modalPresentationStyle = .overFullScreen
+            controller.type = 0
             if isXGZT {
-                itemVC?.index = diallocation
-                itemVC?.titles = xgztlocations
+                controller.index = diallocation
+                controller.titles = xgztlocations
             } else {
-                itemVC?.index = datetimeLocation
-                itemVC?.titles = locations
+                controller.index = datetimeLocation
+                controller.titles = locations
             }
-            itemVC?.titleStr = "time_position".localized()
-            navigationController?.present(itemVC!, animated: false, completion: nil)
+            controller.titleStr = "time_position".localized()
+            itemVC = controller
+            navigationController?.present(controller, animated: false, completion: nil)
         } else if indexPath.row == 2 && !isXGZT {
             let storyboard = UIStoryboard(name: .kMine, bundle: nil)
-            itemVC = storyboard.instantiateViewController(withIdentifier: "SelectItemViewController") as? SelectItemViewController
-            itemVC?.delegate = self
+            let controller = storyboard.instantiateViewController(withIdentifier: "SelectItemViewController") as! SelectItemViewController
+            controller.delegate = self
             topTap = true
-            itemVC?.modalTransitionStyle = .crossDissolve
-            itemVC?.modalPresentationStyle = .overFullScreen
-            itemVC?.index = datetimeTopLocation
-            itemVC?.type = 1
-            itemVC?.titles = tops
-            itemVC?.titleStr = "content_above_time".localized()
-            navigationController?.present(itemVC!, animated: false, completion: nil)
+            controller.modalTransitionStyle = .crossDissolve
+            controller.modalPresentationStyle = .overFullScreen
+            controller.index = datetimeTopLocation
+            controller.type = 1
+            controller.titles = tops
+            controller.titleStr = "content_above_time".localized()
+            itemVC = controller
+            navigationController?.present(controller, animated: false, completion: nil)
         } else if indexPath.row == 3 && !isXGZT {
             let storyboard = UIStoryboard(name: .kMine, bundle: nil)
-            itemVC = storyboard.instantiateViewController(withIdentifier: "SelectItemViewController") as? SelectItemViewController
-            itemVC?.delegate = self
-            itemVC?.modalTransitionStyle = .crossDissolve
-            itemVC?.modalPresentationStyle = .overFullScreen
-            itemVC?.index = datetimeBottomLocation
-            itemVC?.type = 2
-            itemVC?.titles = tops
-            itemVC?.titleStr = "content_below_time".localized()
-            navigationController?.present(itemVC!, animated: false, completion: nil)
+            let controller = storyboard.instantiateViewController(withIdentifier: "SelectItemViewController") as! SelectItemViewController
+            controller.delegate = self
+            controller.modalTransitionStyle = .crossDissolve
+            controller.modalPresentationStyle = .overFullScreen
+            controller.index = datetimeBottomLocation
+            controller.type = 2
+            controller.titles = tops
+            controller.titleStr = "content_below_time".localized()
+            itemVC = controller
+            navigationController?.present(controller, animated: false, completion: nil)
         }
     }
 }
@@ -707,12 +783,11 @@ extension MyClockViewController: UITableViewDataSource {
             cell.selectButton.titleLabel?.textAlignment = .center // 文字水平居中
             cell.selectButton.contentHorizontalAlignment = .center // 按钮内容水平居中
             cell.selectButton.contentVerticalAlignment = .center // 按钮内容垂直居中
-            let w  = isXGZT ? (XGZTBlueToothManager.shared.device?.screenWidth ?? 0) : bleSelf.bleModel.screenWidth
-            let h = isXGZT ? (XGZTBlueToothManager.shared.device?.screenHeight ?? 0) : bleSelf.bleModel.screenHeight
+            let metrics = resolvedDeviceMetrics()
             let lastestDeviceMac = UserDefaults.standard.string(forKey: "LastestDeviceMac") ?? "00:00:00:00:00:00"
             let lastStamp = UserDefaults.standard.dictionary(forKey: "lastStamp") ?? [:]
             let stamp = lastStamp[lastestDeviceMac] ?? ""
-            let fullPath = NSHomeDirectory().appending("/Documents/").appending("\(lastestDeviceMac)_\(w)_\(h)_\(stamp).png")
+            let fullPath = NSHomeDirectory().appending("/Documents/").appending("\(lastestDeviceMac)_\(metrics.width)_\(metrics.height)_\(stamp).png")
             if let savedImage = UIImage(contentsOfFile: fullPath) {
                 cell.itemImageView?.image = savedImage
             }
@@ -783,8 +858,9 @@ extension MyClockViewController: EidtClockHeadTableViewCellDelegate {
         if !AppDelegate.IsDeviceNotRound() {
             imagePickerVc?.needCircleCrop = true
         }
-        let w: CGFloat  = isXGZT ? CGFloat(XGZTBlueToothManager.shared.device?.screenWidth ?? 0) : CGFloat(bleSelf.bleModel.screenWidth)
-        let h: CGFloat = isXGZT ? CGFloat(XGZTBlueToothManager.shared.device?.screenHeight ?? 0) : CGFloat(bleSelf.bleModel.screenHeight)
+        let targetSize = resolvedDeviceSize()
+        let w = targetSize.width
+        let h = targetSize.height
         var w1: CGFloat = 0
         var h1: CGFloat = 0
         if w >= h {
@@ -814,21 +890,20 @@ extension MyClockViewController: TZImagePickerControllerDelegate {
         if imageUploadVc != nil {
             return
         }
-        imageUploadVc = UploadImageViewController()
-        imageUploadVc?.modalPresentationStyle = .overCurrentContext
-        imageUploadVc?.modalTransitionStyle = .crossDissolve
-        imageUploadVc?.view.backgroundColor = UIColor.black.withAlphaComponent(0.5)
-        imageUploadVc?.delegate = self
+        let controller = UploadImageViewController()
+        controller.modalPresentationStyle = .overCurrentContext
+        controller.modalTransitionStyle = .crossDissolve
+        controller.view.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+        controller.delegate = self
         if isXGZT && !AppDelegate.IsDeviceNotRound() {
-            imageUploadVc?.image = photos.first?.croppedToCircleSmooth()
+            controller.image = photos.first?.croppedToCircleSmooth()
         } else {
-            imageUploadVc?.image = photos.first
+            controller.image = photos.first
         }
 
-        imageUploadVc?.imgView.contentMode = .scaleAspectFit
-        self.present(imageUploadVc!, animated: false) {
-            
-        }
+        controller.imgView.contentMode = .scaleAspectFit
+        imageUploadVc = controller
+        self.present(controller, animated: false, completion: nil)
     }
     
     func imagePickerController(_ picker: TZImagePickerController!, didFinishPickingPhotos photos: [UIImage]!, sourceAssets assets: [Any]!, isSelectOriginalPhoto: Bool, infos: [[AnyHashable : Any]]!) {
@@ -919,15 +994,14 @@ extension MyClockViewController: CustomImageFooterViewDelegate {
         if imageUploadVc != nil {
             return
         }
-        imageUploadVc = UploadImageViewController()
-        imageUploadVc?.modalPresentationStyle = .overCurrentContext
-        imageUploadVc?.modalTransitionStyle = .crossDissolve
-        imageUploadVc?.view.backgroundColor = UIColor.black.withAlphaComponent(0.5)
-        imageUploadVc?.delegate = self
-        imageUploadVc?.image = image
-        imageUploadVc?.imgView.contentMode = .scaleAspectFit
-        self.present(imageUploadVc!, animated: false) {
-            
-        }
+        let controller = UploadImageViewController()
+        controller.modalPresentationStyle = .overCurrentContext
+        controller.modalTransitionStyle = .crossDissolve
+        controller.view.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+        controller.delegate = self
+        controller.image = image
+        controller.imgView.contentMode = .scaleAspectFit
+        imageUploadVc = controller
+        self.present(controller, animated: false, completion: nil)
     }
 }

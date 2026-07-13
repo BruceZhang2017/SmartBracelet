@@ -114,13 +114,19 @@ class UploadImageViewController: UIViewController {
         UIApplication.shared.isIdleTimerDisabled = false // 取消常亮
         NotificationCenter.default.removeObserver(self)
     }
+
+    private func dismissAndNotifyDelegate(hideView: Bool = false) {
+        if hideView {
+            view.isHidden = true
+        }
+        let currentDelegate = delegate
+        delegate = nil
+        dismiss(animated: false, completion: nil)
+        currentDelegate?.dismissVC()
+    }
     
     @objc private func handleStop() {
-        view.isHidden = true 
-        dismiss(animated: false) {
-            [weak self] in
-            self?.delegate?.dismissVC()
-        }
+        dismissAndNotifyDelegate(hideView: true)
     }
     
     @objc func handleUpload() {
@@ -131,8 +137,9 @@ class UploadImageViewController: UIViewController {
         uploadButton.isUserInteractionEnabled = false
         if let i = image {
             cancelButton.isHidden = true 
-            let w: CGFloat = CGFloat(isXGZT ? (XGZTBlueToothManager.shared.device?.screenWidth ?? 0) : bleSelf.bleModel.screenWidth)
-            let h: CGFloat = CGFloat(isXGZT ? (XGZTBlueToothManager.shared.device?.screenHeight ?? 0) : bleSelf.bleModel.screenHeight)
+            let metrics = AppDelegate.resolvedDeviceScreenMetrics() ?? (240, 240, false)
+            let w = CGFloat(metrics.width)
+            let h = CGFloat(metrics.height)
             let newImage = i.scaled(to: CGSize(width: w, height: h))
             let bk = bleSelf.bleModel.internalNumber.hasPrefix("5A4B") // 是否为中科
             if bleSelf.isJLBlue {
@@ -154,8 +161,7 @@ class UploadImageViewController: UIViewController {
     
     @objc func handleCancel() {
         if uploadButton.titleLabel?.text == "start_uploading".localized() {
-            delegate?.dismissVC()
-            dismiss(animated: false, completion: nil)
+            dismissAndNotifyDelegate()
         }
     }
     

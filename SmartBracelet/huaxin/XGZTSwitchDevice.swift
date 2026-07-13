@@ -182,6 +182,7 @@ public class BluetoothWatchDevice {
     static func deleteFromSandbox(mac: String) {
         let defaults = UserDefaults.standard
         var dic = defaults.dictionary(forKey: "xgzt") as? [String: String] ?? [:]
+        XLogger.shared.log("[unbind-debug] deleteFromSandbox before: targetMac=\(mac), cachedKeys=\(Array(dic.keys))")
         if dic.count == 0 {
             return
         }
@@ -195,6 +196,7 @@ public class BluetoothWatchDevice {
         XLogger.shared.log("删除设备后：\(dic.keys.count) ")
         defaults.set(dic, forKey: "xgzt")
         defaults.synchronize()
+        XLogger.shared.log("[unbind-debug] deleteFromSandbox after: cachedKeys=\(Array(dic.keys))")
         
         BluetoothWatchDevice.loadAll()
     }
@@ -204,10 +206,12 @@ public class BluetoothWatchDevice {
         cacheDevices = []
         let defaults = UserDefaults.standard
         guard let dic = defaults.dictionary(forKey: "xgzt") as? [String: String] else {
+            XLogger.shared.log("[unbind-debug] loadAll: xgzt cache dictionary missing")
             return
         }
         
         if dic.isEmpty || dic.count <= 0 {
+            XLogger.shared.log("[unbind-debug] loadAll: xgzt cache dictionary empty")
             return
         }
         

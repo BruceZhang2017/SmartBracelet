@@ -43,20 +43,18 @@ class MarketClockViewController: UIViewController {
         downloadClock() // 下载资源
         
         width = (ScreenWidth - 60) / 2
-        if AppDelegate.IsDeviceNotRound() { // 方形
-            let w = bleSelf.bleModel.screenWidth
-            let h = bleSelf.bleModel.screenHeight
-            height = CGFloat(width) * CGFloat(h) / CGFloat(w)
+        if let metrics = AppDelegate.resolvedDeviceScreenMetrics(), metrics.isRect {
+            height = CGFloat(width) * CGFloat(metrics.height) / CGFloat(metrics.width)
         } else { // 圆形
             height =  width
         }
-        XLogger.shared.log("width: \(width) height: \(height)")
+        XLogger.shared.log("dialPreviewWidth: \(width) dialPreviewHeight: \(height)")
     }
     
     private func downloadClock() {
         ProgressHUD.animate(nil, .activityIndicator, interaction: false)
-        var w = bleSelf.bleModel.screenWidth
-        var h = bleSelf.bleModel.screenHeight
+        var w = AppDelegate.resolvedDeviceScreenMetrics()?.width ?? 240
+        var h = AppDelegate.resolvedDeviceScreenMetrics()?.height ?? 240
         var firmNo = bleSelf.isJLBlue ? "JieLi" : "FengJiaWei"
         let bk = bleSelf.bleModel.internalNumber.hasPrefix("5A4B") // 是否为中科
         if bk {
@@ -64,8 +62,8 @@ class MarketClockViewController: UIViewController {
         }
         if isXGZT {
             firmNo = "ZhongKe_S"
-            w = XGZTBlueToothManager.shared.device?.screenWidth ?? 0
-            h = XGZTBlueToothManager.shared.device?.screenHeight ?? 0
+            w = AppDelegate.resolvedDeviceScreenMetrics()?.width ?? 240
+            h = AppDelegate.resolvedDeviceScreenMetrics()?.height ?? 284
         }
         let parameters = ["pageSize": "100", "pageNum": "1", "isPublish": "Y", "resolutionRatio": "\(w)*\(h)", "firmNo": firmNo]
         AF.request("https://u-watch.com.cn/api/app/dial/list?pageSize=100&pageNum=1&firmNo=\(firmNo)", method: .post, parameters: parameters, encoder: JSONParameterEncoder.default).response { [weak self] (response) in
@@ -136,4 +134,3 @@ extension MarketClockViewController: UICollectionViewDelegateFlowLayout {
         return 0
     }
 }
-

@@ -41,6 +41,19 @@ class DevicesViewController: BaseViewController, UIDocumentInteractionController
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        // #region debug-point C:devices-viewdidload-entry
+        postSameCrashDebugEvent(
+            hypothesisId: "C",
+            location: "DevicesViewController.viewDidLoad",
+            msg: "设备页开始初始化",
+            data: [
+                "lastestDeviceMac": UserDefaults.standard.string(forKey: "LastestDeviceMac") ?? "",
+                "deviceCount": DeviceManager.shared.devices.count,
+                "isConnected": bleSelf.isConnected,
+                "isXGZT": isXGZT
+            ]
+        )
+        // #endregion
         title = "device".localized()
         NotificationCenter.default.addObserver(
                self,
@@ -65,7 +78,29 @@ class DevicesViewController: BaseViewController, UIDocumentInteractionController
         
         contentView.backgroundColor = UIColor.clear
         
+        // #region debug-point D:before-get-switch
+        postSameCrashDebugEvent(
+            hypothesisId: "D",
+            location: "DevicesViewController.viewDidLoad",
+            msg: "准备调用 getSwitchForWristband",
+            data: [
+                "deviceCount": DeviceManager.shared.devices.count,
+                "lastestDeviceMac": UserDefaults.standard.string(forKey: "LastestDeviceMac") ?? "",
+                "isConnected": bleSelf.isConnected
+            ]
+        )
+        // #endregion
         bleSelf.getSwitchForWristband()
+        // #region debug-point D:after-get-switch
+        postSameCrashDebugEvent(
+            hypothesisId: "D",
+            location: "DevicesViewController.viewDidLoad",
+            msg: "getSwitchForWristband 调用返回",
+            data: [
+                "isConnected": bleSelf.isConnected
+            ]
+        )
+        // #endregion
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: Notification.Name("DevicesViewController"), object: nil)
         dialManagmentLabel.text = "dial_management".localized()
         initializeDeviceSettings()
@@ -103,18 +138,38 @@ class DevicesViewController: BaseViewController, UIDocumentInteractionController
         changeButtonAttr() // 切换设备入口
         
         width = (ScreenWidth - 60) / 3
-        if AppDelegate.IsDeviceNotRound() { // 方形
-            var w = isXGZT ? (XGZTBlueToothManager.shared.device?.screenWidth ?? 0) : bleSelf.bleModel.screenWidth
-            let h = isXGZT ? (XGZTBlueToothManager.shared.device?.screenHeight ?? 0) : bleSelf.bleModel.screenHeight
-            if w == 0 {
-                w = 240
-            }
-            height = CGFloat(width) * CGFloat(h) / CGFloat(w)
+        let resolvedMetrics = AppDelegate.resolvedDeviceScreenMetrics()
+        // #region debug-point E:before-device-shape
+        postSameCrashDebugEvent(
+            hypothesisId: "E",
+            location: "DevicesViewController.viewDidLoad",
+            msg: "准备判断屏幕形态并计算表盘尺寸",
+            data: [
+                "screenWidth": resolvedMetrics?.width ?? 0,
+                "screenHeight": resolvedMetrics?.height ?? 0,
+                "screenType": resolvedMetrics == nil ? 0 : (resolvedMetrics?.isRect == true ? 1 : 2),
+                "isXGZT": isXGZT
+            ]
+        )
+        // #endregion
+        if let metrics = AppDelegate.resolvedDeviceScreenMetrics(), metrics.isRect {
+            height = CGFloat(width) * CGFloat(metrics.height) / CGFloat(metrics.width)
         } else { // 圆形
             height =  width
         }
         
-        XLogger.shared.log("width: \(width) height: \(height)")
+        XLogger.shared.log("dialPreviewWidth: \(width) dialPreviewHeight: \(height)")
+        // #region debug-point E:after-device-shape
+        postSameCrashDebugEvent(
+            hypothesisId: "E",
+            location: "DevicesViewController.viewDidLoad",
+            msg: "表盘尺寸计算完成",
+            data: [
+                "width": width,
+                "height": height
+            ]
+        )
+        // #endregion
         
         // 获取 AppDelegate 实例
         if let appDelegate = UIApplication.shared.delegate as? AppDelegate {
@@ -136,16 +191,16 @@ class DevicesViewController: BaseViewController, UIDocumentInteractionController
         documentController?.delegate = self
         
         // 创建按钮
-//        let button = UIBarButtonItem(
-//            title: "日志",
-//            style: .plain,
-//            target: self,
-//            action: #selector(didTapRightButton)
-//        )
-//        button.tintColor = .red  // 设置按钮颜色
-//
-//        // 添加到右上角
-//        navigationItem.rightBarButtonItem = button
+        let button = UIBarButtonItem(
+            title: "日志",
+            style: .plain,
+            target: self,
+            action: #selector(didTapRightButton)
+        )
+        button.tintColor = .red  // 设置按钮颜色
+
+        // 添加到右上角
+        navigationItem.rightBarButtonItem = button
     }
     
     // 处理点击事件（注意使用 @objc 标记）
@@ -474,6 +529,7 @@ class DevicesViewController: BaseViewController, UIDocumentInteractionController
                     guard localMac.count > 0 else {
                         return
                     }
+                    XLogger.shared.log("[unbind-debug] handleNotification 2000 start: localMac=\(localMac), lastestDeviceMac=\(lastestDeviceMac), cacheCount=\(cacheDevices.count), dbCount=\(DeviceManager.shared.devices.count), xgztDeviceExists=\(XGZTBlueToothManager.shared.device != nil)")
                     if XGZTBlueToothManager.shared.device != nil && localMac == lastestDeviceMac {
                         XGZTBlueToothManager.shared.disconnectDevice()
                         UserDefaults.standard.set(lastestDeviceMac, forKey: "deleteLastestDeviceMac")
@@ -481,6 +537,7 @@ class DevicesViewController: BaseViewController, UIDocumentInteractionController
                         lastestDeviceMac = ""
                         UserDefaults.standard.removeObject(forKey: "LastestDeviceMac")
                         XGZTBlueToothManager.shared.stopScanning() // 停止扫描
+                        XLogger.shared.log("[unbind-debug] handleNotification 2000 cleared latest mac for current xgzt device")
                     }
                     BluetoothWatchDevice.deleteFromSandbox(mac: localMac)
                     localMac = ""
@@ -514,6 +571,7 @@ class DevicesViewController: BaseViewController, UIDocumentInteractionController
                             }
                         }
                     }
+                    XLogger.shared.log("[unbind-debug] handleNotification 2000 finish: lastestDeviceMac=\(lastestDeviceMac), defaults.LastestDeviceMac=\(UserDefaults.standard.string(forKey: "LastestDeviceMac") ?? ""), deleteLastestDeviceMac=\(UserDefaults.standard.string(forKey: "deleteLastestDeviceMac") ?? ""), cacheCount=\(cacheDevices.count), dbCount=\(DeviceManager.shared.devices.count)")
                     XLogger.shared.log("删除后2，新的macaddress=\(lastestDeviceMac)")
                     NotificationCenter.default.post(name: Notification.Name("DeviceList"), object: "2")
                 }
@@ -524,6 +582,7 @@ class DevicesViewController: BaseViewController, UIDocumentInteractionController
                     guard localMac.count > 0 else {
                         return
                     }
+                    XLogger.shared.log("[unbind-debug] handleNotification 3000 start: localMac=\(localMac), lastestDeviceMac=\(lastestDeviceMac), cacheCount=\(cacheDevices.count), dbCount=\(DeviceManager.shared.devices.count)")
                     XGZTBlueToothManager.shared.disconnectDevice()
                     UserDefaults.standard.set(lastestDeviceMac, forKey: "deleteLastestDeviceMac")
                     UserDefaults.standard.synchronize()
@@ -562,6 +621,7 @@ class DevicesViewController: BaseViewController, UIDocumentInteractionController
                             }
                         }
                     }
+                    XLogger.shared.log("[unbind-debug] handleNotification 3000 finish: lastestDeviceMac=\(lastestDeviceMac), defaults.LastestDeviceMac=\(UserDefaults.standard.string(forKey: "LastestDeviceMac") ?? ""), deleteLastestDeviceMac=\(UserDefaults.standard.string(forKey: "deleteLastestDeviceMac") ?? ""), cacheCount=\(cacheDevices.count), dbCount=\(DeviceManager.shared.devices.count)")
                     XLogger.shared.log("删除后，新的macaddress=\(lastestDeviceMac)")
       
                     NotificationCenter.default.post(name: Notification.Name("HealthViewController"), object: "delete", userInfo: ["mac": localMac])
@@ -740,7 +800,7 @@ class DevicesViewController: BaseViewController, UIDocumentInteractionController
 
     /// 表盘管理
     func pushToClockManage(index: Int) {
-        if bleSelf.bleModel.screenWidth == 80 {
+        if let metrics = AppDelegate.resolvedDeviceScreenMetrics(), metrics.width == 80 {
             let storyboard = UIStoryboard(name: "Device", bundle: nil)
             guard let myClockVC = storyboard.instantiateViewController(withIdentifier: "MyClockViewController") as? MyClockViewController else {
                 return 

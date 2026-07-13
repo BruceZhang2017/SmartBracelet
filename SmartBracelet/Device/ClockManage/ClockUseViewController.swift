@@ -42,19 +42,14 @@ class ClockUseViewController: BaseViewController {
         if isXGZT {
             clockName = "\(XGZTBlueToothManager.shared.device?.deviceName ?? "e watch")-\(index)"
         } else {
-            clockName = "\(bleSelf.bleModel.name)-\(index)"
+            let deviceName = bleSelf.bleModel.name.isEmpty ? "e watch" : bleSelf.bleModel.name
+            clockName = "\(deviceName)-\(index)"
         }
         
         clockImageView.backgroundColor = UIColor.white
-        if AppDelegate.IsDeviceNotRound() { // 方形
-            var w = bleSelf.bleModel.screenWidth
-            var h = bleSelf.bleModel.screenHeight
-            if isXGZT {
-                w = XGZTBlueToothManager.shared.device?.screenWidth ?? 0
-                h = XGZTBlueToothManager.shared.device?.screenHeight ?? 0
-            }
+        if let metrics = AppDelegate.resolvedDeviceScreenMetrics(), metrics.isRect {
             ivWidthLC.constant = 165
-            ivHeightLC.constant = CGFloat(165) * CGFloat(h) / CGFloat(w)
+            ivHeightLC.constant = CGFloat(165) * CGFloat(metrics.height) / CGFloat(metrics.width)
             clockImageView.layer.cornerRadius = 36
             clockImageView.clipsToBounds = true
         } else { // 圆形
@@ -115,9 +110,31 @@ class ClockUseViewController: BaseViewController {
     
     deinit {
         unregisterNotification()
-        imageUploadVc?.dismiss(animated: false, completion: {
+        releaseTransientControllerReferences()
+    }
 
-        })
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        if isMovingFromParent || isBeingDismissed {
+            dismissImageUploadController()
+        }
+    }
+
+    private func releaseTransientControllerReferences() {
+        imageUploadVc?.delegate = nil
+        imageUploadVc = nil
+    }
+
+    private func dismissImageUploadController() {
+        let uploadController = imageUploadVc
+        uploadController?.delegate = nil
+        imageUploadVc = nil
+        uploadController?.dismiss(animated: false, completion: nil)
+    }
+
+    private func refreshUploadProgress(_ progress: String) {
+        imageUploadVc?.refreshProgress(p: progress)
     }
 
     private func downloadFile(url: String) {
@@ -218,11 +235,11 @@ class ClockUseViewController: BaseViewController {
             if p.count > 0 {
                 XLogger.shared.log("代码执行到这里，上传进度：\(p)")
                 if Thread.isMainThread {
-                    imageUploadVc?.refreshProgress(p: p)
+                    refreshUploadProgress(p)
                 } else {
                     DispatchQueue.main.async {
                         [weak self] in
-                        self?.imageUploadVc?.refreshProgress(p: p)
+                        self?.refreshUploadProgress(p)
                     }
                 }
                 return
@@ -282,7 +299,7 @@ class ClockUseViewController: BaseViewController {
             let s = String(format: "%.02f%%", d)
             DispatchQueue.main.async {
                 [weak self] in
-                self?.imageUploadVc?.refreshProgress(p: s)
+                self?.refreshUploadProgress(s)
             }
             
             if packageNum == 1 {
@@ -308,21 +325,20 @@ class ClockUseViewController: BaseViewController {
         if imageUploadVc != nil {
             return 
         }
-        imageUploadVc = UploadImageViewController()
-        imageUploadVc?.modalPresentationStyle = .overCurrentContext
-        imageUploadVc?.modalTransitionStyle = .crossDissolve
-        imageUploadVc?.view.backgroundColor = UIColor.black.withAlphaComponent(0.5)
-        imageUploadVc?.delegate = self
+        let controller = UploadImageViewController()
+        controller.modalPresentationStyle = .overCurrentContext
+        controller.modalTransitionStyle = .crossDissolve
+        controller.view.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+        controller.delegate = self
         if clockStr != nil {
             let array = clockStr.components(separatedBy: "&&")
-            imageUploadVc?.image = UIImage(named: array[1])
+            controller.image = UIImage(named: array[1])
         } else {
-            imageUploadVc?.imgView.kf.setImage(with: URL(string: currentClock?.previewPic ?? ""))
+            controller.imgView.kf.setImage(with: URL(string: currentClock?.previewPic ?? ""))
         }
-        imageUploadVc?.imgView.contentMode = .scaleAspectFit
-        self.present(imageUploadVc!, animated: false) {
-            
-        }
+        controller.imgView.contentMode = .scaleAspectFit
+        imageUploadVc = controller
+        self.present(controller, animated: false, completion: nil)
     }
     
     public func refreshDialogForResult(value: Bool) {
@@ -350,7 +366,7 @@ class ClockUseViewController: BaseViewController {
     }
     
     private func hideDialog() {
-        imageUploadVc?.dismiss(animated: false, completion: nil)
+        dismissImageUploadController()
     }
     
     @objc private func back() {

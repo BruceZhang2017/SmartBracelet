@@ -86,6 +86,20 @@ class DevicesView: UIView {
         
         var count = DeviceManager.shared.devices.count
         count += cacheDevices.count
+        // #region debug-point C:devices-card-refresh
+        postSameCrashDebugEvent(
+            hypothesisId: "C",
+            location: "DevicesView.refreshData",
+            msg: "设备卡刷新",
+            data: [
+                "deviceCount": DeviceManager.shared.devices.count,
+                "cacheCount": cacheDevices.count,
+                "lastestDeviceMac": lastestDeviceMac,
+                "isConnected": bleSelf.isConnected,
+                "value": value ?? -1
+            ]
+        )
+        // #endregion
         if count == 0 {
             self.isHidden = true
         } else {
@@ -168,7 +182,11 @@ class DevicesView: UIView {
             } else {
                 self.isHidden = false
                 cardImgView.image = UIImage(named: AppDelegate.IsDeviceNotRound() ? "icon_ewatch" : "icon_ewatch_2")
-                cardNameLabel.text = (currentModel?.name ?? "") + " - \(bleSelf.bleModel.screenWidth)*\(bleSelf.bleModel.screenHeight)"
+                if let metrics = AppDelegate.resolvedDeviceScreenMetrics() {
+                    cardNameLabel.text = (currentModel?.name ?? "") + " - \(metrics.width)*\(metrics.height)"
+                } else {
+                    cardNameLabel.text = currentModel?.name ?? ""
+                }
                 if currentModel!.mac == lastestDeviceMac && bleSelf.isConnected {
                     if XGZTBlueToothManager.shared.centralManager?.state == .poweredOff {
                         bConnected = false
@@ -191,5 +209,3 @@ class DevicesView: UIView {
         }
     }
 }
-
-
