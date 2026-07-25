@@ -191,16 +191,16 @@ class DevicesViewController: BaseViewController, UIDocumentInteractionController
         documentController?.delegate = self
         
         // 创建按钮
-        let button = UIBarButtonItem(
-            title: "日志",
-            style: .plain,
-            target: self,
-            action: #selector(didTapRightButton)
-        )
-        button.tintColor = .red  // 设置按钮颜色
+        // let button = UIBarButtonItem(
+        //     title: "日志",
+        //     style: .plain,
+        //     target: self,
+        //     action: #selector(didTapRightButton)
+        // )
+        // button.tintColor = .red  // 设置按钮颜色
 
-        // 添加到右上角
-        navigationItem.rightBarButtonItem = button
+        // // 添加到右上角
+        // navigationItem.rightBarButtonItem = button
     }
     
     // 处理点击事件（注意使用 @objc 标记）
@@ -800,7 +800,7 @@ class DevicesViewController: BaseViewController, UIDocumentInteractionController
 
     /// 表盘管理
     func pushToClockManage(index: Int) {
-        if let metrics = AppDelegate.resolvedDeviceScreenMetrics(), metrics.width == 80 {
+        if let metrics = AppDelegate.resolvedDeviceScreenMetrics(), metrics.width == 80, !isXGZT {
             let storyboard = UIStoryboard(name: "Device", bundle: nil)
             guard let myClockVC = storyboard.instantiateViewController(withIdentifier: "MyClockViewController") as? MyClockViewController else {
                 return 

@@ -273,12 +273,33 @@ extension DeviceListViewController: UITableViewDataSource {
     }
 }
 
+private extension DeviceListViewController {
+    func connectedDevice(at index: Int) -> BleModel? {
+        guard DeviceManager.shared.devices.indices.contains(index) else {
+            XLogger.shared.log("ignore invalid connected device index: \(index)")
+            return nil
+        }
+        return DeviceManager.shared.devices[index]
+    }
+
+    func cachedDevice(at index: Int) -> BluetoothWatchDevice? {
+        guard cacheDevices.indices.contains(index) else {
+            XLogger.shared.log("ignore invalid cached device index: \(index)")
+            return nil
+        }
+        return cacheDevices[index]
+    }
+}
+
 extension DeviceListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         let count = DeviceManager.shared.devices.count
         if indexPath.row < count {
-            let model = DeviceManager.shared.devices[indexPath.row]
+            guard let model = connectedDevice(at: indexPath.row) else {
+                tableView.reloadData()
+                return
+            }
             if model.mac == lastestDeviceMac && (bleSelf.isConnected || XGZTBlueToothManager.shared.device != nil)  {
                 return
             }
@@ -300,7 +321,11 @@ extension DeviceListViewController: UITableViewDelegate {
             }
             bleSelf.connectBleDevice(model: bleSelf.bleModel)
         } else {
-            let model = cacheDevices[indexPath.row - count]
+            let cacheIndex = indexPath.row - count
+            guard let model = cachedDevice(at: cacheIndex) else {
+                tableView.reloadData()
+                return
+            }
             if model.max ?? "" == lastestDeviceMac && XGZTBlueToothManager.shared.device != nil  {
                 return
             }
@@ -334,13 +359,20 @@ extension DeviceListViewController: DeviceTableViewCellDelegate {
             // 在这里处理按钮点击事件
             if cell.tag >= 100 {
                 let count = DeviceManager.shared.devices.count
-                let model = cacheDevices[indexPath.row - count]
+                let cacheIndex = indexPath.row - count
+                guard let model = cachedDevice(at: cacheIndex) else {
+                    tableView.reloadData()
+                    return
+                }
                 guard let mac = model.max else {
                     return
                 }
                 deleteDevice(mac: mac)
             } else {
-                let model = DeviceManager.shared.devices[indexPath.row]
+                guard let model = connectedDevice(at: indexPath.row) else {
+                    tableView.reloadData()
+                    return
+                }
                 callbackTap(model: model, bConnected: true)
             }
         }

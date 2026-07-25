@@ -21,6 +21,26 @@ class SelectSexViewController: UIViewController {
     var sex = ""
     var birth: [String] = ["1999", "1", "1"]
     weak var delegate: SelectSexVCDelegate?
+
+    private func normalizedBirthComponents() -> (year: Int, month: Int, day: Int) {
+        let defaultBirth = (year: 1999, month: 1, day: 1)
+        guard birth.count >= 3 else {
+            return defaultBirth
+        }
+        let year = min(max(Int(birth[0]) ?? defaultBirth.year, 1920), 2019)
+        let month = min(max(Int(birth[1]) ?? defaultBirth.month, 1), 12)
+        let day = min(max(Int(birth[2]) ?? defaultBirth.day, 1), 31)
+        return (year, month, day)
+    }
+
+    private func applyNormalizedBirth() {
+        let normalizedBirth = normalizedBirthComponents()
+        birth = [
+            "\(normalizedBirth.year)",
+            "\(normalizedBirth.month)",
+            "\(normalizedBirth.day)"
+        ]
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,9 +58,14 @@ class SelectSexViewController: UIViewController {
             mPickerView.selectRow(sex == "男" ? 0 : 1, inComponent: 0, animated: false)
         }
         if type == 1 {
-            mPickerView.selectRow((Int(birth[0]) ?? 0) - 1920, inComponent: 0, animated: false)
-            mPickerView.selectRow((Int(birth[1]) ?? 0) - 1, inComponent: 1, animated: false)
-            mPickerView.selectRow((Int(birth[2]) ?? 0) - 1, inComponent: 2, animated: false)
+            applyNormalizedBirth()
+            let normalizedBirth = normalizedBirthComponents()
+            let yearRow = min(max(normalizedBirth.year - 1920, 0), 99)
+            let monthRow = min(max(normalizedBirth.month - 1, 0), 11)
+            let dayRow = min(max(normalizedBirth.day - 1, 0), 30)
+            mPickerView.selectRow(yearRow, inComponent: 0, animated: false)
+            mPickerView.selectRow(monthRow, inComponent: 1, animated: false)
+            mPickerView.selectRow(dayRow, inComponent: 2, animated: false)
         }
     }
     
@@ -49,6 +74,9 @@ class SelectSexViewController: UIViewController {
     }
     
     @IBAction func submit(_ sender: Any) {
+        if type == 1 {
+            applyNormalizedBirth()
+        }
         delegate?.callback(type: type, value: type == 0 ? sex : birth.joined(separator: "-"))
         dismiss(animated: true, completion: nil)
     }

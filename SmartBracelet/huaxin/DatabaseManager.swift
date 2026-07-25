@@ -79,7 +79,7 @@ class SleepObj: Object {
     }
 
     override var description: String {
-        return "SleepObj(date: \(String(describing: date)), mac: \(String(describing: mac)), awake: \(String(describing: awake)), light: \(String(describing: light)), deep: \(String(describing: deep)))"
+        return "SleepObj(<safe-summary>)"
     }
 }
 

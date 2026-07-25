@@ -125,10 +125,10 @@ extension Date {
 }
 
 class DateHelper: NSObject {
-    func ymdToDate(value: String) -> Date {
+    func ymdToDate(value: String) -> Date? {
         let format = DateFormatter()
         format.dateFormat = "yyyy-MM-dd"
-        return format.date(from: value)!
+        return format.date(from: value)
     }
     
     

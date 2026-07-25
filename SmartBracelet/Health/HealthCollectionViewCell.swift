@@ -53,6 +53,10 @@ class HealthCollectionViewCell: UICollectionViewCell {
         // 左侧标题
         leftTitleLabel.font = UIFont.body()
         leftTitleLabel.textColor = UIColor.text_primary
+        leftTitleLabel.numberOfLines = 2
+        leftTitleLabel.lineBreakMode = .byWordWrapping
+        leftTitleLabel.adjustsFontSizeToFitWidth = true
+        leftTitleLabel.minimumScaleFactor = 0.75
         containerView.addSubview(leftTitleLabel)
         
         // 右侧数值
@@ -82,6 +86,7 @@ class HealthCollectionViewCell: UICollectionViewCell {
             // 左侧标题约束
             leftTitleLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 16),
             leftTitleLabel.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 15),
+            leftTitleLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -16),
             
             // 右侧数值约束 - 直接与容器右侧对齐
             rightTitleLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 16),

@@ -367,8 +367,12 @@ extension UserInfoViewController {
             UserDefaults.standard.setValue(value, forKey: "Birthday")
             UserDefaults.standard.synchronize()
             if UserManager.sharedInstall.user?.token == nil {
-                bleSelf.userInfo.birthday = Int(DateHelper().ymdToDate(value: value).timeIntervalSince1970)
-                bleSelf.setUserinfoForWristband(bleSelf.userInfo)
+                if let birthdayDate = DateHelper().ymdToDate(value: value) {
+                    bleSelf.userInfo.birthday = Int(birthdayDate.timeIntervalSince1970)
+                    bleSelf.setUserinfoForWristband(bleSelf.userInfo)
+                } else {
+                    XLogger.shared.log("ignore invalid birthday string: \(value)")
+                }
             }
         }
     }

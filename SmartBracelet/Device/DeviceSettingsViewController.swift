@@ -12,8 +12,8 @@ private extension String {
 }
 
 private extension CGFloat {
-    static let cellHeight: CGFloat = 80
-    static let cellSpacing: CGFloat = 14
+    static let cellHeight: CGFloat = 88
+    static let cellSpacing: CGFloat = 10
     static let sectionInset: CGFloat = 0
     static let collectionViewTopInset: CGFloat = 16
 }
@@ -37,15 +37,16 @@ private extension TimeInterval {
 
 // MARK: - 自定义CollectionViewCell
 class DeviceSettingsCollectionViewCell: UICollectionViewCell {
+    private var accessoryConstraints: [NSLayoutConstraint] = []
+
     let titleLabel: UILabel = {
         let label = UILabel()
         label.textColor = UIColor.text_secondary
         label.font = UIFont.body1()
         label.translatesAutoresizingMaskIntoConstraints = false
-        // 允许自动换行
-        label.numberOfLines = 0
-        // 内容压缩阻力优先级设高，避免被压缩
-        label.setContentCompressionResistancePriority(.required, for: .horizontal)
+        label.numberOfLines = 3
+        label.lineBreakMode = .byWordWrapping
+        label.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         return label
     }()
     
@@ -54,25 +55,30 @@ class DeviceSettingsCollectionViewCell: UICollectionViewCell {
         label.textColor = UIColor.gray
         label.font = UIFont.body2()
         label.translatesAutoresizingMaskIntoConstraints = false
-        // 单行显示，过长时省略
         label.numberOfLines = 1
         label.lineBreakMode = .byTruncatingTail
+        label.setContentCompressionResistancePriority(.required, for: .horizontal)
+        label.setContentHuggingPriority(.required, for: .horizontal)
         return label
     }()
     
     var accessoryView: UIView? {
         didSet {
+            NSLayoutConstraint.deactivate(accessoryConstraints)
+            accessoryConstraints.removeAll()
             oldValue?.removeFromSuperview()
             guard let view = accessoryView else { return }
             view.translatesAutoresizingMaskIntoConstraints = false
             addSubview(view)
-            NSLayoutConstraint.activate([
+            accessoryConstraints = [
                 view.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10),
                 view.centerYAnchor.constraint(equalTo: centerYAnchor),
-                // 确保辅助视图有固定大小，避免影响布局
+                view.leadingAnchor.constraint(greaterThanOrEqualTo: titleLabel.trailingAnchor, constant: 8),
+                view.leadingAnchor.constraint(greaterThanOrEqualTo: detailLabel.trailingAnchor, constant: 6),
                 view.widthAnchor.constraint(greaterThanOrEqualToConstant: 6),
                 view.heightAnchor.constraint(greaterThanOrEqualToConstant: 9)
-            ])
+            ]
+            NSLayoutConstraint.activate(accessoryConstraints)
         }
     }
     
@@ -95,16 +101,12 @@ class DeviceSettingsCollectionViewCell: UICollectionViewCell {
         addSubview(detailLabel)
         
         NSLayoutConstraint.activate([
-            // 标题左侧距离和上下边距
             titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
-            titleLabel.topAnchor.constraint(equalTo: topAnchor, constant: 5),
-            titleLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -5),
-            
-            // 限制标题最大宽度，为辅助视图留出空间
-            titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -60),
-            
-            // 详情标签在标题右侧，垂直居中
-            detailLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -22),
+            titleLabel.topAnchor.constraint(equalTo: topAnchor, constant: 8),
+            titleLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -8),
+            titleLabel.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor, constant: -10),
+            detailLabel.leadingAnchor.constraint(greaterThanOrEqualTo: titleLabel.trailingAnchor, constant: 8),
+            detailLabel.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor, constant: -10),
             detailLabel.centerYAnchor.constraint(equalTo: centerYAnchor)
         ])
     }
@@ -651,6 +653,7 @@ extension DeviceSettingsViewController: UICollectionViewDataSource {
         default:
             cell.detailLabel.text = ""
         }
+        cell.detailLabel.isHidden = (cell.detailLabel.text ?? "").isEmpty
     }
 }
 

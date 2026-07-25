@@ -72,6 +72,7 @@ class MyClockViewController: UIViewController {
             datetimeBottomLocation = bleSelf.dialSelectModel.belowTheTime
             colorIndex = bleSelf.dialSelectModel.textColor
         }
+        normalizedDialSelectionState()
         
         //去掉没有数据显示部分多余的分隔线
         tableView.tableFooterView =  UIView.init(frame: CGRect.zero)
@@ -160,6 +161,23 @@ class MyClockViewController: UIViewController {
         return CGSize(width: metrics.width, height: metrics.height)
     }
 
+    private func clampedIndex(_ index: Int, upperBound: Int, label: String) -> Int {
+        guard upperBound >= 0 else { return 0 }
+        let clamped = min(max(index, 0), upperBound)
+        if clamped != index {
+            XLogger.shared.log("clamped \(label): \(index) -> \(clamped)")
+        }
+        return clamped
+    }
+
+    private func normalizedDialSelectionState() {
+        datetimeLocation = clampedIndex(datetimeLocation, upperBound: max(locations.count - 1, 0), label: "datetimeLocation")
+        datetimeTopLocation = clampedIndex(datetimeTopLocation, upperBound: max(tops.count - 1, 0), label: "datetimeTopLocation")
+        datetimeBottomLocation = clampedIndex(datetimeBottomLocation, upperBound: max(tops.count - 1, 0), label: "datetimeBottomLocation")
+        diallocation = clampedIndex(diallocation, upperBound: max(xgztlocations.count - 1, 0), label: "diallocation")
+        colorIndex = clampedIndex(colorIndex, upperBound: max(colors.count - 1, 0), label: "colorIndex")
+    }
+
     private func resolvedMaskRadius(for image: UIImage) -> CGFloat {
         let metrics = resolvedDeviceMetrics()
         if metrics.isRect {
@@ -171,6 +189,7 @@ class MyClockViewController: UIViewController {
     
     // 修改自定义设置内容位置
     private func modifyCustomDialSettings() {
+        normalizedDialSelectionState()
         if isXGZT {
             XGZTCommand.setTimePositionAndColor(type: 2, position: diallocation, color: colorIndex)
             return
@@ -755,6 +774,7 @@ extension MyClockViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        normalizedDialSelectionState()
         if indexPath.row == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "Cell1", for: indexPath) as! EidtClockHeadTableViewCell
             cell.delegate = self
@@ -831,18 +851,18 @@ extension MyClockViewController: SelectItemVCDelegate {
     func callback(type: Int, index: Int, value: String) {
         if type == 0 {
             if isXGZT {
-                diallocation = index
+                diallocation = clampedIndex(index, upperBound: max(xgztlocations.count - 1, 0), label: "diallocation")
             } else {
-                datetimeLocation = index
+                datetimeLocation = clampedIndex(index, upperBound: max(locations.count - 1, 0), label: "datetimeLocation")
             }
             tableView.reloadData()
         }
         if type == 1 {
-            datetimeTopLocation = index
+            datetimeTopLocation = clampedIndex(index, upperBound: max(tops.count - 1, 0), label: "datetimeTopLocation")
             tableView.reloadData()
         }
         if type == 2 {
-            datetimeBottomLocation = index
+            datetimeBottomLocation = clampedIndex(index, upperBound: max(tops.count - 1, 0), label: "datetimeBottomLocation")
             tableView.reloadData()
         }
         modifyCustomDialSettings()
@@ -912,7 +932,7 @@ extension MyClockViewController: TZImagePickerControllerDelegate {
 
 extension MyClockViewController: EditClcokBottomTableViewCellDelegate {
     func callbackForSelectColor(collectionView: UICollectionView, index: Int) {
-        colorIndex = index
+        colorIndex = clampedIndex(index, upperBound: max(colors.count - 1, 0), label: "colorIndex")
         modifyCustomDialSettings()
         if isXGZT {
             //tableView.reloadRows(at: [IndexPath(item: 2, section: 0)], with: UITableView.RowAnimation.automatic)

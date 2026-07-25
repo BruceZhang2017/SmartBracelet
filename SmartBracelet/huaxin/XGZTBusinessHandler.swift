@@ -15,6 +15,16 @@ var flag_device_reading = false
 var sync_time_single = false 
 
 class XGZTBusinessHandler: NSObject {
+    private func validatedPersonalInfoValue(_ value: Any?, field: String, range: ClosedRange<Int>) -> Int? {
+        guard let intValue = value as? Int else {
+            return nil
+        }
+        guard range.contains(intValue) else {
+            XLogger.shared.log("ignore invalid personal info \(field): \(intValue)")
+            return nil
+        }
+        return intValue
+    }
     
     override init() {
         super.init()
@@ -76,21 +86,29 @@ class XGZTBusinessHandler: NSObject {
             }
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
-                if let userInfo = UserDefaults.standard.dictionary(forKey: "UserInfo") {
-                    if let height = userInfo["height"] as? Int, height > 0 {
-                        XGZTBlueToothManager.shared.device?.height = height
-                    }
-                    if let weight = userInfo["weight"] as? Int, weight > 0  {
-                        XGZTBlueToothManager.shared.device?.weight = weight
-                    }
-                    if let age = userInfo["age"] as? Int, age > 0 {
-                        XGZTBlueToothManager.shared.device?.age = age
-                    }
-                    if let gender = userInfo["gender"] as? Int {
-                        XGZTBlueToothManager.shared.device?.sex = gender
-                    }
-                    XGZTCommand.setPersonalInfo(sex: XGZTBlueToothManager.shared.device?.sex ?? 0, age: XGZTBlueToothManager.shared.device?.age ?? 0, height: XGZTBlueToothManager.shared.device?.height ?? 0, weight: XGZTBlueToothManager.shared.device?.weight ?? 0)
+                guard let userInfo = UserDefaults.standard.dictionary(forKey: "UserInfo") else {
+                    return
                 }
+
+                if let height = self.validatedPersonalInfoValue(userInfo["height"], field: "height", range: 50...255) {
+                    XGZTBlueToothManager.shared.device?.height = height
+                }
+                if let weight = self.validatedPersonalInfoValue(userInfo["weight"], field: "weight", range: 10...255) {
+                    XGZTBlueToothManager.shared.device?.weight = weight
+                }
+                if let age = self.validatedPersonalInfoValue(userInfo["age"], field: "age", range: 1...120) {
+                    XGZTBlueToothManager.shared.device?.age = age
+                }
+                if let gender = self.validatedPersonalInfoValue(userInfo["gender"], field: "gender", range: 0...1) {
+                    XGZTBlueToothManager.shared.device?.sex = gender
+                }
+
+                XGZTCommand.setPersonalInfo(
+                    sex: XGZTBlueToothManager.shared.device?.sex ?? 0,
+                    age: XGZTBlueToothManager.shared.device?.age ?? 0,
+                    height: XGZTBlueToothManager.shared.device?.height ?? 0,
+                    weight: XGZTBlueToothManager.shared.device?.weight ?? 0
+                )
             }
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {

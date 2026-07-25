@@ -169,6 +169,14 @@ struct DeviceInfoResponse {
 public class XGZTCommand {
     
     public static let methods: [String] = ["syncTime", "getBatteryLevel"]
+
+    private static func clampedPersonalInfoByte(_ value: Int, field: String) -> UInt8 {
+        let clampedValue = max(0, min(255, value))
+        if clampedValue != value {
+            XLogger.shared.log("setPersonalInfo clamped \(field): \(value) -> \(clampedValue)")
+        }
+        return UInt8(clampedValue)
+    }
     
     // 同步时间
     static func syncTime(timeZone: Int, utc: UInt32) {
@@ -424,6 +432,10 @@ public class XGZTCommand {
     
     // 设置个人信息
     static func setPersonalInfo(sex: Int, age: Int, height: Int, weight: Int) {
+        let safeSex = Self.clampedPersonalInfoByte(sex, field: "sex")
+        let safeAge = Self.clampedPersonalInfoByte(age, field: "age")
+        let safeHeight = Self.clampedPersonalInfoByte(height, field: "height")
+        let safeWeight = Self.clampedPersonalInfoByte(weight, field: "weight")
         let command = createCommand(with: [
             0x00,
             XGZTCommands.personalInfo.rawValue,
@@ -431,10 +443,10 @@ public class XGZTCommand {
             0x00,
             0x05,
             0x01,
-            UInt8(sex),
-            UInt8(age),
-            UInt8(height),
-            UInt8(weight)
+            safeSex,
+            safeAge,
+            safeHeight,
+            safeWeight
         ])
         XGZTBlueToothManager.shared.writeCharacteristic(command: command)
     }

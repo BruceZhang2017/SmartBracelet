@@ -30,6 +30,11 @@ public class CameraView: UIView {
 
 
         device = cameraWithPosition(position: currentPosition)
+        guard device != nil else {
+            XLogger.shared.log("Error: unable to resolve camera device for position \(currentPosition.rawValue)")
+            session = nil
+            return
+        }
         if let device = device , device.hasFlash {
             cameraQueue.async {
                 do {
@@ -46,29 +51,33 @@ public class CameraView: UIView {
 
         cameraQueue.async {
             [weak self] in
+            guard let self = self,
+                  let session = self.session,
+                  let device = self.device else {
+                return
+            }
             do {
-                guard let self = self else { return }
-                self.input = try AVCaptureDeviceInput(device: self.device)
+                self.input = try AVCaptureDeviceInput(device: device)
             } catch let error as NSError {
-                self?.input = nil
+                self.input = nil
                 XLogger.shared.log("Error: \(error.localizedDescription)")
                 return
             }
 
 
-            if let self = self, self.session.canAddInput(self.input) {
-                self.session.addInput(self.input)
+            if let input = self.input, session.canAddInput(input) {
+                session.addInput(input)
             }
 
 
-            self?.imageOutput = AVCaptureStillImageOutput()
-            self?.imageOutput.outputSettings = outputSettings
+            self.imageOutput = AVCaptureStillImageOutput()
+            self.imageOutput.outputSettings = outputSettings
 
-            if let self = self, self.session.canAddOutput(self.imageOutput) {
-                self.session.addOutput(self.imageOutput)
+            if let imageOutput = self.imageOutput, session.canAddOutput(imageOutput) {
+                session.addOutput(imageOutput)
             }
             
-            self?.session.startRunning()
+            session.startRunning()
             DispatchQueue.main.async { [weak self] in
                 self?.createPreview()
                 self?.rotatePreview()
@@ -254,24 +263,34 @@ public class CameraView: UIView {
 
         cameraQueue.async {
             session.beginConfiguration()
+            defer { session.commitConfiguration() }
             session.removeInput(currentInput)
 
             if currentInput.device.position == AVCaptureDevice.Position.back {
                 self.currentPosition = AVCaptureDevice.Position.front
-                self.device = self.cameraWithPosition(position: self.currentPosition)
             } else {
                 self.currentPosition = AVCaptureDevice.Position.back
-                self.device = self.cameraWithPosition(position: self.currentPosition)
             }
+            guard let newDevice = self.cameraWithPosition(position: self.currentPosition) else {
+                if session.canAddInput(currentInput) {
+                    session.addInput(currentInput)
+                }
+                XLogger.shared.log("Error: unable to swap camera input for position \(self.currentPosition.rawValue)")
+                return
+            }
+            self.device = newDevice
 
-            guard let newInput = try? AVCaptureDeviceInput(device: self.device) else {
+            guard let newInput = try? AVCaptureDeviceInput(device: newDevice), session.canAddInput(newInput) else {
+                if session.canAddInput(currentInput) {
+                    session.addInput(currentInput)
+                }
+                XLogger.shared.log("Error: unable to create camera input for swapped device")
                 return
             }
 
             self.input = newInput
 
             session.addInput(newInput)
-            session.commitConfiguration()
         }
     }
 
