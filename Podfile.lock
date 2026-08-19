@@ -61,7 +61,7 @@ DEPENDENCIES:
   - DropDown
   - IotLinkKit (= 1.2.1)
   - IQKeyboardManagerSwift (= 6.3.0)
-  - JRDB (~> 2.1.2)
+  - JRDB
   - Kingfisher
   - MJRefresh (= 3.7.8)
   - Moya
@@ -148,6 +148,6 @@ SPEC CHECKSUMS:
   TZImagePickerController: 4f6e91cf00d67827ec23bd3c2f849cbd054b4979
   YYImage: 1e1b62a9997399593e4b9c4ecfbbabbf1d3f3b54
 
-PODFILE CHECKSUM: 53a0562d59a905a839806a7544f7382ebc4e659c
+PODFILE CHECKSUM: 40d277f6e0b58275fa3109bd4aacc574c0478035
 
-COCOAPODS: 1.16.2
+COCOAPODS: 1.17.0

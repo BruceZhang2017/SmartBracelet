@@ -36,7 +36,7 @@ pod 'RxSwift'
 pod 'CryptoSwift'
 pod 'IotLinkKit', '1.2.1'
 
-pod 'JRDB', '~> 2.1.2'
+pod 'JRDB'
 pod 'DropDown'
 
   post_install do |installer|
@@ -48,6 +48,10 @@ pod 'DropDown'
         config.build_settings['ENABLE_STRICT_OBJC_MSGSEND'] = 'NO'
         config.build_settings['APPLICATION_EXTENSION_API_ONLY'] = 'NO'
         config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '13.0'
+        config.build_settings['GCC_WARN_ABOUT_BLOCK_CAPTURE_AUTORELEASING'] = 'NO' if target.name == 'JRDB'
+        # 修复模拟器架构排除问题
+        config.build_settings['EXCLUDED_ARCHS[sdk=iphonesimulator*]'] = ''
+        config.build_settings['VALID_ARCHS'] = 'arm64 x86_64'
       end
     end
   end

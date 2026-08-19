@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		05DC5B7BFEC74F0CC9932C73 /* Pods_SmartBracelet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D7EC02089AA6EE45DDAFA01E /* Pods_SmartBracelet.framework */; };
 		18385E9E24517F1600EA380A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18385E9D24517F1600EA380A /* AppDelegate.swift */; };
 		18385EA724517F1A00EA380A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 18385EA624517F1A00EA380A /* Assets.xcassets */; };
 		18385EAA24517F1A00EA380A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 18385EA824517F1A00EA380A /* LaunchScreen.storyboard */; };
@@ -542,7 +543,6 @@
 		9AFAE87A2A8F21F7005EF8F8 /* JGProgressHUDRingIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AFAE86E2A8F21F7005EF8F8 /* JGProgressHUDRingIndicatorView.m */; };
 		9AFAE87B2A8F21F7005EF8F8 /* JGProgressHUDPieIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AFAE86F2A8F21F7005EF8F8 /* JGProgressHUDPieIndicatorView.m */; };
 		9AFAE87C2A8F21F7005EF8F8 /* JGProgressHUDShadow.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AFAE8702A8F21F7005EF8F8 /* JGProgressHUDShadow.m */; };
-		BF20A5F4C37EDE89D3CB60E2 /* Pods_SmartBracelet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FDB1D90E4F3EF22D38D4E930 /* Pods_SmartBracelet.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -565,7 +565,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		113C6C4B0C0BD35F70297A56 /* Pods-SmartBracelet.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SmartBracelet.release.xcconfig"; path = "Target Support Files/Pods-SmartBracelet/Pods-SmartBracelet.release.xcconfig"; sourceTree = "<group>"; };
+		0726AAAA7041D2027216EF0E /* Pods-SmartBracelet.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SmartBracelet.release.xcconfig"; path = "Target Support Files/Pods-SmartBracelet/Pods-SmartBracelet.release.xcconfig"; sourceTree = "<group>"; };
 		18385E9A24517F1600EA380A /* FitDAY.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FitDAY.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		18385E9D24517F1600EA380A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		18385EA624517F1A00EA380A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -1229,8 +1229,8 @@
 		9AFAE86E2A8F21F7005EF8F8 /* JGProgressHUDRingIndicatorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JGProgressHUDRingIndicatorView.m; sourceTree = "<group>"; };
 		9AFAE86F2A8F21F7005EF8F8 /* JGProgressHUDPieIndicatorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JGProgressHUDPieIndicatorView.m; sourceTree = "<group>"; };
 		9AFAE8702A8F21F7005EF8F8 /* JGProgressHUDShadow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JGProgressHUDShadow.m; sourceTree = "<group>"; };
-		9E4D768E870D44B9B9907A0E /* Pods-SmartBracelet.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SmartBracelet.debug.xcconfig"; path = "Target Support Files/Pods-SmartBracelet/Pods-SmartBracelet.debug.xcconfig"; sourceTree = "<group>"; };
-		FDB1D90E4F3EF22D38D4E930 /* Pods_SmartBracelet.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SmartBracelet.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D7EC02089AA6EE45DDAFA01E /* Pods_SmartBracelet.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SmartBracelet.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D8A654B36B144ACD7349613C /* Pods-SmartBracelet.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SmartBracelet.debug.xcconfig"; path = "Target Support Files/Pods-SmartBracelet/Pods-SmartBracelet.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1254,7 +1254,7 @@
 				9AAF85CC25C6D42000960BDD /* MapKit.framework in Frameworks */,
 				9AB5BE292A06649700680757 /* RTKOTASDK.framework in Frameworks */,
 				9A0C34962B341D6600E798F1 /* JL_BLEKit.framework in Frameworks */,
-				BF20A5F4C37EDE89D3CB60E2 /* Pods_SmartBracelet.framework in Frameworks */,
+				05DC5B7BFEC74F0CC9932C73 /* Pods_SmartBracelet.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1326,7 +1326,7 @@
 				9A218422255A3351000330E5 /* CoreTelephony.framework */,
 				9A218420255A3335000330E5 /* libresolv.tbd */,
 				18C2820C246A8D13009A60C0 /* TJDWristbandSDK.framework */,
-				FDB1D90E4F3EF22D38D4E930 /* Pods_SmartBracelet.framework */,
+				D7EC02089AA6EE45DDAFA01E /* Pods_SmartBracelet.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -2540,8 +2540,8 @@
 		CBE553D5D0280A8FD8CC0627 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				9E4D768E870D44B9B9907A0E /* Pods-SmartBracelet.debug.xcconfig */,
-				113C6C4B0C0BD35F70297A56 /* Pods-SmartBracelet.release.xcconfig */,
+				D8A654B36B144ACD7349613C /* Pods-SmartBracelet.debug.xcconfig */,
+				0726AAAA7041D2027216EF0E /* Pods-SmartBracelet.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -2553,13 +2553,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 18385EAE24517F1A00EA380A /* Build configuration list for PBXNativeTarget "SmartBracelet" */;
 			buildPhases = (
-				5BE001ACB43F05C60596C37E /* [CP] Check Pods Manifest.lock */,
+				EB4D7ED4C3AC9A4C4008E6D7 /* [CP] Check Pods Manifest.lock */,
 				18385E9624517F1600EA380A /* Sources */,
 				18385E9724517F1600EA380A /* Frameworks */,
 				18385E9824517F1600EA380A /* Resources */,
 				9A99CCEC26CB57DE00D6972A /* Embed Frameworks */,
-				413A5B079EE3B8ED65F364FF /* [CP] Embed Pods Frameworks */,
-				A166924CBFE2F49EFF2028AD /* [CP] Copy Pods Resources */,
+				5F42073E402AC0116C9260D4 /* [CP] Embed Pods Frameworks */,
+				5012324AC2AAFC46ECB0EF43 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -2691,7 +2691,28 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		413A5B079EE3B8ED65F364FF /* [CP] Embed Pods Frameworks */ = {
+		5012324AC2AAFC46ECB0EF43 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-SmartBracelet/Pods-SmartBracelet-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-SmartBracelet/Pods-SmartBracelet-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-SmartBracelet/Pods-SmartBracelet-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		5F42073E402AC0116C9260D4 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -2712,7 +2733,7 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-SmartBracelet/Pods-SmartBracelet-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		5BE001ACB43F05C60596C37E /* [CP] Check Pods Manifest.lock */ = {
+		EB4D7ED4C3AC9A4C4008E6D7 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -2732,27 +2753,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		A166924CBFE2F49EFF2028AD /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-SmartBracelet/Pods-SmartBracelet-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-SmartBracelet/Pods-SmartBracelet-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-SmartBracelet/Pods-SmartBracelet-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -3446,7 +3446,7 @@
 		};
 		18385EAF24517F1A00EA380A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9E4D768E870D44B9B9907A0E /* Pods-SmartBracelet.debug.xcconfig */;
+			baseConfigurationReference = D8A654B36B144ACD7349613C /* Pods-SmartBracelet.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				BUILD_LIBRARY_FOR_DISTRIBUTION = NO;
@@ -3454,7 +3454,7 @@
 				CODE_SIGN_ENTITLEMENTS = SmartBracelet/SmartBraceletDebug.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 11;
+				CURRENT_PROJECT_VERSION = 14;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_ASSET_PATHS = TJDWristbandSDK.framework;
 				DEVELOPMENT_TEAM = 6BTCM549U7;
@@ -3478,7 +3478,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/SmartBracelet/JL/BLEUsage",
 				);
-				MARKETING_VERSION = 2.6.6;
+				MARKETING_VERSION = 2.6.7;
 				OTHER_SWIFT_FLAGS = "$(inherited) -D WeiZhongYun -D DisplayPrint -D TestMode";
 				PRODUCT_BUNDLE_IDENTIFIER = com.sinophy.uwatch;
 				PRODUCT_NAME = FitDAY;
@@ -3495,7 +3495,7 @@
 		};
 		18385EB024517F1A00EA380A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 113C6C4B0C0BD35F70297A56 /* Pods-SmartBracelet.release.xcconfig */;
+			baseConfigurationReference = 0726AAAA7041D2027216EF0E /* Pods-SmartBracelet.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				BUILD_LIBRARY_FOR_DISTRIBUTION = NO;
@@ -3503,7 +3503,7 @@
 				CODE_SIGN_ENTITLEMENTS = SmartBracelet/SmartBraceletRelease.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 11;
+				CURRENT_PROJECT_VERSION = 14;
 				DEVELOPMENT_ASSET_PATHS = TJDWristbandSDK.framework;
 				DEVELOPMENT_TEAM = 6BTCM549U7;
 				ENABLE_BITCODE = NO;
@@ -3526,7 +3526,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/SmartBracelet/JL/BLEUsage",
 				);
-				MARKETING_VERSION = 2.6.6;
+				MARKETING_VERSION = 2.6.7;
 				OTHER_SWIFT_FLAGS = "$(inherited) -D WeiZhongYun -D DisplayPrint -D TestMode";
 				PRODUCT_BUNDLE_IDENTIFIER = com.sinophy.uwatch;
 				PRODUCT_NAME = FitDAY;
