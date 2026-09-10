@@ -16,6 +16,12 @@
 "health_blood_pressure" = "혈압";
 "health_blood_pressure_unit" = "MMHG";
 "health_blood_oxygen" = "혈액 산소";
+"health_blood_glucose" = "혈당";
+"health_uric_acid" = "요산";
+"health_blood_lipid" = "혈중 지질";
+"health_blood_glucose_desc" = "혈당 측정";
+"health_uric_acid_desc" = "요산 측정";
+"health_blood_lipid_desc" = "혈중 지질 측정";
 "health_data_dynamic" = "데이터 역학";
 "device" = "장비";
 "add_device" = "기기를 추가해주세요";
@@ -226,6 +232,13 @@
 "device_search_settings" = "설정 찾기";
 "device_device_info" = "장치 정보";
 "device_shark_photo" = "원격 사진";
+"device_power_controls" = "전원 관리";
+"device_factory_reset" = "공장 초기화";
+"device_factory_reset_desc" = "공장 초기화하면 기기의 모든 데이터와 설정이 삭제됩니다. 계속하시겠습니까?";
+"device_restart" = "다시 시작";
+"device_restart_desc" = "지금 기기를 다시 시작하시겠습니까?";
+"device_shutdown" = "전원 끄기(충전하면 자동으로 켜짐)";
+"device_shutdown_desc" = "기기의 전원을 끄시겠습니까? 충전하면 다시 켤 수 있습니다.";
 "device_change" = "장치 전환";
 "mine" = "내 거";
 "mine_bluetooth_connect" = "블루투스 연결됨";
@@ -571,3 +584,28 @@
 "user_info_step_length" = "Step length";
 "user_info_done" = "Done";
 
+
+// MARK: - ECG fallback (en)
+"health_ecg" = "ECG";
+"ecg_history" = "심전도 기록";
+"ecg_history_detail" = "심전도 기록 상세";
+"ecg_history_empty" = "아직 심전도 기록이 없습니다";
+"ecg_history_error" = "심전도 기록을 불러올 수 없습니다";
+"ecg_save_error" = "심전도 기록을 저장할 수 없습니다";
+"ecg_pause" = "일시정지";
+"ecg_resume" = "재생 계속";
+"ecg_replay" = "다시 재생";
+"ecg_loading" = "불러오는 중";
+"ecg_playback_time" = "%d / %d 초";
+"ecg_history_duration" = "%@ · 시간 %@ 초";
+"ecg_waveform_note" = "파형은 기록된 심박수로 생성됩니다";
+"ecg_recorded_rate" = "기록된 심박수";
+
+"health_ecg_subtitle" = "Start caring for your heart health now";
+"ecg_desc" = "Real-time ECG measurement";
+
+// MARK: - PPG realtime pulse
+"ppg_measure_remaining" = "남은 시간 %d초";
+"ppg_measure_complete" = "측정이 완료되었습니다";
+"ppg_real_time_pulse" = "실시간 맥박: ";
+"ppg_worn_off" = "밴드를 착용하지 않았거나 분리되었습니다. 파형이 0으로 초기화되었습니다. 밴드를 착용하세요";

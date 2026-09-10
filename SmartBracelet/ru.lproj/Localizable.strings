@@ -16,6 +16,12 @@
 "health_blood_pressure" = "крывяны ціск";
 "health_blood_pressure_unit" = "MMHG";
 "health_blood_oxygen" = "Кісларод крыві";
+"health_blood_glucose" = "Глюкоза в крови";
+"health_uric_acid" = "Мочевая кислота";
+"health_blood_lipid" = "Липиды в крови";
+"health_blood_glucose_desc" = "Измерение глюкозы в крови";
+"health_uric_acid_desc" = "Измерение мочевой кислоты";
+"health_blood_lipid_desc" = "Измерение липидов в крови";
 "health_data_dynamic" = "Дынаміка дадзеных";
 "device" = "абсталяванне";
 "add_device" = "Дадайце прыладу";
@@ -226,6 +232,13 @@
 "device_search_settings" = "найти настройки";
 "device_device_info" = "Информация об устройстве";
 "device_shark_photo" = "Удалённая фотография";
+"device_power_controls" = "Управление питанием";
+"device_factory_reset" = "Восстановить заводские настройки";
+"device_factory_reset_desc" = "Восстановление заводских настроек удалит все данные и настройки устройства. Продолжить?";
+"device_restart" = "Перезагрузить";
+"device_restart_desc" = "Перезагрузить устройство сейчас?";
+"device_shutdown" = "Выключить (при зарядке устройство включится автоматически)";
+"device_shutdown_desc" = "Вы действительно хотите выключить устройство? Его можно снова включить, подключив к зарядке.";
 "device_change" = "переключение устройств";
 "mine" = "мой";
 "mine_bluetooth_connect" = "Bluetooth подключен";
@@ -572,3 +585,28 @@
 "user_info_step_length" = "Step length";
 "user_info_done" = "Done";
 
+
+// MARK: - ECG fallback (en)
+"health_ecg" = "ECG";
+"ecg_history" = "История ЭКГ";
+"ecg_history_detail" = "Подробности записи ЭКГ";
+"ecg_history_empty" = "Записей ЭКГ пока нет";
+"ecg_history_error" = "Не удалось загрузить запись ЭКГ";
+"ecg_save_error" = "Не удалось сохранить запись ЭКГ";
+"ecg_pause" = "Пауза";
+"ecg_resume" = "Продолжить воспроизведение";
+"ecg_replay" = "Повторить";
+"ecg_loading" = "Загрузка";
+"ecg_playback_time" = "%d / %d с";
+"ecg_history_duration" = "%@ · Длительность %@ с";
+"ecg_waveform_note" = "Волна создана на основе записанного пульса";
+"ecg_recorded_rate" = "Записанный пульс";
+
+"health_ecg_subtitle" = "Start caring for your heart health now";
+"ecg_desc" = "Real-time ECG measurement";
+
+// MARK: - PPG realtime pulse
+"ppg_measure_remaining" = "Осталось %d секунд";
+"ppg_measure_complete" = "Измерение завершено";
+"ppg_real_time_pulse" = "Пульс в реальном времени: ";
+"ppg_worn_off" = "Браслет не надет или отстегнут, волна сброшена. Наденьте браслет";

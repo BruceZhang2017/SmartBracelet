@@ -22,6 +22,7 @@ class DeviceListViewController: BaseViewController {
         super.viewDidLoad()
         addFootView()
         registerNotification()
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.text_primary, NSAttributedString.Key.font: UIFont.title()]
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -169,9 +170,6 @@ class DeviceListViewController: BaseViewController {
     }
     
     private func deleteDevice(mac: String) {
-        if localMac.count > 0 {
-            return 
-        }
         let alert = UIAlertController(title: "device_tip".localized(), message: "unbind_device_desc".localized(), preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "mine_cancel".localized(), style: .cancel, handler: { (action) in
             
@@ -274,7 +272,7 @@ extension DeviceListViewController: UITableViewDataSource {
 }
 
 private extension DeviceListViewController {
-    func connectedDevice(at index: Int) -> BleModel? {
+    func connectedDevice(at index: Int) -> BLEModel? {
         guard DeviceManager.shared.devices.indices.contains(index) else {
             XLogger.shared.log("ignore invalid connected device index: \(index)")
             return nil
@@ -354,27 +352,41 @@ extension DeviceListViewController: UITableViewDelegate {
 
 extension DeviceListViewController: DeviceTableViewCellDelegate {
     func buttonTapped(cell: DeviceTableViewCell) {
-        if let indexPath = tableView.indexPath(for: cell) {
-            XLogger.shared.log("Button tapped on row \(indexPath.row)")
-            // 在这里处理按钮点击事件
-            if cell.tag >= 100 {
-                let count = DeviceManager.shared.devices.count
-                let cacheIndex = indexPath.row - count
-                guard let model = cachedDevice(at: cacheIndex) else {
-                    tableView.reloadData()
-                    return
-                }
-                guard let mac = model.max else {
-                    return
-                }
-                deleteDevice(mac: mac)
-            } else {
-                guard let model = connectedDevice(at: indexPath.row) else {
-                    tableView.reloadData()
-                    return
-                }
-                callbackTap(model: model, bConnected: true)
+        guard let indexPath = tableView.indexPath(for: cell) else {
+            return
+        }
+        XLogger.shared.log("Button tapped on row \(indexPath.row)")
+        // 第一次确认
+        let firstAlert = UIAlertController(title: "device_tip".localized(), message: "unbind_device_desc".localized(), preferredStyle: .alert)
+        firstAlert.addAction(UIAlertAction(title: "mine_cancel".localized(), style: .cancel, handler: nil))
+        firstAlert.addAction(UIAlertAction(title: "mine_confirm".localized(), style: .default, handler: { [weak self] (action) in
+            guard let self = self else { return }
+            // 第二次确认
+            self.confirmUnbind(cell: cell, indexPath: indexPath)
+        }))
+        present(firstAlert, animated: true) {
+
+        }
+    }
+    
+    private func confirmUnbind(cell: DeviceTableViewCell, indexPath: IndexPath) {
+        if cell.tag >= 100 {
+            let count = DeviceManager.shared.devices.count
+            let cacheIndex = indexPath.row - count
+            guard let model = self.cachedDevice(at: cacheIndex) else {
+                self.tableView.reloadData()
+                return
             }
+            guard let mac = model.max else {
+                return
+            }
+            self.deleteDevice(mac: mac)
+        } else {
+            guard let model = self.connectedDevice(at: indexPath.row) else {
+                self.tableView.reloadData()
+                return
+            }
+            self.deleteDevice(model: model)
         }
     }
 }

@@ -69,7 +69,7 @@ class DataDetailViewController: BaseViewController {
 
         // 周期天数
         if record.isPeriod {
-            detailItems.append(("female_cycle_day_n".localized(with: record.cycleDay), "female_cycle_period".localized()))
+            detailItems.append(("female_cycle_day_n".localized(with: Int32(record.cycleDay)), "female_cycle_period".localized()))
         } else {
             detailItems.append(("female_cycle_daily_record".localized(), "female_cycle_cycle".localized()))
         }

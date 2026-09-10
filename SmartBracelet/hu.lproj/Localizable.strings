@@ -15,6 +15,12 @@
 "health_blood_pressure" = "vérnyomás";
 "health_blood_pressure_unit" = "MMHG";
 "health_blood_oxygen" = "Vérkísérő";
+"health_blood_glucose" = "Vércukor";
+"health_uric_acid" = "Húgysav";
+"health_blood_lipid" = "Vérzsírok";
+"health_blood_glucose_desc" = "Vércukor mérés";
+"health_uric_acid_desc" = "Húgysav mérés";
+"health_blood_lipid_desc" = "Vérzsír mérés";
 "health_data_dynamic" = "Adatdinamika";
 "device" = "eszköz";
 "add_device" = "Kérem, adj hozzá eszközt";
@@ -52,6 +58,13 @@
 "device_search_settings" = "Beállítások keresése";
 "device_device_info" = "Eszköz információi";
 "device_shark_photo" = "Távoli fényképezés";
+"device_power_controls" = "Áramellátás vezérlése";
+"device_factory_reset" = "Gyári beállítások visszaállítása";
+"device_factory_reset_desc" = "A gyári beállítások visszaállítása törli az eszköz összes adatát és beállítását. Folytatja?";
+"device_restart" = "Újraindítás";
+"device_restart_desc" = "Biztosan szeretné újraindítani az eszközt?";
+"device_shutdown" = "Kikapcsolás (a töltés automatikusan bekapcsolja az eszközt)";
+"device_shutdown_desc" = "Biztosan ki szeretné kapcsolni az eszközt? Töltéssel újra bekapcsolható.";
 "device_change" = "Eszköz váltás";
 "mine" = "saját";
 "mine_bluetooth_connect" = "Bluetooth csatlakoztatva";
@@ -424,3 +437,28 @@
 "user_info_step_length" = "Step length";
 "user_info_done" = "Done";
 
+
+// MARK: - ECG fallback (en)
+"health_ecg" = "ECG";
+"ecg_history" = "EKG-előzmények";
+"ecg_history_detail" = "EKG-felvétel részletei";
+"ecg_history_empty" = "Még nincsenek EKG-felvételek";
+"ecg_history_error" = "Az EKG-felvétel betöltése nem sikerült";
+"ecg_save_error" = "Az EKG-felvétel mentése nem sikerült";
+"ecg_pause" = "Szünet";
+"ecg_resume" = "Lejátszás folytatása";
+"ecg_replay" = "Újra lejátszás";
+"ecg_loading" = "Betöltés";
+"ecg_playback_time" = "%d / %d mp";
+"ecg_history_duration" = "%@ · Időtartam %@ mp";
+"ecg_waveform_note" = "A hullámforma a rögzített pulzusból készült";
+"ecg_recorded_rate" = "Rögzített pulzus";
+
+"health_ecg_subtitle" = "Start caring for your heart health now";
+"ecg_desc" = "Real-time ECG measurement";
+
+// MARK: - PPG realtime pulse
+"ppg_measure_remaining" = "Hátralévő %d másodperc";
+"ppg_measure_complete" = "Mérés befejezve";
+"ppg_real_time_pulse" = "Valós idejű pulzus: ";
+"ppg_worn_off" = "A karkötő nincs viselve vagy lecsúszott, a hullám nullázva lett. Kérjük viselje a karkötőt";

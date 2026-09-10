@@ -83,6 +83,133 @@ class SleepObj: Object {
     }
 }
 
+class GlucoseObj: Object {
+    @objc dynamic var time: Int = 0
+    @objc dynamic var mac: String = ""
+    @objc dynamic var value: Double = 0
+
+    override static func primaryKey() -> String? {
+        return "time"
+    }
+
+    override var description: String {
+        return "GlucoseObj(time: \(String(describing: time)), mac: \(String(describing: mac)), value: \(String(describing: value)))"
+    }
+}
+
+class UricAcidObj: Object {
+    @objc dynamic var time: Int = 0
+    @objc dynamic var mac: String = ""
+    @objc dynamic var value: Int = 0
+
+    override static func primaryKey() -> String? {
+        return "time"
+    }
+
+    override var description: String {
+        return "UricAcidObj(time: \(String(describing: time)), mac: \(String(describing: mac)), value: \(String(describing: value)))"
+    }
+}
+
+class LipidObj: Object {
+    @objc dynamic var time: Int = 0
+    @objc dynamic var mac: String = ""
+    @objc dynamic var tc: Double = 0
+    @objc dynamic var tg: Double = 0
+    @objc dynamic var hdl: Double = 0
+    @objc dynamic var ldl: Double = 0
+
+    override static func primaryKey() -> String? {
+        return "time"
+    }
+
+    override var description: String {
+        return "LipidObj(time: \(String(describing: time)), mac: \(String(describing: mac)), tc: \(String(describing: tc)), tg: \(String(describing: tg)), hdl: \(String(describing: hdl)), ldl: \(String(describing: ldl)))"
+    }
+}
+
+class PpgObj: Object {
+    @objc dynamic var time: Int = 0
+    @objc dynamic var mac: String = ""
+    @objc dynamic var value: Int = 0
+
+    override static func primaryKey() -> String? {
+        return "time"
+    }
+
+    override var description: String {
+        return "PpgObj(time: \(String(describing: time)), mac: \(String(describing: mac)), value: \(String(describing: value)))"
+    }
+}
+
+class HRVObj: Object {
+    @objc dynamic var time: Int = 0
+    @objc dynamic var mac: String = ""
+    @objc dynamic var value: Int = 0
+
+    override static func primaryKey() -> String? {
+        return "time"
+    }
+
+    override var description: String {
+        return "HRVObj(time: \(String(describing: time)), mac: \(String(describing: mac)), value: \(String(describing: value)))"
+    }
+}
+
+class StressObj: Object {
+    @objc dynamic var time: Int = 0
+    @objc dynamic var mac: String = ""
+    @objc dynamic var value: Int = 0
+
+    override static func primaryKey() -> String? {
+        return "time"
+    }
+
+    override var description: String {
+        return "StressObj(time: \(String(describing: time)), mac: \(String(describing: mac)), value: \(String(describing: value)))"
+    }
+}
+
+class FatigueObj: Object {
+    @objc dynamic var time: Int = 0
+    @objc dynamic var mac: String = ""
+    @objc dynamic var value: Int = 0
+
+    override static func primaryKey() -> String? {
+        return "time"
+    }
+
+    override var description: String {
+        return "FatigueObj(time: \(String(describing: time)), mac: \(String(describing: mac)), value: \(String(describing: value)))"
+    }
+}
+
+class EcgHistoryObj: Object {
+    @objc dynamic var id: String = ""
+    @objc dynamic var address: String = ""
+    @objc dynamic var startedAt: Double = 0
+    @objc dynamic var durationMillis: Int = 0
+    @objc dynamic var samplesJson: String = ""
+
+    override static func primaryKey() -> String? {
+        return "id"
+    }
+}
+
+struct EcgPoint: Codable {
+    var offsetMillis: Int64
+    var heartRate: Int
+}
+
+/// 与 Android EcgHistorySummary 对齐：纯值快照，跨线程安全
+struct EcgHistorySummary {
+    var id: String
+    var address: String
+    var startedAt: Double
+    var durationMillis: Int
+    var samplesJson: String
+}
+
 class DatabaseManager {
     static let shared = DatabaseManager()
     private var dateFormatter: DateFormatter {
@@ -97,7 +224,7 @@ class DatabaseManager {
         let dbPath = docPath.appending("/sport.realm")
         let config = Realm.Configuration(
             fileURL: URL(fileURLWithPath: dbPath),
-            schemaVersion: 1,
+            schemaVersion: 3,
             migrationBlock: { migration, oldSchemaVersion in
                 if oldSchemaVersion < 1 {
                     // 进行迁移操作
@@ -141,8 +268,11 @@ class DatabaseManager {
             autoreleasepool {
                 let realm = try! Realm()
                 let objs = realm.objects(StepObj.self)
+                let threadSafeResults = ThreadSafeReference(to: objs)
                 DispatchQueue.main.async {
-                    completion(objs)
+                    let realm = try! Realm()
+                    guard let results = realm.resolve(threadSafeResults) else { return }
+                    completion(results)
                 }
             }
         }
@@ -182,8 +312,11 @@ class DatabaseManager {
             autoreleasepool {
                 let realm = try! Realm()
                 let objs = realm.objects(SleepObj.self)
+                let threadSafeResults = ThreadSafeReference(to: objs)
                 DispatchQueue.main.async {
-                    completion(objs)
+                    let realm = try! Realm()
+                    guard let results = realm.resolve(threadSafeResults) else { return }
+                    completion(results)
                 }
             }
         }
@@ -257,8 +390,11 @@ class DatabaseManager {
             autoreleasepool {
                 let realm = try! Realm()
                 let objs = realm.objects(HeartObj.self)
+                let threadSafeResults = ThreadSafeReference(to: objs)
                 DispatchQueue.main.async {
-                    completion(objs)
+                    let realm = try! Realm()
+                    guard let results = realm.resolve(threadSafeResults) else { return }
+                    completion(results)
                 }
             }
         }
@@ -332,8 +468,11 @@ class DatabaseManager {
             autoreleasepool {
                 let realm = try! Realm()
                 let objs = realm.objects(BloodObj.self)
+                let threadSafeResults = ThreadSafeReference(to: objs)
                 DispatchQueue.main.async {
-                    completion(objs)
+                    let realm = try! Realm()
+                    guard let results = realm.resolve(threadSafeResults) else { return }
+                    completion(results)
                 }
             }
         }
@@ -407,10 +546,516 @@ class DatabaseManager {
             autoreleasepool {
                 let realm = try! Realm()
                 let objs = realm.objects(OxgenObj.self)
+                let threadSafeResults = ThreadSafeReference(to: objs)
                 DispatchQueue.main.async {
-                    completion(objs)
+                    let realm = try! Realm()
+                    guard let results = realm.resolve(threadSafeResults) else { return }
+                    completion(results)
                 }
             }
+        }
+    }
+    
+    // MARK: - 血糖/尿酸/血脂 历史记录（与 HeartObj 同模式，time 为设备上报的 UTC 时间戳）
+    
+    // Create or Update
+    func addGlucoseObj(time: Int, mac: String, value: Double) {
+        DispatchQueue(label: "com.sinophy.uwatch").async {
+            autoreleasepool {
+                let realm = try! Realm()
+                let obj = GlucoseObj()
+                obj.time = time
+                obj.mac = mac
+                obj.value = value
+                try? realm.write {
+                    realm.add(obj, update: .modified)
+                }
+            }
+        }
+    }
+    
+    // Read
+    func getGlucoseObj(byDate date: String, completion: @escaping (Results<GlucoseObj>?) -> Void) {
+        DispatchQueue(label: "com.sinophy.uwatch").async {
+            autoreleasepool {
+                let realm = try! Realm()
+                let utcDateFormatter = DateFormatter()
+                utcDateFormatter.dateFormat = self.dateFormatter.dateFormat
+                utcDateFormatter.timeZone = TimeZone(identifier: "UTC")!
+                utcDateFormatter.locale = Locale(identifier: "en_US_POSIX")
+                guard let startDateUTC = utcDateFormatter.date(from: date) else {
+                    DispatchQueue.main.async {
+                        completion(nil)
+                    }
+                    return
+                }
+                var utcCalendar = Calendar(identifier: .gregorian)
+                utcCalendar.timeZone = TimeZone(identifier: "UTC")!
+                guard let endDateUTC = utcCalendar.date(byAdding: .day, value: 1, to: startDateUTC) else {
+                    DispatchQueue.main.async {
+                        completion(nil)
+                    }
+                    return
+                }
+                let startTime = Int(startDateUTC.timeIntervalSince1970)
+                let endTime = Int(endDateUTC.timeIntervalSince1970)
+                let objs = realm.objects(GlucoseObj.self).filter("time >= %@ AND time < %@", startTime, endTime)
+                let threadSafeResults = ThreadSafeReference(to: objs)
+                DispatchQueue.main.async {
+                    let realm = try! Realm()
+                    guard let results = realm.resolve(threadSafeResults) else {
+                        completion(nil)
+                        return
+                    }
+                    completion(results)
+                }
+            }
+        }
+    }
+    
+    func getAllGlucoseObjs(completion: @escaping (Results<GlucoseObj>) -> Void) {
+        DispatchQueue(label: "com.sinophy.uwatch").async {
+            autoreleasepool {
+                let realm = try! Realm()
+                let objs = realm.objects(GlucoseObj.self)
+                let threadSafeResults = ThreadSafeReference(to: objs)
+                DispatchQueue.main.async {
+                    let realm = try! Realm()
+                    guard let results = realm.resolve(threadSafeResults) else { return }
+                    completion(results)
+                }
+            }
+        }
+    }
+    
+    // Create or Update
+    func addUricAcidObj(time: Int, mac: String, value: Int) {
+        DispatchQueue(label: "com.sinophy.uwatch").async {
+            autoreleasepool {
+                let realm = try! Realm()
+                let obj = UricAcidObj()
+                obj.time = time
+                obj.mac = mac
+                obj.value = value
+                try? realm.write {
+                    realm.add(obj, update: .modified)
+                }
+            }
+        }
+    }
+    
+    // Read
+    func getUricAcidObj(byDate date: String, completion: @escaping (Results<UricAcidObj>?) -> Void) {
+        DispatchQueue(label: "com.sinophy.uwatch").async {
+            autoreleasepool {
+                let realm = try! Realm()
+                let utcDateFormatter = DateFormatter()
+                utcDateFormatter.dateFormat = self.dateFormatter.dateFormat
+                utcDateFormatter.timeZone = TimeZone(identifier: "UTC")!
+                utcDateFormatter.locale = Locale(identifier: "en_US_POSIX")
+                guard let startDateUTC = utcDateFormatter.date(from: date) else {
+                    DispatchQueue.main.async {
+                        completion(nil)
+                    }
+                    return
+                }
+                var utcCalendar = Calendar(identifier: .gregorian)
+                utcCalendar.timeZone = TimeZone(identifier: "UTC")!
+                guard let endDateUTC = utcCalendar.date(byAdding: .day, value: 1, to: startDateUTC) else {
+                    DispatchQueue.main.async {
+                        completion(nil)
+                    }
+                    return
+                }
+                let startTime = Int(startDateUTC.timeIntervalSince1970)
+                let endTime = Int(endDateUTC.timeIntervalSince1970)
+                let objs = realm.objects(UricAcidObj.self).filter("time >= %@ AND time < %@", startTime, endTime)
+                let threadSafeResults = ThreadSafeReference(to: objs)
+                DispatchQueue.main.async {
+                    let realm = try! Realm()
+                    guard let results = realm.resolve(threadSafeResults) else {
+                        completion(nil)
+                        return
+                    }
+                    completion(results)
+                }
+            }
+        }
+    }
+    
+    func getAllUricAcidObjs(completion: @escaping (Results<UricAcidObj>) -> Void) {
+        DispatchQueue(label: "com.sinophy.uwatch").async {
+            autoreleasepool {
+                let realm = try! Realm()
+                let objs = realm.objects(UricAcidObj.self)
+                let threadSafeResults = ThreadSafeReference(to: objs)
+                DispatchQueue.main.async {
+                    let realm = try! Realm()
+                    guard let results = realm.resolve(threadSafeResults) else { return }
+                    completion(results)
+                }
+            }
+        }
+    }
+    
+    // Create or Update
+    func addLipidObj(time: Int, mac: String, tc: Double, tg: Double, hdl: Double, ldl: Double) {
+        DispatchQueue(label: "com.sinophy.uwatch").async {
+            autoreleasepool {
+                let realm = try! Realm()
+                let obj = LipidObj()
+                obj.time = time
+                obj.mac = mac
+                obj.tc = tc
+                obj.tg = tg
+                obj.hdl = hdl
+                obj.ldl = ldl
+                try? realm.write {
+                    realm.add(obj, update: .modified)
+                }
+            }
+        }
+    }
+    
+    // Read
+    func getLipidObj(byDate date: String, completion: @escaping (Results<LipidObj>?) -> Void) {
+        DispatchQueue(label: "com.sinophy.uwatch").async {
+            autoreleasepool {
+                let realm = try! Realm()
+                let utcDateFormatter = DateFormatter()
+                utcDateFormatter.dateFormat = self.dateFormatter.dateFormat
+                utcDateFormatter.timeZone = TimeZone(identifier: "UTC")!
+                utcDateFormatter.locale = Locale(identifier: "en_US_POSIX")
+                guard let startDateUTC = utcDateFormatter.date(from: date) else {
+                    DispatchQueue.main.async {
+                        completion(nil)
+                    }
+                    return
+                }
+                var utcCalendar = Calendar(identifier: .gregorian)
+                utcCalendar.timeZone = TimeZone(identifier: "UTC")!
+                guard let endDateUTC = utcCalendar.date(byAdding: .day, value: 1, to: startDateUTC) else {
+                    DispatchQueue.main.async {
+                        completion(nil)
+                    }
+                    return
+                }
+                let startTime = Int(startDateUTC.timeIntervalSince1970)
+                let endTime = Int(endDateUTC.timeIntervalSince1970)
+                let objs = realm.objects(LipidObj.self).filter("time >= %@ AND time < %@", startTime, endTime)
+                let threadSafeResults = ThreadSafeReference(to: objs)
+                DispatchQueue.main.async {
+                    let realm = try! Realm()
+                    guard let results = realm.resolve(threadSafeResults) else {
+                        completion(nil)
+                        return
+                    }
+                    completion(results)
+                }
+            }
+        }
+    }
+    
+    func getAllLipidObjs(completion: @escaping (Results<LipidObj>) -> Void) {
+        DispatchQueue(label: "com.sinophy.uwatch").async {
+            autoreleasepool {
+                let realm = try! Realm()
+                let objs = realm.objects(LipidObj.self)
+                let threadSafeResults = ThreadSafeReference(to: objs)
+                DispatchQueue.main.async {
+                    let realm = try! Realm()
+                    guard let results = realm.resolve(threadSafeResults) else { return }
+                    completion(results)
+                }
+            }
+        }
+    }
+    
+    // MARK: - 脉搏 PPG / 心率变异性 HRV / 精神压力 / 疲劳度 历史记录（0x07~0x0A，同 HeartObj 模式）
+
+    // Create or Update
+    func addPpgObj(time: Int, mac: String, value: Int) {
+        DispatchQueue(label: "com.sinophy.uwatch").async {
+            autoreleasepool {
+                let realm = try! Realm()
+                let obj = PpgObj()
+                obj.time = time
+                obj.mac = mac
+                obj.value = value
+                try? realm.write {
+                    realm.add(obj, update: .modified)
+                }
+            }
+        }
+    }
+
+    // Read
+    func getPpgObj(byDate date: String, completion: @escaping (Results<PpgObj>?) -> Void) {
+        DispatchQueue(label: "com.sinophy.uwatch").async {
+            autoreleasepool {
+                let realm = try! Realm()
+                let utcDateFormatter = DateFormatter()
+                utcDateFormatter.dateFormat = self.dateFormatter.dateFormat
+                utcDateFormatter.timeZone = TimeZone(identifier: "UTC")!
+                utcDateFormatter.locale = Locale(identifier: "en_US_POSIX")
+                guard let startDateUTC = utcDateFormatter.date(from: date) else {
+                    DispatchQueue.main.async {
+                        completion(nil)
+                    }
+                    return
+                }
+                var utcCalendar = Calendar(identifier: .gregorian)
+                utcCalendar.timeZone = TimeZone(identifier: "UTC")!
+                guard let endDateUTC = utcCalendar.date(byAdding: .day, value: 1, to: startDateUTC) else {
+                    DispatchQueue.main.async {
+                        completion(nil)
+                    }
+                    return
+                }
+                let startTime = Int(startDateUTC.timeIntervalSince1970)
+                let endTime = Int(endDateUTC.timeIntervalSince1970)
+                let objs = realm.objects(PpgObj.self).filter("time >= %@ AND time < %@", startTime, endTime)
+                let threadSafeResults = ThreadSafeReference(to: objs)
+                DispatchQueue.main.async {
+                    let realm = try! Realm()
+                    guard let results = realm.resolve(threadSafeResults) else {
+                        completion(nil)
+                        return
+                    }
+                    completion(results)
+                }
+            }
+        }
+    }
+
+    // Create or Update
+    func addHRVObj(time: Int, mac: String, value: Int) {
+        DispatchQueue(label: "com.sinophy.uwatch").async {
+            autoreleasepool {
+                let realm = try! Realm()
+                let obj = HRVObj()
+                obj.time = time
+                obj.mac = mac
+                obj.value = value
+                try? realm.write {
+                    realm.add(obj, update: .modified)
+                }
+            }
+        }
+    }
+
+    // Read
+    func getHRVObj(byDate date: String, completion: @escaping (Results<HRVObj>?) -> Void) {
+        DispatchQueue(label: "com.sinophy.uwatch").async {
+            autoreleasepool {
+                let realm = try! Realm()
+                let utcDateFormatter = DateFormatter()
+                utcDateFormatter.dateFormat = self.dateFormatter.dateFormat
+                utcDateFormatter.timeZone = TimeZone(identifier: "UTC")!
+                utcDateFormatter.locale = Locale(identifier: "en_US_POSIX")
+                guard let startDateUTC = utcDateFormatter.date(from: date) else {
+                    DispatchQueue.main.async {
+                        completion(nil)
+                    }
+                    return
+                }
+                var utcCalendar = Calendar(identifier: .gregorian)
+                utcCalendar.timeZone = TimeZone(identifier: "UTC")!
+                guard let endDateUTC = utcCalendar.date(byAdding: .day, value: 1, to: startDateUTC) else {
+                    DispatchQueue.main.async {
+                        completion(nil)
+                    }
+                    return
+                }
+                let startTime = Int(startDateUTC.timeIntervalSince1970)
+                let endTime = Int(endDateUTC.timeIntervalSince1970)
+                let objs = realm.objects(HRVObj.self).filter("time >= %@ AND time < %@", startTime, endTime)
+                let threadSafeResults = ThreadSafeReference(to: objs)
+                DispatchQueue.main.async {
+                    let realm = try! Realm()
+                    guard let results = realm.resolve(threadSafeResults) else {
+                        completion(nil)
+                        return
+                    }
+                    completion(results)
+                }
+            }
+        }
+    }
+
+    // Create or Update
+    func addStressObj(time: Int, mac: String, value: Int) {
+        DispatchQueue(label: "com.sinophy.uwatch").async {
+            autoreleasepool {
+                let realm = try! Realm()
+                let obj = StressObj()
+                obj.time = time
+                obj.mac = mac
+                obj.value = value
+                try? realm.write {
+                    realm.add(obj, update: .modified)
+                }
+            }
+        }
+    }
+
+    // Read
+    func getStressObj(byDate date: String, completion: @escaping (Results<StressObj>?) -> Void) {
+        DispatchQueue(label: "com.sinophy.uwatch").async {
+            autoreleasepool {
+                let realm = try! Realm()
+                let utcDateFormatter = DateFormatter()
+                utcDateFormatter.dateFormat = self.dateFormatter.dateFormat
+                utcDateFormatter.timeZone = TimeZone(identifier: "UTC")!
+                utcDateFormatter.locale = Locale(identifier: "en_US_POSIX")
+                guard let startDateUTC = utcDateFormatter.date(from: date) else {
+                    DispatchQueue.main.async {
+                        completion(nil)
+                    }
+                    return
+                }
+                var utcCalendar = Calendar(identifier: .gregorian)
+                utcCalendar.timeZone = TimeZone(identifier: "UTC")!
+                guard let endDateUTC = utcCalendar.date(byAdding: .day, value: 1, to: startDateUTC) else {
+                    DispatchQueue.main.async {
+                        completion(nil)
+                    }
+                    return
+                }
+                let startTime = Int(startDateUTC.timeIntervalSince1970)
+                let endTime = Int(endDateUTC.timeIntervalSince1970)
+                let objs = realm.objects(StressObj.self).filter("time >= %@ AND time < %@", startTime, endTime)
+                let threadSafeResults = ThreadSafeReference(to: objs)
+                DispatchQueue.main.async {
+                    let realm = try! Realm()
+                    guard let results = realm.resolve(threadSafeResults) else {
+                        completion(nil)
+                        return
+                    }
+                    completion(results)
+                }
+            }
+        }
+    }
+
+    // Create or Update
+    func addFatigueObj(time: Int, mac: String, value: Int) {
+        DispatchQueue(label: "com.sinophy.uwatch").async {
+            autoreleasepool {
+                let realm = try! Realm()
+                let obj = FatigueObj()
+                obj.time = time
+                obj.mac = mac
+                obj.value = value
+                try? realm.write {
+                    realm.add(obj, update: .modified)
+                }
+            }
+        }
+    }
+
+    // Read
+    func getFatigueObj(byDate date: String, completion: @escaping (Results<FatigueObj>?) -> Void) {
+        DispatchQueue(label: "com.sinophy.uwatch").async {
+            autoreleasepool {
+                let realm = try! Realm()
+                let utcDateFormatter = DateFormatter()
+                utcDateFormatter.dateFormat = self.dateFormatter.dateFormat
+                utcDateFormatter.timeZone = TimeZone(identifier: "UTC")!
+                utcDateFormatter.locale = Locale(identifier: "en_US_POSIX")
+                guard let startDateUTC = utcDateFormatter.date(from: date) else {
+                    DispatchQueue.main.async {
+                        completion(nil)
+                    }
+                    return
+                }
+                var utcCalendar = Calendar(identifier: .gregorian)
+                utcCalendar.timeZone = TimeZone(identifier: "UTC")!
+                guard let endDateUTC = utcCalendar.date(byAdding: .day, value: 1, to: startDateUTC) else {
+                    DispatchQueue.main.async {
+                        completion(nil)
+                    }
+                    return
+                }
+                let startTime = Int(startDateUTC.timeIntervalSince1970)
+                let endTime = Int(endDateUTC.timeIntervalSince1970)
+                let objs = realm.objects(FatigueObj.self).filter("time >= %@ AND time < %@", startTime, endTime)
+                let threadSafeResults = ThreadSafeReference(to: objs)
+                DispatchQueue.main.async {
+                    let realm = try! Realm()
+                    guard let results = realm.resolve(threadSafeResults) else {
+                        completion(nil)
+                        return
+                    }
+                    completion(results)
+                }
+            }
+        }
+    }
+
+    // MARK: - ECG 心电图历史记录（与 Android EcgHistoryStore 对齐）
+    
+    func addEcgHistoryObj(ecgObj: EcgHistoryObj) {
+        DispatchQueue(label: "com.sinophy.uwatch").async {
+            autoreleasepool {
+                let realm = try! Realm()
+                try? realm.write {
+                    realm.add(ecgObj, update: .modified)
+                }
+            }
+        }
+    }
+    
+    func getAllEcgHistoryObjs(completion: @escaping ([EcgHistorySummary]) -> Void) {
+        DispatchQueue(label: "com.sinophy.uwatch").async {
+            autoreleasepool {
+                let realm = try! Realm()
+                let objs = realm.objects(EcgHistoryObj.self).sorted(byKeyPath: "startedAt", ascending: false)
+                let items = Array(objs.map { obj in
+                    EcgHistorySummary(id: obj.id, address: obj.address, startedAt: obj.startedAt, durationMillis: obj.durationMillis, samplesJson: obj.samplesJson)
+                })
+                DispatchQueue.main.async {
+                    completion(items)
+                }
+            }
+        }
+    }
+    
+    func getEcgHistoryObj(byId id: String, completion: @escaping (EcgHistorySummary?) -> Void) {
+        DispatchQueue(label: "com.sinophy.uwatch").async {
+            autoreleasepool {
+                let realm = try! Realm()
+                guard let obj = realm.object(ofType: EcgHistoryObj.self, forPrimaryKey: id) else {
+                    DispatchQueue.main.async {
+                        completion(nil)
+                    }
+                    return
+                }
+                let item = EcgHistorySummary(id: obj.id, address: obj.address, startedAt: obj.startedAt, durationMillis: obj.durationMillis, samplesJson: obj.samplesJson)
+                DispatchQueue.main.async {
+                    completion(item)
+                }
+            }
+        }
+    }
+    
+    // MARK: - ECG 采样点编解码（与 Android EcgHistoryStore 相同 JSON 结构 [[offsetMillis, heartRate], ...]）
+    
+    static func encodeEcgPoints(_ points: [EcgPoint]) -> String {
+        let array = points.map { [$0.offsetMillis, Int64($0.heartRate)] }
+        guard let data = try? JSONSerialization.data(withJSONObject: array),
+              let json = String(data: data, encoding: .utf8) else { return "[]" }
+        return json
+    }
+    
+    static func decodeEcgPoints(_ json: String) -> [EcgPoint] {
+        guard let data = json.data(using: .utf8),
+              let array = (try? JSONSerialization.jsonObject(with: data)) as? [[Any]] else { return [] }
+        return array.compactMap { pair in
+            guard pair.count == 2,
+                  let offset = pair[0] as? NSNumber,
+                  let rate = pair[1] as? NSNumber else { return nil }
+            return EcgPoint(offsetMillis: offset.int64Value, heartRate: rate.intValue)
         }
     }
 }

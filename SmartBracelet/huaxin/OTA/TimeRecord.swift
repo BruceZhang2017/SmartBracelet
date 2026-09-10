@@ -34,7 +34,7 @@ class TimeRecord {
         let formattedDate = formatter.string(from: interval) ?? "00:00:00"
         let millis = UInt(timeInterval * 1000) % 1000;
         
-        return String(format: "%@.%03d", formattedDate, millis)
+        return String(format: "%@.%03d", formattedDate, Int32(millis))
     }
     
     public var startTimeText: String? {

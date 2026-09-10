@@ -19,6 +19,7 @@ class DevicesView: UIView {
     let cardImgView = UIImageView()
     let btImgView = UIImageView()
     let cardNameLabel = UILabel()
+    let batteryLabel = UILabel()
     let macLabel = UILabel() // 蓝牙地址
     
     override init(frame: CGRect) {
@@ -45,9 +46,15 @@ class DevicesView: UIView {
         cardNameLabel.textAlignment = .left
         cardNameLabel.translatesAutoresizingMaskIntoConstraints = false
         
-        let stackView = UIStackView(arrangedSubviews: [cardNameLabel])
+        batteryLabel.textColor = UIColor.brand
+        batteryLabel.font = UIFont.systemFont(ofSize: 12, weight: .semibold)
+        batteryLabel.textAlignment = .left
+        batteryLabel.isHidden = true
+        batteryLabel.translatesAutoresizingMaskIntoConstraints = false
+
+        let stackView = UIStackView(arrangedSubviews: [cardNameLabel, batteryLabel])
         stackView.axis = .horizontal
-        stackView.distribution = .equalSpacing
+        stackView.distribution = .fill
         stackView.alignment = .center
         stackView.spacing = 4
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -78,6 +85,25 @@ class DevicesView: UIView {
             make.height.equalTo(15)
             make.centerY.equalTo(stackView)
             make.leading.equalTo(stackView.snp.trailing).offset(5)
+        }
+    }
+
+    private func applyBatteryDisplay(using device: BluetoothWatchDevice?) {
+        guard let device = device,
+              device.isNoScreenDevice,
+              let batteryLevel = device.batteryLevel else {
+            batteryLabel.isHidden = true
+            batteryLabel.text = nil
+            return
+        }
+        let chargingSuffix = (device.isCharging ?? false) ? " ⚡" : ""
+        batteryLabel.text = "\(batteryLevel)%\(chargingSuffix)"
+        batteryLabel.isHidden = false
+        
+        if batteryLevel < 20 {
+            batteryLabel.textColor = UIColor.systemRed
+        } else {
+            batteryLabel.textColor = UIColor.systemGreen
         }
     }
 
@@ -134,6 +160,7 @@ class DevicesView: UIView {
                         btImgView.image = UIImage(named: "content_blueteeth_unlink")
                     }
                     macLabel.text = device.max ?? ""
+                    applyBatteryDisplay(using: XGZTBlueToothManager.shared.device ?? device)
                     return
                 }
                 let deviceName = XGZTBlueToothManager.shared.getDeviceName(mac: lastestDeviceMac)
@@ -162,6 +189,7 @@ class DevicesView: UIView {
                         btImgView.image = UIImage(named: "content_blueteeth_unlink")
                     }
                     macLabel.text = lastestDeviceMac
+                    applyBatteryDisplay(using: XGZTBlueToothManager.shared.device)
                     return
                 }
             }
@@ -205,6 +233,8 @@ class DevicesView: UIView {
                     btImgView.image = UIImage(named: "content_blueteeth_unlink")
                 }
                 macLabel.text = currentModel?.mac ?? ""
+                batteryLabel.isHidden = true
+                batteryLabel.text = nil
             }
         }
     }

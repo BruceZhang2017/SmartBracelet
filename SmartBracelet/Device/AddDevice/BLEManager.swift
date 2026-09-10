@@ -69,7 +69,9 @@ class BLEManager: NSObject {
         
         JLSelf.JLProgressBlock = { result in
             let s = String(format: "%.02f%%", result*100.0)
-            NotificationCenter.default.post(name: Notification.Name("ClockUseViewController"), object: 1, userInfo: ["p": s])
+            DispatchQueue.main.async {
+                NotificationCenter.default.post(name: Notification.Name("ClockUseViewController"), object: 1, userInfo: ["p": s])
+            }
         }
         
         
@@ -614,11 +616,11 @@ class BLEManager: NSObject {
                 XLogger.shared.log("将血氧数据保存至数据库中：\(model.timeStamp)")
                 try? oxygenModel.er.save(update: true)
             }
-            let str = String(format: "oxygen：%d, %d, %d", model.oxygen, model.indexOfTotal, model.totalCount)
+            let str = String(format: "oxygen: %d, %d, %d", Int32(model.oxygen), Int32(model.indexOfTotal), Int32(model.totalCount))
             wuPrint(str)
             oxygenArray.append(model)
             if model.indexOfTotal == model.totalCount {
-                let str1 = String(format: "oxygen history complete, total %d line", model.totalCount)
+                let str1 = String(format: "oxygen history complete, total %d line", Int32(model.totalCount))
                 wuPrint(str1)
                 stepArray = Array(repeating: [], count: 6)
                 // 处理需要读取几天的数据

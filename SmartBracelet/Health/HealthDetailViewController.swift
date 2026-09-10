@@ -17,6 +17,35 @@ import RealmSwift
 class HealthDetailViewController: BaseViewController {
     let lineChartView: LineChartView = LineChartView()
     let barChartView: BarChartView = BarChartView()
+    var ecgWaveforms: [Double] = []
+    private var ecgTimer: Timer?
+    private var ecgPhase: Double = 0.0
+    private let ecgSampleRate: Double = 60.0
+    private let ecgWaveformStretchFactor: Double = 2.0
+    private var ecgHeartRateBPM: Int?
+    private let ecgHeartRateLabel: UILabel = UILabel()
+    private var isECGMeasuring: Bool = false
+    private var ecgWorn: Bool = false
+    private var ecgMeasureCountdown = 30
+    // 脉搏波 PPG 实时平滑波形（算法对齐 mock_phone_app._get_ppg_point）
+    private var ppgWaveforms: [Double] = []
+    private var ppgTimer: Timer?
+    private var ppgPhase: Double = 0.0
+    private var isPPGMeasuring: Bool = false
+    private var ppgWorn: Bool = false
+    private var ppgHeartRateBPM: Int?
+    private var ppgBaseline: Double = 1000.0
+    private let ppgSampleRate: Double = 60.0
+    private let ppgWindowSeconds: Double = 10.0
+    private let ppgHeartRateLabel: UILabel = UILabel()
+    private var ppgWornLabel: UILabel?
+    private var ppgMeasureCountdown = 30
+    // Android 对齐：ECG 实时测量点采集与持久化、2s 无上报自动结束
+    private var ecgPoints: [EcgPoint] = []
+    private var ecgRecordId: String = ""
+    private var ecgStartUptime: TimeInterval = 0
+    private var ecgSaveErrorShown = false
+    private var ecgStaleTimer: Timer?
     let dateLabel: UILabel = UILabel() // 日期
     let prevDayButton: UIButton = UIButton(type: .custom) // 前一个
     let nextDayButton: UIButton = UIButton(type: .custom) // 后一个
@@ -34,7 +63,14 @@ class HealthDetailViewController: BaseViewController {
     var mTimer: Timer?
     var alpha: CGFloat = 0.3
     var maxValue = 0
-    
+
+    private func makeRoundValue(_ value: String, unit: String, valueFont: CGFloat = 40, unitFont: CGFloat = 14) -> NSMutableAttributedString {
+        let text = NSMutableAttributedString()
+        text.append(NSAttributedString(string: value, attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: valueFont, weight: .black)]))
+        text.append(NSAttributedString(string: unit, attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: unitFont, weight: .medium)]))
+        return text
+    }
+
     override func viewDidLoad() {
         bStyle = 1
         super.viewDidLoad()
@@ -104,6 +140,12 @@ class HealthDetailViewController: BaseViewController {
         }
         
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: Notification.Name("healthDetail"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleECGHeartRate(_:)), name: Notification.Name("ecg_heart_rate"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleECGSamples(_:)), name: Notification.Name("ecg_samples"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleECGMeasureFailed(_:)), name: Notification.Name("ecg_measure_failed"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleECGWornStatus(_:)), name: Notification.Name("ecg_worn_status"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handlePPGHeartRate(_:)), name: Notification.Name("ppg_heart_rate"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handlePPGWornStatus(_:)), name: Notification.Name("ppg_worn_status"), object: nil)
         
         if type == 0 {
             title = "health_step".localized()
@@ -181,15 +223,185 @@ class HealthDetailViewController: BaseViewController {
             addTest()
             
         }
+        if type == 7 {
+            title = "health_blood_glucose".localized()
+            fanView.isHidden = true
+            roundView.isHidden = false
+            testView.isHidden = true
+            testView.setupView()
+            roundView.setupView(value: makeRoundValue("--", unit: " mmol/L", valueFont: 34, unitFont: 12))
+            valueView.refreshLabel(text: "health_blood_glucose_desc".localized())
+            addTest()
+        }
+        if type == 8 {
+            title = "health_uric_acid".localized()
+            fanView.isHidden = true
+            roundView.isHidden = false
+            testView.isHidden = true
+            testView.setupView()
+            roundView.setupView(value: makeRoundValue("--", unit: " umol/L", valueFont: 34, unitFont: 12))
+            valueView.refreshLabel(text: "health_uric_acid_desc".localized())
+            addTest()
+        }
+        if type == 9 {
+            title = "health_blood_lipid".localized()
+            fanView.isHidden = true
+            roundView.isHidden = false
+            testView.isHidden = true
+            testView.setupView()
+            roundView.setupView(value: makeRoundValue("--", unit: " mmol/L", valueFont: 32, unitFont: 12))
+            valueView.refreshLabel(text: "health_blood_lipid_desc".localized())
+            addTest()
+        }
+        if type == 10 {
+            title = "health_ppg".localized()
+            fanView.isHidden = true
+            roundView.isHidden = true
+            testView.isHidden = true
+            testView.setupView()
+
+            // 脉搏波实时平滑波形视图（对齐 mock_phone_app 的 _get_ppg_point 形态）
+            ppgHeartRateLabel.textAlignment = .center
+            ppgHeartRateLabel.numberOfLines = 1
+            ppgHeartRateLabel.alpha = 1.0
+            updatePPGPulseDisplay(nil)
+            view.addSubview(ppgHeartRateLabel)
+            ppgHeartRateLabel.snp.makeConstraints { make in
+                make.centerX.equalToSuperview()
+                make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top).offset(12)
+                make.leading.equalToSuperview().offset(20)
+                make.trailing.equalToSuperview().offset(-20)
+            }
+
+            valueView.layoutIfNeeded()
+            let worn = UILabel()
+            worn.text = "ppg_worn_off".localized()
+            worn.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
+            worn.textColor = UIColor(red: 0.90, green: 0.24, blue: 0.28, alpha: 1.0)
+            worn.textAlignment = .center
+            worn.numberOfLines = 0
+            worn.isHidden = true
+            view.addSubview(worn)
+            worn.snp.makeConstraints { make in
+                make.centerX.equalToSuperview()
+                make.bottom.equalTo(valueView.snp.top).offset(-14)
+                make.leading.equalToSuperview().offset(20)
+                make.trailing.equalToSuperview().offset(-20)
+            }
+            ppgWornLabel = worn
+
+            valueView.refreshLabel(text: "health_ppg_desc".localized())
+            addTest()
+            startPPGRealtimeRendering()
+        }
+        if type == 11 {
+            title = "health_hrv".localized()
+            fanView.isHidden = true
+            roundView.isHidden = false
+            testView.isHidden = true
+            testView.setupView()
+            roundView.setupView(value: makeRoundValue("--", unit: " ms", valueFont: 34, unitFont: 12))
+            valueView.refreshLabel(text: "health_hrv_desc".localized())
+            addTest()
+        }
+        if type == 12 {
+            title = "health_stress".localized()
+            fanView.isHidden = true
+            roundView.isHidden = false
+            testView.isHidden = true
+            testView.setupView()
+            roundView.setupView(value: makeRoundValue("--", unit: " health_score_unit".localized(), valueFont: 34, unitFont: 12))
+            valueView.refreshLabel(text: "health_stress_desc".localized())
+            addTest()
+        }
+        if type == 13 {
+            title = "health_fatigue".localized()
+            fanView.isHidden = true
+            roundView.isHidden = false
+            testView.isHidden = true
+            testView.setupView()
+            roundView.setupView(value: makeRoundValue("--", unit: " health_score_unit".localized(), valueFont: 34, unitFont: 12))
+            valueView.refreshLabel(text: "health_fatigue_desc".localized())
+            addTest()
+        }
+        if type == 6 {
+            title = "health_ecg".localized()
+            fanView.isHidden = true
+            roundView.isHidden = true
+            testView.isHidden = true
+            testView.setupView()
+
+            // Android 对齐：ECG 详情页右上角提供历史记录入口
+            let historyButton = UIButton(type: .custom)
+            historyButton.setImage(UIImage(named: "ecg_history_icon") ?? UIImage(systemName: "clock.arrow.circlepath"), for: .normal)
+            historyButton.tintColor = UIColor.white
+            historyButton.addTarget(self, action: #selector(ecgHistoryTapped), for: .touchUpInside)
+            navigationItem.rightBarButtonItem = UIBarButtonItem(customView: historyButton)
+
+            ecgHeartRateLabel.textAlignment = .center
+            ecgHeartRateLabel.numberOfLines = 1
+            ecgHeartRateLabel.alpha = 1.0
+            updateECGHeartRateDisplay(nil)
+            view.addSubview(ecgHeartRateLabel)
+            ecgHeartRateLabel.snp.makeConstraints { make in
+                make.centerX.equalToSuperview()
+                make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top).offset(44)
+                make.leading.equalToSuperview().offset(20)
+                make.trailing.equalToSuperview().offset(-20)
+            }
+
+            valueView.refreshLabel(text: "ecg_desc".localized())
+            addTest()
+        }
         
         if type == 3 {
             setBarChartView()
             setBarData()
         } else {
             setupChart()
-            setChartViewData()
+            if type == 6 {
+                setECGChartViewData()
+            } else if type == 10 {
+                setPPGChartViewData()
+            } else {
+                setChartViewData()
+            }
         }
         dateLabel.text = mDate.stringFromYmd()
+        if type == 6 || type == 10 {
+            dateLabel.isHidden = true
+            prevDayButton.isHidden = true
+            nextDayButton.isHidden = true
+            roundView.snp.remakeConstraints { make in
+                make.leading.trailing.equalToSuperview()
+                make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top)
+                make.bottom.equalTo(valueView.snp.top)
+            }
+            fanView.snp.remakeConstraints { make in
+                make.leading.trailing.equalToSuperview()
+                make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top)
+                make.bottom.equalTo(valueView.snp.top)
+            }
+            testView.snp.remakeConstraints { make in
+                make.leading.trailing.equalToSuperview()
+                make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top)
+                make.bottom.equalTo(valueView.snp.top)
+            }
+            ecgHeartRateLabel.snp.remakeConstraints { make in
+                make.centerX.equalToSuperview()
+                make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top).offset(10)
+                make.leading.equalToSuperview().offset(20)
+                make.trailing.equalToSuperview().offset(-20)
+            }
+        }
+        if type == 10 {
+            ppgHeartRateLabel.snp.remakeConstraints { make in
+                make.centerX.equalToSuperview()
+                make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top).offset(10)
+                make.leading.equalToSuperview().offset(20)
+                make.trailing.equalToSuperview().offset(-20)
+            }
+        }
         
         // 创建一个自定义的返回按钮
         let backButton = UIBarButtonItem(image: UIImage(named: "health_back_white"), style: .plain, target: self, action: #selector(backButtonTapped))
@@ -217,7 +429,12 @@ class HealthDetailViewController: BaseViewController {
             return
         }
         
-        if isXGZT {
+        if isXGZT && ![2, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13].contains(type) {
+            return
+        }
+        
+        // 与 Android 对齐：带屏设备的测量由设备端发起，只有无屏设备需要在详情页显示“开始测试”按钮（ECG 除外，ECG 始终由 App 触发）
+        if isXGZT && type != 6 && !(XGZTBlueToothManager.shared.device?.isNoScreenDevice ?? false) {
             return
         }
         
@@ -228,38 +445,79 @@ class HealthDetailViewController: BaseViewController {
 //        if (type == 5 && isXGZT) && (XGZTBlueToothManager.shared.device?.brandID ?? 0) == 0  {
 //            return
 //        }
-        
+
+        let title = "health_start_test".localized()
+
         if screenHeight <= 667 {
-            // 创建一个UIBarButtonItem
-            let rightButton = UIBarButtonItem(title: "health_start_test".localized(), style: .plain, target: self, action: #selector(self.rightBarButtonAction))
-            // 设置字体颜色
+            let rightButton = UIBarButtonItem(title: title, style: .plain, target: self, action: #selector(self.rightBarButtonAction))
             rightButton.tintColor = UIColor.white
-            // 将UIBarButtonItem设置为navigationItem的右侧按钮
             self.navigationItem.rightBarButtonItem = rightButton
         } else {
-            let testButton = UIButton(type: .custom)
-            testButton.tag = 8888
-            testButton.setTitle("health_start_test".localized(), for: .normal)
-            testButton.setTitleColor(UIColor.brand, for: .normal)
-            testButton.layer.borderColor = UIColor.brand.cgColor
-            testButton.layer.borderWidth = 1.0
-            testButton.backgroundColor = .white
-            testButton.layer.cornerRadius = 22
-            // 添加按钮到视图中
-            view.addSubview(testButton)
-            testButton.snp.makeConstraints { make in
-                make.centerX.equalToSuperview()
-                make.width.equalTo(150)
-                make.height.equalTo(44)
-                make.bottom.equalTo(valueView.snp.top).offset(-10)
+            let testButton: UIButton
+            if let existed = view.viewWithTag(8888) as? UIButton {
+                testButton = existed
+            } else {
+                testButton = UIButton(type: .custom)
+                testButton.tag = 8888
+                testButton.setTitleColor(UIColor.brand, for: .normal)
+                testButton.layer.borderColor = UIColor.brand.cgColor
+                testButton.layer.borderWidth = 1.0
+                testButton.backgroundColor = .white
+                testButton.layer.cornerRadius = 22
+                testButton.addTarget(self, action: #selector(rightBarButtonAction), for: .touchUpInside)
+                view.addSubview(testButton)
+                testButton.snp.makeConstraints { make in
+                    make.centerX.equalToSuperview()
+                    make.width.equalTo(type == 6 ? 180 : 150)
+                    make.height.equalTo(44)
+                    make.bottom.equalTo(valueView.snp.top).offset(-10)
+                }
             }
-            testButton.addTarget(self, action: #selector(rightBarButtonAction), for: .touchUpInside)
+            testButton.isHidden = false
+            testButton.setTitle(title, for: .normal)
         }
-        
     }
     
     // UIBarButtonItem的点击事件处理器
     @objc func rightBarButtonAction() {
+        if type == 6 {
+            if screenHeight <= 667 {
+                self.navigationItem.rightBarButtonItem = nil
+            } else {
+                if let btn = view.viewWithTag(8888) as? UIButton {
+                    btn.isHidden = true
+                }
+            }
+            roundView.isHidden = true
+            fanView.isHidden = true
+            testView.isHidden = false
+            testView.testing()
+            valueView.refreshView(isHideNull: true)
+            valueView.refreshLabel(text: "ecg_desc".localized())
+            lineChartView.isHidden = false
+            setECGChartViewData()
+            handleStartTest()
+            return
+        }
+        if type == 10 {
+            if screenHeight <= 667 {
+                self.navigationItem.rightBarButtonItem = nil
+            } else {
+                if let btn = view.viewWithTag(8888) as? UIButton {
+                    btn.isHidden = true
+                }
+            }
+            roundView.isHidden = true
+            fanView.isHidden = true
+            testView.isHidden = false
+            testView.testing()
+            valueView.refreshView(isHideNull: true)
+            valueView.refreshLabel(text: "health_ppg_desc".localized())
+            lineChartView.isHidden = false
+            setPPGChartViewData()
+            handleStartTest()
+            return
+        }
         if screenHeight <= 667 {
             // 隐藏按钮
             self.navigationItem.rightBarButtonItem = nil
@@ -275,7 +533,6 @@ class HealthDetailViewController: BaseViewController {
         fanView.isHidden = true
         testView.isHidden = false
         handleStartTest() // 启动测试
-        
         
     }
     
@@ -295,12 +552,27 @@ class HealthDetailViewController: BaseViewController {
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
+        if type == 6, isECGMeasuring {
+            // Android 对齐：onStop/销毁时结束并保存测量
+            finishECGMeasurement(showComplete: false)
+        }
+        if type == 10, isPPGMeasuring {
+            finishPPGMeasurement(showComplete: false)
+        }
         UINavigationBar.appearance().tintColor = UIColor.text_primary
     }
 
     
     deinit {
         NotificationCenter.default.removeObserver(self)
+        mTimer?.invalidate()
+        mTimer = nil
+        ecgTimer?.invalidate()
+        ecgTimer = nil
+        ecgStaleTimer?.invalidate()
+        ecgStaleTimer = nil
+        ppgTimer?.invalidate()
+        ppgTimer = nil
     }
     
     // 前一天按钮点击事件
@@ -309,6 +581,8 @@ class HealthDetailViewController: BaseViewController {
         dateLabel.text = mDate.stringFromYmd()
         if type == 3 {
             setBarData()
+        } else if type == 6 {
+            setECGChartViewData()
         } else {
             setChartViewData() // 刷新数据
         }
@@ -320,14 +594,56 @@ class HealthDetailViewController: BaseViewController {
         dateLabel.text = mDate.stringFromYmd()
         if type == 3 {
             setBarData()
+        } else if type == 6 {
+            setECGChartViewData()
         } else {
             setChartViewData() // 刷新数据
         }
     }
     
     @objc private func handleNotification(_ notification: Notification) {
+        // BLE 回调在后台线程同步 post healthDetail，UI 操作必须切回主线程
+        if Thread.isMainThread {
+            handleNotificationOnMain()
+        } else {
+            DispatchQueue.main.async { [weak self] in
+                self?.handleNotificationOnMain()
+            }
+        }
+    }
+
+    private func handleNotificationOnMain() {
+        if type == 6 {
+            // 测量过程中设备会持续上报心率帧并触发 healthDetail，忽略这些帧，避免打断实时渲染
+            guard !isECGMeasuring else { return }
+            stopECGRealtimeRendering()
+            stopECGCountdown()
+            fanView.isHidden = true
+            roundView.isHidden = true
+            testView.isHidden = true
+            if screenHeight <= 667 {
+                addTest()
+            } else {
+                if let btn = view.viewWithTag(8888) as? UIButton {
+                    btn.isHidden = false
+                }
+            }
+            valueView.refreshLabel(text: "health_ecg_measure_complete".localized())
+            setECGChartViewData()
+            return
+        }
+        if type == 10 {
+            // 实时波长页面：保持波形渲染，仅结束倒计时（healthDetail 帧不打断平滑波形）
+            stopPPGCountdown()
+            testView.isHidden = true
+            valueView.refreshLabel(text: "ppg_measure_complete".localized())
+            return
+        }
         if testView.isHidden == false {
             testView.stop()
+            if type == 6 {
+                stopECGRealtimeRendering()
+            }
             if type == 0 {
                 fanView.isHidden = false
                 roundView.isHidden = true
@@ -354,7 +670,17 @@ class HealthDetailViewController: BaseViewController {
                 testView.isHidden = true
                 
             }
-            if type == 2 || type == 4 || type == 5 {
+            if type == 7 || type == 8 || type == 9 || type == 10 || type == 11 || type == 12 || type == 13 {
+                fanView.isHidden = true
+                roundView.isHidden = false
+                testView.isHidden = true
+            }
+            if type == 6 {
+                fanView.isHidden = true
+                roundView.isHidden = true
+                testView.isHidden = true
+            }
+            if type == 2 || type == 4 || type == 5 || type == 6 || type == 7 || type == 8 || type == 9 || type == 10 || type == 11 || type == 12 || type == 13 {
                 if screenHeight <= 667 {
                     addTest()
                 } else {
@@ -366,9 +692,176 @@ class HealthDetailViewController: BaseViewController {
         }
         if type == 3 {
             setBarData()
+        } else if type == 6 {
+            setECGChartViewData()
         } else {
             setChartViewData() // 刷新数据
         }
+    }
+
+    @objc private func handleECGHeartRate(_ notification: Notification) {
+        guard type == 6 else { return }
+        // BLE 回调在后台线程同步 post，UI 更新必须切回主线程
+        if Thread.isMainThread {
+            handleECGHeartRateOnMain(notification)
+        } else {
+            DispatchQueue.main.async { [weak self] in
+                self?.handleECGHeartRateOnMain(notification)
+            }
+        }
+    }
+
+    private func handleECGHeartRateOnMain(_ notification: Notification) {
+        let bpm = notification.userInfo?["bpm"] as? Int
+        ecgHeartRateBPM = bpm
+        ecgWorn = (bpm != nil && bpm! > 0)
+        updateECGHeartRateDisplay(bpm)
+        guard isECGMeasuring else { return }
+        // Android 对齐：采集 (elapsedMillis, heartRate) 采样点，并在每次有效上报后重置 2s 无上报检测
+        if let bpm = bpm {
+            let offsetMillis = Int64((ProcessInfo.processInfo.systemUptime - ecgStartUptime) * 1000)
+            ecgPoints.append(EcgPoint(offsetMillis: offsetMillis, heartRate: bpm))
+        }
+        resetECGStaleTimer()
+    }
+
+    @objc private func handleECGWornStatus(_ notification: Notification) {
+        guard type == 6 else { return }
+        // BLE 回调在后台线程同步 post，UI 更新必须切回主线程
+        if Thread.isMainThread {
+            handleECGWornStatusOnMain(notification)
+        } else {
+            DispatchQueue.main.async { [weak self] in
+                self?.handleECGWornStatusOnMain(notification)
+            }
+        }
+    }
+
+    private func handleECGWornStatusOnMain(_ notification: Notification) {
+        let worn = (notification.userInfo?["worn"] as? Bool) ?? false
+        ecgWorn = worn
+        if !worn {
+            ecgHeartRateBPM = nil
+        }
+        updateECGHeartRateDisplay(ecgHeartRateBPM)
+    }
+
+    @objc private func handlePPGHeartRate(_ notification: Notification) {
+        guard type == 10 else { return }
+        if Thread.isMainThread {
+            handlePPGHeartRateOnMain(notification)
+        } else {
+            DispatchQueue.main.async { [weak self] in
+                self?.handlePPGHeartRateOnMain(notification)
+            }
+        }
+    }
+
+    private func handlePPGHeartRateOnMain(_ notification: Notification) {
+        let bpm = notification.userInfo?["bpm"] as? Int
+        ppgHeartRateBPM = bpm
+        ppgWorn = (bpm != nil && bpm! > 0)
+        updatePPGPulseDisplay(bpm)
+        ppgWornLabel?.isHidden = ppgWorn
+    }
+
+    @objc private func handlePPGWornStatus(_ notification: Notification) {
+        guard type == 10 else { return }
+        if Thread.isMainThread {
+            handlePPGWornStatusOnMain(notification)
+        } else {
+            DispatchQueue.main.async { [weak self] in
+                self?.handlePPGWornStatusOnMain(notification)
+            }
+        }
+    }
+
+    private func handlePPGWornStatusOnMain(_ notification: Notification) {
+        let worn = (notification.userInfo?["worn"] as? Bool) ?? false
+        ppgWorn = worn
+        if !worn {
+            ppgHeartRateBPM = nil
+        }
+        updatePPGPulseDisplay(ppgHeartRateBPM)
+        ppgWornLabel?.isHidden = worn
+    }
+
+    private func updatePPGPulseDisplay(_ bpm: Int?) {
+        let text = NSMutableAttributedString()
+        let baseFont = UIFont.systemFont(ofSize: 22, weight: .semibold)
+        let valueFont = UIFont.systemFont(ofSize: 26, weight: .black)
+        let baseColor = UIColor.white
+        text.append(NSAttributedString(string: "ppg_real_time_pulse".localized(), attributes: [.foregroundColor: baseColor, .font: baseFont]))
+        if let b = bpm, b > 0 {
+            text.append(NSAttributedString(string: "\(b)", attributes: [.foregroundColor: baseColor, .font: valueFont]))
+            text.append(NSAttributedString(string: " bpm", attributes: [.foregroundColor: baseColor.withAlphaComponent(0.85), .font: baseFont]))
+        } else {
+            text.append(NSAttributedString(string: "--", attributes: [.foregroundColor: baseColor, .font: valueFont]))
+            text.append(NSAttributedString(string: " bpm", attributes: [.foregroundColor: baseColor.withAlphaComponent(0.85), .font: baseFont]))
+        }
+        ppgHeartRateLabel.attributedText = text
+    }
+
+    @objc private func handleECGSamples(_ notification: Notification) {
+        guard type == 6 else { return }
+        guard let samples = notification.userInfo?["samples"] as? [Double], !samples.isEmpty else { return }
+        // BLE 回调在后台线程同步 post，UI 更新必须切回主线程
+        if Thread.isMainThread {
+            handleECGSamplesOnMain(samples)
+        } else {
+            DispatchQueue.main.async { [weak self] in
+                self?.handleECGSamplesOnMain(samples)
+            }
+        }
+    }
+
+    private func handleECGSamplesOnMain(_ samples: [Double]) {
+        for v in samples {
+            appendECGSample(v)
+        }
+    }
+
+    @objc private func handleECGMeasureFailed(_ notification: Notification) {
+        guard type == 6 else { return }
+        measureAsync?.cancel()
+        isECGMeasuring = false
+        stopECGCountdown()
+        let reason = (notification.userInfo?["reason"] as? String) ?? "ecg_measure_fail_reason".localized()
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            self.stopECGRealtimeRendering()
+            self.ecgHeartRateBPM = nil
+            self.updateECGHeartRateDisplay(nil)
+            self.fanView.isHidden = true
+            self.roundView.isHidden = true
+            self.testView.isHidden = true
+            if screenHeight <= 667 {
+                self.addTest()
+            } else {
+                if let btn = self.view.viewWithTag(8888) as? UIButton {
+                    btn.isHidden = false
+                }
+            }
+            self.valueView.refreshLabel(text: reason)
+            self.setECGChartViewData()
+        }
+    }
+
+    private func updateECGHeartRateDisplay(_ bpm: Int?) {
+        let text = NSMutableAttributedString()
+        let baseFont = UIFont.systemFont(ofSize: 22, weight: .semibold)
+        let valueFont = UIFont.systemFont(ofSize: 26, weight: .black)
+        let baseColor = UIColor.white
+        if let b = bpm, b > 0 {
+            text.append(NSAttributedString(string: "实时心率: ", attributes: [.foregroundColor: baseColor, .font: baseFont]))
+            text.append(NSAttributedString(string: "\(b)", attributes: [.foregroundColor: baseColor, .font: valueFont]))
+            text.append(NSAttributedString(string: " bpm", attributes: [.foregroundColor: baseColor.withAlphaComponent(0.85), .font: baseFont]))
+        } else {
+            text.append(NSAttributedString(string: "实时心率: ", attributes: [.foregroundColor: baseColor, .font: baseFont]))
+            text.append(NSAttributedString(string: "--", attributes: [.foregroundColor: baseColor, .font: valueFont]))
+            text.append(NSAttributedString(string: " bpm", attributes: [.foregroundColor: baseColor.withAlphaComponent(0.85), .font: baseFont]))
+        }
+        ecgHeartRateLabel.attributedText = text
     }
     
     /// 设置图表
@@ -393,9 +886,6 @@ class HealthDetailViewController: BaseViewController {
         
         lineChartView.xAxis.labelTextColor = UIColor(hex: 0x9097A0, alpha: 1)
         lineChartView.xAxis.avoidFirstLastClippingEnabled = true
-        lineChartView.xAxis.axisMinimum = Double(0)
-        lineChartView.xAxis.axisMaximum = Double(23)
-        lineChartView.xAxis.setLabelCount(24, force: true)
         lineChartView.xAxis.gridColor = UIColor.clear
         lineChartView.xAxis.drawGridLinesEnabled = true
         lineChartView.xAxis.drawAxisLineEnabled = false
@@ -403,7 +893,6 @@ class HealthDetailViewController: BaseViewController {
         
         lineChartView.leftAxis.labelTextColor = UIColor.clear
         lineChartView.leftAxis.axisMinimum = 0
-        lineChartView.leftAxis.axisMaximum = 5
         lineChartView.leftAxis.setLabelCount(6, force: true)
         lineChartView.leftAxis.gridColor = UIColor.clear
         lineChartView.leftAxis.drawGridLinesEnabled = false
@@ -411,16 +900,52 @@ class HealthDetailViewController: BaseViewController {
         
         lineChartView.rightAxis.labelTextColor = UIColor(hex: 0x9097A0, alpha: 1)
         lineChartView.rightAxis.axisMinimum = 0
-        if type == 0 {
-            lineChartView.rightAxis.axisMaximum = 5000
-        } else if type == 2 {
-            lineChartView.rightAxis.axisMaximum = 200
-        } else if type == 4 {
-            lineChartView.rightAxis.axisMaximum = 200
-        } else if type == 5 {
-            lineChartView.rightAxis.axisMaximum = 100
+        
+        if type == 6 || type == 10 {
+            lineChartView.xAxis.axisMinimum = Double(0)
+            lineChartView.xAxis.axisMaximum = type == 6 ? Double(ecgSampleRate == 0 ? 10 : 10) : ppgWindowSeconds
+            lineChartView.xAxis.setLabelCount(5, force: false)
+            lineChartView.xAxis.granularity = 1.0
+            lineChartView.xAxis.granularityEnabled = true
+            lineChartView.xAxis.valueFormatter = DefaultAxisValueFormatter { value, _ in
+                String(format: "%.0f", value)
+            }
+            if type == 6 {
+                lineChartView.rightAxis.axisMaximum = 2000
+            } else {
+                lineChartView.rightAxis.axisMinimum = ppgBaseline - 120
+                lineChartView.rightAxis.axisMaximum = ppgBaseline + 120
+            }
+            lineChartView.rightAxis.setLabelCount(5, force: true)
+            lineChartView.rightAxis.labelTextColor = UIColor.clear
+        } else {
+            lineChartView.xAxis.axisMinimum = Double(0)
+            lineChartView.xAxis.axisMaximum = Double(23)
+            lineChartView.xAxis.setLabelCount(24, force: true)
+            if type == 0 {
+                lineChartView.rightAxis.axisMaximum = 5000
+            } else if type == 2 {
+                lineChartView.rightAxis.axisMaximum = 200
+            } else if type == 4 {
+                lineChartView.rightAxis.axisMaximum = 200
+            } else if type == 5 {
+                lineChartView.rightAxis.axisMaximum = 100
+            } else if type == 7 {
+                lineChartView.rightAxis.axisMaximum = 30
+            } else if type == 8 {
+                lineChartView.rightAxis.axisMaximum = 1000
+            } else if type == 9 {
+                lineChartView.rightAxis.axisMaximum = 15
+            } else if type == 11 {
+                lineChartView.rightAxis.axisMaximum = 200
+            } else if type == 12 {
+                lineChartView.rightAxis.axisMaximum = 100
+            } else if type == 13 {
+                lineChartView.rightAxis.axisMaximum = 100
+            }
+            lineChartView.rightAxis.setLabelCount(6, force: true)
         }
-        lineChartView.rightAxis.setLabelCount(6, force: true)
+        
         lineChartView.rightAxis.gridColor = UIColor(hex: 0x9097A0, alpha: 1)
         lineChartView.rightAxis.drawGridLinesEnabled = true
         lineChartView.rightAxis.drawAxisLineEnabled = false
@@ -430,17 +955,19 @@ class HealthDetailViewController: BaseViewController {
     func setChartViewData() {
         var values: [ChartDataEntry] = []
         initializeData { [weak self] v in
-            // Handle the values array here
             values += v
             let set1 = LineChartDataSet(entries: values, label: "")
             set1.drawIconsEnabled = false
+            if let self = self, [2, 4, 5, 7, 8, 9, 10, 11, 12, 13].contains(self.type) {
+                set1.axisDependency = .right
+            }
             
             set1.setColor(UIColor.brand)
             set1.lineWidth = 1
             set1.valueFont = .systemFont(ofSize: 9)
             set1.formLineWidth = 0.5
             set1.mode = .horizontalBezier
-            set1.drawValuesEnabled = false // 不要绘制值
+            set1.drawValuesEnabled = false
             set1.drawCirclesEnabled = false
             set1.circleHoleRadius = 2
             set1.circleRadius = 4
@@ -461,6 +988,80 @@ class HealthDetailViewController: BaseViewController {
             self?.lineChartView.isHidden = values.count == 0
         }
         
+    }
+    
+    func setECGChartViewData() {
+        let count = ecgWaveforms.count
+        var values: [ChartDataEntry] = []
+        if count > 0 {
+            for i in 0..<count {
+                let t = Double(i) / ecgSampleRate
+                values.append(ChartDataEntry(x: t, y: ecgWaveforms[i]))
+            }
+        } else {
+            let totalSamples = Int(30.0 * ecgSampleRate)
+            for i in 0..<totalSamples {
+                values.append(ChartDataEntry(x: Double(i) / ecgSampleRate, y: 1000))
+            }
+        }
+        let set1 = LineChartDataSet(entries: values, label: "")
+        set1.drawIconsEnabled = false
+        set1.setColor(UIColor(red: 0.95, green: 0.35, blue: 0.48, alpha: 1.0))
+        set1.lineWidth = 1.2
+        set1.valueFont = .systemFont(ofSize: 9)
+        set1.formLineWidth = 0.5
+        set1.mode = .linear
+        set1.drawValuesEnabled = false
+        set1.drawCirclesEnabled = false
+        set1.drawFilledEnabled = false
+
+        let data = LineChartData(dataSet: set1)
+        lineChartView.data = data
+        let duration = Double(max(count, Int(30.0 * ecgSampleRate))) / ecgSampleRate
+        let fullWindow: Double = 30.0
+        lineChartView.xAxis.axisMinimum = 0.0
+        lineChartView.xAxis.axisMaximum = max(fullWindow, duration)
+        lineChartView.moveViewToX(max(0, duration - fullWindow))
+        valueView.refreshView(isHideNull: true)
+        lineChartView.isHidden = false
+    }
+    
+    func setPPGChartViewData() {
+        let count = ppgWaveforms.count
+        var values: [ChartDataEntry] = []
+        if count > 0 {
+            for i in 0..<count {
+                let t = Double(i) / ppgSampleRate
+                values.append(ChartDataEntry(x: t, y: ppgWaveforms[i]))
+            }
+        } else {
+            let totalSamples = Int(ppgWindowSeconds * ppgSampleRate)
+            for i in 0..<totalSamples {
+                values.append(ChartDataEntry(x: Double(i) / ppgSampleRate, y: ppgBaseline))
+            }
+        }
+        let set1 = LineChartDataSet(entries: values, label: "")
+        set1.drawIconsEnabled = false
+        set1.setColor(UIColor(red: 0.20, green: 0.50, blue: 0.99, alpha: 1.0))
+        set1.lineWidth = 1.6
+        set1.mode = .cubicBezier
+        set1.valueFont = .systemFont(ofSize: 9)
+        set1.formLineWidth = 0.5
+        set1.drawValuesEnabled = false
+        set1.drawCirclesEnabled = false
+        set1.drawFilledEnabled = false
+
+        let data = LineChartData(dataSet: set1)
+        lineChartView.data = data
+        let duration = Double(max(count, Int(ppgWindowSeconds * ppgSampleRate))) / ppgSampleRate
+        lineChartView.xAxis.axisMinimum = 0.0
+        lineChartView.xAxis.axisMaximum = ppgWindowSeconds
+        lineChartView.rightAxis.axisMinimum = ppgBaseline - 120
+        lineChartView.rightAxis.axisMaximum = ppgBaseline + 120
+        lineChartView.rightAxis.labelTextColor = UIColor.clear
+        lineChartView.moveViewToX(max(0, duration - ppgWindowSeconds))
+        valueView.refreshView(isHideNull: true)
+        lineChartView.isHidden = false
     }
     
     func setBarChartView() {
@@ -694,7 +1295,7 @@ class HealthDetailViewController: BaseViewController {
                             let value = array[i].heart
                             let x = (array[i].time - Int(zero)) / 3660
                             if x >= 0 && x < 24 {
-                                values[x] = ChartDataEntry(x: Double(x), y: Double(value) / Double(40))
+                                values[x] = ChartDataEntry(x: Double(x), y: Double(value))
                             }
                             XLogger.shared.log("历史心率数据: \(value) \(array[i].time)")
                         }
@@ -728,7 +1329,7 @@ class HealthDetailViewController: BaseViewController {
                         let value = array[i].heartRate
                         let x = (array[i].timeStamp - Int(zero)) / 3660
                         if x >= 0 && x < 24 {
-                            values[x] = ChartDataEntry(x: Double(x), y: Double(value) / Double(40))
+                            values[x] = ChartDataEntry(x: Double(x), y: Double(value))
                         }
                     }
                     XLogger.shared.log("获取到数据的数量为：\(array.count)")
@@ -766,7 +1367,7 @@ class HealthDetailViewController: BaseViewController {
                             let value = array[i].max
                             let x = (array[i].time - Int(zero)) / 3660
                             if x >= 0 && x < 24 {
-                                values[x] = ChartDataEntry(x: Double(x), y: Double(value) / Double(40))
+                                values[x] = ChartDataEntry(x: Double(x), y: Double(value))
                             }
                         }
                         XLogger.shared.log("获取到数据的数量为：\(array.count)")
@@ -799,7 +1400,7 @@ class HealthDetailViewController: BaseViewController {
                         let value = array[i].max
                         let x = (array[i].timeStamp - Int(zero)) / 3660
                         if x >= 0 && x < 24 {
-                            values[x] = ChartDataEntry(x: Double(x), y: Double(value) / Double(40))
+                            values[x] = ChartDataEntry(x: Double(x), y: Double(value))
                         }
                     }
                     XLogger.shared.log("获取到数据的数量为：\(array.count)")
@@ -839,7 +1440,7 @@ class HealthDetailViewController: BaseViewController {
                             let value = array[i].oxgen
                             let x = (array[i].time - Int(zero)) / 3660
                             if x >= 0 && x < 24 {
-                                values[x] = ChartDataEntry(x: Double(x), y: Double(value) / Double(20))
+                                values[x] = ChartDataEntry(x: Double(x), y: Double(value))
                             }
                         }
                         XLogger.shared.log("获取到数据的数量为：\(array.count)")
@@ -873,7 +1474,7 @@ class HealthDetailViewController: BaseViewController {
                         let value = array[i].oxygen
                         let x = (array[i].timeStamp - Int(zero)) / 3660
                         if x >= 0 && x < 24 {
-                            values[x] = ChartDataEntry(x: Double(x), y: Double(value) / Double(20))
+                            values[x] = ChartDataEntry(x: Double(x), y: Double(value))
                         }
                     }
                     XLogger.shared.log("获取到数据的数量为：\(array.count)")
@@ -893,6 +1494,224 @@ class HealthDetailViewController: BaseViewController {
                 }
                 completion(values)
             }
+        } else if type == 6 { // 心电图ECG
+            completion(values)
+        } else if type == 7 { // 血糖
+            loadXGZTExtendedMetricData(type: 7, baseValues: values) { result in
+                completion(result)
+            }
+        } else if type == 8 { // 尿酸
+            loadXGZTExtendedMetricData(type: 8, baseValues: values) { result in
+                completion(result)
+            }
+        } else if type == 9 { // 血脂
+            loadXGZTExtendedMetricData(type: 9, baseValues: values) { result in
+                completion(result)
+            }
+        } else if type == 10 { // 脉搏 PPG
+            loadXGZTExtendedMetricData(type: 10, baseValues: values) { result in
+                completion(result)
+            }
+        } else if type == 11 { // HRV
+            loadXGZTExtendedMetricData(type: 11, baseValues: values) { result in
+                completion(result)
+            }
+        } else if type == 12 { // 精神压力
+            loadXGZTExtendedMetricData(type: 12, baseValues: values) { result in
+                completion(result)
+            }
+        } else if type == 13 { // 疲劳度
+            loadXGZTExtendedMetricData(type: 13, baseValues: values) { result in
+                completion(result)
+            }
+        }
+    }
+    
+    /// 血糖/尿酸/血脂 详情页：按所选日期从历史库读取 24 小时趋势数据，并刷新环形进度上的最新值
+    private func loadXGZTExtendedMetricData(type: Int, baseValues: [ChartDataEntry], completion: @escaping ([ChartDataEntry]) -> Void) {
+        var values = baseValues
+        let date = mDate.stringFromYmd()
+        let zero = Int(mDate.zeroTimeStampUTC())
+        let descText: String
+        switch type {
+        case 7:
+            descText = "health_blood_glucose_desc".localized()
+            DatabaseManager.shared.getGlucoseObj(byDate: date) { [weak self] results in
+                let sorted = (results.map { Array($0) } ?? []).sorted { $0.time < $1.time }
+                for obj in sorted {
+                    let x = (obj.time - zero) / 3600
+                    if x >= 0 && x < 24 {
+                        values[x] = ChartDataEntry(x: Double(x), y: obj.value)
+                    }
+                }
+                if let self = self {
+                    if let latest = sorted.max(by: { $0.time < $1.time }) {
+                        self.roundView.refreshView(value: self.makeRoundValue(String(format: "%.1f", latest.value), unit: " mmol/L", valueFont: 34, unitFont: 12))
+                        self.roundView.setProgress(CGFloat(min(latest.value / 30.0, 1.0)))
+                    } else if self.mDate.isToday(), let v = XGZTBlueToothManager.shared.device?.currentBloodGlucose, v > 0 {
+                        self.roundView.refreshView(value: self.makeRoundValue(String(format: "%.1f", v), unit: " mmol/L", valueFont: 34, unitFont: 12))
+                        self.roundView.setProgress(CGFloat(min(v / 30.0, 1.0)))
+                    } else {
+                        self.roundView.refreshView(value: self.makeRoundValue("--", unit: " mmol/L", valueFont: 34, unitFont: 12))
+                        self.roundView.setProgress(0)
+                    }
+                    self.valueView.refreshLabel(text: descText)
+                }
+                completion(values)
+            }
+        case 8:
+            descText = "health_uric_acid_desc".localized()
+            DatabaseManager.shared.getUricAcidObj(byDate: date) { [weak self] results in
+                let sorted = (results.map { Array($0) } ?? []).sorted { $0.time < $1.time }
+                for obj in sorted {
+                    let x = (obj.time - zero) / 3600
+                    if x >= 0 && x < 24 {
+                        values[x] = ChartDataEntry(x: Double(x), y: Double(obj.value))
+                    }
+                }
+                if let self = self {
+                    if let latest = sorted.max(by: { $0.time < $1.time }) {
+                        self.roundView.refreshView(value: self.makeRoundValue("\(latest.value)", unit: " umol/L", valueFont: 34, unitFont: 12))
+                        self.roundView.setProgress(CGFloat(min(Double(latest.value) / 1000.0, 1.0)))
+                    } else if self.mDate.isToday(), let v = XGZTBlueToothManager.shared.device?.currentUricAcid, v > 0 {
+                        self.roundView.refreshView(value: self.makeRoundValue("\(v)", unit: " umol/L", valueFont: 34, unitFont: 12))
+                        self.roundView.setProgress(CGFloat(min(Double(v) / 1000.0, 1.0)))
+                    } else {
+                        self.roundView.refreshView(value: self.makeRoundValue("--", unit: " umol/L", valueFont: 34, unitFont: 12))
+                        self.roundView.setProgress(0)
+                    }
+                    self.valueView.refreshLabel(text: descText)
+                }
+                completion(values)
+            }
+        case 9:
+            descText = "health_blood_lipid_desc".localized()
+            DatabaseManager.shared.getLipidObj(byDate: date) { [weak self] results in
+                let sorted = (results.map { Array($0) } ?? []).sorted { $0.time < $1.time }
+                for obj in sorted {
+                    let x = (obj.time - zero) / 3600
+                    if x >= 0 && x < 24 {
+                        values[x] = ChartDataEntry(x: Double(x), y: obj.tc)
+                    }
+                }
+                if let self = self {
+                    if let latest = sorted.max(by: { $0.time < $1.time }) {
+                        self.roundView.refreshView(value: self.makeRoundValue(String(format: "%.2f", latest.tc), unit: " mmol/L", valueFont: 32, unitFont: 12))
+                        self.roundView.setProgress(CGFloat(min(latest.tc / 15.0, 1.0)))
+                    } else if self.mDate.isToday(), let v = XGZTBlueToothManager.shared.device?.currentBloodLipid, v > 0 {
+                        self.roundView.refreshView(value: self.makeRoundValue(String(format: "%.2f", v), unit: " mmol/L", valueFont: 32, unitFont: 12))
+                        self.roundView.setProgress(CGFloat(min(v / 15.0, 1.0)))
+                    } else {
+                        self.roundView.refreshView(value: self.makeRoundValue("--", unit: " mmol/L", valueFont: 32, unitFont: 12))
+                        self.roundView.setProgress(0)
+                    }
+                    let detail = XGZTBlueToothManager.shared.device?.currentBloodLipidDetail
+                    self.valueView.refreshLabel(text: detail ?? descText)
+                }
+                completion(values)
+            }
+        case 10: // 脉搏 PPG
+            descText = "health_ppg_desc".localized()
+            DatabaseManager.shared.getPpgObj(byDate: date) { [weak self] results in
+                let sorted = (results.map { Array($0) } ?? []).sorted { $0.time < $1.time }
+                for obj in sorted {
+                    let x = (obj.time - zero) / 3600
+                    if x >= 0 && x < 24 {
+                        values[x] = ChartDataEntry(x: Double(x), y: Double(obj.value))
+                    }
+                }
+                if let self = self {
+                    if let latest = sorted.max(by: { $0.time < $1.time }) {
+                        self.roundView.refreshView(value: self.makeRoundValue("\(latest.value)", unit: " bpm", valueFont: 34, unitFont: 12))
+                        self.roundView.setProgress(CGFloat(min(Double(latest.value) / 200.0, 1.0)))
+                    } else if self.mDate.isToday(), let v = XGZTBlueToothManager.shared.device?.currentPPG, v > 0 {
+                        self.roundView.refreshView(value: self.makeRoundValue("\(v)", unit: " bpm", valueFont: 34, unitFont: 12))
+                        self.roundView.setProgress(CGFloat(min(Double(v) / 200.0, 1.0)))
+                    } else {
+                        self.roundView.refreshView(value: self.makeRoundValue("--", unit: " bpm", valueFont: 34, unitFont: 12))
+                        self.roundView.setProgress(0)
+                    }
+                    self.valueView.refreshLabel(text: descText)
+                }
+                completion(values)
+            }
+        case 11: // 心率变异性 HRV
+            descText = "health_hrv_desc".localized()
+            DatabaseManager.shared.getHRVObj(byDate: date) { [weak self] results in
+                let sorted = (results.map { Array($0) } ?? []).sorted { $0.time < $1.time }
+                for obj in sorted {
+                    let x = (obj.time - zero) / 3600
+                    if x >= 0 && x < 24 {
+                        values[x] = ChartDataEntry(x: Double(x), y: Double(obj.value))
+                    }
+                }
+                if let self = self {
+                    if let latest = sorted.max(by: { $0.time < $1.time }) {
+                        self.roundView.refreshView(value: self.makeRoundValue("\(latest.value)", unit: " ms", valueFont: 34, unitFont: 12))
+                        self.roundView.setProgress(CGFloat(min(Double(latest.value) / 200.0, 1.0)))
+                    } else if self.mDate.isToday(), let v = XGZTBlueToothManager.shared.device?.currentHRV, v > 0 {
+                        self.roundView.refreshView(value: self.makeRoundValue("\(v)", unit: " ms", valueFont: 34, unitFont: 12))
+                        self.roundView.setProgress(CGFloat(min(Double(v) / 200.0, 1.0)))
+                    } else {
+                        self.roundView.refreshView(value: self.makeRoundValue("--", unit: " ms", valueFont: 34, unitFont: 12))
+                        self.roundView.setProgress(0)
+                    }
+                    self.valueView.refreshLabel(text: descText)
+                }
+                completion(values)
+            }
+        case 12: // 精神压力
+            descText = "health_stress_desc".localized()
+            DatabaseManager.shared.getStressObj(byDate: date) { [weak self] results in
+                let sorted = (results.map { Array($0) } ?? []).sorted { $0.time < $1.time }
+                for obj in sorted {
+                    let x = (obj.time - zero) / 3600
+                    if x >= 0 && x < 24 {
+                        values[x] = ChartDataEntry(x: Double(x), y: Double(obj.value))
+                    }
+                }
+                if let self = self {
+                    if let latest = sorted.max(by: { $0.time < $1.time }) {
+                        self.roundView.refreshView(value: self.makeRoundValue("\(latest.value)", unit: " health_score_unit".localized(), valueFont: 34, unitFont: 12))
+                        self.roundView.setProgress(CGFloat(min(Double(latest.value) / 100.0, 1.0)))
+                    } else if self.mDate.isToday(), let v = XGZTBlueToothManager.shared.device?.currentStress, v > 0 {
+                        self.roundView.refreshView(value: self.makeRoundValue("\(v)", unit: " health_score_unit".localized(), valueFont: 34, unitFont: 12))
+                        self.roundView.setProgress(CGFloat(min(Double(v) / 100.0, 1.0)))
+                    } else {
+                        self.roundView.refreshView(value: self.makeRoundValue("--", unit: " health_score_unit".localized(), valueFont: 34, unitFont: 12))
+                        self.roundView.setProgress(0)
+                    }
+                    self.valueView.refreshLabel(text: descText)
+                }
+                completion(values)
+            }
+        case 13: // 疲劳度
+            descText = "health_fatigue_desc".localized()
+            DatabaseManager.shared.getFatigueObj(byDate: date) { [weak self] results in
+                let sorted = (results.map { Array($0) } ?? []).sorted { $0.time < $1.time }
+                for obj in sorted {
+                    let x = (obj.time - zero) / 3600
+                    if x >= 0 && x < 24 {
+                        values[x] = ChartDataEntry(x: Double(x), y: Double(obj.value))
+                    }
+                }
+                if let self = self {
+                    if let latest = sorted.max(by: { $0.time < $1.time }) {
+                        self.roundView.refreshView(value: self.makeRoundValue("\(latest.value)", unit: " health_score_unit".localized(), valueFont: 34, unitFont: 12))
+                        self.roundView.setProgress(CGFloat(min(Double(latest.value) / 100.0, 1.0)))
+                    } else if self.mDate.isToday(), let v = XGZTBlueToothManager.shared.device?.currentFatigue, v > 0 {
+                        self.roundView.refreshView(value: self.makeRoundValue("\(v)", unit: " health_score_unit".localized(), valueFont: 34, unitFont: 12))
+                        self.roundView.setProgress(CGFloat(min(Double(v) / 100.0, 1.0)))
+                    } else {
+                        self.roundView.refreshView(value: self.makeRoundValue("--", unit: " health_score_unit".localized(), valueFont: 34, unitFont: 12))
+                        self.roundView.setProgress(0)
+                    }
+                    self.valueView.refreshLabel(text: descText)
+                }
+                completion(values)
+            }
+        default:
+            completion(values)
         }
     }
     
@@ -1061,6 +1880,337 @@ extension HealthDetailViewController: CommonCalendarViewProtocol {
 }
 
 extension HealthDetailViewController {
+    private func appendECGSample(_ value: Double) {
+        ecgWaveforms.append(value)
+        let totalPoints = ecgWaveforms.count
+        let duration = Double(totalPoints) / ecgSampleRate
+        let firstStageSeconds: Double = 10.0
+        let scrollWindowSeconds: Double = 10.0
+        if duration <= firstStageSeconds {
+            lineChartView.xAxis.axisMinimum = 0.0
+            lineChartView.xAxis.axisMaximum = firstStageSeconds
+        } else {
+            let axisMin = duration - scrollWindowSeconds
+            lineChartView.xAxis.axisMinimum = axisMin
+            lineChartView.xAxis.axisMaximum = duration
+        }
+        refreshECGChartIncrementally()
+    }
+
+    private func refreshECGChartIncrementally() {
+        let count = ecgWaveforms.count
+        let duration = Double(count) / ecgSampleRate
+        var values: [ChartDataEntry] = []
+        values.reserveCapacity(count)
+        for i in 0..<count {
+            let t = Double(i) / ecgSampleRate
+            values.append(ChartDataEntry(x: t, y: ecgWaveforms[i]))
+        }
+        let windowSeconds: Double = 10.0
+        let viewStart = max(0, duration - windowSeconds)
+        if let data = lineChartView.data as? LineChartData,
+           let set = data.dataSets.first as? LineChartDataSet {
+            set.replaceEntries(values)
+            data.notifyDataChanged()
+            lineChartView.notifyDataSetChanged()
+            lineChartView.moveViewToX(viewStart)
+        } else {
+            setECGChartViewData()
+            lineChartView.moveViewToX(viewStart)
+        }
+    }
+
+    private func startECGRealtimeRendering() {
+        ecgWaveforms.removeAll()
+        ecgPhase = 0.0
+        ecgTimer?.invalidate()
+        ecgHeartRateBPM = nil
+        ecgWorn = false
+        updateECGHeartRateDisplay(nil)
+        let initialBPM: Double = 75.0
+        let baseline: Double = 1000.0
+        func gaussian(_ t: Double, mu: Double, sigma: Double, amp: Double) -> Double {
+            let x = (t - mu) / sigma
+            return amp * exp(-0.5 * x * x)
+        }
+        let timer = Timer(timeInterval: 1.0 / ecgSampleRate, repeats: true) { [weak self] _ in
+            guard let self = self else { return }
+            guard self.ecgWorn, let hr = self.ecgHeartRateBPM, hr > 0 else {
+                // 未佩戴：保持基线向左滚动，波形不缩小
+                self.appendECGSample(baseline)
+                return
+            }
+            let bpm = Double(max(40, min(220, hr)))
+            let samplesPerBeat = self.ecgSampleRate * 60.0 / bpm * self.ecgWaveformStretchFactor
+            let phaseStep = 1.0 / samplesPerBeat
+            let p  = gaussian(self.ecgPhase, mu: 0.12, sigma: 0.03, amp: 120.0)
+            let q  = gaussian(self.ecgPhase, mu: 0.22, sigma: 0.008, amp: -100.0)
+            let r  = gaussian(self.ecgPhase, mu: 0.25, sigma: 0.015, amp: 900.0)
+            let s  = gaussian(self.ecgPhase, mu: 0.28, sigma: 0.008, amp: -160.0)
+            let t  = gaussian(self.ecgPhase, mu: 0.40, sigma: 0.035, amp: 220.0)
+            let noise = (Double.random(in: -1.0...1.0)) * 12.0
+            let value = baseline + p + q + r + s + t + noise
+            self.appendECGSample(value)
+            self.ecgPhase += phaseStep
+            if self.ecgPhase >= 1.0 {
+                self.ecgPhase.formTruncatingRemainder(dividingBy: 1.0)
+            }
+        }
+        RunLoop.main.add(timer, forMode: .common)
+        ecgTimer = timer
+    }
+
+    private func stopECGRealtimeRendering() {
+        ecgTimer?.invalidate()
+        ecgTimer = nil
+        setECGChartViewData()
+    }
+
+    // MARK: - ECG 倒计时提示（与 Android 详情页一致）
+    private func ecgCountdownString(_ seconds: Int) -> String {
+        String(format: "health_ecg_measure_remaining".localized(), seconds)
+    }
+
+    private func startECGCountdown() {
+        stopECGCountdown()
+        ecgMeasureCountdown = 30
+        valueView.refreshLabel(text: ecgCountdownString(ecgMeasureCountdown))
+        let timer = Timer(timeInterval: 1.0, repeats: true) { [weak self] _ in
+            guard let self = self else { return }
+            self.ecgMeasureCountdown -= 1
+            if self.ecgMeasureCountdown <= 0 {
+                self.stopECGCountdown()
+            } else {
+                self.valueView.refreshLabel(text: self.ecgCountdownString(self.ecgMeasureCountdown))
+            }
+        }
+        RunLoop.main.add(timer, forMode: .common)
+        mTimer = timer
+    }
+
+    private func stopECGCountdown() {
+        mTimer?.invalidate()
+        mTimer = nil
+    }
+
+    // MARK: - Android 对齐：ECG 测量点持久化与 2s 无上报自动结束
+
+    private func resetECGStaleTimer() {
+        ecgStaleTimer?.invalidate()
+        let timer = Timer(timeInterval: 2.0, repeats: false) { [weak self] _ in
+            self?.finishECGMeasurement(showComplete: false)
+        }
+        RunLoop.main.add(timer, forMode: .common)
+        ecgStaleTimer = timer
+    }
+
+    private func stopECGStaleTimer() {
+        ecgStaleTimer?.invalidate()
+        ecgStaleTimer = nil
+    }
+
+    /// 统一结束 ECG 测量：发送 stop、停止渲染与倒计时、保存记录
+    private func finishECGMeasurement(showComplete: Bool) {
+        guard isECGMeasuring else { return }
+        stopECGStaleTimer()
+        if isXGZT {
+            XGZTCommand.startTest(cmdType: 6, control: 0)
+        }
+        isECGMeasuring = false
+        stopECGRealtimeRendering()
+        stopECGCountdown()
+        saveECGRecord()
+        NotificationCenter.default.post(name: Notification.Name("healthDetail"), object: showComplete ? "ecg_complete" : nil)
+    }
+
+    private func startECGRecording() {
+        ecgRecordId = UUID().uuidString
+        ecgStartUptime = ProcessInfo.processInfo.systemUptime
+        ecgPoints.removeAll()
+        ecgSaveErrorShown = false
+        resetECGStaleTimer()
+    }
+
+    private func saveECGRecord() {
+        let validPoints = ecgPoints.filter { $0.heartRate > 0 }
+        guard !validPoints.isEmpty, !ecgRecordId.isEmpty else { return }
+        let obj = EcgHistoryObj()
+        obj.id = ecgRecordId
+        obj.address = lastestDeviceMac
+        obj.startedAt = Date().timeIntervalSince1970 * 1000
+        obj.durationMillis = (validPoints.last?.offsetMillis).map { Int($0) } ?? 0
+        obj.samplesJson = DatabaseManager.encodeEcgPoints(validPoints)
+        DatabaseManager.shared.addEcgHistoryObj(ecgObj: obj)
+    }
+
+    @objc private func ecgHistoryTapped() {
+        stopECGStaleTimer()
+        let vc = EcgHistoryViewController()
+        vc.hidesBottomBarWhenPushed = true
+        navigationController?.pushViewController(vc, animated: true)
+    }
+}
+
+extension HealthDetailViewController {
+    // MARK: - 脉搏波 PPG 实时平滑波形渲染（算法对齐 mock_phone_app._get_ppg_point）
+
+    private func appendPPGSample(_ value: Double) {
+        ppgWaveforms.append(value)
+        let totalPoints = ppgWaveforms.count
+        let duration = Double(totalPoints) / ppgSampleRate
+        if duration <= ppgWindowSeconds {
+            lineChartView.xAxis.axisMinimum = 0.0
+            lineChartView.xAxis.axisMaximum = ppgWindowSeconds
+        } else {
+            let axisMin = duration - ppgWindowSeconds
+            lineChartView.xAxis.axisMinimum = axisMin
+            lineChartView.xAxis.axisMaximum = duration
+        }
+        refreshPPGChartIncrementally()
+    }
+
+    private func refreshPPGChartIncrementally() {
+        let count = ppgWaveforms.count
+        let duration = Double(count) / ppgSampleRate
+        var values: [ChartDataEntry] = []
+        values.reserveCapacity(count)
+        for i in 0..<count {
+            let t = Double(i) / ppgSampleRate
+            values.append(ChartDataEntry(x: t, y: ppgWaveforms[i]))
+        }
+        let viewStart = max(0, duration - ppgWindowSeconds)
+        if let data = lineChartView.data as? LineChartData,
+           let set = data.dataSets.first as? LineChartDataSet {
+            set.replaceEntries(values)
+            data.notifyDataChanged()
+            lineChartView.notifyDataSetChanged()
+            lineChartView.moveViewToX(viewStart)
+        } else {
+            setPPGChartViewData()
+            lineChartView.moveViewToX(viewStart)
+        }
+    }
+
+    /// 标准连续医疗 PPG 脉搏波动力学模型：
+    /// 1. 收缩期快速射血陡升支 2. 收缩主峰 3. 重搏切迹 (Dicrotic Notch) 4. 舒张期反射次峰 5. 连续光滑的血管弹性舒张径流衰减
+    private func ppgWaveValue(_ t: Double, bpm: Double) -> Double {
+        if t < 0 || bpm <= 0 {
+            return ppgBaseline + Double.random(in: -0.5...0.5)
+        }
+        let hr = Double(max(48.0, min(130.0, bpm)))
+        let scale = 0.48 + ((hr - 48.0) / 75.0) * 0.85
+        let cycleSec = 60.0 / hr
+        let theta = (t.truncatingRemainder(dividingBy: cycleSec)) / cycleSec
+        let amp = 55.0
+
+        // 1. 收缩期主波峰（快速射血）
+        let mainPeak = 56.0 * scale * amp * exp(-pow(theta - 0.18, 2) / (2 * 0.065 * 0.065))
+        // 2. 舒张期次峰（主动脉瓣关闭反射波）
+        let diastolicPeak = 20.0 * scale * amp * exp(-pow(theta - 0.38, 2) / (2 * 0.055 * 0.055))
+        // 3. 连续血管弹性舒张底基（消除死平基线，平滑延续至下一个周期起点）
+        let decayBase: Double
+        if theta >= 0.16 {
+            decayBase = 26.0 * scale * amp * exp(-(theta - 0.16) / 0.32)
+        } else {
+            decayBase = 26.0 * scale * amp * exp(-(theta + 1.0 - 0.16) / 0.32)
+        }
+
+        let val = mainPeak + diastolicPeak + decayBase
+        let noise = Double.random(in: -1.0...1.0) * 0.5
+        return ppgBaseline - val + noise
+    }
+
+    private func startPPGRealtimeRendering() {
+        ppgWaveforms.removeAll()
+        ppgPhase = 0.0
+        ppgTimer?.invalidate()
+        let timer = Timer(timeInterval: 1.0 / ppgSampleRate, repeats: true) { [weak self] _ in
+            guard let self = self else { return }
+            let hasDevice = XGZTBlueToothManager.shared.device != nil
+            // 无设备或未在测量：用默认脉率模拟波形，保证直接运行（无设备）也能看到平滑脉搏波
+            let simBPM: Double = 75.0
+            if !hasDevice || !self.isPPGMeasuring {
+                let v = self.ppgWaveValue(self.ppgPhase, bpm: simBPM)
+                self.appendPPGSample(v)
+                self.ppgPhase += 1.0 / self.ppgSampleRate
+                if self.ppgPhase >= 60.0 / simBPM * 2 {
+                    self.ppgPhase.formTruncatingRemainder(dividingBy: 60.0 / simBPM)
+                }
+                return
+            }
+            // 有设备且正在测量：真实脉率驱动，脱腕/0 时平直基线 + 微小底噪
+            guard self.ppgWorn, let bpm = self.ppgHeartRateBPM, bpm > 0 else {
+                self.appendPPGSample(self.ppgBaseline + Double.random(in: -0.5...0.5))
+                self.ppgPhase = 0.0
+                return
+            }
+            let period = 60.0 / Double(bpm)
+            let v = self.ppgWaveValue(self.ppgPhase, bpm: Double(bpm))
+            self.appendPPGSample(v)
+            self.ppgPhase += 1.0 / self.ppgSampleRate
+            if self.ppgPhase >= period * 2 {
+                self.ppgPhase.formTruncatingRemainder(dividingBy: period)
+            }
+        }
+        RunLoop.main.add(timer, forMode: .common)
+        ppgTimer = timer
+    }
+
+    private func stopPPGRealtimeRendering() {
+        ppgTimer?.invalidate()
+        ppgTimer = nil
+        setPPGChartViewData()
+    }
+
+    // MARK: - 脉搏波 PPG 倒计时提示
+    private func ppgCountdownString(_ seconds: Int) -> String {
+        String(format: "ppg_measure_remaining".localized(), seconds)
+    }
+
+    private func startPPGCountdown() {
+        stopPPGCountdown()
+        ppgMeasureCountdown = 30
+        valueView.refreshLabel(text: ppgCountdownString(ppgMeasureCountdown))
+        let timer = Timer(timeInterval: 1.0, repeats: true) { [weak self] _ in
+            guard let self = self else { return }
+            self.ppgMeasureCountdown -= 1
+            if self.ppgMeasureCountdown <= 0 {
+                self.stopPPGCountdown()
+            } else {
+                self.valueView.refreshLabel(text: self.ppgCountdownString(self.ppgMeasureCountdown))
+            }
+        }
+        RunLoop.main.add(timer, forMode: .common)
+        mTimer = timer
+    }
+
+    private func stopPPGCountdown() {
+        mTimer?.invalidate()
+        mTimer = nil
+    }
+
+    private func finishPPGMeasurement(showComplete: Bool) {
+        guard isPPGMeasuring else { return }
+        if isXGZT {
+            XGZTCommand.startTest(cmdType: 7, control: 0)
+        }
+        isPPGMeasuring = false
+        stopPPGCountdown()
+        fanView.isHidden = true
+        roundView.isHidden = true
+        testView.isHidden = true
+        if screenHeight <= 667 {
+            addTest()
+        } else {
+            if let btn = view.viewWithTag(8888) as? UIButton {
+                btn.isHidden = false
+            }
+        }
+        valueView.refreshLabel(text: showComplete ? "ppg_measure_complete".localized() : "health_ppg_desc".localized())
+    }
+}
+
+extension HealthDetailViewController {
     func changeTimeToWeek(_ value: Int) -> String {
         switch value {
         case 0:
@@ -1217,6 +2367,78 @@ extension HealthDetailViewController: TestViewDelegate {
                     // do something for update UI
                 }
             }
+
+            if type == 7 {
+                XGZTCommand.startTest(cmdType: 3, control: 1)
+                testView.testing()
+                measureAsync = Async.main(after: 30) {
+                    // do something for update UI
+                }
+            }
+
+            if type == 8 {
+                XGZTCommand.startTest(cmdType: 4, control: 1)
+                testView.testing()
+                measureAsync = Async.main(after: 30) {
+                    // do something for update UI
+                }
+            }
+
+            if type == 9 {
+                XGZTCommand.startTest(cmdType: 5, control: 1)
+                testView.testing()
+                measureAsync = Async.main(after: 30) {
+                    // do something for update UI
+                }
+            }
+
+            if type == 10 {
+                XGZTCommand.startTest(cmdType: 7, control: 1)
+                isPPGMeasuring = true
+                ppgHeartRateBPM = nil
+                ppgWorn = false
+                ppgWornLabel?.isHidden = true
+                startPPGRealtimeRendering()
+                startPPGCountdown()
+                measureAsync = Async.main(after: 30) { [weak self] in
+                    self?.finishPPGMeasurement(showComplete: true)
+                }
+            }
+
+            if type == 11 {
+                XGZTCommand.startTest(cmdType: 8, control: 1)
+                testView.testing()
+                measureAsync = Async.main(after: 30) {
+                    // do something for update UI
+                }
+            }
+
+            if type == 12 {
+                XGZTCommand.startTest(cmdType: 9, control: 1)
+                testView.testing()
+                measureAsync = Async.main(after: 30) {
+                    // do something for update UI
+                }
+            }
+
+            if type == 13 {
+                XGZTCommand.startTest(cmdType: 10, control: 1)
+                testView.testing()
+                measureAsync = Async.main(after: 30) {
+                    // do something for update UI
+                }
+            }
+            
+            if type == 6 {
+                XGZTCommand.startTest(cmdType: 6, control: 1)
+                isECGMeasuring = true
+                startECGRecording()
+                startECGRealtimeRendering()
+                startECGCountdown()
+                measureAsync = Async.main(after: 30) { [weak self] in
+                    self?.finishECGMeasurement(showComplete: true)
+                }
+            }
             return
         }
         if type == 2 {
@@ -1242,6 +2464,16 @@ extension HealthDetailViewController: TestViewDelegate {
                 // do something for update UI
             }
         }
+        
+        if type == 6 {
+            isECGMeasuring = true
+            startECGRecording()
+            startECGRealtimeRendering()
+            startECGCountdown()
+            measureAsync = Async.main(after: 30) { [weak self] in
+                self?.finishECGMeasurement(showComplete: true)
+            }
+        }
     }
 }
 
@@ -1256,4 +2488,3 @@ class CustomXAxisFormatter: NSObject, IAxisValueFormatter {
         return labels[index]
     }
 }
-

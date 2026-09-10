@@ -366,7 +366,7 @@ class DailyRecordCell: UITableViewCell {
         dateLabel.text = dateFormatter.string(from: record.date)
 
         if record.isPeriod {
-            statusLabel.text = "female_cycle_day_n".localized(with: record.cycleDay) + "\n" + "female_cycle_period".localized()
+            statusLabel.text = "female_cycle_day_n".localized(with: Int32(record.cycleDay)) + "\n" + "female_cycle_period".localized()
         } else {
             statusLabel.text = "female_cycle_daily_record".localized()
         }

@@ -13,6 +13,7 @@
 import UIKit
 import TJDWristbandSDK
 import Toaster
+import Kingfisher
 
 var localMac = ""
 
@@ -38,6 +39,39 @@ class DevicesViewController: BaseViewController, UIDocumentInteractionController
     var refreshTimer: DispatchSourceTimer?
     var documentController: UIDocumentInteractionController?
     var bHavenScanResult = false
+    private let emptyStateContainer = UIView()
+    private let emptyStateImageView = UIImageView()
+    private let emptyStateButton = UIButton(type: .system)
+    
+    private var currentPrimaryDeviceIsNoScreen: Bool {
+        if let xgztDevice = XGZTBlueToothManager.shared.device {
+            return xgztDevice.isNoScreenDevice
+        }
+        if let cached = cacheDevices.first {
+            return cached.isNoScreenDevice
+        }
+        return false
+    }
+    
+    private func applyDialVisibilityAndAdjustLayout() {
+        let hasDevice = hasAnyDevice
+        let hideBecauseEmpty = !hasDevice
+        let hideBecauseNoScreen = hasDevice && currentPrimaryDeviceIsNoScreen
+        let hideDial = hideBecauseEmpty || hideBecauseNoScreen
+        
+        dialView.isHidden = hideDial
+        dialManagmentLabel.isHidden = hideDial
+        deviceSettingView?.snp.remakeConstraints { make in
+            make.left.equalTo(15)
+            make.right.equalTo(-15)
+            if hideDial {
+                make.top.equalTo(btView.snp.bottom).offset(15)
+            } else {
+                make.top.equalTo(dialView.snp.bottom).offset(15)
+            }
+        }
+        deviceSettingView?.superview?.setNeedsLayout()
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -104,6 +138,8 @@ class DevicesViewController: BaseViewController, UIDocumentInteractionController
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: Notification.Name("DevicesViewController"), object: nil)
         dialManagmentLabel.text = "dial_management".localized()
         initializeDeviceSettings()
+        setupEmptyState()
+        applyEmptyStateIfNeeded()
         
         dialView.layer.cornerRadius = 16
         dialView.clipsToBounds = true
@@ -220,10 +256,12 @@ class DevicesViewController: BaseViewController, UIDocumentInteractionController
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        applyEmptyStateIfNeeded()
     }
-    
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        applyEmptyStateIfNeeded()
         deviceView?.refreshData()
         changeButtonAttr()
         refreshDevices()
@@ -299,10 +337,78 @@ class DevicesViewController: BaseViewController, UIDocumentInteractionController
     
     deinit {
         NotificationCenter.default.removeObserver(self)
-        // 解除回调
         if let appDelegate = UIApplication.shared.delegate as? AppDelegate {
             appDelegate.foregroundObserver = nil
         }
+    }
+
+    private var hasAnyDevice: Bool {
+        !DeviceManager.shared.devices.isEmpty
+        || !cacheDevices.isEmpty
+        || (XGZTBlueToothManager.shared.device != nil)
+        || bleSelf.isConnected
+    }
+
+    private func setupEmptyState() {
+        emptyStateContainer.backgroundColor = .clear
+        emptyStateContainer.isHidden = true
+        view.addSubview(emptyStateContainer)
+        emptyStateContainer.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+
+        emptyStateImageView.contentMode = .scaleAspectFit
+        emptyStateImageView.clipsToBounds = true
+        if #available(iOS 15.0, *) {
+            let config = UIImage.SymbolConfiguration(pointSize: 240, weight: .regular)
+            emptyStateImageView.image = UIImage(systemName: "applewatch", withConfiguration: config)?.withTintColor(.black, renderingMode: .alwaysOriginal)
+        } else {
+            emptyStateImageView.image = UIImage(named: "icon_ewatch")
+        }
+        emptyStateContainer.addSubview(emptyStateImageView)
+        emptyStateImageView.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.centerY.equalToSuperview().multipliedBy(0.85)
+            make.width.equalTo(268)
+            make.height.equalTo(268)
+        }
+
+        emptyStateButton.setTitle("device_add".localized(), for: .normal)
+        emptyStateButton.setTitleColor(.white, for: .normal)
+        emptyStateButton.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
+        emptyStateButton.backgroundColor = UIColor(red: 0.07, green: 0.08, blue: 0.15, alpha: 1.0)
+        emptyStateButton.layer.cornerRadius = 22
+        emptyStateButton.clipsToBounds = true
+        emptyStateButton.addTarget(self, action: #selector(emptyStateAddDeviceTapped), for: .touchUpInside)
+        emptyStateContainer.addSubview(emptyStateButton)
+        emptyStateButton.snp.makeConstraints { make in
+            make.leading.equalToSuperview().offset(32)
+            make.trailing.equalToSuperview().offset(-32)
+            make.height.equalTo(56)
+            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-32)
+        }
+    }
+
+    private func applyEmptyStateIfNeeded() {
+        let empty = !hasAnyDevice
+        emptyStateContainer.isHidden = !empty
+        topView.isHidden = empty
+        btView.isHidden = empty
+        contentView.isHidden = empty
+        if !empty {
+            view.bringSubviewToFront(contentView)
+        } else {
+            view.bringSubviewToFront(emptyStateContainer)
+        }
+        applyDialVisibilityAndAdjustLayout()
+    }
+
+    @objc private func emptyStateAddDeviceTapped() {
+        let storyboard = UIStoryboard(name: "Device", bundle: nil)
+        let vc = storyboard.instantiateViewController(withIdentifier: "DeviceSearchViewController")
+        vc.title = "device_add".localized()
+        vc.hidesBottomBarWhenPushed = true
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     private func appDidBecomeActive() {
@@ -371,6 +477,7 @@ class DevicesViewController: BaseViewController, UIDocumentInteractionController
         deviceSettingsView = DeviceSettingsViewController()
         addChild(deviceSettingsView!)
         deviceSettingView?.addSubview(deviceSettingsView!.view)
+        deviceSettingsViewHeightMultiplier = max(deviceSettingsView?.displayRowCount ?? deviceSettingsViewHeightMultiplier, 1)
         deviceSettingsView?.view.snp.makeConstraints {
             $0.left.equalTo(0)
             $0.top.equalTo(lblTitle!.snp.bottom).offset(10)
@@ -382,14 +489,9 @@ class DevicesViewController: BaseViewController, UIDocumentInteractionController
     }
     
     public func refreshHeight() {
-        var tempMultiplier = 10 // 默认乘数
-        // 将 deviceSettingsViewHeightMultiplier 修改为 14
-        if (((XGZTBlueToothManager.shared.device?.functioncontrolflags ?? 0) >> 15) & 0x01) > 0 || (((XGZTBlueToothManager.shared.device?.functioncontrolflags ?? 0) >> 16) & 0x01) > 0 {
-            tempMultiplier = 11
-        } else {
-            tempMultiplier = 10
-        }
-        deviceSettingsViewHeightMultiplier = max(tempMultiplier, 1)
+        deviceSettingsView?.view.setNeedsLayout()
+        deviceSettingsView?.view.layoutIfNeeded()
+        deviceSettingsViewHeightMultiplier = max(deviceSettingsView?.displayRowCount ?? 10, 1)
         deviceSettingsView?.view.snp.remakeConstraints {
             $0.left.equalTo(0)
             $0.top.equalTo(lblTitle!.snp.bottom).offset(10)
@@ -466,7 +568,6 @@ class DevicesViewController: BaseViewController, UIDocumentInteractionController
             deviceSettingView?.isHidden = true
             btView.isHidden = true
             collectionView.isHidden = true
-            dialView.isHidden = true
             changeButton.tintColor = UIColor.white
             changeButton.backgroundColor = .brand
             changeButton.setTitle("device_add".localized(), for: .normal)
@@ -475,13 +576,11 @@ class DevicesViewController: BaseViewController, UIDocumentInteractionController
             }
             changeButton.tag = 1
             
-            // 新增：重新连接按钮隐藏逻辑
             reconnectButton.isHidden = true
         } else {
             deviceSettingView?.isHidden = false
             btView.isHidden = false
             collectionView.isHidden = false
-            dialView.isHidden = false
             changeButton.tintColor = UIColor.brand
             changeButton.backgroundColor = .white
             changeButton.setTitle("deivce_unbind".localized(), for: .normal)
@@ -496,6 +595,7 @@ class DevicesViewController: BaseViewController, UIDocumentInteractionController
                 reconnectButton.isHidden = true
             }
         }
+        applyDialVisibilityAndAdjustLayout()
     }
     
     // 新增：重新连接按钮点击事件
@@ -770,6 +870,7 @@ class DevicesViewController: BaseViewController, UIDocumentInteractionController
                 self?.deviceView?.refreshData()
                 self?.changeButtonAttr()
                 self?.refreshDevices()
+                self?.applyEmptyStateIfNeeded()
             }
         }
     }
@@ -800,6 +901,10 @@ class DevicesViewController: BaseViewController, UIDocumentInteractionController
 
     /// 表盘管理
     func pushToClockManage(index: Int) {
+        if isXGZT, !(XGZTBlueToothManager.shared.device?.supportsWatchFaceMarket ?? true) {
+            Toast(text: "当前设备不支持表盘管理").show()
+            return
+        }
         if let metrics = AppDelegate.resolvedDeviceScreenMetrics(), metrics.width == 80, !isXGZT {
             let storyboard = UIStoryboard(name: "Device", bundle: nil)
             guard let myClockVC = storyboard.instantiateViewController(withIdentifier: "MyClockViewController") as? MyClockViewController else {

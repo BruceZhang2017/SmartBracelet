@@ -16,6 +16,12 @@
 "health_blood_pressure" = "pressão sanguínea";
 "health_blood_pressure_unit" = "MMHG";
 "health_blood_oxygen" = "Oxigênio no sangue";
+"health_blood_glucose" = "Glicemia";
+"health_uric_acid" = "Ácido úrico";
+"health_blood_lipid" = "Lipídios no sangue";
+"health_blood_glucose_desc" = "Medição de glicemia";
+"health_uric_acid_desc" = "Medição de ácido úrico";
+"health_blood_lipid_desc" = "Medição de lipídios no sangue";
 "health_data_dynamic" = "Dinâmica de dados";
 "device" = "equipamento";
 "add_device" = "Por favor, adicione o dispositivo";
@@ -226,6 +232,13 @@
 "device_search_settings" = "encontrar configurações";
 "device_device_info" = "Informação de dispositivo";
 "device_shark_photo" = "Fotografia remota";
+"device_power_controls" = "Controlo de energia";
+"device_factory_reset" = "Repor definições de fábrica";
+"device_factory_reset_desc" = "A reposição das definições de fábrica apagará todos os dados e definições do dispositivo. Continuar?";
+"device_restart" = "Reiniciar";
+"device_restart_desc" = "Tem a certeza de que pretende reiniciar o dispositivo agora?";
+"device_shutdown" = "Desligar (o carregamento liga automaticamente o dispositivo)";
+"device_shutdown_desc" = "Tem a certeza de que pretende desligar o dispositivo? Pode voltar a ligá-lo carregando-o.";
 "device_change" = "troca de dispositivo";
 "mine" = "meu";
 "mine_bluetooth_connect" = "bluetooth conectado";
@@ -571,3 +584,28 @@
 "user_info_step_length_subtitle" = "By understanding your stride length, we can calculate a more accurate step count.";
 "user_info_step_length" = "Step length";
 "user_info_done" = "Done";
+
+// MARK: - ECG fallback (en)
+"health_ecg" = "ECG";
+"ecg_history" = "Histórico de ECG";
+"ecg_history_detail" = "Detalhes do registo de ECG";
+"ecg_history_empty" = "Ainda não existem registos de ECG";
+"ecg_history_error" = "Não foi possível carregar o registo de ECG";
+"ecg_save_error" = "Não foi possível guardar o registo de ECG";
+"ecg_pause" = "Pausa";
+"ecg_resume" = "Continuar reprodução";
+"ecg_replay" = "Reproduzir novamente";
+"ecg_loading" = "A carregar";
+"ecg_playback_time" = "%d / %d s";
+"ecg_history_duration" = "%@ · Duração %@ s";
+"ecg_waveform_note" = "Forma de onda gerada a partir da frequência cardíaca registada";
+"ecg_recorded_rate" = "Frequência cardíaca registada";
+
+"health_ecg_subtitle" = "Start caring for your heart health now";
+"ecg_desc" = "Real-time ECG measurement";
+
+// MARK: - PPG realtime pulse
+"ppg_measure_remaining" = "Restam %d segundos";
+"ppg_measure_complete" = "Medição concluída";
+"ppg_real_time_pulse" = "Pulso em tempo real: ";
+"ppg_worn_off" = "Pulseira não colocada ou soltou-se, a onda foi reposta a zero. Use a pulseira";

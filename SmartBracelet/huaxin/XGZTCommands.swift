@@ -166,6 +166,12 @@ struct DeviceInfoResponse {
     let firmwareMinorVersion: Int
 }
 
+enum XGZTDevicePowerAction: Int {
+    case factoryReset = 1
+    case restart = 2
+    case shutdown = 3
+}
+
 public class XGZTCommand {
     
     public static let methods: [String] = ["syncTime", "getBatteryLevel"]
@@ -262,17 +268,21 @@ public class XGZTCommand {
         XGZTBlueToothManager.shared.writeCharacteristic(command: command)
     }
     
-    // 重置设备为出厂设置
-    static func resetToFactorySettings() {
+    // 设备电源控制：1 恢复出厂设置，2 重启，3 关机
+    static func controlDevicePower(_ action: XGZTDevicePowerAction) {
         let command = createCommand(with: [
             0x00,
             XGZTCommands.resetToFactorySettings.rawValue,
             0x01,
             0x00,
             0x01,
-            0x00
+            UInt8(action.rawValue)
         ])
         XGZTBlueToothManager.shared.writeCharacteristic(command: command)
+    }
+
+    static func resetToFactorySettings() {
+        controlDevicePower(.factoryReset)
     }
     
     // 设置设备亮屏时间
@@ -1150,12 +1160,28 @@ public class XGZTCommand {
             }
             NotificationCenter.default.post(name: Notification.Name("XGZTBusinessHandler"), object: "3")
         case.getBatteryLevel:
-            guard response.count >= 7 else {
+            guard response.count >= 6 else {
                 XLogger.shared.log("getBatteryLevel command response error")
                 return
             }
-            let batteryLevel = Int(response[6] & 0x7F)
-            let isCharging = (response[6] & 0x80) != 0
+            let cmdType = response.count >= 3 ? Int(response[2]) : -1
+            let payloadStartIndex = 5
+            let batteryByteIndex: Int
+            if cmdType == 0x02 {
+                batteryByteIndex = payloadStartIndex + 1
+            } else {
+                batteryByteIndex = payloadStartIndex
+            }
+            guard response.indices.contains(batteryByteIndex) else {
+                XLogger.shared.log("getBatteryLevel payload index error")
+                return
+            }
+            let batteryByte = response[batteryByteIndex]
+            let batteryLevel = min(Int(batteryByte & 0x7F), 100)
+            let isCharging = (batteryByte & 0x80) != 0
+            XGZTBlueToothManager.shared.device?.batteryLevel = batteryLevel
+            XGZTBlueToothManager.shared.device?.isCharging = isCharging
+            NotificationCenter.default.post(name: Notification.Name("DevicesViewController"), object: "battery")
             XLogger.shared.log("Battery level: \(batteryLevel), Is charging: \(isCharging)")
         case.setScreenBrightness:
             guard response.count >= 6 else {
@@ -1210,9 +1236,9 @@ public class XGZTCommand {
             }
             let success = response[5] == 0x00
             if success {
-                XLogger.shared.log("重置设备为出厂设置命令执行成功")
+                XLogger.shared.log("0x55 设备电源控制命令执行成功")
             } else {
-                XLogger.shared.log("重置设备为出厂设置命令执行失败")
+                XLogger.shared.log("0x55 设备电源控制命令执行失败")
             }
         case.setDeviceScreenTimeout:
             guard response.count >= 6 else {
@@ -1313,34 +1339,54 @@ public class XGZTCommand {
                 return
             }
             if response.count == 41 {
-                XGZTBlueToothManager.shared.device?.screenType = Int(response[5])
+                let watchTypeValue = Int(response[5])
+                XGZTBlueToothManager.shared.device?.watchType = watchTypeValue
+                XGZTBlueToothManager.shared.device?.screenType = watchTypeValue
                 XGZTBlueToothManager.shared.device?.hardwareVersion = Int(response[30])
                 XGZTBlueToothManager.shared.device?.firmwareVersion = "\(Int(response[35])).\(Int(response[32]))"
                 XGZTBlueToothManager.shared.device?.deviceID = (Int(response[34]) << 8) | Int(response[33])
                 XGZTBlueToothManager.shared.device?.deviceModel = (Int(response[36]) << 8) | Int(response[35])
                 XGZTBlueToothManager.shared.device?.screenWidth = (Int(response[38]) << 8) | Int(response[37])
                 XGZTBlueToothManager.shared.device?.screenHeight = (Int(response[40]) << 8) | Int(response[39])
-                XGZTBlueToothManager.shared.device?.functioncontrolflags = getIntFromBytes(response, 10)
-                XGZTBlueToothManager.shared.device?.healthcontrolflags = getIntFromBytes(response, 14)
+                var funcFlags = getIntFromBytes(response, 10)
+                var healthFlags = getIntFromBytes(response, 14)
+                if watchTypeValue == 0x04 {
+                    funcFlags &= ~((1 << 0) | (1 << 2))
+                    healthFlags |= (1 << 3) | (1 << 6) | (1 << 7) | (1 << 8)
+                    XGZTBlueToothManager.shared.device?.isRaisehandtobrightenscreen = false
+                }
+                XGZTBlueToothManager.shared.device?.functioncontrolflags = funcFlags
+                XGZTBlueToothManager.shared.device?.healthcontrolflags = healthFlags
+                XGZTBlueToothManager.shared.updateBatteryPollingIfNeeded()
                 NotificationCenter.default.post(name: Notification.Name("DevicesViewController"), object: "1999")
-                XLogger.shared.log("functioncontrolflags: \(XGZTBlueToothManager.shared.device?.functioncontrolflags ?? 0)")
+                XLogger.shared.log("watchType: \(watchTypeValue) functioncontrolflags: \(funcFlags) healthcontrolflags: \(healthFlags)")
                 XLogger.shared.log("firmwareVersion: \(XGZTBlueToothManager.shared.device?.firmwareVersion ?? "")")
             }
             guard response.count >= 45 else {
                 XLogger.shared.log("getDeviceInfo command response error")
                 return
             }
-            XGZTBlueToothManager.shared.device?.screenType = Int(response[5])
+            let watchTypeValue2 = Int(response[5])
+            XGZTBlueToothManager.shared.device?.watchType = watchTypeValue2
+            XGZTBlueToothManager.shared.device?.screenType = watchTypeValue2
             XGZTBlueToothManager.shared.device?.hardwareVersion = Int(response[34])
             XGZTBlueToothManager.shared.device?.firmwareVersion = "\(Int(response[35])).\(Int(response[36]))"
             XGZTBlueToothManager.shared.device?.deviceID = (Int(response[38]) << 8) | Int(response[37])
             XGZTBlueToothManager.shared.device?.deviceModel = (Int(response[40]) << 8) | Int(response[39])
             XGZTBlueToothManager.shared.device?.screenWidth = (Int(response[42]) << 8) | Int(response[41])
             XGZTBlueToothManager.shared.device?.screenHeight = (Int(response[44]) << 8) | Int(response[43])
-            XGZTBlueToothManager.shared.device?.functioncontrolflags = getIntFromBytes(response, 14)
-            XGZTBlueToothManager.shared.device?.healthcontrolflags = getIntFromBytes(response, 18)
+            var funcFlags2 = getIntFromBytes(response, 14)
+            var healthFlags2 = getIntFromBytes(response, 18)
+            if watchTypeValue2 == 0x04 {
+                funcFlags2 &= ~((1 << 0) | (1 << 2))
+                healthFlags2 |= (1 << 3) | (1 << 6) | (1 << 7) | (1 << 8) | (1 << 9) | (1 << 10) | (1 << 11) | (1 << 12)
+                XGZTBlueToothManager.shared.device?.isRaisehandtobrightenscreen = false
+            }
+            XGZTBlueToothManager.shared.device?.functioncontrolflags = funcFlags2
+            XGZTBlueToothManager.shared.device?.healthcontrolflags = healthFlags2
+            XGZTBlueToothManager.shared.updateBatteryPollingIfNeeded()
             NotificationCenter.default.post(name: Notification.Name("DevicesViewController"), object: "1999")
-            XLogger.shared.log("functioncontrolflags: \(XGZTBlueToothManager.shared.device?.functioncontrolflags ?? 0)")
+            XLogger.shared.log("watchType: \(watchTypeValue2) functioncontrolflags: \(funcFlags2) healthcontrolflags: \(healthFlags2)")
             XLogger.shared.log("firmwareVersion: \(XGZTBlueToothManager.shared.device?.firmwareVersion ?? "")")
         case.setAppInfo:
             guard response.count >= 7 else {
@@ -1924,18 +1970,24 @@ public class XGZTCommand {
                     XLogger.shared.log("测试命令执行失败")
                 }
             }
+            if response.count < 2 {
+                return
+            }
+            let frameCmdType = response.count >= 3 ? Int(response[2]) : -1
+            if frameCmdType == 0x02 {
+                return
+            }
             if response.count >= 11 {
                 let time = Int(response[6]) |
                            (Int(response[7]) << 8) |
                            (Int(response[8]) << 16) |
                            (Int(response[9]) << 24)
-                let cmdType = Int(response[5])
-                if cmdType == 0 {
+                let mTypeVal = Int(response[5])
+                if mTypeVal == 0 {
                     if Int(response[10]) == 0 {
                         return
                     }
                     XGZTBlueToothManager.shared.device?.currentHeartrate = Int(response[10])
-                    //XGZTCommand.startTest(cmdType: 0, control: 0)
                     let heartObj = HeartObj()
                     heartObj.mac = lastestDeviceMac
                     heartObj.time = time
@@ -1943,12 +1995,11 @@ public class XGZTCommand {
                     DatabaseManager.shared.addHeartObj(heartObj: heartObj)
                     NotificationCenter.default.post(name: Notification.Name("HealthViewController"), object: "heart")
                     XLogger.shared.log("获取到的心率为:\(time) --- \(Int(response[10]))")
-                } else if cmdType == 1 {
+                } else if mTypeVal == 1 {
                     if Int(response[10]) == 0 {
                         return
                     }
                     XGZTBlueToothManager.shared.device?.currentOxygen = Int(response[10])
-                    //XGZTCommand.startTest(cmdType: 1, control: 0)
                     let oxgenObj = OxgenObj()
                     oxgenObj.mac = lastestDeviceMac
                     oxgenObj.time = time
@@ -1956,13 +2007,116 @@ public class XGZTCommand {
                     DatabaseManager.shared.addOxgenObj(oxgenObj: oxgenObj)
                     NotificationCenter.default.post(name: Notification.Name("HealthViewController"), object: "oxygen")
                     XLogger.shared.log("获取到的血氧为:\(time) --- \(Int(response[10]))")
-                } else {
+                } else if mTypeVal == 3, response.count >= 12 {
+                    let whole = Int(response[10])
+                    let decimal = Double(Int(response[11])) / 10.0
+                    let glucose = Double(whole) + decimal
+                    XGZTBlueToothManager.shared.device?.currentBloodGlucose = glucose
+                    DatabaseManager.shared.addGlucoseObj(time: time, mac: lastestDeviceMac, value: glucose)
+                    NotificationCenter.default.post(name: Notification.Name("HealthViewController"), object: "glucose")
+                    NotificationCenter.default.post(name: Notification.Name("healthDetail"), object: nil)
+                    XLogger.shared.log("获取到的血糖为:\(time) --- \(glucose)")
+                } else if mTypeVal == 4, response.count >= 12 {
+                    let uricAcid = Int(response[10]) | (Int(response[11]) << 8)
+                    XGZTBlueToothManager.shared.device?.currentUricAcid = uricAcid
+                    DatabaseManager.shared.addUricAcidObj(time: time, mac: lastestDeviceMac, value: uricAcid)
+                    NotificationCenter.default.post(name: Notification.Name("HealthViewController"), object: "uric")
+                    NotificationCenter.default.post(name: Notification.Name("healthDetail"), object: nil)
+                    XLogger.shared.log("获取到的尿酸为:\(time) --- \(uricAcid)")
+                } else if mTypeVal == 5, response.count >= 18 {
+                    let tc = Double(Int(response[10])) + Double(Int(response[11])) / 100.0
+                    let tg = Double(Int(response[12])) + Double(Int(response[13])) / 100.0
+                    let hdl = Double(Int(response[14])) + Double(Int(response[15])) / 100.0
+                    let ldl = Double(Int(response[16])) + Double(Int(response[17])) / 100.0
+                    XGZTBlueToothManager.shared.device?.currentBloodLipid = tc
+                    XGZTBlueToothManager.shared.device?.currentBloodLipidDetail = String(format: "TC %.2f / TG %.2f / HDL %.2f / LDL %.2f", tc, tg, hdl, ldl)
+                    DatabaseManager.shared.addLipidObj(time: time, mac: lastestDeviceMac, tc: tc, tg: tg, hdl: hdl, ldl: ldl)
+                    NotificationCenter.default.post(name: Notification.Name("HealthViewController"), object: "lipid")
+                    NotificationCenter.default.post(name: Notification.Name("healthDetail"), object: nil)
+                    XLogger.shared.log("获取到的血脂为:\(time) --- \(tc) / \(tg) / \(hdl) / \(ldl)")
+                } else if mTypeVal == 6 {
+                    let heartRate = Int(response[10])
+                    if heartRate > 0 {
+                        XGZTBlueToothManager.shared.device?.currentHeartrate = heartRate
+                        NotificationCenter.default.post(
+                            name: Notification.Name("ecg_heart_rate"),
+                            object: nil,
+                            userInfo: ["bpm": heartRate]
+                        )
+                        NotificationCenter.default.post(
+                            name: Notification.Name("ecg_worn_status"),
+                            object: nil,
+                            userInfo: ["worn": true]
+                        )
+                        XLogger.shared.log("ECG 心率:\(time) --- \(heartRate)")
+                    } else {
+                        // 未佩戴（心率数据为空/全零）：保持波形向左滚动（显示为一条平线），仅提示 --，不中断测量
+                        NotificationCenter.default.post(
+                            name: Notification.Name("ecg_worn_status"),
+                            object: nil,
+                            userInfo: ["worn": false]
+                        )
+                        XLogger.shared.log("ECG 未佩戴或信号过弱")
+                    }
+                } else if mTypeVal == 7 { // 脉搏波 PPG
+                    let pulse = Int(response[10])
+                    if pulse > 0 {
+                        XGZTBlueToothManager.shared.device?.currentPPG = pulse
+                        DatabaseManager.shared.addPpgObj(time: time, mac: lastestDeviceMac, value: pulse)
+                        NotificationCenter.default.post(name: Notification.Name("HealthViewController"), object: "ppg")
+                        NotificationCenter.default.post(
+                            name: Notification.Name("ppg_heart_rate"),
+                            object: nil,
+                            userInfo: ["bpm": pulse]
+                        )
+                        NotificationCenter.default.post(
+                            name: Notification.Name("ppg_worn_status"),
+                            object: nil,
+                            userInfo: ["worn": true]
+                        )
+                        XLogger.shared.log("获取到的脉搏为:\(time) --- \(pulse)")
+                    } else {
+                        // 未佩戴（脉率为 0）：波形拉平为基线，仅提示 --，不中断测量
+                        NotificationCenter.default.post(
+                            name: Notification.Name("ppg_worn_status"),
+                            object: nil,
+                            userInfo: ["worn": false]
+                        )
+                        XLogger.shared.log("PPG 未佩戴或信号过弱")
+                    }
+                } else if mTypeVal == 8 { // 心率变异性 HRV
+                    let hrv = Int(response[10])
+                    if hrv == 0 {
+                        return
+                    }
+                    XGZTBlueToothManager.shared.device?.currentHRV = hrv
+                    DatabaseManager.shared.addHRVObj(time: time, mac: lastestDeviceMac, value: hrv)
+                    NotificationCenter.default.post(name: Notification.Name("HealthViewController"), object: "hrv")
+                    XLogger.shared.log("获取到的心率变异性为:\(time) --- \(hrv)")
+                } else if mTypeVal == 9 { // 精神压力
+                    let stress = Int(response[10])
+                    if stress == 0 {
+                        return
+                    }
+                    XGZTBlueToothManager.shared.device?.currentStress = stress
+                    DatabaseManager.shared.addStressObj(time: time, mac: lastestDeviceMac, value: stress)
+                    NotificationCenter.default.post(name: Notification.Name("HealthViewController"), object: "stress")
+                    XLogger.shared.log("获取到的精神压力为:\(time) --- \(stress)")
+                } else if mTypeVal == 10 { // 疲劳度
+                    let fatigue = Int(response[10])
+                    if fatigue == 0 {
+                        return
+                    }
+                    XGZTBlueToothManager.shared.device?.currentFatigue = fatigue
+                    DatabaseManager.shared.addFatigueObj(time: time, mac: lastestDeviceMac, value: fatigue)
+                    NotificationCenter.default.post(name: Notification.Name("HealthViewController"), object: "fatigue")
+                    XLogger.shared.log("获取到的疲劳度为:\(time) --- \(fatigue)")
+                } else if response.count >= 12 {
                     if Int(response[10]) == 0 {
                         return
                     }
                     XGZTBlueToothManager.shared.device?.currentSystolicpressure = Int(response[10])
                     XGZTBlueToothManager.shared.device?.currentDiastolicpressure = Int(response[11])
-                    //XGZTCommand.startTest(cmdType: 2, control: 0)
                     let booldObj = BloodObj()
                     booldObj.time = time
                     booldObj.mac = lastestDeviceMac
@@ -2003,7 +2157,7 @@ public class XGZTCommand {
                     NotificationCenter.default.post(name: Notification.Name("HealthViewController"), object: "oxygen")
                     XLogger.shared.log("获取到的血氧为:\(time) --- \(Int(response[10]))")
                     NotificationCenter.default.post(name: Notification.Name("XGZTBusinessHandler"), object: "6")
-                } else {
+                } else if response.count >= 12 {
                     XGZTBlueToothManager.shared.device?.currentSystolicpressure = Int(response[10])
                     XGZTBlueToothManager.shared.device?.currentDiastolicpressure = Int(response[11])
                     let booldObj = BloodObj()

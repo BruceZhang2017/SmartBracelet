@@ -25,54 +25,109 @@ class HealthViewController: BaseViewController {
     @IBOutlet weak var footMLabel: UILabel!
     @IBOutlet weak var footValueLabel: UILabel!
     @IBOutlet weak var footKLabel: UILabel!
+    private let footBackgroundImageView = UIImageView()
     var collectionView: UICollectionView!
     let cellIdentifier = "CustomCell"
     private var currentModel: BLEModel!
+    
+    /// XGZT 健康卡片按固定顺序映射：心率 → 睡眠 → 血压 → 血氧 → 血糖 → 尿酸 → 血脂 → 心电图(ECG) → 脉搏 → 心率变异性 → 精神压力 → 疲劳度
+    private var xgztHealthCards: [(type: Int, titleKey: String, subtitleKey: String?, iconName: String, valueOffset: Int, isECG: Bool)] {
+        let device = XGZTBlueToothManager.shared.device
+        let flags = device?.healthcontrolflags ?? 0
+        var cards: [(type: Int, titleKey: String, subtitleKey: String?, iconName: String, valueOffset: Int, isECG: Bool)] = []
+        if flags & 1 == 1 {
+            cards.append((2, "health_heart_rate", nil, "health_heart", 0, false))
+        }
+        if ((flags >> 4) & 1) == 1 {
+            cards.append((3, "health_sleep", nil, "health_sleep", 1, false))
+        }
+        if ((flags >> 2) & 1) == 1 {
+            cards.append((4, "health_blood_pressure", nil, "health_bloodpressure", 2, false))
+        }
+        if ((flags >> 1) & 1) == 1 {
+            cards.append((5, "health_blood_oxygen", nil, "health_bloodoxygen", 3, false))
+        }
+        if ((flags >> 3) & 1) == 1 || (device?.supportsBloodGlucose ?? false) {
+            cards.append((7, "health_blood_glucose", nil, "health_glucose", 4, false))
+        }
+        if ((flags >> 7) & 1) == 1 || (device?.supportsUricAcid ?? false) {
+            cards.append((8, "health_uric_acid", nil, "health_uric_acid", 5, false))
+        }
+        if ((flags >> 6) & 1) == 1 || (device?.supportsBloodLipid ?? false) {
+            cards.append((9, "health_blood_lipid", nil, "health_blood_lipid", 6, false))
+        }
+        if ((flags >> 8) & 1) == 1 || (device?.supportsECG ?? false) {
+            cards.append((6, "health_ecg", "health_ecg_subtitle", "health_ecg", 7, true))
+        }
+        if ((flags >> 9) & 1) == 1 || (device?.supportsPPG ?? false) {
+            cards.append((10, "health_ppg", nil, "health_ppg", 8, false))
+        }
+        if ((flags >> 10) & 1) == 1 || (device?.supportsHRV ?? false) {
+            cards.append((11, "health_hrv", nil, "health_hrv", 9, false))
+        }
+        if ((flags >> 11) & 1) == 1 || (device?.supportsStress ?? false) {
+            cards.append((12, "health_stress", nil, "health_stress", 10, false))
+        }
+        if ((flags >> 12) & 1) == 1 || (device?.supportsFatigue ?? false) {
+            cards.append((13, "health_fatigue", nil, "health_fatigue", 11, false))
+        }
+        return cards
+    }
 
-    // 女性健康入口视图
-    private let femaleHealthContainerView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .white
-        view.layer.cornerRadius = 12
-        view.layer.shadowColor = UIColor.black.cgColor
-        view.layer.shadowOffset = CGSize(width: 0, height: 2)
-        view.layer.shadowOpacity = 0.1
-        view.layer.shadowRadius = 4
-        return view
-    }()
+    private var shouldShowFemaleHealthEntry: Bool {
+        isXGZT && XGZTBlueToothManager.shared.device?.sex == 1
+    }
 
-    private let femaleHealthIconImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = UIImage(systemName: "heart.circle.fill")
-        imageView.tintColor = UIColor(red: 1.0, green: 0.4, blue: 0.6, alpha: 1.0)
-        imageView.contentMode = .scaleAspectFit
-        return imageView
-    }()
+    private var healthCardItemCount: Int {
+        isXGZT ? xgztHealthCards.count : 4
+    }
 
-    private let femaleHealthTitleLabel: UILabel = {
-        let label = UILabel()
-        label.text = "female_cycle_title".localized()
-        label.font = UIFont.systemFont(ofSize: 16, weight: .semibold)
-        label.textColor = .black
-        return label
-    }()
+    private var totalCollectionItemCount: Int {
+        healthCardItemCount + (shouldShowFemaleHealthEntry ? 1 : 0)
+    }
 
-    private let femaleHealthSubtitleLabel: UILabel = {
-        let label = UILabel()
-        label.text = "female_cycle_subtitle".localized()
-        label.font = UIFont.systemFont(ofSize: 12, weight: .regular)
-        label.textColor = UIColor(red: 0.56, green: 0.59, blue: 0.63, alpha: 1.0)
-        return label
-    }()
+    private func isFemaleHealthItem(at indexPath: IndexPath) -> Bool {
+        shouldShowFemaleHealthEntry && indexPath.item == totalCollectionItemCount - 1
+    }
 
-    private let femaleHealthArrowImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = UIImage(systemName: "chevron.right")
-        imageView.tintColor = UIColor(red: 0.56, green: 0.59, blue: 0.63, alpha: 1.0)
-        imageView.contentMode = .scaleAspectFit
-        return imageView
-    }()
-    var xgztCount = 0
+    private func xgztIcon(named iconName: String) -> UIImage? {
+        if let image = UIImage(named: iconName) {
+            return image
+        }
+        switch iconName {
+        case "health_glucose":
+            return UIImage(systemName: "drop.circle.fill")?.withTintColor(UIColor(red: 0.13, green: 0.56, blue: 0.95, alpha: 1.0), renderingMode: .alwaysOriginal)
+        case "health_uric_acid":
+            return UIImage(systemName: "aqi.medium")?.withTintColor(UIColor(red: 0.15, green: 0.68, blue: 0.61, alpha: 1.0), renderingMode: .alwaysOriginal)
+        case "health_blood_lipid":
+            return UIImage(systemName: "waveform.path.ecg.rectangle.fill")?.withTintColor(UIColor(red: 0.98, green: 0.61, blue: 0.29, alpha: 1.0), renderingMode: .alwaysOriginal)
+        case "health_ppg":
+            return UIImage(systemName: "waveform.path.ecg")?.withTintColor(UIColor(red: 0.23, green: 0.66, blue: 0.96, alpha: 1.0), renderingMode: .alwaysOriginal)
+        case "health_hrv":
+            return UIImage(systemName: "waveform.path.ecg.rectangle.fill")?.withTintColor(UIColor(red: 0.55, green: 0.42, blue: 0.96, alpha: 1.0), renderingMode: .alwaysOriginal)
+        case "health_stress":
+            return UIImage(systemName: "brain.head.profile")?.withTintColor(UIColor(red: 0.98, green: 0.69, blue: 0.22, alpha: 1.0), renderingMode: .alwaysOriginal)
+        case "health_fatigue":
+            return UIImage(systemName: "bolt.heart")?.withTintColor(UIColor(red: 0.96, green: 0.55, blue: 0.36, alpha: 1.0), renderingMode: .alwaysOriginal)
+        default:
+            return nil
+        }
+    }
+
+    private func makeMetricValue(_ value: String, unit: String) -> NSMutableAttributedString {
+        let text = NSMutableAttributedString()
+        text.append(NSAttributedString(string: value, attributes: [.font: UIFont.systemFont(ofSize: 20, weight: .black), .foregroundColor: UIColor.black]))
+        text.append(NSAttributedString(string: unit, attributes: [.font: UIFont.systemFont(ofSize: 10, weight: .semibold), .foregroundColor: UIColor.text_secondary]))
+        return text
+    }
+
+    private func updateXGZTCardValue(at index: Int, value: NSMutableAttributedString, shouldReload: Bool = true) {
+        guard arrayValue.indices.contains(index) else { return }
+        arrayValue[index] = value
+        if shouldReload {
+            collectionView.reloadData()
+        }
+    }
     
     var currentDialog: UIView? //记录当前的弹框，在页面异常关闭时移除
     
@@ -106,7 +161,7 @@ class HealthViewController: BaseViewController {
         super.viewDidLoad()
         // 设置导航栏标题颜色
         title = "health_head".localized()
-        for _ in 0..<4 {
+        for _ in 0..<12 {
             arrayValue.append(NSMutableAttributedString(string: "null_data".localized(), attributes: [.font: UIFont.body2(), .foregroundColor: UIColor.text_secondary]))
         }
         let openCount = UserDefaults.standard.integer(forKey: "APPOPEN") // 如果app打开次数
@@ -128,6 +183,38 @@ class HealthViewController: BaseViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(handleDidEnterBackgroundNotification), name: UIApplication.didEnterBackgroundNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleDidEnterForgroundNotification), name: UIApplication.willEnterForegroundNotification, object: nil)
         
+        footView.backgroundColor = UIColor.clear
+        footView.layer.cornerRadius = 20
+        footView.layer.masksToBounds = false
+        footView.layer.shadowColor = UIColor.black.withAlphaComponent(0.05).cgColor
+        footView.layer.shadowOpacity = 1
+        footView.layer.shadowRadius = 4
+        footView.layer.shadowOffset = CGSize(width: 0, height: 2)
+        footBackgroundImageView.image = UIImage(named: "health_step_card_bg")
+        footBackgroundImageView.contentMode = .scaleAspectFill
+        footBackgroundImageView.clipsToBounds = true
+        footBackgroundImageView.layer.cornerRadius = 20
+        footBackgroundImageView.isUserInteractionEnabled = false
+        if footBackgroundImageView.superview == nil {
+            footView.insertSubview(footBackgroundImageView, at: 0)
+            footBackgroundImageView.translatesAutoresizingMaskIntoConstraints = false
+            NSLayoutConstraint.activate([
+                footBackgroundImageView.leadingAnchor.constraint(equalTo: footView.leadingAnchor),
+                footBackgroundImageView.trailingAnchor.constraint(equalTo: footView.trailingAnchor),
+                footBackgroundImageView.topAnchor.constraint(equalTo: footView.topAnchor),
+                footBackgroundImageView.bottomAnchor.constraint(equalTo: footView.bottomAnchor)
+            ])
+        }
+        footValueLabel.textColor = UIColor.black
+        footMLabel.textColor = UIColor.black
+        footKLabel.textColor = UIColor.black
+        footView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            footView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 10),
+            footView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -10),
+            footView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0)
+        ])
+        
         if isSupportAlipay && !isXGZT {
             AliConnectMananger_C.shared.bleSendDataDelegate = self // 阿里云相关逻辑
             
@@ -147,7 +234,7 @@ class HealthViewController: BaseViewController {
         // 初始化UICollectionView
         let layout = UICollectionViewFlowLayout()
         let itemWidth = (UIScreen.main.bounds.width - 30) / 2 // 减去间距
-        layout.itemSize = CGSize(width: itemWidth, height: 140)
+        layout.itemSize = CGSize(width: itemWidth, height: 160)
         layout.minimumInteritemSpacing = 10
         layout.minimumLineSpacing = 10
         layout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
@@ -161,55 +248,14 @@ class HealthViewController: BaseViewController {
         
         // 注册自定义的UICollectionViewCell类
         collectionView.register(HealthCollectionViewCell.self, forCellWithReuseIdentifier: cellIdentifier)
-        
-        // 添加女性健康入口
-        self.view.addSubview(femaleHealthContainerView)
-        femaleHealthContainerView.snp.makeConstraints { make in
-            make.leading.equalToSuperview().offset(10)
-            make.trailing.equalToSuperview().offset(-10)
-            make.bottom.equalTo(view.safeAreaLayoutGuide).offset(-10)
-            make.height.equalTo(70)
-        }
-
-        femaleHealthContainerView.addSubview(femaleHealthIconImageView)
-        femaleHealthIconImageView.snp.makeConstraints { make in
-            make.leading.equalToSuperview().offset(16)
-            make.centerY.equalToSuperview()
-            make.width.height.equalTo(40)
-        }
-
-        femaleHealthContainerView.addSubview(femaleHealthArrowImageView)
-        femaleHealthArrowImageView.snp.makeConstraints { make in
-            make.trailing.equalToSuperview().offset(-16)
-            make.centerY.equalToSuperview()
-            make.width.height.equalTo(20)
-        }
-
-        femaleHealthContainerView.addSubview(femaleHealthTitleLabel)
-        femaleHealthTitleLabel.snp.makeConstraints { make in
-            make.leading.equalTo(femaleHealthIconImageView.snp.trailing).offset(12)
-            make.top.equalToSuperview().offset(16)
-            make.trailing.equalTo(femaleHealthArrowImageView.snp.leading).offset(-12)
-        }
-
-        femaleHealthContainerView.addSubview(femaleHealthSubtitleLabel)
-        femaleHealthSubtitleLabel.snp.makeConstraints { make in
-            make.leading.equalTo(femaleHealthIconImageView.snp.trailing).offset(12)
-            make.top.equalTo(femaleHealthTitleLabel.snp.bottom).offset(4)
-            make.trailing.equalTo(femaleHealthArrowImageView.snp.leading).offset(-12)
-        }
-
-        let femaleHealthTap = UITapGestureRecognizer(target: self, action: #selector(handleFemaleHealthTapped))
-        femaleHealthContainerView.addGestureRecognizer(femaleHealthTap)
-        femaleHealthContainerView.isUserInteractionEnabled = true
 
         // 添加UICollectionView到当前视图
         self.view.addSubview(collectionView)
 
         collectionView.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview()
-            make.top.equalTo(320)
-            make.bottom.equalTo(femaleHealthContainerView.snp.top).offset(-10)
+            make.top.equalTo(footView.snp.bottom).offset(12)
+            make.bottom.equalTo(view.safeAreaLayoutGuide).offset(-10)
         }
         
         // 设置 DropDown 数据源
@@ -462,11 +508,6 @@ class HealthViewController: BaseViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        if XGZTBlueToothManager.shared.device?.sex == 1 {
-            femaleHealthContainerView.isHidden = false
-        } else {
-            femaleHealthContainerView.isHidden = true
-        }
         collectionView.reloadData()
     }
     
@@ -686,6 +727,62 @@ class HealthViewController: BaseViewController {
                         self?.collectionView.reloadData()
                     }
                 }
+            }
+        } else if objc == "glucose" {
+            guard isXGZT else { return }
+            DispatchQueue.main.async { [weak self] in
+                let value = XGZTBlueToothManager.shared.device?.currentBloodGlucose ?? 0
+                guard value > 0 else { return }
+                let v = self?.makeMetricValue(String(format: "%.1f", value), unit: " mmol/L") ?? NSMutableAttributedString()
+                self?.updateXGZTCardValue(at: 4, value: v)
+            }
+        } else if objc == "uric" {
+            guard isXGZT else { return }
+            DispatchQueue.main.async { [weak self] in
+                let value = XGZTBlueToothManager.shared.device?.currentUricAcid ?? 0
+                guard value > 0 else { return }
+                let v = self?.makeMetricValue("\(value)", unit: " umol/L") ?? NSMutableAttributedString()
+                self?.updateXGZTCardValue(at: 5, value: v)
+            }
+        } else if objc == "lipid" {
+            guard isXGZT else { return }
+            DispatchQueue.main.async { [weak self] in
+                let value = XGZTBlueToothManager.shared.device?.currentBloodLipid ?? 0
+                guard value > 0 else { return }
+                let v = self?.makeMetricValue(String(format: "%.2f", value), unit: " mmol/L") ?? NSMutableAttributedString()
+                self?.updateXGZTCardValue(at: 6, value: v)
+            }
+        } else if objc == "ppg" {
+            guard isXGZT else { return }
+            DispatchQueue.main.async { [weak self] in
+                let value = XGZTBlueToothManager.shared.device?.currentPPG ?? 0
+                guard value > 0 else { return }
+                let v = self?.makeMetricValue("\(value)", unit: " bpm") ?? NSMutableAttributedString()
+                self?.updateXGZTCardValue(at: 8, value: v)
+            }
+        } else if objc == "hrv" {
+            guard isXGZT else { return }
+            DispatchQueue.main.async { [weak self] in
+                let value = XGZTBlueToothManager.shared.device?.currentHRV ?? 0
+                guard value > 0 else { return }
+                let v = self?.makeMetricValue("\(value)", unit: " ms") ?? NSMutableAttributedString()
+                self?.updateXGZTCardValue(at: 9, value: v)
+            }
+        } else if objc == "stress" {
+            guard isXGZT else { return }
+            DispatchQueue.main.async { [weak self] in
+                let value = XGZTBlueToothManager.shared.device?.currentStress ?? 0
+                guard value > 0 else { return }
+                let v = self?.makeMetricValue("\(value)", unit: " health_score_unit".localized()) ?? NSMutableAttributedString()
+                self?.updateXGZTCardValue(at: 10, value: v)
+            }
+        } else if objc == "fatigue" {
+            guard isXGZT else { return }
+            DispatchQueue.main.async { [weak self] in
+                let value = XGZTBlueToothManager.shared.device?.currentFatigue ?? 0
+                guard value > 0 else { return }
+                let v = self?.makeMetricValue("\(value)", unit: " health_score_unit".localized()) ?? NSMutableAttributedString()
+                self?.updateXGZTCardValue(at: 11, value: v)
             }
         } else if objc == "delete" {
             XLogger.shared.log("执行删除设备的动作")
@@ -917,11 +1014,7 @@ class HealthViewController: BaseViewController {
             DispatchQueue.main.async {
                 [weak self] in
                 self?.hud?.dismiss(animated: false)
-                if XGZTBlueToothManager.shared.device?.sex == 1 {
-                    self?.femaleHealthContainerView.isHidden = false
-                } else {
-                    self?.femaleHealthContainerView.isHidden = true
-                }
+                self?.collectionView.reloadData()
             }
             DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                 [weak self] in
@@ -1014,37 +1107,31 @@ class HealthViewController: BaseViewController {
     
     private func refreshValue(label: UILabel?, value: String, unit: String, size1: CGFloat, size2: CGFloat) {
         label?.textAlignment = .center
-        // 创建一个NSMutableAttributedString实例
         let attributedString = NSMutableAttributedString()
 
         let bigFont = UIFont.systemFont(ofSize: size1, weight: .bold)
-        // 创建第一段文本的属性
         let firstAttributes: [NSAttributedString.Key: Any] = [
             .font: bigFont,
-            .foregroundColor: UIColor.white
+            .foregroundColor: UIColor.black
         ]
         let firstString = NSAttributedString(string: value, attributes: firstAttributes)
         attributedString.append(firstString)
 
         let smallFont = UIFont.systemFont(ofSize: size2, weight: .semibold)
-        // 创建第二段文本的属性
         let secondAttributes: [NSAttributedString.Key: Any] = [
             .font: smallFont,
-            .foregroundColor: UIColor.white
+            .foregroundColor: UIColor.black
         ]
         let secondString = NSAttributedString(string: unit, attributes: secondAttributes)
         attributedString.append(secondString)
         
-        // 计算基线偏移量
         let bigFontCapHeight = bigFont.capHeight
         let smallFontCapHeight = smallFont.capHeight
         let baselineOffset = (bigFontCapHeight - smallFontCapHeight) / 2
 
-        // 为小字体设置基线偏移量
         attributedString.addAttributes([.baselineOffset: baselineOffset], range: NSRange(location: firstString.length, length: secondString.length))
 
 
-        // 将NSMutableAttributedString赋值给UILabel
         label?.attributedText = attributedString
     }
     
@@ -1408,79 +1495,22 @@ extension HealthViewController: BleNeedSendDataDelegate_C {
 }
 
 
-extension HealthViewController: UICollectionViewDelegate {
+extension HealthViewController: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         // 处理cell点击事件
+        if isFemaleHealthItem(at: indexPath) {
+            handleFemaleHealthTapped()
+            return
+        }
         if isXGZT {
-            if xgztCount >= 4 {
-                flag = 2 + indexPath.item
-                let vc = HealthDetailViewController()
-                vc.type = flag
-                vc.hidesBottomBarWhenPushed = true
-                navigationController?.pushViewController(vc, animated: true)
-            } else {
-                if indexPath.item == 0 {
-                    if (XGZTBlueToothManager.shared.device?.healthcontrolflags ?? 0) & 1 == 1 {
-                        flag = 2
-                        let vc = HealthDetailViewController()
-                        vc.type = flag
-                        vc.hidesBottomBarWhenPushed = true
-                        navigationController?.pushViewController(vc, animated: true)
-                    } else if ((XGZTBlueToothManager.shared.device?.healthcontrolflags ?? 0) >> 4) & 1 == 1 {
-                        flag = 3
-                        let vc = HealthDetailViewController()
-                        vc.type = flag
-                        vc.hidesBottomBarWhenPushed = true
-                        navigationController?.pushViewController(vc, animated: true)
-                    } else if ((XGZTBlueToothManager.shared.device?.healthcontrolflags ?? 0) >> 2) & 1 == 1 {
-                        flag = 4
-                        let vc = HealthDetailViewController()
-                        vc.type = flag
-                        vc.hidesBottomBarWhenPushed = true
-                        navigationController?.pushViewController(vc, animated: true)
-                    } else if ((XGZTBlueToothManager.shared.device?.healthcontrolflags ?? 0) >> 1) & 1 == 1 {
-                        flag = 5
-                        let vc = HealthDetailViewController()
-                        vc.type = flag
-                        vc.hidesBottomBarWhenPushed = true
-                        navigationController?.pushViewController(vc, animated: true)
-                    }
-                } else if indexPath.item == 1 {
-                    if ((XGZTBlueToothManager.shared.device?.healthcontrolflags ?? 0) >> 4) & 1 == 1 {
-                        flag = 3
-                        let vc = HealthDetailViewController()
-                        vc.type = flag
-                        vc.hidesBottomBarWhenPushed = true
-                        navigationController?.pushViewController(vc, animated: true)
-                    } else if ((XGZTBlueToothManager.shared.device?.healthcontrolflags ?? 0) >> 2) & 1 == 1 {
-                        flag = 4
-                        let vc = HealthDetailViewController()
-                        vc.type = flag
-                        vc.hidesBottomBarWhenPushed = true
-                        navigationController?.pushViewController(vc, animated: true)
-                    } else if ((XGZTBlueToothManager.shared.device?.healthcontrolflags ?? 0) >> 1) & 1 == 1 {
-                        flag = 5
-                        let vc = HealthDetailViewController()
-                        vc.type = flag
-                        vc.hidesBottomBarWhenPushed = true
-                        navigationController?.pushViewController(vc, animated: true)
-                    }
-                } else if indexPath.item == 2 {
-                    if ((XGZTBlueToothManager.shared.device?.healthcontrolflags ?? 0) >> 2) & 1 == 1 {
-                        flag = 4
-                        let vc = HealthDetailViewController()
-                        vc.type = flag
-                        vc.hidesBottomBarWhenPushed = true
-                        navigationController?.pushViewController(vc, animated: true)
-                    } else if ((XGZTBlueToothManager.shared.device?.healthcontrolflags ?? 0) >> 1) & 1 == 1 {
-                        flag = 5
-                        let vc = HealthDetailViewController()
-                        vc.type = flag
-                        vc.hidesBottomBarWhenPushed = true
-                        navigationController?.pushViewController(vc, animated: true)
-                    }
-                }
-            }
+            let cards = xgztHealthCards
+            guard cards.indices.contains(indexPath.item) else { return }
+            let card = cards[indexPath.item]
+            flag = card.type
+            let vc = HealthDetailViewController()
+            vc.type = flag
+            vc.hidesBottomBarWhenPushed = true
+            navigationController?.pushViewController(vc, animated: true)
         } else {
             flag = 2 + indexPath.item
             let vc = HealthDetailViewController()
@@ -1488,6 +1518,16 @@ extension HealthViewController: UICollectionViewDelegate {
             vc.hidesBottomBarWhenPushed = true
             navigationController?.pushViewController(vc, animated: true)
         }
+    }
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        guard let layout = collectionViewLayout as? UICollectionViewFlowLayout else {
+            return CGSize(width: (UIScreen.main.bounds.width - 30) / 2, height: 160)
+        }
+
+        let contentWidth = collectionView.bounds.width - layout.sectionInset.left - layout.sectionInset.right
+        let itemWidth = (contentWidth - layout.minimumInteritemSpacing) / 2
+        return CGSize(width: itemWidth, height: 160)
     }
 }
 
@@ -1501,74 +1541,55 @@ extension HealthViewController: UICollectionViewDataSource {
         if !bleSelf.isConnected && XGZTBlueToothManager.shared.device == nil {
            return 0
         }
-        if isXGZT {
-            var count = 0
-            if ((XGZTBlueToothManager.shared.device?.healthcontrolflags ?? 0) & 1 == 1) {
-                count += 1
-            }
-            if (((XGZTBlueToothManager.shared.device?.healthcontrolflags ?? 0) >> 1) & 1 == 1) {
-                count += 1
-            }
-            if (((XGZTBlueToothManager.shared.device?.healthcontrolflags ?? 0) >> 2) & 1 == 1) {
-                count += 1
-            }
-            if (((XGZTBlueToothManager.shared.device?.healthcontrolflags ?? 0) >> 4) & 1 == 1) {
-                count += 1
-            }
-            xgztCount = count
-            XLogger.shared.log("count = \(count)")
-            return count
-        }
-        return 4 // 你有4个cells
+        let count = totalCollectionItemCount
+        XLogger.shared.log("count = \(count)")
+        return count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath) as! HealthCollectionViewCell
-        // 配置cell，这里只是示例数据
-        if indexPath.item == 0 {
-            if isXGZT {
-                if (XGZTBlueToothManager.shared.device?.healthcontrolflags ?? 0) & 1 == 1 {
-                    cell.configureCell(icon: UIImage(named: "health_heart"), leftTitle: "health_heart_rate".localized(), rightTitle: arrayValue[indexPath.item])
-                } else if ((XGZTBlueToothManager.shared.device?.healthcontrolflags ?? 0) >> 4) & 1 == 1 {
-                    cell.configureCell(icon: UIImage(named: "health_sleep"), leftTitle: "health_sleep".localized(), rightTitle: arrayValue[indexPath.item + 1])
-                } else if ((XGZTBlueToothManager.shared.device?.healthcontrolflags ?? 0) >> 2) & 1 == 1 {
-                    cell.configureCell(icon: UIImage(named: "health_bloodpressure"), leftTitle: "health_blood_pressure".localized(), rightTitle: arrayValue[indexPath.item + 2])
-                } else if ((XGZTBlueToothManager.shared.device?.healthcontrolflags ?? 0) >> 1) & 1 == 1 {
-                    cell.configureCell(icon: UIImage(named: "health_bloodoxygen"), leftTitle: "health_blood_oxygen".localized(), rightTitle: arrayValue[indexPath.item + 3])
+        if isFemaleHealthItem(at: indexPath) {
+            cell.configure(
+                icon: UIImage.femaleCycleIcon(size: 64),
+                title: "female_cycle_title".localized(),
+                subtitle: "female_cycle_subtitle".localized(),
+                rightTitle: NSMutableAttributedString(string: ""),
+                style: .ecg
+            )
+            return cell
+        }
+
+        if isXGZT {
+            let cards = xgztHealthCards
+            guard cards.indices.contains(indexPath.item) else { return cell }
+            let card = cards[indexPath.item]
+            let valueIndex = card.valueOffset
+            let rightValue: NSMutableAttributedString = {
+                if card.isECG {
+                    return NSMutableAttributedString(string: "")
                 }
-            } else {
-                cell.configureCell(icon: UIImage(named: "health_heart"), leftTitle: "health_heart_rate".localized(), rightTitle: arrayValue[indexPath.item])
-            }
-            
-        } else if indexPath.item == 1 {
-            if isXGZT {
-                if xgztCount > 1 {
-                    if ((XGZTBlueToothManager.shared.device?.healthcontrolflags ?? 0) >> 4) & 1 == 1 {
-                        cell.configureCell(icon: UIImage(named: "health_sleep"), leftTitle: "health_sleep".localized(), rightTitle: arrayValue[indexPath.item])
-                    } else if ((XGZTBlueToothManager.shared.device?.healthcontrolflags ?? 0) >> 2) & 1 == 1 {
-                        cell.configureCell(icon: UIImage(named: "health_bloodpressure"), leftTitle: "health_blood_pressure".localized(), rightTitle: arrayValue[indexPath.item + 1])
-                    } else if ((XGZTBlueToothManager.shared.device?.healthcontrolflags ?? 0) >> 1) & 1 == 1 {
-                        cell.configureCell(icon: UIImage(named: "health_bloodoxygen"), leftTitle: "health_blood_oxygen".localized(), rightTitle: arrayValue[indexPath.item + 2])
-                    }
-                }
-            } else {
-                cell.configureCell(icon: UIImage(named: "health_sleep"), leftTitle: "health_sleep".localized(), rightTitle: arrayValue[indexPath.item])
-            }
-        } else if indexPath.item == 2 {
-            if isXGZT {
-                if xgztCount > 2 {
-                    if ((XGZTBlueToothManager.shared.device?.healthcontrolflags ?? 0) >> 2) & 1 == 1 {
-                        cell.configureCell(icon: UIImage(named: "health_bloodpressure"), leftTitle: "health_blood_pressure".localized(), rightTitle: arrayValue[indexPath.item])
-                    } else if ((XGZTBlueToothManager.shared.device?.healthcontrolflags ?? 0) >> 1) & 1 == 1 {
-                        cell.configureCell(icon: UIImage(named: "health_bloodoxygen"), leftTitle: "health_blood_oxygen".localized(), rightTitle: arrayValue[indexPath.item + 1])
-                    }
-                }
-            } else {
-                cell.configureCell(icon: UIImage(named: "health_bloodpressure"), leftTitle: "health_blood_pressure".localized(), rightTitle: arrayValue[indexPath.item])
-            }
-            
+                return arrayValue.indices.contains(valueIndex) ? arrayValue[valueIndex] : NSMutableAttributedString(string: "--")
+            }()
+            let subtitle = card.subtitleKey.map { $0.localized() }
+            let style: HealthCollectionViewCell.HealthCardStyle = card.isECG ? .ecg : .normal
+            cell.configure(
+                icon: xgztIcon(named: card.iconName),
+                title: card.titleKey.localized(),
+                subtitle: subtitle,
+                rightTitle: rightValue,
+                style: style
+            )
         } else {
-            cell.configureCell(icon: UIImage(named: "health_bloodoxygen"), leftTitle: "health_blood_oxygen".localized(), rightTitle: arrayValue[indexPath.item])
+            // 非 XGZT 设备保持原有顺序：心率 睡眠 血压 血氧
+            if indexPath.item == 0 {
+                cell.configureCell(icon: UIImage(named: "health_heart"), leftTitle: "health_heart_rate".localized(), rightTitle: arrayValue[indexPath.item])
+            } else if indexPath.item == 1 {
+                cell.configureCell(icon: UIImage(named: "health_sleep"), leftTitle: "health_sleep".localized(), rightTitle: arrayValue[indexPath.item])
+            } else if indexPath.item == 2 {
+                cell.configureCell(icon: UIImage(named: "health_bloodpressure"), leftTitle: "health_blood_pressure".localized(), rightTitle: arrayValue[indexPath.item])
+            } else {
+                cell.configureCell(icon: UIImage(named: "health_bloodoxygen"), leftTitle: "health_blood_oxygen".localized(), rightTitle: arrayValue[indexPath.item])
+            }
         }
         return cell
     }

@@ -79,6 +79,16 @@ class AlarmViewController: BaseViewController {
     }
     
     @objc private func handleNotification(_ notification: Notification) {
+        if Thread.isMainThread {
+            handleNotificationOnMain()
+        } else {
+            DispatchQueue.main.async {
+                self.handleNotificationOnMain()
+            }
+        }
+    }
+    
+    private func handleNotificationOnMain() {
         if isXGZT {
             ProgressHUD.dismiss()
         }
@@ -205,11 +215,13 @@ extension AlarmViewController: UITableViewDataSource {
         cell.accessoryView = mSwitch!
         
         if isXGZT {
-            let alarm = XGZTBlueToothManager.shared.device?.alarms[indexPath.row]
-            cell.textLabel?.text = "\(String(format: "%02d", alarm?.alarmHour ?? 0)):\(String(format: "%02d", alarm?.alarmMinute ?? 0))"
-            cell.detailTextLabel?.text = "\("mine_repeat_mode".localized()) \(refreshWeekValue(alarm: alarm))"
-            mSwitch?.isOn = (alarm?.mswitch ?? 0) > 0
-        } else {
+            if let alarms = XGZTBlueToothManager.shared.device?.alarms, indexPath.row < alarms.count {
+                let alarm = alarms[indexPath.row]
+                cell.textLabel?.text = "\(String(format: "%02d", alarm.alarmHour ?? 0)):\(String(format: "%02d", alarm.alarmMinute ?? 0))"
+                cell.detailTextLabel?.text = "\("mine_repeat_mode".localized()) \(refreshWeekValue(alarm: alarm))"
+                mSwitch?.isOn = (alarm.mswitch ?? 0) > 0
+            }
+        } else if indexPath.row < BLEManager.shared.alarmArray.count {
             let model = BLEManager.shared.alarmArray[indexPath.row]
             cell.textLabel?.text = "\(String(format: "%02d", model.hour)):\(String(format: "%02d", model.minute))"
             cell.detailTextLabel?.text = "\("mine_repeat_mode".localized()) \(refreshWeekValue(model: model))"
@@ -226,9 +238,17 @@ extension AlarmViewController: UITableViewDelegate {
         
         var vc = AlarmAdd2ViewController()
         if isXGZT {
-            let alarm = XGZTBlueToothManager.shared.device?.alarms[indexPath.row]
+            guard let alarms = XGZTBlueToothManager.shared.device?.alarms, indexPath.row < alarms.count else {
+                tableView.reloadData()
+                return
+            }
+            let alarm = alarms[indexPath.row]
             vc.alarmData = alarm
         } else {
+            guard indexPath.row < BLEManager.shared.alarmArray.count else {
+                tableView.reloadData()
+                return
+            }
             let model = BLEManager.shared.alarmArray[indexPath.row]
             vc.weekday = model.weekday
             vc.alarm = model

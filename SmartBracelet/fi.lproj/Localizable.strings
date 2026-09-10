@@ -16,6 +16,12 @@
 "health_blood_pressure" = "verenpaine";
 "health_blood_pressure_unit" = "MMHG";
 "health_blood_oxygen" = "Veren happi";
+"health_blood_glucose" = "Verensokeri";
+"health_uric_acid" = "Virtsahappo";
+"health_blood_lipid" = "Verirasvat";
+"health_blood_glucose_desc" = "Verensokerin mittaus";
+"health_uric_acid_desc" = "Virtsahapon mittaus";
+"health_blood_lipid_desc" = "Verirasvojen mittaus";
 "health_data_dynamic" = "Tietojen dynamiikka";
 "device" = "laitteet";
 "add_device" = "Lisää laite";
@@ -226,6 +232,13 @@
 "device_search_settings" = "löytää asetukset";
 "device_device_info" = "Laitteen informaatio";
 "device_shark_photo" = "Kaukokuvaus";
+"device_power_controls" = "Virranhallinta";
+"device_factory_reset" = "Palauta tehdasasetukset";
+"device_factory_reset_desc" = "Tehdasasetusten palauttaminen poistaa kaikki laitteen tiedot ja asetukset. Jatketaanko?";
+"device_restart" = "Käynnistä uudelleen";
+"device_restart_desc" = "Haluatko varmasti käynnistää laitteen uudelleen nyt?";
+"device_shutdown" = "Sammuta (lataus käynnistää laitteen automaattisesti)";
+"device_shutdown_desc" = "Haluatko varmasti sammuttaa laitteen? Sen voi käynnistää uudelleen lataamalla.";
 "device_change" = "laitteen vaihto";
 "mine" = "Kaivos";
 "mine_bluetooth_connect" = "Bluetooth yhdistetty";
@@ -573,3 +586,28 @@
 "user_info_step_length" = "Step length";
 "user_info_done" = "Done";
 
+
+// MARK: - ECG fallback (en)
+"health_ecg" = "ECG";
+"ecg_history" = "EKG-historia";
+"ecg_history_detail" = "EKG-tallenteen tiedot";
+"ecg_history_empty" = "Ei vielä EKG-tallenteita";
+"ecg_history_error" = "EKG-tallennetta ei voitu ladata";
+"ecg_save_error" = "EKG-tallennetta ei voitu tallentaa";
+"ecg_pause" = "Tauko";
+"ecg_resume" = "Jatka toistoa";
+"ecg_replay" = "Toista uudelleen";
+"ecg_loading" = "Ladataan";
+"ecg_playback_time" = "%d / %d s";
+"ecg_history_duration" = "%@ · Kesto %@ s";
+"ecg_waveform_note" = "Aaltomuoto luotu tallennetusta sykkeestä";
+"ecg_recorded_rate" = "Tallennettu syke";
+
+"health_ecg_subtitle" = "Start caring for your heart health now";
+"ecg_desc" = "Real-time ECG measurement";
+
+// MARK: - PPG realtime pulse
+"ppg_measure_remaining" = "Jäljellä %d sekuntia";
+"ppg_measure_complete" = "Mittaus valmis";
+"ppg_real_time_pulse" = "Pulssi reaaliajassa: ";
+"ppg_worn_off" = "Ranneketta ei ole puettu tai se on irronnut, aalto on nollattu. Pue ranneke";

@@ -15,6 +15,12 @@
 "health_blood_pressure" = "tensiune arterială";
 "health_blood_pressure_unit" = "MMHG";
 "health_blood_oxygen" = "oxigen în sânge";
+"health_blood_glucose" = "Glicemie";
+"health_uric_acid" = "Acid uric";
+"health_blood_lipid" = "Lipide în sânge";
+"health_blood_glucose_desc" = "Măsurarea glicemiei";
+"health_uric_acid_desc" = "Măsurarea acidului uric";
+"health_blood_lipid_desc" = "Măsurarea lipidelor din sânge";
 "health_data_dynamic" = "dynamics of date"; // 此处"Data dynamics"直译，可能需根据上下文调整，暂保留原结构
 "device" = "dispozitiv";
 "add_device" = "Vă rugăm să adăugați un dispozitiv";
@@ -52,6 +58,13 @@
 "device_search_settings" = "Căutare setări";
 "device_device_info" = "Informații dispozitiv";
 "device_shark_photo" = "Fotografie la distanță";
+"device_power_controls" = "Controlul alimentării";
+"device_factory_reset" = "Restabilire setări din fabrică";
+"device_factory_reset_desc" = "Restabilirea setărilor din fabrică va șterge toate datele și setările de pe dispozitiv. Continuați?";
+"device_restart" = "Reporniți";
+"device_restart_desc" = "Sigur doriți să reporniți dispozitivul acum?";
+"device_shutdown" = "Oprire (încărcarea pornește automat dispozitivul)";
+"device_shutdown_desc" = "Sigur doriți să opriți dispozitivul? Acesta poate fi repornit prin încărcare.";
 "device_change" = "schimbare dispozitiv";
 "mine" = "meu";
 "mine_bluetooth_connect" = "Bluetooth este conectat";
@@ -424,3 +437,28 @@
 "user_info_step_length" = "Step length";
 "user_info_done" = "Done";
 
+
+// MARK: - ECG fallback (en)
+"health_ecg" = "ECG";
+"ecg_history" = "Istoric ECG";
+"ecg_history_detail" = "Detalii înregistrare ECG";
+"ecg_history_empty" = "Nu există încă înregistrări ECG";
+"ecg_history_error" = "Nu s-a putut încărca înregistrarea ECG";
+"ecg_save_error" = "Nu s-a putut salva înregistrarea ECG";
+"ecg_pause" = "Pauză";
+"ecg_resume" = "Continuă redarea";
+"ecg_replay" = "Redă din nou";
+"ecg_loading" = "Se încarcă";
+"ecg_playback_time" = "%d / %d s";
+"ecg_history_duration" = "%@ · Durată %@ s";
+"ecg_waveform_note" = "Forma de undă generată din pulsul înregistrat";
+"ecg_recorded_rate" = "Puls înregistrat";
+
+"health_ecg_subtitle" = "Start caring for your heart health now";
+"ecg_desc" = "Real-time ECG measurement";
+
+// MARK: - PPG realtime pulse
+"ppg_measure_remaining" = "Au rămas %d secunde";
+"ppg_measure_complete" = "Măsurare finalizată";
+"ppg_real_time_pulse" = "Puls în timp real: ";
+"ppg_worn_off" = "Brățara nu este purtată sau s-a desprins, forma de undă a fost resetată. Purtați brățara";

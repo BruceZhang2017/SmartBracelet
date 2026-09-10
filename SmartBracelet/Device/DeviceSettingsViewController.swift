@@ -121,6 +121,7 @@ class DeviceSettingsCollectionViewCell: UICollectionViewCell {
 
 // MARK: - 主控制器
 class DeviceSettingsViewController: UIViewController {
+    private let powerControlRowIdentifier = 1000
     private lazy var collectionView: UICollectionView = {
         // 初始化FlowLayout
         let flowLayout = UICollectionViewFlowLayout()
@@ -158,13 +159,21 @@ class DeviceSettingsViewController: UIViewController {
     var cameraViewController: CameraViewController?
     private var currentTime: TimeInterval = 0
     private var cachedDisplayTitles: [String]?
+    var displayRowCount: Int { displayTitles.count }
+    private var powerControlTitle: String { "device_power_controls".localized() }
     
     private var displayTitles: [String] {
         if let cached = cachedDisplayTitles {
             return cached
         }
-        let f15 = ((XGZTBlueToothManager.shared.device?.functioncontrolflags ?? 0) >> 15) & 0x01
-        let f16 = ((XGZTBlueToothManager.shared.device?.functioncontrolflags ?? 0) >> 16) & 0x01
+        let device = XGZTBlueToothManager.shared.device
+        let f15 = ((device?.functioncontrolflags ?? 0) >> 15) & 0x01
+        let f16 = ((device?.functioncontrolflags ?? 0) >> 16) & 0x01
+        let isNoScreen = device?.isNoScreenDevice ?? false
+        let supportsWatchFace = device?.supportsWatchFaceMarket ?? true
+        let supportsWeather = device?.supportsWeatherPush ?? true
+        let supportsRaiseHand = device?.supportsRaiseHandScreen ?? true
+        
         var filterCount = isXGZT ?
             (f15 > 0 ? 0 : 1) : 3
         if isXGZT {
@@ -172,12 +181,34 @@ class DeviceSettingsViewController: UIViewController {
                 filterCount += 1
             }
         }
-        let result = Array(titles.dropLast(filterCount))
-        cachedDisplayTitles = result
-        if isXGZT && f15 == 0 && f16 == 1 && cachedDisplayTitles?.count == 15 {
-            cachedDisplayTitles?[14] = "sync_contacts".localized()
+        var result = Array(titles.dropLast(filterCount))
+        
+        let removedKeys: [String] = [
+            supportsRaiseHand ? "" : "device_hand_up_screen".localized(),
+            supportsWeather ? "" : "device_weather_push".localized(),
+            supportsWatchFace ? "" : "device_dial_mall".localized()
+        ].filter { !$0.isEmpty }
+        
+        if !removedKeys.isEmpty || isNoScreen {
+            result = result.filter { item in
+                if removedKeys.contains(item) { return false }
+                // 无屏设备不需要卡包/联系人
+                if isNoScreen && (item == "cardbag".localized() || item == "sync_contacts".localized()) {
+                    return false
+                }
+                return true
+            }
         }
-        XLogger.shared.log("f15=\(f15) f16=\(f16)")
+
+        if isXGZT && !isNoScreen && f15 == 0 && f16 == 1 && result.indices.contains(14) {
+            result[14] = "sync_contacts".localized()
+        }
+        if device?.supportsPowerControlCenter == true {
+            result.append(powerControlTitle)
+        }
+
+        cachedDisplayTitles = result
+        XLogger.shared.log("f15=\(f15) f16=\(f16) isNoScreen=\(isNoScreen) displayCount=\(result.count)")
         return result
     }
     
@@ -301,7 +332,13 @@ private extension DeviceSettingsViewController {
     
     private func handleTakePhotoNotification() {
         guard !isXGZT else { return }
-        takePhoto()
+        if Thread.isMainThread {
+            takePhoto()
+        } else {
+            DispatchQueue.main.async { [weak self] in
+                self?.takePhoto()
+            }
+        }
     }
     
     private func handleDismissCameraNotification() {
@@ -315,6 +352,16 @@ private extension DeviceSettingsViewController {
     
     private func handleXGZTStatusNotification() {
         guard isXGZT else { return }
+        if Thread.isMainThread {
+            handleXGZTStatusOnMain()
+        } else {
+            DispatchQueue.main.async { [weak self] in
+                self?.handleXGZTStatusOnMain()
+            }
+        }
+    }
+    
+    private func handleXGZTStatusOnMain() {
         cachedDisplayTitles = nil // 清除缓存
         
         guard let device = XGZTBlueToothManager.shared.device else {
@@ -426,6 +473,10 @@ private extension DeviceSettingsViewController {
         if isXGZT {
             guard let device = XGZTBlueToothManager.shared.device else {
                 Toast(text: "mine_unconnect".localized()).show()
+                return
+            }
+            guard device.supportsRaiseHandScreen else {
+                Toast(text: "当前设备不支持抬手亮屏").show()
                 return
             }
             XGZTBlueToothManager.shared.device?.isRaisehandtobrightenscreen = isOn
@@ -568,6 +619,32 @@ private extension DeviceSettingsViewController {
         vc.hidesBottomBarWhenPushed = true
         parent?.navigationController?.pushViewController(vc, animated: true)
     }
+    
+    // MARK: - 健康检测功能列表
+    
+    /// 返回当前设备按固定顺序的健康检测卡片列表
+    /// 顺序：心率(bit0) → 睡眠(bit4) → 血压(bit2) → 血氧(bit1) → 心电图ECG(bit8)
+    private func healthCardsForCurrentDevice() -> [(flag: Int, titleKey: String, iconName: String, valueIndexOffset: Int, type: Int)] {
+        let device = XGZTBlueToothManager.shared.device
+        let flags = device?.healthcontrolflags ?? 0
+        var cards: [(Int, String, String, Int, Int)] = []
+        if flags & 1 == 1 {
+            cards.append((0, "health_heart_rate", "health_heart", 0, 2))
+        }
+        if ((flags >> 4) & 1) == 1 {
+            cards.append((4, "health_sleep", "health_sleep", 1, 3))
+        }
+        if ((flags >> 2) & 1) == 1 {
+            cards.append((2, "health_blood_pressure", "health_bloodpressure", 2, 4))
+        }
+        if ((flags >> 1) & 1) == 1 {
+            cards.append((1, "health_blood_oxygen", "health_bloodoxygen", 3, 5))
+        }
+        if ((flags >> 8) & 1) == 1 || (device?.supportsECG ?? false) {
+            cards.append((8, "health_ecg", "health_ecg", 4, 6))
+        }
+        return cards
+    }
 }
 
 // MARK: - UICollectionView DataSource
@@ -587,7 +664,10 @@ extension DeviceSettingsViewController: UICollectionViewDataSource {
         ) as! DeviceSettingsCollectionViewCell
         
         // 获取原始行号
-        let originalRow = titles.firstIndex(of: displayTitles[indexPath.item]) ?? indexPath.item
+        let originalRow = originalRow(for: indexPath.item)
+        guard indexPath.item < displayTitles.count else {
+            return cell
+        }
         cell.titleLabel.text = displayTitles[indexPath.item]
         
         // 配置辅助视图
@@ -604,8 +684,14 @@ extension DeviceSettingsViewController: UICollectionViewDataSource {
     
     // 配置辅助视图
     private func configureAccessoryView(for cell: DeviceSettingsCollectionViewCell, originalRow: Int) {
+        let device = XGZTBlueToothManager.shared.device
+        let supportsRaiseHand = device?.supportsRaiseHandScreen ?? true
         // 需要显示开关的行：1-3、5
         if [1, 2, 3, 5].contains(originalRow) {
+            if originalRow == 2 && !supportsRaiseHand {
+                cell.accessoryView = UIImageView(image: UIImage(named: "content_next"))
+                return
+            }
             let mSwitch = UISwitch()
             mSwitch.tag = .switchTagOffset + originalRow
             mSwitch.addTarget(self, action: #selector(switchValueChanged(_:)), for: .valueChanged)
@@ -619,8 +705,9 @@ extension DeviceSettingsViewController: UICollectionViewDataSource {
                     bleSelf.notifyModel.isCall
             case 2: // 抬手亮屏
                 mSwitch.isOn = isXGZT ?
-                    (XGZTBlueToothManager.shared.device?.isRaisehandtobrightenscreen ?? false) :
+                    (supportsRaiseHand && (XGZTBlueToothManager.shared.device?.isRaisehandtobrightenscreen ?? false)) :
                     bleSelf.functionSwitchModel.isLightScreen
+                mSwitch.isEnabled = supportsRaiseHand
             case 3: // 久坐提醒
                 mSwitch.isOn = isXGZT ?
                     ((((XGZTBlueToothManager.shared.device?.longsit?.cycle ?? 0) >> 7) & 1) > 0) :
@@ -684,7 +771,7 @@ extension DeviceSettingsViewController: UICollectionViewDelegate {
         if indexPath.item >= displayTitles.count {
             return
         }
-        let originalRow = titles.firstIndex(of: displayTitles[indexPath.item]) ?? indexPath.item
+        let originalRow = originalRow(for: indexPath.item)
         handleItemSelection(for: originalRow)
     }
     
@@ -790,11 +877,131 @@ extension DeviceSettingsViewController: UICollectionViewDelegate {
             let vc = SyncContactsViewController()
             vc.hidesBottomBarWhenPushed = true
             parent?.navigationController?.pushViewController(vc, animated: true)
+
+        case powerControlRowIdentifier:
+            let vc = DevicePowerControlViewController()
+            vc.hidesBottomBarWhenPushed = true
+            parent?.navigationController?.pushViewController(vc, animated: true)
             
         default:
             print("点击的行数不需要处理")
             break
         }
+    }
+
+    private func originalRow(for displayIndex: Int) -> Int {
+        let title = displayTitles[displayIndex]
+        if title == powerControlTitle {
+            return powerControlRowIdentifier
+        }
+        return titles.firstIndex(of: title) ?? displayIndex
+    }
+}
+
+final class DevicePowerControlViewController: UIViewController {
+    private struct PowerControlItem {
+        let title: String
+        let message: String
+        let action: XGZTDevicePowerAction
+    }
+
+    private lazy var tableView: UITableView = {
+        let tableView = UITableView(frame: .zero, style: .insetGrouped)
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.backgroundColor = UIColor.kF5F5F5
+        tableView.separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "PowerControlCell")
+        tableView.dataSource = self
+        tableView.delegate = self
+        return tableView
+    }()
+
+    private var items: [PowerControlItem] {
+        guard let device = XGZTBlueToothManager.shared.device else { return [] }
+        var result: [PowerControlItem] = []
+        if device.supportsFactoryResetControl {
+            result.append(PowerControlItem(
+                title: "device_factory_reset".localized(),
+                message: "device_factory_reset_desc".localized(),
+                action: .factoryReset
+            ))
+        }
+        if device.supportsRestartControl {
+            result.append(PowerControlItem(
+                title: "device_restart".localized(),
+                message: "device_restart_desc".localized(),
+                action: .restart
+            ))
+        }
+        if device.supportsShutdownControl {
+            result.append(PowerControlItem(
+                title: "device_shutdown".localized(),
+                message: "device_shutdown_desc".localized(),
+                action: .shutdown
+            ))
+        }
+        return result
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        title = "device_power_controls".localized()
+        view.backgroundColor = UIColor.kF5F5F5
+        view.addSubview(tableView)
+        NSLayoutConstraint.activate([
+            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
+    }
+
+    private func confirmAction(for item: PowerControlItem) {
+        guard XGZTBlueToothManager.shared.device != nil, XGZTBlueToothManager.shared.isconnected() else {
+            Toast(text: "mine_unconnect".localized()).show()
+            return
+        }
+        let alert = UIAlertController(
+            title: "device_tip".localized(),
+            message: item.message,
+            preferredStyle: .alert
+        )
+        alert.addAction(UIAlertAction(title: "mine_cancel".localized(), style: .cancel))
+        alert.addAction(UIAlertAction(title: "mine_confirm".localized(), style: .destructive, handler: { [weak self] _ in
+            XGZTCommand.controlDevicePower(item.action)
+            self?.navigationController?.popViewController(animated: true)
+        }))
+        present(alert, animated: true)
+    }
+}
+
+extension DevicePowerControlViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        items.count
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "PowerControlCell", for: indexPath)
+        cell.accessoryType = .disclosureIndicator
+        if #available(iOS 14.0, *) {
+            var configuration = cell.defaultContentConfiguration()
+            configuration.text = items[indexPath.row].title
+            configuration.textProperties.color = .black
+            configuration.textProperties.font = UIFont.systemFont(ofSize: 16, weight: .medium)
+            cell.contentConfiguration = configuration
+        } else {
+            cell.textLabel?.text = items[indexPath.row].title
+            cell.textLabel?.textColor = .black
+            cell.textLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
+        }
+        return cell
+    }
+}
+
+extension DevicePowerControlViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        confirmAction(for: items[indexPath.row])
     }
 }
     

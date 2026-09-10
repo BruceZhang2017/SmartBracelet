@@ -16,6 +16,12 @@
 "health_blood_pressure" = "tansiyon";
 "health_blood_pressure_unit" = "MMHG";
 "health_blood_oxygen" = "kan oksijeni";
+"health_blood_glucose" = "Kan şekeri";
+"health_uric_acid" = "Ürik asit";
+"health_blood_lipid" = "Kan lipitleri";
+"health_blood_glucose_desc" = "Kan şekeri ölçümü";
+"health_uric_acid_desc" = "Ürik asit ölçümü";
+"health_blood_lipid_desc" = "Kan lipitleri ölçümü";
 "health_data_dynamic" = "Veri dinamikleri";
 "device" = "teçhizat";
 "add_device" = "Lütfen bir cihaz ekleyin";
@@ -226,6 +232,13 @@
 "device_search_settings" = "ayarları bul";
 "device_device_info" = "Cihaz bilgisi";
 "device_shark_photo" = "Uzaktan Fotoğraf";
+"device_power_controls" = "Güç kontrolü";
+"device_factory_reset" = "Fabrika ayarlarını geri yükle";
+"device_factory_reset_desc" = "Fabrika ayarlarını geri yüklemek cihazdaki tüm verileri ve ayarları siler. Devam edilsin mi?";
+"device_restart" = "Yeniden başlat";
+"device_restart_desc" = "Cihazı şimdi yeniden başlatmak istediğinizden emin misiniz?";
+"device_shutdown" = "Kapat (şarj edildiğinde cihaz otomatik açılır)";
+"device_shutdown_desc" = "Cihazı kapatmak istediğinizden emin misiniz? Şarj ederek tekrar açabilirsiniz.";
 "device_change" = "cihaz değiştirme";
 "mine" = "bana ait";
 "mine_bluetooth_connect" = "bluetooth bağlı";
@@ -572,3 +585,28 @@
 "user_info_step_length" = "Step length";
 "user_info_done" = "Done";
 
+
+// MARK: - ECG fallback (en)
+"health_ecg" = "ECG";
+"ecg_history" = "EKG geçmişi";
+"ecg_history_detail" = "EKG kaydı ayrıntıları";
+"ecg_history_empty" = "Henüz EKG kaydı yok";
+"ecg_history_error" = "EKG kaydı yüklenemedi";
+"ecg_save_error" = "EKG kaydı kaydedilemedi";
+"ecg_pause" = "Duraklat";
+"ecg_resume" = "Oynatmaya devam et";
+"ecg_replay" = "Tekrar oynat";
+"ecg_loading" = "Yükleniyor";
+"ecg_playback_time" = "%d / %d sn";
+"ecg_history_duration" = "%@ · Süre %@ sn";
+"ecg_waveform_note" = "Dalga formu, kaydedilen nabızdan üretildi";
+"ecg_recorded_rate" = "Kaydedilen nabız";
+
+"health_ecg_subtitle" = "Start caring for your heart health now";
+"ecg_desc" = "Real-time ECG measurement";
+
+// MARK: - PPG realtime pulse
+"ppg_measure_remaining" = "Kalan %d saniye";
+"ppg_measure_complete" = "Ölçüm tamamlandı";
+"ppg_real_time_pulse" = "Gerçek zamanlı nabız: ";
+"ppg_worn_off" = "Bileklik takılı değil veya çıktı, dalga sıfırlandı. Lütfen bilekliği takın";

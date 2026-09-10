@@ -115,7 +115,7 @@ class ABOtaViewController: UIViewController {
         DispatchQueue.main.async { [weak self] in
             let normalizedProgress = progress / 100.0
             self?.progressView.progress = normalizedProgress
-            self?.progressLabel.text = String(format: "%d%%", UInt(progress))
+            self?.progressLabel.text = String(format: "%d%%", Int32(progress))
         }
     }
     

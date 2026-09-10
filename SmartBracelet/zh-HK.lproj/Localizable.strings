@@ -16,6 +16,21 @@
 "health_blood_pressure" = "血壓";
 "health_blood_pressure_unit" = "MMHG";
 "health_blood_oxygen" = "血氧";
+"health_blood_glucose" = "血糖";
+"health_uric_acid" = "尿酸";
+"health_blood_lipid" = "血脂";
+"health_blood_glucose_desc" = "血糖測量";
+"health_uric_acid_desc" = "尿酸測量";
+"health_blood_lipid_desc" = "血脂測量";
+"health_ppg" = "脈搏";
+"health_hrv" = "心率變異性";
+"health_stress" = "情緒壓力";
+"health_fatigue" = "疲勞度";
+"health_ppg_desc" = "脈搏測量";
+"health_hrv_desc" = "心率變異性測量";
+"health_stress_desc" = "情緒壓力測量";
+"health_fatigue_desc" = "疲勞度測量";
+"health_score_unit" = "分";
 "health_data_dynamic" = "數據動態";
 "device" = "設備";
 "add_device" = "請添加設備";
@@ -226,6 +241,13 @@
 "device_search_settings" = "查找設置";
 "device_device_info" = "設備信息";
 "device_shark_photo" = "遙控拍照";
+"device_power_controls" = "電源控制";
+"device_factory_reset" = "恢復出廠設定";
+"device_factory_reset_desc" = "恢復出廠設定將清除裝置上的所有資料和設定，是否繼續？";
+"device_restart" = "重新啟動";
+"device_restart_desc" = "確定要立即重新啟動裝置嗎？";
+"device_shutdown" = "關機（充電可自動開機）";
+"device_shutdown_desc" = "確定要關閉裝置嗎？充電可重新開機。";
 "device_change" = "設備切換";
 "mine" = "我的";
 "mine_bluetooth_connect" = "藍牙已連接";
@@ -571,3 +593,28 @@
 "user_info_step_length" = "Step length";
 "user_info_done" = "Done";
 
+
+// MARK: - ECG fallback (en)
+"health_ecg" = "ECG";
+"ecg_history" = "心電圖記錄";
+"ecg_history_detail" = "心電圖記錄詳情";
+"ecg_history_empty" = "暫無心電圖記錄";
+"ecg_history_error" = "無法載入心電圖記錄";
+"ecg_save_error" = "無法儲存心電圖記錄";
+"ecg_pause" = "暫停";
+"ecg_resume" = "繼續播放";
+"ecg_replay" = "重新播放";
+"ecg_loading" = "載入中";
+"ecg_playback_time" = "%d / %d 秒";
+"ecg_history_duration" = "%@ · 時長 %@ 秒";
+"ecg_waveform_note" = "波形根據記錄的心率生成";
+"ecg_recorded_rate" = "記錄心率";
+
+"health_ecg_subtitle" = "Start caring for your heart health now";
+"ecg_desc" = "Real-time ECG measurement";
+
+// MARK: - PPG realtime pulse
+"ppg_measure_remaining" = "剩餘 %d 秒";
+"ppg_measure_complete" = "測量完成";
+"ppg_real_time_pulse" = "實時脈率: ";
+"ppg_worn_off" = "手環未佩戴或脫落，波形已歸零，請佩戴手環";

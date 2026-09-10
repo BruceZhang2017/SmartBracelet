@@ -15,6 +15,12 @@
 "health_blood_pressure" = "Asinsspiediens";
 "health_blood_pressure_unit" = "MMHG";
 "health_blood_oxygen" = "Asins skābeklis";
+"health_blood_glucose" = "Asins glikoze";
+"health_uric_acid" = "Urīnskābe";
+"health_blood_lipid" = "Asins lipīdi";
+"health_blood_glucose_desc" = "Asins glikozes mērīšana";
+"health_uric_acid_desc" = "Urīnskābes mērīšana";
+"health_blood_lipid_desc" = "Asins lipīdu mērīšana";
 "health_data_dynamic" = "Datu dinamika";
 "device" = "īranga";
 "add_device" = "Lūdzu, pievienojiet ierīgu";
@@ -52,6 +58,13 @@
 "device_search_settings" = "Atrast iestatījumus";
 "device_device_info" = "Ierīgas informācija";
 "device_shark_photo" = "Attālināta fotografēšana";
+"device_power_controls" = "Barošanas vadība";
+"device_factory_reset" = "Atjaunot rūpnīcas iestatījumus";
+"device_factory_reset_desc" = "Rūpnīcas iestatījumu atjaunošana izdzēsīs visus ierīces datus un iestatījumus. Turpināt?";
+"device_restart" = "Restartēt";
+"device_restart_desc" = "Vai tiešām vēlaties restartēt ierīci tagad?";
+"device_shutdown" = "Izslēgt (uzlādējot ierīce tiks automātiski ieslēgta)";
+"device_shutdown_desc" = "Vai tiešām vēlaties izslēgt ierīci? To var atkal ieslēgt, uzlādējot.";
 "device_change" = "Ierīgu maiņa";
 "mine" = "mans";
 "mine_bluetooth_connect" = "Bluetooth ir savienots";
@@ -423,3 +436,28 @@
 "user_info_step_length" = "Step length";
 "user_info_done" = "Done";
 
+
+// MARK: - ECG fallback (en)
+"health_ecg" = "ECG";
+"ecg_history" = "EKG vēsture";
+"ecg_history_detail" = "EKG ieraksta detalizēta informācija";
+"ecg_history_empty" = "Pagaidām nav EKG ierakstu";
+"ecg_history_error" = "Neizdevās ielādēt EKG ierakstu";
+"ecg_save_error" = "Neizdevās saglabāt EKG ierakstu";
+"ecg_pause" = "Pauze";
+"ecg_resume" = "Turpināt atskaņošanu";
+"ecg_replay" = "Atskaņot vēlreiz";
+"ecg_loading" = "Notiek ielāde";
+"ecg_playback_time" = "%d / %d s";
+"ecg_history_duration" = "%@ · Ilgums %@ s";
+"ecg_waveform_note" = "Vilnis ģenerēts no ierakstītā pulsa";
+"ecg_recorded_rate" = "Ierakstītais pulss";
+
+"health_ecg_subtitle" = "Start caring for your heart health now";
+"ecg_desc" = "Real-time ECG measurement";
+
+// MARK: - PPG realtime pulse
+"ppg_measure_remaining" = "Atlikušas %d sekundes";
+"ppg_measure_complete" = "Mērījums pabeigts";
+"ppg_real_time_pulse" = "Pulss reāllaikā: ";
+"ppg_worn_off" = "Rokassprādze netiek nēsāta vai atvienojās, vilnis ir atiestatīts. Lūdzu uzlieciet rokassprādzi";

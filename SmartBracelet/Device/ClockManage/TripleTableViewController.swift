@@ -891,6 +891,9 @@ extension TripleTableViewController: UICollectionViewDelegate, UICollectionViewD
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let totalWidth = collectionView.bounds.width
         let itemWidth = totalWidth / 2
+        guard indexPath.row < rightViewModel.items.count else {
+            return CGSize(width: floor(itemWidth), height: 0)
+        }
         let item = rightViewModel.items[indexPath.row]
         let itemHeight = calculateItemHeight(for: item)
         return CGSize(width: floor(itemWidth), height: itemHeight)
@@ -902,6 +905,9 @@ extension TripleTableViewController: UICollectionViewDelegate, UICollectionViewD
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "RightCollectionCell", for: indexPath) as! RightCollectionCell
+        guard indexPath.row < rightViewModel.items.count else {
+            return cell
+        }
         let item = rightViewModel.items[indexPath.row]
         cell.configure(with: item)
         cell.tag = indexPath.row
@@ -909,6 +915,9 @@ extension TripleTableViewController: UICollectionViewDelegate, UICollectionViewD
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard indexPath.row < rightViewModel.items.count else {
+            return
+        }
         let item = rightViewModel.items[indexPath.row]
         let pushDetail: () -> Void = {
             let storyboard = UIStoryboard(name: "Device", bundle: nil)

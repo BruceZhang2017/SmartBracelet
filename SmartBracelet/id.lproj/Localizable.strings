@@ -16,6 +16,12 @@
 "health_blood_pressure" = "tekanan darah";
 "health_blood_pressure_unit" = "MMHG";
 "health_blood_oxygen" = "Oxygène sanguin";
+"health_blood_glucose" = "Gula darah";
+"health_uric_acid" = "Asam urat";
+"health_blood_lipid" = "Lemak darah";
+"health_blood_glucose_desc" = "Pengukuran gula darah";
+"health_uric_acid_desc" = "Pengukuran asam urat";
+"health_blood_lipid_desc" = "Pengukuran lemak darah";
 "health_data_dynamic" = "Dinamika data";
 "device" = "peralatan";
 "add_device" = "Silakan tambahkan perangkat";
@@ -226,6 +232,13 @@
 "device_search_settings" = "menemukan pengaturan";
 "device_device_info" = "Informasi Perangkat";
 "device_shark_photo" = "Foto Jarak Jauh";
+"device_power_controls" = "Kontrol daya";
+"device_factory_reset" = "Setel ulang ke pengaturan pabrik";
+"device_factory_reset_desc" = "Mengembalikan pengaturan pabrik akan menghapus semua data dan pengaturan di perangkat. Lanjutkan?";
+"device_restart" = "Mulai ulang";
+"device_restart_desc" = "Yakin ingin memulai ulang perangkat sekarang?";
+"device_shutdown" = "Matikan (pengisian daya akan menyalakan perangkat secara otomatis)";
+"device_shutdown_desc" = "Yakin ingin mematikan perangkat? Perangkat dapat dinyalakan kembali dengan mengisi daya.";
 "device_change" = "peralihan perangkat";
 "mine" = "milikku";
 "mine_bluetooth_connect" = "bluetooth terhubung";
@@ -572,3 +585,28 @@
 "user_info_step_length" = "Step length";
 "user_info_done" = "Done";
 
+
+// MARK: - ECG fallback (en)
+"health_ecg" = "ECG";
+"ecg_history" = "Riwayat ECG";
+"ecg_history_detail" = "Detail rekaman ECG";
+"ecg_history_empty" = "Belum ada rekaman ECG";
+"ecg_history_error" = "Gagal memuat rekaman ECG";
+"ecg_save_error" = "Gagal menyimpan rekaman ECG";
+"ecg_pause" = "Jeda";
+"ecg_resume" = "Lanjutkan pemutaran";
+"ecg_replay" = "Putar ulang";
+"ecg_loading" = "Memuat";
+"ecg_playback_time" = "%d / %d dtk";
+"ecg_history_duration" = "%@ · Durasi %@ dtk";
+"ecg_waveform_note" = "Bentuk gelombang dihasilkan dari denyut nadi yang direkam";
+"ecg_recorded_rate" = "Denyut nadi yang direkam";
+
+"health_ecg_subtitle" = "Start caring for your heart health now";
+"ecg_desc" = "Real-time ECG measurement";
+
+// MARK: - PPG realtime pulse
+"ppg_measure_remaining" = "Tersisa %d detik";
+"ppg_measure_complete" = "Pengukuran selesai";
+"ppg_real_time_pulse" = "Denyut waktu nyata: ";
+"ppg_worn_off" = "Gelang tidak dipakai atau terlepas, gelombang direset ke nol. Pakailah gelang";

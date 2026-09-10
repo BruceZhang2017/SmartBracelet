@@ -15,6 +15,12 @@
 "health_blood_pressure" = "krvní tlak";
 "health_blood_pressure_unit" = "MMHG";
 "health_blood_oxygen" = "Krvní kyslík";
+"health_blood_glucose" = "Krevní glukóza";
+"health_uric_acid" = "Kyselina močová";
+"health_blood_lipid" = "Krevní lipidy";
+"health_blood_glucose_desc" = "Měření krevní glukózy";
+"health_uric_acid_desc" = "Měření kyseliny močové";
+"health_blood_lipid_desc" = "Měření krevních lipidů";
 "health_data_dynamic" = "Dynamika dat";
 "device" = "zařízení";
 "add_device" = "Prosím, přidejte zařízení";
@@ -52,6 +58,13 @@
 "device_search_settings" = "Hledání nastavení";
 "device_device_info" = "Informace o zařízení";
 "device_shark_photo" = "Dálkové ovládání fotoaparátu";
+"device_power_controls" = "Ovládání napájení";
+"device_factory_reset" = "Obnovit tovární nastavení";
+"device_factory_reset_desc" = "Obnovení továrního nastavení smaže všechna data a nastavení v zařízení. Pokračovat?";
+"device_restart" = "Restartovat";
+"device_restart_desc" = "Opravdu chcete zařízení restartovat?";
+"device_shutdown" = "Vypnout (nabíjení zařízení automaticky zapne)";
+"device_shutdown_desc" = "Opravdu chcete zařízení vypnout? Lze jej znovu zapnout nabíjením.";
 "device_change" = "Změna zařízení";
 "mine" = "můj";
 "mine_bluetooth_connect" = "Bluetooth je připojen";
@@ -424,3 +437,28 @@
 "user_info_step_length" = "Step length";
 "user_info_done" = "Done";
 
+
+// MARK: - ECG fallback (en)
+"health_ecg" = "ECG";
+"ecg_history" = "Historie EKG";
+"ecg_history_detail" = "Podrobnosti záznamu EKG";
+"ecg_history_empty" = "Zatím žádné záznamy EKG";
+"ecg_history_error" = "Nepodařilo se načíst záznam EKG";
+"ecg_save_error" = "Nepodařilo se uložit záznam EKG";
+"ecg_pause" = "Pauza";
+"ecg_resume" = "Pokračovat v přehrávání";
+"ecg_replay" = "Přehrát znovu";
+"ecg_loading" = "Načítání";
+"ecg_playback_time" = "%d / %d s";
+"ecg_history_duration" = "%@ · Délka %@ s";
+"ecg_waveform_note" = "Průběh generován ze zaznamenané srdeční frekvence";
+"ecg_recorded_rate" = "Zaznamenaná srdeční frekvence";
+
+"health_ecg_subtitle" = "Start caring for your heart health now";
+"ecg_desc" = "Real-time ECG measurement";
+
+// MARK: - PPG realtime pulse
+"ppg_measure_remaining" = "Zbývá %d sekund";
+"ppg_measure_complete" = "Měření dokončeno";
+"ppg_real_time_pulse" = "Puls v reálném čase: ";
+"ppg_worn_off" = "Náramek není nasazen nebo se uvolnil, vlna je vynulována. Nasaďte si prosím náramek";

@@ -397,7 +397,7 @@ open class ChartBaseDataSet: NSObject, IChartDataSet, NSCopying
     
     open override var description: String
     {
-        return String(format: "%@, label: %@, %i entries", arguments: [NSStringFromClass(type(of: self)), self.label ?? "", self.entryCount])
+        return String(format: "%@, label: %@, %i entries", arguments: [NSStringFromClass(type(of: self)), self.label ?? "", Int32(self.entryCount)])
     }
     
     open override var debugDescription: String

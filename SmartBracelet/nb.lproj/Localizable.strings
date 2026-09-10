@@ -15,6 +15,12 @@
 "health_blood_pressure" = "Blodtrykk";
 "health_blood_pressure_unit" = "MMHG";
 "health_blood_oxygen" = "Blodoksygen";
+"health_blood_glucose" = "Blodsukker";
+"health_uric_acid" = "Urinsyre";
+"health_blood_lipid" = "Blodlipider";
+"health_blood_glucose_desc" = "Måling av blodsukker";
+"health_uric_acid_desc" = "Måling av urinsyre";
+"health_blood_lipid_desc" = "Måling av blodlipider";
 "health_data_dynamic" = "Datadynamikk";
 "device" = "Enhet";
 "add_device" = "Vennligst legg til enhet";
@@ -52,6 +58,13 @@
 "device_search_settings" = "Finn instillinger";
 "device_device_info" = "Enhetsinformasjon";
 "device_shark_photo" = "Fjernfoto";
+"device_power_controls" = "Strømstyring";
+"device_factory_reset" = "Gjenopprett fabrikkinnstillinger";
+"device_factory_reset_desc" = "Gjenoppretting av fabrikkinnstillinger sletter alle data og innstillinger på enheten. Fortsette?";
+"device_restart" = "Start på nytt";
+"device_restart_desc" = "Er du sikker på at du vil starte enheten på nytt?";
+"device_shutdown" = "Slå av (lading starter enheten automatisk)";
+"device_shutdown_desc" = "Er du sikker på at du vil slå av enheten? Den kan slås på igjen ved lading.";
 "device_change" = "Enhetsskift";
 "mine" = "min";
 "mine_bluetooth_connect" = "Bluetooth er koblet";
@@ -419,3 +432,28 @@
 "user_info_step_length" = "Step length";
 "user_info_done" = "Done";
 
+
+// MARK: - ECG fallback (en)
+"health_ecg" = "ECG";
+"ecg_history" = "EKG-historikk";
+"ecg_history_detail" = "Detaljer for EKG-opptak";
+"ecg_history_empty" = "Ingen EKG-opptak ennå";
+"ecg_history_error" = "Kan ikke laste EKG-opptak";
+"ecg_save_error" = "Kan ikke lagre EKG-opptak";
+"ecg_pause" = "Pause";
+"ecg_resume" = "Fortsett avspilling";
+"ecg_replay" = "Spill på nytt";
+"ecg_loading" = "Laster inn";
+"ecg_playback_time" = "%d / %d s";
+"ecg_history_duration" = "%@ · Varighet %@ s";
+"ecg_waveform_note" = "Bølgeform generert fra registrert puls";
+"ecg_recorded_rate" = "Registrert puls";
+
+"health_ecg_subtitle" = "Start caring for your heart health now";
+"ecg_desc" = "Real-time ECG measurement";
+
+// MARK: - PPG realtime pulse
+"ppg_measure_remaining" = "Gjenstående %d sekunder";
+"ppg_measure_complete" = "Måling fullført";
+"ppg_real_time_pulse" = "Puls i sanntid: ";
+"ppg_worn_off" = "Båndet er ikke på eller løsnet, bølgen er nulstilt. Vennligst ta på båndet";

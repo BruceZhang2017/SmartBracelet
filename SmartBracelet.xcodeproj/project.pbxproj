@@ -543,6 +543,9 @@
 		9AFAE87A2A8F21F7005EF8F8 /* JGProgressHUDRingIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AFAE86E2A8F21F7005EF8F8 /* JGProgressHUDRingIndicatorView.m */; };
 		9AFAE87B2A8F21F7005EF8F8 /* JGProgressHUDPieIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AFAE86F2A8F21F7005EF8F8 /* JGProgressHUDPieIndicatorView.m */; };
 		9AFAE87C2A8F21F7005EF8F8 /* JGProgressHUDShadow.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AFAE8702A8F21F7005EF8F8 /* JGProgressHUDShadow.m */; };
+		D2ECG0032F00000100ECG003 /* EcgHistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2ECG0012F00000100ECG001 /* EcgHistoryViewController.swift */; };
+		D2ECG0042F00000100ECG004 /* EcgHistoryDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2ECG0022F00000100ECG002 /* EcgHistoryDetailViewController.swift */; };
+		D2ECG0062F00000100ECG006 /* EcgWaveformView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2ECG0052F00000100ECG005 /* EcgWaveformView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -1229,6 +1232,9 @@
 		9AFAE86E2A8F21F7005EF8F8 /* JGProgressHUDRingIndicatorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JGProgressHUDRingIndicatorView.m; sourceTree = "<group>"; };
 		9AFAE86F2A8F21F7005EF8F8 /* JGProgressHUDPieIndicatorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JGProgressHUDPieIndicatorView.m; sourceTree = "<group>"; };
 		9AFAE8702A8F21F7005EF8F8 /* JGProgressHUDShadow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JGProgressHUDShadow.m; sourceTree = "<group>"; };
+		D2ECG0012F00000100ECG001 /* EcgHistoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EcgHistoryViewController.swift; sourceTree = "<group>"; };
+		D2ECG0022F00000100ECG002 /* EcgHistoryDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EcgHistoryDetailViewController.swift; sourceTree = "<group>"; };
+		D2ECG0052F00000100ECG005 /* EcgWaveformView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EcgWaveformView.swift; sourceTree = "<group>"; };
 		D7EC02089AA6EE45DDAFA01E /* Pods_SmartBracelet.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SmartBracelet.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D8A654B36B144ACD7349613C /* Pods-SmartBracelet.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SmartBracelet.debug.xcconfig"; path = "Target Support Files/Pods-SmartBracelet/Pods-SmartBracelet.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -2110,6 +2116,9 @@
 				9A3C55D02BD3F41B007737A2 /* TestView.swift */,
 				9A5613F02524875400C43C6A /* CommonCalendarView.swift */,
 				9A820B7524CEA2A500A62C6F /* HealthDetailViewController.swift */,
+				D2ECG0012F00000100ECG001 /* EcgHistoryViewController.swift */,
+				D2ECG0022F00000100ECG002 /* EcgHistoryDetailViewController.swift */,
+				D2ECG0052F00000100ECG005 /* EcgWaveformView.swift */,
 				9A5613F22524879600C43C6A /* CommonCalendarView.xib */,
 				9A5613F425248BFC00C43C6A /* AudioButtonView.swift */,
 				9AE1A180262AB9F900B8B10D /* HeartRateView.swift */,
@@ -2859,6 +2868,9 @@
 				9A8CA52225272C5200EC01A7 /* CVCalendarManager.swift in Sources */,
 				9A56D2B725216FC70082CC08 /* ILineRadarChartDataSet.swift in Sources */,
 				9A820B7624CEA2A500A62C6F /* HealthDetailViewController.swift in Sources */,
+				D2ECG0032F00000100ECG003 /* EcgHistoryViewController.swift in Sources */,
+				D2ECG0042F00000100ECG004 /* EcgHistoryDetailViewController.swift in Sources */,
+				D2ECG0062F00000100ECG006 /* EcgWaveformView.swift in Sources */,
 				9A2184D8255AE3D4000330E5 /* RegisterResponse.swift in Sources */,
 				9A820B8F24D1B15B00A62C6F /* UIButton+Extension.swift in Sources */,
 				9A56D2AB25216FC70082CC08 /* CandleChartData.swift in Sources */,
@@ -3454,7 +3466,7 @@
 				CODE_SIGN_ENTITLEMENTS = SmartBracelet/SmartBraceletDebug.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 14;
+				CURRENT_PROJECT_VERSION = 32;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_ASSET_PATHS = TJDWristbandSDK.framework;
 				DEVELOPMENT_TEAM = 6BTCM549U7;
@@ -3469,7 +3481,7 @@
 					"$(PROJECT_DIR)/SmartBracelet",
 				);
 				INFOPLIST_FILE = SmartBracelet/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -3503,7 +3515,7 @@
 				CODE_SIGN_ENTITLEMENTS = SmartBracelet/SmartBraceletRelease.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 14;
+				CURRENT_PROJECT_VERSION = 32;
 				DEVELOPMENT_ASSET_PATHS = TJDWristbandSDK.framework;
 				DEVELOPMENT_TEAM = 6BTCM549U7;
 				ENABLE_BITCODE = NO;
@@ -3517,7 +3529,7 @@
 					"$(PROJECT_DIR)/SmartBracelet",
 				);
 				INFOPLIST_FILE = SmartBracelet/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

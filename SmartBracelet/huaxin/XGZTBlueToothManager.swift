@@ -51,6 +51,7 @@ class XGZTBlueToothManager: NSObject, CBCentralManagerDelegate, CBPeripheralDele
     public var isFromOTASuccess = false // 是否正在 OTA
     private var reconnectTimer: Timer? // 重连定时器
     private var scanTimer: Timer? // 搜索设备定时器
+    private var batteryPollingTimer: Timer?
     private var autoDisconnect = false // 主动断开
     private var scanMacAddress = ""
     public var switchAutoDisconnect = false
@@ -184,10 +185,36 @@ class XGZTBlueToothManager: NSObject, CBCentralManagerDelegate, CBPeripheralDele
     
     
     func disconnectDevice() {
+        stopBatteryPolling()
         if let per = peripheral {
             autoDisconnect = true
             centralManager?.cancelPeripheralConnection(per)
         }
+    }
+
+    func updateBatteryPollingIfNeeded() {
+        guard device?.isNoScreenDevice == true, isconnected() else {
+            stopBatteryPolling()
+            return
+        }
+        if batteryPollingTimer == nil {
+            requestBatteryLevel()
+            let timer = Timer.scheduledTimer(withTimeInterval: 60, repeats: true) { [weak self] _ in
+                self?.requestBatteryLevel()
+            }
+            RunLoop.main.add(timer, forMode: .common)
+            batteryPollingTimer = timer
+        }
+    }
+
+    func stopBatteryPolling() {
+        batteryPollingTimer?.invalidate()
+        batteryPollingTimer = nil
+    }
+
+    private func requestBatteryLevel() {
+        guard device?.isNoScreenDevice == true, isconnected() else { return }
+        XGZTCommand.getBatteryLevel()
     }
     
     // 新增发起 BLE 回连功能
@@ -268,6 +295,7 @@ class XGZTBlueToothManager: NSObject, CBCentralManagerDelegate, CBPeripheralDele
             startScanning()
         } else if central.state == .poweredOff {
             XLogger.shared.log("蓝牙已关闭")
+            stopBatteryPolling()
             if device != nil {
                 self.peripheral = nil
                 device = nil
@@ -324,12 +352,14 @@ class XGZTBlueToothManager: NSObject, CBCentralManagerDelegate, CBPeripheralDele
     func centralManager(_ central: CBCentralManager, didFailToConnect peripheral: CBPeripheral, error: Error?) {
         XLogger.shared.log("连接蓝牙设备失败: \(error?.localizedDescription ?? "未知错误")")
         connectFailMessage.append("[\(device?.max ?? "")]连接失败: \(error?.localizedDescription ?? "未知错误")")
+        stopBatteryPolling()
         self.peripheral = nil
         handler.handleDisconnected()
         device = nil
     }
     
     func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: (any Error)?) {
+        stopBatteryPolling()
         var msg = "[\(lastestDeviceMac)]断开连接:"
         
         // 处理非空错误
@@ -353,6 +383,7 @@ class XGZTBlueToothManager: NSObject, CBCentralManagerDelegate, CBPeripheralDele
             XLogger.shared.log("蓝牙断开回调方法：autoDisconnect")
             self.peripheral = nil
             device = nil
+            stopBatteryPolling()
             handler.handleDisconnected()
             autoDisconnect = false
             if isFromOTASuccess {
@@ -370,6 +401,7 @@ class XGZTBlueToothManager: NSObject, CBCentralManagerDelegate, CBPeripheralDele
             XLogger.shared.log("蓝牙断开回调方法：switchAutoDisconnect")
             self.peripheral = nil
             device = nil
+            stopBatteryPolling()
             handler.handleDisconnected()
             switchAutoDisconnect = false
             NotificationCenter.default.post(name: Notification.Name("DevicesViewController"), object: "3000")

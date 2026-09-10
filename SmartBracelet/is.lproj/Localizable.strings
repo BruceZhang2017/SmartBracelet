@@ -15,6 +15,12 @@
 "health_blood_pressure" = "Blóðhráði";
 "health_blood_pressure_unit" = "mmHg";
 "health_blood_oxygen" = "Blóðoxygín";
+"health_blood_glucose" = "Blóðsykur";
+"health_uric_acid" = "Þvagsýra";
+"health_blood_lipid" = "Blóðfita";
+"health_blood_glucose_desc" = "Mæling á blóðsykri";
+"health_uric_acid_desc" = "Mæling á þvagsýru";
+"health_blood_lipid_desc" = "Mæling á blóðfitu";
 "health_data_dynamic" = "Gildið dýpt";
 "device" = "Vél";
 "add_device" = "Bættið við vél";
@@ -54,6 +60,13 @@
 "device_search_settings" = "Leita að stillingum";
 "device_device_info" = "Upplýsingar um vél";
 "device_shark_photo" = "Fjarstýrð ljósmynd";
+"device_power_controls" = "Kraftstýring";
+"device_factory_reset" = "Endurheimta verksmiðjustillingar";
+"device_factory_reset_desc" = "Endurheimt verksmiðjustillinga eyðir öllum gögnum og stillingum tækisins. Halda áfram?";
+"device_restart" = "Endurræsa";
+"device_restart_desc" = "Ertu viss um að þú viljir endurræsa tækið núna?";
+"device_shutdown" = "Slökkva (hleðsla kveikir sjálfvirkt á tækinu)";
+"device_shutdown_desc" = "Ertu viss um að þú viljir slökkva á tækinu? Hægt er að kveikja á því aftur með hleðslu.";
 "device_change" = "Vél skipta";
 "mine" = "Mín";
 "mine_bluetooth_connect" = "Bluetooth tengd";
@@ -409,3 +422,28 @@
 "user_info_step_length" = "Step length";
 "user_info_done" = "Done";
 
+
+// MARK: - ECG fallback (en)
+"health_ecg" = "ECG";
+"ecg_history" = "EKG-saga";
+"ecg_history_detail" = "Upplýsingar um EKG-gögn";
+"ecg_history_empty" = "Engin EKG-gögn enn";
+"ecg_history_error" = "Ekki tókst að hlaða EKG-gögn";
+"ecg_save_error" = "Ekki tókst að vista EKG-gögn";
+"ecg_pause" = "Hlé";
+"ecg_resume" = "Halda áfram spilun";
+"ecg_replay" = "Spila aftur";
+"ecg_loading" = "Hleð";
+"ecg_playback_time" = "%d / %d s";
+"ecg_history_duration" = "%@ · Lengd %@ s";
+"ecg_waveform_note" = "Bylgjulaga út frá skráðum púls";
+"ecg_recorded_rate" = "Skráður púls";
+
+"health_ecg_subtitle" = "Start caring for your heart health now";
+"ecg_desc" = "Real-time ECG measurement";
+
+// MARK: - PPG realtime pulse
+"ppg_measure_remaining" = "Eftir %d sekúndur";
+"ppg_measure_complete" = "Mælingu lokið";
+"ppg_real_time_pulse" = "Púls í rauntíma: ";
+"ppg_worn_off" = "Band ekki notað eða losnað, bylgja núllstillt. Vinsamlegast notið bandið";

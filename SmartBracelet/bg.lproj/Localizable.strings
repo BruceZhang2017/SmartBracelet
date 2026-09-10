@@ -15,6 +15,12 @@
 "health_blood_pressure" = "кръвно налягане";
 "health_blood_pressure_unit" = "MMHG";
 "health_blood_oxygen" = "Кръвен кислород";
+"health_blood_glucose" = "Кръвна глюкоза";
+"health_uric_acid" = "Пикочна киселина";
+"health_blood_lipid" = "Кръвни липиди";
+"health_blood_glucose_desc" = "Измерване на кръвна глюкоза";
+"health_uric_acid_desc" = "Измерване на пикочна киселина";
+"health_blood_lipid_desc" = "Измерване на кръвни липиди";
 "health_data_dynamic" = "Динамика на данните";
 "device" = "устройство";
 "add_device" = "Моля, добавете устройство";
@@ -52,6 +58,13 @@
 "device_search_settings" = "Търсене на настройки";
 "device_device_info" = "Информация за устройството";
 "device_shark_photo" = "Дистанционна снимка";
+"device_power_controls" = "Контрол на захранването";
+"device_factory_reset" = "Възстановяване на фабричните настройки";
+"device_factory_reset_desc" = "Възстановяването на фабрични настройки ще изтрие всички данни и настройки на устройството. Продължи ли?";
+"device_restart" = "Рестартиране";
+"device_restart_desc" = "Сигурни ли сте, че искате да рестартирате устройството сега?";
+"device_shutdown" = "Изключване (при зареждане устройството ще се включи автоматично)";
+"device_shutdown_desc" = "Сигурни ли сте, че искате да изключите устройството? Може да се включи отново чрез зареждане.";
 "device_change" = "Смяна на устройство";
 "mine" = "мой";
 "mine_bluetooth_connect" = "Bluetooth е свързан";
@@ -424,3 +437,28 @@
 "user_info_step_length" = "Step length";
 "user_info_done" = "Done";
 
+
+// MARK: - ECG fallback (en)
+"health_ecg" = "ECG";
+"ecg_history" = "История на ЕКГ";
+"ecg_history_detail" = "Детайли на запис ЕКГ";
+"ecg_history_empty" = "Все още няма записи ЕКГ";
+"ecg_history_error" = "Неуспешно зареждане на запис ЕКГ";
+"ecg_save_error" = "Неуспешно запазване на запис ЕКГ";
+"ecg_pause" = "Пауза";
+"ecg_resume" = "Продължи възпроизвеждането";
+"ecg_replay" = "Възпроизведи отново";
+"ecg_loading" = "Зареждане";
+"ecg_playback_time" = "%d / %d сек";
+"ecg_history_duration" = "%@ · Продължителност %@ сек";
+"ecg_waveform_note" = "Вълната е генерирана от записания пулс";
+"ecg_recorded_rate" = "Записан пулс";
+
+"health_ecg_subtitle" = "Start caring for your heart health now";
+"ecg_desc" = "Real-time ECG measurement";
+
+// MARK: - PPG realtime pulse
+"ppg_measure_remaining" = "Оставащи %d секунди";
+"ppg_measure_complete" = "Измерването завърши";
+"ppg_real_time_pulse" = "Пулс на живо: ";
+"ppg_worn_off" = "Гривната не е носена или е свалина, вълната е занулена. Моля, носете гривната";

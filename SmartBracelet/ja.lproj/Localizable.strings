@@ -16,6 +16,12 @@
 "health_blood_pressure" = "血圧";
 "health_blood_pressure_unit" = "MMHG";
 "health_blood_oxygen" = "血中酸素";
+"health_blood_glucose" = "血糖";
+"health_uric_acid" = "尿酸";
+"health_blood_lipid" = "血中脂質";
+"health_blood_glucose_desc" = "血糖測定";
+"health_uric_acid_desc" = "尿酸測定";
+"health_blood_lipid_desc" = "血中脂質測定";
 "health_data_dynamic" = "データダイナミクス";
 "device" = "装置";
 "add_device" = "デバイスを追加してください";
@@ -226,6 +232,13 @@
 "device_search_settings" = "設定を見つける";
 "device_device_info" = "デバイス情報";
 "device_shark_photo" = "リモート撮影";
+"device_power_controls" = "電源管理";
+"device_factory_reset" = "工場出荷時の設定に戻す";
+"device_factory_reset_desc" = "工場出荷時の設定に戻すと、デバイス上のすべてのデータと設定が消去されます。続行しますか？";
+"device_restart" = "再起動";
+"device_restart_desc" = "今すぐデバイスを再起動しますか？";
+"device_shutdown" = "電源を切る（充電すると自動的に電源が入ります）";
+"device_shutdown_desc" = "デバイスの電源を切りますか？充電すると再び電源を入れることができます。";
 "device_change" = "デバイスの切り替え";
 "mine" = "私の";
 "mine_bluetooth_connect" = "ブルートゥース接続";
@@ -571,3 +584,28 @@
 "user_info_step_length" = "Step length";
 "user_info_done" = "Done";
 
+
+// MARK: - ECG fallback (en)
+"health_ecg" = "ECG";
+"ecg_history" = "心電図履歴";
+"ecg_history_detail" = "心電図記録の詳細";
+"ecg_history_empty" = "心電図の記録はまだありません";
+"ecg_history_error" = "心電図記録を読み込めませんでした";
+"ecg_save_error" = "心電図記録を保存できませんでした";
+"ecg_pause" = "一時停止";
+"ecg_resume" = "再生を続ける";
+"ecg_replay" = "もう一度再生";
+"ecg_loading" = "読み込み中";
+"ecg_playback_time" = "%d / %d 秒";
+"ecg_history_duration" = "%@ · 時間 %@ 秒";
+"ecg_waveform_note" = "波形は記録された心拍数から生成されます";
+"ecg_recorded_rate" = "記録された心拍数";
+
+"health_ecg_subtitle" = "Start caring for your heart health now";
+"ecg_desc" = "Real-time ECG measurement";
+
+// MARK: - PPG realtime pulse
+"ppg_measure_remaining" = "残り %d 秒";
+"ppg_measure_complete" = "測定が完了しました";
+"ppg_real_time_pulse" = "リアルタイム脈拍: ";
+"ppg_worn_off" = "バンドが未装着または外れました。波形はゼロに戻りました。バンドを装着してください";

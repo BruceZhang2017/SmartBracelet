@@ -16,6 +16,12 @@
 "health_blood_pressure" = "bloeddruk";
 "health_blood_pressure_unit" = "MMHG";
 "health_blood_oxygen" = "Bloed zuurstof";
+"health_blood_glucose" = "Bloedsuiker";
+"health_uric_acid" = "Urinezuur";
+"health_blood_lipid" = "Bloedvet";
+"health_blood_glucose_desc" = "Bloedsuikermeting";
+"health_uric_acid_desc" = "Urinezuurmeting";
+"health_blood_lipid_desc" = "Bloedvetmeting";
 "health_data_dynamic" = "Gegevensdynamiek";
 "device" = "apparatuur";
 "add_device" = "Voeg een apparaat toe";
@@ -226,6 +232,13 @@
 "device_search_settings" = "instellingen vinden";
 "device_device_info" = "Apparaat informatie";
 "device_shark_photo" = "Foto op afstand";
+"device_power_controls" = "Stroombeheer";
+"device_factory_reset" = "Fabrieksinstellingen herstellen";
+"device_factory_reset_desc" = "Bij het herstellen van de fabrieksinstellingen worden alle gegevens en instellingen op het apparaat gewist. Doorgaan?";
+"device_restart" = "Opnieuw opstarten";
+"device_restart_desc" = "Weet je zeker dat je het apparaat nu opnieuw wilt opstarten?";
+"device_shutdown" = "Uitschakelen (opladen schakelt het apparaat automatisch in)";
+"device_shutdown_desc" = "Weet je zeker dat je het apparaat wilt uitschakelen? Je kunt het weer inschakelen door het op te laden.";
 "device_change" = "schakelen tussen apparaten";
 "mine" = "de mijne";
 "mine_bluetooth_connect" = "bluetooth verbonden";
@@ -572,3 +585,28 @@
 "user_info_step_length" = "Step length";
 "user_info_done" = "Done";
 
+
+// MARK: - ECG fallback (en)
+"health_ecg" = "ECG";
+"ecg_history" = "ECG-geschiedenis";
+"ecg_history_detail" = "Details van ECG-opname";
+"ecg_history_empty" = "Nog geen ECG-opnamen";
+"ecg_history_error" = "Kan ECG-opname niet laden";
+"ecg_save_error" = "Kan ECG-opname niet opslaan";
+"ecg_pause" = "Pauze";
+"ecg_resume" = "Afspelen hervatten";
+"ecg_replay" = "Opnieuw afspelen";
+"ecg_loading" = "Laden";
+"ecg_playback_time" = "%d / %d s";
+"ecg_history_duration" = "%@ · Duur %@ s";
+"ecg_waveform_note" = "Golfvorm gegenereerd uit geregistreerde hartslag";
+"ecg_recorded_rate" = "Geregistreerde hartslag";
+
+"health_ecg_subtitle" = "Start caring for your heart health now";
+"ecg_desc" = "Real-time ECG measurement";
+
+// MARK: - PPG realtime pulse
+"ppg_measure_remaining" = "Resterende %d seconden";
+"ppg_measure_complete" = "Meting voltooid";
+"ppg_real_time_pulse" = "Polsslag in realtime: ";
+"ppg_worn_off" = "Band niet gedragen of losgeraakt, de golf is teruggezet op nul. Draag het bandje";

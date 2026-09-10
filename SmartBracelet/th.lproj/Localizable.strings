@@ -16,6 +16,12 @@
 "health_blood_pressure" = "ความดันโลหิต";
 "health_blood_pressure_unit" = "MMHG";
 "health_blood_oxygen" = "ออกซิเจนในเลือด";
+"health_blood_glucose" = "กลูโคสในเลือด";
+"health_uric_acid" = "กรดยูริก";
+"health_blood_lipid" = "ไขมันในเลือด";
+"health_blood_glucose_desc" = "การวัดระดับกลูโคสในเลือด";
+"health_uric_acid_desc" = "การวัดกรดยูริก";
+"health_blood_lipid_desc" = "การวัดไขมันในเลือด";
 "health_data_dynamic" = "ไดนามิกของข้อมูล";
 "device" = "อุปกรณ์";
 "add_device" = "กรุณาเพิ่มอุปกรณ์";
@@ -226,6 +232,13 @@
 "device_search_settings" = "ค้นหาการตั้งค่า";
 "device_device_info" = "ข้อมูลอุปกรณ์";
 "device_shark_photo" = "รีโมตถ่ายภาพ";
+"device_power_controls" = "จัดการพลังงาน";
+"device_factory_reset" = "คืนค่าโรงงาน";
+"device_factory_reset_desc" = "การคืนค่าโรงงานจะลบข้อมูลและการตั้งค่าทั้งหมดในอุปกรณ์ ดำเนินการต่อหรือไม่";
+"device_restart" = "รีสตาร์ท";
+"device_restart_desc" = "คุณแน่ใจหรือไม่ว่าต้องการรีสตาร์ทอุปกรณ์ตอนนี้";
+"device_shutdown" = "ปิดเครื่อง (การชาร์จจะเปิดเครื่องโดยอัตโนมัติ)";
+"device_shutdown_desc" = "คุณแน่ใจหรือไม่ว่าต้องการปิดเครื่อง สามารถเปิดเครื่องอีกครั้งได้ด้วยการชาร์จ";
 "device_change" = "การสลับอุปกรณ์";
 "mine" = "ของฉัน";
 "mine_bluetooth_connect" = "เชื่อมต่อบลูทูธแล้ว";
@@ -573,3 +586,28 @@
 "user_info_step_length" = "Step length";
 "user_info_done" = "Done";
 
+
+// MARK: - ECG fallback (en)
+"health_ecg" = "ECG";
+"ecg_history" = "ประวัติคลื่นไฟฟ้าหัวใจ";
+"ecg_history_detail" = "รายละเอียดบันทึกคลื่นไฟฟ้าหัวใจ";
+"ecg_history_empty" = "ยังไม่มีบันทึกคลื่นไฟฟ้าหัวใจ";
+"ecg_history_error" = "ไม่สามารถโหลดบันทึกคลื่นไฟฟ้าหัวใจได้";
+"ecg_save_error" = "ไม่สามารถบันทึกคลื่นไฟฟ้าหัวใจได้";
+"ecg_pause" = "หยุดชั่วคราว";
+"ecg_resume" = "เล่นต่อ";
+"ecg_replay" = "เล่นซ้ำ";
+"ecg_loading" = "กำลังโหลด";
+"ecg_playback_time" = "%d / %d วินาที";
+"ecg_history_duration" = "%@ · ระยะเวลา %@ วินาที";
+"ecg_waveform_note" = "คลื่นสร้างจากอัตราการเต้นของหัวใจที่บันทึกไว้";
+"ecg_recorded_rate" = "อัตราการเต้นของหัวใจที่บันทึก";
+
+"health_ecg_subtitle" = "Start caring for your heart health now";
+"ecg_desc" = "Real-time ECG measurement";
+
+// MARK: - PPG realtime pulse
+"ppg_measure_remaining" = "เหลืออีก %d วินาที";
+"ppg_measure_complete" = "การวัดเสร็จสมบูรณ์";
+"ppg_real_time_pulse" = "ชีพจรแบบเรียลไทม์: ";
+"ppg_worn_off" = "ไม่ได้สวมสายหรือสายหลุด รูปคลื่นถูกรีเซ็ตเป็นศูนย์ กรุณาสวมสาย";

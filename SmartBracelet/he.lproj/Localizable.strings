@@ -15,6 +15,12 @@
 "health_blood_pressure" = "לחץ דם";
 "health_blood_pressure_unit" = "ממש";
 "health_blood_oxygen" = "ออกซิเจน בדם";
+"health_blood_glucose" = "גלוקוז בדם";
+"health_uric_acid" = "חומצת שתן";
+"health_blood_lipid" = "שומנים בדם";
+"health_blood_glucose_desc" = "מדידת גלוקוז בדם";
+"health_uric_acid_desc" = "מדידת חומצת שתן";
+"health_blood_lipid_desc" = "מדידת שומנים בדם";
 "health_data_dynamic" = "נתונים דינמיים";
 "device" = "מכשיר";
 "add_device" = "נא להוסיף מכשיר";
@@ -49,6 +55,13 @@
 "device_search_settings" = "מצא הגדרות";
 "device_device_info" = "מידע על המכשיר";
 "device_shark_photo" = "צילום מרחוק";
+"device_power_controls" = "בקרת חשמל";
+"device_factory_reset" = "שחזור הגדרות יצרן";
+"device_factory_reset_desc" = "שחזור הגדרות היצרן ימחק את כל הנתונים וההגדרות במכשיר. להמשיך?";
+"device_restart" = "הפעלה מחדש";
+"device_restart_desc" = "האם להפעיל מחדש את המכשיר עכשיו?";
+"device_shutdown" = "כיבוי (הטעינה תפעיל את המכשיר באופן אוטומטי)";
+"device_shutdown_desc" = "האם לכבות את המכשיר? ניתן להפעיל אותו שוב באמצעות טעינה.";
 "device_change" = "החלף מכשיר";
 "mine" = "mine";
 "mine_bluetooth_connect" = "בלוטוooth מחובר";
@@ -402,3 +415,28 @@
 "user_info_step_length" = "Step length";
 "user_info_done" = "Done";
 
+
+// MARK: - ECG fallback (en)
+"health_ecg" = "ECG";
+"ecg_history" = "היסטוריית אק\"ג";
+"ecg_history_detail" = "פרטי הקלטת אק\"ג";
+"ecg_history_empty" = "אין עדיין הקלטות אק\"ג";
+"ecg_history_error" = "לא ניתן לטעון את הקלטת האק\"ג";
+"ecg_save_error" = "לא ניתן לשמור את הקלטת האק\"ג";
+"ecg_pause" = "השהיה";
+"ecg_resume" = "המשך ניגון";
+"ecg_replay" = "נגן שוב";
+"ecg_loading" = "טוען";
+"ecg_playback_time" = "%d / %d שניות";
+"ecg_history_duration" = "%@ · משך %@ שניות";
+"ecg_waveform_note" = "צורת הגל נוצרה מהדופק המוקלט";
+"ecg_recorded_rate" = "דופק מוקלט";
+
+"health_ecg_subtitle" = "Start caring for your heart health now";
+"ecg_desc" = "Real-time ECG measurement";
+
+// MARK: - PPG realtime pulse
+"ppg_measure_remaining" = "נותרו %d שניות";
+"ppg_measure_complete" = "המדידה הושלמה";
+"ppg_real_time_pulse" = "דופק בזמן אמת: ";
+"ppg_worn_off" = "הצמיד אינו ענוד או נותר, הגל אופס. אנא ענדו את הצמיד";

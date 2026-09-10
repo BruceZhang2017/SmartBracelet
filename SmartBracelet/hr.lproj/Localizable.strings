@@ -16,6 +16,12 @@
 "health_blood_pressure" = "krvni tlak";
 "health_blood_pressure_unit" = "MMHG";
 "health_blood_oxygen" = "Kiseonik u krvi";
+"health_blood_glucose" = "Glukoza u krvi";
+"health_uric_acid" = "Mokraćna kiselina";
+"health_blood_lipid" = "Krvni lipidi";
+"health_blood_glucose_desc" = "Mjerenje glukoze u krvi";
+"health_uric_acid_desc" = "Mjerenje mokraćne kiseline";
+"health_blood_lipid_desc" = "Mjerenje krvnih lipida";
 "health_data_dynamic" = "Dinamika podataka";
 "device" = "oprema";
 "add_device" = "Dodajte uređaj";
@@ -53,6 +59,13 @@
 "device_search_settings" = "Pronađite postavke";
 "device_device_info" = "Informacije o uređaju";
 "device_shark_photo" = "Daljinsko snimanje";
+"device_power_controls" = "Upravljanje napajanjem";
+"device_factory_reset" = "Vrati tvorničke postavke";
+"device_factory_reset_desc" = "Vraćanje tvorničkih postavki izbrisat će sve podatke i postavke na uređaju. Nastaviti?";
+"device_restart" = "Ponovno pokreni";
+"device_restart_desc" = "Jeste li sigurni da želite ponovno pokrenuti uređaj?";
+"device_shutdown" = "Isključi (punjenje uređaj automatski uključuje)";
+"device_shutdown_desc" = "Jeste li sigurni da želite isključiti uređaj? Može se ponovno uključiti punjenjem.";
 "device_change" = "Prebacivanje uređaja";
 "mine" = "rudnik";
 "mine_bluetooth_connect" = "Bluetooth je spojen";
@@ -342,3 +355,28 @@
 "user_info_step_length" = "Step length";
 "user_info_done" = "Done";
 
+
+// MARK: - ECG fallback (en)
+"health_ecg" = "ECG";
+"ecg_history" = "Povijest EKG-a";
+"ecg_history_detail" = "Pojedinosti EKG zapisa";
+"ecg_history_empty" = "Još nema EKG zapisa";
+"ecg_history_error" = "Nije moguće učitati EKG zapis";
+"ecg_save_error" = "Nije moguće spremiti EKG zapis";
+"ecg_pause" = "Pauza";
+"ecg_resume" = "Nastavi reprodukciju";
+"ecg_replay" = "Ponovno reproduciraj";
+"ecg_loading" = "Učitavanje";
+"ecg_playback_time" = "%d / %d s";
+"ecg_history_duration" = "%@ · Trajanje %@ s";
+"ecg_waveform_note" = "Val generiran iz zabilježenog pulsa";
+"ecg_recorded_rate" = "Zabilježeni puls";
+
+"health_ecg_subtitle" = "Start caring for your heart health now";
+"ecg_desc" = "Real-time ECG measurement";
+
+// MARK: - PPG realtime pulse
+"ppg_measure_remaining" = "Preostalo %d sekundi";
+"ppg_measure_complete" = "Mjerenje završeno";
+"ppg_real_time_pulse" = "Puls uživo: ";
+"ppg_worn_off" = "Narukvica se ne nosi ili je skliznula, val je nuliran. Molimo nosite narukvicu";

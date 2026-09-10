@@ -15,6 +15,12 @@
 "health_blood_pressure" = "blodtryk";
 "health_blood_pressure_unit" = "MMHG";
 "health_blood_oxygen" = "Blodoksygen";
+"health_blood_glucose" = "Blodsukker";
+"health_uric_acid" = "Urinsyre";
+"health_blood_lipid" = "Blodlipider";
+"health_blood_glucose_desc" = "Måling af blodsukker";
+"health_uric_acid_desc" = "Måling af urinsyre";
+"health_blood_lipid_desc" = "Måling af blodlipider";
 "health_data_dynamic" = "Datadynamik";
 "device" = "enhed";
 "add_device" = "Venligst tilføj en enhed";
@@ -52,6 +58,13 @@
 "device_search_settings" = "Find indstillinger";
 "device_device_info" = "Enhedsinformation";
 "device_shark_photo" = "Fjernstyret foto";
+"device_power_controls" = "Strømstyring";
+"device_factory_reset" = "Gendan fabriksindstillinger";
+"device_factory_reset_desc" = "Fabriksnulstilling sletter alle data og indstillinger på enheden. Vil du fortsætte?";
+"device_restart" = "Genstart";
+"device_restart_desc" = "Er du sikker på, at du vil genstarte enheden nu?";
+"device_shutdown" = "Sluk (opladning tænder automatisk enheden)";
+"device_shutdown_desc" = "Er du sikker på, at du vil slukke enheden? Den kan tændes igen ved opladning.";
 "device_change" = "Skift enhed";
 "mine" = "min";
 "mine_bluetooth_connect" = "Bluetooth er forbundet";
@@ -424,3 +437,28 @@
 "user_info_step_length" = "Step length";
 "user_info_done" = "Done";
 
+
+// MARK: - ECG fallback (en)
+"health_ecg" = "ECG";
+"ecg_history" = "EKG-historik";
+"ecg_history_detail" = "Detaljer for EKG-optagelse";
+"ecg_history_empty" = "Ingen EKG-optagelser endnu";
+"ecg_history_error" = "Kan ikke indlæse EKG-optagelse";
+"ecg_save_error" = "Kan ikke gemme EKG-optagelse";
+"ecg_pause" = "Pause";
+"ecg_resume" = "Fortsæt afspilning";
+"ecg_replay" = "Afspil igen";
+"ecg_loading" = "Indlæser";
+"ecg_playback_time" = "%d / %d s";
+"ecg_history_duration" = "%@ · Varighed %@ s";
+"ecg_waveform_note" = "Bølgeform genereret ud fra registreret puls";
+"ecg_recorded_rate" = "Registreret puls";
+
+"health_ecg_subtitle" = "Start caring for your heart health now";
+"ecg_desc" = "Real-time ECG measurement";
+
+// MARK: - PPG realtime pulse
+"ppg_measure_remaining" = "Resterende %d sekunder";
+"ppg_measure_complete" = "Måling fuldført";
+"ppg_real_time_pulse" = "Puls i realtid: ";
+"ppg_worn_off" = "Båndet er ikke båret eller er løsnet, bølgen er nulstillet. Bær venligst båndet";

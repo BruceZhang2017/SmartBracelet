@@ -15,6 +15,12 @@
 "health_blood_pressure" = "krvni tlak";
 "health_blood_pressure_unit" = "MMHG";
 "health_blood_oxygen" = "Krvni kisik";
+"health_blood_glucose" = "Krvni sladkor";
+"health_uric_acid" = "Sečna kislina";
+"health_blood_lipid" = "Krvni lipidi";
+"health_blood_glucose_desc" = "Merjenje krvnega sladkorja";
+"health_uric_acid_desc" = "Merjenje sečne kisline";
+"health_blood_lipid_desc" = "Merjenje krvnih lipidov";
 "health_data_dynamic" = "Dynamičnost podatkov";
 "device" = "oprema";
 "add_device" = "Prosimo, dodajte napravo";
@@ -52,6 +58,13 @@
 "device_search_settings" = "Iskanje nastavitev";
 "device_device_info" = "Informacije o napravi";
 "device_shark_photo" = "Daljinsko fotografiranje";
+"device_power_controls" = "Nadzor napajanja";
+"device_factory_reset" = "Obnovi tovarniške nastavitve";
+"device_factory_reset_desc" = "Obnovitev tovarniških nastavitev bo izbrisala vse podatke in nastavitve naprave. Nadaljuj?";
+"device_restart" = "Znova zaženi";
+"device_restart_desc" = "Ali res želite znova zagnati napravo?";
+"device_shutdown" = "Izklopi (polnjenje napravo samodejno vklopi)";
+"device_shutdown_desc" = "Ali res želite izklopiti napravo? Lahko jo znova vklopite s polnjenjem.";
 "device_change" = "Zamenjava naprave";
 "mine" = "moj";
 "mine_bluetooth_connect" = "Bluetooth je povezan";
@@ -424,3 +437,28 @@
 "user_info_step_length" = "Step length";
 "user_info_done" = "Done";
 
+
+// MARK: - ECG fallback (en)
+"health_ecg" = "ECG";
+"ecg_history" = "Zgodovina EKG";
+"ecg_history_detail" = "Podrobnosti zapisa EKG";
+"ecg_history_empty" = "Še ni zapisov EKG";
+"ecg_history_error" = "Zapisa EKG ni mogoče naložiti";
+"ecg_save_error" = "Zapisa EKG ni mogoče shraniti";
+"ecg_pause" = "Premor";
+"ecg_resume" = "Nadaljuj predvajanje";
+"ecg_replay" = "Ponovno predvajaj";
+"ecg_loading" = "Nalaganje";
+"ecg_playback_time" = "%d / %d s";
+"ecg_history_duration" = "%@ · Trajanje %@ s";
+"ecg_waveform_note" = "Valovna oblika ustvarjena iz zabeleženega pulza";
+"ecg_recorded_rate" = "Zabeležen pulz";
+
+"health_ecg_subtitle" = "Start caring for your heart health now";
+"ecg_desc" = "Real-time ECG measurement";
+
+// MARK: - PPG realtime pulse
+"ppg_measure_remaining" = "Preostalih %d sekund";
+"ppg_measure_complete" = "Meritev končana";
+"ppg_real_time_pulse" = "Utrip v realnem času: ";
+"ppg_worn_off" = "Zapestnica ni nošena ali se je sprostila, val je ponastavljen. Nadenite si zapestnico";

@@ -15,6 +15,12 @@
 "health_blood_pressure" = "αρтеріальний πίεση";
 "health_blood_pressure_unit" = "MMHG";
 "health_blood_oxygen" = "Εξυγ巧νηση крови";
+"health_blood_glucose" = "Γλυκόζη αίματος";
+"health_uric_acid" = "Ουρικό οξύ";
+"health_blood_lipid" = "Λιπίδια αίματος";
+"health_blood_glucose_desc" = "Μέτρηση γλυκόζης αίματος";
+"health_uric_acid_desc" = "Μέτρηση ουρικού οξέος";
+"health_blood_lipid_desc" = "Μέτρηση λιπιδίων αίματος";
 "health_data_dynamic" = "Δυναμική δεδομένων";
 "device" = "συσκευή";
 "add_device" = "Παρακαλώ προσθέστε συσκευή";
@@ -52,6 +58,13 @@
 "device_search_settings" = "Αναζήτηση ρυθμίσεων";
 "device_device_info" = "Πληροφορίες συσκευής";
 "device_shark_photo" = "Τηλεχειριζόμενη φωτογραφία";
+"device_power_controls" = "Έλεγχος ισχύος";
+"device_factory_reset" = "Επαναφορά εργοστασιακών ρυθμίσεων";
+"device_factory_reset_desc" = "Η επαναφορά εργοστασιακών ρυθμίσεων θα διαγράψει όλα τα δεδομένα και τις ρυθμίσεις της συσκευής. Συνέχεια;";
+"device_restart" = "Επανεκκίνηση";
+"device_restart_desc" = "Θέλετε σίγουρα να επανεκκινήσετε τη συσκευή τώρα;";
+"device_shutdown" = "Απενεργοποίηση (η φόρτιση ενεργοποιεί αυτόματα τη συσκευή)";
+"device_shutdown_desc" = "Θέλετε σίγουρα να απενεργοποιήσετε τη συσκευή; Μπορεί να ενεργοποιηθεί ξανά με φόρτιση.";
 "device_change" = "Αλλαγή συσκευής";
 "mine" = "εγώ";
 "mine_bluetooth_connect" = "Το Bluetooth είναι συνδεδεμένο";
@@ -424,3 +437,28 @@
 "user_info_step_length" = "Step length";
 "user_info_done" = "Done";
 
+
+// MARK: - ECG fallback (en)
+"health_ecg" = "ECG";
+"ecg_history" = "Ιστορικό ΗΚΓ";
+"ecg_history_detail" = "Λεπτομέρειες καταγραφής ΗΚΓ";
+"ecg_history_empty" = "Δεν υπάρχουν ακόμη καταγραφές ΗΚΓ";
+"ecg_history_error" = "Δεν είναι δυνατή η φόρτωση καταγραφής ΗΚΓ";
+"ecg_save_error" = "Δεν είναι δυνατή η αποθήκευση καταγραφής ΗΚΓ";
+"ecg_pause" = "Παύση";
+"ecg_resume" = "Συνέχιση αναπαραγωγής";
+"ecg_replay" = "Επαναφορά αναπαραγωγής";
+"ecg_loading" = "Φόρτωση";
+"ecg_playback_time" = "%d / %d δευτ.";
+"ecg_history_duration" = "%@ · Διάρκεια %@ δευτ.";
+"ecg_waveform_note" = "Το κύμα δημιουργήθηκε από τον καταγεγραμμένο σφυγμό";
+"ecg_recorded_rate" = "Καταγεγραμμένος σφυγμός";
+
+"health_ecg_subtitle" = "Start caring for your heart health now";
+"ecg_desc" = "Real-time ECG measurement";
+
+// MARK: - PPG realtime pulse
+"ppg_measure_remaining" = "Απομένουν %d δευτερόλεπτα";
+"ppg_measure_complete" = "Η μέτρηση ολοκληρώθηκε";
+"ppg_real_time_pulse" = "Παλμός σε πραγματικό χρόνο: ";
+"ppg_worn_off" = "Το βραχιόλι δεν φοριέται ή αφαιρέθηκε, το κύμα μηδενίστηκε. Παρακαλώ φορέστε το βραχιόλι";
