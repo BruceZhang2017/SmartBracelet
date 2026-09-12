@@ -40,6 +40,7 @@ class HealthDetailViewController: BaseViewController {
     private let ppgHeartRateLabel: UILabel = UILabel()
     private var ppgWornLabel: UILabel?
     private var ppgMeasureCountdown = 30
+    private var disclaimerLabel: UILabel?
     // Android 对齐：ECG 实时测量点采集与持久化、2s 无上报自动结束
     private var ecgPoints: [EcgPoint] = []
     private var ecgRecordId: String = ""
@@ -196,6 +197,7 @@ class HealthDetailViewController: BaseViewController {
             b.append(NSAttributedString(string: "", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 40, weight: .black)]))
             b.append(NSAttributedString(string: "", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 10, weight: .medium)]))
             fanView.setupView(titles: ["health_detail_sleep_awake".localized(), "health_detail_sleep_light".localized(), "health_detail_sleep_deep".localized()], values: [qing, qian, shen], title: "today_sleep".localized(), value: b)
+            valueView.refreshLabel(text: "health_conclusion_sleep_reference".localized(), color: HealthDetailViewController.cGray)
         }
         if type == 4 {
             title = "health_blood_pressure".localized()
@@ -203,7 +205,8 @@ class HealthDetailViewController: BaseViewController {
             roundView.isHidden = false
             testView.isHidden = true
             testView.setupView()
-            valueView.refreshLabel(text: "blood_pressure_desc".localized())
+            valueView.refreshLabel(text: "health_conclusion_reference".localized(), color: UIColor(hex: 0x718096))
+            setupDisclaimer()
             let b = NSMutableAttributedString()
             b.append(NSAttributedString(string: "--", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 30, weight: .black)]))
             b.append(NSAttributedString(string: " ", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 12, weight: .medium)]))
@@ -230,7 +233,8 @@ class HealthDetailViewController: BaseViewController {
             testView.isHidden = true
             testView.setupView()
             roundView.setupView(value: makeRoundValue("--", unit: " mmol/L", valueFont: 34, unitFont: 12))
-            valueView.refreshLabel(text: "health_blood_glucose_desc".localized())
+            valueView.refreshLabel(text: "health_conclusion_reference".localized(), color: UIColor(hex: 0x718096))
+            setupDisclaimer()
             addTest()
         }
         if type == 8 {
@@ -240,7 +244,8 @@ class HealthDetailViewController: BaseViewController {
             testView.isHidden = true
             testView.setupView()
             roundView.setupView(value: makeRoundValue("--", unit: " umol/L", valueFont: 34, unitFont: 12))
-            valueView.refreshLabel(text: "health_uric_acid_desc".localized())
+            valueView.refreshLabel(text: "health_conclusion_reference".localized(), color: UIColor(hex: 0x718096))
+            setupDisclaimer()
             addTest()
         }
         if type == 9 {
@@ -250,7 +255,8 @@ class HealthDetailViewController: BaseViewController {
             testView.isHidden = true
             testView.setupView()
             roundView.setupView(value: makeRoundValue("--", unit: " mmol/L", valueFont: 32, unitFont: 12))
-            valueView.refreshLabel(text: "health_blood_lipid_desc".localized())
+            valueView.refreshLabel(text: "health_conclusion_reference".localized(), color: UIColor(hex: 0x718096))
+            setupDisclaimer()
             addTest()
         }
         if type == 10 {
@@ -419,6 +425,72 @@ class HealthDetailViewController: BaseViewController {
         return bitValue
     }
     
+    private func setupDisclaimer() {
+        guard disclaimerLabel == nil else { return }
+        let label = UILabel()
+        label.text = "health_disclaimer".localized()
+        label.font = UIFont.systemFont(ofSize: 10)
+        label.textColor = UIColor(hex: 0x718096)
+        label.textAlignment = .center
+        label.numberOfLines = 0
+        view.addSubview(label)
+        label.snp.makeConstraints { make in
+            make.leading.trailing.equalToSuperview().inset(16)
+            make.bottom.equalTo(valueView.snp.top).offset(-6)
+        }
+        disclaimerLabel = label
+    }
+
+    private static let cGreen = UIColor(hex: 0x16A34A)
+    private static let cOrange = UIColor(hex: 0xED8936)
+    private static let cRed = UIColor(hex: 0xE53E3E)
+    private static let cGray = UIColor(hex: 0x718096)
+
+    private func applyHealthConclusion(type: Int, doubleValue: Double?) {
+        switch type {
+        case 2:
+            guard let v = doubleValue, v > 0 else { return }
+            if v >= 60 && v <= 100 {
+                valueView.refreshLabel(text: "health_conclusion_normal".localized(), color: HealthDetailViewController.cGreen)
+            } else if v < 60 {
+                valueView.refreshLabel(text: "health_conclusion_bradycardia".localized(), color: HealthDetailViewController.cRed)
+            } else {
+                valueView.refreshLabel(text: "health_conclusion_tachycardia".localized(), color: HealthDetailViewController.cRed)
+            }
+        case 5:
+            guard let v = doubleValue, v > 0 else { return }
+            if v >= 96 {
+                valueView.refreshLabel(text: "health_conclusion_normal".localized(), color: HealthDetailViewController.cGreen)
+            } else if v >= 90 {
+                valueView.refreshLabel(text: "health_conclusion_low".localized(), color: HealthDetailViewController.cOrange)
+            } else {
+                valueView.refreshLabel(text: "health_conclusion_too_low".localized(), color: HealthDetailViewController.cRed)
+            }
+        case 12:
+            guard let v = doubleValue else { return }
+            if v < 20 {
+                valueView.refreshLabel(text: "health_conclusion_relaxed".localized(), color: HealthDetailViewController.cGreen)
+            } else if v <= 40 {
+                valueView.refreshLabel(text: "health_conclusion_moderate_stress".localized(), color: HealthDetailViewController.cOrange)
+            } else {
+                valueView.refreshLabel(text: "health_conclusion_high_stress".localized(), color: HealthDetailViewController.cRed)
+            }
+        case 13:
+            guard let v = doubleValue else { return }
+            if v <= 21 {
+                valueView.refreshLabel(text: "health_conclusion_no_fatigue".localized(), color: HealthDetailViewController.cGreen)
+            } else if v <= 34 {
+                valueView.refreshLabel(text: "health_conclusion_moderate_fatigue".localized(), color: HealthDetailViewController.cOrange)
+            } else {
+                valueView.refreshLabel(text: "health_conclusion_severe_fatigue".localized(), color: HealthDetailViewController.cRed)
+            }
+        case 11:
+            valueView.refreshLabel(text: "health_conclusion_hrv_reference".localized(), color: HealthDetailViewController.cGray)
+        default:
+            break
+        }
+    }
+
     private func addTest() {
         let bk = bleSelf.bleModel.internalNumber.hasPrefix("5A4B") // 是否为中科
         if bk {
@@ -629,6 +701,7 @@ class HealthDetailViewController: BaseViewController {
                 }
             }
             valueView.refreshLabel(text: "health_ecg_measure_complete".localized())
+            updateECGWornConclusion()
             setECGChartViewData()
             return
         }
@@ -637,6 +710,7 @@ class HealthDetailViewController: BaseViewController {
             stopPPGCountdown()
             testView.isHidden = true
             valueView.refreshLabel(text: "ppg_measure_complete".localized())
+            updatePPGWornConclusion()
             return
         }
         if testView.isHidden == false {
@@ -744,6 +818,9 @@ class HealthDetailViewController: BaseViewController {
             ecgHeartRateBPM = nil
         }
         updateECGHeartRateDisplay(ecgHeartRateBPM)
+        if !isECGMeasuring {
+            updateECGWornConclusion()
+        }
     }
 
     @objc private func handlePPGHeartRate(_ notification: Notification) {
@@ -784,6 +861,25 @@ class HealthDetailViewController: BaseViewController {
         }
         updatePPGPulseDisplay(ppgHeartRateBPM)
         ppgWornLabel?.isHidden = worn
+        if !isPPGMeasuring {
+            updatePPGWornConclusion()
+        }
+    }
+
+    private func updateECGWornConclusion() {
+        if ecgWorn {
+            valueView.refreshLabel(text: "health_conclusion_signal_good".localized(), color: HealthDetailViewController.cGreen)
+        } else {
+            valueView.refreshLabel(text: "health_conclusion_not_worn".localized(), color: HealthDetailViewController.cRed)
+        }
+    }
+
+    private func updatePPGWornConclusion() {
+        if ppgWorn {
+            valueView.refreshLabel(text: "health_conclusion_signal_good".localized(), color: HealthDetailViewController.cGreen)
+        } else {
+            valueView.refreshLabel(text: "health_conclusion_not_worn".localized(), color: HealthDetailViewController.cRed)
+        }
     }
 
     private func updatePPGPulseDisplay(_ bpm: Int?) {
@@ -1307,6 +1403,7 @@ class HealthDetailViewController: BaseViewController {
                         b.append(NSAttributedString(string: "health_value_p_minute".localized(), attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 14, weight: .medium)]))
                         self.roundView.refreshView(value: b)
                         self.roundView.setProgress(CGFloat(array.last?.heart ?? 0) / 200)
+                        self.applyHealthConclusion(type: 2, doubleValue: Double(array.last?.heart ?? 0))
                     } else {
                         let b = NSMutableAttributedString()
                         b.append(NSAttributedString(string: "0", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 40, weight: .black)]))
@@ -1340,6 +1437,7 @@ class HealthDetailViewController: BaseViewController {
                     b.append(NSAttributedString(string: "health_value_p_minute".localized(), attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 14, weight: .medium)]))
                     roundView.refreshView(value: b)
                     roundView.setProgress(CGFloat(array.last?.heartRate ?? 0) / 200)
+                    self.applyHealthConclusion(type: 2, doubleValue: Double(array.last?.heartRate ?? 0))
                 } else {
                     let b = NSMutableAttributedString()
                     b.append(NSAttributedString(string: "0", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 40, weight: .black)]))
@@ -1451,6 +1549,7 @@ class HealthDetailViewController: BaseViewController {
                         b.append(NSAttributedString(string: "SPO2", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 14, weight: .medium)]))
                         self.roundView.refreshView(value: b)
                         self.roundView.setProgress(CGFloat(array.last?.oxgen ?? 0) / 200)
+                        self.applyHealthConclusion(type: 5, doubleValue: Double(array.last?.oxgen ?? 0))
                     } else {
                         let b = NSMutableAttributedString()
                         b.append(NSAttributedString(string: "0", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 40, weight: .black)]))
@@ -1485,6 +1584,7 @@ class HealthDetailViewController: BaseViewController {
                     b.append(NSAttributedString(string: "SPO2", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 14, weight: .medium)]))
                     roundView.refreshView(value: b)
                     roundView.setProgress(CGFloat(array.last?.oxygen ?? 0) / 200)
+                    self.applyHealthConclusion(type: 5, doubleValue: Double(array.last?.oxygen ?? 0))
                 } else {
                     let b = NSMutableAttributedString()
                     b.append(NSAttributedString(string: "0", attributes: [.foregroundColor: UIColor.white, .font: UIFont.systemFont(ofSize: 40, weight: .black)]))
@@ -1555,7 +1655,7 @@ class HealthDetailViewController: BaseViewController {
                         self.roundView.refreshView(value: self.makeRoundValue("--", unit: " mmol/L", valueFont: 34, unitFont: 12))
                         self.roundView.setProgress(0)
                     }
-                    self.valueView.refreshLabel(text: descText)
+                    self.valueView.refreshLabel(text: "health_conclusion_reference".localized(), color: UIColor(hex: 0x718096))
                 }
                 completion(values)
             }
@@ -1580,7 +1680,7 @@ class HealthDetailViewController: BaseViewController {
                         self.roundView.refreshView(value: self.makeRoundValue("--", unit: " umol/L", valueFont: 34, unitFont: 12))
                         self.roundView.setProgress(0)
                     }
-                    self.valueView.refreshLabel(text: descText)
+                    self.valueView.refreshLabel(text: "health_conclusion_reference".localized(), color: UIColor(hex: 0x718096))
                 }
                 completion(values)
             }
@@ -1605,8 +1705,7 @@ class HealthDetailViewController: BaseViewController {
                         self.roundView.refreshView(value: self.makeRoundValue("--", unit: " mmol/L", valueFont: 32, unitFont: 12))
                         self.roundView.setProgress(0)
                     }
-                    let detail = XGZTBlueToothManager.shared.device?.currentBloodLipidDetail
-                    self.valueView.refreshLabel(text: detail ?? descText)
+                    self.valueView.refreshLabel(text: "health_conclusion_reference".localized(), color: UIColor(hex: 0x718096))
                 }
                 completion(values)
             }
@@ -1656,7 +1755,7 @@ class HealthDetailViewController: BaseViewController {
                         self.roundView.refreshView(value: self.makeRoundValue("--", unit: " ms", valueFont: 34, unitFont: 12))
                         self.roundView.setProgress(0)
                     }
-                    self.valueView.refreshLabel(text: descText)
+                    self.valueView.refreshLabel(text: "health_conclusion_hrv_reference".localized(), color: UIColor(hex: 0x718096))
                 }
                 completion(values)
             }
@@ -1681,7 +1780,13 @@ class HealthDetailViewController: BaseViewController {
                         self.roundView.refreshView(value: self.makeRoundValue("--", unit: " health_score_unit".localized(), valueFont: 34, unitFont: 12))
                         self.roundView.setProgress(0)
                     }
-                    self.valueView.refreshLabel(text: descText)
+                    if let latest = sorted.max(by: { $0.time < $1.time }) {
+                        self.applyHealthConclusion(type: 12, doubleValue: Double(latest.value))
+                    } else if self.mDate.isToday(), let v = XGZTBlueToothManager.shared.device?.currentStress, v > 0 {
+                        self.applyHealthConclusion(type: 12, doubleValue: Double(v))
+                    } else {
+                        self.valueView.refreshLabel(text: descText)
+                    }
                 }
                 completion(values)
             }
@@ -1706,7 +1811,13 @@ class HealthDetailViewController: BaseViewController {
                         self.roundView.refreshView(value: self.makeRoundValue("--", unit: " health_score_unit".localized(), valueFont: 34, unitFont: 12))
                         self.roundView.setProgress(0)
                     }
-                    self.valueView.refreshLabel(text: descText)
+                    if let latest = sorted.max(by: { $0.time < $1.time }) {
+                        self.applyHealthConclusion(type: 13, doubleValue: Double(latest.value))
+                    } else if self.mDate.isToday(), let v = XGZTBlueToothManager.shared.device?.currentFatigue, v > 0 {
+                        self.applyHealthConclusion(type: 13, doubleValue: Double(v))
+                    } else {
+                        self.valueView.refreshLabel(text: descText)
+                    }
                 }
                 completion(values)
             }

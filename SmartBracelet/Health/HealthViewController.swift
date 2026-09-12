@@ -31,10 +31,10 @@ class HealthViewController: BaseViewController {
     private var currentModel: BLEModel!
     
     /// XGZT 健康卡片按固定顺序映射：心率 → 睡眠 → 血压 → 血氧 → 血糖 → 尿酸 → 血脂 → 心电图(ECG) → 脉搏 → 心率变异性 → 精神压力 → 疲劳度
-    private var xgztHealthCards: [(type: Int, titleKey: String, subtitleKey: String?, iconName: String, valueOffset: Int, isECG: Bool)] {
+    private var xgztHealthCards: [(type: Int, titleKey: String, subtitleKey: String?, iconName: String, valueOffset: Int, hasArrow: Bool)] {
         let device = XGZTBlueToothManager.shared.device
         let flags = device?.healthcontrolflags ?? 0
-        var cards: [(type: Int, titleKey: String, subtitleKey: String?, iconName: String, valueOffset: Int, isECG: Bool)] = []
+        var cards: [(type: Int, titleKey: String, subtitleKey: String?, iconName: String, valueOffset: Int, hasArrow: Bool)] = []
         if flags & 1 == 1 {
             cards.append((2, "health_heart_rate", nil, "health_heart", 0, false))
         }
@@ -60,7 +60,7 @@ class HealthViewController: BaseViewController {
             cards.append((6, "health_ecg", "health_ecg_subtitle", "health_ecg", 7, true))
         }
         if ((flags >> 9) & 1) == 1 || (device?.supportsPPG ?? false) {
-            cards.append((10, "health_ppg", nil, "health_ppg", 8, false))
+            cards.append((10, "health_ppg", nil, "health_ppg", 8, true))
         }
         if ((flags >> 10) & 1) == 1 || (device?.supportsHRV ?? false) {
             cards.append((11, "health_hrv", nil, "health_hrv", 9, false))
@@ -1565,13 +1565,13 @@ extension HealthViewController: UICollectionViewDataSource {
             let card = cards[indexPath.item]
             let valueIndex = card.valueOffset
             let rightValue: NSMutableAttributedString = {
-                if card.isECG {
+                if card.hasArrow {
                     return NSMutableAttributedString(string: "")
                 }
                 return arrayValue.indices.contains(valueIndex) ? arrayValue[valueIndex] : NSMutableAttributedString(string: "--")
             }()
             let subtitle = card.subtitleKey.map { $0.localized() }
-            let style: HealthCollectionViewCell.HealthCardStyle = card.isECG ? .ecg : .normal
+            let style: HealthCollectionViewCell.HealthCardStyle = card.hasArrow ? .ecg : .normal
             cell.configure(
                 icon: xgztIcon(named: card.iconName),
                 title: card.titleKey.localized(),

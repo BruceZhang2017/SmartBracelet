@@ -95,5 +95,11 @@ class HealthValueView: UIView {
     
     public func refreshLabel(text: String) {
         descLabel.text = text
+        descLabel.textColor = UIColor.text_third
+    }
+
+    public func refreshLabel(text: String, color: UIColor) {
+        descLabel.text = text
+        descLabel.textColor = color
     }
 }
